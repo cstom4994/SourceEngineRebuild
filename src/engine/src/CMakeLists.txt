@@ -1,0 +1,1431 @@
+set(PROJECT_NAME engine)
+
+################################################################################
+# Source groups
+################################################################################
+set(Audio
+        "../components/audio/audio_pch.cpp"
+        "../components/audio/private/circularbuffer.cpp"
+        "../components/audio/private/MPAFile.cpp"
+        "../components/audio/private/MPAHeader.cpp"
+        "../components/audio/private/snd_dev_common.cpp"
+        "../components/audio/private/snd_dev_direct.cpp"
+        #    "../components/audio/private/snd_dev_mac_audioqueue.cpp"
+        #    "../components/audio/private/snd_dev_mac_audioqueue.h"
+        #    "../components/audio/private/snd_dev_openal.cpp"
+        #    "../components/audio/private/snd_dev_openal.h"
+        #    "../components/audio/private/snd_dev_sdl.cpp"
+        #    "../components/audio/private/snd_dev_sdl.h"
+        "../components/audio/private/snd_dev_wave.cpp"
+        "../components/audio/private/snd_dma.cpp"
+        "../components/audio/private/snd_dsp.cpp"
+        "../components/audio/private/snd_mix.cpp"
+        "../components/audio/private/snd_mp3_source.cpp"
+        #    "../components/audio/private/snd_posix.cpp"
+        "../components/audio/private/snd_sentence_mixer.cpp"
+        "../components/audio/private/snd_wave_data.cpp"
+        "../components/audio/private/snd_wave_mixer.cpp"
+        "../components/audio/private/snd_wave_mixer_adpcm.cpp"
+        "../components/audio/private/snd_wave_mixer_mp3.cpp"
+        "../components/audio/private/snd_wave_source.cpp"
+        "../components/audio/private/snd_wave_temp.cpp"
+        "../components/audio/private/snd_win.cpp"
+        "../components/audio/private/VBRHeader.cpp"
+        "../components/audio/private/voice.cpp"
+        "../components/audio/private/voice_gain.cpp"
+        "../components/audio/private/voice_mixer_controls.cpp"
+        #    "../components/audio/private/voice_mixer_controls_openal.cpp"
+        "../components/audio/private/voice_record_dsound.cpp"
+        #    "../components/audio/private/voice_record_mac_audioqueue.cpp"
+        #    "../components/audio/private/voice_record_openal.cpp"
+        "../components/audio/private/voice_sound_engine_interface.cpp"
+        "../components/audio/private/voice_wavefile.cpp"
+        "../components/audio/private/vox.cpp"
+        "EngineSoundClient.cpp"
+        "EngineSoundServer.cpp"
+        "engsoundservice.cpp"
+        "snd_io.cpp"
+        )
+source_group("Audio" FILES ${Audio})
+
+set(Audio__Header_Files
+        "../components/audio/audio_pch.h"
+        "../components/audio/private/circularbuffer.h"
+        "../components/audio/private/eax.h"
+        "../components/audio/private/MPAFile.h"
+        "../components/audio/private/MPAHeader.h"
+        "../components/audio/private/snd_channels.h"
+        "../components/audio/private/snd_convars.h"
+        "../components/audio/private/snd_dev_common.h"
+        "../components/audio/private/snd_dev_direct.h"
+        "../components/audio/private/snd_dev_wave.h"
+        "../components/audio/private/snd_dev_xaudio.h"
+        "../components/audio/private/snd_dma.h"
+        "../components/audio/private/snd_env_fx.h"
+        "../components/audio/private/snd_fixedint.h"
+        "../components/audio/private/snd_mix_buf.h"
+        "../components/audio/private/snd_sfx.h"
+        "../components/audio/private/snd_wave_mixer.h"
+        "../components/audio/private/snd_wave_mixer_adpcm.h"
+        "../components/audio/private/snd_wave_mixer_private.h"
+        "../components/audio/private/snd_wave_mixer_xma.h"
+        "../components/audio/private/snd_wave_source.h"
+        "../components/audio/private/snd_wave_temp.h"
+        "../components/audio/private/sound_private.h"
+        "../components/audio/private/VBRHeader.h"
+        "../components/audio/private/voice_gain.h"
+        "../components/audio/private/voice_mixer_controls.h"
+        "../components/audio/private/voice_sound_engine_interface.h"
+        "../components/audio/private/voice_wavefile.h"
+        "../components/audio/private/vox_private.h"
+        "../components/audio/public/ivoicecodec.h"
+        "../components/audio/public/ivoicerecord.h"
+        "../components/audio/public/snd_audio_source.h"
+        "../components/audio/public/snd_device.h"
+        "../components/audio/public/snd_io.h"
+        "../components/audio/public/sound.h"
+        "../components/audio/public/soundservice.h"
+        "../components/audio/public/voice.h"
+        "../components/audio/public/vox.h"
+        )
+source_group("Audio\\Header Files" FILES ${Audio__Header_Files})
+
+set(rebuiltin
+        "../rebuiltin/macro.h"
+        "../rebuiltin/version.h"
+        "../rebuiltin/version.cpp"
+        )
+source_group("rebuiltin" FILES ${rebuiltin})
+
+set(Client
+        "baseclient.cpp"
+        "baseclientstate.cpp"
+        "buildcubemaps.cpp"
+        "cbenchmark.cpp"
+        "cdll_engine_int.cpp"
+        "cl_demo.cpp"
+        "cl_demoaction.cpp"
+        "cl_demoaction_types.cpp"
+        "cl_demoactioneditors.cpp"
+        "cl_demoactionmanager.cpp"
+        "cl_demoeditorpanel.cpp"
+        "cl_demosmootherpanel.cpp"
+        "cl_demouipanel.cpp"
+        "cl_entityreport.cpp"
+        "cl_ents_parse.cpp"
+        "cl_foguipanel.cpp"
+        "cl_localnetworkbackdoor.cpp"
+        "cl_main.cpp"
+        #    "cl_null.cpp"
+        "cl_parse_event.cpp"
+        "cl_pluginhelpers.cpp"
+        "cl_pred.cpp"
+        "cl_rcon.cpp"
+        "cl_steamauth.cpp"
+        "cl_texturelistpanel.cpp"
+        "cl_txviewpanel.cpp"
+        "client.cpp"
+        "client_pch.cpp"
+        "clientframe.cpp"
+        "colorcorrectionpanel.cpp"
+        "console.cpp"
+        "debug_leafvis.cpp"
+        "debugoverlay.cpp"
+        "decal_clip.cpp"
+        "decals.cpp"
+        "demofile.cpp"
+        "DevShotGenerator.cpp"
+        "disp.cpp"
+        "disp_interface.cpp"
+        "disp_mapload.cpp"
+        "gl_draw.cpp"
+        "gl_drawlights.cpp"
+        "gl_lightmap.cpp"
+        "gl_matsysiface.cpp"
+        "gl_rlight.cpp"
+        "gl_rmain.cpp"
+        "gl_rmisc.cpp"
+        "gl_rsurf.cpp"
+        "gl_screen.cpp"
+        "gl_shader.cpp"
+        "gl_warp.cpp"
+        "l_studio.cpp"
+        "matsys_interface.cpp"
+        "modelloader.cpp"
+        "OcclusionSystem.cpp"
+        "Overlay.cpp"
+        "r_areaportal.cpp"
+        "r_decal.cpp"
+        "r_efx.cpp"
+        "r_linefile.cpp"
+        "render_pch.cpp"
+        "rpt_engine.cpp"
+        "shadowmgr.cpp"
+        "socketcreator.cpp"
+        "tmessage.cpp"
+        "view.cpp"
+        )
+source_group("Client" FILES ${Client})
+
+set(Header_Files
+        "../components/video/video_macros.h"
+        "../components/video/videoservices.h"
+        "../components/video/videosubsystem.h"
+
+        "../../public/video/ivideoservices.h"
+        "../../common/engine/idownloadsystem.h"
+        "../../common/engine/requestcontext.h"
+        "../../common/engine_launcher_api.h"
+        "../../common/FindSteamServers.h"
+        "../../common/igameserverdata.h"
+        "../../common/netmessages.h"
+        "../../common/proto_oob.h"
+        "../../common/proto_version.h"
+        "../../common/protocol.h"
+        "../../common/replay/ienginereplay.h"
+        "../../common/replay/ireplaymovie.h"
+        "../../common/replay/ireplaymoviemanager.h"
+        "../../common/replay/ireplaymovierenderer.h"
+        "../../common/replay/ireplayperformancemanager.h"
+        "../../common/replay/rendermovieparams.h"
+        "../../common/userid.h"
+        "../../public/bsptreedata.h"
+        "../../public/cdll_int.h"
+        "../../public/client_render_handle.h"
+        "../../public/collisionutils.h"
+        "../../public/disp_common.h"
+        "../../public/disp_powerinfo.h"
+        "../../public/disp_tesselate.h"
+        "../../public/dispcoll_common.h"
+        "../../public/dt_common.h"
+        "../../public/dt_recv.h"
+        "../../public/dt_send.h"
+        "../../public/dt_utlvector_common.h"
+        "../../public/eifacev21.h"
+        "../../public/engine/http.h"
+        "../../public/engine/IEngineSound.h"
+        "../../public/engine/IEngineTrace.h"
+        "../../public/engine/iserverplugin.h"
+        "../../public/engine/ishadowmgr.h"
+        "../../public/engine/SndInfo.h"
+        "../../public/engine_hlds_api.h"
+        "../../public/filesystem.h"
+        "../../public/iclient.h"
+        "../../public/icliententity.h"
+        "../../public/idedicatedexports.h"
+        "../../public/ihltvdirector.h"
+        "../../public/inetchannel.h"
+        "../../public/inetmsghandler.h"
+        "../../public/inetwork.h"
+        "../../public/iscratchpad3d.h"
+        "../../public/iserver.h"
+        "../../public/iserverentity.h"
+        "../../public/ispatialpartition.h"
+        "../../public/istudiorender.h"
+        "../../public/ivoicetweak.h"
+        "../../public/materialsystem/idebugtextureinfo.h"
+        "../../public/mathlib/compressed_light_cube.h"
+        "../../public/mathlib/IceKey.H"
+        "../../public/mathlib/polyhedron.h"
+        "../../public/modes.h"
+        "../../public/networkstringtabledefs.h"
+        "../../public/nmatrix.h"
+        "../../public/nvector.h"
+        "../../public/optimize.h"
+        "../../public/savegame_version.h"
+        "../../public/scratchpad3d.h"
+        "../../public/soundinfo.h"
+        "../../public/surfinfo.h"
+        "../../public/texture_group_names.h"
+        "../../public/tier0/l2cache.h"
+        "../../public/tier0/protected_things.h"
+        "../../public/tier1/fmtstr.h"
+        "../../public/tier1/utlfixedmemory.h"
+        "../../public/tier1/utlsymbol.h"
+        "../../public/trace.h"
+        "../components/audio/private/snd_mp3_source.h"
+        "../components/audio/private/snd_wave_data.h"
+        "baseautocompletefilelist.h"
+        "baseclient.h"
+        "baseclientstate.h"
+        "baseserver.h"
+        "bitbuf_errorhandler.h"
+        "cbenchmark.h"
+        "ccs.h"
+        "cdll_engine_int.h"
+        "changeframelist.h"
+        "cheatcodes.h"
+        "checksum_engine.h"
+        "cl_check_process.h"
+        "cl_demo.h"
+        "cl_demoaction.h"
+        "cl_demoaction_types.h"
+        "cl_demoactioneditors.h"
+        "cl_demoactionmanager.h"
+        "cl_demoeditorpanel.h"
+        "cl_demosmootherpanel.h"
+        "cl_demosmoothing.h"
+        "cl_demouipanel.h"
+        "cl_entityreport.h"
+        "cl_ents_parse.h"
+        "cl_foguipanel.h"
+        "cl_localnetworkbackdoor.h"
+        "cl_main.h"
+        "cl_parse_event.h"
+        "cl_pluginhelpers.h"
+        "cl_pred.h"
+        "cl_rcon.h"
+        "cl_steamauth.h"
+        "cl_texturelistpanel.h"
+        "cl_txviewpanel.h"
+        "client.h"
+        "clientframe.h"
+        "clockdriftmgr.h"
+        "cmd.h"
+        "cmodel_engine.h"
+        "cmodel_private.h"
+        "common.h"
+        "conprint.h"
+        "console.h"
+        "cvar.h"
+        "debug_leafvis.h"
+        "debugoverlay.h"
+        "decal.h"
+        "decal_clip.h"
+        "decal_private.h"
+        "demo.h"
+        "demofile.h"
+        "DevShotGenerator.h"
+        "disp.h"
+        "disp_defs.h"
+        "disp_helpers.h"
+        "dispnode.h"
+        "download.h"
+        "download_internal.h"
+        "DownloadListGenerator.h"
+        "draw.h"
+        "dt.h"
+        "dt_common_eng.h"
+        "dt_encode.h"
+        "dt_instrumentation.h"
+        "dt_instrumentation_server.h"
+        "dt_localtransfer.h"
+        "dt_recv_decoder.h"
+        "dt_recv_eng.h"
+        "dt_send_eng.h"
+        "dt_stack.h"
+        "dt_test.h"
+        "enginebugreporter.h"
+        "engineperftools.h"
+        "enginesingleuserfilter.h"
+        "EngineSoundInternal.h"
+        "enginestats.h"
+        "enginetrace.h"
+        "ents_shared.h"
+        "filesystem_engine.h"
+        "filetransfermgr.h"
+        "framesnapshot.h"
+        "GameEventManager.h"
+        "getintersectingsurfaces_struct.h"
+        "gl_cvars.h"
+        "gl_drawlights.h"
+        "gl_lightmap.h"
+        "gl_matsysiface.h"
+        "gl_model.h"
+        "gl_model_private.h"
+        "gl_rmain.h"
+        "gl_rsurf.h"
+        "gl_shader.h"
+        "gl_water.h"
+        "hltvclient.h"
+        "hltvclientstate.h"
+        "hltvdemo.h"
+        "hltvserver.h"
+        "hltvtest.h"
+        "host.h"
+        "host_cmd.h"
+        "host_jmp.h"
+        "host_phonehome.h"
+        "host_saverestore.h"
+        "host_state.h"
+        "icolorcorrectiontools.h"
+        "idispinfo.h"
+        "ienginetoolinternal.h"
+        "IOcclusionSystem.h"
+        "ispatialpartitioninternal.h"
+        "ithread.h"
+        "keys.h"
+        "l_studio.h"
+        "lightcache.h"
+        "LoadScreenUpdate.h"
+        "LocalNetworkBackdoor.h"
+        "logofile_shared.h"
+        "lowpassstream.h"
+        "MapReslistGenerator.h"
+        "matchmaking.h"
+        "matchmakingqos.h"
+        "MaterialBuckets.h"
+        "materialproxyfactory.h"
+        "mem.h"
+        "mem_fgets.h"
+        "mod_vis.h"
+        "ModelInfo.h"
+        "modelloader.h"
+        "net.h"
+        "net_chan.h"
+        "net_synctags.h"
+        "networkstringtable.h"
+        "networkstringtableitem.h"
+        "networkstringtableserver.h"
+        "Overlay.h"
+        "packed_entity.h"
+        "pr_edict.h"
+        "precache.h"
+        "profile.h"
+        "profiling.h"
+        "progs.h"
+        "quakedef.h"
+        "r_areaportal.h"
+        "r_decal.h"
+        "r_efxextern.h"
+        "r_local.h"
+        "randomnormals.h"
+        "render.h"
+        "replay_internal.h"
+        "replaydemo.h"
+        "replaydemoplayer.h"
+        "replayserver.h"
+        "saverestore_filesystem.h"
+        "sbar.h"
+        "screen.h"
+        "server.h"
+        "Session.h"
+        "shadowmgr.h"
+        "socketcreator.h"
+        "staticpropmgr.h"
+        "studio_internal.h"
+        "surfacehandle.h"
+        "sv_client.h"
+        "sv_filter.h"
+        "sv_ipratelimit.h"
+        "sv_log.h"
+        "sv_logofile.h"
+        "sv_main.h"
+        "sv_packedentities.h"
+        "sv_plugin.h"
+        "sv_precache.h"
+        "sv_rcon.h"
+        "sv_remoteaccess.h"
+        "sv_steamauth.h"
+        "sv_uploaddata.h"
+        "sv_uploadgamestats.h"
+        "sv_user.h"
+        "sys.h"
+        "sys_dll.h"
+        "sys_mainwind.h"
+        "sysexternal.h"
+        "testscriptmgr.h"
+        "tmessage.h"
+        "traceinit.h"
+        "vengineserver_impl.h"
+        "vgui_basepanel.h"
+        "vgui_DebugSystemPanel.h"
+        "vgui_drawtreepanel.h"
+        "vgui_helpers.h"
+        "view.h"
+        "vprof_engine.h"
+        "vprof_record.h"
+        "world.h"
+        "zone.h"
+        )
+source_group("Header Files" FILES ${Header_Files})
+
+set(Public_Headers
+        "../../common/bugreporter/bugreporter.h"
+        "../../common/cserserverprotocol_engine.h"
+        "../../common/GameUI/IGameConsole.h"
+        "../../common/GameUI/IGameUI.h"
+        "../../common/IVguiModule.h"
+        "../../common/ivprofexport.h"
+        "../../common/qlimits.h"
+        "../../common/steamcommon.h"
+        "../../thirdparty/dxsdk/include/dinput.h"
+        "../../gameui/GameUI_Interface.h"
+        "../../public/appframework/IAppSystem.h"
+        "../../public/basehandle.h"
+        "../../public/bitvec.h"
+        "../../public/blockingudpsocket.h"
+        "../../public/bspfile.h"
+        "../../public/bspflags.h"
+        "../../public/builddisp.h"
+        "../../public/client_class.h"
+        "../../public/client_textmessage.h"
+        "../../public/clientstats.h"
+        "../../public/cmodel.h"
+        "../../public/Color.h"
+        "../../public/con_nprint.h"
+        "../../public/const.h"
+        "../../public/coordsize.h"
+        "../../public/crtmemdebug.h"
+        "../../public/datamap.h"
+        "../../public/disp_vertindex.h"
+        "../../public/dlight.h"
+        "../../public/dt_utlvector_recv.h"
+        "../../public/dt_utlvector_send.h"
+        "../../public/edict.h"
+        "../../public/editor_sendcommand.h"
+        "../../public/eiface.h"
+        "../../public/engine/IClientLeafSystem.h"
+        "../../public/engine/ICollideable.h"
+        "../../public/engine/imatchmaking.h"
+        "../../public/engine/IStaticPropMgr.h"
+        "../../public/engine/ivdebugoverlay.h"
+        "../../public/engine/ivmodelinfo.h"
+        "../../public/engine/ivmodelrender.h"
+        "../../public/event_flags.h"
+        "../../public/filesystem_helpers.h"
+        "../../public/gamebspfile.h"
+        "../../public/gametrace.h"
+        "../../public/globalvars_base.h"
+        "../../public/ibsppack.h"
+        "../../public/icliententitylist.h"
+        "../../public/iclientnetworkable.h"
+        "../../public/iclientrenderable.h"
+        "../../public/iclientthinkable.h"
+        "../../public/iclientunknown.h"
+        "../../public/icvar.h"
+        "../../public/iefx.h"
+        "../../public/ienginevgui.h"
+        "../../public/igameevents.h"
+        "../../public/IGameUIFuncs.h"
+        "../../public/ihandleentity.h"
+        "../../public/ihltv.h"
+        "../../public/inetchannelinfo.h"
+        "../../public/inetmessage.h"
+        "../../public/iprediction.h"
+        "../../public/irecipientfilter.h"
+        "../../public/iregistry.h"
+        "../../public/isaverestore.h"
+        "../../public/iservernetworkable.h"
+        "../../public/iserverunknown.h"
+        "../../public/ivguicenterprint.h"
+        "../../public/ivoiceserver.h"
+        "../../public/ivrenderview.h"
+        "../../public/ivtex.h"
+        #    "../../public/ixboxsystem.h"
+        "../../public/jpeglib/jconfig.h"
+        "../../public/jpeglib/jmorecfg.h"
+        "../../public/jpeglib/jpeglib.h"
+        "../../public/lumpfiles.h"
+        "../../public/materialsystem/imaterial.h"
+        "../../public/materialsystem/imaterialproxy.h"
+        "../../public/materialsystem/imaterialproxyfactory.h"
+        "../../public/materialsystem/imaterialsystem.h"
+        "../../public/materialsystem/imaterialsystemhardwareconfig.h"
+        "../../public/materialsystem/imaterialvar.h"
+        "../../public/materialsystem/imesh.h"
+        "../../public/materialsystem/itexture.h"
+        "../../public/materialsystem/materialsystem_config.h"
+        "../../public/mathlib/anorms.h"
+        "../../public/mathlib/bumpvects.h"
+        "../../public/mathlib/compressed_vector.h"
+        "../../public/mathlib/mathlib.h"
+        "../../public/mathlib/vector.h"
+        "../../public/mathlib/vector2d.h"
+        "../../public/mathlib/vector4d.h"
+        "../../public/mathlib/vmatrix.h"
+        "../../public/mathlib/vplane.h"
+        "../../public/measure_section.h"
+        "../../public/model_types.h"
+        "../../public/mouthinfo.h"
+        "../../public/networkvar.h"
+        "../../public/overlaytext.h"
+        "../../public/phyfile.h"
+        "../../public/PlayerState.h"
+        "../../public/r_efx.h"
+        "../../public/renamed_recvtable_compat.h"
+        "../../public/saverestoretypes.h"
+        "../../public/sentence.h"
+        "../../public/server_class.h"
+        "../../public/shake.h"
+        "../../public/smooth_average.h"
+        "../../public/soundchars.h"
+        "../../public/soundflags.h"
+        "../../public/stdstring.h"
+        "../../public/string_t.h"
+        "../../public/studio.h"
+        "../../public/tier0/basetypes.h"
+        "../../public/tier0/commonmacros.h"
+        "../../public/tier0/dbg.h"
+        "../../public/tier0/fasttimer.h"
+        "../../public/tier0/icommandline.h"
+        "../../public/tier0/mem.h"
+        "../../public/tier0/memalloc.h"
+        "../../public/tier0/memdbgoff.h"
+        "../../public/tier0/memdbgon.h"
+        "../../public/tier0/platform.h"
+        "../../public/tier0/vcr_shared.h"
+        "../../public/tier0/vcrmode.h"
+        "../../public/tier0/vprof.h"
+        "../../public/tier1/bitbuf.h"
+        "../../public/tier1/characterset.h"
+        "../../public/tier1/checksum_crc.h"
+        "../../public/tier1/checksum_md5.h"
+        "../../public/tier1/convar.h"
+        "../../public/tier1/interface.h"
+        "../../public/tier1/KeyValues.h"
+        "../../public/tier1/mempool.h"
+        "../../public/tier1/memstack.h"
+        "../../public/tier1/netadr.h"
+        "../../public/tier1/smartptr.h"
+        "../../public/tier1/strtools.h"
+        "../../public/tier1/utlbidirectionalset.h"
+        "../../public/tier1/utlbuffer.h"
+        "../../public/tier1/utldict.h"
+        "../../public/tier1/utlhash.h"
+        "../../public/tier1/utllinkedlist.h"
+        "../../public/tier1/utlmemory.h"
+        "../../public/tier1/utlmultilist.h"
+        "../../public/tier1/utlrbtree.h"
+        "../../public/tier1/UtlSortVector.h"
+        "../../public/tier1/utlvector.h"
+        "../../public/unicode/unicode.h"
+        "../../public/UtlCachedFileData.h"
+        "../../public/vallocator.h"
+        "../../public/vcollide.h"
+        "../../public/vcollide_parse.h"
+        "../../public/vgui/Cursor.h"
+        "../../public/vgui/Dar.h"
+        "../../public/vgui/IClientPanel.h"
+        "../../public/vgui/IHTML.h"
+        "../../public/vgui/IImage.h"
+        "../../public/vgui/IInput.h"
+        "../../public/vgui/ILocalize.h"
+        "../../public/vgui/IPanel.h"
+        "../../public/vgui/IScheme.h"
+        "../../public/vgui/ISurface.h"
+        "../../public/vgui/ISystem.h"
+        "../../public/vgui/IVGui.h"
+        "../../public/vgui/KeyCode.h"
+        "../../public/vgui/MouseCode.h"
+        "../../public/vgui/VGUI.h"
+        "../../public/vgui_controls/AnalogBar.h"
+        "../../public/vgui_controls/AnimationController.h"
+        "../../public/vgui_controls/BuildGroup.h"
+        "../../public/vgui_controls/Button.h"
+        "../../public/vgui_controls/CheckButton.h"
+        "../../public/vgui_controls/ComboBox.h"
+        "../../public/vgui_controls/Controls.h"
+        "../../public/vgui_controls/EditablePanel.h"
+        "../../public/vgui_controls/FileOpenDialog.h"
+        "../../public/vgui_controls/FocusNavGroup.h"
+        "../../public/vgui_controls/Frame.h"
+        "../../public/vgui_controls/Image.h"
+        "../../public/vgui_controls/ImageList.h"
+        "../../public/vgui_controls/Label.h"
+        "../../public/vgui_controls/ListPanel.h"
+        "../../public/vgui_controls/Menu.h"
+        "../../public/vgui_controls/MenuButton.h"
+        "../../public/vgui_controls/MenuItem.h"
+        "../../public/vgui_controls/MessageMap.h"
+        "../../public/vgui_controls/Panel.h"
+        "../../public/vgui_controls/PanelAnimationVar.h"
+        "../../public/vgui_controls/PHandle.h"
+        "../../public/vgui_controls/ProgressBar.h"
+        "../../public/vgui_controls/PropertyDialog.h"
+        "../../public/vgui_controls/PropertyPage.h"
+        "../../public/vgui_controls/PropertySheet.h"
+        "../../public/vgui_controls/ScrollBar.h"
+        "../../public/vgui_controls/Slider.h"
+        "../../public/vgui_controls/TextEntry.h"
+        "../../public/vgui_controls/TextImage.h"
+        "../../public/vgui_controls/ToggleButton.h"
+        "../../public/vgui_controls/Tooltip.h"
+        "../../public/vgui_controls/TreeView.h"
+        "../../public/vgui_controls/TreeViewListControl.h"
+        "../../public/VGuiMatSurface/IMatSystemSurface.h"
+        "../../public/view_shared.h"
+        "../../public/vphysics_interface.h"
+        "../../public/vstdlib/IKeyValuesSystem.h"
+        "../../public/vstdlib/random.h"
+        "../../public/vstdlib/vstdlib.h"
+        "../../public/vtf/vtf.h"
+        "../../public/worldsize.h"
+        "../../public/xwvfile.h"
+        "../../public/zip/XZip.h"
+        "../../public/zip_uncompressed.h"
+        "event_system.h"
+        "iengine.h"
+        "igame.h"
+        "ivideomode.h"
+        "networkstringtableclient.h"
+        "vmodes.h"
+        )
+source_group("Public Headers" FILES ${Public_Headers})
+
+set(Resource_Files
+        "valve.ico"
+        )
+source_group("Resource Files" FILES ${Resource_Files})
+
+set(Server
+        "server_pch.cpp"
+        "sv_client.cpp"
+        "sv_ents_write.cpp"
+        "sv_filter.cpp"
+        "sv_framesnapshot.cpp"
+        "sv_ipratelimit.cpp"
+        "sv_log.cpp"
+        "sv_main.cpp"
+        "sv_packedentities.cpp"
+        "sv_plugin.cpp"
+        "sv_precache.cpp"
+        "sv_rcon.cpp"
+        "sv_redirect.cpp"
+        "sv_remoteaccess.cpp"
+        "sv_steamauth.cpp"
+        "sv_uploaddata.cpp"
+        "sv_uploadgamestats.cpp"
+        "vengineserver_impl.cpp"
+        )
+source_group("Server" FILES ${Server})
+
+set(Source_Files
+        "../components/video/videoservices.cpp"
+
+        "../../common/debug_dll_check.cpp"
+        "../../common/language.cpp"
+        "../../common/netmessages.cpp"
+        "../../common/randoverride.cpp"
+        "../../common/SourceAppInfo.cpp"
+        "../../common/steamid.cpp"
+        "../../public/blockingudpsocket.cpp"
+        "../../public/bsptreedata.cpp"
+        "../../public/builddisp.cpp"
+        "../../public/collisionutils.cpp"
+        "../../public/crtmemdebug.cpp"
+        "../../public/disp_common.cpp"
+        "../../public/disp_powerinfo.cpp"
+        "../../public/dispcoll_common.cpp"
+        "../../public/dt_recv.cpp"
+        "../../public/dt_send.cpp"
+        "../../public/dt_utlvector_common.cpp"
+        "../../public/dt_utlvector_recv.cpp"
+        "../../public/dt_utlvector_send.cpp"
+        "../../public/editor_sendcommand.cpp"
+        "../../public/filesystem_helpers.cpp"
+        "../../public/filesystem_init.cpp"
+        "../../public/lumpfiles.cpp"
+        "../../public/networkvar.cpp"
+        "../../public/registry.cpp"
+        "../../public/scratchpad3d.cpp"
+        "../../public/sentence.cpp"
+        "../../public/studio.cpp"
+        "../../public/tier0/memoverride.cpp"
+        "../../public/vallocator.cpp"
+        "../../public/XUnzip.cpp"
+        "../../public/XZip.cpp"
+        "baseautocompletefilelist.cpp"
+        "baseserver.cpp"
+        "bitbuf_errorhandler.cpp"
+        "bugreporter.cpp"
+        "ccs.cpp"
+        "changeframelist.cpp"
+        "cheatcodes.cpp"
+        "checksum_engine.cpp"
+        "cl_bounded_cvars.cpp"
+        "cl_check_process.cpp"
+        "clockdriftmgr.cpp"
+        "cmd.cpp"
+        "cmodel.cpp"
+        "cmodel_bsp.cpp"
+        "cmodel_disp.cpp"
+        "common.cpp"
+        "cvar.cpp"
+        "disp_defs.cpp"
+        "disp_helpers.cpp"
+        "download.cpp"
+        "DownloadListGenerator.cpp"
+        "downloadthread.cpp"
+        "dt.cpp"
+        "dt_common_eng.cpp"
+        "dt_encode.cpp"
+        "dt_instrumentation.cpp"
+        "dt_instrumentation_server.cpp"
+        "dt_localtransfer.cpp"
+        "dt_recv_decoder.cpp"
+        "dt_recv_eng.cpp"
+        "dt_send_eng.cpp"
+        "dt_stack.cpp"
+        "dt_test.cpp"
+        "engine_replay_int.cpp"
+        "enginesingleuserfilter.cpp"
+        "enginestats.cpp"
+        "enginethreads.cpp"
+        "enginetrace.cpp"
+        "filesystem_engine.cpp"
+        "filetransfermgr.cpp"
+        "GameEventManager.cpp"
+        "GameEventManagerOld.cpp"
+        "gametrace_engine.cpp"
+        "hltvclient.cpp"
+        "hltvclientstate.cpp"
+        "hltvdemo.cpp"
+        "hltvserver.cpp"
+        "hltvtest.cpp"
+        "host.cpp"
+        "host_cmd.cpp"
+        "host_listmaps.cpp"
+        "host_phonehome.cpp"
+        "host_saverestore.cpp"
+        "host_state.cpp"
+        "initmathlib.cpp"
+        "keys.cpp"
+        "lightcache.cpp"
+        "LoadScreenUpdate.cpp"
+        "LocalNetworkBackdoor.cpp"
+        "MapReslistGenerator.cpp"
+        "matchmakingclient.cpp"
+        "matchmakinghost.cpp"
+        "matchmakingmigrate.cpp"
+        "matchmakingqos.cpp"
+        "matchmakingshared.cpp"
+        "materialproxyfactory.cpp"
+        "mem_fgets.cpp"
+        "mod_vis.cpp"
+        "ModelInfo.cpp"
+        "net_chan.cpp"
+        "net_synctags.cpp"
+        "net_ws.cpp"
+        "net_ws_queued_packet_sender.cpp"
+        "networkstringtable.cpp"
+        "networkstringtableclient.cpp"
+        "NetworkStringTableItem.cpp"
+        "networkstringtableserver.cpp"
+        "packed_entity.cpp"
+        "pr_edict.cpp"
+        "precache.cpp"
+        "pure_server.cpp"
+        "quakedef.cpp"
+        "randomstream.cpp"
+        "replay_internal.cpp"
+        "replaydemo.cpp"
+        "replaydemoplayer.cpp"
+        "replayserver.cpp"
+        "saverestore_filesystem.cpp"
+        "servermsghandler.cpp"
+        "Session.cpp"
+        "sound_shared.cpp"
+        "spatialpartition.cpp"
+        "staticpropmgr.cpp"
+        "sys_dll.cpp"
+        "sys_dll2.cpp"
+        "sys_engine.cpp"
+        "sys_getmodes.cpp"
+        #    "sys_linuxwind.cpp"
+        "sys_mainwind.cpp"
+        "testscriptmgr.cpp"
+        "traceinit.cpp"
+        "vgui_askconnectpanel.cpp"
+        "voiceserver_impl.cpp"
+        "vprof_engine.cpp"
+        "vprof_record.cpp"
+        "world.cpp"
+        "xboxsystem.cpp"
+        "zone.cpp"
+        )
+source_group("Source Files" FILES ${Source_Files})
+
+set(Tools_Framework
+        "../../public/toolframework/iclientenginetools.h"
+        "../../public/toolframework/ienginetool.h"
+        "../../public/toolframework/iserverenginetools.h"
+        "../../public/toolframework/itooldictionary.h"
+        "../../public/toolframework/itoolentity.h"
+        "../../public/toolframework/itoolframework.h"
+        "../../public/toolframework/itoolsystem.h"
+        "enginetool.cpp"
+        "toolframework.cpp"
+        )
+source_group("Tools Framework" FILES ${Tools_Framework})
+
+set(VGUI_Panels
+        "../../common/vgui/vgui_basebudgetpanel.cpp"
+        "../../common/vgui/vgui_basebudgetpanel.h"
+        "../../common/vgui/vgui_budgetbargraphpanel.cpp"
+        "../../common/vgui/vgui_budgetbargraphpanel.h"
+        "../../common/vgui/vgui_budgethistorypanel.cpp"
+        "../../common/vgui/vgui_budgethistorypanel.h"
+        "../../common/vgui/vgui_budgetpanelshared.cpp"
+        "../../common/vgui/vgui_budgetpanelshared.h"
+        "../../public/vgui_controls/vgui_controls.cpp"
+        "perfuipanel.cpp"
+        "vgui_basepanel.cpp"
+        "vgui_baseui_interface.cpp"
+        "vgui_baseui_interface.h"
+        "vgui_budgetpanel.cpp"
+        "vgui_budgetpanel.h"
+        "vgui_DebugSystemPanel.cpp"
+        "vgui_drawtreepanel.cpp"
+        "vgui_helpers.cpp"
+        "vgui_texturebudgetpanel.cpp"
+        "vgui_texturebudgetpanel.h"
+        "vgui_vprofgraphpanel.cpp"
+        "vgui_vprofgraphpanel.h"
+        "vgui_vprofpanel.cpp"
+        "vgui_vprofpanel.h"
+        )
+source_group("VGUI Panels" FILES ${VGUI_Panels})
+
+
+set(VGUISURFACELIB__Header_Files
+        "../../vguimatsurface/Clip2D.h"
+        "../../vguimatsurface/Cursor.h"
+        "../../vguimatsurface/FontTextureCache.h"
+        "../../vguimatsurface/Input.h"
+        "../../vguimatsurface/MatSystemSurface.h"
+        #"../../vguimatsurface/memorybitmap.h"
+        "../../vguimatsurface/TextureDictionary.h"
+        "../../vguimatsurface/vguimatsurface.h"
+        )
+source_group("VguiSurfaceLib\\Header Files" FILES ${VGUISURFACELIB__Header_Files})
+
+set(VGUISURFACELIB__Public_Header_Files
+        "../../common/vgui_surfacelib/FontAmalgam.h"
+        "../../common/vgui_surfacelib/FontManager.h"
+        "../../common/vgui_surfacelib/Win32Font.h"
+        "../../public/appframework/IAppSystem.h"
+        "../../public/filesystem.h"
+        "../../public/filesystem_helpers.h"
+        "../../public/materialsystem/imaterial.h"
+        "../../public/materialsystem/imaterialsystem.h"
+        "../../public/materialsystem/imaterialvar.h"
+        "../../public/materialsystem/imesh.h"
+        "../../public/materialsystem/itexture.h"
+        "../../public/mathlib/vector.h"
+        "../../public/mathlib/vector2d.h"
+        "../../public/mathlib/vector4d.h"
+        "../../public/pixelwriter.h"
+        "../../public/tier0/basetypes.h"
+        "../../public/tier0/commonmacros.h"
+        "../../public/tier1/characterset.h"
+        "../../public/tier1/checksum_crc.h"
+        "../../public/tier1/interface.h"
+        "../../public/tier1/strtools.h"
+        "../../public/tier1/utllinkedlist.h"
+        "../../public/tier1/utlmemory.h"
+        "../../public/tier1/utlrbtree.h"
+        "../../public/tier1/utlvector.h"
+        "../../public/VGuiMatSurface/IMatSystemSurface.h"
+        "../../public/vstdlib/vstdlib.h"
+        "../../public/vtf/vtf.h"
+        )
+source_group("VguiSurfaceLib\\Public Header Files" FILES ${VGUISURFACELIB__Public_Header_Files})
+
+set(VGUISURFACELIB__Source_Files
+        "../../common/debug_dll_check.cpp"
+        "../../public/filesystem_helpers.cpp"
+        "../../public/tier0/memoverride.cpp"
+        "../../public/vgui_controls/vgui_controls.cpp"
+        "../../vguimatsurface/Clip2D.cpp"
+        "../../vguimatsurface/Cursor.cpp"
+        "../../vguimatsurface/FontTextureCache.cpp"
+        "../../vguimatsurface/Input.cpp"
+        "../../vguimatsurface/MatSystemSurface.cpp"
+        #"../../vguimatsurface/memorybitmap.cpp"
+        "../../vguimatsurface/TextureDictionary.cpp"
+        )
+source_group("VguiSurfaceLib\\Source Files" FILES ${VGUISURFACELIB__Source_Files})
+
+
+set(VP__Header_Files
+        "../components/physics/cbase.h"
+        "../components/physics/convert.h"
+        "../components/physics/linear_solver.h"
+        "../components/physics/physics_airboat.h"
+        "../components/physics/physics_constraint.h"
+        "../components/physics/physics_controller_raycast_vehicle.h"
+        "../components/physics/physics_environment.h"
+        "../components/physics/physics_fluid.h"
+        "../components/physics/physics_friction.h"
+        "../components/physics/physics_material.h"
+        "../components/physics/physics_motioncontroller.h"
+        "../components/physics/physics_object.h"
+        "../components/physics/physics_shadow.h"
+        "../components/physics/physics_spring.h"
+        "../components/physics/physics_trace.h"
+        "../components/physics/physics_vehicle.h"
+        "../components/physics/vcollide_parse_private.h"
+        "../components/physics/vphysics_internal.h"
+        "../components/physics/vphysics_saverestore.h"
+        )
+source_group("VPhysics\\Header Files" FILES ${VP__Header_Files})
+
+set(VP__Public_Header_Files
+        "../../public/vphysics/collision_set.h"
+        "../../public/vphysics/constraints.h"
+        "../../public/vphysics/friction.h"
+        "../../public/vphysics/object_hash.h"
+        "../../public/vphysics/performance.h"
+        "../../public/vphysics/player_controller.h"
+        "../../public/vphysics/stats.h"
+        "../../public/vphysics/vehicles.h"
+        "../../public/vphysics/virtualmesh.h"
+        )
+source_group("VPhysics\\Public Header Files" FILES ${VP__Public_Header_Files})
+
+set(VP__Source_Files
+        "../components/physics/convert.cpp"
+        "../../common/debug_dll_check.cpp"
+        "../../public/filesystem_helpers.cpp"
+        "../components/physics/ledgewriter.cpp"
+        "../components/physics/main.cpp"
+        "../../public/tier0/memoverride.cpp"
+        "../components/physics/physics_airboat.cpp"
+        "../components/physics/physics_collide.cpp"
+        "../components/physics/physics_constraint.cpp"
+        "../components/physics/physics_controller_raycast_vehicle.cpp"
+        "../components/physics/physics_environment.cpp"
+        "../components/physics/physics_fluid.cpp"
+        "../components/physics/physics_friction.cpp"
+        "../components/physics/physics_material.cpp"
+        "../components/physics/physics_motioncontroller.cpp"
+        "../components/physics/physics_object.cpp"
+        "../components/physics/physics_shadow.cpp"
+        "../components/physics/physics_spring.cpp"
+        "../components/physics/physics_vehicle.cpp"
+        "../components/physics/physics_virtualmesh.cpp"
+        "../components/physics/stdafx.cpp"
+        "../components/physics/trace.cpp"
+        "../components/physics/vcollide_parse.cpp"
+        "../components/physics/vphysics_saverestore.cpp"
+        )
+source_group("VPhysics\\Source Files" FILES ${VP__Source_Files})
+
+set(VP__FILES
+        ${VP__Header_Files}
+        ${VP__Public_Header_Files}
+        ${VP__Source_Files}
+        )
+
+
+set(VGUI2__Header_Files
+        "../components/vgui2/src/bitmap.h"
+        "../components/vgui2/src/fileimage.h"
+        "../components/vgui2/src/IMessageListener.h"
+        "../components/vgui2/src/vgui_internal.h"
+        "../components/vgui2/src/vgui_key_translation.h"
+        "../components/vgui2/src/VPanel.h"
+        )
+source_group("VGui2\\Header Files" FILES ${VGUI2__Header_Files})
+
+set(VGUI2__Interfaces
+        "../../public/appframework/IAppSystem.h"
+        "../../public/vgui/IBorder.h"
+        "../../public/vgui/IClientPanel.h"
+        "../../public/vgui/IHTML.h"
+        "../../public/vgui/IImage.h"
+        "../../public/vgui/IInput.h"
+        "../../public/vgui/ILocalize.h"
+        "../../public/vgui/IPanel.h"
+        "../../public/vgui/IScheme.h"
+        "../../public/vgui/ISurface.h"
+        "../../public/vgui/ISystem.h"
+        "../../public/vgui/IVGui.h"
+        "../../public/vgui/IVguiMatInfo.h"
+        "../../public/vgui/IVguiMatInfoVar.h"
+        "../components/vgui2/src/ImageBorder.h"
+        "../components/vgui2/src/ScalableImageBorder.h"
+        "../components/vgui2/src/VGUI_Border.h"
+        )
+source_group("VGui2\\Interfaces" FILES ${VGUI2__Interfaces})
+
+set(VGUI2__Public_Header_Files
+        "../../common/SteamBootStrapper.h"
+        "../../common/vgui_surfacelib/FontAmalgam.h"
+        "../../common/vgui_surfacelib/FontManager.h"
+        "../../common/vgui_surfacelib/Win32Font.h"
+        "../../public/Color.h"
+        "../../public/filesystem.h"
+        "../../public/mathlib/vector2d.h"
+        "../../public/tier0/basetypes.h"
+        "../../public/tier1/interface.h"
+        "../../public/tier1/strtools.h"
+        "../../public/tier1/utlbuffer.h"
+        "../../public/tier1/utllinkedlist.h"
+        "../../public/tier1/utlmemory.h"
+        "../../public/tier1/utlpriorityqueue.h"
+        "../../public/tier1/utlrbtree.h"
+        "../../public/tier1/utlvector.h"
+        "../../public/UnicodeFileHelpers.h"
+        "../../public/vgui/Cursor.h"
+        "../../public/vgui/KeyCode.h"
+        "../../public/vgui/keyrepeat.h"
+        "../../public/vgui/VGUI.h"
+        "../../public/vstdlib/vstdlib.h"
+        )
+source_group("VGui2\\Public Header Files" FILES ${VGUI2__Public_Header_Files})
+
+set(VGUI2__Source_Files
+        "../../common/debug_dll_check.cpp"
+        "../../public/filesystem_helpers.cpp"
+        "../../public/filesystem_init.cpp"
+        "../../public/tier0/memoverride.cpp"
+        "../../public/UnicodeFileHelpers.cpp"
+        "../components/vgui2/src/Bitmap.cpp"
+        "../components/vgui2/src/Border.cpp"
+        "../components/vgui2/src/fileimage.cpp"
+        "../components/vgui2/src/ImageBorder.cpp"
+        "../components/vgui2/src/InputWin32.cpp"
+        "../components/vgui2/src/keyrepeat.cpp"
+        "../components/vgui2/src/LocalizedStringTable.cpp"
+        "../components/vgui2/src/MemoryBitmap.cpp"
+        "../components/vgui2/src/Memorybitmap.h"
+        "../components/vgui2/src/MessageListener.cpp"
+        "../components/vgui2/src/ScalableImageBorder.cpp"
+        "../components/vgui2/src/Scheme.cpp"
+        "../components/vgui2/src/Surface.cpp"
+        "../components/vgui2/src/System.cpp"
+        "../components/vgui2/src/vgui.cpp"
+        "../components/vgui2/src/vgui_internal.cpp"
+        "../components/vgui2/src/vgui_key_translation.cpp"
+        "../components/vgui2/src/VPanel.cpp"
+        "../components/vgui2/src/VPanelWrapper.cpp"
+        )
+source_group("VGui2\\Source Files" FILES ${VGUI2__Source_Files})
+
+set(VGUI2__FILES
+        ${VGUI2__Header_Files}
+        ${VGUI2__Interfaces}
+        ${VGUI2__Public_Header_Files}
+        ${VGUI2__Source_Files}
+        )
+
+
+set(Input_Public_Headers
+        "../../thirdparty/dxsdk/include/XInput.h"
+        "../../public/inputsystem/AnalogCode.h"
+        "../../public/inputsystem/ButtonCode.h"
+        "../../public/inputsystem/iinputsystem.h"
+        "../../public/inputsystem/InputEnums.h"
+        )
+source_group("Input Public Headers" FILES ${Input_Public_Headers})
+
+set(Input_Source_Files
+        "../../common/debug_dll_check.cpp"
+        "../../public/tier0/memoverride.cpp"
+        "../components/input/inputsystem.cpp"
+        "../components/input/inputsystem.h"
+        "../components/input/joystick_sdl.cpp"
+        "../components/input/key_translation.cpp"
+        "../components/input/key_translation.h"
+        "../components/input/novint.cpp"
+        "../components/input/steamcontroller.cpp"
+        )
+source_group("Input Source Files" FILES ${Input_Source_Files})
+
+
+set(ALL_FILES
+        ${Audio}
+        ${Audio__Header_Files}
+        ${Input_Public_Headers}
+        ${Input_Source_Files}
+        ${rebuiltin}
+        ${Client}
+        ${Header_Files}
+        ${Link_Libraries}
+        ${Public_Headers}
+        ${Resource_Files}
+        ${Server}
+        ${Source_Files}
+        ${Tools_Framework}
+        ${VP__FILES}
+        ${VGUI_Panels}
+        ${VGUI2__FILES}
+        ${VGUISURFACELIB__Header_Files}
+        ${VGUISURFACELIB__Public_Header_Files}
+        ${VGUISURFACELIB__Source_Files}
+        )
+
+################################################################################
+# Target
+################################################################################
+add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
+
+use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
+################################################################################
+# Target name
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES
+        TARGET_NAME_DEBUG "engine"
+        TARGET_NAME_RELEASE "engine"
+        )
+################################################################################
+# Output directory
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        )
+set_target_properties(${PROJECT_NAME} PROPERTIES
+        PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
+        )
+################################################################################
+# MSVC runtime library
+################################################################################
+get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
+string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
+        $<$<CONFIG:Debug>:
+        MultiThreadedDebug
+        >
+        $<$<CONFIG:Release>:
+        MultiThreaded
+        >
+        $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
+        )
+set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
+
+################################################################################
+# Include directories
+################################################################################
+target_include_directories(${PROJECT_NAME} PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/SDL2;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/.;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/..;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../components;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/audio;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../components/audio/private;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../components/audio/public;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../rebuiltin;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/include;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/controls;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/dxsdk/include;"
+
+        "${MYROOTDIR}/ivp/ivp_intern;"
+        "${MYROOTDIR}/ivp/ivp_collision;"
+        "${MYROOTDIR}/ivp/ivp_physics;"
+        "${MYROOTDIR}/ivp/ivp_surface_manager;"
+        "${MYROOTDIR}/ivp/ivp_utility;"
+        "${MYROOTDIR}/ivp/ivp_controller;"
+        "${MYROOTDIR}/ivp/ivp_compact_builder;"
+        "${MYROOTDIR}/ivp/havana/havok;"
+        "${MYROOTDIR}/ivp/havana"
+        )
+
+################################################################################
+# Compile definitions
+################################################################################
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+        "$<$<CONFIG:Debug>:"
+        "DISABLE_ETW;"
+        "_DEBUG;"
+        "DEBUG;"
+        "_SCL_SECURE_NO_WARNINGS"
+        ">"
+        "$<$<CONFIG:Release>:"
+        "NDEBUG;"
+        "_ALLOW_RUNTIME_LIBRARY_MISMATCH;"
+        "_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;"
+        "_ALLOW_MSC_VER_MISMATCH"
+        ">"
+        "VPC;"
+        "RAD_TELEMETRY_DISABLED;"
+        "WIN32;"
+        "_WIN32;"
+        "_WINDOWS;"
+        "_USRDLL;"
+        "_CRT_SECURE_NO_DEPRECATE;"
+        "_CRT_NONSTDC_NO_DEPRECATE;"
+        "PLATFORM_32BITS;"
+        "COMPILER_MSVC32;"
+        "COMPILER_MSVC;"
+        "_DLL_EXT=.dll;"
+        "DLLNAME=engine;"
+        "BINK_VIDEO;"
+        "AVI_VIDEO;"
+        "WMV_VIDEO;"
+        "DEV_BUILD;"
+        "FRAME_POINTER_OMISSION_DISABLED;"
+        "REPLAY_ENABLED;"
+        "USE_CONVARS;"
+        "VOICE_OVER_IP;"
+        "BUMPMAP;"
+        "__USEA3D;"
+        "_ADD_EAX_;"
+        "VERSION_SAFE_STEAM_API_INTERFACES;"
+        "USE_BREAKPAD_HANDLER;"
+        "NEW_DXSDK;"
+        "_EXTERNAL_DLL_EXT=.dll;"
+        "VPCGAMECAPS=VANCE;"
+        "PROJECTDIR=E:\\ReCrash\\ProjectRe\\InvadeEngine\\src\\engine;"
+        "SOURCE1=1;"
+        "FUCK_STEAM;"
+        "VPCGAME=tf;"
+        "_MBCS;"
+
+        "ENGINE_DLL;"
+        "VGUIMATSURFACE_DLL_EXPORT;"
+        "GAMEUI_EXPORTS;"
+        "VPHYSICS_EXPORTS;"
+        "HAVANA_CONSTRAINTS;"
+        "HAVOK_MOPP"
+        )
+
+################################################################################
+# Compile and link options
+################################################################################
+if (MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+            $<$<CONFIG:Debug>:
+            /Od;
+            /ZI
+            >
+            $<$<CONFIG:Release>:
+            /O2;
+            /Ob2;
+            /Oi;
+            /Gy;
+            /Zi;
+            /Ot;
+            /Zo;
+            /Oy-
+            >
+            /MP;
+
+            /GF;
+            /W4;
+            /WX-;
+            /TP;
+            /fp:fast;
+            /GR;
+            /wd4316;
+            /wd4577;
+            /wd4091;
+            /Zm750;
+            /Gw;
+            /Zc:inline;
+            /Zc:threadSafeInit-;
+            /Wv:18;
+            /GS;
+            /Zc:forScope
+            )
+    string(CONCAT FILE_CL_OPTIONS
+            "/Y-"
+            )
+    source_file_compile_options(../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+            "/Y-"
+            )
+    source_file_compile_options(../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+            "/EHa;/Y-"
+            )
+    source_file_compile_options(sys_dll2.cpp ${FILE_CL_OPTIONS})
+    target_link_options(${PROJECT_NAME} PRIVATE
+            $<$<CONFIG:Debug>:
+            /NODEFAULTLIB:libcmt;
+            /NODEFAULTLIB:libcpmt;
+            /NODEFAULTLIB:libcpmt1;
+            /NOLOGO;
+            /INCREMENTAL
+            >
+            $<$<CONFIG:Release>:
+            /NODEFAULTLIB:libcmtd;
+            /NODEFAULTLIB:libcpmtd;
+            /NODEFAULTLIB:libcpmtd0;
+            /NODEFAULTLIB:libcpmtd1;
+            /OPT:REF;
+            /OPT:NOICF;
+            /INCREMENTAL:NO
+            >
+            /NODEFAULTLIB:libc;
+            /NODEFAULTLIB:libcd;
+            /MANIFEST:NO;
+            /DEBUG:FASTLINK;
+            /SAFESEH:NO;
+            /SUBSYSTEM:WINDOWS;
+            /DYNAMICBASE:NO;
+            /ignore:4221;
+
+            )
+endif ()
+
+################################################################################
+# Dependencies
+################################################################################
+add_dependencies(${PROJECT_NAME}
+        Bzip2
+        Dmxloader
+        appframework
+        bitmap
+        mathlib
+        matsys_controls
+        replay_common
+        tier0
+        tier1
+        tier2
+        tier3
+        vgui_controls
+        vgui_surfacelib
+        vstdlib
+        vtf
+        ivp
+        zlib
+        )
+
+set(ADDITIONAL_LIBRARY_DEPENDENCIES
+        Bzip2
+        Dmxloader
+        appframework
+        bitmap
+        mathlib
+        matsys_controls
+        replay_common
+        tier0
+        tier1
+        tier2
+        tier3
+        vgui_controls
+        vgui_surfacelib
+        vstdlib
+        vtf
+        ivp
+        zlib
+        Jpeglib
+
+        steamemu
+
+        dsound
+        dxguid
+
+
+        SDL2
+
+        "shell32;"
+        "user32;"
+        "advapi32;"
+        "gdi32;"
+        "comdlg32;"
+        "ole32;"
+        "dinput8;"
+        "winmm;"
+        "wsock32;"
+        "ws2_32;"
+        "shlwapi;"
+        "wininet;"
+        "Imm32;"
+        "vfw32;"
+        "Rpcrt4"
+        )
+target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
+
+target_link_directories(${PROJECT_NAME} PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/../lib/common;"
+
+        "${CMAKE_CURRENT_SOURCE_DIR}/../dx9sdk/lib/x86"
+        )
+

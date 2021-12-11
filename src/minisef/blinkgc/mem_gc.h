@@ -1,0 +1,3 @@
+﻿
+
+void memgc_test();

@@ -1,0 +1,66 @@
+// STATIC: "CONVERT_TO_SRGB" "0..1"	[ps20b][= g_pHardwareConfig->NeedsShaderSRGBConversion()] [PC]
+// STATIC: "CONVERT_TO_SRGB" "0..0"	[= 0] [XBOX]
+
+#define HDRTYPE HDR_TYPE_NONE
+#include "common_ps_fxc.h"
+
+sampler FBSampler			: register( s0 );
+sampler CSMSampler			: register( s1 );
+sampler LightsSampler		: register( s2 );
+sampler SkySampler			: register( s3 );
+sampler PositionSampler		: register( s4 );
+sampler SpotLightsSampler	: register( s5 );
+sampler VolumetricsSampler	: register( s6 );
+
+const float2 g_resolution						: register( c1 );
+
+float3 BoxFilter(sampler tex, float2 UV)
+{
+	float2 pixelSize = 2.0f.xx / g_resolution;
+	float3 result = tex2D( tex, float2(UV.x, UV.y) ).rgb;
+	result += tex2D( tex, float2(UV.x + pixelSize.x, UV.y) ).rgb;
+	result += tex2D( tex, float2(UV.x, UV.y + pixelSize.y) ).rgb;
+	result += tex2D( tex, float2(UV.x - pixelSize.x, UV.y) ).rgb;
+	result += tex2D( tex, float2(UV.x, UV.y - pixelSize.x) ).rgb;
+	result += tex2D( tex, float2(UV.x + pixelSize.x, UV.y + pixelSize.y) ).rgb;
+	result += tex2D( tex, float2(UV.x - pixelSize.x, UV.y + pixelSize.y) ).rgb;
+	result += tex2D( tex, float2(UV.x + pixelSize.x, UV.y - pixelSize.y) ).rgb;
+	result += tex2D( tex, float2(UV.x - pixelSize.x, UV.y - pixelSize.y) ).rgb;
+	
+	result /= 9;
+	return result;
+}
+
+float3 PCF(sampler tex, float2 uv){
+    float3 result = 0.0f.xxx;
+    for(int x=-2; x<2+1; x++){
+        for(int y=-2; y<2+1; y++){
+            float2 off = float2(x,y)/g_resolution * 2.0f;
+            result += tex2D(tex, uv+off);
+        }
+    }
+    return result/25.0f;
+}
+
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+	float4x4 viewProj			: TEXCOORD2;
+};
+
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float3 fbSample = tex2D( FBSampler, i.texCoord ).rgb;
+	float3 csmSample = tex2D( CSMSampler, i.texCoord ).rgb;
+	float3 lightsSample = tex2D( LightsSampler, i.texCoord ).rgb;
+	float3 spotLights = tex2D( SpotLightsSampler, i.texCoord ).rgb;
+	float3 Sky = tex2D( SkySampler, i.texCoord ).rgb;
+	float SkyMask = tex2D( PositionSampler, i.texCoord ).a;
+
+	float3 volumetrics = PCF( VolumetricsSampler, i.texCoord).rgb;
+
+	float3 result = fbSample + (csmSample + lightsSample + spotLights) + volumetrics;
+
+	return FinalOutput( float4( lerp(result, Sky, SkyMask), 1.0f ), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE );
+}

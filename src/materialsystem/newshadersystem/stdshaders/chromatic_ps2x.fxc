@@ -1,0 +1,31 @@
+// DYNAMIC:  "RADIAL"			"0..1"
+
+#include "common_ps_fxc.h"
+
+sampler fb	: register( s0 ); //frontbuffer
+
+const float focusoffset	: register( c0 );
+
+// Structs
+struct VS_OUTPUT
+{
+   	float4 Position   : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+};
+
+float4 main( VS_OUTPUT IN ) : COLOR
+{
+#if RADIAL
+	float2 textureCoords = IN.TexCoord0.xy - 0.5;
+	float offset = dot(textureCoords, textureCoords) * focusoffset;
+	offset /= 1000;
+#else
+	float offset = focusoffset/1000;
+#endif
+	float3 result = tex2D(fb, IN.TexCoord0).xyz;
+	result.r = tex2D(fb, IN.TexCoord0+float2(offset,0)).r;
+	result.g = tex2D(fb, IN.TexCoord0-float2(offset,0)).g;
+	result.b = tex2D(fb, IN.TexCoord0-float2(offset,0)).b;
+
+	return float4(result,1);
+}

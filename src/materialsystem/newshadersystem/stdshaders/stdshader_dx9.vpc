@@ -1,0 +1,127 @@
+//-----------------------------------------------------------------------------
+//	STDSHADER_DX9.vpc
+//
+//	Project Script for mods to use an an example of how to override shaders
+//-----------------------------------------------------------------------------
+
+$Macro SRCDIR		"..\.."
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+
+$Configuration	"Debug"
+{
+	$General
+	{
+		$OutputDirectory		"Debug_dx9"			[$WIN32]
+		$IntermediateDirectory	"Debug_dx9"			[$WIN32]
+	}
+}
+
+$Configuration	"Release"
+{
+	$General
+	{
+		$OutputDirectory		"Release_dx9"		[$WIN32]
+		$IntermediateDirectory	"Release_dx9"		[$WIN32]
+	}
+}
+
+// Common Configuration
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories	"$BASE;fxctmp9;vshtmp9;"	[$WIN32||$POSIX]
+		$AdditionalIncludeDirectories	"$BASE;fxctmp9_360;vshtmp9_360"					[$X360]
+		$AdditionalIncludeDirectories	"$BASE;.\;.\vance;.\deferred"
+		$PreprocessorDefinitions		"$BASE;STDSHADER;FAST_MATERIALVAR_ACCESS"
+		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [($WIN32||$X360) && !$GL]
+		$PreprocessorDefinitions		"$BASE;VANCE"
+	}
+
+	$Linker
+	{
+		$AdditionalDependencies			"$BASE version.lib winmm.lib"	[$WIN32]
+		$SystemLibraries                                                        "iconv" [$OSXALL]
+	}
+}
+
+$Project "stdshader_dx9"
+{
+	$Folder	"Source Files"
+	{
+
+		$Folder	"Post-processing"
+		{
+			$File	"vance/chromatic.cpp"
+			$File	"vance/fxaa.cpp"
+			$File	"vance/gaussian_depthaware.cpp"
+			$File	"vance/gaussianx.cpp"
+			$File	"vance/gaussiany.cpp"
+			$File	"vance/screenwater.cpp"
+			$File	"vance/unsharp.cpp"
+			$File	"vance/unsharp_blur.cpp"
+			$File	"vance/luma.cpp"
+			$File	"vance/tonemap.cpp"
+			$File	"vance/Bloom_combine.cpp"
+			$File	"vance/ssao_combine.cpp"
+			$File	"vance/SSGI.cpp"
+			$File	"vance/skydome_atmosphere.cpp"
+			$File	"vance/skydome_atmosphere_helper.cpp"
+			$File	"vance/skydome_atmosphere_helper.h"
+		}
+		$File	"BaseVSShader.cpp"
+		$File	"screenspace_general.cpp"
+				
+		$File	"lightmappedgeneric_dx9.cpp"
+		$File	"lightmappedgeneric_dx9_helper.cpp"
+		$File	"lightmappedgeneric_dx9_helper.h"
+		$File	"worldvertextransition.cpp"
+
+		$File	"vertexlitgeneric_dx9.cpp"
+		$File	"vertexlitgeneric_dx9_helper.cpp"
+		$File	"vertexlitgeneric_dx9_helper.h"
+
+		$File	"VertexlitPBR_dx9.cpp"
+		$File	"VertexlitPBR_dx9_helper.cpp"
+		$File	"VertexlitPBR_dx9_helper.h"
+
+		$File	"LightmappedPBR_dx9.cpp"
+		$File	"LightmappedPBR_dx9_helper.cpp"
+		$File	"LightmappedPBR_dx9_helper.h"
+		
+		$File	"lightpass_helper.cpp"
+		$File	"lightpass_helper.h"
+		
+
+		$Folder	"Engine"
+		{
+			$File	"AccumBuff4Sample.cpp"
+			$File	"accumbuff5sample.cpp"
+			$File	"BufferClearObeyStencil_dx9.cpp"
+			$File	"depthwrite.cpp"
+			$File	"writez_dx9.cpp"
+			$File	"writestencil_dx9.cpp"
+			$File	"wireframe_dx9.cpp"
+			$File	"shadow.cpp"
+			$File	"shadowbuild_dx9.cpp"
+		}
+		
+		$File	"deferred/IDeferredExt.cpp"
+
+		$Folder	"Remove me when VAC2 is out" [$WIN32]
+		{
+			$File	"$SRCDIR\tier1\checksum_crc.cpp"
+			$File	"$SRCDIR\tier1\checksum_md5.cpp"
+			$File	"..\shader_dll_verify.cpp"
+			$File	"..\shader_dll_verify.h"
+		}
+	}
+
+	$Folder "Link Libraries"
+	{
+        $Lib	mathlib
+        $Lib	shaderlib
+    }
+}

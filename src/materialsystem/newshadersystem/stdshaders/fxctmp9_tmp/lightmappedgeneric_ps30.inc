@@ -1,0 +1,662 @@
+#include "shaderlib/cshader.h"
+class lightmappedgeneric_ps30_Static_Index
+{
+private:
+	int m_nMASKEDBLENDING;
+#ifdef _DEBUG
+	bool m_bMASKEDBLENDING;
+#endif
+public:
+	void SetMASKEDBLENDING( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nMASKEDBLENDING = i;
+#ifdef _DEBUG
+		m_bMASKEDBLENDING = true;
+#endif
+	}
+	void SetMASKEDBLENDING( bool i )
+	{
+		m_nMASKEDBLENDING = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bMASKEDBLENDING = true;
+#endif
+	}
+private:
+	int m_nBASETEXTURE2;
+#ifdef _DEBUG
+	bool m_bBASETEXTURE2;
+#endif
+public:
+	void SetBASETEXTURE2( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nBASETEXTURE2 = i;
+#ifdef _DEBUG
+		m_bBASETEXTURE2 = true;
+#endif
+	}
+	void SetBASETEXTURE2( bool i )
+	{
+		m_nBASETEXTURE2 = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bBASETEXTURE2 = true;
+#endif
+	}
+private:
+	int m_nDETAILTEXTURE;
+#ifdef _DEBUG
+	bool m_bDETAILTEXTURE;
+#endif
+public:
+	void SetDETAILTEXTURE( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nDETAILTEXTURE = i;
+#ifdef _DEBUG
+		m_bDETAILTEXTURE = true;
+#endif
+	}
+	void SetDETAILTEXTURE( bool i )
+	{
+		m_nDETAILTEXTURE = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bDETAILTEXTURE = true;
+#endif
+	}
+private:
+	int m_nBUMPMAP;
+#ifdef _DEBUG
+	bool m_bBUMPMAP;
+#endif
+public:
+	void SetBUMPMAP( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nBUMPMAP = i;
+#ifdef _DEBUG
+		m_bBUMPMAP = true;
+#endif
+	}
+	void SetBUMPMAP( bool i )
+	{
+		m_nBUMPMAP = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bBUMPMAP = true;
+#endif
+	}
+private:
+	int m_nBUMPMAP2;
+#ifdef _DEBUG
+	bool m_bBUMPMAP2;
+#endif
+public:
+	void SetBUMPMAP2( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nBUMPMAP2 = i;
+#ifdef _DEBUG
+		m_bBUMPMAP2 = true;
+#endif
+	}
+	void SetBUMPMAP2( bool i )
+	{
+		m_nBUMPMAP2 = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bBUMPMAP2 = true;
+#endif
+	}
+private:
+	int m_nCUBEMAP;
+#ifdef _DEBUG
+	bool m_bCUBEMAP;
+#endif
+public:
+	void SetCUBEMAP( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nCUBEMAP = i;
+#ifdef _DEBUG
+		m_bCUBEMAP = true;
+#endif
+	}
+	void SetCUBEMAP( bool i )
+	{
+		m_nCUBEMAP = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bCUBEMAP = true;
+#endif
+	}
+private:
+	int m_nENVMAPMASK;
+#ifdef _DEBUG
+	bool m_bENVMAPMASK;
+#endif
+public:
+	void SetENVMAPMASK( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nENVMAPMASK = i;
+#ifdef _DEBUG
+		m_bENVMAPMASK = true;
+#endif
+	}
+	void SetENVMAPMASK( bool i )
+	{
+		m_nENVMAPMASK = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bENVMAPMASK = true;
+#endif
+	}
+private:
+	int m_nBASEALPHAENVMAPMASK;
+#ifdef _DEBUG
+	bool m_bBASEALPHAENVMAPMASK;
+#endif
+public:
+	void SetBASEALPHAENVMAPMASK( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nBASEALPHAENVMAPMASK = i;
+#ifdef _DEBUG
+		m_bBASEALPHAENVMAPMASK = true;
+#endif
+	}
+	void SetBASEALPHAENVMAPMASK( bool i )
+	{
+		m_nBASEALPHAENVMAPMASK = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bBASEALPHAENVMAPMASK = true;
+#endif
+	}
+private:
+	int m_nSELFILLUM;
+#ifdef _DEBUG
+	bool m_bSELFILLUM;
+#endif
+public:
+	void SetSELFILLUM( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nSELFILLUM = i;
+#ifdef _DEBUG
+		m_bSELFILLUM = true;
+#endif
+	}
+	void SetSELFILLUM( bool i )
+	{
+		m_nSELFILLUM = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bSELFILLUM = true;
+#endif
+	}
+private:
+	int m_nNORMALMAPALPHAENVMAPMASK;
+#ifdef _DEBUG
+	bool m_bNORMALMAPALPHAENVMAPMASK;
+#endif
+public:
+	void SetNORMALMAPALPHAENVMAPMASK( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nNORMALMAPALPHAENVMAPMASK = i;
+#ifdef _DEBUG
+		m_bNORMALMAPALPHAENVMAPMASK = true;
+#endif
+	}
+	void SetNORMALMAPALPHAENVMAPMASK( bool i )
+	{
+		m_nNORMALMAPALPHAENVMAPMASK = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bNORMALMAPALPHAENVMAPMASK = true;
+#endif
+	}
+private:
+	int m_nDIFFUSEBUMPMAP;
+#ifdef _DEBUG
+	bool m_bDIFFUSEBUMPMAP;
+#endif
+public:
+	void SetDIFFUSEBUMPMAP( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nDIFFUSEBUMPMAP = i;
+#ifdef _DEBUG
+		m_bDIFFUSEBUMPMAP = true;
+#endif
+	}
+	void SetDIFFUSEBUMPMAP( bool i )
+	{
+		m_nDIFFUSEBUMPMAP = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bDIFFUSEBUMPMAP = true;
+#endif
+	}
+private:
+	int m_nBASETEXTURENOENVMAP;
+#ifdef _DEBUG
+	bool m_bBASETEXTURENOENVMAP;
+#endif
+public:
+	void SetBASETEXTURENOENVMAP( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nBASETEXTURENOENVMAP = i;
+#ifdef _DEBUG
+		m_bBASETEXTURENOENVMAP = true;
+#endif
+	}
+	void SetBASETEXTURENOENVMAP( bool i )
+	{
+		m_nBASETEXTURENOENVMAP = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bBASETEXTURENOENVMAP = true;
+#endif
+	}
+private:
+	int m_nBASETEXTURE2NOENVMAP;
+#ifdef _DEBUG
+	bool m_bBASETEXTURE2NOENVMAP;
+#endif
+public:
+	void SetBASETEXTURE2NOENVMAP( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nBASETEXTURE2NOENVMAP = i;
+#ifdef _DEBUG
+		m_bBASETEXTURE2NOENVMAP = true;
+#endif
+	}
+	void SetBASETEXTURE2NOENVMAP( bool i )
+	{
+		m_nBASETEXTURE2NOENVMAP = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bBASETEXTURE2NOENVMAP = true;
+#endif
+	}
+private:
+	int m_nFANCY_BLENDING;
+#ifdef _DEBUG
+	bool m_bFANCY_BLENDING;
+#endif
+public:
+	void SetFANCY_BLENDING( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nFANCY_BLENDING = i;
+#ifdef _DEBUG
+		m_bFANCY_BLENDING = true;
+#endif
+	}
+	void SetFANCY_BLENDING( bool i )
+	{
+		m_nFANCY_BLENDING = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bFANCY_BLENDING = true;
+#endif
+	}
+private:
+	int m_nSEAMLESS;
+#ifdef _DEBUG
+	bool m_bSEAMLESS;
+#endif
+public:
+	void SetSEAMLESS( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nSEAMLESS = i;
+#ifdef _DEBUG
+		m_bSEAMLESS = true;
+#endif
+	}
+	void SetSEAMLESS( bool i )
+	{
+		m_nSEAMLESS = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bSEAMLESS = true;
+#endif
+	}
+private:
+	int m_nBUMPMASK;
+#ifdef _DEBUG
+	bool m_bBUMPMASK;
+#endif
+public:
+	void SetBUMPMASK( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nBUMPMASK = i;
+#ifdef _DEBUG
+		m_bBUMPMASK = true;
+#endif
+	}
+	void SetBUMPMASK( bool i )
+	{
+		m_nBUMPMASK = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bBUMPMASK = true;
+#endif
+	}
+public:
+	lightmappedgeneric_ps30_Static_Index( )
+	{
+#ifdef _DEBUG
+		m_bMASKEDBLENDING = false;
+#endif // _DEBUG
+		m_nMASKEDBLENDING = 0;
+#ifdef _DEBUG
+		m_bBASETEXTURE2 = false;
+#endif // _DEBUG
+		m_nBASETEXTURE2 = 0;
+#ifdef _DEBUG
+		m_bDETAILTEXTURE = false;
+#endif // _DEBUG
+		m_nDETAILTEXTURE = 0;
+#ifdef _DEBUG
+		m_bBUMPMAP = false;
+#endif // _DEBUG
+		m_nBUMPMAP = 0;
+#ifdef _DEBUG
+		m_bBUMPMAP2 = false;
+#endif // _DEBUG
+		m_nBUMPMAP2 = 0;
+#ifdef _DEBUG
+		m_bCUBEMAP = false;
+#endif // _DEBUG
+		m_nCUBEMAP = 0;
+#ifdef _DEBUG
+		m_bENVMAPMASK = false;
+#endif // _DEBUG
+		m_nENVMAPMASK = 0;
+#ifdef _DEBUG
+		m_bBASEALPHAENVMAPMASK = false;
+#endif // _DEBUG
+		m_nBASEALPHAENVMAPMASK = 0;
+#ifdef _DEBUG
+		m_bSELFILLUM = false;
+#endif // _DEBUG
+		m_nSELFILLUM = 0;
+#ifdef _DEBUG
+		m_bNORMALMAPALPHAENVMAPMASK = false;
+#endif // _DEBUG
+		m_nNORMALMAPALPHAENVMAPMASK = 0;
+#ifdef _DEBUG
+		m_bDIFFUSEBUMPMAP = false;
+#endif // _DEBUG
+		m_nDIFFUSEBUMPMAP = 0;
+#ifdef _DEBUG
+		m_bBASETEXTURENOENVMAP = false;
+#endif // _DEBUG
+		m_nBASETEXTURENOENVMAP = 0;
+#ifdef _DEBUG
+		m_bBASETEXTURE2NOENVMAP = false;
+#endif // _DEBUG
+		m_nBASETEXTURE2NOENVMAP = 0;
+#ifdef _DEBUG
+		m_bFANCY_BLENDING = false;
+#endif // _DEBUG
+		m_nFANCY_BLENDING = 0;
+#ifdef _DEBUG
+		m_bSEAMLESS = false;
+#endif // _DEBUG
+		m_nSEAMLESS = 0;
+#ifdef _DEBUG
+		m_bBUMPMASK = false;
+#endif // _DEBUG
+		m_nBUMPMASK = 0;
+	}
+	int GetIndex()
+	{
+		// Asserts to make sure that we aren't using any skipped combinations.
+		// Asserts to make sure that we are setting all of the combination vars.
+#ifdef _DEBUG
+		bool bAllStaticVarsDefined = m_bMASKEDBLENDING && m_bBASETEXTURE2 && m_bDETAILTEXTURE && m_bBUMPMAP && m_bBUMPMAP2 && m_bCUBEMAP && m_bENVMAPMASK && m_bBASEALPHAENVMAPMASK && m_bSELFILLUM && m_bNORMALMAPALPHAENVMAPMASK && m_bDIFFUSEBUMPMAP && m_bBASETEXTURENOENVMAP && m_bBASETEXTURE2NOENVMAP && m_bFANCY_BLENDING && m_bSEAMLESS && m_bBUMPMASK;
+		Assert( bAllStaticVarsDefined );
+#endif // _DEBUG
+		return ( 1152 * m_nMASKEDBLENDING ) + ( 2304 * m_nBASETEXTURE2 ) + ( 4608 * m_nDETAILTEXTURE ) + ( 9216 * m_nBUMPMAP ) + ( 18432 * m_nBUMPMAP2 ) + ( 36864 * m_nCUBEMAP ) + ( 73728 * m_nENVMAPMASK ) + ( 147456 * m_nBASEALPHAENVMAPMASK ) + ( 294912 * m_nSELFILLUM ) + ( 589824 * m_nNORMALMAPALPHAENVMAPMASK ) + ( 1179648 * m_nDIFFUSEBUMPMAP ) + ( 2359296 * m_nBASETEXTURENOENVMAP ) + ( 4718592 * m_nBASETEXTURE2NOENVMAP ) + ( 9437184 * m_nFANCY_BLENDING ) + ( 18874368 * m_nSEAMLESS ) + ( 37748736 * m_nBUMPMASK ) + 0;
+	}
+};
+#define shaderStaticTest_lightmappedgeneric_ps30 psh_forgot_to_set_static_MASKEDBLENDING + psh_forgot_to_set_static_BASETEXTURE2 + psh_forgot_to_set_static_DETAILTEXTURE + psh_forgot_to_set_static_BUMPMAP + psh_forgot_to_set_static_BUMPMAP2 + psh_forgot_to_set_static_CUBEMAP + psh_forgot_to_set_static_ENVMAPMASK + psh_forgot_to_set_static_BASEALPHAENVMAPMASK + psh_forgot_to_set_static_SELFILLUM + psh_forgot_to_set_static_NORMALMAPALPHAENVMAPMASK + psh_forgot_to_set_static_DIFFUSEBUMPMAP + psh_forgot_to_set_static_BASETEXTURENOENVMAP + psh_forgot_to_set_static_BASETEXTURE2NOENVMAP + psh_forgot_to_set_static_FANCY_BLENDING + psh_forgot_to_set_static_SEAMLESS + psh_forgot_to_set_static_BUMPMASK + 0
+class lightmappedgeneric_ps30_Dynamic_Index
+{
+private:
+	int m_nFASTPATHENVMAPCONTRAST;
+#ifdef _DEBUG
+	bool m_bFASTPATHENVMAPCONTRAST;
+#endif
+public:
+	void SetFASTPATHENVMAPCONTRAST( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nFASTPATHENVMAPCONTRAST = i;
+#ifdef _DEBUG
+		m_bFASTPATHENVMAPCONTRAST = true;
+#endif
+	}
+	void SetFASTPATHENVMAPCONTRAST( bool i )
+	{
+		m_nFASTPATHENVMAPCONTRAST = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bFASTPATHENVMAPCONTRAST = true;
+#endif
+	}
+private:
+	int m_nCUBEMAPCORRECTED;
+#ifdef _DEBUG
+	bool m_bCUBEMAPCORRECTED;
+#endif
+public:
+	void SetCUBEMAPCORRECTED( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nCUBEMAPCORRECTED = i;
+#ifdef _DEBUG
+		m_bCUBEMAPCORRECTED = true;
+#endif
+	}
+	void SetCUBEMAPCORRECTED( bool i )
+	{
+		m_nCUBEMAPCORRECTED = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bCUBEMAPCORRECTED = true;
+#endif
+	}
+private:
+	int m_nFASTPATH;
+#ifdef _DEBUG
+	bool m_bFASTPATH;
+#endif
+public:
+	void SetFASTPATH( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nFASTPATH = i;
+#ifdef _DEBUG
+		m_bFASTPATH = true;
+#endif
+	}
+	void SetFASTPATH( bool i )
+	{
+		m_nFASTPATH = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bFASTPATH = true;
+#endif
+	}
+private:
+	int m_nWRITEWATERFOGTODESTALPHA;
+#ifdef _DEBUG
+	bool m_bWRITEWATERFOGTODESTALPHA;
+#endif
+public:
+	void SetWRITEWATERFOGTODESTALPHA( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nWRITEWATERFOGTODESTALPHA = i;
+#ifdef _DEBUG
+		m_bWRITEWATERFOGTODESTALPHA = true;
+#endif
+	}
+	void SetWRITEWATERFOGTODESTALPHA( bool i )
+	{
+		m_nWRITEWATERFOGTODESTALPHA = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bWRITEWATERFOGTODESTALPHA = true;
+#endif
+	}
+private:
+	int m_nPIXELFOGTYPE;
+#ifdef _DEBUG
+	bool m_bPIXELFOGTYPE;
+#endif
+public:
+	void SetPIXELFOGTYPE( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nPIXELFOGTYPE = i;
+#ifdef _DEBUG
+		m_bPIXELFOGTYPE = true;
+#endif
+	}
+	void SetPIXELFOGTYPE( bool i )
+	{
+		m_nPIXELFOGTYPE = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bPIXELFOGTYPE = true;
+#endif
+	}
+private:
+	int m_nLIGHTING_PREVIEW;
+#ifdef _DEBUG
+	bool m_bLIGHTING_PREVIEW;
+#endif
+public:
+	void SetLIGHTING_PREVIEW( int i )
+	{
+		Assert( i >= 0 && i <= 2 );
+		m_nLIGHTING_PREVIEW = i;
+#ifdef _DEBUG
+		m_bLIGHTING_PREVIEW = true;
+#endif
+	}
+	void SetLIGHTING_PREVIEW( bool i )
+	{
+		m_nLIGHTING_PREVIEW = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bLIGHTING_PREVIEW = true;
+#endif
+	}
+private:
+	int m_nWRITE_DEPTH_TO_DESTALPHA;
+#ifdef _DEBUG
+	bool m_bWRITE_DEPTH_TO_DESTALPHA;
+#endif
+public:
+	void SetWRITE_DEPTH_TO_DESTALPHA( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nWRITE_DEPTH_TO_DESTALPHA = i;
+#ifdef _DEBUG
+		m_bWRITE_DEPTH_TO_DESTALPHA = true;
+#endif
+	}
+	void SetWRITE_DEPTH_TO_DESTALPHA( bool i )
+	{
+		m_nWRITE_DEPTH_TO_DESTALPHA = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bWRITE_DEPTH_TO_DESTALPHA = true;
+#endif
+	}
+private:
+	int m_nCSM;
+#ifdef _DEBUG
+	bool m_bCSM;
+#endif
+public:
+	void SetCSM( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nCSM = i;
+#ifdef _DEBUG
+		m_bCSM = true;
+#endif
+	}
+	void SetCSM( bool i )
+	{
+		m_nCSM = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bCSM = true;
+#endif
+	}
+private:
+	int m_nCSM_PERF;
+#ifdef _DEBUG
+	bool m_bCSM_PERF;
+#endif
+public:
+	void SetCSM_PERF( int i )
+	{
+		Assert( i >= 0 && i <= 2 );
+		m_nCSM_PERF = i;
+#ifdef _DEBUG
+		m_bCSM_PERF = true;
+#endif
+	}
+	void SetCSM_PERF( bool i )
+	{
+		m_nCSM_PERF = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bCSM_PERF = true;
+#endif
+	}
+public:
+	lightmappedgeneric_ps30_Dynamic_Index()
+	{
+#ifdef _DEBUG
+		m_bFASTPATHENVMAPCONTRAST = false;
+#endif // _DEBUG
+		m_nFASTPATHENVMAPCONTRAST = 0;
+#ifdef _DEBUG
+		m_bCUBEMAPCORRECTED = false;
+#endif // _DEBUG
+		m_nCUBEMAPCORRECTED = 0;
+#ifdef _DEBUG
+		m_bFASTPATH = false;
+#endif // _DEBUG
+		m_nFASTPATH = 0;
+#ifdef _DEBUG
+		m_bWRITEWATERFOGTODESTALPHA = false;
+#endif // _DEBUG
+		m_nWRITEWATERFOGTODESTALPHA = 0;
+#ifdef _DEBUG
+		m_bPIXELFOGTYPE = false;
+#endif // _DEBUG
+		m_nPIXELFOGTYPE = 0;
+#ifdef _DEBUG
+		m_bLIGHTING_PREVIEW = false;
+#endif // _DEBUG
+		m_nLIGHTING_PREVIEW = 0;
+#ifdef _DEBUG
+		m_bWRITE_DEPTH_TO_DESTALPHA = false;
+#endif // _DEBUG
+		m_nWRITE_DEPTH_TO_DESTALPHA = 0;
+#ifdef _DEBUG
+		m_bCSM = false;
+#endif // _DEBUG
+		m_nCSM = 0;
+#ifdef _DEBUG
+		m_bCSM_PERF = false;
+#endif // _DEBUG
+		m_nCSM_PERF = 0;
+	}
+	int GetIndex()
+	{
+		// Asserts to make sure that we aren't using any skipped combinations.
+		// Asserts to make sure that we are setting all of the combination vars.
+#ifdef _DEBUG
+		bool bAllDynamicVarsDefined = m_bFASTPATHENVMAPCONTRAST && m_bCUBEMAPCORRECTED && m_bFASTPATH && m_bWRITEWATERFOGTODESTALPHA && m_bPIXELFOGTYPE && m_bLIGHTING_PREVIEW && m_bWRITE_DEPTH_TO_DESTALPHA && m_bCSM && m_bCSM_PERF;
+		Assert( bAllDynamicVarsDefined );
+#endif // _DEBUG
+		return ( 1 * m_nFASTPATHENVMAPCONTRAST ) + ( 2 * m_nCUBEMAPCORRECTED ) + ( 4 * m_nFASTPATH ) + ( 8 * m_nWRITEWATERFOGTODESTALPHA ) + ( 16 * m_nPIXELFOGTYPE ) + ( 32 * m_nLIGHTING_PREVIEW ) + ( 96 * m_nWRITE_DEPTH_TO_DESTALPHA ) + ( 192 * m_nCSM ) + ( 384 * m_nCSM_PERF ) + 0;
+	}
+};
+#define shaderDynamicTest_lightmappedgeneric_ps30 psh_forgot_to_set_dynamic_FASTPATHENVMAPCONTRAST + psh_forgot_to_set_dynamic_CUBEMAPCORRECTED + psh_forgot_to_set_dynamic_FASTPATH + psh_forgot_to_set_dynamic_WRITEWATERFOGTODESTALPHA + psh_forgot_to_set_dynamic_PIXELFOGTYPE + psh_forgot_to_set_dynamic_LIGHTING_PREVIEW + psh_forgot_to_set_dynamic_WRITE_DEPTH_TO_DESTALPHA + psh_forgot_to_set_dynamic_CSM + psh_forgot_to_set_dynamic_CSM_PERF + 0

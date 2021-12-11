@@ -1,0 +1,33 @@
+// ---------------------------------------------------------------
+// Auto Generated QPC Script - Fix if needed before using
+// ---------------------------------------------------------------
+macro PROJECT_NAME "appframework"
+
+macro SRC_DIR ".."
+
+include "$SRC_DIR/_qpc_scripts/source_lib_base.qpc"
+
+files
+{
+	folder "Source Files"
+	{
+		"AppSystemGroup.cpp"
+		"$SRC_DIR/public/filesystem_init.cpp"
+		"vguimatsysapp.cpp" [$WIN32]
+		"winapp.cpp" [$WIN32]
+		"posixapp.cpp" [$POSIX]
+		"sdlmgr.cpp" [$SDL]
+		"glmrendererinfo_osx.mm" [$OSX]
+	}
+
+	folder "Interface"
+	{
+		"$SRC_DIR/public/appframework/AppFramework.h"
+		"$SRC_DIR/public/appframework/IAppSystem.h"
+		"$SRC_DIR/public/appframework/IAppSystemGroup.h"
+		"$SRC_DIR/public/appframework/tier2app.h"
+		"$SRC_DIR/public/appframework/tier3app.h"
+		"$SRC_DIR/public/appframework/VguiMatSysApp.h"
+		"$SRC_DIR/public/appframework/ilaunchermgr.h"
+	}
+}

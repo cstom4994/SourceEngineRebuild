@@ -1,0 +1,94 @@
+#include "common_flashlight_fxc.h"
+
+#include "common_pbr.h"
+
+sampler sDepth : register(s0);
+sampler sNormals : register(s1);
+sampler sAlbedo : register(s2);
+sampler sMRAO : register(s3);
+
+
+float4 lightColor_InnerCos  : register(c0);
+float4 lightDir_OuterCos    : register(c1);
+float3 lightOrigin          : register(c2);
+float4 attnInfo             : register(c3);
+
+
+float4x4 g_ViewInv : register(c4);
+float4x4 g_ProjInv : register(c8);
+
+float3 g_EyePos : register(c12);
+
+struct PS_INPUT
+{
+    float4x4 viewProj   : TEXCOORD0;
+    float4 viewPos      : TEXCOORD4;
+};
+
+float3 readView(in float2 coord)
+{
+    float3 pos = tex2D(sDepth, float2(coord.x, coord.y)).xyz;
+    return float3(pos.x, pos.y, pos.z);
+}
+
+float3 readPos(in float2 coord)
+{
+    float3 view = readView(coord);
+    float4 ViewPos = mul(float4(view.xyz, 1.0f), g_ProjInv);
+    ViewPos.xyz /= ViewPos.w;
+    ViewPos.xyz = float3(ViewPos.xy, ViewPos.z);
+    float4 worldPos = mul(float4(ViewPos.xyz, 1.0f), g_ViewInv);
+    return float3(worldPos.xyz);
+}
+
+float3 readNormal(in float2 coord)
+{
+    float3 normal = tex2D(sNormals, float2(coord.x, coord.y)).rgb;
+    return normal;
+}
+
+float3 readAlbedo(in float2 coord)
+{
+    return tex2D(sAlbedo, coord);
+}
+
+float3 readMRAO(in float2 coord)
+{
+    return tex2D(sMRAO, coord);
+}
+
+float Lerp5(float f1, float f2, float i1, float i2, float x)
+{
+    return f1 + (f2 - f1) * (x - i1) / (i2 - i1);
+}
+
+float4 main( PS_INPUT i ) : COLOR
+{
+    float2 viewCoord = i.viewPos.xy / i.viewPos.w;
+    float2 texcoord = viewCoord * 0.5f + 0.5f;
+    texcoord.y = 1.0f-texcoord.y;
+    float3 normals = readNormal(texcoord);
+    float3 worldPos = readPos(texcoord);
+    float3 albedo = readAlbedo(texcoord);
+    float metallness = readMRAO(texcoord).r;
+    float roughness = readMRAO(texcoord).g;
+
+    float3 ldir = lightOrigin.xyz - worldPos.xyz;
+    float spot_dot = dot(normalize(ldir), -lightDir_OuterCos.xyz);
+    float dist = sqrt(dot(ldir, ldir));
+    float dist_falloff = (attnInfo.w / (attnInfo.x * dist * dist + attnInfo.y * dist + attnInfo.z + 1));
+    float spot_falloff = clamp((spot_dot - lightDir_OuterCos.w) / (lightColor_InnerCos.w - lightDir_OuterCos.w), 0.0, 1.0);
+  /*  if (spot_dot > lightDir_OuterCos.w)
+    {
+        //spot_falloff = 1.0f;
+        if (spot_dot < lightColor_InnerCos.w)
+        {
+            spot_falloff = Lerp5(1, 0, lightColor_InnerCos.w, lightDir_OuterCos.w, spot_dot);
+        }
+    }
+    */
+    float3 lighting = DoPBRLight(worldPos, normals, albedo, lightOrigin, lightColor_InnerCos.xyz, g_EyePos, dist_falloff * spot_falloff, metallness, roughness);
+    
+    return float4(lighting.xyz, 1.0f);
+}
+

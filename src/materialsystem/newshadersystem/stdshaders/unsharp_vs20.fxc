@@ -1,0 +1,25 @@
+// Includes
+#include "./common_vs_fxc.h"
+
+const float WindowSize              : register(SHADER_SPECIFIC_CONST_0);
+const float BlurSize              : register(SHADER_SPECIFIC_CONST_1);
+
+// Structs
+struct VS_OUTPUT
+{
+   	float4 Position   : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+    float2 TexCoord1  : TEXCOORD1;
+};
+
+// Main
+VS_OUTPUT main(float4 Position : POSITION, 
+				  float2 TexCoord : TEXCOORD0)
+{
+    VS_OUTPUT OUT;
+	float2 texelSize = 1.0 / WindowSize;
+    OUT.Position = Position;
+    OUT.TexCoord0 = TexCoord + texelSize*0.5;
+    OUT.TexCoord1 = TexCoord + texelSize*0.5/BlurSize;
+    return OUT;
+}

@@ -1,0 +1,31 @@
+// Includes
+#include "common_ps_fxc.h"
+
+sampler 		frameSampler				: register( s0 );
+sampler 		passSampler					: register( s1 );
+
+const float2	luminosity_threshold		: register( c0 );
+
+// Structs
+struct VS_OUTPUT
+{
+   	float4 Position   : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+};
+
+float4 main( VS_OUTPUT IN ) : COLOR0
+{
+   float3 color = tex2D(frameSampler, IN.TexCoord0).rgb;
+   float ao = tex2D(passSampler, IN.TexCoord0/2).r;
+
+   float luminance = color.r*0.3+color.g*0.59+color.b*0.11;
+   float white = 1.0;
+   float black = 0;
+
+   luminance = clamp(max(black,luminance-luminosity_threshold)+max(black,luminance-luminosity_threshold)+max(black,luminance-luminosity_threshold),0.0,1.0);
+   ao = lerp(ao,white,luminance);
+
+   color *= ao;
+
+   return float4(color,1);
+}

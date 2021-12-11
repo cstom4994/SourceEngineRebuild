@@ -1,0 +1,24 @@
+// ---------------------------------------------------------------
+// Auto Generated QPC Script - Fix if needed before using
+// ---------------------------------------------------------------
+project "dx_proxy_dx9_v00_pc" "utils/dx_proxy/dx_proxy_dx9_v00_pc.qpc" [$WIN32]
+
+project "dx_proxy_dx9_v30_pc" "utils/dx_proxy/dx_proxy_dx9_v30_pc.qpc" [$WIN32]
+
+project "dx_proxy_dx9_v00_x360" "utils/dx_proxy/dx_proxy_dx9_v00_x360.qpc" [$WIN32]
+
+project "dx_proxy_dx10_v00_pc" "utils/dx_proxy/dx_proxy_dx10_v00_pc.qpc" [$WIN32]
+
+group "dx_proxy" "source" "everything"
+{
+	"dx_proxy_dx10_v00_pc"
+	"dx_proxy_dx9_v00_pc"
+	"dx_proxy_dx9_v30_pc"
+	"dx_proxy_dx9_v00_x360"
+}
+
+configurations
+{
+	"Debug"
+	"Release"
+}

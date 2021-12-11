@@ -1,0 +1,5 @@
+..\..\dx9sdk\utilities\dx_proxy.dll 
+..\..\..\game\bin\shadercompile.exe 
+..\..\..\game\bin\shadercompile_dll.dll 
+..\..\..\game\bin\vstdlib.dll 
+..\..\..\game\bin\tier0.dll 

@@ -1,0 +1,42 @@
+// Includes
+#include "common_ps_fxc.h"
+
+sampler2D 	NormalSamp	: register( s1 );
+
+struct VS_OUTPUT
+{
+    float4 Position   : POSITION;
+    float4 Diffuse    : COLOR0;
+    float2 TexCoord0   : TEXCOORD0;
+    float2 TexCoord1   : TEXCOORD1;
+    float2 TexCoord2   : TEXCOORD2;
+    float2 TexCoord3   : TEXCOORD3;
+    float2 TexCoord4   : TEXCOORD4;
+    float2 TexCoord5   : TEXCOORD5;
+    float2 TexCoord6   : TEXCOORD6;
+    float2 TexCoord7   : TEXCOORD7;
+    float2 TexCoord8   : COLOR1;   
+};
+
+#define WT9_0 1.0
+#define WT9_1 0.9
+#define WT9_2 0.55
+#define WT9_3 0.18
+#define WT9_4 0.1
+
+#define WT9_NORMALIZE (WT9_0+2.0*(WT9_1+WT9_2+WT9_3+WT9_4))
+
+float4 main(VS_OUTPUT IN) : COLOR
+{   
+    float4 OutCol = tex2D(NormalSamp, IN.TexCoord0) * (WT9_1/WT9_NORMALIZE);
+    OutCol += tex2D(NormalSamp, IN.TexCoord1) * (WT9_2/WT9_NORMALIZE);
+    OutCol += tex2D(NormalSamp, IN.TexCoord2) * (WT9_3/WT9_NORMALIZE);
+    OutCol += tex2D(NormalSamp, IN.TexCoord3) * (WT9_4/WT9_NORMALIZE);
+    OutCol += tex2D(NormalSamp, IN.TexCoord4) * (WT9_0/WT9_NORMALIZE);
+    OutCol += tex2D(NormalSamp, IN.TexCoord5) * (WT9_1/WT9_NORMALIZE);
+    OutCol += tex2D(NormalSamp, IN.TexCoord6) * (WT9_2/WT9_NORMALIZE);
+    OutCol += tex2D(NormalSamp, IN.TexCoord7) * (WT9_3/WT9_NORMALIZE);
+    OutCol += tex2D(NormalSamp, IN.TexCoord8) * (WT9_4/WT9_NORMALIZE);
+	
+    return OutCol;
+} 

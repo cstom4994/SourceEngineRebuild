@@ -1,0 +1,142 @@
+//===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
+//
+// Example pixel shader that can be applied to models
+//
+//==================================================================================================
+
+// DYNAMIC: "RENDER_SKY"			"0..1"
+// STATIC: "CONVERT_TO_SRGB"			"0..0"
+
+#include "common_flashlight_fxc.h"
+#include "shader_constant_register_map.h"
+
+#define PI 3.1415926
+#define iSteps 14
+#define jSteps 7
+
+uniform sampler2D LUTSample		        : register( s0 );	// Base map, selfillum in alpha
+
+float4 g_SunPos				    : register( c0 );
+float4 g_SkyLum                 : register( c1 );
+
+float4 g_parameters             : register( c2 ); // x - sun size, y - sun bloom, z - exposition,  w - time
+float4 g_perezCoeff[5]          : register( c3 );
+
+/**** TWEAK *****************************************************************/
+#define COVERAGE		g_Coverage
+#define THICKNESS		g_Thickness
+#define ABSORPTION		2.030725
+#define WIND			float3(g_WindSpeed.x * g_Time, g_WindSpeed.y * g_Time, g_WindSpeed.z * g_Time)
+
+#define FBM_FREQ		2.76434
+#define SUN_DIR			normalize(g_SunPos.xyz)
+
+#define STEPS			int(g_WindSpeed.a)
+/******************************************************************************/
+
+//uniformly distributed, normalized rand, [0, 1)
+float nrand(in float2 n)
+{
+    return frac(sin(dot(n.xy, float2(12.9898, 78.233))) * 43758.5453);
+}
+
+float n4rand_ss(in float2 n)
+{
+    float nrnd0 = nrand(n + 0.07 * frac(g_parameters.w));
+    float nrnd1 = nrand(n + 0.11 * frac(g_parameters.w + 0.573953));
+    return 0.23 * sqrt(-log(nrnd0 + 0.00001)) * cos(2.0 * 3.141592 * nrnd1) + 0.5;
+}
+
+float toLinear(float _rgb)
+{
+    return pow(abs(_rgb), 2.2);
+}
+
+float3 Perez(float3 A, float3 B, float3 C, float3 D, float3 E, float costeta, float cosgamma)
+{
+    float _1_costeta = 1.0 / costeta;
+    float cos2gamma = cosgamma * cosgamma;
+    float gamma = acos(cosgamma);
+    float3 f = float3(1.0f.xxx + A * exp(B * _1_costeta)) * float3(1.0f.xxx + C * exp(D * gamma) + E * cos2gamma);
+    return f;
+}
+
+float3 convertRGB2XYZ(float3 _rgb)
+{
+	// Reference(s):
+	// - RGB/XYZ Matrices
+	//   https://web.archive.org/web/20191027010220/http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
+    float3 xyz;
+    xyz.x = dot(float3(0.4124564, 0.3575761, 0.1804375), _rgb);
+    xyz.y = dot(float3(0.2126729, 0.7151522, 0.0721750), _rgb);
+    xyz.z = dot(float3(0.0193339, 0.1191920, 0.9503041), _rgb);
+    return xyz;
+}
+
+float3 convertXYZ2RGB(float3 _xyz)
+{
+    float3 rgb;
+    rgb.x = dot(float3(3.2404542, -1.5371385, -0.4985314), _xyz);
+    rgb.y = dot(float3(-0.9692660, 1.8760108, 0.0415560), _xyz);
+    rgb.z = dot(float3(0.0556434, -0.2040259, 1.0572252), _xyz);
+    return rgb;
+}
+
+struct PS_INPUT
+{
+    float3 worldPos : POSITION1;
+    float3 projPos : POSITION2;
+    float3 modelPos : POSITION3;
+};
+
+struct PS_OUTPUT
+{
+	float4 vColor_0				:	COLOR0;
+	float4 vColor_1				:	COLOR1;
+	float4 vColor_2				:	COLOR2;
+};
+
+PS_OUTPUT main( PS_INPUT i )
+{	
+	PS_OUTPUT o;
+	
+    // Perez coefficients.
+    float3 A = g_perezCoeff[0].xyz;
+    float3 B = g_perezCoeff[1].xyz;
+    float3 C = g_perezCoeff[2].xyz;
+    float3 D = g_perezCoeff[3].xyz;
+    float3 E = g_perezCoeff[4].xyz;
+
+    float3 direction = normalize(i.modelPos.xyz);
+    float3 lightDir = normalize(-g_SunPos.xyz);
+
+    float3 skyDir = float3(0.0, 0.0, 1.0);
+    float costeta = max(dot(direction, skyDir), 0.001);
+    float cosgamma = clamp(dot(direction, lightDir.xyz), -0.9999, 0.9999);
+    float cosgammas = dot(skyDir, lightDir.xyz);
+
+    float3 P = Perez(A, B, C, D, E, costeta, cosgamma);
+    float3 P0 = Perez(A, B, C, D, E, 1.0, cosgammas);
+
+    float3 skyColorxyY = float3(
+		  g_SkyLum.x / (g_SkyLum.x + g_SkyLum.y + g_SkyLum.z)
+		, g_SkyLum.y / (g_SkyLum.x + g_SkyLum.y + g_SkyLum.z)
+		, g_SkyLum.y
+		);
+    
+    float3 Yp = skyColorxyY * P / P0;
+    float3 skyColor = float3(Yp.x * Yp.z / Yp.y, Yp.z, (1.0 - Yp.x - Yp.y) * Yp.z / Yp.y);
+    skyColor = convertXYZ2RGB(skyColor * g_parameters.z);
+    
+    float size2 = g_parameters.x * g_parameters.x;
+
+    float dist = 2.0 * (1.0 - dot(direction, lightDir));
+    float sun = exp(-dist / g_parameters.y / size2) + step(dist, size2);
+    float sun2 = min(sun * sun, 1.0);
+    float3 color = skyColor + sun2;
+
+    o.vColor_0 = float4(color.rgb, 1.0);
+    o.vColor_1 = float4(normalize(float3(i.modelPos.xyz)) * -1.0f, 1.0);
+	o.vColor_2 = float4(0.0f.xxx, 0.0);
+	return o;
+}

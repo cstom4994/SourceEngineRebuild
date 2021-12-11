@@ -1,0 +1,18 @@
+#include "common_ps_fxc.h"
+
+sampler BaseSampler	: register( s0 );
+
+const float Exposure : register(c1);
+
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+};
+
+float4 main(PS_INPUT i) : COLOR0
+{
+
+    float3 base = tex2D(BaseSampler, i.texCoord);
+
+    return float4(base * Exposure, 1.0f);
+}

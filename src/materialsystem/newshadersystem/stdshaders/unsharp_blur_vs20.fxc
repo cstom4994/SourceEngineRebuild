@@ -1,0 +1,27 @@
+// Includes
+#include "./common_vs_fxc.h"
+
+const float WindowSize              : register(SHADER_SPECIFIC_CONST_0);
+const float BlurSize              : register(SHADER_SPECIFIC_CONST_1);
+
+// Structs
+struct VS_OUTPUT
+{
+    float4 Position   : POSITION;
+    float2 TexCoord[4]: TEXCOORD0;
+};
+
+// Main
+VS_OUTPUT main(float4 Position : POSITION,
+								   float2 TexCoord : TEXCOORD0)
+{
+	VS_OUTPUT OUT;
+	float2 texelSize = BlurSize / WindowSize; //make sure blurring is relative to screen reslution
+	float2 s = TexCoord;
+	OUT.Position = Position;
+	OUT.TexCoord[0] = s;
+	OUT.TexCoord[1] = s + float2(2, 0)*texelSize; //apply blur relativity factor
+	OUT.TexCoord[2] = s + float2(2, 2)*texelSize;
+	OUT.TexCoord[3] = s + float2(0, 2)*texelSize;
+	return OUT;
+}

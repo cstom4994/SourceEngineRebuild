@@ -1,0 +1,77 @@
+// STATIC: "CONVERT_TO_SRGB" "0..1"	[ps20b][= g_pHardwareConfig->NeedsShaderSRGBConversion()] [PC]
+// STATIC: "CONVERT_TO_SRGB" "0..0"	[= 0] [XBOX]
+
+#define HDRTYPE HDR_TYPE_NONE
+#include "common_ps_fxc.h"
+#include "common_pbr.h"
+#include "common_deferred.h"
+#include "deferred_shadows.h"
+
+#define MAX_LIGHTS_SPOTSHADOW 8
+
+sampler FBSampler		    : register( s0 );
+sampler AlbedoSampler		: register( s1 );
+sampler ViewPosSampler		: register( s2 );
+sampler ViewNormalSampler	: register( s3 );
+sampler MRSampler    		: register( s4 );
+sampler DepthSampler[MAX_LIGHTS_SPOTSHADOW]    	: register( s7 );
+
+float2 g_resolution			: register( c1 );
+float3 g_EyePos				: register( c2 );
+
+float4 MixedLightData[MAX_LIGHTS_SPOTSHADOW * 7]: register( c4 ); // 3 registers each - 75 registers total
+
+#define LightPosition MixedLightData[iLight].xyz
+#define LightDirection MixedLightData[iLight + 2].xyz
+#define LightColor MixedLightData[iLight + 1].xyz
+#define LightBrightness MixedLightData[iLight + 1].w
+#define InnerRadius MixedLightData[iLight + 2].w
+#define OuterRadius MixedLightData[iLight].w
+
+float3 DoLights(in float3 worldPos, in float3 worldNormal, float3 albedo, float metallic, float roughness)
+{
+	float3 Out = 0.0f.xxx;
+	for(int iLight = 0; iLight < MAX_LIGHTS_SPOTSHADOW * 7; iLight = iLight + 7)
+	{
+        float3 vLight   = MixedLightData[iLight] - worldPos;
+    	float distance  = length(vLight);
+        float theta     = dot(normalize(vLight), normalize(-LightDirection));
+        float epsilon   = InnerRadius - OuterRadius;
+        float intensity = saturate((theta - OuterRadius) / epsilon); 
+		
+		float attenuation = LightBrightness / dot(distance, distance);
+		float4x4 spotWorldToTexture = float4x4( MixedLightData[ iLight + 3 ],
+			MixedLightData[ iLight + 4 ],
+			MixedLightData[ iLight + 5 ],
+			MixedLightData[ iLight + 6 ] );
+		float4 shadowPos = mul(float4(worldPos, 1.0f) ,spotWorldToTexture);
+		float3 vProjCoords = shadowPos.xyz / shadowPos.w;
+		float shadow = PCF(DepthSampler[iLight / 7], 1024, vProjCoords, shadowPos.z);
+
+        if(theta > OuterRadius) 
+        {       
+		    Out += tex2Dproj(DepthSampler[iLight / 7],float4(vProjCoords.xy,shadowPos.z,1.0f)) /*DoPBRLight(worldPos, worldNormal, albedo, MixedLightData[iLight], MixedLightData[iLight + 1], g_EyePos, attenuation * intensity, metallic, roughness)*/ ;
+        }
+	}
+	return Out;
+}
+
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+	float4x4 viewProj			: TEXCOORD2;
+};
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float3 FullFrame = tex2D( FBSampler, i.texCoord ).rgb;
+	float3 AlbedoSample = tex2D( AlbedoSampler, i.texCoord ).rgb;
+	float3 worldPos = tex2D( ViewPosSampler, i.texCoord ).rgb + g_EyePos;
+	float3 worldNormal = tex2D( ViewNormalSampler, i.texCoord ).rgb;
+	worldNormal = unpackNormals(worldNormal);
+	float3 metallicRoughnessDepth = tex2D( MRSampler, i.texCoord ).rgb;
+
+	float3 lighting = DoLights(worldPos, worldNormal, AlbedoSample, metallicRoughnessDepth.x, metallicRoughnessDepth.y);
+
+	return FinalOutput( float4(lighting, 1.0f ), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE );
+}

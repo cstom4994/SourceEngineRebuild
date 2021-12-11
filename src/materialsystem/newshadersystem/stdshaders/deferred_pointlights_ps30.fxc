@@ -1,0 +1,50 @@
+// STATIC: "CONVERT_TO_SRGB" "0..1"	[ps20b][= g_pHardwareConfig->NeedsShaderSRGBConversion()] [PC]
+// STATIC: "CONVERT_TO_SRGB" "0..0"	[= 0] [XBOX]
+
+#define HDRTYPE HDR_TYPE_NONE
+#include "common_ps_fxc.h"
+#include "common_pbr.h"
+#include "common_deferred.h"
+
+#define MAX_LIGHTS_SIMPLE 25
+
+sampler AlbedoSampler		: register( s1 );
+sampler ViewPosSampler		: register( s2 );
+sampler ViewNormalSampler	: register( s3 );
+sampler DepthSampler    	: register( s4 );
+
+float2 g_resolution			: register( c1 );
+float3 g_EyePos				: register( c2 );
+
+float4 MixedLightData[MAX_LIGHTS_SIMPLE * 2]: register( c4 ); // 2 registers each - 50 registers total
+
+float3 DoLights(in float3 worldPos, in float3 worldNormal, float3 albedo, float metallic, float roughness)
+{
+	float3 Out = 0.0f.xxx;
+	for(int iLight = 0; iLight < MAX_LIGHTS_SIMPLE * 2; iLight = iLight + 2)
+	{
+    	float distance    = length(MixedLightData[iLight] - worldPos);
+		float attenuation = MixedLightData[iLight + 1].w / (distance * distance);
+		Out += DoPBRLight(worldPos, worldNormal, albedo, MixedLightData[iLight], MixedLightData[iLight + 1], g_EyePos, attenuation, metallic, roughness);
+	}
+	return Out;
+}
+
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+	float4x4 viewProj			: TEXCOORD2;
+};
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float3 AlbedoSample = tex2D( AlbedoSampler, i.texCoord ).rgb;
+	float3 worldPos = tex2D( ViewPosSampler, i.texCoord ).rgb + g_EyePos;
+	float3 worldNormal = tex2D( ViewNormalSampler, i.texCoord ).rgb;
+	worldNormal = unpackNormals(worldNormal);
+	float3 metallicRoughnessDepth = tex2D( DepthSampler, i.texCoord ).rgb;
+
+	float3 lighting = DoLights(worldPos, worldNormal, AlbedoSample, metallicRoughnessDepth.x, metallicRoughnessDepth.y);
+
+	return FinalOutput( float4( lighting, 1.0f ), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE );
+}

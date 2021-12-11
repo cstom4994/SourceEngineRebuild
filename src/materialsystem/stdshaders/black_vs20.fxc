@@ -1,0 +1,47 @@
+
+// DYNAMIC: "SKINNING"				"0..1"
+
+#include "common_fog_vs_fxc.h"
+#include "common_vs_fxc.h"
+
+struct VS_INPUT
+{
+	float4 vPos				: POSITION;
+	float4 vBoneWeights		: BLENDWEIGHT;
+	float4 vBoneIndices		: BLENDINDICES;
+};
+
+struct VS_OUTPUT
+{
+    float4 projPos						: POSITION;			// Projection-space position	
+
+	#if ( HARDWAREFOGBLEND )
+		float fog						: FOG;
+	#else
+		float4 worldPos_projPosZ		: TEXCOORD0;		// Necessary for pixel fog
+	#endif
+};
+
+VS_OUTPUT main( const VS_INPUT v )
+{
+	VS_OUTPUT o;
+
+	float3 worldPos;
+	SkinPosition( SKINNING, v.vPos, v.vBoneWeights, v.vBoneIndices, worldPos );
+
+	// Transform into projection space
+	o.projPos = mul( float4( worldPos, 1 ), cViewProj );
+
+	#if ( HARDWAREFOGBLEND )
+	{
+		o.fog = CalcFixedFunctionFog( worldPos, DOWATERFOG );
+	}
+	#else
+	{
+		o.worldPos_projPosZ = float4( worldPos.xyz, o.projPos.z );
+	}
+	#endif
+
+	return o;
+}
+

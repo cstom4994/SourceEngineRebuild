@@ -1,0 +1,20 @@
+// Includes
+#include "common_ps_fxc.h"
+
+sampler2D NormalSamp		: register( s0 );
+sampler2D SoftSamp2			: register( s1 );
+
+struct VS_OUTPUT
+{
+   	float4 Position   : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+};
+
+float4 main(VS_OUTPUT IN) : COLOR
+{   
+    float s = tex2D(SoftSamp2, IN.TexCoord0).x;
+    float n = tex2D(NormalSamp, IN.TexCoord0).x;
+    float d  = (s - n);
+	
+    return float4((0.5+d),d,-d,1);
+}

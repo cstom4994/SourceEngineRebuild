@@ -1,0 +1,29 @@
+// Includes
+#include "common_vs_fxc.h"
+
+const float2 inputTexSize				: register(SHADER_SPECIFIC_CONST_0);
+const float time						: register(SHADER_SPECIFIC_CONST_1);
+
+// Structs
+struct VS_OUTPUT
+{
+	float4 pos : POSITION0;
+	float2 texCoord  : TEXCOORD0;
+	float4 noiseCoord : TEXCOORD1;
+};
+
+// Main
+VS_OUTPUT main(float4 position : POSITION)
+{
+	VS_OUTPUT Output;
+	position.xy = sign(position.xy);
+	
+	Output.pos = float4(position.xy, 0, 1);
+	Output.texCoord.x = 0.5 * (1 + position.x) + 0.5 / inputTexSize.x;
+	Output.texCoord.y = 0.5 * (1 - position.y) + 0.5 / inputTexSize.y;
+
+	Output.noiseCoord.xy = (Output.texCoord * 0.5f) + float2(sin(0.25f * time), -0.25f * time);
+	Output.noiseCoord.zw = Output.texCoord - float2(0.0f, time);
+	
+	return Output;
+}

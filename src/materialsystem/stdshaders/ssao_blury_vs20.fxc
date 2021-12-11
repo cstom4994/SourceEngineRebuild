@@ -1,0 +1,41 @@
+// Includes
+#include "common_vs_fxc.h"
+
+const float QuadScreenSize              : register(SHADER_SPECIFIC_CONST_0);
+const float BlurWid            			: register(SHADER_SPECIFIC_CONST_1);
+
+struct VS_OUTPUT
+{
+    float4 Position   : POSITION;
+    float4 Diffuse    : COLOR0;
+    float2 TexCoord0   : TEXCOORD0;
+    float2 TexCoord1   : TEXCOORD1;
+    float2 TexCoord2   : TEXCOORD2;
+    float2 TexCoord3   : TEXCOORD3;
+    float2 TexCoord4   : TEXCOORD4;
+    float2 TexCoord5   : TEXCOORD5;
+    float2 TexCoord6   : TEXCOORD6;
+    float2 TexCoord7   : TEXCOORD7;
+    float2 TexCoord8   : COLOR1;   
+};
+
+VS_OUTPUT main(float3 Position : POSITION, 
+			float3 TexCoord : TEXCOORD0
+) {
+    VS_OUTPUT OUT = (VS_OUTPUT)0;
+	
+    OUT.Position = float4(Position, 1);
+    float TexelIncrement = BlurWid/QuadScreenSize;
+    float2 nuv = TexCoord;
+    OUT.TexCoord0 = float2(nuv.x, nuv.y + TexelIncrement);
+    OUT.TexCoord1 = float2(nuv.x, nuv.y + TexelIncrement * 2);
+    OUT.TexCoord2 = float2(nuv.x, nuv.y + TexelIncrement * 3);
+    OUT.TexCoord3 = float2(nuv.x, nuv.y + TexelIncrement * 4);
+    OUT.TexCoord4 = nuv;
+    OUT.TexCoord5 = float2(nuv.x, nuv.y - TexelIncrement);
+    OUT.TexCoord6 = float2(nuv.x, nuv.y - TexelIncrement * 2);
+    OUT.TexCoord7 = float2(nuv.x, nuv.y - TexelIncrement * 3);
+    OUT.TexCoord8 = float2(nuv.x, nuv.y - TexelIncrement * 4);
+	
+    return OUT;
+}

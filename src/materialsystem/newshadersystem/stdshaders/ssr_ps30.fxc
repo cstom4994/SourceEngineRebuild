@@ -1,0 +1,162 @@
+#include "common_ps_fxc.h"
+
+sampler FrameSampler	: register( s0 );
+sampler NormalSampler    : register( s1 );
+sampler MRAOSampler    : register( s2 );
+sampler DepthSampler    : register( s3 );
+
+const float4 g_params : register(c1);
+const float2 BaseResolution : register(c4);
+const float3 g_EyeOrigin : register(c6);
+
+const float4x4 g_ViewInv : register(c8);
+const float4x4 g_ProjInv : register(c12);
+const float4x4 g_View : register(c16);
+const float4x4 g_Proj : register(c20);
+const float2 g_zPlanes : register(c24);
+
+#define g_zNear g_zPlanes.x
+#define g_zFar g_zPlanes.y
+#define g_flRayStartDist g_params.x
+#define g_flDepthDiffMax g_params.y
+#define g_flRayStepDiv g_params.z
+#define g_flRayMaxDist g_params.w
+
+float LinearizeDepth(float d, float f, float n)
+{
+    return n * f / (f + d * (n - f));
+}
+
+float2 ClipToScreen(float2 UV)
+{
+    return float2(UV.x * 0.5f + 0.5f, -UV.y * 0.5f + 0.5f);
+}
+
+float3 readView(in float2 coord)
+{
+    float2 invResolution = 1.0f.xx / BaseResolution;
+    float3 pos = tex2D(DepthSampler, float2(coord.x + invResolution.x / 2.0f, coord.y + invResolution.y / 2.0f)).xyz;
+    return float3(pos.x, pos.y, pos.z);
+}
+
+float readDepth_Linear(in float2 coord)
+{
+    float3 view = readView(coord);
+    float4 ViewPos = mul(float4(view.xyz, 1.0f), g_ProjInv);
+    ViewPos.xyz /= ViewPos.w;
+    return float(ViewPos.z);
+}
+
+float readDepth_Normalized(in float2 coord)
+{
+    float3 viewPos = readView(coord);
+    float depth_linear = LinearizeDepth(viewPos.z, g_zFar, g_zNear);
+
+    return depth_linear / 4000.0f;
+}
+
+float3 readPos(in float2 coord)
+{
+    float3 view = readView(coord);
+    float4 ViewPos = mul(float4(view.xyz, 1.0f), g_ProjInv);
+    ViewPos.xyz /= ViewPos.w;
+    ViewPos.xyz = float3(ViewPos.xy, ViewPos.z);
+    float4 worldPos = mul(float4(ViewPos.xyz, 1.0f), g_ViewInv);
+    return float3(worldPos.xyz);
+}
+
+float3 WorldToView(in float3 position)
+{
+    float4 viewPos = mul(float4(position, 1.0f), g_View);
+    return viewPos.xyz;
+}
+
+float2 WorldToUV(in float3 position)
+{
+    float3 viewPos = WorldToView(position);
+    float4 Proj = mul(float4(viewPos, 1.0f), g_Proj);
+    Proj.xyz /= Proj.w;
+    return ClipToScreen(Proj.xy);
+}
+
+float3 readNormal_World(in float2 coord)
+{
+    float2 invResolution = 1.0f.xx / BaseResolution;
+    float3 WorldNormal = tex2D(NormalSampler, float2(coord.x + invResolution.x / 2.0f, coord.y + invResolution.y / 2.0f)).xyz;
+    return normalize(float3(WorldNormal.xyz));
+}
+
+float3 readNormal_View(in float2 coord)
+{
+    float3 WorldNormal = readNormal_World(coord);
+    float4 ViewNormal = mul(float4(WorldNormal.xyz, 0.0f), g_View);
+    return float3(ViewNormal.xyz);
+}
+
+float rand_white(in float2 uv)
+{
+    float2 noise = (frac(sin(dot(uv, float2(12.9898, 78.233) * 2.0)) * 43758.5453));
+    return abs(noise.x + noise.y) * 0.5;
+}
+
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+};
+
+float4 main(PS_INPUT i) : COLOR0
+{
+    float4 MRAO = tex2D(MRAOSampler, i.texCoord);
+    float3 WorldNormals = readNormal_World(i.texCoord);
+    float3 worldPos = readPos(i.texCoord);
+    float3 eyeDir = normalize(worldPos - g_EyeOrigin);
+    float3 reflection = reflect(eyeDir, WorldNormals);
+    float metallic = MRAO.x;
+    float modelMask = MRAO.a;
+    
+    float roughness = 1.0f - MRAO.y;
+    roughness *= roughness;
+    roughness *= roughness;
+    
+    float3 RayStart = worldPos;
+    float3 RayDir = reflection;
+    float3 RayCurPos = RayStart;
+    float RayStep = g_flRayStartDist;
+    float depth_current = WorldToView(RayCurPos.xyz).z / 4000.0f;
+    float depth_compare = readDepth_Normalized(i.texCoord) + 0.1f; // to ensure the first loop always starts
+    float depthMask = 1.0f;
+    [unroll(16)]
+    while (1)
+    {
+        RayCurPos += RayDir * RayStep;
+        float3 RayWorldPos = readPos(WorldToUV(RayCurPos.xyz));
+        RayStep = length(RayCurPos - RayWorldPos) * g_flRayStepDiv;
+        
+        depth_current = WorldToView(RayCurPos.xyz).z / 4000.0f;
+        depth_compare = readDepth_Normalized(WorldToUV(RayCurPos.xyz));
+
+        float depthDiff = abs(depth_compare - depth_current);
+        depthMask = step(depthDiff, g_flDepthDiffMax);
+    }
+    
+    float2 reflectionUV = WorldToUV(RayCurPos.xyz);
+    
+    float UVmask = (reflectionUV.x < 0 || reflectionUV.x > 1 ? 0 : 1)
+                 * (reflectionUV.y < 0 || reflectionUV.y > 1 ? 0 : 1);
+    
+    reflectionUV = saturate(reflectionUV);
+    float2 reflectionClip = reflectionUV * 2.0f - 1.0f;
+    float mask = length(reflectionClip);
+    mask *= mask;
+    mask = 1.0f - mask;
+    
+    float fresnelMask = dot(-eyeDir, WorldNormals);
+    fresnelMask = saturate(fresnelMask);
+    fresnelMask = 1.0f - fresnelMask;
+    
+    fresnelMask = lerp(fresnelMask, pow(fresnelMask, 5.0f), 1.0f - metallic);
+
+    float3 frame = tex2D(FrameSampler, reflectionUV);
+    
+    return float4(frame * mask * (1.0f - MRAO.y) * fresnelMask * depthMask * UVmask * modelMask, 1.0f);
+}
