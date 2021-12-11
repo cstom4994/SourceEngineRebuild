@@ -1223,6 +1223,18 @@ set(tymeta_Files
         )
 source_group("Tymeta Files" FILES ${tymeta_Files})
 
+set(SEE_Files
+        "shadereditor/isedit_modelrender.h"
+        "shadereditor/ivshadereditor.h"
+        "shadereditor/sedit_modelrender.cpp"
+        "shadereditor/sedit_modelrender.h"
+        "shadereditor/shadereditorsystem.cpp"
+        "shadereditor/shadereditorsystem.h"
+        "shadereditor/grass/cgrasscluster.cpp"
+        "shadereditor/grass/cgrasscluster.h"
+        )
+source_group("Shader Editor Files" FILES ${SEE_Files})
+
 set(ALL_FILES
     ${Game_Shared_Header_Files}
     ${Header_Files}
@@ -1239,6 +1251,7 @@ set(ALL_FILES
     ${Tool_Framework}
     ${game_controls_Header_Files}
     ${tymeta_Files}
+    ${SEE_Files}
 )
 
 ################################################################################
@@ -1305,6 +1318,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/../gameui2;"
     "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
     "${CMAKE_CURRENT_SOURCE_DIR}/episodic;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/shadereditor;"
     "${CMAKE_CURRENT_SOURCE_DIR}/vance"
 )
 

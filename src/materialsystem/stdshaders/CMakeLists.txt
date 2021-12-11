@@ -194,8 +194,6 @@ if(MSVC)
         /MP;
         /GF;
         /arch:SSE2;
-        /W4;
-        /WX;
         /TP;
         /fp:fast;
         /GR;
