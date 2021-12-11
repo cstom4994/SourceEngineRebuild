@@ -109,22 +109,19 @@ bool ShaderEditorHandler::Init() {
     return true;
 }
 
-#ifdef SHADEREDITOR_FORCE_ENABLED
-CON_COMMAND( sedit_debug_toggle_ppe, "" )
-{
-    if ( !g_ShaderEditorSystem->IsReady() )
-        return Warning( "lib not ready.\n" );
+CON_COMMAND(sedit_debug_toggle_ppe, "") {
+    if (!g_ShaderEditorSystem->IsReady())
+        return Warning("lib not ready.\n");
 
-    if ( args.ArgC() < 2 )
+    if (args.ArgC() < 2)
         return;
 
-    const int idx = shaderEdit->GetPPEIndex( args[1] );
-    if ( idx < 0 )
-        return Warning( "can't find ppe named: %s\n", args[1] );
+    const int idx = shaderEdit->GetPPEIndex(args[1]);
+    if (idx < 0)
+        return Warning("can't find ppe named: %s\n", args[1]);
 
-    shaderEdit->SetPPEEnabled( idx, !shaderEdit->IsPPEEnabled( idx ) );
+    shaderEdit->SetPPEEnabled(idx, !shaderEdit->IsPPEEnabled(idx));
 }
-#endif
 
 void ShaderEditorHandler::Shutdown() {
     if (shaderEdit)
