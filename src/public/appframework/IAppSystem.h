@@ -15,7 +15,6 @@
 
 #include "tier1/interface.h"
 
-
 //-----------------------------------------------------------------------------
 // Client systems are singleton objects in the client codebase responsible for
 // various tasks

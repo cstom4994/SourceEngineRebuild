@@ -1233,6 +1233,34 @@ set(tymeta_Files
 source_group("Tymeta Files" FILES ${tymeta_Files})
 
 
+
+
+
+
+
+set(Source_Files__deferred
+        "deferred/cdeferred_manager_server.cpp"
+        "deferred/cdeferred_manager_server.h"
+        "deferred/deferred_server_common.h"
+        )
+source_group("Source Files\\deferred" FILES ${Source_Files__deferred})
+
+set(Source_Files__deferred__shared
+        "../shared/deferred/CDefLight.cpp"
+        "../shared/deferred/CDefLight.h"
+        "../shared/deferred/CDefLightContainer.cpp"
+        "../shared/deferred/CDefLightContainer.h"
+        "../shared/deferred/CDefLightGlobal.cpp"
+        "../shared/deferred/CDefLightGlobal.h"
+        "../shared/deferred/deferred_shared_common.cpp"
+        "../shared/deferred/deferred_shared_common.h"
+        )
+source_group("Source Files\\deferred\\shared" FILES ${Source_Files__deferred__shared})
+
+
+
+
+
 set(ALL_FILES
     ${Header_Files}
     ${Replay}
@@ -1244,6 +1272,8 @@ set(ALL_FILES
     ${Source_Files__temporary_entities}
     ${Tools_Framework}
     ${tymeta_Files}
+    ${Source_Files__deferred}
+    ${Source_Files__deferred__shared}
 )
 
 ################################################################################
@@ -1308,6 +1338,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/../shared/vance;"
     "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
     "${CMAKE_CURRENT_SOURCE_DIR}/episodic;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/deferred;"
     "${CMAKE_CURRENT_SOURCE_DIR}/vance"
 )
 

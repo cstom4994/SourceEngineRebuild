@@ -1164,7 +1164,6 @@ set(Source_Files__VANCE
     "vance/deferred_screenspace_effects.h"
     "vance/deferred_screenspace_effects_order.cpp"
     "vance/hud_weaponselection.cpp"
-    "vance/IDeferredExt_client.cpp"
     "vance/viewmodel_attachment.cpp"
     "vance/viewmodel_attachment.h"
 )
@@ -1235,6 +1234,88 @@ set(SEE_Files
         )
 source_group("Shader Editor Files" FILES ${SEE_Files})
 
+
+
+
+set(Source_Files__deferred
+        "../../materialsystem/swarmshaders/deferred_global_common.h"
+        "deferred/cascade_t.cpp"
+        "deferred/cascade_t.h"
+        "deferred/cdeferred_manager_client.cpp"
+        "deferred/cdeferred_manager_client.h"
+        "deferred/clight_editor.cpp"
+        "deferred/clight_editor.h"
+        "deferred/clight_manager.cpp"
+        "deferred/clight_manager.h"
+        "deferred/def_light_t.cpp"
+        "deferred/def_light_t.h"
+        "deferred/DefCookieProjectable.cpp"
+        "deferred/DefCookieProjectable.h"
+        "deferred/DefCookieTexture.cpp"
+        "deferred/DefCookieTexture.h"
+        "deferred/deferred_client_common.cpp"
+        "deferred/deferred_client_common.h"
+        "deferred/deferred_rt.cpp"
+        "deferred/deferred_rt.h"
+        "deferred/flashlighteffect_deferred.cpp"
+        "deferred/flashlighteffect_deferred.h"
+        "deferred/materialsystem_passthru.cpp"
+        "deferred/materialsystem_passthru.h"
+        "deferred/viewrender_deferred.cpp"
+        "deferred/viewrender_deferred.h"
+        )
+source_group("Source Files\\deferred" FILES ${Source_Files__deferred})
+
+set(Source_Files__deferred__interface
+        "../../materialsystem/swarmshaders/IDeferredExt.h"
+        "deferred/IDefCookie.h"
+        "deferred/IDeferredExtClient.cpp"
+        )
+source_group("Source Files\\deferred\\interface" FILES ${Source_Files__deferred__interface})
+
+set(Source_Files__deferred__shared
+        "../shared/deferred/CDefLight.cpp"
+        "../shared/deferred/CDefLight.h"
+        "../shared/deferred/CDefLightContainer.cpp"
+        "../shared/deferred/CDefLightContainer.h"
+        "../shared/deferred/CDefLightGlobal.cpp"
+        "../shared/deferred/CDefLightGlobal.h"
+        "../shared/deferred/deferred_shared_common.cpp"
+        "../shared/deferred/deferred_shared_common.h"
+        )
+source_group("Source Files\\deferred\\shared" FILES ${Source_Files__deferred__shared})
+
+set(Source_Files__deferred__vgui
+        "deferred/vgui/projectable_factory.cpp"
+        "deferred/vgui/projectable_factory.h"
+        "deferred/vgui/vgui_deferred.h"
+        "deferred/vgui/vgui_editor_controls.cpp"
+        "deferred/vgui/vgui_editor_controls.h"
+        "deferred/vgui/vgui_editor_props.cpp"
+        "deferred/vgui/vgui_editor_props.h"
+        "deferred/vgui/vgui_editor_root.cpp"
+        "deferred/vgui/vgui_marquee.cpp"
+        "deferred/vgui/vgui_marquee.h"
+        "deferred/vgui/vgui_particles.cpp"
+        "deferred/vgui/vgui_particles.h"
+        "deferred/vgui/vgui_projectable.cpp"
+        "deferred/vgui/vgui_projectable.h"
+        )
+source_group("Source Files\\deferred\\vgui" FILES ${Source_Files__deferred__vgui})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 set(ALL_FILES
     ${Game_Shared_Header_Files}
     ${Header_Files}
@@ -1252,6 +1333,10 @@ set(ALL_FILES
     ${game_controls_Header_Files}
     ${tymeta_Files}
     ${SEE_Files}
+    ${Source_Files__deferred}
+    ${Source_Files__deferred__interface}
+    ${Source_Files__deferred__shared}
+    ${Source_Files__deferred__vgui}
 )
 
 ################################################################################
@@ -1319,6 +1404,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
     "${CMAKE_CURRENT_SOURCE_DIR}/episodic;"
     "${CMAKE_CURRENT_SOURCE_DIR}/shadereditor;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/deferred;"
     "${CMAKE_CURRENT_SOURCE_DIR}/vance"
 )
 

@@ -704,7 +704,7 @@ public:
 
     virtual MaterialThreadMode_t GetThreadMode() = 0;
 
-    virtual bool IsRenderThreadSafe() = 0;
+    virtual bool IsRenderThreadSafe();
 
     virtual void ExecuteQueued() = 0;
 
@@ -774,7 +774,7 @@ public:
     // Use this to spew information about the 3D layer
     virtual void SpewDriverInfo() const = 0;
 
-    virtual void GetDXLevelDefaults(uint &max_dxlevel, uint &recommended_dxlevel) = 0;
+    virtual void GetDXLevelDefaults(uint &max_dxlevel, uint &recommended_dxlevel);
 
     // Get the image format of the back buffer. . useful when creating render targets, etc.
     virtual void GetBackBufferDimensions(int &width, int &height) const = 0;
@@ -914,9 +914,9 @@ public:
 
     // Stop attempting to stream in textures in response to usage.  Useful for phases such as loading or other explicit
     // operations that shouldn't take usage of textures as a signal to stream them in at full rez.
-    virtual void SuspendTextureStreaming() = 0;
+    virtual void SuspendTextureStreaming();
 
-    virtual void ResumeTextureStreaming() = 0;
+    virtual void ResumeTextureStreaming();
 
     // uncache all materials. .  good for forcing reload of materials.
     virtual void UncacheAllMaterials() = 0;
@@ -1205,26 +1205,26 @@ public:
     // creates a texture compositor that will attempt to composite a new textuer from the steps of the specified KeyValues.
     virtual ITextureCompositor *
     NewTextureCompositor(int w, int h, const char *pCompositeName, int nTeamNum, uint64 randomSeed,
-                         KeyValues *stageDesc, uint texCompositeCreateFlags = 0) = 0;
+                         KeyValues *stageDesc, uint texCompositeCreateFlags = 0);
 
     // Loads the texture with the specified name, calls pRecipient->OnAsyncFindComplete with the result from the main thread.
     // once the texture load is complete. If the texture cannot be found, the returned texture will return true for IsError().
     virtual void
     AsyncFindTexture(const char *pFilename, const char *pTextureGroupName, IAsyncTextureOperationReceiver *pRecipient,
-                     void *pExtraArgs, bool bComplain = true, int nAdditionalCreationFlags = 0) = 0;
+                     void *pExtraArgs, bool bComplain = true, int nAdditionalCreationFlags = 0);
 
     // creates a texture suitable for use with materials from a raw stream of bits.
     // The bits will be retained by the material system and can be freed upon return.
     virtual ITexture *
     CreateNamedTextureFromBitsEx(const char *pName, const char *pTextureGroupName, int w, int h, int mips,
-                                 ImageFormat fmt, int srcBufferSize, byte *srcBits, int nFlags) = 0;
+                                 ImageFormat fmt, int srcBufferSize, byte *srcBits, int nFlags);
 
     // Creates a texture compositor template for use in later code.
     virtual bool
-    AddTextureCompositorTemplate(const char *pName, KeyValues *pTmplDesc, int nTexCompositeTemplateFlags = 0) = 0;
+    AddTextureCompositorTemplate(const char *pName, KeyValues *pTmplDesc, int nTexCompositeTemplateFlags = 0);
 
     // Performs final verification of all compositor templates (after they've all been initially loaded).
-    virtual bool VerifyTextureCompositorTemplates() = 0;
+    virtual bool VerifyTextureCompositorTemplates();
 };
 
 
