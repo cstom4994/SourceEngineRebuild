@@ -1592,6 +1592,15 @@ endif ()
 
 
 ################################################################################
+# Protobuf build
+################################################################################
+set(GENERATED_PROTO_DIR "${MYROOTDIR}/game/client/generated_proto")
+
+TargetBuildAndAddProto( ${PROJECT_NAME} ${MYROOTDIR}/game/shared/base_gcmessages.proto "${GENERATED_PROTO_DIR}")
+
+
+
+################################################################################
 # Dependencies
 ################################################################################
 add_dependencies(${PROJECT_NAME}

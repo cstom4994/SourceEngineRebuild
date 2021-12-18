@@ -751,7 +751,6 @@ if(MSVC)
             /Oy-
         >
         /MP;
-        /std:c++17;
         /GF;
         /W4;
         /WX-;

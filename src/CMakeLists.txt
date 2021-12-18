@@ -39,9 +39,6 @@ if(MSVC)
 
 endif()
 
-enable_language(ASM)
-enable_language(ASM_MASM)
-
 ################################################################################
 # Global linker options
 ################################################################################
@@ -63,7 +60,6 @@ endif()
 
 set(CMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE "x86")
 
-add_link_options("/MACHINE:X86")
 
 ################################################################################
 # Nuget packages function stub.
@@ -78,6 +74,7 @@ endfunction()
 # Common utils
 ################################################################################
 include(cmake/Utils.cmake)
+include(cmake/ProtobufBuilder.cmake)
 
 ################################################################################
 # Additional Global Settings(add specific info there)
