@@ -82,6 +82,11 @@ bool g_bMovementOptimizations = true;
 
 extern IGameMovement *g_pGameMovement;
 
+// Camera Bob
+ConVar cl_viewbob_enabled	( "cl_viewbob_enabled", "1", 0, "Oscillation Toggle" );
+ConVar cl_viewbob_timer		( "cl_viewbob_timer", "10", 0, "Speed of Oscillation" );
+ConVar cl_viewbob_scale		( "cl_viewbob_scale", "0.05", 0, "Magnitude of Oscillation" );
+
 #if defined( PLAYER_GETTING_STUCK_TESTING )
 
 // If you ever get stuck walking around, then you can run this code to find the code which would leave the player in a bad spot
@@ -1895,6 +1900,13 @@ void CGameMovement::StayOnGround( void )
 void CGameMovement::WalkMove( void )
 {
 	int i;
+
+    if ( cl_viewbob_enabled.GetBool() && !engine->IsPaused() )
+    {
+        float xoffset = sin( gpGlobals->curtime * cl_viewbob_timer.GetFloat() ) * player->GetAbsVelocity().Length() * cl_viewbob_scale.GetFloat() / 100;
+        float yoffset = sin( 2 * gpGlobals->curtime * cl_viewbob_timer.GetFloat() ) * player->GetAbsVelocity().Length() * cl_viewbob_scale.GetFloat() / 400;
+        player->ViewPunch( QAngle( xoffset, yoffset, 0 ) );
+    }
 
 	Vector wishvel;
 	float spd;
