@@ -187,7 +187,6 @@ if(MSVC)
         /DYNAMICBASE:NO;
         /NXCOMPAT;
         /ignore:4221;
-        ../../lib/public/ftol3.obj
     )
 endif()
 

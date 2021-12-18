@@ -890,8 +890,7 @@ if(MSVC)
         /SAFESEH:NO;
         /SUBSYSTEM:WINDOWS;
         /DYNAMICBASE:NO;
-        /ignore:4221;
-        ../lib/public/ftol3.obj
+        /ignore:4221
     )
 endif()
 

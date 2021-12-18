@@ -1113,22 +1113,18 @@ DWORD __declspec(dllimport) __stdcall GetEnvironmentVariableA(const char *, char
 #endif // _WIN32
 
 CON_COMMAND(version, "Print version info string.") {
-    ConMsg("Tymeta Engine:        %8s     # Tymeta Engine build version\n", SOURCEENGINEREBUILD_VERSION_TEXT);
-    ConMsg("Build Num:            %8d     # Tymeta Engine build number\n", source_build_number());
-    ConMsg("Build Label:          %8d     # Uniquely identifies each build\n",
-           GetSteamInfIDVersionInfo().ServerVersion);
-    ConMsg("Network PatchVersion: %8s     # Determines client and server compatibility\n",
-           GetSteamInfIDVersionInfo().szVersionString);
-    ConMsg("Protocol version:     %8d     # High level network protocol version\n", PROTOCOL_VERSION);
+    ConMsg("Source Engine Rebuild:  %8s     # Source Engine Rebuild version\n", SOURCEENGINEREBUILD_VERSION_TEXT);
+    ConMsg("Build Num:              %8d     # rebuild number\n", source_build_number());
+    ConMsg("Protocol version:       %8d     # High level network protocol version\n", PROTOCOL_VERSION);
 
-    if (sv.IsDedicated() || serverGameDLL) {
-        ConMsg("Server version:       %8i\n", GetSteamInfIDVersionInfo().ServerVersion);
-        ConMsg("Server AppID:         %8i\n", GetSteamInfIDVersionInfo().ServerAppID);
-    }
-    if (!sv.IsDedicated()) {
-        ConMsg("Client version:       %8i\n", GetSteamInfIDVersionInfo().ClientVersion);
-        ConMsg("Client AppID:         %8i\n", GetSteamInfIDVersionInfo().AppID);
-    }
+//    if (sv.IsDedicated() || serverGameDLL) {
+//        ConMsg("Server version:       %8i\n", GetSteamInfIDVersionInfo().ServerVersion);
+//        ConMsg("Server AppID:         %8i\n", GetSteamInfIDVersionInfo().ServerAppID);
+//    }
+//    if (!sv.IsDedicated()) {
+//        ConMsg("Client version:       %8i\n", GetSteamInfIDVersionInfo().ClientVersion);
+//        ConMsg("Client AppID:         %8i\n", GetSteamInfIDVersionInfo().AppID);
+//    }
 }
 
 

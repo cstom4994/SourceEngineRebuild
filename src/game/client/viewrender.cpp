@@ -53,7 +53,7 @@
 #include "clientmode_shared.h"
 #include "sourcevr/isourcevirtualreality.h"
 #include "client_virtualreality.h"
-
+#include "ShaderEditor/ShaderEditorSystem.h"
 #include "ShaderEditor/Grass/CGrassCluster.h"
 
 #ifdef PORTAL
@@ -121,7 +121,7 @@ static ConVar r_skybox("r_skybox", "1", FCVAR_CHEAT, "Enable the rendering of sk
 #ifdef PONDER_CLIENT_DLL
 ConVar r_drawviewmodel("r_drawviewmodel", "1", FCVAR_DONTRECORD);
 #else
-ConVar r_drawviewmodel( "r_drawviewmodel","1", FCVAR_CHEAT );
+ConVar r_drawviewmodel("r_drawviewmodel", "1", FCVAR_CHEAT);
 #endif
 static ConVar r_drawtranslucentrenderables("r_drawtranslucentrenderables", "1", FCVAR_CHEAT);
 static ConVar r_drawopaquerenderables("r_drawopaquerenderables", "1", FCVAR_CHEAT);
@@ -758,8 +758,8 @@ static void SetClearColorToFogColor() {
 //-----------------------------------------------------------------------------
 
 #ifdef HL2_CLIENT_DLL
-                                                                                                                        CLIENTEFFECT_REGISTER_BEGIN( PrecacheViewRender )
-	CLIENTEFFECT_MATERIAL( "scripted/intro_screenspaceeffect" )
+CLIENTEFFECT_REGISTER_BEGIN(PrecacheViewRender)
+                    CLIENTEFFECT_MATERIAL("scripted/intro_screenspaceeffect")
 CLIENTEFFECT_REGISTER_END()
 #endif
 
@@ -1306,6 +1306,12 @@ void CViewRender::ViewDrawScene(bool bDrew3dSkybox, SkyboxVisibility_t nSkyboxVi
 
     DrawWorldAndEntities(drawSkybox, viewRender, nClearFlags, pCustomVisibility);
 
+    VisibleFogVolumeInfo_t fogVolumeInfo;
+    render->GetVisibleFogVolume(view->GetPlayerViewSetup()->origin, &fogVolumeInfo);
+    WaterRenderInfo_t info;
+    DetermineWaterRenderInfo(fogVolumeInfo, info);
+    g_ShaderEditorSystem->CustomViewRender(&g_CurrentViewID, fogVolumeInfo, info);
+
     // Disable fog for the rest of the stuff
     DisableFog();
 
@@ -1839,6 +1845,8 @@ void CViewRender::RenderView(const CViewSetup &viewRender, int nClearFlags, int 
         CSkyboxView *pSkyView = new CSkyboxView(this);
         if ((bDrew3dSkybox = pSkyView->Setup(viewRender, &nClearFlags, &nSkyboxVisible)) != false) {
             AddViewToScene(pSkyView);
+            g_ShaderEditorSystem->UpdateSkymask(false, view->GetPlayerViewSetup()->x, view->GetPlayerViewSetup()->y,
+                                                view->GetPlayerViewSetup()->width, view->GetPlayerViewSetup()->height);
         }
         SafeRelease(pSkyView);
 
@@ -1893,6 +1901,9 @@ void CViewRender::RenderView(const CViewSetup &viewRender, int nClearFlags, int 
         // Now actually draw the viewmodel
         DrawViewModels(viewRender, whatToDraw & RENDERVIEW_DRAWVIEWMODEL);
 
+        g_ShaderEditorSystem->UpdateSkymask(bDrew3dSkybox, view->GetPlayerViewSetup()->x, view->GetPlayerViewSetup()->y,
+                                            view->GetPlayerViewSetup()->width, view->GetPlayerViewSetup()->height);
+
         DrawUnderwaterOverlay();
 
         PixelVisibility_EndScene();
@@ -1921,6 +1932,8 @@ void CViewRender::RenderView(const CViewSetup &viewRender, int nClearFlags, int 
             }
             DoEnginePostProcessing(viewRender.x, viewRender.y, viewRender.width, viewRender.height, bFlashlightIsOn);
         }
+
+        g_ShaderEditorSystem->CustomPostRender();
 
         // And here are the screen-space effects
 
@@ -3876,7 +3889,8 @@ void CRendering3dView::DrawOpaqueRenderables(ERenderDepthMode DepthMode) {
     RopeManager()->DrawRenderCache(DepthMode);
     g_pParticleSystemMgr->DrawRenderCache(DepthMode);
 
-    CGrassClusterManager::GetInstance()->RenderClusters(DepthMode == DEPTH_MODE_SHADOW);
+    //CGrassClusterManager::GetInstance()->RenderClusters(DepthMode == DEPTH_MODE_SHADOW);
+    CGrassClusterManager::GetInstance()->RenderClusters(true);
 }
 
 

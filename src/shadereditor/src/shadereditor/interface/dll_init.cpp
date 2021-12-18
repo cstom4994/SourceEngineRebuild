@@ -157,7 +157,6 @@ bool ShaderEditorInterface::Init(CreateInterfaceFn appSystemFactory, CGlobalVars
 #elif SHADER_EDITOR_DLL_2006
     const char *pszModuleName = "game_shader_generic_eshader_2006.dll";
 #elif SHADER_EDITOR_DLL_SER
-    //const char *pszModuleName = "game_shader_generic_eshader_2013.dll";
     const char *pszModuleName = "game_shader_dx6.dll";
 #elif SHADER_EDITOR_DLL_PORTAL2
     const char *pszModuleName = "game_shader_generic_eshader_PORTAL2.dll";

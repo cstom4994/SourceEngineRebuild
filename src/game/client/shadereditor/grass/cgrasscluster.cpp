@@ -676,8 +676,8 @@ void CGrassClusterManager::Update(float frametime) {
         wVec.y *= -1.0f;
         wVec *= gcluster_grass_wind_strength.GetFloat();
 
-        m_refMaterials[m_iCurrentMaterial].GetVarDir()->SetVecValue(wVec.Base(), 3);
-        m_refMaterials[m_iCurrentMaterial].GetVarAng()->SetFloatValue(DEG2RAD(wAng.y + 225.0f));
+        //m_refMaterials[m_iCurrentMaterial].GetVarDir()->SetVecValue(wVec.Base(), 3);
+        //m_refMaterials[m_iCurrentMaterial].GetVarAng()->SetFloatValue(DEG2RAD(wAng.y + 225.0f));
     }
 
     if (m_hClusterInfo.Count() && !m_hClusterData.Count() && matValid) {

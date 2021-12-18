@@ -21,6 +21,7 @@
 #include "hud.h"
 #include "hudelement.h"
 #include "vgui_int.h"
+#include "hl2/hl2_shareddefs.h"
 
 #include "hud_macros.h"
 #include "iclientmode.h"

@@ -44,6 +44,12 @@ enum
 #define DMG_SNIPER			(DMG_LASTGENERICFLAG<<1)	// This is sniper damage
 #define DMG_MISSILEDEFENSE	(DMG_LASTGENERICFLAG<<2)	// The only kind of damage missiles take. (special missile defense)
 
-
+enum {
+    DRAW_ARROW_NO = 0,
+    DRAW_ARROW_UP,
+    DRAW_ARROW_DOWN,
+    DRAW_ARROW_LEFT,
+    DRAW_ARROW_RIGHT
+};
 
 #endif // HL2_SHAREDDEFS_H
