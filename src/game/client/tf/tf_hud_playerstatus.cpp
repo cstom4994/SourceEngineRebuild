@@ -30,7 +30,7 @@
 #include "tf_logic_halloween_2014.h"
 #include "tf_logic_player_destruction.h"
 
-#include "tf_wheel_of_doom.h"
+
 
 #include "confirm_dialog.h"
 
@@ -1002,50 +1002,9 @@ void CTFHudPlayerHealth::OnThink()
 			SetPlayerHealthImagePanelVisibility( pPlayer, TF_COND_MARKEDFORDEATH,			m_pMarkedForDeathImage,			nXOffset,	Color( 255 - color_fade, 245 - color_fade, 245 - color_fade, 255 ) );
 			SetPlayerHealthImagePanelVisibility( pPlayer, TF_COND_MARKEDFORDEATH_SILENT,	m_pMarkedForDeathImageSilent,	nXOffset,	Color( 125 - color_fade, 255 - color_fade, 255 - color_fade, 255 ) );
 			SetPlayerHealthImagePanelVisibility( pPlayer, TF_COND_PASSTIME_PENALTY_DEBUFF,	m_pMarkedForDeathImageSilent,	nXOffset,	Color( 125 - color_fade, 255 - color_fade, 255 - color_fade, 255 ) );
-			
-			UpdateHalloweenStatus();
 		}
 
 		m_flNextThink = gpGlobals->curtime + 0.05f;
-	}
-}
-
-
-void CTFHudPlayerHealth::UpdateHalloweenStatus( void )
-{
-	if ( TFGameRules()->IsHalloweenEffectStatusActive() )
-	{
-		int status = TFGameRules()->GetHalloweenEffectStatus();
-
-		if ( status == EFFECT_WHAMMY )
-		{
-			m_pWheelOfDoomImage->SetImage( "..\\HUD\\death_wheel_whammy" );
-		}
-		else
-		{
-			m_pWheelOfDoomImage->SetImage( VarArgs( "..\\HUD\\death_wheel_%d", status - 1 ) );
-
-		}
-
-		float timeLeft = TFGameRules()->GetHalloweenEffectTimeLeft();
-
-		const float warnExpireTime = 3.0f;
-		const float blinkInterval = 0.25f;
-
-		if ( timeLeft < warnExpireTime )
-		{
-			int blink = (int)( timeLeft / blinkInterval );
-
-			m_pWheelOfDoomImage->SetVisible( blink & 0x1 );
-		}
-		else
-		{
-			m_pWheelOfDoomImage->SetVisible( true );
-		}
-	}
-	else
-	{
-		m_pWheelOfDoomImage->SetVisible( false );
 	}
 }
 

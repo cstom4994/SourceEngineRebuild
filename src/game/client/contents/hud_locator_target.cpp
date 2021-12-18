@@ -53,13 +53,7 @@ ConVar locator_icon_max_size_non_ss("locator_icon_max_size_non_ss", "1.5", FCVAR
 
 #define LOCATOR_OCCLUSION_TEST_RATE 0.25f
 
-enum {
-    DRAW_ARROW_NO = 0,
-    DRAW_ARROW_UP,
-    DRAW_ARROW_DOWN,
-    DRAW_ARROW_LEFT,
-    DRAW_ARROW_RIGHT
-};
+
 
 ConVar locator_fade_time("locator_fade_time", "0.3", FCVAR_NONE,
                          "Number of seconds it takes for a lesson to fully fade in/out.");

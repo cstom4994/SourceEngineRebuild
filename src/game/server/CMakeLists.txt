@@ -1168,9 +1168,7 @@ set(Source_Files__TF
     "../shared/tf/tf_viewmodel.h"
     "../shared/tf/tf_weapon_passtime_gun.cpp"
     "../shared/tf/tf_weapon_passtime_gun.h"
-    "../shared/tf/tf_wheel_of_doom.cpp"
-    "../shared/tf/tf_wheel_of_doom.h"
-    "../shared/tf/trigger_catapult_shared.cpp"
+        "../shared/tf/trigger_catapult_shared.cpp"
     "tf/countdown_announcer.h"
     "tf/entity_ammopack.cpp"
     "tf/entity_ammopack.h"
@@ -1571,128 +1569,6 @@ set(Source_Files__TF__Bot__MapEntities
 )
 source_group("Source Files\\TF\\Bot\\MapEntities" FILES ${Source_Files__TF__Bot__MapEntities})
 
-set(Source_Files__TF__Halloween
-    "tf/halloween/halloween_base_boss.cpp"
-    "tf/halloween/halloween_base_boss.h"
-    "tf/halloween/halloween_gift_spawn_locations.cpp"
-    "tf/halloween/halloween_gift_spawn_locations.h"
-    "tf/halloween/headless_hatman.cpp"
-    "tf/halloween/headless_hatman.h"
-    "tf/halloween/headless_hatman_body.cpp"
-    "tf/halloween/headless_hatman_body.h"
-)
-source_group("Source Files\\TF\\Halloween" FILES ${Source_Files__TF__Halloween})
-
-set(Source_Files__TF__Halloween__Behavior
-    "tf/halloween/halloween_behavior/headless_hatman_attack.cpp"
-    "tf/halloween/halloween_behavior/headless_hatman_attack.h"
-    "tf/halloween/halloween_behavior/headless_hatman_dying.cpp"
-    "tf/halloween/halloween_behavior/headless_hatman_dying.h"
-    "tf/halloween/halloween_behavior/headless_hatman_emerge.cpp"
-    "tf/halloween/halloween_behavior/headless_hatman_emerge.h"
-    "tf/halloween/halloween_behavior/headless_hatman_terrify.cpp"
-    "tf/halloween/halloween_behavior/headless_hatman_terrify.h"
-)
-source_group("Source Files\\TF\\Halloween\\Behavior" FILES ${Source_Files__TF__Halloween__Behavior})
-
-set(Source_Files__TF__Halloween__Eyeball_Boss
-    "../shared/tf/halloween/eyeball_boss/teleport_vortex.cpp"
-    "../shared/tf/halloween/eyeball_boss/teleport_vortex.h"
-    "tf/halloween/eyeball_boss/eyeball_boss.cpp"
-    "tf/halloween/eyeball_boss/eyeball_boss.h"
-)
-source_group("Source Files\\TF\\Halloween\\Eyeball Boss" FILES ${Source_Files__TF__Halloween__Eyeball_Boss})
-
-set(Source_Files__TF__Halloween__Eyeball_Boss__Behavior
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_approach_target.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_approach_target.h"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_behavior.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_behavior.h"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_emerge.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_emerge.h"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_emote.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_emote.h"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_idle.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_idle.h"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_launch_rockets.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_launch_rockets.h"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_notice.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_notice.h"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_stunned.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_stunned.h"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_teleport.cpp"
-    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_teleport.h"
-)
-source_group("Source Files\\TF\\Halloween\\Eyeball Boss\\Behavior" FILES ${Source_Files__TF__Halloween__Eyeball_Boss__Behavior})
-
-set(Source_Files__TF__Halloween__Ghost
-    "tf/halloween/ghost/ghost.cpp"
-    "tf/halloween/ghost/ghost.h"
-)
-source_group("Source Files\\TF\\Halloween\\Ghost" FILES ${Source_Files__TF__Halloween__Ghost})
-
-set(Source_Files__TF__Halloween__Merasmus
-    "tf/halloween/merasmus/merasmus.cpp"
-    "tf/halloween/merasmus/merasmus.h"
-    "tf/halloween/merasmus/merasmus_body.cpp"
-    "tf/halloween/merasmus/merasmus_body.h"
-    "tf/halloween/merasmus/merasmus_dancer.cpp"
-    "tf/halloween/merasmus/merasmus_dancer.h"
-    "tf/halloween/merasmus/merasmus_trick_or_treat_prop.cpp"
-    "tf/halloween/merasmus/merasmus_trick_or_treat_prop.h"
-)
-source_group("Source Files\\TF\\Halloween\\Merasmus" FILES ${Source_Files__TF__Halloween__Merasmus})
-
-set(Source_Files__TF__Halloween__Merasmus__Behavior
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_aoe_attack.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_aoe_attack.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_attack.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_attack.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_disguise.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_disguise.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_dying.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_dying.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_reveal.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_reveal.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_staff_attack.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_staff_attack.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_stunned.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_stunned.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_teleport.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_teleport.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_throwing_grenade.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_throwing_grenade.h"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_zap.cpp"
-    "tf/halloween/merasmus/merasmus_behavior/merasmus_zap.h"
-)
-source_group("Source Files\\TF\\Halloween\\Merasmus\\Behavior" FILES ${Source_Files__TF__Halloween__Merasmus__Behavior})
-
-set(Source_Files__TF__Halloween__Spell
-    "../shared/tf/halloween/tf_weapon_spellbook.cpp"
-    "../shared/tf/halloween/tf_weapon_spellbook.h"
-    "tf/halloween/spell/tf_spell_pickup.cpp"
-    "tf/halloween/spell/tf_spell_pickup.h"
-)
-source_group("Source Files\\TF\\Halloween\\Spell" FILES ${Source_Files__TF__Halloween__Spell})
-
-set(Source_Files__TF__Halloween__Zombie
-    "tf/halloween/zombie/zombie.cpp"
-    "tf/halloween/zombie/zombie.h"
-    "tf/halloween/zombie/zombie_spawner.cpp"
-    "tf/halloween/zombie/zombie_spawner.h"
-)
-source_group("Source Files\\TF\\Halloween\\Zombie" FILES ${Source_Files__TF__Halloween__Zombie})
-
-set(Source_Files__TF__Halloween__Zombie__Behavior
-    "tf/halloween/zombie/zombie_behavior/zombie_attack.cpp"
-    "tf/halloween/zombie/zombie_behavior/zombie_attack.h"
-    "tf/halloween/zombie/zombie_behavior/zombie_spawn.cpp"
-    "tf/halloween/zombie/zombie_behavior/zombie_spawn.h"
-    "tf/halloween/zombie/zombie_behavior/zombie_special_attack.cpp"
-    "tf/halloween/zombie/zombie_behavior/zombie_special_attack.h"
-)
-source_group("Source Files\\TF\\Halloween\\Zombie\\Behavior" FILES ${Source_Files__TF__Halloween__Zombie__Behavior})
-
 set(Source_Files__TF__Matchmaking
     "../shared/lobby.cpp"
     "../shared/lobby.h"
@@ -2025,16 +1901,6 @@ set(ALL_FILES
     ${Source_Files__TF__Bot__Behavior__Squad}
     ${Source_Files__TF__Bot__Behavior__Training}
     ${Source_Files__TF__Bot__MapEntities}
-    ${Source_Files__TF__Halloween}
-    ${Source_Files__TF__Halloween__Behavior}
-    ${Source_Files__TF__Halloween__Eyeball_Boss}
-    ${Source_Files__TF__Halloween__Eyeball_Boss__Behavior}
-    ${Source_Files__TF__Halloween__Ghost}
-    ${Source_Files__TF__Halloween__Merasmus}
-    ${Source_Files__TF__Halloween__Merasmus__Behavior}
-    ${Source_Files__TF__Halloween__Spell}
-    ${Source_Files__TF__Halloween__Zombie}
-    ${Source_Files__TF__Halloween__Zombie__Behavior}
     ${Source_Files__TF__Matchmaking}
     ${Source_Files__TF__MiniGames}
     ${Source_Files__TF__NavMesh}

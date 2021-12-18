@@ -704,7 +704,7 @@ public:
 
     virtual MaterialThreadMode_t GetThreadMode() = 0;
 
-    virtual bool IsRenderThreadSafe();
+    virtual bool IsRenderThreadSafe() = 0;
 
     virtual void ExecuteQueued() = 0;
 
@@ -774,7 +774,7 @@ public:
     // Use this to spew information about the 3D layer
     virtual void SpewDriverInfo() const = 0;
 
-    virtual void GetDXLevelDefaults(uint &max_dxlevel, uint &recommended_dxlevel);
+    virtual void GetDXLevelDefaults(uint &max_dxlevel, uint &recommended_dxlevel) = 0;
 
     // Get the image format of the back buffer. . useful when creating render targets, etc.
     virtual void GetBackBufferDimensions(int &width, int &height) const = 0;
@@ -914,9 +914,9 @@ public:
 
     // Stop attempting to stream in textures in response to usage.  Useful for phases such as loading or other explicit
     // operations that shouldn't take usage of textures as a signal to stream them in at full rez.
-    virtual void SuspendTextureStreaming();
+    virtual void SuspendTextureStreaming() = 0;
 
-    virtual void ResumeTextureStreaming();
+    virtual void ResumeTextureStreaming() = 0;
 
     // uncache all materials. .  good for forcing reload of materials.
     virtual void UncacheAllMaterials() = 0;
@@ -954,7 +954,7 @@ public:
                                     const char *pComplainPrefix = NULL) = 0;
 
     // Query whether a material is loaded (eg, whether FindMaterial will be nonblocking)
-    virtual bool IsMaterialLoaded(char const *pMaterialName);
+    virtual bool IsMaterialLoaded(char const *pMaterialName) = 0;
 
     //---------------------------------
     // This is the interface for knowing what materials are available
@@ -983,10 +983,10 @@ public:
 
     //---------------------------------
 
-    virtual void SetAsyncTextureLoadCache(void *hFileCache);
+    virtual void SetAsyncTextureLoadCache(void *hFileCache) = 0;
 
     virtual ITexture *FindTexture(char const *pTextureName, const char *pTextureGroupName, bool complain = true,
-                                  int nAdditionalCreationFlags = 0);
+                                  int nAdditionalCreationFlags = 0) = 0;
 
     // Checks to see if a particular texture is loaded
     virtual bool IsTextureLoaded(char const *pTextureName) const = 0;
@@ -1115,7 +1115,7 @@ public:
     // -----------------------------------------------------------
     virtual IMatRenderContext *GetRenderContext() = 0;
 
-    virtual bool SupportsShadowDepthTextures(void);
+    virtual bool SupportsShadowDepthTextures(void) = 0;
 
     virtual void BeginUpdateLightmaps(void) = 0;
 
@@ -1129,9 +1129,9 @@ public:
     virtual void Unlock(MaterialLock_t) = 0;
 
     // Vendor-dependent shadow depth texture format
-    virtual ImageFormat GetShadowDepthTextureFormat();
+    virtual ImageFormat GetShadowDepthTextureFormat() = 0;
 
-    virtual bool SupportsFetch4(void);
+    virtual bool SupportsFetch4(void) = 0;
 
     // Create a custom render context. Cannot be used to create MATERIAL_HARDWARE_CONTEXT
     virtual IMatRenderContext *CreateRenderContext(MaterialContextType_t type) = 0;
@@ -1147,7 +1147,7 @@ public:
     virtual IMaterial *
     FindProceduralMaterial(const char *pMaterialName, const char *pTextureGroupName, KeyValues *pVMTKeyValues) = 0;
 
-    virtual ImageFormat GetNullTextureFormat();
+    virtual ImageFormat GetNullTextureFormat() = 0;
 
     virtual void AddTextureAlias(const char *pAlias, const char *pRealName) = 0;
 
@@ -1175,7 +1175,7 @@ public:
     // Contains context in so it can make decisions (i.e. if it's a model, ignore certain cheat parameters)
     virtual IMaterial *
     FindMaterialEx(char const *pMaterialName, const char *pTextureGroupName, int nContext, bool complain = true,
-                   const char *pComplainPrefix = NULL);
+                   const char *pComplainPrefix = NULL) = 0;
 
 #ifdef DX_TO_GL_ABSTRACTION
     virtual void				DoStartupShaderPreloading( void ) = 0;
@@ -1183,53 +1183,53 @@ public:
 
     // Sets the override sizes for all render target size tests. These replace the frame buffer size.
     // Set them when you are rendering primarily to something larger than the frame buffer (as in VR mode).
-    virtual void SetRenderTargetFrameBufferSizeOverrides(int nWidth, int nHeight);
+    virtual void SetRenderTargetFrameBufferSizeOverrides(int nWidth, int nHeight) = 0;
 
     // Returns the (possibly overridden) framebuffer size for render target sizing.
-    virtual void GetRenderTargetFrameBufferDimensions(int &nWidth, int &nHeight);
+    virtual void GetRenderTargetFrameBufferDimensions(int &nWidth, int &nHeight) = 0;
 
     // returns the display device name that matches the adapter index we were started with
-    virtual char *GetDisplayDeviceName() const;
+    virtual char *GetDisplayDeviceName() const = 0;
 
     // creates a texture suitable for use with materials from a raw stream of bits.
     // The bits will be retained by the material system and can be freed upon return.
     virtual ITexture *
-    CreateTextureFromBits(int w, int h, int mips, ImageFormat fmt, int srcBufferSize, byte *srcBits);
+    CreateTextureFromBits(int w, int h, int mips, ImageFormat fmt, int srcBufferSize, byte *srcBits) = 0;
 
     // Lie to the material system to pretend to be in render target allocation mode at the beginning of time.
     // This was a thing that mattered a lot to old hardware, but doesn't matter at all to new hardware,
     // where new is defined to be "anything from the last decade." However, we want to preserve legacy behavior
     // for the old games because it's easier than testing them.
-    virtual void OverrideRenderTargetAllocation(bool rtAlloc);
+    virtual void OverrideRenderTargetAllocation(bool rtAlloc) = 0;
 
     // creates a texture compositor that will attempt to composite a new textuer from the steps of the specified KeyValues.
     virtual ITextureCompositor *
     NewTextureCompositor(int w, int h, const char *pCompositeName, int nTeamNum, uint64 randomSeed,
-                         KeyValues *stageDesc, uint texCompositeCreateFlags = 0);
+                         KeyValues *stageDesc, uint texCompositeCreateFlags = 0) = 0;
 
     // Loads the texture with the specified name, calls pRecipient->OnAsyncFindComplete with the result from the main thread.
     // once the texture load is complete. If the texture cannot be found, the returned texture will return true for IsError().
     virtual void
     AsyncFindTexture(const char *pFilename, const char *pTextureGroupName, IAsyncTextureOperationReceiver *pRecipient,
-                     void *pExtraArgs, bool bComplain = true, int nAdditionalCreationFlags = 0);
+                     void *pExtraArgs, bool bComplain = true, int nAdditionalCreationFlags = 0) = 0;
 
     // creates a texture suitable for use with materials from a raw stream of bits.
     // The bits will be retained by the material system and can be freed upon return.
     virtual ITexture *
     CreateNamedTextureFromBitsEx(const char *pName, const char *pTextureGroupName, int w, int h, int mips,
-                                 ImageFormat fmt, int srcBufferSize, byte *srcBits, int nFlags);
+                                 ImageFormat fmt, int srcBufferSize, byte *srcBits, int nFlags) = 0;
 
     // Creates a texture compositor template for use in later code.
     virtual bool
-    AddTextureCompositorTemplate(const char *pName, KeyValues *pTmplDesc, int nTexCompositeTemplateFlags = 0);
+    AddTextureCompositorTemplate(const char *pName, KeyValues *pTmplDesc, int nTexCompositeTemplateFlags = 0) = 0;
 
     // Performs final verification of all compositor templates (after they've all been initially loaded).
-    virtual bool VerifyTextureCompositorTemplates();
+    virtual bool VerifyTextureCompositorTemplates() = 0;
 };
 
 
 //-----------------------------------------------------------------------------
-// 
+//
 //-----------------------------------------------------------------------------
 abstract_class IMatRenderContext : public IRefCounted {
 public:
@@ -2030,7 +2030,7 @@ private:
 };
 
 //-----------------------------------------------------------------------------
-// Helper class for begin/end of pix event via constructor/destructor 
+// Helper class for begin/end of pix event via constructor/destructor
 //-----------------------------------------------------------------------------
 #define PIX_VALVE_ORANGE    0xFFF5940F
 

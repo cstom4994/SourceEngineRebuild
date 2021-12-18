@@ -26,7 +26,6 @@
 #include "c_tf_player.h"
 #include "tier2/renderutils.h"
 #include "bone_setup.h"
-#include "halloween/tf_weapon_spellbook.h"
 #include "matsys_controls/matsyscontrols.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -1742,11 +1741,6 @@ void CTFPlayerModelPanel::UpdateActionSlotEffects(
 
 	if ( !m_bDrawActionSlotEffects )
 		return;
-
-	if ( !m_aParticleSystems[ SYSTEM_ACTIONSLOT ] )
-	{
-		m_aParticleSystems[ SYSTEM_ACTIONSLOT ] = CreateParticleData( CTFSpellBook::GetHandEffect( m_pHeldItem, 0 ) );
-	}
 
 	if ( !m_aParticleSystems[ SYSTEM_ACTIONSLOT ] )
 		return;

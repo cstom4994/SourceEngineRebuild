@@ -1356,7 +1356,7 @@ void SixenseInput::GetFOV( float *hfov, float *vfov )
 {
 
 #if ( defined( HL2_CLIENT_DLL ) || defined( PONDER_CLIENT_DLL ) || defined( CSTRIKE_DLL ) ) && !defined( CSTRIKE15 ) && !defined( TERROR )
-	float engineAspectRatio = engine->GetScreenAspectRatio();
+	float engineAspectRatio = engine->GetScreenAspectRatio(16.0f, 9.0f);
 #else
 	// avoid GetLocalPlayer() assert...
 	if( !engine->IsLocalPlayerResolvable() ) {

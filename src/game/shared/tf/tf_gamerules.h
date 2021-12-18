@@ -1225,18 +1225,6 @@ public:
 		return BaseClass::ShouldDrawHeadLabels();
 	}
 
-	enum HalloweenScenarioType
-	{
-		HALLOWEEN_SCENARIO_NONE = 0,
-		HALLOWEEN_SCENARIO_MANN_MANOR,
-		HALLOWEEN_SCENARIO_VIADUCT,
-		HALLOWEEN_SCENARIO_LAKESIDE,
-		HALLOWEEN_SCENARIO_HIGHTOWER,
-		HALLOWEEN_SCENARIO_DOOMSDAY,
-	};
-	HalloweenScenarioType GetHalloweenScenario( void ) const;
-	bool IsHalloweenScenario( HalloweenScenarioType scenario ) const;
-
 	bool CanInitiateDuels( void );
 
 #ifdef GAME_DLL
@@ -1278,13 +1266,6 @@ public:
 	void SetIT( CBaseEntity *who );
 	void SetBirthdayPlayer( CBaseEntity *pEntity );
 
-	void SetHalloweenEffectStatus( int effect, float duration )		// Update the current Halloween effect on the HUD
-	{
-		m_nHalloweenEffect = effect;
-		m_fHalloweenEffectStartTime = gpGlobals->curtime;
-		m_fHalloweenEffectDuration = duration;
-	}
-
 
 	// remove all projectiles in the world
 	void RemoveAllProjectiles();
@@ -1300,12 +1281,6 @@ public:
 
 #endif // GAME_DLL
 
-	void ClearHalloweenEffectStatus( void )							// Clear the current Halloween effect and hide the HUD display
-	{
-		m_nHalloweenEffect = -1;
-		m_fHalloweenEffectStartTime = -1.0f;
-		m_fHalloweenEffectDuration = -1.0f;
-	}
 
 	bool IsIT( CBaseEntity *who ) const
 	{
@@ -1315,28 +1290,6 @@ public:
 	CBaseEntity *GetBirthdayPlayer( void ) const
 	{
 		return m_hBirthdayPlayer.Get();
-	}
-
-	bool IsHalloweenEffectStatusActive( void ) const
-	{
-		return m_nHalloweenEffect >= 0;
-	}
-
-	int GetHalloweenEffectStatus( void ) const
-	{
-		return m_nHalloweenEffect;
-	}
-
-	float GetHalloweenEffectTimeLeft( void ) const
-	{
-		float expireTime = m_fHalloweenEffectStartTime + m_fHalloweenEffectDuration;
-
-		return expireTime - gpGlobals->curtime;
-	}
-
-	float GetHalloweenEffectDuration( void ) const
-	{
-		return m_fHalloweenEffectDuration;
 	}
 
 	int GetGlobalAttributeCacheVersion( void ) const
@@ -1372,8 +1325,6 @@ private:
 	mutable CHandle< CTeamTrainWatcher > m_bluePayloadToBlock;
 
 	bool m_hasSpawnedToy;
-	void SpawnHalloweenBoss( void );
-	CountdownTimer m_halloweenBossTimer;
 	CUtlVector< CHandle< CBaseCombatCharacter > > m_activeBosses;
 	bool m_bHasSpawnedSoccerBall[TF_TEAM_COUNT];
 
@@ -1386,11 +1337,6 @@ private:
 
 public:
 	void BeginHaunting( int nDesiredCount, float flMinDuration, float flMaxDuration );
-
-	void StartHalloweenBossTimer( float flTime, float flVariation = 0.f )
-	{
-		m_halloweenBossTimer.Start( RandomFloat( flTime - flVariation, flTime + flVariation ) );
-	}
 
 	// Recent player stuff
 	void PlayerHistory_AddPlayer( CTFPlayer *pTFPlayer );
@@ -1436,10 +1382,6 @@ private:
 	CNetworkHandle( CBaseEntity, m_itHandle );	// entindex of current IT entity (0 = no it)
 	CNetworkHandle( CBaseEntity, m_hBirthdayPlayer );	// entindex of current birthday player (0 = none)
 
-	CNetworkVar( int, m_nHalloweenEffect );
-	CNetworkVar( float, m_fHalloweenEffectStartTime );
-	CNetworkVar( float, m_fHalloweenEffectDuration );
-	CNetworkVar( HalloweenScenarioType, m_halloweenScenario );
 
 // MvM Helpers
 #ifdef GAME_DLL
@@ -1502,13 +1444,6 @@ inline bool CTFGameRules::IsCreepWaveMode( void ) const
 }
 
 #endif
-
-
-inline bool CTFGameRules::IsHalloweenScenario( HalloweenScenarioType scenario ) const
-{
-	return m_halloweenScenario == scenario;
-}
-
 
 #ifdef GAME_DLL
 bool EntityPlacementTest( CBaseEntity *pMainEnt, const Vector &vOrigin, Vector &outPos, bool bDropToGround );

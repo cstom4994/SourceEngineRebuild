@@ -1812,24 +1812,6 @@ set(Source_Files__TF__Weapon
         )
 source_group("Source Files\\TF\\Weapon" FILES ${Source_Files__TF__Weapon})
 
-set(Source_Files__TF__halloween
-        "../shared/tf/halloween/eyeball_boss/teleport_vortex.cpp"
-        "../shared/tf/halloween/eyeball_boss/teleport_vortex.h"
-        "../shared/tf/halloween/tf_weapon_spellbook.cpp"
-        "../shared/tf/halloween/tf_weapon_spellbook.h"
-        "tf/halloween/c_eyeball_boss.cpp"
-        "tf/halloween/c_eyeball_boss.h"
-        "tf/halloween/c_headless_hatman.cpp"
-        "tf/halloween/c_headless_hatman.h"
-        "tf/halloween/c_merasmus.cpp"
-        "tf/halloween/c_merasmus.h"
-        "tf/halloween/c_merasmus_dancer.cpp"
-        "tf/halloween/c_merasmus_dancer.h"
-        "tf/halloween/c_zombie.cpp"
-        "tf/halloween/c_zombie.h"
-        )
-source_group("Source Files\\TF\\halloween" FILES ${Source_Files__TF__halloween})
-
 set(Source_Files__TF__vgui
         "tf/tf_streams.cpp"
         "tf/tf_streams.h"
@@ -2143,7 +2125,6 @@ set(ALL_FILES
         ${Source_Files__TF__PvE}
         ${Source_Files__TF__Steam_Workshop}
         ${Source_Files__TF__Weapon}
-        ${Source_Files__TF__halloween}
         ${Source_Files__TF__vgui}
         ${Source_Files__Temporary_Entities}
         ${Source_Files__game_controls}

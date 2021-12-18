@@ -115,7 +115,7 @@
 #if defined( PONDER_CLIENT_DLL )
 #include "rtime.h"
 #include "tf_hud_disconnect_prompt.h"
-#include "../engine/audio/public/sound.h"
+#include "../engine/components/audio/public/sound.h"
 #include "tf_shared_content_manager.h"
 #include "tf_gamerules.h"
 #endif

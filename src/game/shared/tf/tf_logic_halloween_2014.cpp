@@ -11,11 +11,8 @@
 
 #ifdef GAME_DLL
 	#include "particle_parse.h"
-	#include "halloween/tf_weapon_spellbook.h"
 	#include "tf_weapon_sniperrifle.h"
 	#include "ai_activity.h"
-	#include "halloween/halloween_base_boss.h"
-	#include "halloween/tf_weapon_spellbook.h"
 	#include "engine/IEngineSound.h"
 	#include "tf_props.h"
 #endif
@@ -429,14 +426,6 @@ void CTFHalloweenMinigame::Spawn()
 void CTFHalloweenMinigame::FireGameEvent( IGameEvent * event )
 {
 	BaseClass::FireGameEvent( event );
-
-	if ( FStrEq( event->GetName(), "pumpkin_lord_killed" ) )
-	{
-		if ( m_hBossSpawnPoint && ( !m_hHalloweenBoss || m_hHalloweenBoss->IsMarkedForDeletion() ) )
-		{
-			m_hHalloweenBoss = CHalloweenBaseBoss::SpawnBossAtPos( HALLOWEEN_BOSS_HHH, m_hBossSpawnPoint->GetAbsOrigin() );
-		}
-	}
 }
 
 void CTFHalloweenMinigame::InternalHandleInputScore( inputdata_t &inputdata )
@@ -482,7 +471,6 @@ void CTFHalloweenMinigame::TeleportAllPlayers()
 
 void CTFHalloweenMinigame::TeleportAllPlayersThink()
 {
-	RemoveAll2013HalloweenTeleportSpellsInMidFlight();
 
 	CUtlVector< CTFPlayer * > vecPlayers;
 	CollectPlayers( &vecPlayers, TEAM_ANY, false );
@@ -606,11 +594,6 @@ void CTFHalloweenMinigame::InputEnableSpawnBoss( inputdata_t &inputdata )
 		{
 			m_hBossSpawnPoint = gEntList.FindEntityByName( NULL, pszSpawnPoint );
 		}
-	}
-
-	if ( m_hBossSpawnPoint )
-	{
-		m_hHalloweenBoss = CHalloweenBaseBoss::SpawnBossAtPos( HALLOWEEN_BOSS_HHH, m_hBossSpawnPoint->GetAbsOrigin() );
 	}
 }
 

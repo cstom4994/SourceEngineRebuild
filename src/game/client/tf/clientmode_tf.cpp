@@ -475,9 +475,6 @@ void ClientModeTFNormal::Init()
 	Assert( m_pMenuSpyBuild );
 #endif // STAGING_ONLY
 
-	m_pMenuSpell = ( CHudSpellMenu * )GET_HUDELEMENT( CHudSpellMenu);
-	Assert( m_pMenuSpell );
-
 	m_pEurekaTeleportMenu = ( CHudEurekaEffectTeleportMenu * )GET_HUDELEMENT( CHudEurekaEffectTeleportMenu );
 	Assert( m_pEurekaTeleportMenu  );
 
@@ -960,40 +957,6 @@ void ClientModeTFNormal::FireGameEvent( IGameEvent *event )
 				g_pFullFileSystem->RelativePathToFullPath( "sound/ui/vote_started.wav", "GAME", fullpath, sizeof( fullpath ) );
 				PlayOutOfGameSound( fullpath );
 			}
-		}
-	}
-	else if ( FStrEq( "pumpkin_lord_summoned", eventname ) )
-	{
-		if ( !TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_DOOMSDAY ) )
-		{
-			C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
-			if ( pLocalPlayer )
-			{
-				pLocalPlayer->EmitSound( "Halloween.HeadlessBossSpawn" );
-			}
-
-			CEconNotification *pNotification = new CEconNotification();
-			pNotification->SetText( "#TF_Halloween_Boss_Appeared" );
-			pNotification->SetLifetime( 5.0f );
-			pNotification->SetSoundFilename( "vo/null.mp3" );
-			NotificationQueue_Add( pNotification );
-		}
-	}
-	else if ( FStrEq( "pumpkin_lord_killed", eventname ) )
-	{
-		if ( !TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_DOOMSDAY ) )
-		{
-			C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
-			if ( pLocalPlayer )
-			{
-				pLocalPlayer->EmitSound( "Halloween.HeadlessBossDeath" );
-			}
-
-			CEconNotification *pNotification = new CEconNotification();
-			pNotification->SetText( "#TF_Halloween_Boss_Killed" );
-			pNotification->SetLifetime( 5.0f );
-			pNotification->SetSoundFilename( "vo/null.mp3" );
-			NotificationQueue_Add( pNotification );
 		}
 	}
 	else if ( FStrEq( "eyeball_boss_summoned", eventname ) )

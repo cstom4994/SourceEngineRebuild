@@ -20,7 +20,6 @@
 #include "tf_wearable_item_demoshield.h"
 #include "takedamageinfo.h"
 #include "tf_weapon_buff_item.h"
-#include "halloween/tf_weapon_spellbook.h"
 
 #ifdef CLIENT_DLL
 	#include "c_tf_player.h"

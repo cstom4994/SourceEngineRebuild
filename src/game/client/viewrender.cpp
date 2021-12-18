@@ -54,6 +54,8 @@
 #include "sourcevr/isourcevirtualreality.h"
 #include "client_virtualreality.h"
 
+#include "ShaderEditor/Grass/CGrassCluster.h"
+
 #ifdef PORTAL
                                                                                                                         //#include "C_Portal_Player.h"
 #include "portal_render_targets.h"
@@ -1029,7 +1031,7 @@ void CViewRender::DrawViewModels(const CViewSetup &viewRender, bool drawViewmode
     viewModelSetup.zNear = viewRender.zNearViewmodel;
     viewModelSetup.zFar = viewRender.zFarViewmodel;
     viewModelSetup.fov = viewRender.fovViewmodel;
-    viewModelSetup.m_flAspectRatio = engine->GetScreenAspectRatio();
+    viewModelSetup.m_flAspectRatio = engine->GetScreenAspectRatio(16.0f, 9.0f);
 
     ITexture *pRTColor = NULL;
     ITexture *pRTDepth = NULL;
@@ -2671,7 +2673,7 @@ void CViewRender::ViewDrawScene_Intro(const CViewSetup &viewRender, int nClearFl
         playerView.angles = introData.m_vecCameraViewAngles;
         if (introData.m_playerViewFOV) {
             playerView.fov = ScaleFOVByWidthRatio(introData.m_playerViewFOV,
-                                                  engine->GetScreenAspectRatio() / (4.0f / 3.0f));
+                                                  engine->GetScreenAspectRatio(16.0f, 9.0f) / (4.0f / 3.0f));
         }
 
         g_pClientShadowMgr->PreRender();
@@ -3873,6 +3875,8 @@ void CRendering3dView::DrawOpaqueRenderables(ERenderDepthMode DepthMode) {
     //
     RopeManager()->DrawRenderCache(DepthMode);
     g_pParticleSystemMgr->DrawRenderCache(DepthMode);
+
+    CGrassClusterManager::GetInstance()->RenderClusters(DepthMode == DEPTH_MODE_SHADOW);
 }
 
 

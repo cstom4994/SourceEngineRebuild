@@ -355,7 +355,7 @@ bool CTFMatchSummary::TFPlayerSortFunc(vgui::SectionedListPanel *list, int itemI
 // Purpose: Inits the player list in a list panel
 //-----------------------------------------------------------------------------
 void CTFMatchSummary::InitPlayerList(TFSectionedListPanel *pPlayerList, int nTeam) {
-    float flAspectRatio = engine->GetScreenAspectRatio();
+    float flAspectRatio = engine->GetScreenAspectRatio(16.0f, 9.0f);
     bool bStandard = flAspectRatio < 1.6f;
 
     pPlayerList->SetVerticalScrollbar(false);

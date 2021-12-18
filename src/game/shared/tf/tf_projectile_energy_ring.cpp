@@ -21,7 +21,6 @@
 #include "tf_player_shared.h"
 #include "particle_parse.h"
 #include "tf_pumpkin_bomb.h"
-#include "halloween/merasmus/merasmus_trick_or_treat_prop.h"
 #include "tf_robot_destruction_robot.h"
 #endif
 

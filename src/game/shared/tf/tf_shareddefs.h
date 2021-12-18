@@ -71,14 +71,6 @@ enum
 	NUM_TEAM_ROLES,
 };
 
-enum HalloweenBossType
-{
-	HALLOWEEN_BOSS_INVALID = 0,
-	HALLOWEEN_BOSS_HHH = 1,
-	HALLOWEEN_BOSS_MONOCULUS = 2,
-	HALLOWEEN_BOSS_MERASMUS = 3,
-};
-
 // common utility
 inline int GetEnemyTeam( int team )
 {
@@ -129,11 +121,12 @@ enum
 	MVM_EVENT_POPFILE_MAX_TYPES,
 };
 
-enum
-{
-	DRAW_ARROW_UP,
-	DRAW_ARROW_LEFT,
-	DRAW_ARROW_RIGHT
+enum {
+    DRAW_ARROW_NO = 0,
+    DRAW_ARROW_UP,
+    DRAW_ARROW_DOWN,
+    DRAW_ARROW_LEFT,
+    DRAW_ARROW_RIGHT
 };
 
 //-----------------------------------------------------------------------------

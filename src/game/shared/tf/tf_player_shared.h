@@ -753,8 +753,6 @@ private:
 	void OnAddReprogrammed( void );
 	void OnAddMarkedForDeathSilent( void );
 	void OnAddDisguisedAsDispenser( void );
-	void OnAddHalloweenBombHead( void );
-	void OnAddHalloweenThriller( void );
 	void OnAddRadiusHealOnDamage( void );
 	void OnAddMedEffectUberBulletResist( void );
 	void OnAddMedEffectUberBlastResist( void );
@@ -767,13 +765,6 @@ private:
 	void OnAddBlastImmune( void );
 	void OnAddFireImmune( void );
 	void OnAddMVMBotRadiowave( void );
-	void OnAddHalloweenSpeedBoost( void );
-	void OnAddHalloweenQuickHeal( void );
-	void OnAddHalloweenGiant( void );
-	void OnAddHalloweenTiny( void );
-	void OnAddHalloweenGhostMode( void );
-	void OnAddHalloweenKartDash( void );
-	void OnAddHalloweenKart( void );
 	void OnAddBalloonHead( void );
 	void OnAddMeleeOnly( void );
 	void OnAddSwimmingCurse( void );
@@ -837,8 +828,6 @@ private:
 	void OnRemoveReprogrammed( void );
 	void OnRemoveMarkedForDeathSilent( void );
 	void OnRemoveDisguisedAsDispenser( void );
-	void OnRemoveHalloweenBombHead( void );
-	void OnRemoveHalloweenThriller( void );
 	void OnRemoveRadiusHealOnDamage( void );
 	void OnRemoveMedEffectUberBulletResist( void );
 	void OnRemoveMedEffectUberBlastResist( void );
@@ -851,13 +840,6 @@ private:
 	void OnRemoveBlastImmune( void );
 	void OnRemoveFireImmune( void );
 	void OnRemoveMVMBotRadiowave( void );
-	void OnRemoveHalloweenSpeedBoost( void );
-	void OnRemoveHalloweenQuickHeal( void );
-	void OnRemoveHalloweenGiant( void );
-	void OnRemoveHalloweenTiny( void );
-	void OnRemoveHalloweenGhostMode( void );
-	void OnRemoveHalloweenKartDash( void );
-	void OnRemoveHalloweenKart( void );
 	void OnRemoveBalloonHead( void );
 	void OnRemoveMeleeOnly( void );
 	void OnRemoveSwimmingCurse( void );

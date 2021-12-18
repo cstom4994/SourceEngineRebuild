@@ -92,7 +92,6 @@
 #include "tf_shared_content_manager.h"
 #include "baseanimatedtextureproxy.h"
 #include "econ_entity.h"
-#include "halloween/tf_weapon_spellbook.h"
 #include "tf_weapon_grapplinghook.h"
 #include "tf_logic_robot_destruction.h"
 #include "econ_notifications.h"
@@ -7287,10 +7286,6 @@ float C_TFPlayer::GetEffectiveInvisibilityLevel( void )
 {
 	float flPercentInvisible = GetPercentInvisible();
 
-	// Crude way to limit Halloween spell
-	bool bHalloweenSpellStealth = TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_HIGHTOWER ) && m_Shared.InCond( TF_COND_STEALTHED_USER_BUFF );
-	bool bLimitedInvis = !IsEnemyPlayer() || bHalloweenSpellStealth;
-
 #ifdef STAGING_ONLY
 	C_TFPlayer *pLocalTFPlayer = C_TFPlayer::GetLocalTFPlayer();
 	if ( pLocalTFPlayer && pLocalTFPlayer->m_Shared.InCond( TF_COND_STEALTHED_PHASE ) && pLocalTFPlayer != this )
@@ -7301,15 +7296,15 @@ float C_TFPlayer::GetEffectiveInvisibilityLevel( void )
 
 	// If this is a teammate of the local player or viewer is observer,
 	// dont go above a certain max invis
-	if ( bLimitedInvis )
-	{
-		float flMax = tf_teammate_max_invis.GetFloat();
-		if ( flPercentInvisible > flMax )
-		{
-			flPercentInvisible = flMax;
-		}
-	}
-	else
+//	if ( bLimitedInvis )
+//	{
+//		float flMax = tf_teammate_max_invis.GetFloat();
+//		if ( flPercentInvisible > flMax )
+//		{
+//			flPercentInvisible = flMax;
+//		}
+//	}
+//	else
 	{
 		// If this player just killed me, show them slightly
 		// less than full invis in the deathcam and freezecam
@@ -11444,29 +11439,8 @@ void C_TFPlayer::FireGameEvent( IGameEvent *event )
 		if ( pLocalPlayer && GetUserID() == pLocalPlayer->GetUserID() && iUserID == pLocalPlayer->GetUserID() )
 		{
 
-			// ADD EconNotification to equip spellbook here
-			if ( TFGameRules() && TFGameRules()->IsUsingSpells() )
-			{
-				int iCount = NotificationQueue_Count( &CEquipSpellbookNotification::IsNotificationType );
-				CEconItemView *pItem = TFInventoryManager()->GetItemInLoadoutForClass( event->GetInt( "class"), LOADOUT_POSITION_ACTION );
-				// no spell book
-				if ( !pItem || !pItem->GetStaticData()->GetItemClass() || !FStrEq( pItem->GetStaticData()->GetItemClass(), "tf_weapon_spellbook" ) )
-				{
-					if ( iCount == 0 )
-					{
-						CEquipSpellbookNotification *pNotification = new CEquipSpellbookNotification();
-						pNotification->SetText( "#TF_SpellBook_EquipAction" );
-						pNotification->SetLifetime( 10.0f );
-						NotificationQueue_Add( pNotification );
-					}
-				}
-				else
-				{
-					NotificationQueue_Remove( &CEquipSpellbookNotification::IsNotificationType );
-				}
-			}
 			// ADD EconNotification to equip grapplinghook here
-			else if ( TFGameRules() && TFGameRules()->IsUsingGrapplingHook() )
+			if ( TFGameRules() && TFGameRules()->IsUsingGrapplingHook() )
 			{
 				int iCount = NotificationQueue_Count( &CEquipGrapplingHookNotification::IsNotificationType );
 				CEconItemView *pItem = TFInventoryManager()->GetItemInLoadoutForClass( event->GetInt( "class"), LOADOUT_POSITION_ACTION );

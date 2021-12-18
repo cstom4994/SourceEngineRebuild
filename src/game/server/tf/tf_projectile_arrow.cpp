@@ -20,8 +20,6 @@
 #include "tf_pumpkin_bomb.h"
 #include "tf_weapon_shovel.h"
 #include "player_vs_environment/tf_tank_boss.h"
-#include "halloween/halloween_base_boss.h"
-#include "halloween/merasmus/merasmus_trick_or_treat_prop.h"
 #include "tf_logic_robot_destruction.h"
 
 #include "tf_gamerules.h"

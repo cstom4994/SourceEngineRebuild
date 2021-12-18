@@ -80,18 +80,12 @@
 	#include "tf_gcmessages.h"
 	#include "vote_controller.h"
 	#include "tf_voteissues.h"
-	#include "halloween/headless_hatman.h"
-	#include "halloween/ghost/ghost.h"
-	#include "halloween/eyeball_boss/eyeball_boss.h"
-	#include "halloween/merasmus/merasmus.h"
-	#include "halloween/merasmus/merasmus_dancer.h"
 	#include "tf_extra_map_entity.h"
 	#include "tf_weapon_grenade_pipebomb.h"
 	#include "tf_weapon_flaregun.h"
 	#include "tf_weapon_sniperrifle.h"
 	#include "tf_weapon_knife.h"
 	#include "tf_weapon_jar.h"
-	#include "halloween/tf_weapon_spellbook.h"
 	
 	#include "player_vs_environment/tf_population_manager.h"
 	#include "player_vs_environment/monster_resource.h"
@@ -103,11 +97,9 @@
 	#include "player_vs_environment/tf_mann_vs_machine_logic.h"
 	#include "player_vs_environment/tf_upgrades.h"
 
-	#include "tf_wheel_of_doom.h"
+
 	#include "tf_halloween_souls_pickup.h"
-	#include "halloween/zombie/zombie.h"
 	#include "teamplay_round_timer.h"
-	#include "halloween/spell/tf_spell_pickup.h"
 	#include "tf_weapon_laser_pointer.h"
 	#include "effect_dispatch_data.h"
 	#include "tf_fx.h"
@@ -121,8 +113,7 @@
 	#include "workshop/maps_workshop.h"
 	#include "tf_passtime_logic.h"
 	#include "cdll_int.h"
-	#include "halloween/halloween_gift_spawn_locations.h"
-	#include "tf_weapon_invis.h"
+		#include "tf_weapon_invis.h"
 	#include "tf_gc_server.h"
 	#include "gcsdk/msgprotobuf.h"
 	#include "tf_party.h"
@@ -1206,10 +1197,6 @@ BEGIN_NETWORK_TABLE_NOBASE( CTFGameRules, DT_TFGameRules )
 
 	RecvPropBool( RECVINFO( m_bBountyModeEnabled ) ),
 
-	RecvPropInt( RECVINFO( m_nHalloweenEffect ) ),
-	RecvPropFloat( RECVINFO( m_fHalloweenEffectStartTime ) ),
-	RecvPropFloat( RECVINFO( m_fHalloweenEffectDuration ) ),
-	RecvPropInt( RECVINFO( m_halloweenScenario ) ),
 	RecvPropBool( RECVINFO( m_bHelltowerPlayersInHell ) ),
 	RecvPropBool( RECVINFO( m_bIsUsingSpells ) ),
 	RecvPropBool( RECVINFO( m_bCompetitiveMode ), 0, RecvProxy_CompetitiveMode ),
@@ -3119,8 +3106,6 @@ CTFGameRules::CTFGameRules()
 	
 #endif
 
-	ClearHalloweenEffectStatus();
-
 	// Initialize the game type
 	m_nGameType.Set( TF_GAMETYPE_UNDEFINED );
 
@@ -3140,7 +3125,6 @@ CTFGameRules::CTFGameRules()
 	m_bTruceActive.Set( false );
 	m_bTeamsSwitched.Set( false );
 
-	m_halloweenScenario.Set( HALLOWEEN_SCENARIO_NONE );
 	m_iGlobalAttributeCacheVersion = 0;
 
 //=============================================================================
@@ -3267,33 +3251,6 @@ void CTFGameRules::Precache( void )
 {
 	BaseClass::Precache();
 
-	// The Halloween bosses get spawned in code, so they don't get a chance to precache
-	// when the map loads.  We'll do the precaching for them here.
-	if( IsHalloweenScenario( HALLOWEEN_SCENARIO_LAKESIDE ) )
-	{
-		CMerasmus::PrecacheMerasmus();
-	}
-	else if( IsHalloweenScenario( HALLOWEEN_SCENARIO_VIADUCT ) )
-	{
-		CEyeballBoss::PrecacheEyeballBoss();
-	}
-	else if( IsHalloweenScenario( HALLOWEEN_SCENARIO_MANN_MANOR ) )
-	{
-		CHeadlessHatman::PrecacheHeadlessHatman();
-	}
-	else if ( IsHalloweenScenario( HALLOWEEN_SCENARIO_HIGHTOWER ) )
-	{
-		CEyeballBoss::PrecacheEyeballBoss();
-		CGhost::PrecacheGhost();
-	}
-	else if ( IsHalloweenScenario( HALLOWEEN_SCENARIO_DOOMSDAY ) )
-	{
-		CTFPlayer::PrecacheKart();
-		CGhost::PrecacheGhost();
-		CHeadlessHatman::PrecacheHeadlessHatman();
-		CMerasmus::PrecacheMerasmus();
-	}
-
 	if ( StringHasPrefix( STRING( gpGlobals->mapname ), "mvm_" ) )
 	{
 		CTFPlayer::PrecacheMvM();
@@ -3331,8 +3288,6 @@ void CTFGameRules::LevelInitPostEntity( void )
 			UTIL_Remove( pGift );
 		}
 
-		// Ask Halloween System if there are any locations
-		AddHalloweenGiftPositionsForMap( STRING(gpGlobals->mapname), m_halloweenGiftSpawnLocations );
 	}
 
 	m_flMatchSummaryTeleportTime = -1.f;
@@ -3413,24 +3368,12 @@ bool CTFGameRules::FlagsMayBeCapped( void )
 }
  
 
-//-----------------------------------------------------------------------------
-// Purpose: Return which Halloween scenario is currently running
-//-----------------------------------------------------------------------------
-CTFGameRules::HalloweenScenarioType CTFGameRules::GetHalloweenScenario( void ) const
-{
-	if ( !const_cast< CTFGameRules * >( this )->IsHolidayActive( kHoliday_Halloween ) )
-		return HALLOWEEN_SCENARIO_NONE;
 
-	return m_halloweenScenario;
-}
  
 //-----------------------------------------------------------------------------
 bool CTFGameRules::IsUsingSpells( void ) const
 {
 	if ( tf_spells_enabled.GetBool() )
-		return true;
-
-	if ( IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_HIGHTOWER ) )
 		return true;
 
 	return m_bIsUsingSpells;
@@ -4627,7 +4570,6 @@ void CTFGameRules::SetupOnRoundStart( void )
 	}
 
 	m_szMostRecentCappers[0] = 0;
-	m_halloweenBossTimer.Invalidate();
 	m_ghostVector.RemoveAll();
 
 	m_zombieMobTimer.Invalidate();
@@ -8038,7 +7980,6 @@ void CTFGameRules::Think()
 	}
 
 	PeriodicHalloweenUpdate();
-	SpawnHalloweenBoss();
 
 	if ( IsHalloweenScenario( HALLOWEEN_SCENARIO_HIGHTOWER ) )
 	{
@@ -8294,30 +8235,6 @@ bool CTFGameRules::SwitchToNextBestWeapon( CBaseCombatCharacter *pPlayer, CBaseC
 //-----------------------------------------------------------------------------
 bool CTFGameRules::PointsMayBeCaptured( void )
 {
-	if ( IsHolidayActive( kHoliday_Halloween ) && GetActiveBoss() )
-	{
-		switch ( GetHalloweenScenario() )
-		{
-		case HALLOWEEN_SCENARIO_VIADUCT:
-			{
-				// the eyeball prevents point capturing while he's in play
-				if ( assert_cast< CEyeballBoss * >( GetActiveBoss() ) )
-				{
-					return false;
-				}
-			}
-			break;
-		case HALLOWEEN_SCENARIO_LAKESIDE:
-			{
-				// merasmus prevents point capturing while he's in play
-				if ( assert_cast< CMerasmus * >( GetActiveBoss() ) )
-				{
-					return false;
-				}
-			}
-			break;
-		}
-	}
 
 	if ( IsMannVsMachineMode() )
 	{
@@ -8363,17 +8280,6 @@ void CTFGameRules::SpawnZombieMob( void )
 		m_zombieMobTimer.Invalidate();
 	}
 
-	// spawn pending mob members
-	if ( m_zombiesLeftToSpawn > 0 )
-	{
-		if ( IsSpaceToSpawnHere( m_zombieSpawnSpot ) )
-		{
-			if ( CZombie::SpawnAtPos( m_zombieSpawnSpot ) )
-			{
-				--m_zombiesLeftToSpawn;
-			}
-		}
-	}
 
 	// require a minimum number of human players in the game before the boss appears
 	CUtlVector< CTFPlayer * > playerVector;
@@ -8465,258 +8371,6 @@ void CTFGameRules::SpawnZombieMob( void )
 		}
 	}
 }
-
-//---------------------------------------------------------------------------------------------------------
-static bool isBossForceSpawning = false;
-
-// force the boss to spawn where our cursor is pointing
-CON_COMMAND_F( tf_halloween_force_boss_spawn, "For testing.", FCVAR_CHEAT )
-{
-	isBossForceSpawning = true;
-}
-
-
-CON_COMMAND_F( cc_spawn_merasmus_at_level, "Force Merasmus to spawn at a specific difficulty level", FCVAR_CHEAT )
-{
-	if( args.ArgC() != 2 )
-	{
-		DevMsg( "Must specify a level\n" );
-		return;
-	}
-
-	CMerasmus::DBG_SetLevel( atoi(args[1]) );
-	
-	tf_halloween_force_boss_spawn( args );
-}
-
-
-extern ConVar tf_halloween_bot_min_player_count;
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CTFGameRules::SpawnHalloweenBoss( void )
-{
-	if ( !IsHolidayActive( kHoliday_Halloween ) )
-		return;
-
-	// only spawn the Halloween Boss on our Halloween maps
-	HalloweenBossType bossType = HALLOWEEN_BOSS_INVALID;
-
-	float bossInterval = 0.0f;
-	float bossIntervalVariation = 0.0f;
-
-	HalloweenScenarioType scenario = GetHalloweenScenario();
-	if ( scenario == HALLOWEEN_SCENARIO_MANN_MANOR )
-	{
-		bossType = HALLOWEEN_BOSS_HHH;
-		bossInterval = tf_halloween_boss_spawn_interval.GetFloat();
-		bossIntervalVariation = tf_halloween_boss_spawn_interval_variation.GetFloat();
-
-	}
-	else if ( scenario == HALLOWEEN_SCENARIO_VIADUCT )
-	{
-		bossType = HALLOWEEN_BOSS_MONOCULUS;
-		bossInterval = tf_halloween_eyeball_boss_spawn_interval.GetFloat();
-		bossIntervalVariation = tf_halloween_eyeball_boss_spawn_interval_variation.GetFloat();
-	}
-	else if ( scenario == HALLOWEEN_SCENARIO_LAKESIDE )
-	{
-		bossType = HALLOWEEN_BOSS_MERASMUS;
-
-		if ( CMerasmus::GetMerasmusLevel() <= 3 )
-		{
-			bossInterval = tf_merasmus_spawn_interval.GetFloat();
-			bossIntervalVariation = tf_merasmus_spawn_interval_variation.GetFloat();
-		}
-		else
-		{
-			// after level 3, spawn Merasmus every 60 secs
-			bossInterval = 60;
-			bossIntervalVariation = 0;
-		}
-
-		// check if the wheel is still spinning
-		CWheelOfDoom* pWheel = assert_cast< CWheelOfDoom* >( gEntList.FindEntityByClassname( NULL, "wheel_of_doom" ) );
-		if ( pWheel && !pWheel->IsDoneBoardcastingEffectSound() )
-		{
-			return;
-		}
-	}
-	//else if ( scenario == HALLOWEEN_SCENARIO_HIGHTOWER )
-	//{
-	//	bool bWasEnabled = tf_halloween_zombie_mob_enabled.GetBool();
-	//	tf_halloween_zombie_mob_enabled.SetValue( true );
-
-	//	// not a boss battle map
-	//	SpawnZombieMob();
-
-	//	tf_halloween_zombie_mob_enabled.SetValue( bWasEnabled );
-
-	//	bossType = "eyeball_boss";
-	//	bossInterval = tf_halloween_eyeball_boss_spawn_interval.GetFloat();
-	//	bossIntervalVariation = tf_halloween_eyeball_boss_spawn_interval_variation.GetFloat();
-	//}
-	else
-	{
-		// not a boss battle map
-		SpawnZombieMob();
-
-		return;
-	}
-
-	// only one boss at a time
-	if ( GetActiveBoss() )
-	{
-		// boss is still out there - restart the timer
-		StartHalloweenBossTimer( bossInterval, bossIntervalVariation );
-		isBossForceSpawning = false;
-		return;
-	}
-
-	if ( !m_halloweenBossTimer.IsElapsed() && !isBossForceSpawning )
-		return;
-
-	// boss timer has elapsed
-	if ( m_halloweenBossTimer.HasStarted() || isBossForceSpawning )
-	{
-		if ( !isBossForceSpawning )
-		{
-			// timer was started and has elapsed - time to spawn the boss
-			if ( InSetup() || IsInWaitingForPlayers() )
-				return;
-
-			// require a minimum number of human players in the game before the boss appears
-			CUtlVector< CTFPlayer * > playerVector;
-			CollectPlayers( &playerVector, TF_TEAM_RED, COLLECT_ONLY_LIVING_PLAYERS );
-			CollectPlayers( &playerVector, TF_TEAM_BLUE, COLLECT_ONLY_LIVING_PLAYERS, APPEND_PLAYERS );
-
-			// only count humans
-			int totalPlayers = 0;
-			for( int i=0; i<playerVector.Count(); ++i )
-			{
-				if ( !playerVector[i]->IsBot() )
-				{
-					++totalPlayers;
-				}
-			}
-
-			if ( totalPlayers < tf_halloween_bot_min_player_count.GetInt() )
-				return;
-		}
-
-		Vector bossSpawnPos = vec3_origin;
-
-		// spawn on the currently contested point
-		CTeamControlPoint *contestedPoint = NULL;
-		CTeamControlPointMaster *pMaster = g_hControlPointMasters.Count() ? g_hControlPointMasters[0] : NULL;
-		if ( pMaster )
-		{
-			for( int i=0; i<pMaster->GetNumPoints(); ++i )
-			{
-				contestedPoint = pMaster->GetControlPoint( i );
-				if ( contestedPoint && pMaster->IsInRound( contestedPoint ) )
-				{
-					if ( ObjectiveResource()->GetOwningTeam( contestedPoint->GetPointIndex() ) == TF_TEAM_BLUE )
-						continue;
-
-					// blue are the invaders
-					if ( !TeamplayGameRules()->TeamMayCapturePoint( TF_TEAM_BLUE, contestedPoint->GetPointIndex() ) )
-						continue;
-
-					break;
-				}
-			}
-		}
-
-		CBaseEntity *pCustomSpawnBossPos = gEntList.FindEntityByClassname( NULL, "spawn_boss" );
-		if ( pCustomSpawnBossPos )
-		{
-			bossSpawnPos = pCustomSpawnBossPos->GetAbsOrigin();
-		}
-		else if ( contestedPoint )
-		{
-			bossSpawnPos = contestedPoint->GetAbsOrigin();
-
-			if ( scenario == HALLOWEEN_SCENARIO_VIADUCT || scenario == HALLOWEEN_SCENARIO_LAKESIDE )
-			{
-				// revert ownership of point to neutral
-				contestedPoint->ForceOwner( 0 );
-
-				// pause the timers
-				if ( IsInKothMode() )
-				{
-					variant_t sVariant;
-					CTeamRoundTimer *pTimer = GetKothTeamTimer( TF_TEAM_BLUE );
-					if ( pTimer )
-					{
-						pTimer->AcceptInput( "Pause", NULL, NULL, sVariant, 0 );
-					}
-
-					pTimer = GetKothTeamTimer( TF_TEAM_RED );
-					if ( pTimer )
-					{
-						pTimer->AcceptInput( "Pause", NULL, NULL, sVariant, 0 );
-					}
-				}
-			}
-		}
-		else
-		{
-			// pick a random spot
-			CUtlVector< CTFNavArea * > spawnAreaVector;
-			for( int i=0; i<TheNavAreas.Count(); ++i )
-			{
-				CTFNavArea *area = (CTFNavArea *)TheNavAreas[i];
-
-				if ( area->HasAttributeTF( TF_NAV_SPAWN_ROOM_BLUE | TF_NAV_SPAWN_ROOM_RED | TF_NAV_SPAWN_ROOM_EXIT ) )
-				{
-					// don't spawn in team spawn rooms
-					continue;
-				}
-
-				// don't use small nav areas
-				const float goodSize = 100.0f;
-				if ( area->GetSizeX() < goodSize || area->GetSizeY() < goodSize )
-				{
-					continue;
-				}
-
-				spawnAreaVector.AddToTail( area );
-			}
-
-			if ( spawnAreaVector.Count() == 0 )
-			{
-				// no place to spawn (!)
-				return;
-			}
-
-			int which = RandomInt( 0, spawnAreaVector.Count()-1 );
-			bossSpawnPos = spawnAreaVector[ which ]->GetCenter();
-		}
-
-		CHalloweenBaseBoss::SpawnBossAtPos( bossType, bossSpawnPos );
-
-		// pick next spawn time
-		StartHalloweenBossTimer( bossInterval, bossIntervalVariation );
-	
-		isBossForceSpawning = false;
-	}
-	else
-	{
-		// Merasmus has a more reliable initial spawn time
-		if( IsHalloweenScenario( HALLOWEEN_SCENARIO_LAKESIDE ) )
-		{
-			StartHalloweenBossTimer( bossInterval, bossIntervalVariation );
-		}
-		else
-		{
-			// initial spawn time
-			m_halloweenBossTimer.Start( 0.5f * RandomFloat( 0.0f, bossInterval + bossIntervalVariation ) );	
-		}
-	}
-}
-
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -9418,10 +9072,6 @@ void CTFGameRules::RecalculateTruce( void )
 				}
 			}
 
-			if ( bHaveActiveBoss && ( IsValveMap() || tf_halloween_allow_truce_during_boss_event.GetBool() || IsMapForcedTruceDuringBossFight() ) )
-			{
-				bTruceActive = true;
-			}
 		}
 	}
 

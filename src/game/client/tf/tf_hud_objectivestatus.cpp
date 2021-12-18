@@ -270,12 +270,6 @@ void CTFHudObjectiveStatus::SetVisiblePanels( void )
 			m_pEscortPanel->SetVisible( !bMultipleTrains );
 		}
 
-		// Hide the panel while players are fighting in Helltower's hell
-		if ( TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_HIGHTOWER ) && ( TFGameRules()->ArePlayersInHell() == true ) )
-		{
-			bMultipleTrains = false;
-		}
-
 		if ( m_pMultipleEscortPanel && m_pMultipleEscortPanel->EditablePanel::IsVisible() != bMultipleTrains ) // intentionally skipping EscortPanel version of IsVisible() to bypass the !m_bHaveValidPointPositions check
 		{
 			m_pMultipleEscortPanel->SetVisible( bMultipleTrains );

@@ -948,7 +948,7 @@ void CHudMainMenuOverride::ApplySchemeSettings( IScheme *scheme )
 	}
 
 	// Put in ratio condition
-	float aspectRatio = engine->GetScreenAspectRatio();
+	float aspectRatio = engine->GetScreenAspectRatio(16.0f, 9.0f);
 	AddSubKeyNamed( pConditions, aspectRatio >= 1.6 ? "if_wider" : "if_taller" );
 
 	RemoveAllMenuEntries();

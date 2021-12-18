@@ -35,8 +35,7 @@
 	#include "tf_projectile_arrow.h"
 	#include "tf_gamestats.h"
 	#include "NextBot/NextBotManager.h"
-	#include "halloween/merasmus/merasmus_trick_or_treat_prop.h"
-	#include "tf_logic_robot_destruction.h"
+		#include "tf_logic_robot_destruction.h"
 #ifdef STAGING_ONLY
 	#include "tf_fx.h"
 #endif // STAGING_ONLY
@@ -2602,12 +2601,6 @@ void CTFFlameEntity::OnCollide( CBaseEntity *pOther )
 	if ( info.GetDamageType() & DMG_CRITICAL )
 	{
 		info.SetCritType( CTakeDamageInfo::CRIT_FULL );
-	}
-
-	// terrible hack for flames hitting the Merasmus props to get the particle effect in the correct position
-	if ( TFGameRules() && TFGameRules()->GetActiveBoss() && ( TFGameRules()->GetActiveBoss()->GetBossType() == HALLOWEEN_BOSS_MERASMUS ) )
-	{
-		info.SetDamagePosition( GetAbsOrigin() );
 	}
 
 	// Track hits for the Flamethrower, which is used to change the weapon sound based on hit ratio

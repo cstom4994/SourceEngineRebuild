@@ -18,7 +18,6 @@
 	#include "NextBot.h"
 	#include "../server/NextBot/Path/NextBotPathFollow.h"
 	#include "../server/NextBot/Path/NextBotPath.h"
-	#include "../server/tf/halloween/headless_hatman_body.h"
 	#include "tf_obj_dispenser.h"
 #else
 	#include "c_obj_dispenser.h"
@@ -321,7 +320,6 @@ public:
 	// INextBot
 	virtual CRobotIntention	*GetIntentionInterface( void ) const		{ return m_intention; }
 	virtual CRobotLocomotion	*GetLocomotionInterface( void ) const	{ return m_locomotor; }
-	virtual CHeadlessHatmanBody	*GetBodyInterface( void ) const			{ return m_body; }
 	void SetNewActivity( Activity activity );
 	void SetIsPanicked( bool bPanicked ) { m_bIsPanicked = bPanicked; }
 	bool GetIsPanicked( void ) const { return m_bIsPanicked; }
@@ -359,7 +357,6 @@ private:
 
 	CRobotIntention *m_intention;
 	CRobotLocomotion *m_locomotor;
-	CHeadlessHatmanBody *m_body;
 	bool m_bIsPanicked;
 #endif
 };

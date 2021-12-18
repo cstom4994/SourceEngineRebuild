@@ -44,14 +44,6 @@
 #define ROUND_SETUP_2SECS	"Announcer.RoundBegins2Seconds"
 #define ROUND_SETUP_1SECS	"Announcer.RoundBegins1Seconds"
 
-#ifdef PONDER_CLIENT_DLL
-#define MERASMUS_SETUP_5SECS	"Merasmus.RoundBegins5Seconds"
-#define MERASMUS_SETUP_4SECS	"Merasmus.RoundBegins4Seconds"
-#define MERASMUS_SETUP_3SECS	"Merasmus.RoundBegins3Seconds"
-#define MERASMUS_SETUP_2SECS	"Merasmus.RoundBegins2Seconds"
-#define MERASMUS_SETUP_1SECS	"Merasmus.RoundBegins1Seconds"
-#endif
-
 #define ROUND_START_BELL	"Ambient.Siren"
 
 #define ROUND_TIMER_TIME_ADDED			"Announcer.TimeAdded"
@@ -292,13 +284,6 @@ void CTeamRoundTimer::Precache( void )
 	PrecacheScriptSound( ROUND_TIMER_TIME_ADDED_WINNER );
 	PrecacheScriptSound( ROUND_START_BELL );
 
-#ifdef PONDER_CLIENT_DLL
-	PrecacheScriptSound( MERASMUS_SETUP_5SECS );
-	PrecacheScriptSound( MERASMUS_SETUP_4SECS );
-	PrecacheScriptSound( MERASMUS_SETUP_3SECS );
-	PrecacheScriptSound( MERASMUS_SETUP_2SECS );
-	PrecacheScriptSound( MERASMUS_SETUP_1SECS );
-#endif // PONDER_CLIENT_DLL
 #endif // TF_DLL || PONDER_CLIENT_DLL
 }
 
@@ -591,13 +576,6 @@ const char *CTeamRoundTimer::GetTimeWarningSound( int nWarning )
 	case RT_WARNING_5SECS:
 		if ( m_nState == RT_STATE_SETUP )
 		{
-#ifdef PONDER_CLIENT_DLL
-			if ( TFGameRules() && TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_DOOMSDAY ) )
-			{
-				pszRetVal = MERASMUS_SETUP_5SECS;
-			}
-			else
-#endif
 			{
 				pszRetVal = ROUND_SETUP_5SECS;
 			}
@@ -610,13 +588,6 @@ const char *CTeamRoundTimer::GetTimeWarningSound( int nWarning )
 	case RT_WARNING_4SECS:
 		if ( m_nState == RT_STATE_SETUP )
 		{
-#ifdef PONDER_CLIENT_DLL
-			if ( TFGameRules() && TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_DOOMSDAY ) )
-			{
-				pszRetVal = MERASMUS_SETUP_4SECS;
-			}
-			else
-#endif
 			{
 				pszRetVal = ROUND_SETUP_4SECS;
 			}
@@ -629,13 +600,6 @@ const char *CTeamRoundTimer::GetTimeWarningSound( int nWarning )
 	case RT_WARNING_3SECS:
 		if ( m_nState == RT_STATE_SETUP )
 		{
-#ifdef PONDER_CLIENT_DLL
-			if ( TFGameRules() && TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_DOOMSDAY ) )
-			{
-				pszRetVal = MERASMUS_SETUP_3SECS;
-			}
-			else
-#endif
 			{
 				pszRetVal = ROUND_SETUP_3SECS;
 			}
@@ -648,13 +612,6 @@ const char *CTeamRoundTimer::GetTimeWarningSound( int nWarning )
 	case RT_WARNING_2SECS:
 		if ( m_nState == RT_STATE_SETUP )
 		{
-#ifdef PONDER_CLIENT_DLL
-			if ( TFGameRules() && TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_DOOMSDAY ) )
-			{
-				pszRetVal = MERASMUS_SETUP_2SECS;
-			}
-			else
-#endif
 			{
 				pszRetVal = ROUND_SETUP_2SECS;
 			}
@@ -667,13 +624,6 @@ const char *CTeamRoundTimer::GetTimeWarningSound( int nWarning )
 	case RT_WARNING_1SECS:
 		if ( m_nState == RT_STATE_SETUP )
 		{
-#ifdef PONDER_CLIENT_DLL
-			if ( TFGameRules() && TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_DOOMSDAY ) )
-			{
-				pszRetVal = MERASMUS_SETUP_1SECS;
-			}
-			else
-#endif
 			{
 				pszRetVal = ROUND_SETUP_1SECS;
 			}
@@ -698,11 +648,6 @@ const char *CTeamRoundTimer::GetTimeWarningSound( int nWarning )
 //-----------------------------------------------------------------------------
 void CTeamRoundTimer::SendTimeWarning( int nWarning )
 {
-#if defined( PONDER_CLIENT_DLL )
-	// don't play any time warnings for Helltower
-	if ( TFGameRules() && TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_HIGHTOWER ) )
-		return;
-#endif
 
 	// don't play sounds if the level designer has turned them off or if it's during the WaitingForPlayers time
 	if ( !m_bTimerPaused && m_bAutoCountdown && !TeamplayRoundBasedRules()->IsInWaitingForPlayers() )

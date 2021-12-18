@@ -416,10 +416,6 @@ public:
 	// -----------------------
 	virtual void		OnPursuedBy( INextBot * RESTRICT pPursuer ){} // called every frame while pursued by a bot in DirectChase.
 
-#ifdef TF_DLL
-	virtual HalloweenBossType GetBossType() const { return HALLOWEEN_BOSS_INVALID; }
-#endif // TF_DLL
-
 #ifdef GLOWS_ENABLE
 	// Glows
 	void				AddGlowEffect( void );

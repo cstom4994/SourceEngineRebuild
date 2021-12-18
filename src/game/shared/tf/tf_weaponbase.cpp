@@ -43,7 +43,6 @@
 #include "tf_gamestats.h"
 #include "bot/tf_bot_manager.h"
 #include "bot/tf_bot.h"
-#include "halloween/halloween_base_boss.h"
 #include "tf_fx.h"
 #include "tf_gamestats.h"
 // Client specific.

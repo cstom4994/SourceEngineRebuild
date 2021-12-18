@@ -386,57 +386,6 @@ class CAchievementTFHalloweenHelltowerSkeletonGrind : public CBaseTFAchievementS
 DECLARE_ACHIEVEMENT( CAchievementTFHalloweenHelltowerSkeletonGrind, ACHIEVEMENT_TF_HALLOWEEN_HELLTOWER_SKELETON_GRIND, "TF_HALLOWEEN_HELLTOWER_SKELETON_GRIND", 5 );
 
 //----------------------------------------------------------------------------------------------------------------
-class CAchievementTFHalloweenHelltowerKillGrind : public CBaseTFAchievementSimple
-{
-	void Init()
-	{
-		SetFlags( ACH_LISTEN_PLAYER_KILL_ENEMY_EVENTS | ACH_SAVE_GLOBAL );
-		SetGoal( 25 );
-		SetStoreProgressInSteam( true );
-		SetMapNameFilter( "plr_hightower_event" );
-	}
-
-	virtual void Event_EntityKilled( CBaseEntity *pVictim, CBaseEntity *pAttacker, CBaseEntity *pInflictor, IGameEvent *event ) 
-	{
-		if ( TFGameRules() && TFGameRules()->IsHalloweenScenario( CTFGameRules::HALLOWEEN_SCENARIO_HIGHTOWER ) )
-		{
-			CTFPlayer *pTFVictim = ToTFPlayer( pVictim );
-			if ( !pTFVictim )
-				return;
-
-			CTFPlayer *pLocalPlayer = ToTFPlayer( C_TFPlayer::GetLocalPlayer() );
-			if ( !pLocalPlayer )
-				return;
-
-			if ( pLocalPlayer != pAttacker )
-				return;
-
-			if ( pLocalPlayer == pVictim )
-				return;
-
-			switch( event->GetInt( "customkill" ) )
-			{
-			case TF_DMG_CUSTOM_SPELL_TELEPORT:
-			case TF_DMG_CUSTOM_SPELL_SKELETON:
-			case TF_DMG_CUSTOM_SPELL_MIRV:
-			case TF_DMG_CUSTOM_SPELL_METEOR:
-			case TF_DMG_CUSTOM_SPELL_LIGHTNING:
-			case TF_DMG_CUSTOM_SPELL_FIREBALL:
-			case TF_DMG_CUSTOM_SPELL_MONOCULUS:
-			case TF_DMG_CUSTOM_SPELL_BLASTJUMP:
-			case TF_DMG_CUSTOM_SPELL_BATS:
-			case TF_DMG_CUSTOM_SPELL_TINY:
-				IncrementCount();
-				break;
-			default:
-				break;
-			}
-		}
-	}
-};
-DECLARE_ACHIEVEMENT( CAchievementTFHalloweenHelltowerKillGrind, ACHIEVEMENT_TF_HALLOWEEN_HELLTOWER_KILL_GRIND, "TF_HALLOWEEN_HELLTOWER_KILL_GRIND", 5 );
-
-//----------------------------------------------------------------------------------------------------------------
 class CAchievementTFHalloweenHelltowerKillBrothers : public CBaseTFAchievementSimple
 {
 	void Init() 

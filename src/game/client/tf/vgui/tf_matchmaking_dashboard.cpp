@@ -14,7 +14,7 @@
 #include "tf_hud_disconnect_prompt.h"
 #include "tf_gc_client.h"
 #include "tf_party.h"
-#include "../engine/vgui2/src/VPanel.h"
+#include "../engine/components/vgui2/src/VPanel.h"
 
 using namespace vgui;
 using namespace GCSDK;

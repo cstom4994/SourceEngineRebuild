@@ -19,7 +19,6 @@
 #include "func_nogrenades.h"
 #include "Sprite.h"
 #include "tf_fx.h"
-#include "halloween/merasmus/merasmus.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!

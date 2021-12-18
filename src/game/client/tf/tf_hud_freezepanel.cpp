@@ -24,9 +24,6 @@
 #include "viewrender.h"
 #include "c_obj_sentrygun.h"
 #include "NextBot/C_NextBot.h"
-#include "halloween/c_headless_hatman.h"
-#include "halloween/c_eyeball_boss.h"
-#include "halloween/c_merasmus.h"
 #include "tf_wardata.h"
 
 #if defined( REPLAY_ENABLED )
@@ -532,33 +529,6 @@ void CTFFreezePanel::FireGameEvent( IGameEvent * event )
 				else
 				{
 					m_pBasePanel->SetDialogVariable( "objectkiller", wszLocalized );
-				}
-			}
-			else if ( dynamic_cast< C_HeadlessHatman * >( pKiller ) != NULL )
-			{
-				m_pBasePanel->SetDialogVariable( "killername", g_pVGuiLocalize->Find( "#TF_HALLOWEEN_BOSS_DEATHCAM_NAME" ) );
-
-				if ( m_pAvatar )
-				{
-					m_pAvatar->SetVisible( false );
-				}
-			}
-			else if ( dynamic_cast< C_EyeballBoss * >( pKiller ) != NULL )
-			{
-				m_pBasePanel->SetDialogVariable( "killername", g_pVGuiLocalize->Find( "#TF_HALLOWEEN_EYEBALL_BOSS_DEATHCAM_NAME" ) );
-
-				if ( m_pAvatar )
-				{
-					m_pAvatar->SetVisible( false );
-				}
-			}
-			else if ( dynamic_cast< C_Merasmus * >( pKiller ) != NULL )
-			{
-				m_pBasePanel->SetDialogVariable( "killername", g_pVGuiLocalize->Find( "#TF_HALLOWEEN_MERASMUS_DEATHCAM_NAME" ) );
-
-				if ( m_pAvatar )
-				{
-					m_pAvatar->SetVisible( false );
 				}
 			}
 			else if ( m_pFreezeLabel )
