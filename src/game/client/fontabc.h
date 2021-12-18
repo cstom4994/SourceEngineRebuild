@@ -11,9 +11,10 @@
 #pragma once
 #endif
 
-typedef struct {
-    int abcA, abcB, abcC;
-    int total;
+typedef struct
+{
+	int		abcA, abcB, abcC;
+	int		total;
 } FONTABC;
 
 #endif // FONTABC_H

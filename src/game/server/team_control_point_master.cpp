@@ -951,6 +951,20 @@ void CTeamControlPointMaster::FireRoundEndOutput( void )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
+const CTeamControlPointRound* CTeamControlPointMaster::GetRoundByIndex( int nIndex ) const
+{
+	if ( nIndex < 0 || nIndex >= m_ControlPointRounds.Count() )
+	{
+		Assert( false );
+		return 0;
+	}
+
+	return m_ControlPointRounds[ nIndex ];
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
 float CTeamControlPointMaster::PointLastContestedAt( int point )
 {
 	CTeamControlPoint *pPoint = GetControlPoint(point);

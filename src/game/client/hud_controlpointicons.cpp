@@ -977,7 +977,7 @@ void CHudControlPointIcons::PerformLayout( void )
 		{
 			bUseDefaultLines = false;
 
-			// Cap layout is a string with indexes of cap points seperated by ',' to denote
+			// Cap layout is a string with indexes of cap points separated by ',' to denote
 			// a new line. So "3,1 2" would create a pyramid, with cap point 3 on the 
 			// first line, and caps 1 & 2 on the second line.
 			int iLine = 0;
@@ -1391,6 +1391,9 @@ void CControlPointProgressBar::ApplySchemeSettings( IScheme *pScheme )
 	m_pTeardropSide = dynamic_cast<CIconPanel *>( FindChildByName("TeardropSide") );
 	m_pBlocked = dynamic_cast<CIconPanel *>( FindChildByName("Blocked") );
 	m_iOrgHeight = GetTall();
+
+	m_pBar->SetProgressDirection( vgui::CircularProgressBar::PROGRESS_CW );
+	m_pBar->SetReverseProgress( true );
 
 	m_iMidGroupIndex = gHUD.LookupRenderGroupIndexByName( "mid" );
 }

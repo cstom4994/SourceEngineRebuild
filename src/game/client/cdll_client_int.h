@@ -60,9 +60,6 @@ class IEngineClientReplay;
 class IReplayScreenshotManager;
 class CSteamID;
 
-//GAMEUI2
-class IGameUI2;
-
 //=============================================================================
 // HPE_BEGIN
 // [dwenger] Necessary for stats display
@@ -113,9 +110,6 @@ extern IReplayManager *g_pReplayManager;
 extern IReplayScreenshotManager *g_pReplayScreenshotManager;
 extern IEngineReplay *g_pEngineReplay;
 extern IEngineClientReplay *g_pEngineClientReplay;
-
-//GAMEUI2
-extern IGameUI2* GameUI2;
 
 //=============================================================================
 // HPE_BEGIN

@@ -295,11 +295,7 @@ int SEditModelRender::MaterialPicker(char ***szMat) {
 
     Vector ray;
     const CViewSetup *pViewSetup = view->GetPlayerViewSetup();
-    float ratio = engine->GetScreenAspectRatio(
-#if SWARM_DLL
-            pViewSetup->width, pViewSetup->height
-#endif
-    );
+    float ratio = engine->GetScreenAspectRatio(0, 0);
 
     ratio = (1.0f / ratio) * (4.0f / 3.0f);
     float flFov = ScaleFOVByWidthRatio(pViewSetup->fov, ratio);

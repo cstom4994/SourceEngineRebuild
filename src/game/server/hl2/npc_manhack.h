@@ -60,11 +60,6 @@ public:
 	CNPC_Manhack();
 	~CNPC_Manhack();
 
-#ifdef VANCE
-	bool			IsHackable(void) { return true; }
-	void			Hack(void);
-#endif
-
 	Class_T			Classify(void);
 
 	bool			CorpseGib( const CTakeDamageInfo &info );

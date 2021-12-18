@@ -37,14 +37,13 @@ public:
   	virtual bool IsVisible() { return BaseClass::IsVisible(); }
   	virtual void SetParent( vgui::VPANEL parent ) { BaseClass::SetParent( parent ); }
 
+	virtual GameActionSet_t GetPreferredActionSet() { return GAME_ACTION_SET_NONE; }
 
 public:
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 	virtual void PerformLayout();
 	void Init( const char *title, int numTicks, int currentTick );
-
-    virtual GameActionSet_t GetPreferredActionSet() { return GAME_ACTION_SET_NONE; }
 
 protected:
 	IViewPort	*m_pViewPort;

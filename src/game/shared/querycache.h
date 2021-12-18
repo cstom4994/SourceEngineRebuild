@@ -11,7 +11,12 @@
 #endif
 
 #include "tier0/platform.h"
-#include "mathlib/vector.h"
+
+#if defined(TERROR)
+#define SUPPORT_QUERY_CACHE 1
+#else
+#define SUPPORT_QUERY_CACHE 0
+#endif
 
 // this system provides several piece of functionality to ai or other systems which wish to do
 // traces and other trace-like queries. 
@@ -22,6 +27,16 @@
 // b. By updating the cache entries outside of the entity think functions, the update is done in a
 // fully multi-threaded fashion
 
+enum EEntityOffsetMode_t
+{
+	EOFFSET_MODE_WORLDSPACE_CENTER,
+	EOFFSET_MODE_EYEPOSITION,
+	EOFFSET_MODE_NONE,										// nop
+};
+
+#if SUPPORT_QUERY_CACHE
+
+#include "mathlib/vector.h"
 
 enum EQueryType_t
 {
@@ -29,13 +44,6 @@ enum EQueryType_t
 	EQUERY_TRACELINE,
 	EQUERY_ENTITY_LOS_CHECK,
 
-};
-
-enum EEntityOffsetMode_t
-{
-	EOFFSET_MODE_WORLDSPACE_CENTER,
-	EOFFSET_MODE_EYEPOSITION,
-	EOFFSET_MODE_NONE,										// nop
 };
 
 
@@ -75,7 +83,7 @@ struct QueryCacheEntry_t
 
 };
 
-
+#endif
 
 bool IsLineOfSightBetweenTwoEntitiesClear( CBaseEntity *pSrcEntity,
 										   EEntityOffsetMode_t nSrcOffsetMode,

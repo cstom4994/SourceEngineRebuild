@@ -13,22 +13,26 @@
 //-----------------------------------------------------------------------------
 // Purpose: Handle weapon effect callbacks
 //-----------------------------------------------------------------------------
-void SDK_EjectBrass(int shell, const CEffectData &data) {
-    C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
+void SDK_EjectBrass( int shell, const CEffectData &data )
+{
+	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
 
-    if (!pPlayer)
-        return;
+	if( !pPlayer )
+		return;
 
-    tempents->CSEjectBrass(data.m_vOrigin, data.m_vAngles, data.m_fFlags, shell, pPlayer);
+	tempents->CSEjectBrass( data.m_vOrigin, data.m_vAngles, data.m_fFlags, shell, pPlayer );
 }
 
-void SDK_FX_EjectBrass_9mm_Callback(const CEffectData &data) {
-    SDK_EjectBrass(CS_SHELL_9MM, data);
+void SDK_FX_EjectBrass_9mm_Callback( const CEffectData &data )
+{
+	SDK_EjectBrass( CS_SHELL_9MM, data );
 }
 
-void SDK_FX_EjectBrass_12Gauge_Callback(const CEffectData &data) {
-    SDK_EjectBrass(CS_SHELL_12GAUGE, data);
+void SDK_FX_EjectBrass_12Gauge_Callback( const CEffectData &data )
+{
+	SDK_EjectBrass( CS_SHELL_12GAUGE, data );
 }
+
 
 
 DECLARE_CLIENT_EFFECT( "EjectBrass_9mm", SDK_FX_EjectBrass_9mm_Callback );

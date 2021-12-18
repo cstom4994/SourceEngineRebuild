@@ -111,8 +111,6 @@ enum
 
 	SCHED_SLEEP,
 
-	SCHED_FIRE_AND_RELOAD,
-
 	// ======================================
 	// IMPORTANT: This must be the last enum
 	// ======================================

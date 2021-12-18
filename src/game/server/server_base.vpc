@@ -18,37 +18,14 @@ $include "$SRCDIR\vpc_scripts\protobuf_builder.vpc"
 $Include "$SRCDIR\vpc_scripts\source_replay.vpc"	[$TF]
 $Include "$SRCDIR\game\protobuf_include.vpc"
 
-$Configuration	"Debug"
-{
-	$General
-	{
-		$OutputDirectory		".\Debug_$GAMENAME"			[$WIN32]
-		$IntermediateDirectory	".\Debug_$GAMENAME"			[$WIN32]
-
-		$OutputDirectory		".\Debug_$GAMENAME_360"		[$X360]
-		$IntermediateDirectory	".\Debug_$GAMENAME_360"		[$X360]
-	}
-}
-
-$Configuration	"Release"
-{
-	$General
-	{
-		$OutputDirectory		".\Release_$GAMENAME"		[$WIN32]
-		$IntermediateDirectory	".\Release_$GAMENAME"		[$WIN32]
-
-		$OutputDirectory		".\Release_$GAMENAME_360"	[$X360]
-		$IntermediateDirectory	".\Release_$GAMENAME_360"	[$X360]
-	}
-}
-
 $Configuration
 {
 	$General
 	{
-		$OutputDirectory		".\$GAMENAME"		[$OSXALL]
+		$OutputDirectory			".\$GAMENAME"
+		$IntermediateDirectory		".\$GAMENAME"
 	}
-	
+
 	$Compiler
 	{
 		$AdditionalIncludeDirectories	"$BASE;.\;$SRCDIR\game\shared;$SRCDIR\utils\common;$SRCDIR\game\shared\econ;$SRCDIR\game\server\NextBot"
@@ -66,17 +43,42 @@ $Configuration
 	}
 }
 
+$Configuration	"Debug"
+{
+	$General
+	{
+		$OutputDirectory		".\Debug_$GAMENAME" [$WINDOWS]
+		$IntermediateDirectory	".\Debug_$GAMENAME" [$WINDOWS]
+
+		$OutputDirectory		".\Debug_$GAMENAME_360"		[$X360]
+		$IntermediateDirectory	".\Debug_$GAMENAME_360"		[$X360]
+	}
+}
+
+$Configuration	"Release"
+{
+	$General
+	{
+		// Windows generator doesn't sandbox these directories per configuration but others do :-/
+		$OutputDirectory		".\Release_$GAMENAME" [$WINDOWS]
+		$IntermediateDirectory	".\Release_$GAMENAME" [$WINDOWS]
+
+		$OutputDirectory		".\Release_$GAMENAME_360"	[$X360]
+		$IntermediateDirectory	".\Release_$GAMENAME_360"	[$X360]
+	}
+}
+
 $Project
 {
 	$Folder "Replay"
 	{
 		$File	"gamedll_replay.cpp"
 		$File	"$SRCDIR\common\replay\ireplaysessionrecorder.h"
-		
+
 		$File	"$SRCDIR\game\shared\replay_gamestats_shared.cpp"	[$BUILD_REPLAY]
 		$File	"$SRCDIR\game\shared\replay_gamestats_shared.h"	[$BUILD_REPLAY]
 	}
-	
+
 	$Folder	"Source Files"
 	{
 		$File	"$SRCDIR\game\shared\achievement_saverestore.cpp"
@@ -664,11 +666,6 @@ $Project
 		//Haptics
 		$File	"$SRCDIR\public\haptics\haptic_msgs.cpp"
 		$File	"$SRCDIR\public\haptics\haptic_utils.cpp"	[$WIN32]
-		$File	"env_skydome.cpp"
-		$File	"env_global_light.cpp"
-		$File	"env_music.cpp"
-		$File	"projectile_bullet.cpp"
-		$File	"projectile_bullet.h"
 
 		// Not using precompiled header cbase.h
 
@@ -686,6 +683,7 @@ $Project
 				"$SRCDIR\game\shared\interval.cpp"					\
 				"$SRCDIR\public\keyframe\keyframe.cpp"				\
 				"$SRCDIR\common\language.cpp"						\
+				"$SRCDIR\common\steamid.cpp"						\
 				"$SRCDIR\public\map_utils.cpp"						\
 				"$SRCDIR\public\networkvar.cpp"						\
 				"$SRCDIR\common\randoverride.cpp"					\
@@ -1009,8 +1007,8 @@ $Project
 		$File	"toolframework_server.cpp"
 		$File	"toolframework_server.h"
 	}
-	
-	$Folder	"Link Libraries" 
+
+	$Folder	"Link Libraries"
 	{
 		$Lib	choreoobjects
 		$Lib	dmxloader

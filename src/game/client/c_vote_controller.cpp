@@ -82,9 +82,9 @@ void C_VoteController::ResetData()
 {
 	m_iActiveIssueIndex = INVALID_ISSUE;
 	m_iOnlyTeamToVote = TEAM_UNASSIGNED;
-	for( int index = 0; index < MAX_VOTE_OPTIONS; index++ )
+	for( int i = 0; i < MAX_VOTE_OPTIONS; i++ )
 	{
-		m_nVoteOptionCount[index] = 0;
+		m_nVoteOptionCount[i] = 0;
 	}
 	m_nPotentialVotes = 0;
 	m_bVotesDirty = false;
@@ -127,15 +127,15 @@ void C_VoteController::ClientThink()
 			IGameEvent *event = gameeventmanager->CreateEvent( "vote_changed" );
 			if ( event )
 			{
-				for ( int index = 0; index < MAX_VOTE_OPTIONS; index++ )
+				for ( int i = 0; i < MAX_VOTE_OPTIONS; i++ )
 				{	
 					char szOption[2];
-					Q_snprintf( szOption, sizeof( szOption ), "%i", index + 1 );
+					Q_snprintf( szOption, sizeof( szOption ), "%i", i + 1 );
 
 					char szVoteOption[13] = "vote_option";
 					Q_strncat( szVoteOption, szOption, sizeof( szVoteOption ), COPY_ALL_CHARACTERS );
 
-					event->SetInt( szVoteOption, m_nVoteOptionCount[index] );
+					event->SetInt( szVoteOption, m_nVoteOptionCount[i] );
 				}
 				event->SetInt( "potentialVotes", m_nPotentialVotes );
 				gameeventmanager->FireEventClientSide( event );

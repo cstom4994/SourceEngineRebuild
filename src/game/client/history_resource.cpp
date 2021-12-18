@@ -280,7 +280,7 @@ void CHudHistoryResource::CheckClearHistory( void )
 //-----------------------------------------------------------------------------
 bool CHudHistoryResource::ShouldDraw( void )
 {
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	return false;
 #else
 	return ( ( m_iCurrentHistorySlot > 0 || m_bNeedsDraw ) && CHudElement::ShouldDraw() );

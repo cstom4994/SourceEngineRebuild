@@ -27,7 +27,7 @@
 #include "tier0/memdbgon.h"
 
 #ifdef STAGING_ONLY
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 extern ConVar tf_unusual_effect_offset;
 #endif
 #endif
@@ -561,7 +561,7 @@ void CParticleProperty::UpdateControlPoint( ParticleEffectList_t *pEffect, int i
 	float flOffset = 0.0f;
 	bool bUsingHeadOrigin = false;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 
 	CBaseEntity *pWearable = (CBaseEntity*) pPoint->hEntity.Get();
 	if ( pWearable && GetAttribInterface( pWearable ) && !pWearable->IsPlayer() )
@@ -612,10 +612,10 @@ void CParticleProperty::UpdateControlPoint( ParticleEffectList_t *pEffect, int i
 				{
 					matrix3x4_t attachmentToWorld;
 
-					if ( !pAnimating->GetAttachment( pPoint->iAttachmentPoint, attachmentToWorld ) )
+					if ( !pAnimating->GetAttachmentNoRecalc( pPoint->iAttachmentPoint, attachmentToWorld ) )
 					{
 						// try C_BaseAnimating if attach point is not on the weapon
-						if ( !pAnimating->C_BaseAnimating::GetAttachment( pPoint->iAttachmentPoint, attachmentToWorld ) )
+						if ( !pAnimating->C_BaseAnimating::GetAttachmentNoRecalc( pPoint->iAttachmentPoint, attachmentToWorld ) )
 						{
 							Warning( "Cannot update control point %d for effect '%s'.\n", pPoint->iAttachmentPoint, pEffect->pParticleEffect->GetEffectName() );
 							// Remove the effect cause this warning means something is orphaned

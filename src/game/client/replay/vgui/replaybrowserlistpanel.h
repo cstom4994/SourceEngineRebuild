@@ -22,70 +22,59 @@ using namespace vgui;
 // Forward declarations
 //-----------------------------------------------------------------------------
 class CBaseThumbnailCollection;
-
 class CReplayPreviewPanelBase;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
 class CReplayBrowserThumbnail;
-
 class CExLabel;
 
-class CReplayListPanel : public PanelListPanel {
-    DECLARE_CLASS_SIMPLE(CReplayListPanel, PanelListPanel);
+class CReplayListPanel : public PanelListPanel
+{
+	DECLARE_CLASS_SIMPLE( CReplayListPanel, PanelListPanel );
 public:
-    CReplayListPanel(Panel *pParent, const char *pName);
+	CReplayListPanel( Panel *pParent, const char *pName );
+	~CReplayListPanel();
 
-    ~CReplayListPanel();
+	virtual void ApplySchemeSettings( IScheme *pScheme );
+	virtual void PerformLayout();
 
-    virtual void ApplySchemeSettings(IScheme *pScheme);
+	void AddReplayItem( ReplayItemHandle_t hItem );
+	void CleanupUIForReplayItem( ReplayItemHandle_t hReplayItem );
+	void AddReplaysToList();
+	void RemoveCollection( CBaseThumbnailCollection *pCollection );
 
-    virtual void PerformLayout();
+	virtual void OnTick();
 
-    void AddReplayItem(ReplayItemHandle_t hItem);
+	void OnItemPanelEntered( Panel *pPanel );
+	void OnItemPanelExited( Panel *pPanel );
 
-    void CleanupUIForReplayItem(ReplayItemHandle_t hReplayItem);
+	void SetupBorderArrow( bool bLeft );
 
-    void AddReplaysToList();
+	void ClearPreviewPanel();
 
-    void RemoveCollection(CBaseThumbnailCollection *pCollection);
-
-    virtual void OnTick();
-
-    void OnItemPanelEntered(Panel *pPanel);
-
-    void OnItemPanelExited(Panel *pPanel);
-
-    void SetupBorderArrow(bool bLeft);
-
-    void ClearPreviewPanel();
-
-    void ApplyFilter(const wchar_t *pFilterText);
+	void ApplyFilter( const wchar_t *pFilterText );
 
 protected:
-    virtual void OnMouseWheeled(int delta);
+	virtual void OnMouseWheeled(int delta);
 
 private:
-    const IQueryableReplayItem *FindItem(ReplayItemHandle_t hItem, int *pItemManagerIndex);
+	const IQueryableReplayItem *FindItem( ReplayItemHandle_t hItem, int *pItemManagerIndex );
+	CBaseThumbnailCollection *FindOrAddReplayThumbnailCollection( const IQueryableReplayItem *pItem, IReplayItemManager *pItemManager );
+	CReplayBrowserThumbnail *FindThumbnailAtCursor( int x, int y );
+	bool PassesFilter( IQueryableReplayItem *pItem );
 
-    CBaseThumbnailCollection *
-    FindOrAddReplayThumbnailCollection(const IQueryableReplayItem *pItem, IReplayItemManager *pItemManager);
+	CBaseThumbnailCollection	*m_pReplaysCollection;
+	CBaseThumbnailCollection	*m_pMoviesCollection;
 
-    CReplayBrowserThumbnail *FindThumbnailAtCursor(int x, int y);
+	CUtlVector< CBaseThumbnailCollection * > m_vecCollections;
+	CReplayPreviewPanelBase	*m_pPreviewPanel;
+	Panel					*m_pPrevHoverPanel;
 
-    bool PassesFilter(IQueryableReplayItem *pItem);
-
-    CBaseThumbnailCollection *m_pReplaysCollection;
-    CBaseThumbnailCollection *m_pMoviesCollection;
-
-    CUtlVector<CBaseThumbnailCollection *> m_vecCollections;
-    CReplayPreviewPanelBase *m_pPreviewPanel;
-    Panel *m_pPrevHoverPanel;
-
-    ImagePanel *m_pBorderArrowImg;
-    int m_aBorderArrowDims[2];
-    wchar_t m_wszFilter[256];
+	ImagePanel				*m_pBorderArrowImg;
+	int						m_aBorderArrowDims[2];
+	wchar_t					m_wszFilter[256];
 };
 
 #endif // REPLAYBROWSER_LISTPANEL_H

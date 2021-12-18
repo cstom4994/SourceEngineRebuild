@@ -16,7 +16,7 @@
 #include "checksum_crc.h"
 #include "tier0/icommandline.h"
 
-#if defined( TF_CLIENT_DLL ) || defined( TF_DLL )
+#if defined( PONDER_CLIENT_DLL ) || defined( TF_DLL )
 #include "tf_shareddefs.h"
 #include "tf_classdata.h"
 #endif
@@ -272,13 +272,13 @@ public:
 
 		// Load in any map specific overrides
 		char scriptfile[ 512 ];
-#if defined( TF_CLIENT_DLL ) || defined( TF_DLL )
+#if defined( PONDER_CLIENT_DLL ) || defined( TF_DLL )
 		if( V_stristr( mapname, "mvm" ) )
 		{
 			V_strncpy( scriptfile, "scripts/mvm_level_sounds.txt", sizeof( scriptfile ) );
 			if ( filesystem->FileExists( "scripts/mvm_level_sounds.txt", "GAME" ) )
 			{
-				soundemitterbase->AddSoundOverrides( "scripts/mvm_level_sounds.txt" );
+				soundemitterbase->AddSoundOverrides( "scripts/mvm_level_sounds.txt", true );
 			}
 			if ( filesystem->FileExists( "scripts/mvm_level_sound_tweaks.txt", "GAME" ) )
 			{

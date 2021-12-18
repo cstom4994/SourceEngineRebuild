@@ -103,9 +103,6 @@ BEGIN_DATADESC( CBaseCombatCharacter )
 	DEFINE_AUTO_ARRAY( m_iAmmo, FIELD_INTEGER ),
 	DEFINE_AUTO_ARRAY( m_hMyWeapons, FIELD_EHANDLE ),
 	DEFINE_FIELD( m_hActiveWeapon, FIELD_EHANDLE ),
-#ifdef VANCE
-	DEFINE_FIELD( m_hDeployingWeapon, FIELD_EHANDLE ),
-#endif
 	DEFINE_FIELD( m_bForceServerRagdoll, FIELD_BOOLEAN ),
 	DEFINE_FIELD( m_bPreventWeaponPickup, FIELD_BOOLEAN ),
 
@@ -201,9 +198,6 @@ IMPLEMENT_SERVERCLASS_ST(CBaseCombatCharacter, DT_BaseCombatCharacter)
 
 	SendPropEHandle( SENDINFO( m_hActiveWeapon ) ),
 	SendPropArray3( SENDINFO_ARRAY3(m_hMyWeapons), SendPropEHandle( SENDINFO_ARRAY(m_hMyWeapons) ) ),
-#ifdef VANCE
-	SendPropEHandle( SENDINFO( m_hDeployingWeapon ) ),
-#endif
 
 #ifdef INVASION_DLL
 	SendPropInt( SENDINFO(m_iPowerups), MAX_POWERUPS, SPROP_UNSIGNED ), 
@@ -2993,19 +2987,7 @@ int CBaseCombatCharacter::GiveAmmo( int iCount, int iAmmoIndex, bool bSuppressSo
 	// Ammo pickup sound
 	if ( !bSuppressSound )
 	{
-#ifdef VANCE
-		CBasePlayer *pPlayer = dynamic_cast<CBasePlayer *>( this );
-		if ( pPlayer && !pPlayer->IsSuitEquipped() )
-		{
-			EmitSound( "HL2Player.AmmoPickup_Suitless" );
-		}
-		else
-		{
-			EmitSound( "BaseCombatCharacter.AmmoPickup" );
-		}
-#else
 		EmitSound( "BaseCombatCharacter.AmmoPickup" );
-#endif
 	}
 
 	m_iAmmo.Set( iAmmoIndex, m_iAmmo[iAmmoIndex] + iAdd );

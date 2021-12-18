@@ -10,8 +10,9 @@
 #include "fx.h"
 #include "fx_impact.h"
 #include "view.h"
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 #include "cdll_util.h"
+#include "tf_gamerules.h"
 #endif
 #include "engine/IStaticPropMgr.h"
 #include "c_impact_effects.h"
@@ -20,7 +21,7 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-static ConVar  r_drawflecks( "r_drawflecks", "1" );
+static ConVar  r_drawflecks( "r_drawflecks", "1", FCVAR_ALLOWED_IN_COMPETITIVE );
 extern ConVar r_drawmodeldecals;
 
 ImpactSoundRouteFn g_pImpactSoundRouteFn = NULL;
@@ -79,7 +80,7 @@ bool FX_AffectRagdolls( Vector vecOrigin, Vector vecStart, int iDamageType )
 	shotRay.Init( vecStart, vecOrigin );
 
 	CRagdollEnumerator ragdollEnum( shotRay, iDamageType );
-	partition->EnumerateElementsAlongRay( PARTITION_CLIENT_RESPONSIVE_EDICTS, shotRay, false, &ragdollEnum );
+	::partition->EnumerateElementsAlongRay( PARTITION_CLIENT_RESPONSIVE_EDICTS, shotRay, false, &ragdollEnum );
 
 	return ragdollEnum.Hit();
 }
@@ -132,9 +133,9 @@ bool Impact( Vector &vecOrigin, Vector &vecStart, int iMaterial, int iDamageType
 
 		bool bSkipDecal = false;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 		// Don't show blood decals if we're filtering them out (Pyro Goggles)
-		if ( IsLocalPlayerUsingVisionFilterFlags( TF_VISION_FILTER_PYRO ) || UTIL_IsLowViolence() )
+		if ( IsLocalPlayerUsingVisionFilterFlags( TF_VISION_FILTER_PYRO ) || UTIL_IsLowViolence() || ( TFGameRules() && TFGameRules()->IsTruceActive() ) )
 		{
 			if ( V_strstr( pchDecalName, "Flesh" ) )
 			{

@@ -570,7 +570,7 @@ public:
 
     virtual bool IsInCommentaryMode(void);
 
-    virtual float GetScreenAspectRatio();
+    virtual float GetScreenAspectRatio(const int i, const int i1);
 
     virtual unsigned int GetEngineBuildNumber() { return PROTOCOL_VERSION; }
 
@@ -1370,7 +1370,7 @@ bool CEngineClient::IsInCommentaryMode(void) {
     return g_bInCommentaryMode;
 }
 
-float CEngineClient::GetScreenAspectRatio() {
+float CEngineClient::GetScreenAspectRatio(const int i, const int i1) {
     return GetScreenAspect();
 }
 

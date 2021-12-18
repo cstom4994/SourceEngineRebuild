@@ -45,10 +45,6 @@ public:
 	virtual void	AddViewmodelBob( CBaseViewModel *viewmodel, Vector &origin, QAngle &angles );
 	virtual	float	CalcViewmodelBob( void );
 
-#if CLIENT_DLL
-	virtual void	CalcIronsight(Vector& origin, QAngle& angles) {} // VANCEHACK: had to put this function here so i can call it from viewmodel's CalcViewModelView
-#endif // CLIENT_DLL
-
 	virtual Vector	GetBulletSpread( WeaponProficiency_t proficiency );
 	virtual float	GetSpreadBias( WeaponProficiency_t proficiency );
 

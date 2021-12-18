@@ -41,6 +41,10 @@
 #include "inetchannelinfo.h"
 #include "proto_version.h"
 
+#ifdef PONDER_CLIENT_DLL
+#include "c_tf_player.h"
+#endif
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -76,7 +80,7 @@ void cc_cl_interp_all_changed( IConVar *pConVar, const char *pOldString, float f
 static ConVar  cl_extrapolate( "cl_extrapolate", "1", FCVAR_CHEAT, "Enable/disable extrapolation if interpolation history runs out." );
 static ConVar  cl_interp_npcs( "cl_interp_npcs", "0.0", FCVAR_USERINFO, "Interpolate NPC positions starting this many seconds in past (or cl_interp, if greater)" );  
 static ConVar  cl_interp_all( "cl_interp_all", "0", 0, "Disable interpolation list optimizations.", 0, 0, 0, 0, cc_cl_interp_all_changed );
-ConVar  r_drawmodeldecals( "r_drawmodeldecals", "1" );
+ConVar  r_drawmodeldecals( "r_drawmodeldecals", "1", FCVAR_ALLOWED_IN_COMPETITIVE );
 extern ConVar	cl_showerror;
 int C_BaseEntity::m_nPredictionRandomSeed = -1;
 C_BasePlayer *C_BaseEntity::m_pPredictionPlayer = NULL;
@@ -473,7 +477,7 @@ BEGIN_RECV_TABLE_NOBASE(C_BaseEntity, DT_BaseEntity)
 	RecvPropInt		( RECVINFO( m_bAnimatedEveryTick ), 0, RecvProxy_InterpolationAmountChanged ),
 	RecvPropBool	( RECVINFO( m_bAlternateSorting ) ),
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	RecvPropArray3( RECVINFO_ARRAY(m_nModelIndexOverrides),	RecvPropInt( RECVINFO(m_nModelIndexOverrides[0]) ) ),
 #endif
 
@@ -904,7 +908,7 @@ C_BaseEntity::C_BaseEntity() :
 	// but that re-introduces a third-person hitching bug.  One possible cause is the abrupt change
 	// in player size/position that occurs when ducking, and how prediction tries to work through that.
 	//
-	// AddVar( &m_vecVelocity, &m_iv_vecVelocity, LATCH_SIMULATION_VAR );
+	AddVar( &m_vecVelocity, &m_iv_vecVelocity, LATCH_SIMULATION_VAR );
 
 	m_DataChangeEventRef = -1;
 	m_EntClientFlags = 0;
@@ -960,7 +964,7 @@ C_BaseEntity::C_BaseEntity() :
 	m_bRecordInTools = true;
 #endif
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	m_bValidatedOwner = false;
 	m_bDeemedInvalid = false;
 	m_bWasDeemedInvalid = false;
@@ -1342,7 +1346,7 @@ void C_BaseEntity::GetVectors(Vector* pForward, Vector* pRight, Vector* pUp) con
 
 void C_BaseEntity::UpdateVisibility()
 {
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	// TF prevents drawing of any entity attached to players that aren't items in the inventory of the player.
 	// This is to prevent servers creating fake cosmetic items and attaching them to players.
 	if ( !engine->IsPlayingDemo() )
@@ -1745,9 +1749,9 @@ void C_BaseEntity::SetNetworkAngles( const QAngle& ang )
 // Purpose: 
 // Input  : index - 
 //-----------------------------------------------------------------------------
-void C_BaseEntity::SetModelIndex( int index )
+void C_BaseEntity::SetModelIndex( int index_ )
 {
-	m_nModelIndex = index;
+	m_nModelIndex = index_;
 	const model_t *pModel = modelinfo->GetModel( m_nModelIndex );
 	SetModelPointer( pModel );
 }
@@ -2039,7 +2043,7 @@ void C_BaseEntity::UpdatePartitionListEntry()
 		list |= PARTITION_CLIENT_RESPONSIVE_EDICTS;
 
 	// add the entity to the KD tree so we will collide against it
-	partition->RemoveAndInsert( PARTITION_CLIENT_SOLID_EDICTS | PARTITION_CLIENT_RESPONSIVE_EDICTS | PARTITION_CLIENT_NON_STATIC_EDICTS, list, CollisionProp()->GetPartitionHandle() );
+	::partition->RemoveAndInsert( PARTITION_CLIENT_SOLID_EDICTS | PARTITION_CLIENT_RESPONSIVE_EDICTS | PARTITION_CLIENT_NON_STATIC_EDICTS, list, CollisionProp()->GetPartitionHandle() );
 }
 
 
@@ -2095,7 +2099,7 @@ void C_BaseEntity::NotifyShouldTransmit( ShouldTransmitState_t state )
 			SetDormant( true );
 			
 			// remove the entity from the KD tree so we won't collide against it
-			partition->Remove( PARTITION_CLIENT_SOLID_EDICTS | PARTITION_CLIENT_RESPONSIVE_EDICTS | PARTITION_CLIENT_NON_STATIC_EDICTS, CollisionProp()->GetPartitionHandle() );
+			::partition->Remove( PARTITION_CLIENT_SOLID_EDICTS | PARTITION_CLIENT_RESPONSIVE_EDICTS | PARTITION_CLIENT_NON_STATIC_EDICTS, CollisionProp()->GetPartitionHandle() );
 		
 		}
 		break;
@@ -2169,6 +2173,7 @@ void C_BaseEntity::PreDataUpdate( DataUpdateType_t updateType )
 	}
 
 	m_ubOldInterpolationFrame = m_ubInterpolationFrame;
+	m_bOldShouldDraw = ShouldDraw();
 }
 
 const Vector& C_BaseEntity::GetOldOrigin()
@@ -2374,7 +2379,7 @@ void C_BaseEntity::HierarchySetParent( C_BaseEntity *pNewParent )
 
 	InvalidatePhysicsRecursive( POSITION_CHANGED | ANGLES_CHANGED | VELOCITY_CHANGED );
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	m_bValidatedOwner = false;
 #endif
 }
@@ -2465,7 +2470,7 @@ void C_BaseEntity::UnlinkFromHierarchy()
 //-----------------------------------------------------------------------------
 void C_BaseEntity::ValidateModelIndex( void )
 {
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	if ( IsLocalPlayerUsingVisionFilterFlags( TF_VISION_FILTER_HALLOWEEN ) )
 	{
 		if ( m_nModelIndexOverrides[VISION_MODE_HALLOWEEN] > 0 )
@@ -2617,6 +2622,12 @@ void C_BaseEntity::PostDataUpdate( DataUpdateType_t updateType )
 
 	// if we changed parents, recalculate visibility
 	if ( m_hOldMoveParent != m_hNetworkMoveParent )
+	{
+		UpdateVisibility();
+	}
+
+	// if ShouldDraw state changes, recalculate visibility
+	if ( m_bOldShouldDraw != ShouldDraw() )
 	{
 		UpdateVisibility();
 	}
@@ -2904,7 +2915,7 @@ bool C_BaseEntity::Interpolate( float currentTime )
 
 CStudioHdr *C_BaseEntity::OnNewModel()
 {
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	m_bValidatedOwner = false;
 #endif
 
@@ -3312,7 +3323,6 @@ void C_BaseEntity::ComputeFxBlend( void )
 	if ( m_nFXComputeFrame == gpGlobals->framecount )
 		return;
 
-	MDLCACHE_CRITICAL_SECTION();
 	int blend=0;
 	float offset;
 
@@ -3849,7 +3859,7 @@ void C_BaseEntity::operator delete( void *pMem )
 //========================================================================================
 // TEAM HANDLING
 //========================================================================================
-C_Team *C_BaseEntity::GetTeam( void )
+C_Team *C_BaseEntity::GetTeam( void ) const
 {
 	return GetGlobalTeam( m_iTeamNum );
 }
@@ -3874,7 +3884,7 @@ int	C_BaseEntity::GetRenderTeamNumber( void )
 //-----------------------------------------------------------------------------
 // Purpose: Returns true if these entities are both in at least one team together
 //-----------------------------------------------------------------------------
-bool C_BaseEntity::InSameTeam( C_BaseEntity *pEntity )
+bool C_BaseEntity::InSameTeam( const C_BaseEntity *pEntity ) const
 {
 	if ( !pEntity )
 		return false;
@@ -5588,16 +5598,22 @@ void C_BaseEntity::DrawBBoxVisualizations( void )
 {
 	if ( m_fBBoxVisFlags & VISUALIZE_COLLISION_BOUNDS )
 	{
-		debugoverlay->AddBoxOverlay( CollisionProp()->GetCollisionOrigin(), CollisionProp()->OBBMins(),
-			CollisionProp()->OBBMaxs(), CollisionProp()->GetCollisionAngles(), 190, 190, 0, 0, 0.01 );
+		if ( debugoverlay )
+		{
+			debugoverlay->AddBoxOverlay( CollisionProp()->GetCollisionOrigin(), CollisionProp()->OBBMins(),
+				CollisionProp()->OBBMaxs(), CollisionProp()->GetCollisionAngles(), 190, 190, 0, 0, 0.01 );
+		}
 	}
 
 	if ( m_fBBoxVisFlags & VISUALIZE_SURROUNDING_BOUNDS )
 	{
 		Vector vecSurroundMins, vecSurroundMaxs;
 		CollisionProp()->WorldSpaceSurroundingBounds( &vecSurroundMins, &vecSurroundMaxs );
-		debugoverlay->AddBoxOverlay( vec3_origin, vecSurroundMins,
-			vecSurroundMaxs, vec3_angle, 0, 255, 255, 0, 0.01 );
+		if ( debugoverlay )
+		{
+			debugoverlay->AddBoxOverlay( vec3_origin, vecSurroundMins,
+				vecSurroundMaxs, vec3_angle, 0, 255, 255, 0, 0.01 );
+		}
 	}
 
 	if ( m_fBBoxVisFlags & VISUALIZE_RENDER_BOUNDS || r_drawrenderboxes.GetInt() )
@@ -5628,13 +5644,6 @@ RenderGroup_t C_BaseEntity::GetRenderGroup()
 	// Don't sort things that don't need rendering
 	if ( m_nRenderMode == kRenderNone )
 		return RENDER_GROUP_OPAQUE_ENTITY;
-
-	// When an entity has a material proxy, we have to recompute
-	// translucency here because the proxy may have changed it.
-	if (modelinfo->ModelHasMaterialProxy( GetModel() ))
-	{
-		modelinfo->RecomputeTranslucency( const_cast<model_t*>(GetModel()), GetSkin(), GetBody(), GetClientRenderable() );
-	}
 
 	// NOTE: Bypassing the GetFXBlend protection logic because we want this to
 	// be able to be called from AddToLeafSystem.
@@ -5906,7 +5915,7 @@ float C_BaseEntity::GetInterpolationAmount( int flags )
 	const bool bPlayingNonLocallyRecordedDemo = bPlayingDemo && !engine->IsPlayingDemoALocallyRecordedDemo();
 	if ( bPlayingMultiplayer || bPlayingNonLocallyRecordedDemo )
 	{
-		return AdjustInterpolationAmount( this, TICKS_TO_TIME( TIME_TO_TICKS( GetClientInterpAmount() ) + serverTickMultiple ) );
+		return AdjustInterpolationAmount( this, TICKS_TO_TIME( TIME_TO_TICKS( GetClientInterpAmount() ) + serverTickMultiple - 1 ) );
 	}
 
 	int expandedServerTickMultiple = serverTickMultiple;
@@ -5929,7 +5938,7 @@ float C_BaseEntity::GetInterpolationAmount( int flags )
 		return TICK_INTERVAL * expandedServerTickMultiple;
 	}
 
-	return AdjustInterpolationAmount( this, TICKS_TO_TIME( TIME_TO_TICKS( GetClientInterpAmount() ) + serverTickMultiple ) );
+	return AdjustInterpolationAmount( this, TICKS_TO_TIME( TIME_TO_TICKS( GetClientInterpAmount() ) + serverTickMultiple - 1 ) );
 }
 
 
@@ -6284,7 +6293,7 @@ void C_BaseEntity::RemoveFromTeleportList()
 	}
 }
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 bool C_BaseEntity::ValidateEntityAttachedToPlayer( bool &bShouldRetry )
 {
 	bShouldRetry = false;
@@ -6293,10 +6302,14 @@ bool C_BaseEntity::ValidateEntityAttachedToPlayer( bool &bShouldRetry )
 		return true;
 
 	// Some wearables parent to the view model
-	C_BasePlayer *pPlayer = ToBasePlayer( pParent );
-	if ( pPlayer && pPlayer->GetViewModel() == this )
+	C_TFPlayer *pPlayer = ToTFPlayer( pParent );
+	if ( pPlayer )
 	{
-		return true;
+		if ( pPlayer->GetViewModel() == this )
+			return true;
+
+		if ( pPlayer->HasItem() && ( pPlayer->GetItem()->GetItemID() == TF_ITEM_CAPTURE_FLAG ) && ( pPlayer->GetItem() == this ) )
+			return true;
 	}
 
 	// always allow the briefcase model
@@ -6305,15 +6318,12 @@ bool C_BaseEntity::ValidateEntityAttachedToPlayer( bool &bShouldRetry )
 	{
 		if ( FStrEq( pszModel, "models/flag/briefcase.mdl" ) )
 			return true;
-
-		if ( FStrEq( pszModel, "models/passtime/ball/passtime_ball.mdl" ) )
-			return true;
-
+				
 		if ( FStrEq( pszModel, "models/props_doomsday/australium_container.mdl" ) )
 			return true;
 
 		// Temp for MVM testing
-		if ( FStrEq( pszModel, "models/buildables/sapper_placement_sentry1.mdl" ) )
+		if ( FStrEq( pszModel, "models/buildables/sapper_placement.mdl" ) )
 			return true;
 
 		if ( FStrEq( pszModel, "models/props_td/atom_bomb.mdl" ) )
@@ -6337,7 +6347,7 @@ bool C_BaseEntity::ValidateEntityAttachedToPlayer( bool &bShouldRetry )
 	// This prevents them creating some other entity to pretend to be a cosmetic item.
 	return !pParent->IsPlayer();
 }
-#endif // TF_CLIENT_DLL
+#endif // PONDER_CLIENT_DLL
 
 
 void C_BaseEntity::AddVar( void *data, IInterpolatedVar *watcher, int type, bool bSetup )

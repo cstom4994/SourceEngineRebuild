@@ -8,7 +8,7 @@
 #pragma once
 #endif
 
-#if defined( TF_CLIENT_DLL )
+#if defined( PONDER_CLIENT_DLL )
 
 #  include "tf_gamestats_shared.h"
 
@@ -68,11 +68,12 @@ typedef C_CS_PlayerResource					C_ReplayGame_PlayerResource_t;
 
 #endif
 
-struct StatInfo_t {
-    ReplayStatType_t m_nStat;
-    const char *m_pStatLocalizationToken;
+struct StatInfo_t
+{
+	ReplayStatType_t	m_nStat;
+	const char			*m_pStatLocalizationToken;
 };
 
 extern StatInfo_t g_pReplayDisplayGameStats[REPLAY_MAX_DISPLAY_GAMESTATS];
 
-#endif    // GAMEDEFS_H
+#endif	// GAMEDEFS_H

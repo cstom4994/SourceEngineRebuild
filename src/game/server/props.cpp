@@ -3577,10 +3577,6 @@ BEGIN_DATADESC(CBasePropDoor)
 	DEFINE_THINKFUNC(DoorOpenMoveDone),
 	DEFINE_THINKFUNC(DoorCloseMoveDone),
 	DEFINE_THINKFUNC(DoorAutoCloseThink),
-
-#ifdef VANCE
-	DEFINE_KEYFIELD(m_bCanBeKickedOpen, FIELD_BOOLEAN, "canbekickedopen"),
-#endif
 END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST(CBasePropDoor, DT_BasePropDoor)
@@ -5283,12 +5279,7 @@ void CPropDoorRotating::BeginOpening(CBaseEntity *pOpenAwayFrom)
 		}
 	}
 
-#ifdef VANCE
-	AngularMove(angOpen, m_bKickedOpen ? m_flSpeed * 3.0f : m_flSpeed);
-	m_bKickedOpen = false;
-#else
 	AngularMove(angOpen, m_flSpeed);
-#endif
 }
 
 
@@ -5310,12 +5301,8 @@ void CPropDoorRotating::BeginClosing( void )
 			NDebugOverlay::Box( GetAbsOrigin(), m_hDoorBlocker->CollisionProp()->OBBMins(), m_hDoorBlocker->CollisionProp()->OBBMaxs(), 255, 0, 0, true, 1.0f );
 		}
 	}
-	
-#ifdef VANCE
-	AngularMove(m_angRotationClosed, m_bKickedOpen ? m_flSpeed * 3.0f : m_flSpeed);
-#else
+
 	AngularMove(m_angRotationClosed, m_flSpeed);
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -5383,11 +5370,7 @@ float CPropDoorRotating::GetOpenInterval()
 	QAngle vecDestDelta = m_angRotationOpenForward - GetLocalAngles();
 	
 	// divide by speed to get time to reach dest
-#ifdef VANCE
-	return vecDestDelta.Length() / (m_bKickedOpen ? 2.0f * m_flSpeed : m_flSpeed);
-#else
 	return vecDestDelta.Length() / m_flSpeed;
-#endif
 }
 
 

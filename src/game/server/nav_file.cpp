@@ -14,6 +14,10 @@
 #include "gamerules.h"
 #include "datacache/imdlcache.h"
 
+#include "tier2/tier2.h"
+#include "tier2/p4helpers.h"
+#include "tier2/fileutils.h"
+
 #ifdef TERROR
 #include "func_elevator.h"
 #endif
@@ -179,6 +183,7 @@ PlaceDirectory placeDirectory;
 #else
 	#define FORMAT_BSPFILE "maps\\%s.bsp"
 	#define FORMAT_NAVFILE "maps\\%s.nav"
+	#define PATH_NAVFILE_EMBEDDED "maps\\embed.nav"
 #endif
 
 //--------------------------------------------------------------------------------------------------------------
@@ -1185,6 +1190,13 @@ bool CNavMesh::Save( void ) const
 	//
 	SaveCustomData( fileBuffer );
 
+	if ( p4 )
+	{
+		char szCorrectPath[MAX_PATH];
+		filesystem->GetCaseCorrectFullPath( filename, szCorrectPath );
+		CP4AutoEditAddFile a( szCorrectPath );
+	}
+
 	if ( !filesystem->WriteFile( filename, "MOD", fileBuffer ) )
 	{
 		Warning( "Unable to save %d bytes to %s\n", fileBuffer.Size(), filename );
@@ -1307,24 +1319,9 @@ const CUtlVector< Place > *CNavMesh::GetPlacesFromNavFile( bool *hasUnnamedPlace
 	Q_snprintf( filename, sizeof( filename ), FORMAT_NAVFILE, STRING( gpGlobals->mapname ) );
 
 	CUtlBuffer fileBuffer( 4096, 1024*1024, CUtlBuffer::READ_ONLY );
-	if ( !filesystem->ReadFile( filename, "GAME", fileBuffer ) )	// this ignores .nav files embedded in the .bsp ...
+	if ( GetNavDataFromFile( fileBuffer ) != NAV_OK )
 	{
-		if ( !filesystem->ReadFile( filename, "BSP", fileBuffer ) )	// ... and this looks for one if it's the only one around.
-		{
-			return NULL;
-		}
-	}
-	
-	if ( IsX360() )
-	{
-		// 360 has compressed NAVs
-		if ( CLZMA::IsCompressed( (unsigned char *)fileBuffer.Base() ) )
-		{
-			int originalSize = CLZMA::GetActualSize( (unsigned char *)fileBuffer.Base() );
-			unsigned char *pOriginalData = new unsigned char[originalSize];
-			CLZMA::Uncompress( (unsigned char *)fileBuffer.Base(), pOriginalData );
-			fileBuffer.AssumeMemory( pOriginalData, originalSize, originalSize, CUtlBuffer::READ_ONLY );
-		}
+		return NULL;
 	}
 
 	// check magic number
@@ -1374,6 +1371,46 @@ const CUtlVector< Place > *CNavMesh::GetPlacesFromNavFile( bool *hasUnnamedPlace
 	return placeDirectory.GetPlaces();
 }
 
+//--------------------------------------------------------------------------------------------------------------
+/**
+ * Fetch raw nav data into buffer
+ */
+NavErrorType CNavMesh::GetNavDataFromFile( CUtlBuffer &outBuffer, bool *pNavDataFromBSP )
+{
+	// nav filename is derived from map filename
+	char filename[MAX_PATH] = { 0 };
+	Q_snprintf( filename, sizeof( filename ), FORMAT_NAVFILE, STRING( gpGlobals->mapname ) );
+
+	if ( !filesystem->ReadFile( filename, "MOD", outBuffer ) )	// this ignores .nav files embedded in the .bsp ...
+	{
+		if ( !filesystem->ReadFile( filename, "BSP", outBuffer ) )	// ... and this looks for one if it's the only one around.
+		{
+			// Finally, check for the special embed name for in-BSP nav meshes only
+			if ( !filesystem->ReadFile( PATH_NAVFILE_EMBEDDED, "BSP", outBuffer ) )
+			{
+				return NAV_CANT_ACCESS_FILE;
+			}
+		}
+		if ( pNavDataFromBSP )
+		{
+			*pNavDataFromBSP = true;
+		}
+	}
+
+	if ( IsX360() )
+	{
+		// 360 has compressed NAVs
+		if ( CLZMA::IsCompressed( (unsigned char *)outBuffer.Base() ) )
+		{
+			int originalSize = CLZMA::GetActualSize( (unsigned char *)outBuffer.Base() );
+			unsigned char *pOriginalData = new unsigned char[originalSize];
+			CLZMA::Uncompress( (unsigned char *)outBuffer.Base(), pOriginalData );
+			outBuffer.AssumeMemory( pOriginalData, originalSize, originalSize, CUtlBuffer::READ_ONLY );
+		}
+	}
+
+	return NAV_OK;
+}
 
 //--------------------------------------------------------------------------------------------------------------
 /**
@@ -1392,38 +1429,19 @@ NavErrorType CNavMesh::Load( void )
 
 	CNavArea::m_nextID = 1;
 
-	// nav filename is derived from map filename
-	char filename[256];
-	Q_snprintf( filename, sizeof( filename ), FORMAT_NAVFILE, STRING( gpGlobals->mapname ) );
-
 	bool navIsInBsp = false;
 	CUtlBuffer fileBuffer( 4096, 1024*1024, CUtlBuffer::READ_ONLY );
-	if ( !filesystem->ReadFile( filename, "MOD", fileBuffer ) )	// this ignores .nav files embedded in the .bsp ...
+	NavErrorType readResult = GetNavDataFromFile( fileBuffer, &navIsInBsp );
+	if ( readResult != NAV_OK )
 	{
-		navIsInBsp = true;
-		if ( !filesystem->ReadFile( filename, "BSP", fileBuffer ) )	// ... and this looks for one if it's the only one around.
-		{
-			return NAV_CANT_ACCESS_FILE;
-		}
-	}
-
-	if ( IsX360() )
-	{
-		// 360 has compressed NAVs
-		if ( CLZMA::IsCompressed( (unsigned char *)fileBuffer.Base() ) )
-		{
-			int originalSize = CLZMA::GetActualSize( (unsigned char *)fileBuffer.Base() );
-			unsigned char *pOriginalData = new unsigned char[originalSize];
-			CLZMA::Uncompress( (unsigned char *)fileBuffer.Base(), pOriginalData );
-			fileBuffer.AssumeMemory( pOriginalData, originalSize, originalSize, CUtlBuffer::READ_ONLY );
-		}
+		return readResult;
 	}
 
 	// check magic number
 	unsigned int magic = fileBuffer.GetUnsignedInt();
 	if ( !fileBuffer.IsValid() || magic != NAV_MAGIC_NUMBER )
 	{
-		Msg( "Invalid navigation file '%s'.\n", filename );
+		Msg( "Invalid navigation file.\n" );
 		return NAV_INVALID_FILE;
 	}
 
@@ -1434,7 +1452,7 @@ NavErrorType CNavMesh::Load( void )
 		Msg( "Unknown navigation file version.\n" );
 		return NAV_BAD_FILE_VERSION;
 	}
-	
+
 	unsigned int subVersion = 0;
 	if ( version >= 10 )
 	{
@@ -1452,11 +1470,8 @@ NavErrorType CNavMesh::Load( void )
 		unsigned int saveBspSize = fileBuffer.GetUnsignedInt();
 
 		// verify size
-		char *bspFilename = GetBspFilename( filename );
-		if ( bspFilename == NULL )
-		{
-			return NAV_INVALID_FILE;
-		}
+		char bspFilename[MAX_PATH] = { 0 };
+		Q_snprintf( bspFilename, sizeof( bspFilename ), FORMAT_BSPFILE , STRING( gpGlobals->mapname ) );
 
 		unsigned int bspSize = filesystem->Size( bspFilename );
 

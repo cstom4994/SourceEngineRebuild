@@ -12,7 +12,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-void BloodSplatCallback(const CEffectData &data) {
+void BloodSplatCallback( const CEffectData & data )
+{
 /*
 	Msg("SPLAT!\n");
 
@@ -30,4 +31,4 @@ void BloodSplatCallback(const CEffectData &data) {
 */
 }
 
-DECLARE_CLIENT_EFFECT("HudBloodSplat", BloodSplatCallback);
+DECLARE_CLIENT_EFFECT( "HudBloodSplat", BloodSplatCallback );

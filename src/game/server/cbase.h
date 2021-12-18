@@ -114,10 +114,6 @@ enum
 	itbd_SlowBurn,
 	itbd_SlowFreeze,
 
-#ifdef VANCE
-	itbd_Bleed,
-#endif
-
 	// Must be last!
 	CDMG_TIMEBASED
 };

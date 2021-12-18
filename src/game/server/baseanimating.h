@@ -332,13 +332,6 @@ public:
 
 	bool PrefetchSequence( int iSequence );
 
-#ifdef VANCE
-	virtual bool IsHackable() { return m_bHackable; }
-
-	bool		IsHacked() { return m_bHacked; }
-	virtual void Hack();
-#endif
-
 private:
 	void LockStudioHdr();
 	void UnlockStudioHdr();
@@ -385,11 +378,6 @@ public:
 	QAngle	GetStepAngles( void ) const;
 
 private:
-#ifdef VANCE
-	bool				m_bHackable;
-	bool				m_bHacked;
-#endif
-
 	bool				m_bSequenceFinished;// flag set when StudioAdvanceFrame moves across a frame boundry
 	bool				m_bSequenceLoops;	// true if the sequence loops
 	bool				m_bResetSequenceInfoOnLoad; // true if a ResetSequenceInfo was queued up during dynamic load
@@ -428,9 +416,6 @@ protected:
 
 public:
 	COutputEvent m_OnIgnite;
-#ifdef VANCE
-	COutputEvent m_OnHacked;
-#endif
 
 private:
 	CStudioHdr			*m_pStudioHdr;

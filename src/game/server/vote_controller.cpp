@@ -41,6 +41,7 @@ CVoteController *g_voteController = NULL;
 
 ConVar sv_vote_timer_duration( "sv_vote_timer_duration", "15", FCVAR_DEVELOPMENTONLY, "How long to allow voting on an issue" );
 ConVar sv_vote_command_delay( "sv_vote_command_delay", "2", FCVAR_DEVELOPMENTONLY, "How long after a vote passes until the action happens", false, 0.f, true, 4.5f );
+
 ConVar sv_allow_votes( "sv_allow_votes", "1", FCVAR_NONE, "Allow voting?" );
 ConVar sv_vote_failure_timer( "sv_vote_failure_timer", "300", FCVAR_NONE, "A vote that fails cannot be re-submitted for this long" );
 #ifdef TF_DLL
@@ -51,10 +52,12 @@ ConVar sv_vote_quorum_ratio( "sv_vote_quorum_ratio", "0.6", FCVAR_NOTIFY, "The m
 ConVar sv_vote_allow_spectators( "sv_vote_allow_spectators", "0", FCVAR_NONE, "Allow spectators to vote?" );
 ConVar sv_vote_ui_hide_disabled_issues( "sv_vote_ui_hide_disabled_issues", "1", FCVAR_NONE, "Suppress listing of disabled issues in the vote setup screen." );
 
+ConVar sv_vote_holder_may_vote_no( "sv_vote_holder_may_vote_no", "0", FCVAR_NONE, "1 = Vote caller is not forced to vote yes on yes/no votes." );
+
 static const int k_nKickWatchListMaxDuration = 300;
 
 //-----------------------------------------------------------------------------
-// Purpose: Game system to detect maps without cameras in them, and move on
+// Purpose: 
 //-----------------------------------------------------------------------------
 class CVoteControllerSystem : public CAutoGameSystemPerFrame
 {
@@ -69,6 +72,8 @@ public:
 
 	virtual void LevelInitPreEntity()
 	{
+		m_flNextNameLockCheckTime = 0.f;
+		m_flNextKickCheckTime = 0.f;
 	}
 
 	virtual void FrameUpdatePostEntityThink( void )
@@ -84,7 +89,7 @@ public:
 				g_voteController->m_executeCommandTimer.Invalidate();
 				g_voteController->m_potentialIssues[g_voteController->m_iActiveIssueIndex]->ExecuteCommand();
 			}
-			
+
 			// Kick watch
 			if ( m_flNextKickCheckTime < gpGlobals->curtime )
 			{
@@ -290,6 +295,7 @@ void CVoteController::ResetData( void )
 	m_nPotentialVotes = 0;
 	m_acceptingVotesTimer.Invalidate();
 	m_executeCommandTimer.Invalidate();
+	m_waitingForGCResponseTimer.Invalidate();
 	m_iEntityHoldingVote = -1;
 	m_iOnlyTeamToVote = TEAM_UNASSIGNED;
 	m_bIsYesNoVote = true;
@@ -298,6 +304,8 @@ void CVoteController::ResetData( void )
 	{
 		m_nVotesCast[voteIndex] = VOTE_UNCAST;
 	}
+
+	m_pendingVoteParams.Reset();
 }
 
 //-----------------------------------------------------------------------------
@@ -331,11 +339,6 @@ int CVoteController::UpdateTransmitState( void )
 //-----------------------------------------------------------------------------
 bool CVoteController::IsVoteSystemEnabled( void )
 {
-#ifdef TF_DLL
-	if ( TFGameRules() && TFGameRules()->IsCompetitiveMode() )
-		return false;
-#endif // TF_DLL
-
 	return sv_allow_votes.GetBool();
 }
 
@@ -413,6 +416,14 @@ bool CVoteController::SetupVote( int iEntIndex )
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: The purpose of this is to call again the same vote after waiting for the GC's response
+//-----------------------------------------------------------------------------
+bool CVoteController::SubmitPendingVote( VoteParams_t params )
+{
+	return CreateVote( params.m_iEntIndex, params.m_szTypeString, params.m_szDetailString );
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: Handles console-driven setup of Voting
 //-----------------------------------------------------------------------------
 bool CVoteController::CreateVote( int iEntIndex, const char *pszTypeString, const char *pszDetailString )
@@ -444,6 +455,19 @@ bool CVoteController::CreateVote( int iEntIndex, const char *pszTypeString, cons
 			int nTime = 0;
 			if ( pCurrentIssue->CanCallVote( iEntIndex, pszDetailString, nErrorCode, nTime ) )
 			{
+				// Does the GC need to approve now? If so, this function will send the message.
+				if ( pCurrentIssue->NeedsPermissionFromGC() )
+				{
+					m_pendingVoteParams.m_iIssueIndex = issueIndex;
+					m_pendingVoteParams.m_iEntIndex = iEntIndex;
+					V_strcpy_safe( m_pendingVoteParams.m_szTypeString, pszTypeString );
+					V_strcpy_safe( m_pendingVoteParams.m_szDetailString, pszDetailString );
+
+					// Put the vote in limbo and wait for a time-out, or answer.
+					m_waitingForGCResponseTimer.Start( 3.f );
+					return false;
+				}
+
 				// Establish a bunch of data on this particular issue
 				pCurrentIssue->SetIssueDetails( pszDetailString );
 				m_bIsYesNoVote = pCurrentIssue->IsYesNoVote();
@@ -489,11 +513,13 @@ bool CVoteController::CreateVote( int iEntIndex, const char *pszTypeString, cons
 				m_nPotentialVotes = pCurrentIssue->CountPotentialVoters();
 				m_acceptingVotesTimer.Start( sv_vote_timer_duration.GetFloat() + random->RandomFloat( -1.f, 1.f ) );
 
+#ifndef _DEBUG
 				// Force the vote holder to agree with a Yes/No vote
-				if ( pCurrentIssue->IsYesNoVote() && !bDedicatedServer )
+				if ( pCurrentIssue->IsYesNoVote() && !bDedicatedServer && !sv_vote_holder_may_vote_no.GetBool() )
 				{
 					TryCastVote( iEntIndex, "Option1" );
 				}
+#endif
 
 				// Get the data out to the client
 				CBroadcastRecipientFilter filter;
@@ -504,12 +530,15 @@ bool CVoteController::CreateVote( int iEntIndex, const char *pszTypeString, cons
 					WRITE_STRING( pCurrentIssue->GetDisplayString() );
 					WRITE_STRING( pCurrentIssue->GetDetailsString() );
 					WRITE_BOOL( pCurrentIssue->IsYesNoVote() );
+					WRITE_BYTE( ( pCurrentIssue->m_hPlayerTarget ) ? pCurrentIssue->m_hPlayerTarget->entindex() : 0 );
 				MessageEnd();
 
 				if ( !bDedicatedServer )
 				{
 					TrackVoteCaller( pVoteCaller );
 				}
+
+				m_pendingVoteParams.Reset();
 
 				return true;
 			}
@@ -519,6 +548,8 @@ bool CVoteController::CreateVote( int iEntIndex, const char *pszTypeString, cons
 				{
 					SendVoteCreationFailedMessage( nErrorCode, pVoteCaller, nTime );
 				}
+
+				m_pendingVoteParams.Reset();
 			}
 		}
 	}
@@ -677,6 +708,22 @@ void CVoteController::VoteChoice_Decrement( int nVoteChoice )
 //-----------------------------------------------------------------------------
 void CVoteController::VoteControllerThink( void )
 {
+	// This will stall all voting until the GC answers, or we time-out.  Only Kick does this (sometimes).
+	if ( m_waitingForGCResponseTimer.HasStarted() )
+	{
+		if ( m_waitingForGCResponseTimer.IsElapsed() )
+		{
+			m_waitingForGCResponseTimer.Invalidate();
+
+			// Retry the vote
+			SubmitPendingVote( m_pendingVoteParams );
+		}
+
+		SetNextThink( gpGlobals->curtime + 0.1f );
+		return;
+	}
+
+
 	if ( !m_potentialIssues.IsValidIndex( m_iActiveIssueIndex ) )
 	{
 		SetNextThink( gpGlobals->curtime + 0.5f );
@@ -724,11 +771,14 @@ void CVoteController::VoteControllerThink( void )
 
 		if ( bVotePassed )
 		{
-			// Always NULL check, as some votes don't target players (i.e. ChangeLevel)
-			CBasePlayer *pVoteTarget = m_potentialIssues[m_iActiveIssueIndex]->m_hPlayerTarget;
-
-			// Don't delay successful kick votes
-			float flDelay = IsPlayerBeingKicked( pVoteTarget ) ? 0.f : sv_vote_command_delay.GetFloat();
+			float flDelay = sv_vote_command_delay.GetFloat();
+#ifdef TF_DLL
+			if ( dynamic_cast< CKickIssue* >( m_potentialIssues[m_iActiveIssueIndex] ) )
+			{
+				// Don't delay successful kick votes
+				flDelay = 0.f;
+			}
+#endif
 			m_executeCommandTimer.Start( flDelay );
 			m_resetVoteTimer.Start( 5.f );
 
@@ -1002,6 +1052,21 @@ bool CVoteController::IsPlayerBeingKicked( CBasePlayer *pPlayer )
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CVoteController::GCResponseReceived( bool bVerdict )
+{
+	m_waitingForGCResponseTimer.Invalidate();
+
+	if ( m_pendingVoteParams.m_iIssueIndex == INVALID_ISSUE )
+		return;
+	
+	// Retry the current vote now that we have our answer
+	m_potentialIssues[m_pendingVoteParams.m_iIssueIndex]->GCResponseReceived( bVerdict );
+	SubmitPendingVote( m_pendingVoteParams );
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: BaseIssue
 //-----------------------------------------------------------------------------
 CBaseIssue::CBaseIssue( const char *pszTypeString )
@@ -1012,6 +1077,9 @@ CBaseIssue::CBaseIssue( const char *pszTypeString )
 	m_iNumNoVotes = 0;
 	m_iNumPotentialVotes = 0;
 	m_flNextCallTime = -1.f;
+	m_bGCNotified = false;
+	m_bGCApproved = false;
+	m_bGCResponded = false;
 
 	ASSERT( g_voteController );
 	g_voteController->RegisterIssue( this );
@@ -1263,4 +1331,12 @@ float CBaseIssue::GetQuorumRatio( void )
 	return sv_vote_quorum_ratio.GetFloat();
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CBaseIssue::GCResponseReceived( bool bApproved )
+{
+	m_bGCResponded = true; 
+	m_bGCApproved = bApproved;
+}
 

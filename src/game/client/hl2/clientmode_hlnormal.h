@@ -18,25 +18,28 @@
 
 class CHudViewport;
 
+namespace vgui
+{
+	typedef unsigned long HScheme;
+}
+
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class ClientModeHLNormal : public ClientModeShared {
+class ClientModeHLNormal : public ClientModeShared
+{
 public:
-    DECLARE_CLASS(ClientModeHLNormal, ClientModeShared);
+	DECLARE_CLASS( ClientModeHLNormal, ClientModeShared );
 
-    ClientModeHLNormal();
+	ClientModeHLNormal();
+	~ClientModeHLNormal();
 
-    ~ClientModeHLNormal();
-
-    virtual void Init();
-
-    virtual bool ShouldDrawCrosshair(void);
+	virtual void	Init();
+	virtual bool	ShouldDrawCrosshair( void );
 };
 
 extern IClientMode *GetClientModeNormal();
-
 extern vgui::HScheme g_hVGuiCombineScheme;
 
 #endif // CLIENTMODE_HLNORMAL_H

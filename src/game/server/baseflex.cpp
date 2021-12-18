@@ -801,7 +801,6 @@ void CBaseFlex::RemoveSceneEvent( CChoreoScene *scene, CChoreoEvent *event, bool
 			info->m_bStarted	= false;
 
 			m_SceneEvents.Remove( i );
-			return;
 		}
 	}
 

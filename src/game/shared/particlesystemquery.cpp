@@ -14,7 +14,7 @@
 #include "c_pixel_visibility.h"
 #endif
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 #include "tf_shareddefs.h"
 #endif
 
@@ -87,7 +87,11 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CParticleSystemQuery, IParticleSystemQuery, P
 #endif
 
 static CThreadFastMutex s_LightMutex;
-static CThreadFastMutex s_BoneMutex;
+
+// This mutex exists because EntityToWorldTransform was not threadsafe, and could potentially have been called from multiple
+// particle update threads. It has now been fixed to be threadsafe, so this mutex can safely just be a no-op (meaingful perf win for this).
+// static CThreadFastMutex s_BoneMutex;
+static CThreadNullMutex s_BoneMutex;
 
 //-----------------------------------------------------------------------------
 // Inherited from IParticleSystemQuery
@@ -551,7 +555,7 @@ static CollisionGroupNameRecord_t s_NameMap[]={
 	{ "NPC", COLLISION_GROUP_NPC },
 	{ "ACTOR", COLLISION_GROUP_NPC_ACTOR },
 	{ "PASSABLE", COLLISION_GROUP_PASSABLE_DOOR },	
-#if defined( TF_CLIENT_DLL )
+#if defined( PONDER_CLIENT_DLL )
 	{ "ROCKETS", TFCOLLISION_GROUP_ROCKETS },
 #endif
 };

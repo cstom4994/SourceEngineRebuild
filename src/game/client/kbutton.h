@@ -11,11 +11,12 @@
 #pragma once
 #endif
 
-struct kbutton_t {
-    // key nums holding it down
-    int down[2];
-    // low bit is down state
-    int state;
+struct kbutton_t
+{
+	// key nums holding it down
+	int		down[ 2 ];		
+	// low bit is down state
+	int		state;			
 };
 
 #endif // KBUTTON_H

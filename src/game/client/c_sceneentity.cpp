@@ -70,7 +70,7 @@ C_SceneEntity::~C_SceneEntity( void )
 void C_SceneEntity::OnResetClientTime()
 {
 	// In TF2 we ignore this as the scene is played entirely client-side.
-#ifndef TF_CLIENT_DLL
+#ifndef PONDER_CLIENT_DLL
 	m_flCurrentTime = m_flForceClientTime;
 #endif
 }
@@ -80,13 +80,13 @@ char const *C_SceneEntity::GetSceneFileName()
 	return g_pStringTableClientSideChoreoScenes->GetString( m_nSceneStringIndex );
 }
 
-ConVar mp_usehwmvcds( "mp_usehwmvcds", "0", NULL, "Enable the use of the hw morph vcd(s). (-1 = never, 1 = always, 0 = based upon GPU)" ); // -1 = never, 0 = if hasfastvertextextures, 1 = always
+ConVar mp_usehwmvcds( "mp_usehwmvcds", "-1", NULL, "Enable the use of the hw morph vcd(s). (-1 = never, 1 = always, 0 = based upon GPU)" ); // -1 = never, 0 = if hasfastvertextextures, 1 = always
 bool UseHWMorphVCDs()
 {
-// 	if ( mp_usehwmvcds.GetInt() == 0 )
-// 		return g_pMaterialSystemHardwareConfig->HasFastVertexTextures();
-// 	return mp_usehwmvcds.GetInt() > 0;
 	return false;
+    if ( mp_usehwmvcds.GetInt() == 0 )
+ 		return g_pMaterialSystemHardwareConfig->HasFastVertexTextures();
+ 	return mp_usehwmvcds.GetInt() > 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -115,7 +115,7 @@ bool C_SceneEntity::GetHWMorphSceneFileName( const char *pFilename, char *pHWMFi
 
 	// Find the hardware morph scene name and pass that along as well.
 	char szScene[MAX_PATH];
-	V_strcpy( szScene, pFilename );
+	V_strcpy_safe( szScene, pFilename );
 
 	char szSceneHWM[MAX_PATH];
 	szSceneHWM[0] = '\0';
@@ -206,12 +206,12 @@ void C_SceneEntity::SetupClientOnlyScene( const char *pszFilename, C_BaseFlex *p
 
 	char szFilename[128];
 	Assert( V_strlen( pszFilename ) < 128 );
-	V_strcpy( szFilename, pszFilename );
+	V_strcpy_safe( szFilename, pszFilename );
 
 	char szSceneHWM[128];
 	if ( GetHWMorphSceneFileName( szFilename, szSceneHWM ) )
 	{
-		V_strcpy( szFilename, szSceneHWM );
+		V_strcpy_safe( szFilename, szSceneHWM );
 	}
 
 	Assert(  szFilename[ 0 ] );
@@ -320,7 +320,7 @@ void C_SceneEntity::PostDataUpdate( DataUpdateType_t updateType )
 	if ( str )
 	{
 		Assert( V_strlen( str ) < MAX_PATH );
-		V_strcpy( szFilename, str );
+		V_strcpy_safe( szFilename, str );
 	}
 	else
 	{
@@ -330,7 +330,7 @@ void C_SceneEntity::PostDataUpdate( DataUpdateType_t updateType )
 	char szSceneHWM[MAX_PATH];
 	if ( GetHWMorphSceneFileName( szFilename, szSceneHWM ) )
 	{
-		V_strcpy( szFilename, szSceneHWM );
+		V_strcpy_safe( szFilename, szSceneHWM );
 	}
 
 	if ( updateType == DATA_UPDATE_CREATED )
@@ -1162,11 +1162,11 @@ void C_SceneEntity::PrefetchAnimBlocks( CChoreoScene *pScene )
 							{
 								// Now look up the animblock
 								mstudioseqdesc_t &seqdesc = pStudioHdr->pSeqdesc( iSequence );
-								for ( int i = 0 ; i < seqdesc.groupsize[ 0 ] ; ++i )
+								for ( int iGroup = 0 ; iGroup < seqdesc.groupsize[ 0 ] ; ++iGroup )
 								{
 									for ( int j = 0; j < seqdesc.groupsize[ 1 ]; ++j )
 									{
-										int iAnimation = seqdesc.anim( i, j );
+										int iAnimation = seqdesc.anim( iGroup, j );
 										int iBaseAnimation = pStudioHdr->iRelativeAnim( iSequence, iAnimation );
 										mstudioanimdesc_t &animdesc = pStudioHdr->pAnimdesc( iBaseAnimation );
 
@@ -1185,14 +1185,14 @@ void C_SceneEntity::PrefetchAnimBlocks( CChoreoScene *pScene )
 											++nResident;
 											if ( nSpew > 1 )
 											{
-												Msg( "%s:%s[%i:%i] was resident\n", pStudioHdr->pszName(), animdesc.pszName(), i, j );
+												Msg( "%s:%s[%i:%i] was resident\n", pStudioHdr->pszName(), animdesc.pszName(), iGroup, j );
 											}
 										}
 										else
 										{
 											if ( nSpew != 0 )
 											{
-												Msg( "%s:%s[%i:%i] async load\n", pStudioHdr->pszName(), animdesc.pszName(), i, j );
+												Msg( "%s:%s[%i:%i] async load\n", pStudioHdr->pszName(), animdesc.pszName(), iGroup, j );
 											}
 										}
 									}

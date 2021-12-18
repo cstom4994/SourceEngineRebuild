@@ -182,19 +182,8 @@ public:
 	virtual void	TeamChange( int iNewTeam );
 
 	// Flashlight
-	void	Flashlight(void);
-	virtual void	UpdateFlashlight(void);
-	void	TurnOffFlashlight(void);
-	virtual const char* GetFlashlightTextureName(void) const { return NULL; }
-	virtual float GetFlashlightFOV(void) const { return 0.0f; }
-	virtual float GetFlashlightFarZ(void) const { return 0.0f; }
-	virtual float GetFlashlightLinearAtten(void) const { return 0.0f; }
-	virtual bool CastsFlashlightShadows(void) const { return false; }
-	virtual void GetFlashlightOffset(const Vector& vecForward, const Vector& vecRight, const Vector& vecUp, Vector* pVecOffset) const;
-	Vector	m_vecFlashlightOrigin;
-	Vector	m_vecFlashlightForward;
-	Vector	m_vecFlashlightUp;
-	Vector	m_vecFlashlightRight;
+	void	Flashlight( void );
+	void	UpdateFlashlight( void );
 
 	// Weapon selection code
 	virtual bool				IsAllowedToSwitchWeapons( void ) { return !IsObserver(); }
@@ -275,6 +264,7 @@ public:
 
 	virtual void				UpdateClientData( void );
 
+	bool						IsLerpingFOV( void ) const;
 	virtual float				GetFOV( void );	
 	int							GetDefaultFOV( void ) const;
 	virtual bool				IsZoomed( void )	{ return false; }
@@ -456,7 +446,7 @@ public:
 
 protected:
 
-	virtual void		CalcPlayerView( Vector& eyeOrigin, QAngle& eyeAngles, float& fov );
+	void				CalcPlayerView( Vector& eyeOrigin, QAngle& eyeAngles, float& fov );
 	void				CalcVehicleView(IClientVehicle *pVehicle, Vector& eyeOrigin, QAngle& eyeAngles,
 							float& zNear, float& zFar, float& fov );
 	virtual void		CalcObserverView( Vector& eyeOrigin, QAngle& eyeAngles, float& fov );
@@ -536,8 +526,9 @@ private:
 
 	bool			m_bFiredWeapon;
 
+
 	// Player flashlight dynamic light pointers
-	bool			m_bFlashlightEnabled;
+	CFlashlightEffect *m_pFlashlight;
 
 	typedef CHandle<C_BaseCombatWeapon> CBaseCombatWeaponHandle;
 	CNetworkVar( CBaseCombatWeaponHandle, m_hLastWeapon );

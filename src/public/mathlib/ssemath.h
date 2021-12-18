@@ -2421,6 +2421,52 @@ FORCEINLINE void ConvertStoreAsIntsSIMD(intx4 * RESTRICT pDest, const fltx4 &vSr
 #endif
 
 
+//
+//class VPlane;
+//
+//struct ALIGN16 fourplanes_t
+//{
+//	fltx4		nX;
+//	fltx4		nY;
+//	fltx4		nZ;
+//	fltx4		dist;
+//	fltx4		xSign;
+//	fltx4		ySign;
+//	fltx4		zSign;
+//	fltx4		nXAbs;
+//	fltx4		nYAbs;
+//	fltx4		nZAbs;
+//
+//	void ComputeSignbits();
+//
+//	// fast SIMD loads
+//	void Set4Planes( const VPlane *pPlanes );
+//	void Set2Planes( const VPlane *pPlanes );
+//	void Get4Planes( VPlane *pPlanesOut );
+//	void Get2Planes( VPlane *pPlanesOut );
+//	// not-SIMD, much slower
+//	void GetPlane( int index, Vector *pNormal, float *pDist ) const;
+//	void SetPlane( int index, const Vector &vecNormal, float planeDist );
+//};
+//
+//class ALIGN16 Frustum_t
+//{
+//public:
+//	Frustum_t();
+//	void SetPlane( int i, const Vector &vecNormal, float dist );
+//	void GetPlane( int i, Vector *pNormalOut, float *pDistOut ) const;
+//	void SetPlanes( const VPlane *pPlanes );
+//	void GetPlanes( VPlane *pPlanesOut );
+//	// returns false if the box is within the frustum, true if it is outside
+//	bool CullBox( const Vector &mins, const Vector &maxs ) const;
+//	bool CullBoxCenterExtents( const Vector &center, const Vector &extents ) const;
+//
+//	bool CullBox( const fltx4 &fl4Mins, const fltx4 &fl4Maxs ) const;
+//	bool CullBoxCenterExtents( const fltx4 &fl4Center, const fltx4 &fl4Extents ) const;
+//
+//	fourplanes_t	planes[2];
+//};
+
 
 /// class FourVectors stores 4 independent vectors for use in SIMD processing. These vectors are
 /// stored in the format x x x x y y y y z z z z so that they can be efficiently SIMD-accelerated.

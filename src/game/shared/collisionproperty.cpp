@@ -122,13 +122,13 @@ CDirtySpatialPartitionEntityList::~CDirtySpatialPartitionEntityList()
 //-----------------------------------------------------------------------------
 bool CDirtySpatialPartitionEntityList::Init()
 {
-	partition->InstallQueryCallback( this );
+	::partition->InstallQueryCallback( this );
 	return true;
 }
 
 void CDirtySpatialPartitionEntityList::Shutdown()
 {
-	partition->RemoveQueryCallback( this );
+	::partition->RemoveQueryCallback( this );
 }
 
 
@@ -422,6 +422,7 @@ void CCollisionProperty::Init( CBaseEntity *pEntity )
 	m_vecMaxs.GetForModify().Init();
 	m_flRadius = 0.0f;
 	m_triggerBloat = 0;
+	m_bUniformTriggerBloat = false;
 	m_usSolidFlags = 0;
 	m_nSolidType = SOLID_NONE;
 
@@ -752,10 +753,14 @@ void CCollisionProperty::WorldSpaceTriggerBounds( Vector *pVecWorldMins, Vector 
 	// Don't bloat below, we don't want to trigger it with our heads
 	pVecWorldMins->x -= m_triggerBloat;
 	pVecWorldMins->y -= m_triggerBloat;
+	if (m_bUniformTriggerBloat)
+	{
+		pVecWorldMins->z -= m_triggerBloat;
+	}
 
 	pVecWorldMaxs->x += m_triggerBloat;
 	pVecWorldMaxs->y += m_triggerBloat;
-	pVecWorldMaxs->z += (float)m_triggerBloat * 0.5f;
+	pVecWorldMaxs->z += m_bUniformTriggerBloat ? m_triggerBloat : (float)m_triggerBloat * 0.5f;
 }
 
 void CCollisionProperty::UseTriggerBounds( bool bEnable, float flBloat )
@@ -1289,14 +1294,14 @@ void CCollisionProperty::CreatePartitionHandle()
 {
 	// Put the entity into the spatial partition.
 	Assert( m_Partition == PARTITION_INVALID_HANDLE );
-	m_Partition = partition->CreateHandle( GetEntityHandle() );
+	m_Partition = ::partition->CreateHandle( GetEntityHandle() );
 }
 
 void CCollisionProperty::DestroyPartitionHandle()
 {
 	if ( m_Partition != PARTITION_INVALID_HANDLE )
 	{
-		partition->DestroyHandle( m_Partition );
+		::partition->DestroyHandle( m_Partition );
 		m_Partition = PARTITION_INVALID_HANDLE;
 	}
 }
@@ -1314,7 +1319,7 @@ void CCollisionProperty::UpdateServerPartitionMask( )
 
 	// Remove it from whatever lists it may be in at the moment
 	// We'll re-add it below if we need to.
-	partition->Remove( handle );
+	::partition->Remove( handle );
 
 	// Don't bother with deleted things
 	if ( !m_pOuter->edict() )
@@ -1328,7 +1333,7 @@ void CCollisionProperty::UpdateServerPartitionMask( )
 	bool bIsSolid = IsSolid() || IsSolidFlagSet(FSOLID_TRIGGER);
 	if ( bIsSolid || m_pOuter->IsEFlagSet(EFL_USE_PARTITION_WHEN_NOT_SOLID) )
 	{
-		partition->Insert( PARTITION_ENGINE_NON_STATIC_EDICTS, handle );
+		::partition->Insert( PARTITION_ENGINE_NON_STATIC_EDICTS, handle );
 	}
 
 	if ( !bIsSolid )
@@ -1346,7 +1351,7 @@ void CCollisionProperty::UpdateServerPartitionMask( )
 		mask |=	PARTITION_ENGINE_TRIGGER_EDICTS;
 	}
 	Assert( mask != 0 );
-	partition->Insert( mask, handle );
+	::partition->Insert( mask, handle );
 #endif
 }
 
@@ -1409,11 +1414,11 @@ void CCollisionProperty::UpdatePartition( )
 				WorldSpaceSurroundingBounds( &vecSurroundMins, &vecSurroundMaxs );
 				vecSurroundMins -= Vector( 1, 1, 1 );
 				vecSurroundMaxs += Vector( 1, 1, 1 );
-				partition->ElementMoved( GetPartitionHandle(), vecSurroundMins,  vecSurroundMaxs );
+				::partition->ElementMoved( GetPartitionHandle(), vecSurroundMins,  vecSurroundMaxs );
 			}
 			else
 			{
-				partition->ElementMoved( GetPartitionHandle(), GetCollisionOrigin(),  GetCollisionOrigin() );
+				::partition->ElementMoved( GetPartitionHandle(), GetCollisionOrigin(),  GetCollisionOrigin() );
 			}
 		}
 	}

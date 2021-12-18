@@ -217,7 +217,7 @@ void C_FireSmoke::RemoveClientOnly(void)
 	// Remove from the client entity list.
 	ClientEntityList().RemoveEntity( GetClientHandle() );
 
-	partition->Remove( PARTITION_CLIENT_SOLID_EDICTS | PARTITION_CLIENT_RESPONSIVE_EDICTS | PARTITION_CLIENT_NON_STATIC_EDICTS, CollisionProp()->GetPartitionHandle() );
+	::partition->Remove( PARTITION_CLIENT_SOLID_EDICTS | PARTITION_CLIENT_RESPONSIVE_EDICTS | PARTITION_CLIENT_NON_STATIC_EDICTS, CollisionProp()->GetPartitionHandle() );
 
 	RemoveFromLeafSystem();
 }
@@ -332,7 +332,7 @@ void C_EntityFlame::CreateEffect( void )
 		m_hEffect = NULL;
 	}
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	m_hEffect = ParticleProp()->Create( "burningplayer_red", PATTACH_ABSORIGIN_FOLLOW );
 #else
 	m_hEffect = ParticleProp()->Create( "burning_character", PATTACH_ABSORIGIN_FOLLOW );

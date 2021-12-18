@@ -97,38 +97,6 @@ ITexture *GetFullFrameDepthTexture( void )
 }
 
 //=============================================================================
-// Full Frame Depth Texture
-//=============================================================================
-static CTextureReference s_pFullFrameHDRTexture;
-ITexture* GetFullFrameHDRTexture(void)
-{
-	if (!s_pFullFrameHDRTexture)
-	{
-		s_pFullFrameHDRTexture.Init(materials->FindTexture("_rt_VanceHDR", TEXTURE_GROUP_RENDER_TARGET));
-		Assert(!IsErrorTexture(s_pFullFrameHDRTexture));
-		AddReleaseFunc();
-	}
-
-	return s_pFullFrameHDRTexture;
-}
-
-//=============================================================================
-// Scope Texture
-//=============================================================================
-static CTextureReference s_pScopeTexture;
-ITexture* GetScopeTexture(void)
-{
-	if (!s_pScopeTexture)
-	{
-		s_pScopeTexture.Init(materials->FindTexture("_rt_Scope", TEXTURE_GROUP_RENDER_TARGET));
-		Assert(!IsErrorTexture(s_pScopeTexture));
-		AddReleaseFunc();
-	}
-
-	return s_pScopeTexture;
-}
-
-//=============================================================================
 // Full Frame Buffer Textures
 //=============================================================================
 static CTextureReference s_pFullFrameFrameBufferTexture[MAX_FB_TEXTURES];
@@ -284,8 +252,6 @@ void ReleaseRenderTargets( void )
 	s_pQuarterSizedFB0.Shutdown();
 	s_pQuarterSizedFB1.Shutdown();
 	s_pFullFrameDepthTexture.Shutdown();
-	s_pFullFrameHDRTexture.Shutdown();
-	s_pScopeTexture.Shutdown();
 
 	for (int i=0; i<MAX_FB_TEXTURES; ++i)
 		s_pFullFrameFrameBufferTexture[i].Shutdown();

@@ -133,18 +133,6 @@ inline void DrawScreenEffectMaterial( IMaterial *pMaterial, int x, int y, int w,
 		pTexture->GetActualWidth(), pTexture->GetActualHeight() );
 }
 
-inline void DrawScreenEffectQuad(IMaterial *pMaterial, int w, int h)
-{
-	if (pMaterial != NULL)
-	{
-		CMatRenderContextPtr pRenderContext(materials);
-		pRenderContext->DrawScreenSpaceRectangle(
-			pMaterial,
-			0, 0, w, h,
-			0, 0, w - 1, h - 1,
-			w, h);
-	}
-}
 
 //intended for use by dynamic meshes to naively update front buffer textures needed by a material
 inline void UpdateFrontBufferTexturesForMaterial( IMaterial *pMaterial, bool bForce = false )

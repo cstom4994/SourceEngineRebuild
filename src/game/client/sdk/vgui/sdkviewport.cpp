@@ -37,17 +37,19 @@
 #include "text_message.h"
 
 
-void SDKViewport::ApplySchemeSettings(vgui::IScheme *pScheme) {
-    BaseClass::ApplySchemeSettings(pScheme);
+void SDKViewport::ApplySchemeSettings( vgui::IScheme *pScheme )
+{
+	BaseClass::ApplySchemeSettings( pScheme );
 
-    gHUD.InitColors(pScheme);
+	gHUD.InitColors( pScheme );
 
-    SetPaintBackgroundEnabled(false);
+	SetPaintBackgroundEnabled( false );
 }
 
 
-IViewPortPanel *SDKViewport::CreatePanelByName(const char *szPanelName) {
-    IViewPortPanel *newpanel = NULL;
+IViewPortPanel* SDKViewport::CreatePanelByName(const char *szPanelName)
+{
+	IViewPortPanel* newpanel = NULL;
 
 // Up here, strcmp against each type of panel we know how to create.
 //	else if ( Q_strcmp(PANEL_OVERVIEW, szPanelName) == 0 )
@@ -55,26 +57,29 @@ IViewPortPanel *SDKViewport::CreatePanelByName(const char *szPanelName) {
 //		newpanel = new CCSMapOverview( this );
 //	}
 
-    // create a generic base panel, don't add twice
-    newpanel = BaseClass::CreatePanelByName(szPanelName);
+	// create a generic base panel, don't add twice
+	newpanel = BaseClass::CreatePanelByName( szPanelName );
 
-    return newpanel;
+	return newpanel; 
 }
 
-void SDKViewport::CreateDefaultPanels(void) {
-    BaseClass::CreateDefaultPanels();
+void SDKViewport::CreateDefaultPanels( void )
+{
+	BaseClass::CreateDefaultPanels();
 }
 
-int SDKViewport::GetDeathMessageStartHeight(void) {
-    int x = YRES(2);
+int SDKViewport::GetDeathMessageStartHeight( void )
+{
+	int x = YRES(2);
 
-    IViewPortPanel *spectator = gViewPortInterface->FindPanelByName(PANEL_SPECGUI);
+	IViewPortPanel *spectator = gViewPortInterface->FindPanelByName( PANEL_SPECGUI );
 
-    //TODO: Link to actual height of spectator bar
-    if (spectator && spectator->IsVisible()) {
-        x += YRES(52);
-    }
+	//TODO: Link to actual height of spectator bar
+	if ( spectator && spectator->IsVisible() )
+	{
+		x += YRES(52);
+	}
 
-    return x;
+	return x;
 }
 

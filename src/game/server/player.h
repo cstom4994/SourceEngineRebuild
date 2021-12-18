@@ -371,7 +371,7 @@ public:
 	const char *			GetPlayerName() { return m_szNetname; }
 	void					SetPlayerName( const char *name );
 
-	int						GetUserID() { return engine->GetPlayerUserId( edict() ); }
+	int						GetUserID() const { return engine->GetPlayerUserId( edict() ); }
 	const char *			GetNetworkIDString(); 
 	virtual const Vector	GetPlayerMins( void ) const; // uses local player
 	virtual const Vector	GetPlayerMaxs( void ) const; // uses local player
@@ -588,8 +588,8 @@ public:
 	float					GetTimeSinceLastUserCommand( void ) { return ( !IsConnected() || IsFakeClient() || IsBot() ) ? 0.f : gpGlobals->curtime - m_flLastUserCommandTime; }
 
 	// Team Handling
-	virtual void			ChangeTeam( int iTeamNum ) { ChangeTeam(iTeamNum,false, false); }
-	virtual void			ChangeTeam( int iTeamNum, bool bAutoTeam, bool bSilent );
+	virtual void			ChangeTeam( int iTeamNum ) OVERRIDE { ChangeTeam( iTeamNum, false, false ); }
+	virtual void			ChangeTeam( int iTeamNum, bool bAutoTeam, bool bSilent, bool bAutoBalance = false );
 
 	// say/sayteam allowed?
 	virtual bool		CanHearAndReadChatFrom( CBasePlayer *pPlayer ) { return true; }
@@ -738,6 +738,7 @@ public:
 	int		GetLockViewanglesTickNumber() const { return m_iLockViewanglesTickNumber; }
 	QAngle	GetLockViewanglesData() const { return m_qangLockViewangles; }
 
+	bool	IsLerpingFOV( void ) const;
 	int		GetFOV( void );														// Get the current FOV value
 	int		GetDefaultFOV( void ) const;										// Default FOV if not specified otherwise
 	int		GetFOVForNetworking( void );										// Get the current FOV used for network computations
@@ -876,7 +877,7 @@ public:
 
 	char					m_szAnimExtension[32];
 
-	int						m_nUpdateRate;		// user snapshot rate cl_updaterate
+	float						m_fUpdateInterval;		// user snapshot interval cl_updateinterval
 	float					m_fLerpTime;		// users cl_interp
 	bool					m_bLagCompensation;	// user wants lag compenstation
 	bool					m_bPredictWeapons; //  user has client side predicted weapons

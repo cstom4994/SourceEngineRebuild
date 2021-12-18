@@ -14,20 +14,20 @@
 #include "tier0/memdbgon.h"
 
 
-IMPLEMENT_CLIENTCLASS_DT(C_SDKTeam, DT_SDKTeam, CSDKTeam
-)
-
+IMPLEMENT_CLIENTCLASS_DT(C_SDKTeam, DT_SDKTeam, CSDKTeam)
 END_RECV_TABLE()
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-C_SDKTeam::C_SDKTeam() {
+C_SDKTeam::C_SDKTeam()
+{
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-C_SDKTeam::~C_SDKTeam() {
+C_SDKTeam::~C_SDKTeam()
+{
 }
 

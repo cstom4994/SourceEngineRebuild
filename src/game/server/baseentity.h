@@ -99,14 +99,14 @@ enum Class_T
 	CLASS_ANTLION,
 	CLASS_BARNACLE,
 	CLASS_BULLSEYE,
-	CLASS_BULLSQUID,	
+	//CLASS_BULLSQUID,	
 	CLASS_CITIZEN_PASSIVE,	
 	CLASS_CITIZEN_REBEL,
 	CLASS_COMBINE,
 	CLASS_COMBINE_GUNSHIP,
 	CLASS_CONSCRIPT,
 	CLASS_HEADCRAB,
-	CLASS_HOUNDEYE,
+	//CLASS_HOUNDEYE,
 	CLASS_MANHACK,
 	CLASS_METROPOLICE,		
 	CLASS_MILITARY,		
@@ -965,7 +965,7 @@ public:
 	int				GetTeamNumber( void ) const;		// Get the Team number of the team this entity is on
 	virtual void	ChangeTeam( int iTeamNum );			// Assign this entity to a team.
 	bool			IsInTeam( CTeam *pTeam ) const;		// Returns true if this entity's in the specified team
-	bool			InSameTeam( CBaseEntity *pEntity ) const;	// Returns true if the specified entity is on the same team as this one
+	bool			InSameTeam( const CBaseEntity *pEntity ) const;	// Returns true if the specified entity is on the same team as this one
 	bool			IsInAnyTeam( void ) const;			// Returns true if this entity is in any team
 	const char		*TeamID( void ) const;				// Returns the name of the team this entity is on.
 
@@ -1062,7 +1062,6 @@ public:
 	virtual void MakeTracer( const Vector &vecTracerSrc, const trace_t &tr, int iTracerType );
 	virtual int	GetTracerAttachment( void );
 	virtual void FireBullets( const FireBulletsInfo_t &info );
-	virtual void FireBulletProjectiles(const ProjectileBulletsInfo_t& info);
 	virtual void DoImpactEffect( trace_t &tr, int nDamageType ); // give shooter a chance to do a custom impact.
 
 	// OLD VERSION! Use the struct version
@@ -1629,7 +1628,7 @@ private:
 	CNetworkHandle( CBaseEntity, m_hEffectEntity );	// Fire/Dissolve entity.
 
 	CNetworkVar( int, m_CollisionGroup );		// used to cull collision tests
-	IPhysicsObject	*m_pPhysicsObject;	// pointer to the entity's physics object (vphysics.dll)
+	IPhysicsObject	*m_pPhysicsObject;	// pointer to the entity's physics object (engine.dll)
 
 	CNetworkVar( float, m_flShadowCastDistance );
 	float		m_flDesiredShadowCastDistance;
@@ -1803,6 +1802,16 @@ public:
 	}
 
 	virtual bool ShouldBlockNav() const { return true; }
+
+	virtual bool ShouldForceTransmitsForTeam( int iTeam ) { return false; }
+
+	void 			SetTruceValidForEnt( bool bTruceValidForEnt ) { m_bTruceValidForEnt = bTruceValidForEnt; }
+	virtual bool	IsTruceValidForEnt( void ) const { return m_bTruceValidForEnt; }
+
+private:
+	CThreadFastMutex m_CalcAbsolutePositionMutex;
+
+	bool	m_bTruceValidForEnt;
 };
 
 // Send tables exposed in this module.
@@ -2583,6 +2592,7 @@ inline void CBaseEntity::DecrementTransmitStateOwnedCounter()
 	Assert( m_nTransmitStateOwnedCounter != 0 );
 	m_nTransmitStateOwnedCounter--;
 }
+
 
 //-----------------------------------------------------------------------------
 // Bullet firing (legacy)...

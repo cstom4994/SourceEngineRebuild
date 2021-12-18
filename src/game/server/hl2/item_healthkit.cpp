@@ -55,10 +55,6 @@ void CHealthKit::Precache( void )
 {
 	PrecacheModel("models/items/healthkit.mdl");
 
-#ifdef VANCE
-	PrecacheScriptSound( "HealthKit.Touch_Suitless" );
-#endif
-
 	PrecacheScriptSound( "HealthKit.Touch" );
 }
 
@@ -79,16 +75,8 @@ bool CHealthKit::MyTouch( CBasePlayer *pPlayer )
 			WRITE_STRING( GetClassname() );
 		MessageEnd();
 
-		const char *szSoundToPlay = "HealthKit.Touch";
-#ifdef VANCE
-		if ( !pPlayer->IsSuitEquipped() )
-		{
-			szSoundToPlay = "HealthKit.Touch_Suitless";
-		}
-#endif
-
-		CPASAttenuationFilter filter( pPlayer, szSoundToPlay );
-		EmitSound( filter, pPlayer->entindex(), szSoundToPlay );
+		CPASAttenuationFilter filter( pPlayer, "HealthKit.Touch" );
+		EmitSound( filter, pPlayer->entindex(), "HealthKit.Touch" );
 
 		if ( g_pGameRules->ItemShouldRespawn( this ) )
 		{
@@ -126,10 +114,6 @@ public:
 	{
 		PrecacheModel("models/healthvial.mdl");
 
-#ifdef VANCE
-		PrecacheScriptSound( "HealthVial.Touch_Suitless" );
-#endif
-
 		PrecacheScriptSound( "HealthVial.Touch" );
 	}
 
@@ -144,16 +128,8 @@ public:
 				WRITE_STRING( GetClassname() );
 			MessageEnd();
 
-			const char *szSoundToPlay = "HealthKit.Touch";
-#ifdef VANCE
-			if ( !pPlayer->IsSuitEquipped() )
-			{
-				szSoundToPlay = "HealthVial.Touch_Suitless";
-			}
-#endif
-
-			CPASAttenuationFilter filter( pPlayer, szSoundToPlay );
-			EmitSound( filter, pPlayer->entindex(), szSoundToPlay );
+			CPASAttenuationFilter filter( pPlayer, "HealthVial.Touch" );
+			EmitSound( filter, pPlayer->entindex(), "HealthVial.Touch" );
 
 			if ( g_pGameRules->ItemShouldRespawn( this ) )
 			{

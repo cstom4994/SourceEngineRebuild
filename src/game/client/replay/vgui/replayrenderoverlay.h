@@ -17,66 +17,55 @@
 //-----------------------------------------------------------------------------
 
 class CExButton;
-
 class CExLabel;
-
 class IQuickTimeMovieMaker;
-
 class CReplay;
-
 class CReplayRenderer;
 
 //-----------------------------------------------------------------------------
 
-class CReplayRenderOverlay : public vgui::Frame {
-    DECLARE_CLASS_SIMPLE(CReplayRenderOverlay, vgui::Frame);
+class CReplayRenderOverlay : public vgui::Frame
+{
+	DECLARE_CLASS_SIMPLE( CReplayRenderOverlay, vgui::Frame );
 public:
-    CReplayRenderOverlay(Panel *pParent);
+	CReplayRenderOverlay( Panel *pParent );
+	~CReplayRenderOverlay();
 
-    ~CReplayRenderOverlay();
+	void Show();
+	void Hide();
 
-    void Show();
-
-    void Hide();
-
-    CReplayRenderer *m_pRenderer;
+	CReplayRenderer		*m_pRenderer;
 
 private:
-    virtual void ApplySchemeSettings(vgui::IScheme *pScheme);
-
-    virtual void PerformLayout();
-
-    virtual void OnTick();
-
-    virtual void OnMousePressed(vgui::MouseCode nCode);
-
-    virtual void OnKeyCodeTyped(vgui::KeyCode nCode);
-
-    virtual void OnCommand(const char *pCommand);
+	virtual void	ApplySchemeSettings( vgui::IScheme *pScheme );
+	virtual void	PerformLayout();
+	virtual void	OnTick();
+	virtual void	OnMousePressed( vgui::MouseCode nCode );
+	virtual void	OnKeyCodeTyped( vgui::KeyCode nCode );
+	virtual void	OnCommand( const char *pCommand );
 
 private:
-    MESSAGE_FUNC_PTR(OnCheckButtonChecked, "CheckButtonChecked", pPanel);
+	MESSAGE_FUNC_PTR( OnCheckButtonChecked, "CheckButtonChecked", pPanel );
 
 #if _DEBUG
-    bool				m_bReloadScheme;
+	bool				m_bReloadScheme;
 #endif
 
-    int m_unNumFrames;
-    float m_flStartTime;
-    float m_flPreviousTimeLeft;
-    EditablePanel *m_pBottom;
-    vgui::ProgressBar *m_pRenderProgress;
-    vgui::CheckButton *m_pPreviewCheckButton;
-    CExButton *m_pCancelButton;
-    CExLabel *m_pTitleLabel;
-    CExLabel *m_pFilenameLabel;
-    CExLabel *m_pProgressLabel;
+	int					m_unNumFrames;
+	float				m_flStartTime;
+	float				m_flPreviousTimeLeft;
+	EditablePanel		*m_pBottom;
+	vgui::ProgressBar	*m_pRenderProgress;
+	vgui::CheckButton	*m_pPreviewCheckButton;
+	CExButton			*m_pCancelButton;
+	CExLabel			*m_pTitleLabel;
+	CExLabel			*m_pFilenameLabel;
+	CExLabel			*m_pProgressLabel;
 };
 
 //-----------------------------------------------------------------------------
 
 void ReplayUI_OpenReplayRenderOverlay();
-
 void ReplayUI_HideRenderOverlay();
 
 //-----------------------------------------------------------------------------

@@ -26,31 +26,30 @@ typedef unsigned int EFFECT_HANDLE;
 // Purpose: Sits between engine and client .dll panels
 //  Responsible for drawing screen overlays
 //-----------------------------------------------------------------------------
-class C_SDKRootPanel : public vgui::Panel {
-    typedef vgui::Panel BaseClass;
+class C_SDKRootPanel : public vgui::Panel
+{
+	typedef vgui::Panel BaseClass;
 public:
-    C_SDKRootPanel(vgui::VPANEL parent);
+						C_SDKRootPanel( vgui::VPANEL parent );
+	virtual				~C_SDKRootPanel( void );
 
-    virtual                ~C_SDKRootPanel(void);
+	// Draw Panel effects here
+	virtual void		PostChildPaint();
 
-    // Draw Panel effects here
-    virtual void PostChildPaint();
+	// Clear list of Panel Effects
+	virtual void		LevelInit( void );
+	virtual void		LevelShutdown( void );
 
-    // Clear list of Panel Effects
-    virtual void LevelInit(void);
-
-    virtual void LevelShutdown(void);
-
-    // Run effects and let them decide whether to remove themselves
-    void OnTick(void);
+	// Run effects and let them decide whether to remove themselves
+	void				OnTick( void );
 
 private:
 
-    // Render all panel effects
-    void RenderPanelEffects(void);
+	// Render all panel effects
+	void		RenderPanelEffects( void );
 
-    // List of current panel effects
-    CUtlVector<CPanelEffect *> m_Effects;
+	// List of current panel effects
+	CUtlVector< CPanelEffect *> m_Effects;
 };
 
 

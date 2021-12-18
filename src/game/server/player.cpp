@@ -89,8 +89,8 @@ ConVar autoaim_max_deflect( "autoaim_max_deflect", "0.99" );
 ConVar	spec_freeze_time( "spec_freeze_time", "5.0", FCVAR_CHEAT | FCVAR_REPLICATED, "Time spend frozen in observer freeze cam." );
 ConVar	spec_freeze_traveltime( "spec_freeze_traveltime", "0.7", FCVAR_CHEAT | FCVAR_REPLICATED, "Time taken to zoom in to frame a target in observer freeze cam.", true, 0.01, false, 0 );
 #else
-ConVar	spec_freeze_time( "spec_freeze_time", "4.0", FCVAR_CHEAT | FCVAR_REPLICATED, "Time spend frozen in observer freeze cam." );
-ConVar	spec_freeze_traveltime( "spec_freeze_traveltime", "0.4", FCVAR_CHEAT | FCVAR_REPLICATED, "Time taken to zoom in to frame a target in observer freeze cam.", true, 0.01, false, 0 );
+ConVar	spec_freeze_time( "spec_freeze_time", "4.0", FCVAR_REPLICATED, "Time spend frozen in observer freeze cam." );
+ConVar	spec_freeze_traveltime( "spec_freeze_traveltime", "0.4", FCVAR_REPLICATED, "Time taken to zoom in to frame a target in observer freeze cam.", true, 0.01, false, 0 );
 #endif
 
 ConVar sv_bonus_challenge( "sv_bonus_challenge", "0", FCVAR_REPLICATED, "Set to values other than 0 to select a bonus map challenge type." );
@@ -183,7 +183,7 @@ ConVar	sk_player_stomach( "sk_player_stomach","1" );
 ConVar	sk_player_arm( "sk_player_arm","1" );
 ConVar	sk_player_leg( "sk_player_leg","1" );
 
-//ConVar	player_usercommand_timeout( "player_usercommand_timeout", "10", 0, "After this many seconds without a usercommand from a player, the client is kicked." );
+ConVar	sv_player_usercommand_timeout( "sv_player_usercommand_timeout", "3", FCVAR_CHEAT, "After this many seconds without a usercommand from a player, the server will RunNullCommand as if client sends an empty command." );
 #ifdef _DEBUG
 ConVar  sv_player_net_suppress_usercommands( "sv_player_net_suppress_usercommands", "0", FCVAR_CHEAT, "For testing usercommand hacking sideeffects. DO NOT SHIP" );
 #endif // _DEBUG
@@ -282,7 +282,7 @@ BEGIN_DATADESC( CBasePlayer )
 	DEFINE_AUTO_ARRAY( m_szAnimExtension, FIELD_CHARACTER ),
 //	DEFINE_CUSTOM_FIELD( m_Activity, ActivityDataOps() ),
 
-	DEFINE_FIELD( m_nUpdateRate, FIELD_INTEGER ),
+	DEFINE_FIELD( m_fUpdateInterval, FIELD_FLOAT ),
 	DEFINE_FIELD( m_fLerpTime, FIELD_FLOAT ),
 	DEFINE_FIELD( m_bLagCompensation, FIELD_BOOLEAN ),
 	DEFINE_FIELD( m_bPredictWeapons, FIELD_BOOLEAN ),
@@ -593,7 +593,7 @@ CBasePlayer::CBasePlayer( )
 
 	m_hZoomOwner = NULL;
 
-	m_nUpdateRate = 20;  // cl_updaterate defualt
+	m_fUpdateInterval = 0.015f;  // cl_updateinterval defualt
 	m_fLerpTime = 0.1f; // cl_interp default
 	m_bPredictWeapons = true;
 	m_bLagCompensation = false;
@@ -3076,8 +3076,8 @@ int CBasePlayer::DetermineSimulationTicks( void )
 }
 
 // 2 ticks ahead or behind current clock means we need to fix clock on client
-static ConVar sv_clockcorrection_msecs( "sv_clockcorrection_msecs", "60", 0, "The server tries to keep each player's m_nTickBase withing this many msecs of the server absolute tickcount" );
-static ConVar sv_playerperfhistorycount( "sv_playerperfhistorycount", "60", 0, "Number of samples to maintain in player perf history", true, 1.0f, true, 128.0 );
+static ConVar sv_clockcorrection_msecs( "sv_clockcorrection_msecs", "30", 0, "The server tries to keep each player's m_nTickBase withing this many msecs of the server absolute tickcount" );
+static ConVar sv_playerperfhistorycount( "sv_playerperfhistorycount", "20", 0, "Number of samples to maintain in player perf history", true, 1.0f, true, 128.0 );
 
 //-----------------------------------------------------------------------------
 // Purpose: Based upon amount of time in simulation time, adjust m_nTickBase so that
@@ -3380,27 +3380,18 @@ void CBasePlayer::PhysicsSimulate( void )
 			pi->m_nNumCmds = commandsToRun;
 		}
 	}
+	else if ( GetTimeSinceLastUserCommand() > sv_player_usercommand_timeout.GetFloat() )
+	{
+		// no usercommand from player after some threshold
+		// server should start RunNullCommand as if client sends an empty command so that Think and gamestate related things run properly
+		RunNullCommand();
+	}
 
 	// Restore the true server clock
 	// FIXME:  Should this occur after simulation of children so
 	//  that they are in the timespace of the player?
 	gpGlobals->curtime		= savetime;
-	gpGlobals->frametime	= saveframetime;	
-
-// 	// Kick the player if they haven't sent a user command in awhile in order to prevent clients
-// 	// from using packet-level manipulation to mess with gamestate.  Not sending usercommands seems
-// 	// to have all kinds of bad effects, such as stalling a bunch of Think()'s and gamestate handling.
-// 	// An example from TF: A medic stops sending commands after deploying an uber on another player.
-// 	// As a result, invuln is permanently on the heal target because the maintenance code is stalled.
-// 	if ( GetTimeSinceLastUserCommand() > player_usercommand_timeout.GetFloat() )
-// 	{
-// 		// If they have an active netchan, they're almost certainly messing with usercommands?
-// 		INetChannelInfo *pNetChanInfo = engine->GetPlayerNetInfo( entindex() );
-// 		if ( pNetChanInfo && pNetChanInfo->GetTimeSinceLastReceived() < 5.f )
-// 		{
-// 			engine->ServerCommand( UTIL_VarArgs( "kickid %d %s\n", GetUserID(), "UserCommand Timeout" ) );
-// 		}
-// 	}
+	gpGlobals->frametime	= saveframetime;
 }
 
 unsigned int CBasePlayer::PhysicsSolidMaskForEntity() const
@@ -6448,7 +6439,7 @@ bool CBasePlayer::ClientCommand( const CCommand &args )
 		{
 			// set new spectator mode, don't allow OBS_MODE_NONE
 			if ( !SetObserverMode( mode ) )
-				ClientPrint( this, HUD_PRINTCONSOLE, "#Spectator_Mode_Unkown");
+				ClientPrint( this, HUD_PRINTCONSOLE, "#Spectator_Mode_Unknown");
 			else
 				engine->ClientCommand( edict(), "cl_spec_mode %d", mode );
 		}
@@ -6479,7 +6470,7 @@ bool CBasePlayer::ClientCommand( const CCommand &args )
 		
 		return true;
 	}
-	else if ( stricmp( cmd, "spec_prev" ) == 0 ) // chase prevoius player
+	else if ( stricmp( cmd, "spec_prev" ) == 0 ) // chase previous player
 	{
 		if ( GetObserverMode() > OBS_MODE_FIXED )
 		{
@@ -6494,33 +6485,21 @@ bool CBasePlayer::ClientCommand( const CCommand &args )
 		{
 			AttemptToExitFreezeCam();
 		}
-		
+
 		return true;
 	}
-	
 	else if ( stricmp( cmd, "spec_player" ) == 0 ) // chase next player
 	{
 		if ( GetObserverMode() > OBS_MODE_FIXED && args.ArgC() == 2 )
 		{
-			int index = atoi( args[1] );
-
-			CBasePlayer * target;
-
-			if ( index == 0 )
-			{
-				target = UTIL_PlayerByName( args[1] );
-			}
-			else
-			{
-				target = UTIL_PlayerByIndex( index );
-			}
+			CBasePlayer *target = UTIL_PlayerByCommandArg( args[1] );
 
 			if ( IsValidObserverTarget( target ) )
 			{
 				SetObserverTarget( target );
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -6531,9 +6510,9 @@ bool CBasePlayer::ClientCommand( const CCommand &args )
 			 args.ArgC() == 6 )
 		{
 			Vector origin;
-			origin.x = atof( args[1] );
-			origin.y = atof( args[2] );
-			origin.z = atof( args[3] );
+ 			origin.x = clamp( atof( args[1] ), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+ 			origin.y = clamp( atof( args[2] ), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+ 			origin.z = clamp( atof( args[3] ), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
 
 			QAngle angle;
 			angle.x = atof( args[4] );
@@ -7471,7 +7450,7 @@ void CBasePlayer::PlayWearableAnimsForPlaybackEvent( wearableanimplayback_t iPla
 // Purpose: Put the player in the specified team
 //-----------------------------------------------------------------------------
 
-void CBasePlayer::ChangeTeam( int iTeamNum, bool bAutoTeam, bool bSilent)
+void CBasePlayer::ChangeTeam( int iTeamNum, bool bAutoTeam, bool bSilent, bool bAutoBalance /*= false*/ )
 {
 	if ( !GetGlobalTeam( iTeamNum ) )
 	{

@@ -868,12 +868,12 @@ void CClient_Precipitation::CreateAshParticle( void )
 		Vector absmaxs = WorldAlignMaxs();
 
 		//15 Traces a second.
-	while ( m_tAshParticleTraceTimer.NextEvent( curTime ) )
+	    while ( m_tAshParticleTraceTimer.NextEvent( curTime ) )
 		{
 			trace_t tr;
 
 			Vector vTraceStart = pPlayer->EyePosition();
-			Vector vTraceEnd = pPlayer->EyePosition() + vForward * MAX_TRACE_LENGTH;
+			Vector vTraceEnd = pPlayer->EyePosition() + vForward * 8192.0f;
 
 			UTIL_TraceLine( vTraceStart, vTraceEnd, MASK_SHOT_HULL & (~CONTENTS_GRATE), pPlayer, COLLISION_GROUP_NONE, &tr );
 
@@ -1875,11 +1875,14 @@ void CSnowFallManager::FindSnowVolumes( Vector &vecCenter, float flRadius, Vecto
 	{
 		for ( iSnow = 0; iSnow < m_nActiveSnowCount; ++iSnow )
 		{
-			Vector vecCenter, vecMin, vecMax;
+			Vector vecMin, vecMax;
 			vecCenter = ( m_aSnow[iSnow].m_vecMin, m_aSnow[iSnow].m_vecMax ) * 0.5;
 			vecMin = m_aSnow[iSnow].m_vecMin - vecCenter;
 			vecMax = m_aSnow[iSnow].m_vecMax - vecCenter;
-			debugoverlay->AddBoxOverlay( vecCenter, vecMin, vecMax, QAngle( 0, 0, 0 ), 200, 0, 0, 25, r_SnowDebugBox.GetFloat() );
+			if ( debugoverlay )
+			{
+				debugoverlay->AddBoxOverlay( vecCenter, vecMin, vecMax, QAngle( 0, 0, 0 ), 200, 0, 0, 25, r_SnowDebugBox.GetFloat() );
+			}
 		}
 	}
 #endif

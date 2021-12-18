@@ -29,8 +29,6 @@
 #include "engine/IEngineSound.h"
 #include "movevars_shared.h"
 
-#pragma warning(disable:4706)
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -523,7 +521,7 @@ void CNPC_Houndeye::AlertSound ( void )
 //=========================================================
 // DeathSound 
 //=========================================================
-void CNPC_Houndeye::DeathSound (const CTakeDamageInfo &info)
+void CNPC_Houndeye::DeathSound ( void )
 {
 	EmitSound( "NPC_Houndeye.Die" );
 }
@@ -531,7 +529,7 @@ void CNPC_Houndeye::DeathSound (const CTakeDamageInfo &info)
 //=========================================================
 // PainSound 
 //=========================================================
-void CNPC_Houndeye::PainSound (const CTakeDamageInfo &info)
+void CNPC_Houndeye::PainSound ( void )
 {
 	EmitSound( "NPC_Houndeye.Pain" );
 }
@@ -804,7 +802,7 @@ void CNPC_Houndeye::StartTask( const Task_t *pTask )
 			Vector vTargetPos = GetEnemyLKP();
 			vTargetPos.z	= GetFloorZ(vTargetPos);
 
-			if (GetNavigator()->SetRadialGoal(vTargetPos, vTargetPos, random->RandomInt(50, 500), 90, 175, m_bLoopClockwise))
+			if (GetNavigator()->SetRadialGoal(vTargetPos, random->RandomInt(50,500), 90, 175, m_bLoopClockwise))
 			{
 				TaskComplete();
 				return;

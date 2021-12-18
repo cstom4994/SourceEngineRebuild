@@ -200,8 +200,6 @@ inline bool FStrEq( string_t str1, string_t str2 )
 }
 #endif
 
-const char *nexttoken(char *token, const char *str, char sep);
-
 // Misc. Prototypes
 void		UTIL_SetSize			(CBaseEntity *pEnt, const Vector &vecMin, const Vector &vecMax);
 void		UTIL_ClearTrace			( trace_t &trace );
@@ -231,9 +229,6 @@ CBasePlayer* UTIL_GetLocalPlayer( void );
 
 // get the local player on a listen server
 CBasePlayer *UTIL_GetListenServerHost( void );
-
-CBasePlayer* UTIL_PlayerByUserId( int userID );
-CBasePlayer* UTIL_PlayerByName( const char *name ); // not case sensitive
 
 // Returns true if the command was issued by the listenserver host, or by the dedicated server, via rcon or the server console.
 // This is valid during ConCommand execution.
@@ -481,7 +476,7 @@ void			UTIL_LogPrintf( PRINTF_FORMAT_STRING const char *fmt, ... ) FMTFUNCTION( 
 // Sorta like FInViewCone, but for nonNPCs. 
 float UTIL_DotPoints ( const Vector &vecSrc, const Vector &vecCheck, const Vector &vecDir );
 
-void UTIL_StripToken( const char *pKey, char *pDest );// for redundant keynames
+void UTIL_StripToken( const char *pKey, char *pDest, int nDestLength );// for redundant keynames
 
 // Misc functions
 int BuildChangeList( levellist_t *pLevelList, int maxList );

@@ -1373,7 +1373,7 @@ pFnVrCallback_Declare(VrCallback_ViewModel) {
 #ifdef SWARM_DLL
     viewModelSetup.m_flAspectRatio = engine->GetScreenAspectRatio( view.width, view.height );
 #else
-    viewModelSetup.m_flAspectRatio = engine->GetScreenAspectRatio();
+    viewModelSetup.m_flAspectRatio = engine->GetScreenAspectRatio(0, 0);
 #endif
     viewModelSetup.width = pTex ? pTex->GetActualWidth() : bbx;
     viewModelSetup.height = pTex ? pTex->GetActualHeight() : bby;

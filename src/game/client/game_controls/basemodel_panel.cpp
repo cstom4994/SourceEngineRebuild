@@ -10,14 +10,19 @@
 #include "animation.h"
 #include "vgui/IInput.h"
 #include "matsys_controls/manipulator.h"
+#include "bone_setup.h"
 
 using namespace vgui;
+extern float GetAutoPlayTime( void );
 DECLARE_BUILD_FACTORY( CBaseModelPanel );
 
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-CBaseModelPanel::CBaseModelPanel( vgui::Panel *pParent, const char *pName ): BaseClass( pParent, pName )
+CBaseModelPanel::CBaseModelPanel( vgui::Panel *pParent, const char *pName )
+	: BaseClass( pParent, pName )
+	, m_nActiveSequence( ACT_INVALID )
+	, m_flActiveSequenceDuration( 0.f )
 {
 	m_bForcePos = false;
 	m_bMousePressed = false;
@@ -100,6 +105,8 @@ void CBaseModelPanel::ParseModelResInfo( KeyValues *inResourceData )
 			ParseModelAttachInfo( pData );
 		}
 	}
+
+	SetupModelDefaults();
 }
 
 //-----------------------------------------------------------------------------
@@ -117,7 +124,7 @@ void CBaseModelPanel::ParseModelAnimInfo( KeyValues *inResourceData )
 	m_BMPResData.m_aAnimations[iAnim].m_pszName = ReadAndAllocStringValue( inResourceData, "name" );
 	m_BMPResData.m_aAnimations[iAnim].m_pszSequence = ReadAndAllocStringValue( inResourceData, "sequence" );
 	m_BMPResData.m_aAnimations[iAnim].m_pszActivity = ReadAndAllocStringValue( inResourceData, "activity" );
-	m_BMPResData.m_aAnimations[iAnim].m_bDefault = ( inResourceData->GetInt( "default", 0 ) == 1 );
+	m_BMPResData.m_aAnimations[iAnim].m_bDefault = inResourceData->GetBool( "default" );
 
 	for ( KeyValues *pAnimData = inResourceData->GetFirstSubKey(); pAnimData != NULL; pAnimData = pAnimData->GetNextKey() )
 	{
@@ -260,7 +267,7 @@ void CBaseModelPanel::SetModelAnim( int iAnim )
 
 	if ( iSequence != ACT_INVALID )
 	{
-		SetSequence( iSequence );
+		SetSequence( iSequence, true );
 	}
 }
 
@@ -381,6 +388,30 @@ void CBaseModelPanel::PerformLayout()
 			LookAtBounds( vecBoundsMin, vecBoundsMax );
 		}
 	}
+}
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+void CBaseModelPanel::OnTick()
+{
+	// Cycle stuff gets handled in mdlpanel::OnTick, so we want to fix up
+	// what our sequence is before it gets called.
+
+	// Check if we have a active sequence, and if it's expired and we need
+	// to run our default
+	if ( m_nActiveSequence != ACT_INVALID )
+	{
+		float flElapsedTime = GetAutoPlayTime() - m_RootMDL.m_flCycleStartTime;
+		if ( flElapsedTime >= m_flActiveSequenceDuration )
+		{
+			m_nActiveSequence = ACT_INVALID;
+			m_flActiveSequenceDuration = 0.f;
+
+			SetupModelDefaults();
+		}
+	}
+
+	BaseClass::OnTick();
 }
 
 //-----------------------------------------------------------------------------
@@ -553,6 +584,20 @@ Vector CBaseModelPanel::GetPlayerPos() const
 QAngle CBaseModelPanel::GetPlayerAngles() const
 {
 	return m_angPlayer;
+}
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+void CBaseModelPanel::PlaySequence( const char *pszSequenceName )
+{
+	CStudioHdr studioHDR( GetStudioHdr(), g_pMDLCache );
+	int iSeq = ::LookupSequence( &studioHDR, pszSequenceName );
+	if ( iSeq != ACT_INVALID )
+	{
+		m_nActiveSequence = iSeq;
+		m_flActiveSequenceDuration = Studio_Duration( &studioHDR, iSeq, NULL );
+		SetSequence( m_nActiveSequence, true );
+	}
 }
 
 //-----------------------------------------------------------------------------

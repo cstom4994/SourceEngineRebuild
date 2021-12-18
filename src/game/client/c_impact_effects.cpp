@@ -47,8 +47,8 @@ PMaterialHandle g_Mat_BloodPuff[2] = { NULL, NULL };
 PMaterialHandle g_Mat_SMG_Muzzleflash[4] = { NULL, NULL, NULL, NULL };
 PMaterialHandle g_Mat_Combine_Muzzleflash[3] = { NULL, NULL, NULL };
 
-static ConVar fx_drawimpactdebris( "fx_drawimpactdebris", "1", FCVAR_DEVELOPMENTONLY, "Draw impact debris effects." );
-static ConVar fx_drawimpactdust( "fx_drawimpactdust", "1", FCVAR_DEVELOPMENTONLY, "Draw impact dust effects." );
+static ConVar fx_drawimpactdebris( "fx_drawimpactdebris", "1", 0, "Draw impact debris effects." );
+static ConVar fx_drawimpactdust( "fx_drawimpactdust", "1", 0, "Draw impact dust effects." );
 
 void FX_CacheMaterialHandles( void )
 {
@@ -73,7 +73,7 @@ void FX_CacheMaterialHandles( void )
 	g_Mat_BloodPuff[0] = ParticleMgr()->GetPMaterial( "effects/blood" );
 	g_Mat_BloodPuff[1] = ParticleMgr()->GetPMaterial( "effects/blood2" );
 	
-#ifndef TF_CLIENT_DLL
+#ifndef PONDER_CLIENT_DLL
 	g_Mat_SMG_Muzzleflash[0] = ParticleMgr()->GetPMaterial( "effects/muzzleflash1" );
 	g_Mat_SMG_Muzzleflash[1] = ParticleMgr()->GetPMaterial( "effects/muzzleflash2" );
 	g_Mat_SMG_Muzzleflash[2] = ParticleMgr()->GetPMaterial( "effects/muzzleflash3" );

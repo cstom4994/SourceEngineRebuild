@@ -954,7 +954,7 @@ public:
                                     const char *pComplainPrefix = NULL) = 0;
 
     // Query whether a material is loaded (eg, whether FindMaterial will be nonblocking)
-    virtual bool IsMaterialLoaded(char const *pMaterialName) = 0;
+    virtual bool IsMaterialLoaded(char const *pMaterialName);
 
     //---------------------------------
     // This is the interface for knowing what materials are available
@@ -983,10 +983,10 @@ public:
 
     //---------------------------------
 
-    virtual void SetAsyncTextureLoadCache(void *hFileCache) = 0;
+    virtual void SetAsyncTextureLoadCache(void *hFileCache);
 
     virtual ITexture *FindTexture(char const *pTextureName, const char *pTextureGroupName, bool complain = true,
-                                  int nAdditionalCreationFlags = 0) = 0;
+                                  int nAdditionalCreationFlags = 0);
 
     // Checks to see if a particular texture is loaded
     virtual bool IsTextureLoaded(char const *pTextureName) const = 0;
@@ -1115,7 +1115,7 @@ public:
     // -----------------------------------------------------------
     virtual IMatRenderContext *GetRenderContext() = 0;
 
-    virtual bool SupportsShadowDepthTextures(void) = 0;
+    virtual bool SupportsShadowDepthTextures(void);
 
     virtual void BeginUpdateLightmaps(void) = 0;
 
@@ -1129,9 +1129,9 @@ public:
     virtual void Unlock(MaterialLock_t) = 0;
 
     // Vendor-dependent shadow depth texture format
-    virtual ImageFormat GetShadowDepthTextureFormat() = 0;
+    virtual ImageFormat GetShadowDepthTextureFormat();
 
-    virtual bool SupportsFetch4(void) = 0;
+    virtual bool SupportsFetch4(void);
 
     // Create a custom render context. Cannot be used to create MATERIAL_HARDWARE_CONTEXT
     virtual IMatRenderContext *CreateRenderContext(MaterialContextType_t type) = 0;
@@ -1147,7 +1147,7 @@ public:
     virtual IMaterial *
     FindProceduralMaterial(const char *pMaterialName, const char *pTextureGroupName, KeyValues *pVMTKeyValues) = 0;
 
-    virtual ImageFormat GetNullTextureFormat() = 0;
+    virtual ImageFormat GetNullTextureFormat();
 
     virtual void AddTextureAlias(const char *pAlias, const char *pRealName) = 0;
 
@@ -1175,7 +1175,7 @@ public:
     // Contains context in so it can make decisions (i.e. if it's a model, ignore certain cheat parameters)
     virtual IMaterial *
     FindMaterialEx(char const *pMaterialName, const char *pTextureGroupName, int nContext, bool complain = true,
-                   const char *pComplainPrefix = NULL) = 0;
+                   const char *pComplainPrefix = NULL);
 
 #ifdef DX_TO_GL_ABSTRACTION
     virtual void				DoStartupShaderPreloading( void ) = 0;
@@ -1183,24 +1183,24 @@ public:
 
     // Sets the override sizes for all render target size tests. These replace the frame buffer size.
     // Set them when you are rendering primarily to something larger than the frame buffer (as in VR mode).
-    virtual void SetRenderTargetFrameBufferSizeOverrides(int nWidth, int nHeight) = 0;
+    virtual void SetRenderTargetFrameBufferSizeOverrides(int nWidth, int nHeight);
 
     // Returns the (possibly overridden) framebuffer size for render target sizing.
-    virtual void GetRenderTargetFrameBufferDimensions(int &nWidth, int &nHeight) = 0;
+    virtual void GetRenderTargetFrameBufferDimensions(int &nWidth, int &nHeight);
 
     // returns the display device name that matches the adapter index we were started with
-    virtual char *GetDisplayDeviceName() const = 0;
+    virtual char *GetDisplayDeviceName() const;
 
     // creates a texture suitable for use with materials from a raw stream of bits.
     // The bits will be retained by the material system and can be freed upon return.
     virtual ITexture *
-    CreateTextureFromBits(int w, int h, int mips, ImageFormat fmt, int srcBufferSize, byte *srcBits) = 0;
+    CreateTextureFromBits(int w, int h, int mips, ImageFormat fmt, int srcBufferSize, byte *srcBits);
 
     // Lie to the material system to pretend to be in render target allocation mode at the beginning of time.
     // This was a thing that mattered a lot to old hardware, but doesn't matter at all to new hardware,
     // where new is defined to be "anything from the last decade." However, we want to preserve legacy behavior
     // for the old games because it's easier than testing them.
-    virtual void OverrideRenderTargetAllocation(bool rtAlloc) = 0;
+    virtual void OverrideRenderTargetAllocation(bool rtAlloc);
 
     // creates a texture compositor that will attempt to composite a new textuer from the steps of the specified KeyValues.
     virtual ITextureCompositor *

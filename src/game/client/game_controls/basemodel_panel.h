@@ -165,6 +165,7 @@ public:
 	// Overridden methods of vgui::Panel
 	virtual void ApplySettings( KeyValues *inResourceData );
 	virtual void PerformLayout();
+	virtual void OnTick() OVERRIDE;
 
 	// Animation.
 	int FindDefaultAnim( void );
@@ -187,6 +188,8 @@ public:
 
 	Vector		GetPlayerPos() const;
 	QAngle		GetPlayerAngles() const;
+
+	void PlaySequence( const char *pszSequenceName );
 
 	void LookAtBounds( const Vector &vecBoundsMin, const Vector &vecBoundsMax );
 
@@ -219,6 +222,9 @@ protected:
 	bool			m_bApplyManipulators;
 	bool			m_bForcedCameraPosition;
 
+	int m_nActiveSequence;
+	float m_flActiveSequenceDuration;
+
 	// VGUI script accessible variables.
 	CPanelAnimationVar( bool, m_bStartFramed, "start_framed", "0" );
 	CPanelAnimationVar( bool, m_bDisableManipulation, "disable_manipulation", "0" );
@@ -235,6 +241,8 @@ protected:
 		CParticleCollection	*m_pParticleSystem;
 	};
 	CUtlVector< particle_data_t* > m_particleList;
+
+	
 
 	particle_data_t *CreateParticleData( const char *pszParticleName );
 	bool SafeDeleteParticleData( particle_data_t **pData );

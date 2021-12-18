@@ -12,7 +12,6 @@
 #include "physics_saverestore.h"
 #include "datacache/imdlcache.h"
 #include "activitylist.h"
-#include "particle_parse.h"
 
 // NVNT start extra includes
 #include "haptics/haptic_utils.h"
@@ -21,7 +20,7 @@
 #endif
 // NVNT end extra includes
 
-#if defined ( TF_DLL ) || defined ( TF_CLIENT_DLL )
+#if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
 #include "tf_shareddefs.h"
 #endif
 
@@ -54,7 +53,7 @@
 
 extern bool UTIL_ItemCanBeTouchedByPlayer( CBaseEntity *pItem, CBasePlayer *pPlayer );
 
-#if defined ( TF_CLIENT_DLL ) || defined ( TF_DLL )
+#if defined ( PONDER_CLIENT_DLL ) || defined ( TF_DLL )
 #ifdef _DEBUG
 ConVar tf_weapon_criticals_force_random( "tf_weapon_criticals_force_random", "0", FCVAR_REPLICATED | FCVAR_CHEAT );
 #endif // _DEBUG
@@ -62,8 +61,6 @@ ConVar tf_weapon_criticals_bucket_cap( "tf_weapon_criticals_bucket_cap", "1000.0
 ConVar tf_weapon_criticals_bucket_bottom( "tf_weapon_criticals_bucket_bottom", "-250.0", FCVAR_REPLICATED | FCVAR_CHEAT );
 ConVar tf_weapon_criticals_bucket_default( "tf_weapon_criticals_bucket_default", "300.0", FCVAR_REPLICATED | FCVAR_CHEAT );
 #endif // TF
-
-ConVar cl_useparticletracers("cl_useparticletracers", "1", FCVAR_ARCHIVE, "Determines whether or not particle tracers should be used (or the legacy hardcoded ones)");
 
 CBaseCombatWeapon::CBaseCombatWeapon()
 {
@@ -93,6 +90,7 @@ CBaseCombatWeapon::CBaseCombatWeapon()
 
 #if !defined( CLIENT_DLL )
 	m_pConstraint = NULL;
+	m_bSoundsEnabled = true;
 	OnBaseCombatWeaponCreated( this );
 #endif
 
@@ -102,7 +100,7 @@ CBaseCombatWeapon::CBaseCombatWeapon()
 	UseClientSideAnimation();
 #endif
 
-#if defined ( TF_CLIENT_DLL ) || defined ( TF_DLL )
+#if defined ( PONDER_CLIENT_DLL ) || defined ( TF_DLL )
 	m_flCritTokenBucket = tf_weapon_criticals_bucket_default.GetFloat();
 	m_nCritChecks = 1;
 	m_nCritSeedRequests = 0;
@@ -265,7 +263,7 @@ void CBaseCombatWeapon::Precache( void )
 			{
 				Msg("ERROR: Weapon (%s) using undefined primary ammo type (%s)\n",GetClassname(), GetWpnData().szAmmo1);
 			}
- #if defined ( TF_DLL ) || defined ( TF_CLIENT_DLL )
+ #if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
 			// Ammo override
 			int iModUseMetalOverride = 0;
 			CALL_ATTRIB_HOOK_INT( iModUseMetalOverride, mod_use_metal_ammo_type );
@@ -308,7 +306,6 @@ void CBaseCombatWeapon::Precache( void )
 				CBaseEntity::PrecacheScriptSound( shootsound );
 			}
 		}
-		PrecacheParticleSystem("bullet_tracer02_red_crit");
 	}
 	else
 	{
@@ -364,7 +361,7 @@ const char *CBaseCombatWeapon::GetPrintName( void ) const
 //-----------------------------------------------------------------------------
 int CBaseCombatWeapon::GetMaxClip1( void ) const
 {
-#if defined ( TF_DLL ) || defined ( TF_CLIENT_DLL )
+#if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
 	int iModMaxClipOverride = 0;
 	CALL_ATTRIB_HOOK_INT( iModMaxClipOverride, mod_max_primary_clip_override );
 	if ( iModMaxClipOverride != 0 )
@@ -808,24 +805,16 @@ void CBaseCombatWeapon::MakeTracer( const Vector &vecTracerSrc, const trace_t &t
 
 	int iAttachment = GetTracerAttachment();
 
-	if (cl_useparticletracers.GetBool())
+	switch ( iTracerType )
 	{
-		DispatchParticleEffect("bullet_tracer02_red_crit", vNewSrc, tr.endpos, vec3_angle, NULL);
-	}
-	else
-	{
-		switch (iTracerType)
-		{
-		case TRACER_LINE:
-			UTIL_Tracer(vNewSrc, tr.endpos, iEntIndex, iAttachment, 0.0f, true, pszTracerName);
-			break;
+	case TRACER_LINE:
+		UTIL_Tracer( vNewSrc, tr.endpos, iEntIndex, iAttachment, 0.0f, true, pszTracerName );
+		break;
 
-		case TRACER_LINE_AND_WHIZ:
-			UTIL_Tracer(vNewSrc, tr.endpos, iEntIndex, iAttachment, 0.0f, true, pszTracerName);
-			break;
-		}
+	case TRACER_LINE_AND_WHIZ:
+		UTIL_Tracer( vNewSrc, tr.endpos, iEntIndex, iAttachment, 0.0f, true, pszTracerName );
+		break;
 	}
-
 }
 
 void CBaseCombatWeapon::GiveTo( CBaseEntity *pOther )
@@ -1105,10 +1094,10 @@ int CBaseCombatWeapon::UpdateClientData( CBasePlayer *pPlayer )
 // Purpose: 
 // Input  : index - 
 //-----------------------------------------------------------------------------
-void CBaseCombatWeapon::SetViewModelIndex( int index )
+void CBaseCombatWeapon::SetViewModelIndex( int index_ )
 {
-	Assert( index >= 0 && index < MAX_VIEWMODELS );
-	m_nViewModelIndex = index;
+	Assert( index_ >= 0 && index_ < MAX_VIEWMODELS );
+	m_nViewModelIndex = index_;
 }
 
 //-----------------------------------------------------------------------------
@@ -1506,31 +1495,16 @@ bool CBaseCombatWeapon::Holster( CBaseCombatWeapon *pSwitchingTo )
 	{
 		pOwner->SetNextAttack( gpGlobals->curtime + flSequenceDuration );
 	}
-	m_flNextPrimaryAttack = gpGlobals->curtime + flSequenceDuration + 0.1;
-	m_flNextSecondaryAttack = gpGlobals->curtime + flSequenceDuration + 0.1;
-
-	m_pSwitchingTo = pSwitchingTo;
 
 	// If we don't have a holster anim, hide immediately to avoid timing issues
 	if ( !flSequenceDuration )
 	{
 		SetWeaponVisible( false );
-		if (pSwitchingTo)
-		{
-#ifdef GAME_DLL
-			GetOwner()->SetActiveWeapon(m_pSwitchingTo);
-#elif CLIENT_DLL
-			GetOwner()->m_hActiveWeapon = m_pSwitchingTo;
-#endif // GAME_DLL
-			GetOwner()->GetActiveWeapon()->Deploy();
-			m_pSwitchingTo = NULL;
-		}
 	}
 	else
 	{
 		// Hide the weapon when the holster animation's finished
-		SetThink( &CBaseCombatWeapon::HideThink);
-		SetNextThink(gpGlobals->curtime);
+		SetContextThink( &CBaseCombatWeapon::HideThink, gpGlobals->curtime + flSequenceDuration, HIDEWEAPON_THINK_CONTEXT );
 	}
 
 	// if we were displaying a hud hint, squelch it.
@@ -1544,8 +1518,6 @@ bool CBaseCombatWeapon::Holster( CBaseCombatWeapon *pSwitchingTo )
 	}
 
 	// reset pose parameters
-	m_flHolsterTime = gpGlobals->curtime + flSequenceDuration;
-	m_bHolstering = true;
 	PoseParameterOverride( true );
 
 	return true;
@@ -1586,27 +1558,10 @@ void CBaseCombatWeapon::InputHideWeapon( inputdata_t &inputdata )
 void CBaseCombatWeapon::HideThink( void )
 {
 	// Only hide if we're still the active weapon. If we're not the active weapon
-	/*if ( GetOwner() && GetOwner()->GetActiveWeapon() == this )
+	if ( GetOwner() && GetOwner()->GetActiveWeapon() == this )
 	{
 		SetWeaponVisible( false );
-	}*/
-	if (m_bHolstering)
-	{
-		if (m_flHolsterTime < gpGlobals->curtime && m_pSwitchingTo)
-		{
-			SetWeaponVisible(false);
-#ifdef GAME_DLL
-			GetOwner()->SetActiveWeapon(m_pSwitchingTo);
-#elif CLIENT_DLL
-			GetOwner()->m_hActiveWeapon = m_pSwitchingTo;
-#endif // GAME_DLL
-			GetOwner()->GetActiveWeapon()->Deploy();
-			m_pSwitchingTo = NULL;
-			m_bHolstering = false;
-			SetThink(NULL);
-		}
 	}
-	SetNextThink(gpGlobals->curtime);
 }
 
 bool CBaseCombatWeapon::CanReload( void )
@@ -1619,7 +1574,7 @@ bool CBaseCombatWeapon::CanReload( void )
 	return true;
 }
 
-#if defined ( TF_CLIENT_DLL ) || defined ( TF_DLL )
+#if defined ( PONDER_CLIENT_DLL ) || defined ( TF_DLL )
 //-----------------------------------------------------------------------------
 // Purpose: Anti-hack
 //-----------------------------------------------------------------------------
@@ -1931,6 +1886,11 @@ float CBaseCombatWeapon::GetFireRate( void )
 //-----------------------------------------------------------------------------
 void CBaseCombatWeapon::WeaponSound( WeaponSound_t sound_type, float soundtime /* = 0.0f */ )
 {
+#if !defined( CLIENT_DLL )
+	if ( !m_bSoundsEnabled )
+		return;
+#endif
+
 	// If we have some sounds from the weapon classname.txt file, play a random one of them
 	const char *shootsound = GetShootSound( sound_type );
 	if ( !shootsound || !shootsound[0] )
@@ -2089,7 +2049,7 @@ bool CBaseCombatWeapon::DefaultReload( int iClipSize1, int iClipSize2, int iActi
 
 bool CBaseCombatWeapon::ReloadsSingly( void ) const
 {
-#if defined ( TF_DLL ) || defined ( TF_CLIENT_DLL )
+#if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
 	float fHasReload = 1.0f;
 	CALL_ATTRIB_HOOK_FLOAT( fHasReload, mod_no_reload_display_only );
 	if ( fHasReload != 1.0f )
@@ -2103,7 +2063,7 @@ bool CBaseCombatWeapon::ReloadsSingly( void ) const
 	{
 		return false;
 	}
-#endif // TF_DLL || TF_CLIENT_DLL
+#endif // TF_DLL || PONDER_CLIENT_DLL
 
 	return m_bReloadsSingly;
 }
@@ -2341,18 +2301,16 @@ void CBaseCombatWeapon::PrimaryAttack( void )
 
 	// To make the firing framerate independent, we may have to fire more than one bullet here on low-framerate systems, 
 	// especially if the weapon we're firing has a really fast rate of fire.
-	info.m_iShots = 0;
 	float fireRate = GetFireRate();
+	int32 fireTimes = fireRate > 0.0f ? (int)((gpGlobals->curtime - m_flNextPrimaryAttack) / fireRate) + 1 : 1;
 
-	while ( m_flNextPrimaryAttack <= gpGlobals->curtime )
+	for (info.m_iShots = 1; info.m_iShots <= fireTimes; info.m_iShots++)
 	{
 		// MUST call sound before removing a round from the clip of a CMachineGun
 		WeaponSound(SINGLE, m_flNextPrimaryAttack);
-		m_flNextPrimaryAttack = m_flNextPrimaryAttack + fireRate;
-		info.m_iShots++;
-		if ( !fireRate )
-			break;
 	}
+
+	m_flNextPrimaryAttack += info.m_iShots * fireRate;
 
 	// Make sure we don't fire more than the amount in the clip
 	if ( UsesClipsForAmmo1() )
@@ -2366,7 +2324,6 @@ void CBaseCombatWeapon::PrimaryAttack( void )
 		pPlayer->RemoveAmmo( info.m_iShots, m_iPrimaryAmmoType );
 	}
 
-	info.m_flDistance = MAX_TRACE_LENGTH;
 	info.m_iAmmoType = m_iPrimaryAmmoType;
 	info.m_iTracerFreq = 2;
 

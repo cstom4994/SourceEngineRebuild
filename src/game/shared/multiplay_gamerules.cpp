@@ -42,6 +42,11 @@
 	#include "NextBotManager.h"
 #endif
 
+// TODO Why did we add this to the base class guys.
+#if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
+	#include "player_vs_environment/tf_population_manager.h"
+#endif
+
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -85,7 +90,7 @@ ConVar mp_show_voice_icons( "mp_show_voice_icons", "1", FCVAR_REPLICATED, "Show 
 
 #ifdef GAME_DLL
 
-ConVar tv_delaymapchange( "tv_delaymapchange", "0", FCVAR_NONE, "Delays map change until broadcast is complete" );
+ConVar tv_delaymapchange( "tv_delaymapchange", "1", FCVAR_NONE, "Delays map change until broadcast is complete" );
 ConVar tv_delaymapchange_protect( "tv_delaymapchange_protect", "1", FCVAR_NONE, "Protect against doing a manual map change if HLTV is broadcasting and has not caught up with a major game event such as round_end" );
 
 ConVar mp_restartgame( "mp_restartgame", "0", FCVAR_GAMEDLL, "If non-zero, game will restart in the specified number of seconds" );
@@ -1397,42 +1402,20 @@ ConVarRef suitcharger( "sk_suitcharger" );
 			g_pStringTableServerMapCycle->AddString( CBaseEntity::IsServer(), "ServerMapCycle", sFileList.Length() + 1, sFileList.String() );
 		}
 
-#if defined ( TF_DLL ) || defined ( TF_CLIENT_DLL )
+#if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
 		if ( g_pStringTableServerPopFiles )
 		{
 			// Search for all pop files that are prefixed with the current map name
 			CUtlString sFileList;
 
-			char szBaseName[_MAX_PATH];
-			V_snprintf( szBaseName, sizeof( szBaseName ), "scripts/population/%s*.pop", STRING(gpGlobals->mapname) );
+			CUtlVector< CUtlString > defaultPopFiles;
+			CPopulationManager::FindDefaultPopulationFileShortNames( defaultPopFiles );
 
-			FileFindHandle_t popHandle;
-			const char *pPopFileName = filesystem->FindFirst( szBaseName, &popHandle );
-
-			while ( pPopFileName && pPopFileName[ 0 ] != '\0' )
+			FOR_EACH_VEC( defaultPopFiles, idx )
 			{
-				// Skip it if it's a directory or is the folder info
-				if ( filesystem->FindIsDirectory( popHandle ) )
-				{
-					pPopFileName = filesystem->FindNext( popHandle );
-					continue;
-				}
-
-				const char *pchPopPostfix = StringAfterPrefix( pPopFileName, STRING(gpGlobals->mapname) );
-				if ( pchPopPostfix )
-				{
-					char szShortName[_MAX_PATH];
-					V_strncpy( szShortName, ( ( pchPopPostfix[ 0 ] == '_' ) ? ( pchPopPostfix + 1 ) : "normal" ), sizeof( szShortName ) ); // skip the '_'
-					V_StripExtension( szShortName, szShortName, sizeof( szShortName ) );
-
-					sFileList += szShortName;
-					sFileList += '\n';
-				}
-
-				pPopFileName = filesystem->FindNext( popHandle );
+				sFileList += defaultPopFiles[ idx ];
+				sFileList += "\n";
 			}
-
-			filesystem->FindClose( popHandle );
 
 			if ( sFileList.Length() > 0 )
 			{

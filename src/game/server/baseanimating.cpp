@@ -206,11 +206,6 @@ BEGIN_DATADESC( CBaseAnimating )
 	DEFINE_INPUTFUNC( FIELD_STRING, "SetLightingOrigin", InputSetLightingOrigin ),
 	DEFINE_OUTPUT( m_OnIgnite, "OnIgnite" ),
 
-#ifdef VANCE
-	DEFINE_KEYFIELD( m_bHackable, FIELD_BOOLEAN, "Hackable" ),
-	DEFINE_OUTPUT( m_OnHacked, "OnHacked" ),
-#endif
-
 	DEFINE_INPUT( m_fadeMinDist, FIELD_FLOAT, "fademindist" ),
 	DEFINE_INPUT( m_fadeMaxDist, FIELD_FLOAT, "fademaxdist" ),
 	DEFINE_KEYFIELD( m_flFadeScale, FIELD_FLOAT, "fadescale" ),
@@ -964,14 +959,11 @@ float CBaseAnimating::GetSequenceCycleRate( CStudioHdr *pStudioHdr, int iSequenc
 {
 	float t = SequenceDuration( pStudioHdr, iSequence );
 
-	if (t > 0.0f)
+	if ( t != 0.0f )
 	{
 		return 1.0f / t;
 	}
-	else
-	{
-		return 1.0f / 0.1f;
-	}
+	return t;
 }
 
 
@@ -1641,9 +1633,12 @@ void CBaseAnimating::CalculateIKLocks( float currentTime )
 					enginetrace->TraceRay( ray, MASK_SOLID, &traceFilter, &trace );
 
 					/*
-					debugoverlay->AddBoxOverlay( p1, Vector(-r,-r,0), Vector(r,r,1), QAngle( 0, 0, 0 ), 255, 0, 0, 0, 1.0f );
-					debugoverlay->AddBoxOverlay( trace.endpos, Vector(-r,-r,0), Vector(r,r,1), QAngle( 0, 0, 0 ), 255, 0, 0, 0, 1.0f );
-					debugoverlay->AddLineOverlay( p1, trace.endpos, 255, 0, 0, 0, 1.0f );
+					if ( debugoverlay )
+					{
+						debugoverlay->AddBoxOverlay( p1, Vector(-r,-r,0), Vector(r,r,1), QAngle( 0, 0, 0 ), 255, 0, 0, 0, 1.0f );
+						debugoverlay->AddBoxOverlay( trace.endpos, Vector(-r,-r,0), Vector(r,r,1), QAngle( 0, 0, 0 ), 255, 0, 0, 0, 1.0f );
+						debugoverlay->AddLineOverlay( p1, trace.endpos, 255, 0, 0, 0, 1.0f );
+					}
 					*/
 
 					if (trace.startsolid)
@@ -3610,11 +3605,3 @@ CStudioHdr *CBaseAnimating::OnNewModel()
 
 	return hdr;
 }
-
-#ifdef VANCE
-void CBaseAnimating::Hack()
-{
-	m_bHacked = true;
-	FireNamedOutput("OnHack", variant_t(), this, this);
-}
-#endif

@@ -254,6 +254,7 @@ private:
 	// One of the SOLID_ defines. Use GetSolid/SetSolid.
 	CNetworkVar( unsigned char, m_nSolidType );			
 	CNetworkVar( unsigned char , m_triggerBloat );
+	CNetworkVar( bool, m_bUniformTriggerBloat );
 
 	// SUCKY: We didn't use to have to store this previously
 	// but storing it here means that we can network it + avoid a ton of
@@ -272,7 +273,7 @@ private:
 	Vector	m_vecSurroundingMaxs;
 #endif
 
-	// pointer to the entity's physics object (vphysics.dll)
+	// pointer to the entity's physics object (engine.dll)
 	//IPhysicsObject	*m_pPhysicsObject;
 	
 	friend class CBaseEntity;

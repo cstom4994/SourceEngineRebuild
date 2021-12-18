@@ -147,7 +147,11 @@ private:
 		// default max # of particles at one time
 		DEFAULT_PARTICLES	= 2048,
 #else
+#ifdef PONDER_CLIENT_DLL
+		DEFAULT_PARTICLES   = 512,
+#else
 		DEFAULT_PARTICLES   = 1024,
+#endif
 #endif
 
 		// no fewer than this no matter what's on the command line
@@ -438,7 +442,7 @@ int	Beam_t::GetFxBlend( )
 extern bool g_bRenderingScreenshot;
 extern ConVar r_drawviewmodel;
 
-int Beam_t::DrawModel( int flags )
+int Beam_t::DrawModel( int ignored )
 {
 #ifdef PORTAL
 	if ( ( !g_pPortalRender->IsRenderingPortal() && !m_bDrawInMainRender ) || 
@@ -1733,15 +1737,21 @@ void CViewRenderBeams::DrawBeamFollow( const model_t* pSprite, Beam_t *pbeam,
 	}
 	if (!pnew && div != 0)
 	{
-		VectorCopy( pbeam->attachment[0], delta );
-		debugoverlay->ScreenPosition( pbeam->attachment[0], screenLast );
-		debugoverlay->ScreenPosition( particles->org, screen );
+		if ( debugoverlay )
+		{
+			VectorCopy( pbeam->attachment[0], delta );
+			debugoverlay->ScreenPosition( pbeam->attachment[0], screenLast );
+			debugoverlay->ScreenPosition( particles->org, screen );
+		}
 	}
 	else if (particles && particles->next)
 	{
-		VectorCopy( particles->org, delta );
-		debugoverlay->ScreenPosition( particles->org, screenLast );
-		debugoverlay->ScreenPosition( particles->next->org, screen );
+		if ( debugoverlay )
+		{
+			VectorCopy( particles->org, delta );
+			debugoverlay->ScreenPosition( particles->org, screenLast );
+			debugoverlay->ScreenPosition( particles->next->org, screen );
+		}
 		particles = particles->next;
 	}
 	else
@@ -1801,7 +1811,7 @@ void CViewRenderBeams::DrawBeamWithHalo(	Beam_t*			pbeam,
 	// Find out how close we are to the "line" of the spotlight
 	CalcClosestPointOnLine( CurrentViewOrigin(), pbeam->attachment[0], pbeam->attachment[0] + ( beamDir * 2 ), out, &distToLine );
 
-	distToLine = ( CurrentViewOrigin() - out ).Length();
+	distToLine = ( CurrentViewOrigin() - out ).LengthSqr();
 
 	float scaleColor[4];
 	float dotScale = 1.0f;
@@ -1811,6 +1821,7 @@ void CViewRenderBeams::DrawBeamWithHalo(	Beam_t*			pbeam,
 
 	if ( distToLine < distThreshold )
 	{
+		distToLine = FastSqrt(distToLine);
 		dotScale = RemapVal( distToLine, distThreshold, pbeam->width, 1.0f, 0.0f );
 		dotScale = clamp( dotScale, 0.f, 1.f );
 	}
@@ -1888,10 +1899,11 @@ void CViewRenderBeams::DrawLaser( Beam_t *pbeam, int frame, int rendermode, floa
 		Vector localDir = CurrentViewOrigin() - pbeam->attachment[0];
 		flDot = DotProduct( beamDir, localDir );
 		Vector vecProjection = flDot * beamDir;
-		float flDistance = ( localDir - vecProjection ).Length();
+		float flDistance = ( localDir - vecProjection ).LengthSqr();
 
-		if ( flDistance > 30 )
+		if ( flDistance > 30 * 30 )
 		{
+			flDistance = FastSqrt(flDistance);
 			flDistance = 1 - ((flDistance - 30) / 64);
 			if ( flDistance <= 0 )
 			{
@@ -1899,7 +1911,7 @@ void CViewRenderBeams::DrawLaser( Beam_t *pbeam, int frame, int rendermode, floa
 			}
 			else
 			{
-				flFade *= pow( flDistance, 3 );
+				flFade *= powf( flDistance, 3 );
 			}
 		}
 
@@ -1936,7 +1948,7 @@ void CViewRenderBeams::DrawBeam( Beam_t *pbeam )
 		return;
 
 	// Don't draw really short beams
-	if (pbeam->delta.Length() < 0.1)
+	if (pbeam->delta.LengthSqr() < 0.01f)
 	{
 		return;
 	}

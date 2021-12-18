@@ -19,7 +19,7 @@ namespace vgui { class Panel; };
  * @param pMovie
  * @param pParent
  */
-void YouTube_ShowLoginDialog(IReplayMovie *pMovie, vgui::Panel *pParent);
+void YouTube_ShowLoginDialog( IReplayMovie *pMovie, vgui::Panel *pParent );
 
 /**
  *
@@ -27,6 +27,6 @@ void YouTube_ShowLoginDialog(IReplayMovie *pMovie, vgui::Panel *pParent);
  * @param pMovie
  * @param pParent
  */
-void YouTube_ShowUploadDialog(IReplayMovie *pMovie, vgui::Panel *pParent);
+void YouTube_ShowUploadDialog( IReplayMovie *pMovie, vgui::Panel *pParent );
 
 #endif // REPLAYYOUTUBEAPI_H

@@ -14,11 +14,12 @@
 //-----------------------------------------------------------------------------
 // Purpose: HL Input interface
 //-----------------------------------------------------------------------------
-class CHLInput : public CInput {
+class CHLInput : public CInput
+{
 public:
 };
 
 static CHLInput g_Input;
 
 // Expose this interface
-IInput *input = (IInput *) &g_Input;
+IInput *input = ( IInput * )&g_Input;

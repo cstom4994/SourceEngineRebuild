@@ -155,10 +155,6 @@ void CAI_BaseNPC::InitDefaultScheduleSR(void)
 	ADD_DEF_SCHEDULE( "SCHED_INTERACTION_WAIT_FOR_PARTNER",				SCHED_INTERACTION_WAIT_FOR_PARTNER );
 
 	ADD_DEF_SCHEDULE( "SCHED_SLEEP",					SCHED_SLEEP );
-
-#ifdef VANCE
-	ADD_DEF_SCHEDULE( "SCHED_FIRE_AND_RELOAD", SCHED_FIRE_AND_RELOAD );
-#endif
 }
 
 bool CAI_BaseNPC::LoadDefaultSchedules(void)
@@ -250,10 +246,6 @@ bool CAI_BaseNPC::LoadDefaultSchedules(void)
 	AI_LOAD_DEF_SCHEDULE( CAI_BaseNPC,					SCHED_INTERACTION_MOVE_TO_PARTNER);
 	AI_LOAD_DEF_SCHEDULE( CAI_BaseNPC,					SCHED_INTERACTION_WAIT_FOR_PARTNER);
 	AI_LOAD_DEF_SCHEDULE( CAI_BaseNPC,					SCHED_SLEEP );
-
-#ifdef VANCE
-	AI_LOAD_DEF_SCHEDULE( CAI_BaseNPC,					SCHED_FIRE_AND_RELOAD );
-#endif
 
 	return true;
 }
@@ -1125,47 +1117,9 @@ AI_DEFINE_SCHEDULE
 	"	Interrupts"
 );
 
-#ifdef VANCE
-AI_DEFINE_SCHEDULE
-(
-	SCHED_FIRE_AND_RELOAD,
-
-	"	Tasks"
-	"		TASK_STOP_MOVING			0"
-	"		TASK_SET_FAIL_SCHEDULE		SCHEDULE:SCHED_RELOAD"
-	"		TASK_FIND_COVER_FROM_ENEMY	0"
-	"		TASK_RUN_PATH				0"
-	"		TASK_WAIT_FOR_MOVEMENT		0"
-	"		TASK_REMEMBER				MEMORY:INCOVER"
-	"		TASK_FACE_ENEMY				0"
-	""
-	"	Interrupts"
-	"		COND_HEAR_DANGER"
-);
-#endif
-
 //=========================================================
 // 	SCHED_HIDE_AND_RELOAD
 //=========================================================
-#ifdef VANCE_NEW_AI
-AI_DEFINE_SCHEDULE
-(
-	SCHED_HIDE_AND_RELOAD,
-
-	"	Tasks"
-	"		TASK_STOP_MOVING			0"
-	"		TASK_RELOAD					0"
-	"		TASK_SET_FAIL_SCHEDULE		SCHEDULE:SCHED_RELOAD"
-	"		TASK_FIND_COVER_FROM_ENEMY	0"
-	"		TASK_RUN_PATH				0"
-	"		TASK_WAIT_FOR_MOVEMENT		0"
-	"		TASK_REMEMBER				MEMORY:INCOVER"
-	"		TASK_FACE_ENEMY				0"
-	""
-	"	Interrupts"
-	"		COND_HEAR_DANGER"
-);
-#else
 AI_DEFINE_SCHEDULE
 (
 	SCHED_HIDE_AND_RELOAD,
@@ -1183,24 +1137,10 @@ AI_DEFINE_SCHEDULE
 	"	Interrupts"
 	"		COND_HEAR_DANGER"
 );
-#endif
 
 //=========================================================
 // > Reload
 //=========================================================
-#ifdef VANCE_NEW_AI
-AI_DEFINE_SCHEDULE
-(
-	SCHED_RELOAD,
-
-	"	Tasks"
-	"		TASK_SET_FAIL_SCHEDULE		SCHEDULE:SCHED_HIDE_AND_RELOAD"
-	"		TASK_RELOAD				0"
-	""
-	"	Interrupts"
-	"		COND_HEAR_DANGER"
-);
-#else
 AI_DEFINE_SCHEDULE
 (
 	SCHED_RELOAD,
@@ -1212,7 +1152,6 @@ AI_DEFINE_SCHEDULE
 	"	Interrupts"
 	"		COND_HEAR_DANGER"
 );
-#endif
 
 //=========================================================
 // > Melee_Attack1

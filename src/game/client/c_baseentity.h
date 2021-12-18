@@ -192,7 +192,6 @@ public:
 	
 	// FireBullets uses shared code for prediction.
 	virtual void					FireBullets( const FireBulletsInfo_t &info );
-	virtual void					FireBulletProjectiles(const ProjectileBulletsInfo_t& info);
 	virtual void					ModifyFireBulletsDamage( CTakeDamageInfo* dmgInfo ) {}
 	virtual bool					ShouldDrawUnderwaterBulletBubbles();
 	virtual bool					ShouldDrawWaterImpacts( void ) { return true; }
@@ -573,11 +572,11 @@ public:
 	virtual bool					GetAttachmentVelocity( int number, Vector &originVel, Quaternion &angleVel );
 
 	// Team handling
-	virtual C_Team					*GetTeam( void );
+	virtual C_Team					*GetTeam( void ) const;
 	virtual int						GetTeamNumber( void ) const;
 	virtual void					ChangeTeam( int iTeamNum );			// Assign this entity to a team.
 	virtual int						GetRenderTeamNumber( void );
-	virtual bool					InSameTeam( C_BaseEntity *pEntity );	// Returns true if the specified entity is on the same team as this one
+	virtual bool					InSameTeam( const C_BaseEntity *pEntity ) const;	// Returns true if the specified entity is on the same team as this one
 	virtual bool					InLocalTeam( void );
 
 	// ID Target handling
@@ -863,7 +862,6 @@ public:
 	void							SetSize( const Vector &vecMin, const Vector &vecMax ); // UTIL_SetSize( pev, mins, maxs );
 	char const						*GetClassname( void );
 	char const						*GetDebugName( void );
-    virtual const char *GetPlayerName() const { return NULL; }
 	static int						PrecacheModel( const char *name ); 
 	static bool						PrecacheSound( const char *name );
 	static void						PrefetchSound( const char *name );
@@ -1336,7 +1334,7 @@ public:
 	// Object model index
 	short							m_nModelIndex;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	int								m_nModelIndexOverrides[MAX_VISION_MODES];
 #endif
 
@@ -1416,7 +1414,7 @@ private:
 #endif
 
 protected:
-	// pointer to the entity's physics object (vphysics.dll)
+	// pointer to the entity's physics object (engine.dll)
 	IPhysicsObject					*m_pPhysicsObject;	
 
 #if !defined( NO_ENTITY_PREDICTION )
@@ -1693,7 +1691,7 @@ protected:
 	CThreadFastMutex m_CalcAbsolutePositionMutex;
 	CThreadFastMutex m_CalcAbsoluteVelocityMutex;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	// TF prevents drawing of any entity attached to players that aren't items in the inventory of the player.
 	// This is to prevent servers creating fake cosmetic items and attaching them to players.
 public:
@@ -1706,6 +1704,9 @@ protected:
 	RenderMode_t m_PreviousRenderMode;
 	color32 m_PreviousRenderColor;
 #endif
+
+private:
+	bool	m_bOldShouldDraw;
 };
 
 EXTERN_RECV_TABLE(DT_BaseEntity);

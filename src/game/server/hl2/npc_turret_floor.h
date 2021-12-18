@@ -68,11 +68,6 @@ public:
 	virtual int		VPhysicsTakeDamage( const CTakeDamageInfo &info );
 	virtual bool	CanBecomeServerRagdoll( void ) { return false; }
 
-#ifdef VANCE
-	virtual bool	IsHackable(void) { return true; }
-	virtual void	Hack(void);
-#endif
-
 #ifdef HL2_EPISODIC
 	// We don't want to be NPCSOLID because we'll collide with NPC clips
 	virtual unsigned int PhysicsSolidMaskForEntity( void ) const { return MASK_SOLID; } 

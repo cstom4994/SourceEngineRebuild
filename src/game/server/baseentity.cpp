@@ -95,7 +95,6 @@ int g_nInsideDispatchUpdateTransmitState = 0;
 // When this is false, throw an assert in debug when GetAbsAnything is called. Used when hierachy is incomplete/invalid.
 bool CBaseEntity::s_bAbsQueriesValid = true;
 
-
 ConVar sv_netvisdist( "sv_netvisdist", "10000", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "Test networking visibility distance" );
 
 // This table encodes edict data.
@@ -415,6 +414,8 @@ CBaseEntity::CBaseEntity( bool bServerOnly )
 #ifndef _XBOX
 	AddEFlags( EFL_USE_PARTITION_WHEN_NOT_SOLID );
 #endif
+
+	m_bTruceValidForEnt = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -4338,7 +4339,7 @@ CTeam *CBaseEntity::GetTeam( void ) const
 //-----------------------------------------------------------------------------
 // Purpose: Returns true if these players are both in at least one team together
 //-----------------------------------------------------------------------------
-bool CBaseEntity::InSameTeam( CBaseEntity *pEntity ) const
+bool CBaseEntity::InSameTeam( const CBaseEntity *pEntity ) const
 {
 	if ( !pEntity )
 		return false;
@@ -5733,42 +5734,53 @@ void CBaseEntity::CalcAbsolutePosition( void )
 	if (!IsEFlagSet( EFL_DIRTY_ABSTRANSFORM ))
 		return;
 
-	RemoveEFlags( EFL_DIRTY_ABSTRANSFORM );
-
-	// Plop the entity->parent matrix into m_rgflCoordinateFrame
-	AngleMatrix( m_angRotation, m_vecOrigin, m_rgflCoordinateFrame );
-
-	CBaseEntity *pMoveParent = GetMoveParent();
-	if ( !pMoveParent )
 	{
-		// no move parent, so just copy existing values
-		m_vecAbsOrigin = m_vecOrigin;
-		m_angAbsRotation = m_angRotation;
-		if ( HasDataObjectType( POSITIONWATCHER ) )
+		AUTO_LOCK( m_CalcAbsolutePositionMutex );
+
+		// Test again under the lock, in case another thread did the work in the interim
+		if ( !IsEFlagSet( EFL_DIRTY_ABSTRANSFORM ) )
 		{
-			ReportPositionChanged( this );
+			return;
 		}
-		return;
+
+		// Plop the entity->parent matrix into m_rgflCoordinateFrame
+		AngleMatrix( m_angRotation, m_vecOrigin, m_rgflCoordinateFrame );
+
+		CBaseEntity *pMoveParent = GetMoveParent();
+		if ( !pMoveParent )
+		{
+			// no move parent, so just copy existing values
+			m_vecAbsOrigin = m_vecOrigin;
+			m_angAbsRotation = m_angRotation;
+		}
+		else
+		{
+			// concatenate with our parent's transform
+			matrix3x4_t tmpMatrix, scratchSpace;
+			ConcatTransforms( GetParentToWorldTransform( scratchSpace ), m_rgflCoordinateFrame, tmpMatrix );
+			MatrixCopy( tmpMatrix, m_rgflCoordinateFrame );
+
+			// pull our absolute position out of the matrix
+			MatrixGetColumn( m_rgflCoordinateFrame, 3, m_vecAbsOrigin );
+
+			// if we have any angles, we have to extract our absolute angles from our matrix
+			if ( ( m_angRotation == vec3_angle ) && ( m_iParentAttachment == 0 ) )
+			{
+				// just copy our parent's absolute angles
+				VectorCopy( pMoveParent->GetAbsAngles(), m_angAbsRotation );
+			}
+			else
+			{
+				MatrixAngles( m_rgflCoordinateFrame, m_angAbsRotation );
+			}
+		}
+
+		ThreadMemoryBarrier();
+		RemoveEFlags( EFL_DIRTY_ABSTRANSFORM );
 	}
 
-	// concatenate with our parent's transform
-	matrix3x4_t tmpMatrix, scratchSpace;
-	ConcatTransforms( GetParentToWorldTransform( scratchSpace ), m_rgflCoordinateFrame, tmpMatrix );
-	MatrixCopy( tmpMatrix, m_rgflCoordinateFrame );
-
-	// pull our absolute position out of the matrix
-	MatrixGetColumn( m_rgflCoordinateFrame, 3, m_vecAbsOrigin ); 
-
-	// if we have any angles, we have to extract our absolute angles from our matrix
-	if (( m_angRotation == vec3_angle ) && ( m_iParentAttachment == 0 ))
-	{
-		// just copy our parent's absolute angles
-		VectorCopy( pMoveParent->GetAbsAngles(), m_angAbsRotation );
-	}
-	else
-	{
-		MatrixAngles( m_rgflCoordinateFrame, m_angAbsRotation );
-	}
+	// Do this callback *after* we have updated the position, and (importantly) after we clear the dirty flag, because this callback can potentially
+	// end up recursively calling back in here, so the dirty flag must be cleared to break the recursion in that case.
 	if ( HasDataObjectType( POSITIONWATCHER ) )
 	{
 		ReportPositionChanged( this );
@@ -7402,13 +7414,19 @@ bool CC_GetCommandEnt( const CCommand& args, CBaseEntity **ent, Vector *vecTarge
 	}
 
 	CBasePlayer *pPlayer = UTIL_GetCommandClient();
+	if ( !pPlayer )
+	{
+		Msg( "Command must originate from a player\n" );
+		return false;
+	}
+
 	if ( vecTargetPoint )
 	{
 		trace_t tr;
 		Vector forward;
 		pPlayer->EyeVectors( &forward );
 		UTIL_TraceLine(pPlayer->EyePosition(),
-			pPlayer->EyePosition() + forward * MAX_TRACE_LENGTH,MASK_NPCSOLID, 
+			pPlayer->EyePosition() + forward * MAX_TRACE_LENGTH,MASK_NPCSOLID,
 			pPlayer, COLLISION_GROUP_NONE, &tr );
 
 		if ( tr.fraction != 1.0 )

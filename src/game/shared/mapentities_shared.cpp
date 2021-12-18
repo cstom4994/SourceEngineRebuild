@@ -107,7 +107,6 @@ const char *MapEntity_SkipToNextEntity( const char *pMapData, char *pWorkBuffer 
 //-----------------------------------------------------------------------------
 const char *MapEntity_ParseToken( const char *data, char *newToken )
 {
-	int             c;
 	int             len;
 		
 	len = 0;
@@ -129,7 +128,8 @@ const char *MapEntity_ParseToken( const char *data, char *newToken )
 		}
 	}
 		
-// skip whitespace
+	int             c;
+	// skip whitespace
 skipwhite:
 	while ( (c = *data) <= ' ')
 	{

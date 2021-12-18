@@ -102,7 +102,7 @@ public:
 
 #define MAX_CLIMB_SPEED		200
 
-#if defined(TF_DLL) || defined(TF_CLIENT_DLL)
+#if defined(TF_DLL) || defined(PONDER_CLIENT_DLL)
 	#define TIME_TO_DUCK		0.2
 	#define TIME_TO_DUCK_MS		200.0f
 #else
@@ -153,6 +153,7 @@ typedef enum
 	VOTE_FAILED_CANNOT_KICK_DURING_ROUND,
 	VOTE_FAILED_VOTE_IN_PROGRESS,
 	VOTE_FAILED_KICK_LIMIT_REACHED,
+	VOTE_FAILED_KICK_DENIED_BY_GC,
 
 	// TF-specific?
 	VOTE_FAILED_MODIFICATION_ALREADY_ACTIVE,
@@ -283,7 +284,7 @@ enum CastVote
 
 // Humans only have left and right hands, though we might have aliens with more
 //  than two, sigh
-#define MAX_VIEWMODELS			3
+#define MAX_VIEWMODELS			2
 
 #define MAX_BEAM_ENTS			10
 
@@ -669,6 +670,7 @@ enum FireBulletsFlags_t
 	FIRE_BULLETS_TEMPORARY_DANGER_SOUND = 0x8,		// Danger sounds added from this impact can be stomped immediately if another is queued
 };
 
+
 struct FireBulletsInfo_t
 {
 	FireBulletsInfo_t()
@@ -727,29 +729,6 @@ struct FireBulletsInfo_t
 	CBaseEntity *m_pAdditionalIgnoreEnt;
 	bool m_bPrimaryAttack;
 	bool m_bUseServerRandomSeed;
-};
-
-#define DEFAULT_BULLET_MODEL		"models/weapons/w_bullet.mdl"
-#define DEFAULT_BULLET_SPEED		15000
-#define DEFAULT_BULLET_SPEED_MS		300
-
-struct ProjectileBulletsInfo_t : public FireBulletsInfo_t
-{
-	ProjectileBulletsInfo_t() : FireBulletsInfo_t()
-	{
-		m_flBulletSpeed = DEFAULT_BULLET_SPEED;
-	}
-
-	ProjectileBulletsInfo_t(int nShots, const Vector& vecSrc, const Vector& vecDir, const Vector& vecSpread, float flDistance, int nAmmoType, bool bPrimaryAttack = true,
-		float flBulletSpeed = DEFAULT_BULLET_SPEED, float flBulletSize = 0.0f) : 
-		FireBulletsInfo_t(nShots, vecSrc, vecDir, vecSpread, flDistance, nAmmoType, bPrimaryAttack)
-	{
-		m_flBulletSpeed = flBulletSpeed;
-		m_flBulletSize = flBulletSize;
-	}
-
-	float m_flBulletSpeed;
-	float m_flBulletSize;
 };
 
 //-----------------------------------------------------------------------------
@@ -909,7 +888,7 @@ enum
 //-----------------------------------------------------------------------------
 // Commentary Mode
 //-----------------------------------------------------------------------------
-#if defined(TF_DLL) || defined(TF_CLIENT_DLL)
+#if defined(TF_DLL) || defined(PONDER_CLIENT_DLL)
 #define GAME_HAS_NO_USE_KEY
 
 #if defined( SPROP_COORD )
@@ -951,7 +930,7 @@ enum
 	kActivityLookup_Missing = -1,			// has been searched for but wasn't found
 };
 
-#if defined(TF_DLL) || defined(TF_CLIENT_DLL)
+#if defined(TF_DLL) || defined(PONDER_CLIENT_DLL)
 //-----------------------------------------------------------------------------
 // Vision Filters.
 //-----------------------------------------------------------------------------
@@ -971,6 +950,6 @@ enum
 
 	MAX_VISION_MODES
 };
-#endif // TF_DLL || TF_CLIENT_DLL
+#endif // TF_DLL || PONDER_CLIENT_DLL
 
 #endif // SHAREDDEFS_H

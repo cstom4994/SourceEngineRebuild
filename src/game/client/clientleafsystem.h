@@ -94,7 +94,7 @@ struct SetupRenderInfo_t
 //-----------------------------------------------------------------------------
 // A handle associated with shadows managed by the client leaf system
 //-----------------------------------------------------------------------------
-typedef unsigned short ClientLeafShadowHandle_t;
+typedef int ClientLeafShadowHandle_t;
 enum
 {
 	CLIENT_LEAF_SHADOW_INVALID_HANDLE = (ClientLeafShadowHandle_t)~0 

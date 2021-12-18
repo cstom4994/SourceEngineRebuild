@@ -177,7 +177,7 @@ void PhysicsLevelInit( void )
 	physenv->SetGravity( Vector(0, 0, -GetCurrentGravity() ) );
 	// 15 ms per tick
 	// NOTE: Always run client physics at this rate - helps keep ragdolls stable
-	physenv->SetSimulationTimestep( IsXbox() ? DEFAULT_XBOX_CLIENT_VPHYSICS_TICK : DEFAULT_TICK_INTERVAL );
+	physenv->SetSimulationTimestep( IsXbox() ? DEFAULT_XBOX_CLIENT_VPHYSICS_TICK : gpGlobals->interval_per_tick );
 	physenv->SetCollisionEventHandler( &g_Collisions );
 	physenv->SetCollisionSolver( &g_Collisions );
 
@@ -771,9 +771,9 @@ void PhysicsSplash( IPhysicsFluidController *pFluid, IPhysicsObject *pObject, CB
 	Vector velocity;
 	pObject->GetVelocity( &velocity, NULL );
 	
-	float impactSpeed = velocity.Length();
+	float impactSpeed = velocity.LengthSqr();
 
-	if ( impactSpeed < 25.0f )
+	if ( impactSpeed < 25.0f * 25.0f )
 		return;
 
 	Vector normal;
@@ -854,7 +854,7 @@ void PhysicsSplash( IPhysicsFluidController *pFluid, IPhysicsObject *pObject, CB
 		FX_GetSplashLighting( centerPoint + ( normal * 8.0f ), &color, &luminosity );
 	}
 
-	if ( impactSpeed > 150 )
+	if ( impactSpeed > 150 * 150 )
 	{
 		if ( bInSlime )
 		{
@@ -880,7 +880,7 @@ void PhysicsSplash( IPhysicsFluidController *pFluid, IPhysicsObject *pObject, CB
 
 		point += corner[i];
 
-		if ( impactSpeed > 150 )
+		if ( impactSpeed > 150 * 150 )
 		{
 			if ( bInSlime )
 			{

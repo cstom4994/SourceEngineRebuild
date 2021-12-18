@@ -819,7 +819,7 @@ void CBaseHudChat::MsgFunc_SayText2( bf_read &msg )
 	ReadLocalizedString( msg, szBuf[3], sizeof( szBuf[3] ), true );
 	ReadLocalizedString( msg, szBuf[4], sizeof( szBuf[4] ), true );
 
-	g_pVGuiLocalize->ConstructString( szBuf[5], sizeof( szBuf[5] ), msg_text, 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
+	g_pVGuiLocalize->ConstructString_safe( szBuf[5], msg_text, 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
 
 	char ansiString[512];
 	g_pVGuiLocalize->ConvertUnicodeToANSI( ConvertCRtoNL( szBuf[5] ), ansiString, sizeof( ansiString ) );
@@ -899,12 +899,12 @@ void CBaseHudChat::MsgFunc_TextMsg( bf_read &msg )
 	switch ( msg_dest )
 	{
 	case HUD_PRINTCENTER:
-		g_pVGuiLocalize->ConstructString( outputBuf, sizeof(outputBuf), szBuf[0], 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
+		g_pVGuiLocalize->ConstructString_safe( outputBuf, szBuf[0], 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
 		internalCenterPrint->Print( ConvertCRtoNL( outputBuf ) );
 		break;
 
 	case HUD_PRINTNOTIFY:
-		g_pVGuiLocalize->ConstructString( outputBuf, sizeof(outputBuf), szBuf[0], 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
+		g_pVGuiLocalize->ConstructString_safe( outputBuf, szBuf[0], 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
 		g_pVGuiLocalize->ConvertUnicodeToANSI( outputBuf, szString, sizeof(szString) );
 		len = strlen( szString );
 		if ( len && szString[len-1] != '\n' && szString[len-1] != '\r' )
@@ -915,7 +915,7 @@ void CBaseHudChat::MsgFunc_TextMsg( bf_read &msg )
 		break;
 
 	case HUD_PRINTTALK:
-		g_pVGuiLocalize->ConstructString( outputBuf, sizeof(outputBuf), szBuf[0], 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
+		g_pVGuiLocalize->ConstructString_safe( outputBuf, szBuf[0], 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
 		g_pVGuiLocalize->ConvertUnicodeToANSI( outputBuf, szString, sizeof(szString) );
 		len = strlen( szString );
 		if ( len && szString[len-1] != '\n' && szString[len-1] != '\r' )
@@ -927,7 +927,7 @@ void CBaseHudChat::MsgFunc_TextMsg( bf_read &msg )
 		break;
 
 	case HUD_PRINTCONSOLE:
-		g_pVGuiLocalize->ConstructString( outputBuf, sizeof(outputBuf), szBuf[0], 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
+		g_pVGuiLocalize->ConstructString_safe( outputBuf, szBuf[0], 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
 		g_pVGuiLocalize->ConvertUnicodeToANSI( outputBuf, szString, sizeof(szString) );
 		len = strlen( szString );
 		if ( len && szString[len-1] != '\n' && szString[len-1] != '\r' )
@@ -1551,8 +1551,6 @@ void CBaseHudChatLine::Colorize( int alpha )
 
 			InsertColorChange( color );
 			InsertString( wText );
-
-			CBaseHudChat *pChat = dynamic_cast<CBaseHudChat*>(GetParent() );
 
 			if ( pChat && pChat->GetChatHistory() )
 			{	

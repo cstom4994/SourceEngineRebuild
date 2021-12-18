@@ -263,10 +263,6 @@ public:
 
 	virtual	void OnStateChange( NPC_STATE OldState, NPC_STATE NewState );
 
-#ifdef VANCE
-	bool IsHackable() { return true; }
-#endif
-
 	// Vehicle interception
 	bool	EnemyInVehicle( void );
 	float	VehicleHeading( CBaseEntity *pVehicle );

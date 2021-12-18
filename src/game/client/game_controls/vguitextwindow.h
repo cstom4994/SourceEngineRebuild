@@ -59,7 +59,7 @@ public:
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 
-    virtual GameActionSet_t GetPreferredActionSet() { return GAME_ACTION_SET_NONE; }
+	virtual GameActionSet_t GetPreferredActionSet() { return GAME_ACTION_SET_IN_GAME_HUD; }
 
 protected:	
 	// vgui overrides

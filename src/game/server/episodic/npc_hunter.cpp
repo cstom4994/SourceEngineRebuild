@@ -312,6 +312,64 @@ static int s_nFlechetteFuseAttach = -1;
 
 #define FLECHETTE_AIR_VELOCITY	2500
 
+class CHunterFlechette : public CPhysicsProp, public IParentPropInteraction
+{
+	DECLARE_CLASS( CHunterFlechette, CPhysicsProp );
+
+public:
+
+	CHunterFlechette();
+	~CHunterFlechette();
+
+	Class_T Classify() { return CLASS_NONE; }
+	
+	bool WasThrownBack()
+	{
+		return m_bThrownBack;
+	}
+
+public:
+
+	void Spawn();
+	void Activate();
+	void Precache();
+	void Shoot( Vector &vecVelocity, bool bBright );
+	void SetSeekTarget( CBaseEntity *pTargetEntity );
+	void Explode();
+
+	bool CreateVPhysics();
+
+	unsigned int PhysicsSolidMaskForEntity() const;
+	static CHunterFlechette *FlechetteCreate( const Vector &vecOrigin, const QAngle &angAngles, CBaseEntity *pentOwner = NULL );
+
+	// IParentPropInteraction
+	void OnParentCollisionInteraction( parentCollisionInteraction_t eType, int index, gamevcollisionevent_t *pEvent );
+	void OnParentPhysGunDrop( CBasePlayer *pPhysGunUser, PhysGunDrop_t Reason );
+
+protected:
+
+	void SetupGlobalModelData();
+
+	void StickTo( CBaseEntity *pOther, trace_t &tr );
+
+	void BubbleThink();
+	void DangerSoundThink();
+	void ExplodeThink();
+	void DopplerThink();
+	void SeekThink();
+
+	bool CreateSprites( bool bBright );
+
+	void FlechetteTouch( CBaseEntity *pOther );
+
+	Vector m_vecShootPosition;
+	EHANDLE m_hSeekTarget;
+	bool m_bThrownBack;
+
+	DECLARE_DATADESC();
+	//DECLARE_SERVERCLASS();
+};
+
 LINK_ENTITY_TO_CLASS( hunter_flechette, CHunterFlechette );
 
 BEGIN_DATADESC( CHunterFlechette )

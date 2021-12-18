@@ -326,11 +326,11 @@ int CFuncLadder::GetDismountCount() const
 // Input  : index - 
 // Output : CInfoLadderDismountHandle
 //-----------------------------------------------------------------------------
-CInfoLadderDismount *CFuncLadder::GetDismount( int index )
+CInfoLadderDismount *CFuncLadder::GetDismount( int index_ )
 {
-	if ( index < 0 || index >= m_Dismounts.Count() )
+	if ( index_ < 0 || index_ >= m_Dismounts.Count() )
 		return NULL;
-	return m_Dismounts[ index ];
+	return m_Dismounts[index_];
 }
 
 //-----------------------------------------------------------------------------

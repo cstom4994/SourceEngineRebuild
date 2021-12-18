@@ -30,6 +30,10 @@
 #include "ai_utils.h"
 #include "physics_impact_damage.h"
 
+#ifdef TF_DLL
+#include "tf_shareddefs.h"
+#endif // TF_DLL
+
 class CNavArea;
 class CScriptedTarget;
 typedef CHandle<CBaseCombatWeapon> CBaseCombatWeaponHandle;
@@ -345,9 +349,6 @@ public:
 
 	// Weapons..
 	CBaseCombatWeapon*	GetActiveWeapon() const;
-#ifdef VANCE
-	CBaseCombatWeapon	*GetDeployingWeapon( void ) const;
-#endif
 	int					WeaponCount() const;
 	CBaseCombatWeapon*	GetWeapon( int i ) const;
 	bool				RemoveWeapon( CBaseCombatWeapon *pWeapon );
@@ -370,7 +371,7 @@ public:
 	virtual bool		RemoveEntityRelationship( CBaseEntity *pEntity );
 	virtual void		AddClassRelationship( Class_T nClass, Disposition_t nDisposition, int nPriority );
 
-	virtual void		ChangeTeam( int iTeamNum );
+	virtual void		ChangeTeam( int iTeamNum ) OVERRIDE;
 
 	// Nav hull type
 	Hull_t	GetHullType() const				{ return m_eHull; }
@@ -414,6 +415,10 @@ public:
 	// Notification from INextBots.
 	// -----------------------
 	virtual void		OnPursuedBy( INextBot * RESTRICT pPursuer ){} // called every frame while pursued by a bot in DirectChase.
+
+#ifdef TF_DLL
+	virtual HalloweenBossType GetBossType() const { return HALLOWEEN_BOSS_INVALID; }
+#endif // TF_DLL
 
 #ifdef GLOWS_ENABLE
 	// Glows
@@ -467,10 +472,6 @@ protected:
 private:
 	Hull_t		m_eHull;
 
-#ifdef VANCE
-	friend class CShowWeapon; // This allows CShowWeapon to access whatever it needs to update for the character
-#endif
-
 	void				UpdateGlowEffect( void );
 	void				DestroyGlowEffect( void );
 
@@ -523,10 +524,6 @@ protected:
 	CNetworkArray( CBaseCombatWeaponHandle, m_hMyWeapons, MAX_WEAPONS );
 
 	CNetworkHandle( CBaseCombatWeapon, m_hActiveWeapon );
-#ifdef VANCE
-	CNetworkHandle( CBaseCombatWeapon, m_hDeployingWeapon );
-	friend class CBasePlayer;
-#endif
 
 	friend class CCleanupDefaultRelationShips;
 	

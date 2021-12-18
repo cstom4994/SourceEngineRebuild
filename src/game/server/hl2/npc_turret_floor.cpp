@@ -175,13 +175,6 @@ CNPC_FloorTurret::CNPC_FloorTurret( void ) :
 	m_vecEnemyLKP = vec3_invalid;
 }
 
-#ifdef VANCE
-void CNPC_FloorTurret::Hack(void)
-{
-	m_bHackedByAlyx = true;
-}
-#endif
-
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------

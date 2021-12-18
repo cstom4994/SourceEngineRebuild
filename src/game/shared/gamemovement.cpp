@@ -920,10 +920,9 @@ void CBasePlayer::UpdateWetness()
 //-----------------------------------------------------------------------------
 void CGameMovement::CategorizeGroundSurface( trace_t &pm )
 {
-	IPhysicsSurfaceProps *physprops = MoveHelper()->GetSurfaceProps();
 	player->m_surfaceProps = pm.surface.surfaceProps;
-	player->m_pSurfaceData = physprops->GetSurfaceData( player->m_surfaceProps );
-	physprops->GetPhysicsProperties( player->m_surfaceProps, NULL, NULL, &player->m_surfaceFriction, NULL );
+	player->m_pSurfaceData = MoveHelper()->GetSurfaceProps()->GetSurfaceData( player->m_surfaceProps );
+	MoveHelper()->GetSurfaceProps()->GetPhysicsProperties( player->m_surfaceProps, NULL, NULL, &player->m_surfaceFriction, NULL );
 	
 	// HACKHACK: Scale this to fudge the relationship between vphysics friction values and player friction values.
 	// A value of 0.8f feels pretty normal for vphysics, whereas 1.0f is normal for players.
@@ -1021,7 +1020,7 @@ void CGameMovement::CheckParameters( void )
 			// Same thing but only do the sqrt if we have to.
 			if ( ( spd != 0.0 ) && ( spd > mv->m_flMaxSpeed*mv->m_flMaxSpeed ) )
 			{
-				float fRatio = mv->m_flMaxSpeed / sqrt( spd );
+				float fRatio = mv->m_flMaxSpeed / sqrtf( spd );
 				mv->m_flForwardMove *= fRatio;
 				mv->m_flSideMove    *= fRatio;
 				mv->m_flUpMove      *= fRatio;
@@ -1200,6 +1199,7 @@ void CGameMovement::FinishTrackPredictionErrors( CBasePlayer *pPlayer )
 void CGameMovement::FinishMove( void )
 {
 	mv->m_nOldButtons = mv->m_nButtons;
+	mv->m_flOldForwardMove = mv->m_flForwardMove;
 }
 
 #define PUNCH_DAMPING		9.0f		// bigger number makes the response more damped, smaller is less damped
@@ -1646,7 +1646,7 @@ void CGameMovement::Friction( void )
 			}
 			else
 			{
-#if defined ( TF_DLL ) || defined ( TF_CLIENT_DLL )
+#if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
 				control = (speed < sv_stopspeed.GetFloat()) ? sv_stopspeed.GetFloat() : speed;
 #else
 				control = (speed < sv_stopspeed.GetFloat()) ? (sv_stopspeed.GetFloat() * 2.0f) : speed;
@@ -2420,15 +2420,6 @@ bool CGameMovement::CheckJumpButton( void )
     SetGroundEntity( NULL );
 	
 	player->PlayStepSound( (Vector &)mv->GetAbsOrigin(), player->m_pSurfaceData, 1.0, true );
-#ifdef VANCE
-	CPASAttenuationFilter filter(player);
-	filter.UsePredictionRules();
-	if (random->RandomInt(0, 3) == 0)
-	{
-		player->EmitSound(filter, player->entindex(), "AlyxPlayer.Jump");
-	}
-	player->EmitSound(filter, player->entindex(), "AlyxPlayer.JumpGear");
-#endif
 	
 	MoveHelper()->PlayerSetAnimation( PLAYER_JUMP );
 
@@ -2596,7 +2587,7 @@ int CGameMovement::TryPlayerMove( Vector *pFirstDest, trace_t *pFirstTrace )
 
 	for (bumpcount=0 ; bumpcount < numbumps; bumpcount++)
 	{
-		if ( mv->m_vecVelocity.Length() == 0.0 )
+		if ( mv->m_vecVelocity.LengthSqr() == 0.0 )
 			break;
 
 		// Assume we can move all the way from the current origin to the
@@ -3600,7 +3591,6 @@ bool CGameMovement::CheckWater( void )
 void CGameMovement::SetGroundEntity( trace_t *pm )
 {
 	CBaseEntity *newGround = pm ? pm->m_pEnt : NULL;
-
 	CBaseEntity *oldGround = player->GetGroundEntity();
 	Vector vecBaseVelocity = player->GetBaseVelocity();
 
@@ -3983,14 +3973,7 @@ void CGameMovement::PlayerRoughLandingEffects( float fvol )
 
 		// Play step sound for current texture.
 		player->PlayStepSound( (Vector &)mv->GetAbsOrigin(), player->m_pSurfaceData, fvol, true );
-#ifdef VANCE
-		if (fvol > 0.25f)
-		{
-			CPASAttenuationFilter filter(player);
-			filter.UsePredictionRules();
-			player->EmitSound(filter, player->entindex(), "AlyxPlayer.Land");
-		}
-#endif
+
 		//
 		// Knock the screen around a little bit, temporary effect.
 		//
@@ -4136,7 +4119,7 @@ void CGameMovement::FinishUnDuck( void )
 		player->ResetLatched();
 	}
 #else
-	player->ResetLatched();
+	//player->ResetLatched();
 #endif
 #endif // CLIENT_DLL
 
@@ -4242,7 +4225,7 @@ void CGameMovement::FinishDuck( void )
 			player->ResetLatched();
 		}
 #else
-		player->ResetLatched();
+		//player->ResetLatched();
 #endif
 #endif // CLIENT_DLL
 	}
@@ -4566,7 +4549,9 @@ void CGameMovement::PlayerMove( void )
 {
 	VPROF( "CGameMovement::PlayerMove" );
 
+#if !defined(TF_DLL) && !defined(PONDER_CLIENT_DLL)
 	CheckParameters();
+#endif
 	
 	// clear output applied velocity
 	mv->m_outWishVel.Init();

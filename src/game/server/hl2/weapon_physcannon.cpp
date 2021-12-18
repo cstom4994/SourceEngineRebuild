@@ -1017,12 +1017,11 @@ void CPlayerPickupController::Init( CBasePlayer *pPlayer, CBaseEntity *pObject )
 	// Holster player's weapon
 	if ( pPlayer->GetActiveWeapon() )
 	{
-		if ( !pPlayer->GetActiveWeapon()->CanHolster() || !pPlayer->GetActiveWeapon()->Holster(NULL) )
+		if ( !pPlayer->GetActiveWeapon()->CanHolster() || !pPlayer->GetActiveWeapon()->Holster() )
 		{
 			Shutdown();
 			return;
 		}
-		//pPlayer->GetActiveWeapon()->m_pSwitchingTo = NULL;
 	}
 
 	CHL2_Player *pOwner = (CHL2_Player *)ToBasePlayer( pPlayer );

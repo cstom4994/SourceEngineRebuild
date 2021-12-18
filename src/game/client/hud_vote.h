@@ -17,10 +17,11 @@
 #include <vgui_controls/Frame.h>
 #include <vgui_controls/Button.h>
 #include <networkstringtabledefs.h>
+#include "vgui_avatarimage.h"
 
 extern INetworkStringTable *g_pStringTableServerMapCycle;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 extern INetworkStringTable *g_pStringTableServerPopFiles;
 extern INetworkStringTable *g_pStringTableServerMapCycleMvM;
 #endif
@@ -83,7 +84,7 @@ public:
 	void			AddVoteIssues( CUtlVector< VoteIssue_t > &m_VoteSetupIssues );
 	void			AddVoteIssueParams_MapCycle( CUtlStringList &m_VoteSetupMapCycle );
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	void			AddVoteIssueParams_PopFiles( CUtlStringList &m_VoteSetupPopFiles );
 #endif
 
@@ -107,7 +108,7 @@ private:
 	CUtlVector< VoteIssue_t >	m_VoteIssues;
 	CUtlVector<const char*>	m_VoteIssuesMapCycle;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	CUtlVector<const char*>	m_VoteIssuesPopFiles;
 #endif
 
@@ -151,10 +152,17 @@ class CHudVote : public vgui::EditablePanel, public CHudElement
 	bool			IsVoteUIActive( void );
 	bool			IsVoteSystemActive( void ) { return m_bVoteSystemActive; }
 
+	bool			IsShowingVoteSetupDialog();
+	bool			IsShowingVotingUI();
+
+	virtual GameActionSet_t GetPreferredActionSet() { return IsShowingVoteSetupDialog() ? GAME_ACTION_SET_MENUCONTROLS : CHudElement::GetPreferredActionSet(); }
+
 private:
 	bool			IsPlayingDemo() const;
 
 	EditablePanel		*m_pVoteActive;
+	vgui::Label			*m_pVoteActiveIssueLabel;
+	CAvatarImagePanel	*m_pVoteActiveTargetAvatar;
 	VoteBarPanel		*m_voteBar;
 	EditablePanel		*m_pVoteFailed;
 	EditablePanel		*m_pVotePassed;
@@ -163,8 +171,11 @@ private:
 
 	CUtlVector< VoteIssue_t > m_VoteSetupIssues;
 	CUtlStringList		m_VoteSetupMapCycle;
+
+	int					m_nVoteActiveIssueLabelX;
+	int					m_nVoteActiveIssueLabelY;
 	
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	CUtlStringList		m_VoteSetupPopFiles;
 #endif
 

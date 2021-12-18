@@ -1,20 +1,68 @@
 ﻿//========= Copyright Valve Corporation, All rights reserved. ============//
 //
-// Purpose: 
+// Purpose: Entity to control screen overlays on a player
 //
-// $NoKeywords: $
-//=============================================================================//
+//=============================================================================
 
 #include "cbase.h"
 #include "shareddefs.h"
 
-#include "env_projectedtexture.h"
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-LINK_ENTITY_TO_CLASS( env_projectedtexture, CEnvProjectedTexture );
+#define ENV_PROJECTEDTEXTURE_STARTON			(1<<0)
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+class CEnvProjectedTexture : public CPointEntity
+{
+	DECLARE_CLASS( CEnvProjectedTexture, CPointEntity );
+public:
+	DECLARE_DATADESC();
+	DECLARE_SERVERCLASS();
+
+	CEnvProjectedTexture();
+	bool KeyValue( const char *szKeyName, const char *szValue );
+
+	// Always transmit to clients
+	virtual int UpdateTransmitState();
+	virtual void Activate( void );
+
+	void InputTurnOn( inputdata_t &inputdata );
+	void InputTurnOff( inputdata_t &inputdata );
+	void InputSetFOV( inputdata_t &inputdata );
+	void InputSetTarget( inputdata_t &inputdata );
+	void InputSetCameraSpace( inputdata_t &inputdata );
+	void InputSetLightOnlyTarget( inputdata_t &inputdata );
+	void InputSetLightWorld( inputdata_t &inputdata );
+	void InputSetEnableShadows( inputdata_t &inputdata );
+//	void InputSetLightColor( inputdata_t &inputdata );
+	void InputSetSpotlightTexture( inputdata_t &inputdata );
+	void InputSetAmbient( inputdata_t &inputdata );
+
+	void InitialThink( void );
+
+	CNetworkHandle( CBaseEntity, m_hTargetEntity );
+
+private:
+
+	CNetworkVar( bool, m_bState );
+	CNetworkVar( float, m_flLightFOV );
+	CNetworkVar( bool, m_bEnableShadows );
+	CNetworkVar( bool, m_bLightOnlyTarget );
+	CNetworkVar( bool, m_bLightWorld );
+	CNetworkVar( bool, m_bCameraSpace );
+	CNetworkVector( m_LinearFloatLightColor );
+	CNetworkVar( float, m_flAmbient );
+	CNetworkString( m_SpotlightTextureName, MAX_PATH );
+	CNetworkVar( int, m_nSpotlightTextureFrame );
+	CNetworkVar( float, m_flNearZ );
+	CNetworkVar( float, m_flFarZ );
+	CNetworkVar( int, m_nShadowQuality );
+};
+
+LINK_ENTITY_TO_CLASS( env_projectedtexture, CEnvProjectedTexture );
 
 BEGIN_DATADESC( CEnvProjectedTexture )
 	DEFINE_FIELD( m_hTargetEntity, FIELD_EHANDLE ),
@@ -30,16 +78,10 @@ BEGIN_DATADESC( CEnvProjectedTexture )
 	DEFINE_KEYFIELD( m_flNearZ, FIELD_FLOAT, "nearz" ),
 	DEFINE_KEYFIELD( m_flFarZ, FIELD_FLOAT, "farz" ),
 	DEFINE_KEYFIELD( m_nShadowQuality, FIELD_INTEGER, "shadowquality" ),
-
 	DEFINE_FIELD( m_LinearFloatLightColor, FIELD_VECTOR ), 
-	DEFINE_KEYFIELD( m_nLinear, FIELD_INTEGER, "linear" ),
-	DEFINE_KEYFIELD( m_nQuadratic, FIELD_INTEGER, "quadratic" ),
-	DEFINE_KEYFIELD( m_nConstant, FIELD_INTEGER, "constant" ),
 
 	DEFINE_INPUTFUNC( FIELD_VOID, "TurnOn", InputTurnOn ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "TurnOff", InputTurnOff ),
-	DEFINE_INPUTFUNC( FIELD_VOID,		"AlwaysUpdateOn",	InputAlwaysUpdateOn ),
-	DEFINE_INPUTFUNC( FIELD_VOID,		"AlwaysUpdateOff",	InputAlwaysUpdateOff ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "FOV", InputSetFOV ),
 	DEFINE_INPUTFUNC( FIELD_EHANDLE, "Target", InputSetTarget ),
 	DEFINE_INPUTFUNC( FIELD_BOOLEAN, "CameraSpace", InputSetCameraSpace ),
@@ -51,39 +93,17 @@ BEGIN_DATADESC( CEnvProjectedTexture )
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "Ambient", InputSetAmbient ),
 	DEFINE_INPUTFUNC( FIELD_STRING, "SpotlightTexture", InputSetSpotlightTexture ),
 	DEFINE_THINKFUNC( InitialThink ),
-
-	DEFINE_INPUTFUNC(FIELD_BOOLEAN, "EnableVolumetrics", InputSetEnableVolumetrics),
-
-	DEFINE_KEYFIELD(m_bEnableVolumetrics, FIELD_BOOLEAN, "enablevolumetrics"),
-	DEFINE_KEYFIELD(m_bEnableVolumetricsLOD, FIELD_BOOLEAN, "volumetricslod"),
-	DEFINE_KEYFIELD(m_flVolumetricsFadeDistance, FIELD_FLOAT, "volumetricsfadedistance"),
-	DEFINE_KEYFIELD(m_iVolumetricsQuality, FIELD_INTEGER, "volumetricsquality"),
-	DEFINE_KEYFIELD(m_flVolumetricsQualityBias, FIELD_FLOAT, "volumetricsqualitybias"),
-	DEFINE_KEYFIELD(m_flVolumetricsMultiplier, FIELD_FLOAT, "volumetricsmultiplier"),
 END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST( CEnvProjectedTexture, DT_EnvProjectedTexture )
 	SendPropEHandle( SENDINFO( m_hTargetEntity ) ),
 	SendPropBool( SENDINFO( m_bState ) ),
-	SendPropBool( SENDINFO( m_bAlwaysUpdate ) ),
 	SendPropFloat( SENDINFO( m_flLightFOV ) ),
 	SendPropBool( SENDINFO( m_bEnableShadows ) ),
 	SendPropBool( SENDINFO( m_bLightOnlyTarget ) ),
 	SendPropBool( SENDINFO( m_bLightWorld ) ),
 	SendPropBool( SENDINFO( m_bCameraSpace ) ),
-
-	SendPropBool( SENDINFO(m_bEnableVolumetrics)),
-	SendPropBool( SENDINFO(m_bEnableVolumetricsLOD)),
-	SendPropFloat(SENDINFO(m_flVolumetricsFadeDistance)),
-	SendPropInt( SENDINFO(m_iVolumetricsQuality)),
-	SendPropFloat(SENDINFO(m_flVolumetricsQualityBias)),
-	SendPropFloat(SENDINFO(m_flVolumetricsMultiplier)),
-
 	SendPropVector( SENDINFO( m_LinearFloatLightColor ) ),
-	SendPropInt( SENDINFO( m_nLinear ) ),
-	SendPropInt( SENDINFO( m_nQuadratic ) ),
-	SendPropInt( SENDINFO( m_nConstant ) ),
-
 	SendPropFloat( SENDINFO( m_flAmbient ) ),
 	SendPropString( SENDINFO( m_SpotlightTextureName ) ),
 	SendPropInt( SENDINFO( m_nSpotlightTextureFrame ) ),
@@ -104,7 +124,12 @@ CEnvProjectedTexture::CEnvProjectedTexture( void )
 	m_bLightWorld = true;
 	m_bCameraSpace = false;
 
-	Q_strcpy( m_SpotlightTextureName.GetForModify(), "effects/flashlight001" );
+// if ( g_pHardwareConfig->SupportsBorderColor() )
+#if defined( _X360 )
+		Q_strcpy( m_SpotlightTextureName.GetForModify(), "effects/flashlight_border" );
+#else
+		Q_strcpy( m_SpotlightTextureName.GetForModify(), "effects/flashlight001" );
+#endif
 
 	m_nSpotlightTextureFrame = 0;
 	m_LinearFloatLightColor.Init( 1.0f, 1.0f, 1.0f );
@@ -154,16 +179,6 @@ void CEnvProjectedTexture::InputTurnOff( inputdata_t &inputdata )
 	m_bState = false;
 }
 
-void CEnvProjectedTexture::InputAlwaysUpdateOn( inputdata_t& inputdata )
-{
-	m_bAlwaysUpdate = true;
-}
-
-void CEnvProjectedTexture::InputAlwaysUpdateOff( inputdata_t& inputdata )
-{
-	m_bAlwaysUpdate = false;
-}
-
 void CEnvProjectedTexture::InputSetFOV( inputdata_t &inputdata )
 {
 	m_flLightFOV = inputdata.value.Float();
@@ -209,15 +224,12 @@ void CEnvProjectedTexture::InputSetSpotlightTexture( inputdata_t &inputdata )
 	Q_strcpy( m_SpotlightTextureName.GetForModify(), inputdata.value.String() );
 }
 
-void CEnvProjectedTexture::InputSetEnableVolumetrics(inputdata_t& inputdata)
-{
-	m_bEnableVolumetrics = inputdata.value.Bool();
-}
-
 void CEnvProjectedTexture::Activate( void )
 {
-	m_bState = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_STARTON ) != 0 );
-	m_bAlwaysUpdate = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_ALWAYSUPDATE ) != 0 );
+	if ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_STARTON )
+	{
+		m_bState = true;
+	}
 
 	SetThink( &CEnvProjectedTexture::InitialThink );
 	SetNextThink( gpGlobals->curtime + 0.1f );
@@ -227,25 +239,14 @@ void CEnvProjectedTexture::Activate( void )
 
 void CEnvProjectedTexture::InitialThink( void )
 {
-	//m_hTargetEntity = gEntList.FindEntityByName( NULL, m_target );
-
-	if ( m_hTargetEntity == NULL && m_target != NULL_STRING )
-		m_hTargetEntity = gEntList.FindEntityByName( NULL, m_target );
-	if ( m_hTargetEntity == NULL )
-		return;
-
-	Vector vecToTarget = ( m_hTargetEntity->GetAbsOrigin() - GetAbsOrigin() );
-	QAngle vecAngles;
-	VectorAngles( vecToTarget, vecAngles );
-	SetAbsAngles( vecAngles );
-
-	SetNextThink( gpGlobals->curtime + 0.1 );
+	m_hTargetEntity = gEntList.FindEntityByName( NULL, m_target );
 }
 
 int CEnvProjectedTexture::UpdateTransmitState()
 {
 	return SetTransmitState( FL_EDICT_ALWAYS );
 }
+
 
 // Console command for creating env_projectedtexture entities
 void CC_CreateFlashlight( const CCommand &args )
@@ -262,13 +263,6 @@ void CC_CreateFlashlight( const CCommand &args )
 	{
 		pFlashlight->SetName( AllocPooledString( args[1] ) );
 	}
-
-	pFlashlight->m_bAlwaysUpdate = true;
-	pFlashlight->m_bEnableShadows = true;
-	pFlashlight->m_nQuadratic = 150;
-	pFlashlight->m_flLightFOV = 90;
-	pFlashlight->m_flNearZ = 4;
-	pFlashlight->m_flFarZ = 1500;
 
 	pFlashlight->Teleport( &origin, &angles, NULL );
 

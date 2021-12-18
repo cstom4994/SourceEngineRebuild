@@ -10,7 +10,7 @@
 #include "view.h"
 #include "env_wind_shared.h"
 #include "input.h"
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 #include "cdll_util.h"
 #include "tf_gamerules.h"
 #endif
@@ -377,7 +377,7 @@ void CRopeManager::AddToRenderCache( C_RopeKeyframe *pRope )
 	// If we didn't find one, then allocate the mofo.
 	if ( iRenderCache == nRenderCacheCount )
 	{
-		int iRenderCache = m_aRenderCache.AddToTail();
+		iRenderCache = m_aRenderCache.AddToTail();
 		m_aRenderCache[iRenderCache].m_pSolidMaterial = pRope->GetSolidMaterial();
 		if ( m_aRenderCache[iRenderCache].m_pSolidMaterial )
 		{
@@ -641,7 +641,7 @@ bool CRopeManager::IsHolidayLightMode( void )
 		return false;
 	}
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	if ( TFGameRules() && TFGameRules()->IsPowerupMode() )
 	{
 		// We don't want to draw the lights for the grapple.
@@ -662,14 +662,14 @@ bool CRopeManager::IsHolidayLightMode( void )
 	bDrawHolidayLights = m_bDrawHolidayLights;
 	m_nHolidayLightsStyle = 0;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	// Turn them on in Pyro-vision too
 	if ( IsLocalPlayerUsingVisionFilterFlags( TF_VISION_FILTER_PYRO ) )
 	{
 		bDrawHolidayLights = true;
 		m_nHolidayLightsStyle = 1;
 	}
-#endif // TF_CLIENT_DLL
+#endif // PONDER_CLIENT_DLL
 
 #endif // USES_ECON_ITEMS
 
@@ -931,9 +931,10 @@ void LockNodeDirection(
 		Vector &v1 = pNodes[(i+1)*parity].m_vPos;
 
 		Vector vDir = v1 - v0;
-		float len = vDir.Length();
+		float len = vDir.LengthSqr();
 		if ( len > 0.0001f )
 		{
+			len = FastSqrt(len);
 			vDir /= len;
 
 			Vector vActual;
@@ -1927,10 +1928,10 @@ bool C_RopeKeyframe::CalculateEndPointAttachment( C_BaseEntity *pEnt, int iAttac
 			if ( !pModel )
 				return false;
 
-			int iAttachment = pModel->LookupAttachment( "buff_attach" );
+			int iAttachmentBuf = pModel->LookupAttachment( "buff_attach" );
 			if ( pAngles )
-				return pModel->GetAttachment( iAttachment, vPos, *pAngles );
-			return pModel->GetAttachment( iAttachment, vPos );
+				return pModel->GetAttachment( iAttachmentBuf, vPos, *pAngles );
+			return pModel->GetAttachment( iAttachmentBuf, vPos );
 		}
 	}
 
@@ -1974,7 +1975,7 @@ bool C_RopeKeyframe::GetEndPointPos( int iPt, Vector &vPos )
 
 IMaterial* C_RopeKeyframe::GetSolidMaterial( void )
 {
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	if ( RopeManager()->IsHolidayLightMode() )
 	{
 		if ( RopeManager()->GetHolidayLightStyle() == 1 )

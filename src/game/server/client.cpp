@@ -657,12 +657,12 @@ void CC_DrawLine( const CCommand &args )
 	Vector startPos;
 	Vector endPos;
 
-	startPos.x = atof(args[1]);
-	startPos.y = atof(args[2]);
-	startPos.z = atof(args[3]);
-	endPos.x = atof(args[4]);
-	endPos.y = atof(args[5]);
-	endPos.z = atof(args[6]);
+	startPos.x = clamp( atof(args[1]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	startPos.y = clamp( atof(args[2]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	startPos.z = clamp( atof(args[3]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	endPos.x = clamp( atof(args[4]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	endPos.y = clamp( atof(args[5]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	endPos.z = clamp( atof(args[6]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
 
 	UTIL_AddDebugLine(startPos,endPos,true,true);
 }
@@ -677,9 +677,9 @@ void CC_DrawCross( const CCommand &args )
 {
 	Vector vPosition;
 
-	vPosition.x = atof(args[1]);
-	vPosition.y = atof(args[2]);
-	vPosition.z = atof(args[3]);
+	vPosition.x = clamp( atof(args[1]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	vPosition.y = clamp( atof(args[2]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	vPosition.z = clamp( atof(args[3]), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
 
 	// Offset since min and max z in not about center
 	Vector mins = Vector(-5,-5,-5);
@@ -1249,9 +1249,9 @@ CON_COMMAND_F( setpos, "Move player to specified origin (must have sv_cheats).",
 	Vector oldorigin = pPlayer->GetAbsOrigin();
 
 	Vector newpos;
-	newpos.x = atof( args[1] );
-	newpos.y = atof( args[2] );
-	newpos.z = args.ArgC() == 4 ? atof( args[3] ) : oldorigin.z;
+	newpos.x = clamp( atof( args[1] ), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	newpos.y = clamp( atof( args[2] ), MIN_COORD_FLOAT, MAX_COORD_FLOAT );
+	newpos.z = args.ArgC() == 4 ?  clamp( atof( args[3] ), MIN_COORD_FLOAT, MAX_COORD_FLOAT ) : oldorigin.z;
 
 	pPlayer->SetAbsOrigin( newpos );
 

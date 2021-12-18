@@ -15,25 +15,25 @@
 
 using namespace vgui;
 
-namespace vgui {
-    class Panel;
+namespace vgui 
+{
+	class Panel;
 }
 
-class SDKViewport : public CBaseViewport {
+class SDKViewport : public CBaseViewport
+{
 
 private:
-    DECLARE_CLASS_SIMPLE( SDKViewport, CBaseViewport
-    );
+	DECLARE_CLASS_SIMPLE( SDKViewport, CBaseViewport );
 
 public:
 
-    IViewPortPanel *CreatePanelByName(const char *szPanelName);
+	IViewPortPanel* CreatePanelByName(const char *szPanelName);
+	void CreateDefaultPanels( void );
 
-    void CreateDefaultPanels(void);
-
-    virtual void ApplySchemeSettings(vgui::IScheme *pScheme);
-
-    int GetDeathMessageStartHeight(void);
+	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
+		
+	int GetDeathMessageStartHeight( void );
 };
 
 

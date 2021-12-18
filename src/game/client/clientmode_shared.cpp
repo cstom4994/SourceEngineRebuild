@@ -60,9 +60,10 @@ extern ConVar replay_rendersetting_renderglow;
 #include "econ_item_view.h"
 #endif
 
-#if defined( TF_CLIENT_DLL )
+#if defined( PONDER_CLIENT_DLL )
 #include "c_tf_player.h"
 #include "econ_item_description.h"
+#include "c_tf_team.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -254,6 +255,13 @@ static void __MsgFunc_VGUIMenu( bf_read &msg )
 		{
 			gHUD.SetScreenShotTime( gpGlobals->curtime + 1.0 ); // take a screenshot in 1 second
 		}
+
+		IGameEvent *event = gameeventmanager->CreateEvent( "ds_screenshot" );
+		if ( event )
+		{
+			event->SetFloat( "delay", 0.5f );
+			gameeventmanager->FireEventClientSide( event );
+		}
 	}
 
 	// is the server trying to show an MOTD panel? Check that it's allowed right now.
@@ -306,8 +314,9 @@ void ClientModeShared::ReloadScheme( bool flushLowLevel )
 		KeyValuesSystem()->InvalidateCache();
 	}
 
+	BuildGroup::ClearResFileCache();
+
 	m_pViewport->ReloadScheme( "resource/ClientScheme.res" );
-	ClearKeyValuesCache();
 }
 
 
@@ -355,7 +364,7 @@ void ClientModeShared::Init()
 	ListenForGameEvent( "teamplay_broadcast_audio" );
 	ListenForGameEvent( "achievement_earned" );
 
-#if defined( TF_CLIENT_DLL )
+#if defined( PONDER_CLIENT_DLL )
 	ListenForGameEvent( "item_found" );
 #endif 
 
@@ -487,11 +496,11 @@ bool ClientModeShared::ShouldDrawEntity(C_BaseEntity *pEnt)
 //-----------------------------------------------------------------------------
 bool ClientModeShared::ShouldDrawParticles( )
 {
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	C_TFPlayer *pTFPlayer = C_TFPlayer::GetLocalTFPlayer();
 	if ( pTFPlayer && !pTFPlayer->ShouldPlayerDrawParticles() )
 		return false;
-#endif // TF_CLIENT_DLL
+#endif // PONDER_CLIENT_DLL
 
 	return true;
 }
@@ -979,7 +988,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 			wchar_t wszLocalized[100];
 			wchar_t wszPlayerName[MAX_PLAYER_NAME_LENGTH];
 			g_pVGuiLocalize->ConvertANSIToUnicode( event->GetString("name"), wszPlayerName, sizeof(wszPlayerName) );
-			g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_player_joined_game" ), 1, wszPlayerName );
+			g_pVGuiLocalize->ConstructString_safe( wszLocalized, g_pVGuiLocalize->Find( "#game_player_joined_game" ), 1, wszPlayerName );
 
 			char szLocalized[100];
 			g_pVGuiLocalize->ConvertUnicodeToANSI( wszLocalized, szLocalized, sizeof(szLocalized) );
@@ -1003,23 +1012,21 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 
 			wchar_t wszReason[64];
 			const char *pszReason = event->GetString( "reason" );
+			bool bFoundReason = false;
 			if ( pszReason && ( pszReason[0] == '#' ) && g_pVGuiLocalize->Find( pszReason ) )
 			{
 				V_wcsncpy( wszReason, g_pVGuiLocalize->Find( pszReason ), sizeof( wszReason ) );
-			}
-			else
-			{
-				g_pVGuiLocalize->ConvertANSIToUnicode( pszReason, wszReason, sizeof(wszReason) );
+				bFoundReason = true;
 			}
 
 			wchar_t wszLocalized[100];
-			if (IsPC())
+			if (IsPC() && bFoundReason)
 			{
-				g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_player_left_game" ), 2, wszPlayerName, wszReason );
+				g_pVGuiLocalize->ConstructString_safe( wszLocalized, g_pVGuiLocalize->Find( "#game_player_left_game_with_reason" ), 2, wszPlayerName, wszReason );
 			}
 			else
 			{
-				g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_player_left_game" ), 1, wszPlayerName );
+				g_pVGuiLocalize->ConstructString_safe( wszLocalized, g_pVGuiLocalize->Find( "#game_player_left_game" ), 1, wszPlayerName );
 			}
 
 			char szLocalized[100];
@@ -1052,6 +1059,12 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 			wchar_t wszPlayerName[MAX_PLAYER_NAME_LENGTH];
 			g_pVGuiLocalize->ConvertANSIToUnicode( pszName, wszPlayerName, sizeof(wszPlayerName) );
 
+			bool bUsingCustomTeamName = false;
+#ifdef PONDER_CLIENT_DLL
+			C_TFTeam *pTeam = GetGlobalTFTeam( team );
+			const wchar_t *wszTeam = pTeam ? pTeam->Get_Localized_Name() : L"";
+			bUsingCustomTeamName = pTeam ? pTeam->IsUsingCustomTeamName() : false;
+#else
 			wchar_t wszTeam[64];
 			C_Team *pTeam = GetGlobalTeam( team );
 			if ( pTeam )
@@ -1062,17 +1075,18 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 			{
 				_snwprintf ( wszTeam, sizeof( wszTeam ) / sizeof( wchar_t ), L"%d", team );
 			}
+#endif
 
 			if ( !IsInCommentaryMode() )
 			{
 				wchar_t wszLocalized[100];
 				if ( bAutoTeamed )
 				{
-					g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_player_joined_autoteam" ), 2, wszPlayerName, wszTeam );
+					g_pVGuiLocalize->ConstructString_safe( wszLocalized, bUsingCustomTeamName ? g_pVGuiLocalize->Find( "#game_player_joined_autoteam_party_leader" ) : g_pVGuiLocalize->Find( "#game_player_joined_autoteam" ), 2, wszPlayerName, wszTeam );
 				}
 				else
 				{
-					g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_player_joined_team" ), 2, wszPlayerName, wszTeam );
+					g_pVGuiLocalize->ConstructString_safe( wszLocalized, bUsingCustomTeamName ? g_pVGuiLocalize->Find( "#game_player_joined_team_party_leader" ) : g_pVGuiLocalize->Find( "#game_player_joined_team" ), 2, wszPlayerName, wszTeam );
 				}
 
 				char szLocalized[100];
@@ -1104,7 +1118,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		g_pVGuiLocalize->ConvertANSIToUnicode( event->GetString( "newname" ), wszNewName, sizeof(wszNewName) );
 
 		wchar_t wszLocalized[100];
-		g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_player_changed_name" ), 2, wszOldName, wszNewName );
+		g_pVGuiLocalize->ConstructString_safe( wszLocalized, g_pVGuiLocalize->Find( "#game_player_changed_name" ), 2, wszOldName, wszNewName );
 
 		char szLocalized[100];
 		g_pVGuiLocalize->ConvertUnicodeToANSI( wszLocalized, szLocalized, sizeof(szLocalized) );
@@ -1136,7 +1150,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 			}
 		}
 
-		if ( team == 0 && GetLocalTeam() > 0 )
+		if ( team == 0 && GetLocalTeam() != nullptr )
 		{
 			bValidTeam = false;
 		}
@@ -1167,7 +1181,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 			g_pVGuiLocalize->ConvertANSIToUnicode( event->GetString("cvarvalue"), wszCvarValue, sizeof(wszCvarValue) );
 
 			wchar_t wszLocalized[256];
-			g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#game_server_cvar_changed" ), 2, wszCvarName, wszCvarValue );
+			g_pVGuiLocalize->ConstructString_safe( wszLocalized, g_pVGuiLocalize->Find( "#game_server_cvar_changed" ), 2, wszCvarName, wszCvarValue );
 
 			char szLocalized[256];
 			g_pVGuiLocalize->ConvertUnicodeToANSI( wszLocalized, szLocalized, sizeof(szLocalized) );
@@ -1216,7 +1230,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 					if ( pchLocalizedAchievement )
 					{
 						wchar_t wszLocalizedString[128];
-						g_pVGuiLocalize->ConstructString( wszLocalizedString, sizeof( wszLocalizedString ), g_pVGuiLocalize->Find( "#Achievement_Earned" ), 2, wszPlayerName, pchLocalizedAchievement );
+						g_pVGuiLocalize->ConstructString_safe( wszLocalizedString, g_pVGuiLocalize->Find( "#Achievement_Earned" ), 2, wszPlayerName, pchLocalizedAchievement );
 
 						char szLocalized[128];
 						g_pVGuiLocalize->ConvertUnicodeToANSI( wszLocalizedString, szLocalized, sizeof( szLocalized ) );
@@ -1227,7 +1241,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 			}
 		}
 	}
-#if defined( TF_CLIENT_DLL )
+#if defined( PONDER_CLIENT_DLL )
 	else if ( Q_strcmp( "item_found", eventname ) == 0 )
 	{
 		int iPlayerIndex = event->GetInt( "player" );
@@ -1286,73 +1300,57 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 				}
 
 				// TODO: Update the localization strings to only have two format parameters since that's all we need.
-				wchar_t wszLocalizedString[256];
-				g_pVGuiLocalize->ConstructString( 
-					wszLocalizedString, 
-					sizeof( wszLocalizedString ), 
-					LOCCHAR( "%s1" ),
-					1, 
-					CEconItemLocalizedFullNameGenerator( GLocalizationProvider(), pItemDefinition, iItemQuality ).GetFullName()
+				locchar_t wszLocalizedString[256];
+
+				locchar_t szItemname[64] = LOCCHAR( "" );
+				locchar_t szRarity[64] = LOCCHAR( "" );
+				locchar_t szWear[64] = LOCCHAR( "" );
+				locchar_t szStrange[64] = LOCCHAR( "" );
+				locchar_t szUnusual[64] = LOCCHAR( "" );
+
+				loc_scpy_safe(
+					szItemname, 
+					CConstructLocalizedString(g_pVGuiLocalize->Find("TFUI_InvTooltip_ItemFound_Itemname"), 
+					CEconItemLocalizedFullNameGenerator(GLocalizationProvider(), pItemDefinition, iItemQuality).GetFullName() )
 				);
 
+				/*g_pVGuiLocalize->ConstructString_safe( 
+					szItemname, 
+					LOCCHAR( "%s1 " ),
+					1, 
+					CEconItemLocalizedFullNameGenerator( GLocalizationProvider(), pItemDefinition, iItemQuality ).GetFullName()
+				);*/
+
 				locchar_t tempName[MAX_ITEM_NAME_LENGTH];
+				// If items have rarity
 				if ( pItemRarity )
 				{
-					// grade and Wear
-					loc_scpy_safe( tempName, wszLocalizedString );
-
-					const locchar_t *loc_WearText = LOCCHAR("");
-					const char *pszTooltipText = "TFUI_InvTooltip_Rarity";
-
+					// Weapon Wear
 					if ( !IsWearableSlot( pItemDefinition->GetDefaultLoadoutSlot() ) )
 					{
-						loc_WearText = g_pVGuiLocalize->Find( GetWearLocalizationString( flWear ) );
-					}
-					else
-					{
-						pszTooltipText = "TFUI_InvTooltip_RarityNoWear";
+						loc_scpy_safe(szWear, CConstructLocalizedString( g_pVGuiLocalize->Find("TFUI_InvTooltip_ItemFound_Wear"), g_pVGuiLocalize->Find(GetWearLocalizationString(flWear) ) ) );
 					}
 
-					g_pVGuiLocalize->ConstructString( wszLocalizedString,
-						ARRAYSIZE( wszLocalizedString ) * sizeof( locchar_t ),
-						g_pVGuiLocalize->Find( pszTooltipText ),
-						3,
-						g_pVGuiLocalize->Find( pItemRarity->GetLocKey() ),
-						tempName,
-						loc_WearText
-					);
-
-					if ( bIsUnusual )
-					{
-						loc_scpy_safe( tempName, wszLocalizedString );
-
-						g_pVGuiLocalize->ConstructString( wszLocalizedString,
-							ARRAYSIZE( wszLocalizedString ) * sizeof( locchar_t ),
-							LOCCHAR( "%s1 %s2" ),
-							2,
-							g_pVGuiLocalize->Find( "rarity4" ),
-							tempName 
-						);
-					}
-
-					if ( bIsStrange )
-					{
-						loc_scpy_safe( tempName, wszLocalizedString );
-
-						g_pVGuiLocalize->ConstructString( wszLocalizedString,
-							ARRAYSIZE( wszLocalizedString ) * sizeof( locchar_t ),
-							LOCCHAR( "%s1 %s2" ),
-							2,
-							g_pVGuiLocalize->Find( "strange" ),
-							tempName
-						);
-					}
+					// Rarity / grade
+					loc_scpy_safe(szRarity, CConstructLocalizedString(g_pVGuiLocalize->Find("TFUI_InvTooltip_ItemFound_Rarity"), g_pVGuiLocalize->Find(pItemRarity->GetLocKey() ) ) );
 				}
-				
+
+				if ( bIsUnusual )
+				{
+					loc_scpy_safe(szUnusual, CConstructLocalizedString(g_pVGuiLocalize->Find("TFUI_InvTooltip_ItemFound_Unusual"), g_pVGuiLocalize->Find("rarity4")));
+				}
+
+				if ( bIsStrange )
+				{
+					loc_scpy_safe(szStrange, CConstructLocalizedString(g_pVGuiLocalize->Find("TFUI_InvTooltip_ItemFound_Strange"), g_pVGuiLocalize->Find("strange")));
+				}
+
+				// // Strange Unusual Item Grade 		
+				loc_scpy_safe( wszLocalizedString, CConstructLocalizedString( g_pVGuiLocalize->Find( "TFUI_InvTooltip_ItemFound" ), szStrange, szUnusual, szItemname, szRarity, szWear ) );
+
 				loc_scpy_safe( tempName, wszLocalizedString );
-				g_pVGuiLocalize->ConstructString(
+				g_pVGuiLocalize->ConstructString_safe(
 					wszLocalizedString,
-					sizeof( wszLocalizedString ),
 					wszItemFound,
 					3,
 					wszPlayerName, tempName, L"" );
@@ -1462,7 +1460,7 @@ void ClientModeShared::DisplayReplayMessage( const char *pLocalizeName, float fl
 			pPanel->MoveToFront();
 			pPanel->SetKeyBoardInputEnabled( true );
 			pPanel->SetMouseInputEnabled( true );
-#if defined( TF_CLIENT_DLL )
+#if defined( PONDER_CLIENT_DLL )
 			TFModalStack()->PushModal( pPanel );
 #endif
 		}
@@ -1488,7 +1486,7 @@ void ClientModeShared::DisplayReplayMessage( const char *pLocalizeName, float fl
 void ClientModeShared::DisplayReplayReminder()
 {
 #if defined( REPLAY_ENABLED )
-	if ( m_pReplayReminderPanel && g_pReplay->IsRecording() )
+	if ( m_pReplayReminderPanel && g_pReplay->IsRecording() && !::input->IsSteamControllerActive() )
 	{
 		// Only display the panel if we haven't already requested a replay for the given life
 		CReplay *pCurLifeReplay = static_cast< CReplay * >( g_pClientReplayContext->GetReplayManager()->GetReplayForCurrentLife() );
@@ -1514,4 +1512,6 @@ void ClientModeShared::DeactivateInGameVGuiContext()
 {
 	vgui::ivgui()->ActivateContext( DEFAULT_VGUI_CONTEXT );
 }
+
+
 

@@ -24,9 +24,9 @@
 #endif
 
 // Hacky
-#if defined ( TF_CLIENT_DLL ) || defined ( TF_DLL )
+#if defined ( PONDER_CLIENT_DLL ) || defined ( TF_DLL )
 #include "econ_entity.h"
-#endif // TF_CLIENT_DLL || TF_DLL
+#endif // PONDER_CLIENT_DLL || TF_DLL
 
 #if !defined( CLIENT_DLL )
 extern void OnBaseCombatWeaponCreated( CBaseCombatWeapon * );
@@ -194,7 +194,7 @@ public:
 	virtual void			Spawn( void );
 	virtual void			Precache( void );
 
-	virtual void			MakeTracer( const Vector &vecTracerSrc, const trace_t &tr, int iTracerType );
+	void					MakeTracer( const Vector &vecTracerSrc, const trace_t &tr, int iTracerType );
 
 	// Subtypes are used to manage multiple weapons of the same type on the player.
 	virtual int				GetSubType( void ) { return m_iSubType; }
@@ -416,8 +416,6 @@ public:
 	virtual void			Activate( void );
 
 	virtual bool ShouldUseLargeViewModelVROverride() { return false; }
-
-	CBaseCombatWeapon* m_pSwitchingTo;
 public:
 // Server Only Methods
 #if !defined( CLIENT_DLL )
@@ -468,6 +466,8 @@ public:
 	void					Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 
 	virtual CDmgAccumulator	*GetDmgAccumulator( void ) { return NULL; }
+
+	void					SetSoundsEnabled( bool bSoundsEnabled ) { m_bSoundsEnabled = bSoundsEnabled; }
 
 // Client only methods
 #else
@@ -552,7 +552,7 @@ private:
 	CNetworkVar( CBaseCombatCharacterHandle, m_hOwner );				// Player carrying this weapon
 
 protected:
-#if defined ( TF_CLIENT_DLL ) || defined ( TF_DLL )
+#if defined ( PONDER_CLIENT_DLL ) || defined ( TF_DLL )
 	// Regulate crit frequency to reduce client-side seed hacking
 	void					AddToCritBucket( float flAmount );
 	void					RemoveFromCritBucket( float flAmount ) { m_flCritTokenBucket -= flAmount; }
@@ -588,9 +588,10 @@ public:
 	bool					SetIdealActivity( Activity ideal );
 	void					MaintainIdealActivity( void );
 
-protected:
-	float					m_flHolsterTime;
-	bool					m_bHolstering;
+#ifdef CLIENT_DLL
+	virtual const Vector&	GetViewmodelOffset() { return vec3_origin; }
+#endif // CLIENT_DLL
+
 private:
 	Activity				m_Activity;
 	int						m_nIdealSequence;
@@ -600,7 +601,6 @@ private:
 
 	int						m_iPrimaryAmmoCount;
 	int						m_iSecondaryAmmoCount;
-
 
 public:
 
@@ -648,6 +648,8 @@ private:
 	
 	// Server only
 #if !defined( CLIENT_DLL )
+
+	bool					m_bSoundsEnabled;
 
 	// Outputs
 protected:

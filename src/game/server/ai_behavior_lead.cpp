@@ -996,7 +996,7 @@ void CAI_LeadBehavior::RunTask( const Task_t *pTask )
 
 //-------------------------------------
 
-bool CAI_LeadBehavior::Speak( AIConcept_t concept )
+bool CAI_LeadBehavior::Speak( AIConcept_t concept_t )
 {
 	CAI_Expresser *pExpresser = GetOuter()->GetExpresser();
 	if ( !pExpresser )
@@ -1007,18 +1007,18 @@ bool CAI_LeadBehavior::Speak( AIConcept_t concept )
 		return false;
 
 	// If we haven't said the start speech, don't nag
-	bool bNag = ( FStrEq(concept,TLK_LEAD_COMINGBACK) || FStrEq(concept, TLK_LEAD_CATCHUP) || FStrEq(concept, TLK_LEAD_RETRIEVE) );
+	bool bNag = ( FStrEq(concept_t,TLK_LEAD_COMINGBACK) || FStrEq(concept_t, TLK_LEAD_CATCHUP) || FStrEq(concept_t, TLK_LEAD_RETRIEVE) );
 	if ( !m_hasspokenstart && bNag )
 		return false;
 
 	if ( hl2_episodic.GetBool() )
 	{
-		// If we're a player ally, only speak the concept if we're allowed to.
+		// If we're a player ally, only speak the concept_t if we're allowed to.
 		// This allows the response rules to control it better (i.e. handles respeakdelay)
 		// We ignore nag timers for this, because the response rules will control refire rates.
 		CAI_PlayerAlly *pAlly = dynamic_cast<CAI_PlayerAlly*>(GetOuter());
 		if ( pAlly )
- 			return pAlly->SpeakIfAllowed( concept, GetConceptModifiers( concept ) );
+ 			return pAlly->SpeakIfAllowed( concept_t, GetConceptModifiers( concept_t ) );
 	}
 
 	// Don't spam Nags
@@ -1031,7 +1031,7 @@ bool CAI_LeadBehavior::Speak( AIConcept_t concept )
 		}
 	}
 	
-	if ( pExpresser->Speak( concept, GetConceptModifiers( concept ) ) )
+	if ( pExpresser->Speak( concept_t, GetConceptModifiers( concept_t ) ) )
 	{
 		m_flSpeakNextNagTime = gpGlobals->curtime + LEAD_NAG_TIME;
 		return true;
@@ -1540,24 +1540,24 @@ void CAI_LeadGoal::InputActivate( inputdata_t &inputdata )
 		m_flRetrieveDistance = m_flLeadDistance + LEAD_MIN_RETRIEVEDIST_OFFSET;
 	}
 
-	AI_LeadArgs_t leadArgs = { 
-		GetGoalEntityName(), 
-		STRING(m_iszWaitPointName), 
-		m_spawnflags, 
-		m_flWaitDistance, 
-		m_flLeadDistance, 
-		m_flRetrieveDistance, 
+	AI_LeadArgs_t leadArgs = {
+		GetGoalEntityName(),
+		STRING(m_iszWaitPointName),
+		(unsigned)m_spawnflags,
+		m_flWaitDistance,
+		m_flLeadDistance,
+		m_flRetrieveDistance,
 		m_flSuccessDistance,
-		m_bRun, 
-		m_iRetrievePlayer, 
-		m_iRetrieveWaitForSpeak, 
-		m_iComingBackWaitForSpeak, 
+		m_bRun,
+		m_iRetrievePlayer,
+		m_iRetrieveWaitForSpeak,
+		m_iComingBackWaitForSpeak,
 		m_bStopScenesWhenPlayerLost,
 		m_bDontSpeakStart,
 		m_bLeadDuringCombat,
 		m_bGagLeader,
 	};
-	
+
 	pBehavior->LeadPlayer( leadArgs, this );
 }
 

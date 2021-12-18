@@ -235,14 +235,6 @@ CNPC_Manhack::~CNPC_Manhack()
 {
 }
 
-#ifdef VANCE
-void CNPC_Manhack::Hack(void)
-{
-	m_bHackedByAlyx = true;
-	SetEyeState(MANHACK_EYE_STATE_CHARGE);
-}
-#endif
-
 //-----------------------------------------------------------------------------
 // Purpose: Indicates this NPC's place in the relationship table.
 //-----------------------------------------------------------------------------

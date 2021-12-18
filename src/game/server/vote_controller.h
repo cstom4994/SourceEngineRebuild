@@ -17,6 +17,27 @@
 #define MAX_COMMAND_LENGTH 64
 #define MAX_CREATE_ERROR_STRING 96
 
+struct VoteParams_t
+{
+	VoteParams_t()
+	{
+		Reset();
+	}
+
+	int m_iIssueIndex;
+	int m_iEntIndex;
+	char m_szTypeString[MAX_COMMAND_LENGTH];
+	char m_szDetailString[MAX_VOTE_DETAILS_LENGTH];
+
+	void Reset( void )
+	{
+		m_iIssueIndex = INVALID_ISSUE;
+		m_iEntIndex = -1;
+		m_szTypeString[0] = 0;
+		m_szDetailString[0] = 0;
+	}
+};
+
 class CBaseIssue	// Base class concept for vote issues (i.e. Kick Player).  Created per level-load and destroyed by CVoteController's dtor.
 {
 public:
@@ -44,6 +65,8 @@ public:
 	virtual bool		BRecordVoteFailureEventForEntity( int iVoteCallingEntityIndex ) const { return iVoteCallingEntityIndex != DEDICATED_SERVER; }
 	void				SetIssueCooldownDuration( float flDuration ) { m_flNextCallTime = gpGlobals->curtime + flDuration; }	// The issue can not be raised again for this period of time (in seconds)
 	virtual float		GetQuorumRatio( void );						// Each issue can decide the required ratio of voted-vs-abstained
+	virtual bool		NeedsPermissionFromGC( void ) { return false; }	// Per-issue decision to ask a GC if this vote is permitted (see TF's MvM kick vote for an example)
+	virtual void		GCResponseReceived( bool bApproved );		// How to handle the response/verdict from the GC (VoteController also receives a response)
 
 	CHandle< CBasePlayer > m_hPlayerTarget;							// If the target of the issue is a player, we should store them here
 
@@ -63,6 +86,9 @@ protected:
 	int m_iNumNoVotes;
 	int m_iNumPotentialVotes;
 	float m_flNextCallTime;
+	bool m_bGCNotified;
+	bool m_bGCApproved;
+	bool m_bGCResponded;
 };
 
 class CVoteController : public CBaseEntity
@@ -91,7 +117,7 @@ public:
 	virtual int		UpdateTransmitState( void );
 	virtual bool	IsVoteSystemEnabled( void );
 
-	bool			SetupVote( int iEntIndex );	// This creates a list of issues for the UI
+	bool			SetupVote( int iEntIndex );					// This creates a list of issues for the UI
 	bool			CreateVote( int iEntIndex, const char *pszTypeString, const char *pszDetailString );	// This is what the UI passes in
 	TryCastVoteResult TryCastVote( int iEntIndex, const char *pszVoteString );
 	void			RegisterIssue( CBaseIssue *pNewIssue );
@@ -105,17 +131,19 @@ public:
 	int				GetVoteIssueIndexWithHighestCount( void );
 	void			TrackVoteCaller( CBasePlayer *pPlayer );
 	bool			CanEntityCallVote( CBasePlayer *pPlayer, int &nCooldown, vote_create_failed_t &nErrorCode );
-	bool			IsVoteActive( void ) { return m_iActiveIssueIndex != INVALID_ISSUE; }
+	bool			IsVoteActive( void ) { return ( m_iActiveIssueIndex != INVALID_ISSUE || m_pendingVoteParams.m_iIssueIndex != INVALID_ISSUE ); }
 	int				GetNumVotesCast( void );
 
 	void			AddPlayerToKickWatchList( CSteamID steamID, float flDuration );		// Band-aid until we figure out how player's avoid kick votes
 	void			AddPlayerToNameLockedList( CSteamID steamID, float flDuration, int nUserID );
 	bool			IsPlayerBeingKicked( CBasePlayer *pPlayer );
+	void			GCResponseReceived( bool bVerdict );		// The GC's response when a vote issue requires approval from the GC
 
 protected:
 	void			ResetData( void );
 	void			VoteControllerThink( void );
-	void			CheckForEarlyVoteClose( void ); // If everyone has voted (and changing votes is not allowed) then end early
+	void			CheckForEarlyVoteClose( void );				// If everyone has voted (and changing votes is not allowed) then end early
+	bool			SubmitPendingVote( VoteParams_t params );	// When an issue requires permission from the GC, this is how the pending issue moves forward
 
 	CNetworkVar( int, m_iActiveIssueIndex );					// Type of thing being voted on
 	CNetworkVar( int, m_iOnlyTeamToVote );						// If an Ally restricted vote, the team number that is allowed to vote
@@ -125,8 +153,10 @@ protected:
 	CountdownTimer	m_acceptingVotesTimer;						// How long from vote start until we count the ballots
 	CountdownTimer	m_executeCommandTimer;						// How long after end of vote time until we execute a passed vote
 	CountdownTimer	m_resetVoteTimer;							// when the current vote will end 
+	CountdownTimer	m_waitingForGCResponseTimer;				// Some votes require approval from the GC - wait this long for a response
 	int				m_nVotesCast[MAX_PLAYERS + 1];				// arrays are zero-based and player indices are one-based
 	int				m_iEntityHoldingVote;
+	VoteParams_t	m_pendingVoteParams;						// A pending vote that's waiting for a response from the GC
 	
 	CUtlVector <CBaseIssue *>	m_potentialIssues;
 	CUtlVector <const char *>	m_VoteOptions;

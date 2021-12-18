@@ -638,7 +638,7 @@ bool CSpriteTrail::ValidateEntityAttachedToPlayer( bool &bShouldRetry )
 	return true;
 
 	/*
-#if defined( TF_CLIENT_DLL )
+#if defined( PONDER_CLIENT_DLL )
 
 	const char *pszModelName = modelinfo->GetModelName( GetModel() );
 	if ( pszModelName && pszModelName[0] )

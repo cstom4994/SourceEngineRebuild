@@ -23,6 +23,7 @@
 #include <vgui_controls/TextEntry.h>
 #include <vgui_controls/Button.h>
 #include <vgui_controls/Panel.h>
+#include "inputsystem/iinputsystem.h"
 
 #include "cdll_util.h"
 #include "IGameUIFuncs.h" // for key bindings
@@ -38,11 +39,11 @@ extern IGameUIFuncs *gameuifuncs; // for key binding details
 
 using namespace vgui;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 #define HUD_CLASSAUTOKILL_FLAGS		( FCVAR_CLIENTDLL | FCVAR_ARCHIVE | FCVAR_USERINFO )
 #else
 #define HUD_CLASSAUTOKILL_FLAGS		( FCVAR_CLIENTDLL | FCVAR_ARCHIVE )
-#endif // !TF_CLIENT_DLL
+#endif // !PONDER_CLIENT_DLL
 
 ConVar hud_classautokill( "hud_classautokill", "1", HUD_CLASSAUTOKILL_FLAGS, "Automatically kill player after choosing a new playerclass." );
 
@@ -168,14 +169,14 @@ void CClassMenu::OnCommand( const char *command )
 	{
 		engine->ClientCmd( const_cast<char *>( command ) );
 
-#if !defined( CSTRIKE_DLL ) && !defined( TF_CLIENT_DLL )
+#if !defined( CSTRIKE_DLL ) && !defined( PONDER_CLIENT_DLL )
 		// They entered a command to change their class, kill them so they spawn with 
 		// the new class right away
 		if ( hud_classautokill.GetBool() )
 		{
             engine->ClientCmd( "kill" );
 		}
-#endif // !CSTRIKE_DLL && !TF_CLIENT_DLL
+#endif // !CSTRIKE_DLL && !PONDER_CLIENT_DLL
 	}
 
 	Close();
@@ -266,6 +267,7 @@ void CClassMenu::OnKeyCodePressed(KeyCode code)
 	case KEY_XSTICK1_LEFT:
 	case KEY_XSTICK2_LEFT:
 	case KEY_LEFT:
+	case STEAMCONTROLLER_DPAD_LEFT:
 		nDir = -1;
 		break;
 
@@ -277,6 +279,7 @@ void CClassMenu::OnKeyCodePressed(KeyCode code)
 	case KEY_XSTICK1_RIGHT:
 	case KEY_XSTICK2_RIGHT:
 	case KEY_RIGHT:
+	case STEAMCONTROLLER_DPAD_RIGHT:
 		nDir = 1;
 		break;
 	}

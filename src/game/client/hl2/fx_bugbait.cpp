@@ -20,23 +20,24 @@
 // SporeSmokeEffect
 //==================================================
 
-class SporeSmokeEffect : public CSimpleEmitter {
+class SporeSmokeEffect : public CSimpleEmitter
+{
 public:
-    SporeSmokeEffect(const char *pDebugName) : CSimpleEmitter(pDebugName) {}
+	SporeSmokeEffect( const char *pDebugName ) : CSimpleEmitter( pDebugName ) {}
 
-    static SporeSmokeEffect *Create(const char *pDebugName);
+	static SporeSmokeEffect* Create( const char *pDebugName );
 
-    virtual void UpdateVelocity(SimpleParticle *pParticle, float timeDelta);
-
-    virtual float UpdateAlpha(const SimpleParticle *pParticle);
+	virtual void UpdateVelocity( SimpleParticle *pParticle, float timeDelta );
+	virtual float UpdateAlpha( const SimpleParticle *pParticle );
 
 private:
-    SporeSmokeEffect(const SporeSmokeEffect &);
+	SporeSmokeEffect( const SporeSmokeEffect & );
 };
 
 
-SporeSmokeEffect *SporeSmokeEffect::Create(const char *pDebugName) {
-    return new SporeSmokeEffect(pDebugName);
+SporeSmokeEffect* SporeSmokeEffect::Create( const char *pDebugName )
+{
+	return new SporeSmokeEffect( pDebugName );
 }
 
 //-----------------------------------------------------------------------------
@@ -45,11 +46,10 @@ SporeSmokeEffect *SporeSmokeEffect::Create(const char *pDebugName) {
 //			timeDelta - 
 // Output : float
 //-----------------------------------------------------------------------------
-float SporeSmokeEffect::UpdateAlpha(const SimpleParticle *pParticle) {
-    //return ( ((float)pParticle->m_uchStartAlpha/255.0f) * sin( M_PI * (pParticle->m_flLifetime / pParticle->m_flDieTime) ) );
-    return (pParticle->m_uchStartAlpha / 255.0f) +
-           ((float) (pParticle->m_uchEndAlpha / 255.0f) - (float) (pParticle->m_uchStartAlpha / 255.0f)) *
-           (pParticle->m_flLifetime / pParticle->m_flDieTime);
+float SporeSmokeEffect::UpdateAlpha( const SimpleParticle *pParticle )
+{
+	//return ( ((float)pParticle->m_uchStartAlpha/255.0f) * sin( M_PI * (pParticle->m_flLifetime / pParticle->m_flDieTime) ) );
+	return (pParticle->m_uchStartAlpha/255.0f) + ( (float)(pParticle->m_uchEndAlpha/255.0f) - (float)(pParticle->m_uchStartAlpha/255.0f) ) * (pParticle->m_flLifetime / pParticle->m_flDieTime);
 }
 
 //-----------------------------------------------------------------------------
@@ -57,6 +57,7 @@ float SporeSmokeEffect::UpdateAlpha(const SimpleParticle *pParticle) {
 // Input  : *pParticle - 
 //			timeDelta - 
 //-----------------------------------------------------------------------------
-void SporeSmokeEffect::UpdateVelocity(SimpleParticle *pParticle, float timeDelta) {
+void SporeSmokeEffect::UpdateVelocity( SimpleParticle *pParticle, float timeDelta )
+{
 }
 

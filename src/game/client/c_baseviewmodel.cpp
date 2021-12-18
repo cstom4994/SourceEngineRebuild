@@ -18,7 +18,7 @@
 #include "tools/bonelist.h"
 #include <KeyValues.h>
 #include "hltvcamera.h"
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	#include "tf_weaponbase.h"
 #endif
 
@@ -39,7 +39,7 @@
 	ConVar cl_righthand( "cl_righthand", "1", FCVAR_ARCHIVE, "Use right-handed view models." );
 #endif
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	ConVar cl_flipviewmodels( "cl_flipviewmodels", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_NOT_CONNECTED, "Flip view models." );
 #endif
 
@@ -207,7 +207,7 @@ bool C_BaseViewModel::ShouldFlipViewModel()
 	}
 #endif
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	CBaseCombatWeapon *pWeapon = m_hWeapon.Get();
 	if ( pWeapon )
 	{
@@ -334,7 +334,7 @@ int C_BaseViewModel::DrawModel( int flags )
 		}
 	}
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	CTFWeaponBase* pTFWeapon = dynamic_cast<CTFWeaponBase*>( pWeapon );
 	if ( ( flags & STUDIO_RENDER ) && pTFWeapon && pTFWeapon->m_viewmodelStatTrakAddon )
 	{
@@ -371,28 +371,41 @@ int C_BaseViewModel::DrawOverriddenViewmodel( int flags )
 	return BaseClass::DrawModel( flags );
 }
 
+ConVar tf_viewmodel_alpha("tf_viewmodel_alpha", "255", FCVAR_ARCHIVE, "Controls translucency of viewmodel [1-255].", true, 1.0f, true, 255.0f);
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Output : int
 //-----------------------------------------------------------------------------
 int C_BaseViewModel::GetFxBlend( void )
 {
+	int iPlayerViewmodelBlend = tf_viewmodel_alpha.GetInt();
+	float fViewmodelBlendPct;
+	if (iPlayerViewmodelBlend < 255)
+	{
+		fViewmodelBlendPct = iPlayerViewmodelBlend / 255.0f;
+	}
+	else
+	{
+		fViewmodelBlendPct = 1.0f;
+	}
+
 	// See if the local player wants to override the viewmodel's rendering
 	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
 	if ( pPlayer && pPlayer->IsOverridingViewmodel() )
 	{
 		pPlayer->ComputeFxBlend();
-		return pPlayer->GetFxBlend();
+		return (int) (pPlayer->GetFxBlend() * fViewmodelBlendPct);
 	}
 
 	C_BaseCombatWeapon *pWeapon = GetOwningWeapon();
 	if ( pWeapon && pWeapon->IsOverridingViewmodel() )
 	{
 		pWeapon->ComputeFxBlend();
-		return pWeapon->GetFxBlend();
+		return (int) (pWeapon->GetFxBlend() * fViewmodelBlendPct);
 	}
 
-	return BaseClass::GetFxBlend();
+	return (int) (BaseClass::GetFxBlend() * fViewmodelBlendPct);
 }
 
 //-----------------------------------------------------------------------------

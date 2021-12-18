@@ -1,8 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
-//
-// Purpose: 
-//
-//=============================================================================
+﻿// Copyright(c) 2019 - 2021, KaoruXun All rights reserved.
 
 #include "cbase.h"
 
@@ -27,9 +23,11 @@
 #include "c_playerresource.h"
 #include "gamestats.h"
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
+
 #include "econ_item_inventory.h"
-#endif //TF_CLIENT_DLL
+
+#endif //PONDER_CLIENT_DLL
 #else
 #include "enginecallback.h"
 #endif // CLIENT_DLL
@@ -55,8 +53,10 @@
 #include "engine/imatchmaking.h"
 #include "tier0/vprof.h"
 
-#if defined(TF_DLL) || defined(TF_CLIENT_DLL)
+#if defined(TF_DLL) || defined(PONDER_CLIENT_DLL)
+
 #include "tf_gamerules.h"
+
 #endif
 
 ConVar cc_achievement_debug("achievement_debug", "0", FCVAR_CHEAT | FCVAR_REPLICATED,
@@ -312,12 +312,12 @@ bool CAchievementMgr::Init() {
     usermessages->HookMessage("AchievementEvent", MsgFunc_AchievementEvent);
 #endif // CLIENT_DLL
 
-#ifdef TF_CLIENT_DLL
-    ListenForGameEvent( "localplayer_changeclass" );
-    ListenForGameEvent( "localplayer_changeteam" );
-    ListenForGameEvent( "teamplay_round_start" );
-    ListenForGameEvent( "teamplay_round_win" );
-#endif // TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
+    ListenForGameEvent("localplayer_changeclass");
+    ListenForGameEvent("localplayer_changeteam");
+    ListenForGameEvent("teamplay_round_start");
+    ListenForGameEvent("teamplay_round_win");
+#endif // PONDER_CLIENT_DLL
 
     return true;
 }
@@ -329,6 +329,7 @@ bool CAchievementMgr::Init() {
 void CAchievementMgr::PostInit() {
     if (!g_AchievementSaveThread.IsAlive()) {
         g_AchievementSaveThread.Start();
+        g_AchievementSaveThread.SetPriority(TP_PRIORITY_LOWEST);
 #ifdef WIN32
         if (IsX360()) {
             ThreadSetAffinity((ThreadHandle_t) g_AchievementSaveThread.GetThreadHandle(), XBOX_PROCESSOR_3);
@@ -985,17 +986,15 @@ bool CAchievementMgr::CheckAchievementsEnabled() {
     //=============================================================================
 #endif // CSTRIKE_DLL	
 
-#if defined(TF_DLL) || defined(TF_CLIENT_DLL)
+#if defined(TF_DLL) || defined(PONDER_CLIENT_DLL)
     // no achievements for now in training
-    if ( TFGameRules() && TFGameRules()->IsInTraining() && TFGameRules()->AllowTrainingAchievements() == false )
-    {
+    if (TFGameRules() && TFGameRules()->IsInTraining() && TFGameRules()->AllowTrainingAchievements() == false) {
         return false;
     }
 
-    ConVarRef tf_bot_offline_practice( "tf_bot_offline_practice" );
+    ConVarRef tf_bot_offline_practice("tf_bot_offline_practice");
     // no achievements for offline practice
-    if ( tf_bot_offline_practice.GetInt() != 0 )
-    {
+    if (tf_bot_offline_practice.GetInt() != 0) {
         return false;
     }
 #endif
@@ -1010,8 +1009,8 @@ bool CAchievementMgr::CheckAchievementsEnabled() {
 #ifndef NO_STEAM
             // Cheats get turned on automatically if you run with -dev which many people do internally, so allow cheats if developer is turned on and we're not running
             // on Steam public
-            if (developer.GetInt() == 0 || !steamapicontext->SteamUtils() ||
-                (k_EUniversePublic == steamapicontext->SteamUtils()->GetConnectedUniverse())) {
+            if (developer.GetInt() == 0 || (k_EUniverseInvalid == GetUniverse()) ||
+                (k_EUniversePublic == GetUniverse())) {
                 Msg("Achievements disabled: cheats turned on in this app session.\n");
                 return false;
             }
@@ -1074,8 +1073,7 @@ bool CalcPlayersOnFriendsList(int iMinFriends) {
                     continue;
 #ifndef NO_STEAM
                 // check and see if they're on the local player's friends list
-                CSteamID steamID(pi.friendsID, 1, steamapicontext->SteamUtils()->GetConnectedUniverse(),
-                                 k_EAccountTypeIndividual);
+                CSteamID steamID(pi.friendsID, 1, GetUniverse(), k_EAccountTypeIndividual);
                 if (!steamapicontext->SteamFriends()->HasFriend(steamID, /*k_EFriendFlagImmediate*/ 0x04))
                     continue;
 #endif
@@ -1127,8 +1125,7 @@ bool CalcHasNumClanPlayers(int iClanTeammates) {
                     player_info_t pi;
                     if (engine->GetPlayerInfo(iPlayerIndex, &pi) && (pi.friendsID)) {
                         // check and see if they're on the local player's friends list
-                        CSteamID steamID(pi.friendsID, 1, steamapicontext->SteamUtils()->GetConnectedUniverse(),
-                                         k_EAccountTypeIndividual);
+                        CSteamID steamID(pi.friendsID, 1, GetUniverse(), k_EAccountTypeIndividual);
                         if (steamapicontext->SteamFriends()->IsUserInSource(steamID, clanID)) {
                             iClanMembersOnTeam++;
                             if (iClanMembersOnTeam == iClanTeammates)
@@ -1650,7 +1647,7 @@ void CAchievementMgr::UpdateStateFromSteam_Internal() {
             // set local achievement state
             pAchievement->SetAchieved(bAchieved);
             pAchievement->SetUnlockTime(unlockTime);
-        } else {
+        } else if (cc_achievement_debug.GetBool()) {
             DevMsg("ISteamUserStats::GetAchievement failed for %s\n", pAchievement->GetName());
         }
 
@@ -1662,7 +1659,7 @@ void CAchievementMgr::UpdateStateFromSteam_Internal() {
             if (bRet) {
                 pAchievement->SetCount(iValue);
                 pAchievement->EvaluateNewAchievement();
-            } else {
+            } else if (cc_achievement_debug.GetBool()) {
                 DevMsg("ISteamUserStats::GetStat failed to get progress value from Steam for achievement %s\n",
                        pszProgressName);
             }

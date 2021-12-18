@@ -449,7 +449,7 @@ public:
 	virtual bool		IsInEditMode( void ) = 0;
 
 	// current screen aspect ratio (eg. 4.0f/3.0f, 16.0f/9.0f)
-	virtual float		GetScreenAspectRatio() = 0;
+	virtual float GetScreenAspectRatio(const int i, const int i1) = 0;
 
 	// allow the game UI to login a user
 	virtual bool		REMOVED_SteamRefreshLogin( const char *password, bool isSecure ) = 0;

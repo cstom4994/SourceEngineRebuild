@@ -92,7 +92,7 @@ bool GetHWMExpressionFileName( const char *pFilename, char *pHWMFilename )
 
 	// Find the hardware morph scene name and pass that along as well.
 	char szExpression[MAX_PATH];
-	V_strcpy( szExpression, pFilename );
+	V_strcpy_safe( szExpression, pFilename );
 
 	char szExpressionHWM[MAX_PATH];
 	szExpressionHWM[0] = '\0';
@@ -351,7 +351,7 @@ bool CFlexSceneFileManager::Init()
 	FindSceneFile( NULL, "randomAlert", true );
 #endif
 
-#if defined( TF_CLIENT_DLL )
+#if defined( PONDER_CLIENT_DLL )
 	// HACK TO ALL TF TO HAVE PER CLASS OVERRIDES
 	char const *pTFClasses[] = 
 	{
@@ -431,21 +431,20 @@ void *CFlexSceneFileManager::FindSceneFile( IHasLocalToGlobalFlexSettings *insta
 {
 	char szFilename[MAX_PATH];
 	Assert( V_strlen( filename ) < MAX_PATH );
-	V_strcpy( szFilename, filename );
+	V_strcpy_safe( szFilename, filename );
 	
-#if defined( TF_CLIENT_DLL )	
+#if defined( PONDER_CLIENT_DLL )
 	char szHWMFilename[MAX_PATH];
 	if ( GetHWMExpressionFileName( szFilename, szHWMFilename ) )
 	{
-		V_strcpy( szFilename, szHWMFilename );
+		V_strcpy_safe( szFilename, szHWMFilename );
 	}
 #endif
 
 	Q_FixSlashes( szFilename );
 
 	// See if it's already loaded
-	int i;
-	for ( i = 0; i < m_FileList.Count(); i++ )
+	for ( int i = 0; i < m_FileList.Count(); i++ )
 	{
 		CFlexSceneFile *file = m_FileList[ i ];
 		if ( file && !Q_stricmp( file->filename, szFilename ) )
@@ -575,7 +574,7 @@ Vector C_BaseFlex::SetViewTarget( CStudioHdr *pStudioHdr )
 	if (m_iEyeAttachment > 0)
 	{
 		matrix3x4_t attToWorld;
-		if (!GetAttachment( m_iEyeAttachment, attToWorld ))
+		if (!GetAttachmentNoRecalc( m_iEyeAttachment, attToWorld ))
 		{
 			return Vector( 0, 0, 0);
 		}
@@ -1385,7 +1384,7 @@ const flexsetting_t *C_BaseFlex::FindNamedSetting( const flexsettinghdr_t *pSett
 
 		const char *name = pSetting->pszName();
 
-		if ( !stricmp( name, expr ) )
+		if ( !V_stricmp( name, expr ) )
 			break;
 	}
 
@@ -1595,7 +1594,6 @@ void C_BaseFlex::RemoveSceneEvent( CChoreoScene *scene, CChoreoEvent *event, boo
 			info->m_bStarted	= false;
 
 			m_SceneEvents.Remove( i );
-			return;
 		}
 	}
 
@@ -1632,15 +1630,15 @@ bool C_BaseFlex::CheckSceneEventCompletion( CSceneEventInfo *info, float current
 	return true;
 }
 
-void C_BaseFlex::SetFlexWeight( LocalFlexController_t index, float value )
+void C_BaseFlex::SetFlexWeight( LocalFlexController_t index_, float value )
 {
-	if (index >= 0 && index < GetNumFlexControllers())
+	if ( index_ >= 0 && index_ < GetNumFlexControllers())
 	{
 		CStudioHdr *pstudiohdr = GetModelPtr( );
 		if (! pstudiohdr)
 			return;
 
-		mstudioflexcontroller_t *pflexcontroller = pstudiohdr->pFlexcontroller( index );
+		mstudioflexcontroller_t *pflexcontroller = pstudiohdr->pFlexcontroller( index_ );
 
 		if (pflexcontroller->max != pflexcontroller->min)
 		{
@@ -1648,26 +1646,26 @@ void C_BaseFlex::SetFlexWeight( LocalFlexController_t index, float value )
 			value = clamp( value, 0.0f, 1.0f );
 		}
 
-		m_flexWeight[ index ] = value;
+		m_flexWeight[index_] = value;
 	}
 }
 
-float C_BaseFlex::GetFlexWeight( LocalFlexController_t index )
+float C_BaseFlex::GetFlexWeight( LocalFlexController_t index_ )
 {
-	if (index >= 0 && index < GetNumFlexControllers())
+	if ( index_ >= 0 && index_ < GetNumFlexControllers())
 	{
 		CStudioHdr *pstudiohdr = GetModelPtr( );
 		if (! pstudiohdr)
 			return 0;
 
-		mstudioflexcontroller_t *pflexcontroller = pstudiohdr->pFlexcontroller( index );
+		mstudioflexcontroller_t *pflexcontroller = pstudiohdr->pFlexcontroller( index_ );
 
 		if (pflexcontroller->max != pflexcontroller->min)
 		{
-			return m_flexWeight[index] * (pflexcontroller->max - pflexcontroller->min) + pflexcontroller->min;
+			return m_flexWeight[index_] * (pflexcontroller->max - pflexcontroller->min) + pflexcontroller->min;
 		}
 				
-		return m_flexWeight[index];
+		return m_flexWeight[index_];
 	}
 	return 0.0;
 }
@@ -1676,7 +1674,7 @@ LocalFlexController_t C_BaseFlex::FindFlexController( const char *szName )
 {
 	for (LocalFlexController_t i = LocalFlexController_t(0); i < GetNumFlexControllers(); i++)
 	{
-		if (stricmp( GetFlexControllerName( i ), szName ) == 0)
+		if (V_stricmp( GetFlexControllerName( i ), szName ) == 0)
 		{
 			return i;
 		}
@@ -1835,8 +1833,8 @@ int C_BaseFlex::FlexControllerLocalToGlobal( const flexsettinghdr_t *pSettinghdr
 	FS_LocalToGlobal_t& result = m_LocalToGlobal[ idx ];
 	// Validate lookup
 	Assert( result.m_nCount != 0 && key < result.m_nCount );
-	int index = result.m_Mapping[ key ];
-	return index;
+	int iMap = result.m_Mapping[ key ];
+	return iMap;
 }
 
 //-----------------------------------------------------------------------------
@@ -1879,11 +1877,11 @@ void C_BaseFlex::AddFlexSetting( const char *expr, float scale,
 	{
 		// Translate to local flex controller
 		// this is translating from the settings's local index to the models local index
-		int index = FlexControllerLocalToGlobal( pSettinghdr, pWeights->key );
+		int iFlex = FlexControllerLocalToGlobal( pSettinghdr, pWeights->key );
 
 		// blend scaled weighting in to total (post networking g_flexweight!!!!)
 		float s = clamp( scale * pWeights->influence, 0.0f, 1.0f );
-		g_flexweight[index] = g_flexweight[index] * (1.0f - s) + pWeights->weight * s;
+		g_flexweight[iFlex] = g_flexweight[iFlex] * (1.0f - s) + pWeights->weight * s;
 	}
 }
 

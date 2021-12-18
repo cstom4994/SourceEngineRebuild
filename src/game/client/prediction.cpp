@@ -421,9 +421,9 @@ void CPrediction::PostNetworkDataReceived( int commands_acknowledged )
 
 	bool error_check = ( commands_acknowledged > 0 ) ? true : false;
 #if defined( _DEBUG )
-	char sz[ 32 ];
-	Q_snprintf( sz, sizeof( sz ), "postnetworkdata%d", commands_acknowledged );
-	PREDICTION_TRACKVALUECHANGESCOPE( sz );
+	char szDebug[32];
+	Q_snprintf( szDebug, sizeof( szDebug ), "postnetworkdata%d", commands_acknowledged );
+	PREDICTION_TRACKVALUECHANGESCOPE( szDebug );
 #endif
 #ifndef _XBOX
 	CPDumpPanel *dump = GetPDumpPanel();
@@ -477,7 +477,7 @@ void CPrediction::PostNetworkDataReceived( int commands_acknowledged )
 
 			if ( showlist )
 			{
-				char sz[ 32 ];
+				char sz[32];
 				if ( ent->entindex() == -1 )
 				{
 					Q_snprintf( sz, sizeof( sz ), "handle %u", (unsigned int)ent->GetClientHandle().ToInt() );
@@ -617,6 +617,7 @@ void CPrediction::SetupMove( C_BasePlayer *player, CUserCmd *ucmd, IMoveHelper *
 	move->SetAbsOrigin( player->GetNetworkOrigin() );
 	move->m_vecOldAngles	= move->m_vecAngles;
 	move->m_nOldButtons		= player->m_Local.m_nOldButtons;
+	move->m_flOldForwardMove = player->m_Local.m_flOldForwardMove;
 	move->m_flClientMaxSpeed = player->m_flMaxspeed;
 
 	move->m_vecAngles		= ucmd->viewangles;
@@ -1410,7 +1411,7 @@ int CPrediction::ComputeFirstCommandToExecute( bool received_new_world_update, i
 #ifdef STAGING_ONLY	
 		int nPredictedLimit = cl_pred_optimize_prefer_server_data.GetBool() ? m_nCommandsPredicted - 1 : m_nCommandsPredicted;
 #else
-		int nPredictedLimit = m_nCommandsPredicted;		
+		int nPredictedLimit = m_nCommandsPredicted - 1;		
 #endif // STAGING_ONLY
 		// Otherwise, there is a second optimization, wherein if we did receive an update, but no
 		//  values differed (or were outside their epsilon) and the server actually acknowledged running

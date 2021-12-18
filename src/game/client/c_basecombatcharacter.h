@@ -78,9 +78,6 @@ public:
 	bool SwitchToNextBestWeapon(C_BaseCombatWeapon *pCurrent);
 
 	virtual C_BaseCombatWeapon	*GetActiveWeapon( void ) const;
-#ifdef VANCE
-	virtual C_BaseCombatWeapon	*GetDeployingWeapon( void ) const;
-#endif
 	int					WeaponCount() const;
 	C_BaseCombatWeapon	*GetWeapon( int i ) const;
 
@@ -96,12 +93,6 @@ public:
 	void SetBloodColor( int nBloodColor );
 
 	virtual void		DoMuzzleFlash();
-
-	CHandle<C_BaseCombatWeapon> m_hActiveWeapon;
-#ifdef VANCE
-	CHandle<C_BaseCombatWeapon> m_hDeployingWeapon;
-	friend class C_BasePlayer;
-#endif
 
 #ifdef GLOWS_ENABLE
 	CGlowObject			*GetGlowObject( void ){ return m_pGlowEffect; }
@@ -131,11 +122,7 @@ private:
 	CNetworkArray( int, m_iAmmo, MAX_AMMO_TYPES );
 
 	CHandle<C_BaseCombatWeapon>		m_hMyWeapons[MAX_WEAPONS];
-#ifndef VANCE
 	CHandle< C_BaseCombatWeapon > m_hActiveWeapon;
-#else
-	friend class C_ShowWeapon; // This allows CShowWeapon to access whatever it needs to update for the character
-#endif
 
 #ifdef GLOWS_ENABLE
 	bool				m_bClientSideGlowEnabled;	// client-side only value used for spectator

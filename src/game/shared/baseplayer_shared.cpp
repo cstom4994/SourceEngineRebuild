@@ -9,7 +9,7 @@
 #include "movevars_shared.h"
 #include "util_shared.h"
 #include "datacache/imdlcache.h"
-#if defined ( TF_DLL ) || defined ( TF_CLIENT_DLL )
+#if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
 #include "tf_gamerules.h"
 #endif
 
@@ -88,20 +88,20 @@
 #endif
 
 #ifdef CLIENT_DLL
-ConVar mp_usehwmmodels( "mp_usehwmmodels", "0", NULL, "Enable the use of the hw morph models. (-1 = never, 1 = always, 0 = based upon GPU)" ); // -1 = never, 0 = if hasfastvertextextures, 1 = always
+ConVar mp_usehwmmodels( "mp_usehwmmodels", "-1", NULL, "Enable the use of the hw morph models. (-1 = never, 1 = always, 0 = based upon GPU)" ); // -1 = never, 0 = if hasfastvertextextures, 1 = always
 #endif
 
 bool UseHWMorphModels()
 {
-// #ifdef CLIENT_DLL 
-// 	if ( mp_usehwmmodels.GetInt() == 0 )
-// 		return g_pMaterialSystemHardwareConfig->HasFastVertexTextures();
-// 
-// 	return mp_usehwmmodels.GetInt() > 0;
-// #else
-// 	return false;
-// #endif
+#ifdef CLIENT_DLL
 	return false;
+	if ( mp_usehwmmodels.GetInt() == 0 )
+ 		return g_pMaterialSystemHardwareConfig->HasFastVertexTextures();
+ 
+    return mp_usehwmmodels.GetInt() > 0;
+#else
+ 	return false;
+#endif
 }
 
 void CopySoundNameWithModifierToken( char *pchDest, const char *pchSource, int nMaxLenInChars, const char *pchToken )
@@ -280,7 +280,6 @@ void CBasePlayer::ItemPostFrame()
 			// Not predicting this weapon
 			if ( GetActiveWeapon()->IsPredicted() )
 #endif
-
 			{
 				GetActiveWeapon()->ItemPostFrame( );
 			}
@@ -696,8 +695,7 @@ void CBasePlayer::PlayStepSound( Vector &vecOrigin, surfacedata_t *psurface, flo
 	}
 	else
 	{
-		IPhysicsSurfaceProps *physprops = MoveHelper()->GetSurfaceProps();
-		const char *pSoundName = physprops->GetString( stepSoundName );
+		const char *pSoundName = MoveHelper()->GetSurfaceProps()->GetString( stepSoundName );
 
 		// Give child classes an opportunity to override.
 		pSoundName = GetOverrideStepSound( pSoundName );
@@ -727,7 +725,7 @@ void CBasePlayer::PlayStepSound( Vector &vecOrigin, surfacedata_t *psurface, flo
 	EmitSound_t ep;
 	ep.m_nChannel = CHAN_BODY;
 	ep.m_pSoundName = params.soundname;
-#if defined ( TF_DLL ) || defined ( TF_CLIENT_DLL )
+#if defined ( TF_DLL ) || defined ( PONDER_CLIENT_DLL )
 	if( TFGameRules()->IsMannVsMachineMode() )
 	{
 		ep.m_flVolume = params.volume;
@@ -1797,7 +1795,6 @@ float CBasePlayer::GetFOVDistanceAdjustFactor()
 	// If FOV is lower, then we're "zoomed" in and this will give a factor < 1 so apparent LOD distances can be
 	//  shorted accordingly
 	return localFOV / defaultFOV;
-
 }
 
 //-----------------------------------------------------------------------------
@@ -1855,6 +1852,20 @@ void CBasePlayer::SharedSpawn()
 	if(IsLocalPlayer() &&haptics)
 		haptics->LocalPlayerReset();
 #endif
+}
+
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+bool CBasePlayer::IsLerpingFOV( void ) const
+{
+	// If it's immediate, just do it
+	if (m_Local.m_flFOVRate == 0.0f)
+		return false;
+
+	float deltaTime = (float)(gpGlobals->curtime - m_flFOVTime) / m_Local.m_flFOVRate;
+	return deltaTime < 1.f;
 }
 
 

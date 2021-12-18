@@ -24,31 +24,31 @@ class IViewRender;
 // any time the cvar "replay_screenshotresolution" changes OR the actual screen
 // resolution.
 //
-class CReplayScreenshotTaker {
+class CReplayScreenshotTaker
+{
 public:
-    CReplayScreenshotTaker(IViewRender *pViewRender, CViewSetup &view);
+	CReplayScreenshotTaker( IViewRender *pViewRender, CViewSetup &view );
+	~CReplayScreenshotTaker();
 
-    ~CReplayScreenshotTaker();
+	void		TakeScreenshot( WriteReplayScreenshotParams_t &params );
 
-    void TakeScreenshot(WriteReplayScreenshotParams_t &params);
-
-    static void CreateRenderTarget(IMaterialSystem *pMaterialSystem);
+	static void CreateRenderTarget( IMaterialSystem *pMaterialSystem );
 
 private:
-    IViewRender *m_pViewRender;
-    CViewSetup &m_View;
-    uint8 *m_pUnpaddedPixels;
-    uint8 *m_pPaddedPixels;
-    IVTFTexture *m_pVTFTexture;
-    uint8 *m_pVTFPixels;
+	IViewRender	*m_pViewRender;
+	CViewSetup	&m_View;
+	uint8		*m_pUnpaddedPixels;
+	uint8		*m_pPaddedPixels;
+	IVTFTexture *m_pVTFTexture;
+	uint8		*m_pVTFPixels;
 
-    int m_aUnpaddedDims[2];        // Width & height of m_pUnpaddedPixels
-    int m_aPaddedDims[2];        // Width & height of m_pPaddedPixels
+	int			m_aUnpaddedDims[2];		// Width & height of m_pUnpaddedPixels
+	int			m_aPaddedDims[2];		// Width & height of m_pPaddedPixels
 
-    CUtlBuffer *m_pBuffer;
+	CUtlBuffer	*m_pBuffer;
 
 
-    static ITexture *m_pScreenshotTarget;
+	static ITexture		*m_pScreenshotTarget;
 };
 
 #endif // REPLAY_SCREENSHOT_H

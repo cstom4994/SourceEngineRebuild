@@ -8,10 +8,6 @@
 #include "cbase.h"
 #include "ammodef.h"
 
-#if defined( VANCE ) && defined( GAME_DLL )
-#include "vance_player.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -59,12 +55,8 @@ bool CBaseCombatCharacter::Weapon_Switch( CBaseCombatWeapon *pWeapon, int viewmo
 
 	if ( m_hActiveWeapon )
 	{
-		if (!m_hActiveWeapon->Holster(pWeapon))
+		if ( !m_hActiveWeapon->Holster( pWeapon ) )
 			return false;
-			
-#ifdef VANCE
-		return true;
-#endif
 	}
 
 	m_hActiveWeapon = pWeapon;
@@ -86,18 +78,8 @@ bool CBaseCombatCharacter::Weapon_CanSwitchTo( CBaseCombatWeapon *pWeapon )
 #else
 		IClientVehicle *pVehicle = pPlayer->GetVehicle();
 #endif
-		if ( pVehicle && !pPlayer->UsingStandardWeaponsInVehicle() )
+		if (pVehicle && !pPlayer->UsingStandardWeaponsInVehicle())
 			return false;
-
-#ifdef VANCE
-		if ( m_hDeployingWeapon || m_hDeployingWeapon.Get() == pWeapon )
-			return false;
-#ifndef CLIENT_DLL
-		if ( ( static_cast<CVancePlayer *>( pPlayer ) )->IsSpawning() )
-			return false;
-#endif
-#endif
-
 	}
 
 	if ( !pWeapon->HasAnyAmmo() && !GetAmmoCount( pWeapon->m_iPrimaryAmmoType ) )
@@ -138,17 +120,6 @@ CBaseCombatWeapon *CBaseCombatCharacter::GetActiveWeapon() const
 {
 	return m_hActiveWeapon;
 }
-
-#ifdef VANCE
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Output : CBaseCombatWeapon
-//-----------------------------------------------------------------------------
-CBaseCombatWeapon *CBaseCombatCharacter::GetDeployingWeapon() const
-{
-	return m_hDeployingWeapon;
-}
-#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -728,7 +699,7 @@ bool CBaseCombatCharacter::IsLineOfSightClear( const Vector &pos, LineOfSightChe
 	{
 
 		// use the query cache unless it causes problems
-#if defined(GAME_DLL) && defined(TERROR)
+#if defined(GAME_DLL) && SUPPORT_QUERY_CACHE
 		return IsLineOfSightBetweenTwoEntitiesClear( const_cast<CBaseCombatCharacter *>(this), EOFFSET_MODE_EYEPOSITION,
 			entityToIgnore, EOFFSET_MODE_WORLDSPACE_CENTER,
 			entityToIgnore, COLLISION_GROUP_NONE,

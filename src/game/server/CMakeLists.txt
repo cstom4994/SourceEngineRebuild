@@ -3,6 +3,12 @@ set(PROJECT_NAME ServerSDK)
 ################################################################################
 # Source groups
 ################################################################################
+set(Generated_Files
+    "generated_proto_tf/gcsystemmsgs.pb.cc"
+    "generated_proto_tf/gcsystemmsgs.pb.h"
+)
+source_group("Generated Files" FILES ${Generated_Files})
+
 set(Header_Files
     "../../common/language.h"
     "../../public/appframework/IAppSystem.h"
@@ -179,6 +185,8 @@ set(Header_Files
     "../shared/soundenvelope.h"
     "../shared/sun_shared.h"
     "../shared/takedamageinfo.h"
+    "../shared/tf/tf_gcmessages.h"
+    "../shared/tf/tf_matchmaking_scoring.h"
     "../shared/usercmd.h"
     "../shared/usermessages.h"
     "../shared/util_shared.h"
@@ -216,18 +224,37 @@ set(Header_Files
 )
 source_group("Header Files" FILES ${Header_Files})
 
+set(Protobuf_Files
+    "generated_proto_tf/tf_gcmessages.pb.cc"
+    "generated_proto_tf/tf_gcmessages.pb.h"
+)
+source_group("Protobuf Files" FILES ${Protobuf_Files})
+
+set(Protobuf_Files__Generated_Files
+    "generated_proto_tf/base_gcmessages.pb.cc"
+    "generated_proto_tf/base_gcmessages.pb.h"
+    "generated_proto_tf/econ_gcmessages.pb.cc"
+    "generated_proto_tf/econ_gcmessages.pb.h"
+    "generated_proto_tf/steammessages.pb.cc"
+    "generated_proto_tf/steammessages.pb.h"
+)
+source_group("Protobuf Files\\Generated Files" FILES ${Protobuf_Files__Generated_Files})
+
 set(Replay
     "../../common/replay/ireplaysessionrecorder.h"
-#    "../shared/replay_gamestats_shared.cpp"
-#    "../shared/replay_gamestats_shared.h"
+    "../shared/replay_gamestats_shared.cpp"
+    "../shared/replay_gamestats_shared.h"
     "gamedll_replay.cpp"
 )
 source_group("Replay" FILES ${Replay})
 
 set(Source_Files
+    "../../common/crypto.cpp"
+    "../../common/debug_dll_check.cpp"
     "../../common/hl2orange.spa.h"
     "../../common/language.cpp"
     "../../common/randoverride.cpp"
+    "../../common/steamid.cpp"
     "../../public/bone_setup.cpp"
     "../../public/bone_setup.h"
     "../../public/collisionutils.cpp"
@@ -268,7 +295,6 @@ set(Source_Files
     "../../public/simple_physics.cpp"
     "../../public/simple_physics.h"
     "../../public/SoundParametersInternal.cpp"
-    "../../public/steam/steam_api.h"
     "../../public/stringregistry.cpp"
     "../../public/stringregistry.h"
     "../../public/studio.cpp"
@@ -359,7 +385,6 @@ set(Source_Files
     "../shared/mp_shareddefs.cpp"
     "../shared/multiplay_gamerules.cpp"
     "../shared/multiplay_gamerules.h"
-    "../shared/Multiplayer/multiplayer_animstate.h"
     "../shared/obstacle_pushaway.cpp"
     "../shared/obstacle_pushaway.h"
     "../shared/particle_parse.cpp"
@@ -370,6 +395,8 @@ set(Source_Files
     "../shared/physics_saverestore.h"
     "../shared/physics_shared.cpp"
     "../shared/physics_shared.h"
+    "../shared/playerclass_info_parse.cpp"
+    "../shared/playerclass_info_parse.h"
     "../shared/point_bonusmaps_accessor.cpp"
     "../shared/point_bonusmaps_accessor.h"
     "../shared/point_posecontroller.cpp"
@@ -410,12 +437,16 @@ set(Source_Files
     "../shared/takedamageinfo.cpp"
     "../shared/teamplay_gamerules.cpp"
     "../shared/teamplay_gamerules.h"
+    "../shared/teamplay_round_timer.cpp"
+    "../shared/teamplay_round_timer.h"
+    "../shared/teamplayroundbased_gamerules.cpp"
+    "../shared/teamplayroundbased_gamerules.h"
     "../shared/tempentity.h"
     "../shared/test_ehandle.cpp"
+    "../shared/tf/tf_gcmessages.cpp"
     "../shared/touchlink.h"
     "../shared/usercmd.cpp"
     "../shared/util_shared.cpp"
-    "../shared/vehicle_choreo_generic_shared.h"
     "../shared/vehicle_viewblend_shared.cpp"
     "../shared/voice_common.h"
     "../shared/voice_gamemgr.cpp"
@@ -457,7 +488,6 @@ set(Source_Files
     "ai_blended_movement.cpp"
     "ai_blended_movement.h"
     "ai_component.h"
-    "ai_concommands.cpp"
     "ai_condition.cpp"
     "ai_condition.h"
     "AI_Criteria.cpp"
@@ -468,8 +498,6 @@ set(Source_Files
     "ai_dynamiclink.cpp"
     "ai_dynamiclink.h"
     "ai_event.cpp"
-    "ai_eventresponse.cpp"
-    "ai_eventresponse.h"
     "ai_goalentity.cpp"
     "ai_goalentity.h"
     "ai_hint.cpp"
@@ -551,7 +579,6 @@ set(Source_Files
     "ai_utils.h"
     "ai_waypoint.cpp"
     "ai_waypoint.h"
-    "base_gameinterface.cpp"
     "base_transmit_proxy.cpp"
     "baseanimating.cpp"
     "baseanimating.h"
@@ -604,6 +631,7 @@ set(Source_Files
     "EntityDissolve.cpp"
     "EntityDissolve.h"
     "EntityFlame.cpp"
+    "EntityFlame.h"
     "entityinput.h"
     "entitylist.cpp"
     "entitylist.h"
@@ -614,14 +642,11 @@ set(Source_Files
     "env_debughistory.h"
     "env_effectsscript.cpp"
     "env_entity_maker.cpp"
-    "env_global_light.cpp"
-    "env_music.cpp"
     "env_particlescript.cpp"
     "env_player_surface_trigger.cpp"
     "env_player_surface_trigger.h"
     "env_projectedtexture.cpp"
     "env_screenoverlay.cpp"
-    "env_skydome.cpp"
     "env_texturetoggle.cpp"
     "env_tonemap_controller.cpp"
     "env_zoom.cpp"
@@ -693,11 +718,10 @@ set(Source_Files
     "grenadethrown.h"
     "guntarget.cpp"
     "h_ai.cpp"
-    "h_cycler.cpp"
-    "h_cycler.h"
     "h_export.cpp"
     "hierarchy.cpp"
     "hierarchy.h"
+    "hl2/Func_Monitor.cpp"
     "hltvdirector.cpp"
     "hltvdirector.h"
     "info_camera_link.cpp"
@@ -713,7 +737,6 @@ set(Source_Files
     "lights.cpp"
     "lights.h"
     "locksounds.h"
-    "logic_achievement.cpp"
     "logic_measure_movement.cpp"
     "logic_navigation.cpp"
     "logicauto.cpp"
@@ -786,8 +809,6 @@ set(Source_Files
     "PointAngularVelocitySensor.cpp"
     "pointhurt.cpp"
     "pointteleport.cpp"
-    "projectile_bullet.cpp"
-    "projectile_bullet.h"
     "props.cpp"
     "props.h"
     "pushentity.h"
@@ -831,8 +852,16 @@ set(Source_Files
     "tanktrain.cpp"
     "team.cpp"
     "team.h"
-    "team_spawnpoint.cpp"
-    "team_spawnpoint.h"
+    "team_control_point.cpp"
+    "team_control_point.h"
+    "team_control_point_master.cpp"
+    "team_control_point_master.h"
+    "team_control_point_round.cpp"
+    "team_control_point_round.h"
+    "team_objectiveresource.cpp"
+    "team_objectiveresource.h"
+    "team_train_watcher.cpp"
+    "team_train_watcher.h"
     "TemplateEntities.cpp"
     "TemplateEntities.h"
     "tempmonster.cpp"
@@ -845,6 +874,8 @@ set(Source_Files
     "timedeventmgr.cpp"
     "trains.cpp"
     "trains.h"
+    "trigger_area_capture.cpp"
+    "trigger_area_capture.h"
     "triggers.cpp"
     "triggers.h"
     "util.cpp"
@@ -852,7 +883,6 @@ set(Source_Files
     "variant_t.cpp"
     "vehicle_base.cpp"
     "vehicle_baseserver.cpp"
-    "vehicle_choreo_generic.cpp"
     "vehicle_sounds.h"
     "vguiscreen.cpp"
     "vguiscreen.h"
@@ -869,292 +899,1013 @@ set(Source_Files
 )
 source_group("Source Files" FILES ${Source_Files})
 
-set(Source_Files__HL2_DLL
-    "../shared/episodic/achievements_ep1.cpp"
-    "../shared/episodic/achievements_ep2.cpp"
-    "../shared/episodic/achievements_epx.cpp"
-    "../shared/episodic/npc_advisor_shared.h"
-    "../shared/hl2/basehlcombatweapon_shared.cpp"
-    "../shared/hl2/basehlcombatweapon_shared.h"
-    "../shared/hl2/citadel_effects_shared.h"
-    "../shared/hl2/env_alyxemp_shared.h"
-    "../shared/hl2/env_headcrabcanister_shared.cpp"
-    "../shared/hl2/env_headcrabcanister_shared.h"
-    "../shared/hl2/hl2_gamerules.cpp"
-    "../shared/hl2/hl2_gamerules.h"
-    "../shared/hl2/hl2_player_shared.h"
-    "../shared/hl2/hl2_shareddefs.h"
-    "../shared/hl2/hl2_usermessages.cpp"
-    "../shared/hl2/hl_gamemovement.cpp"
-    "../shared/hl2/hl_gamemovement.h"
-    "../shared/hl2/hl_movedata.h"
-    "../shared/script_intro_shared.cpp"
-    "ai_behavior_passenger.cpp"
-    "ai_behavior_passenger.h"
-    "basebludgeonweapon.cpp"
-    "basebludgeonweapon.h"
-    "episodic/ai_behavior_alyx_injured.cpp"
-    "episodic/ai_behavior_alyx_injured.h"
-    "episodic/ai_behavior_passenger_companion.cpp"
-    "episodic/ai_behavior_passenger_companion.h"
-    "episodic/ai_behavior_passenger_zombie.cpp"
-    "episodic/ai_behavior_passenger_zombie.h"
-    "episodic/ep1_gamestats.cpp"
-    "episodic/ep1_gamestats.h"
-    "episodic/ep2_gamestats.cpp"
-    "episodic/ep2_gamestats.h"
-    "episodic/npc_advisor.cpp"
-    "episodic/npc_combine_cannon.cpp"
-    "episodic/npc_hunter.cpp"
-    "episodic/npc_hunter.h"
-    "episodic/npc_magnusson.cpp"
-    "episodic/npc_puppet.cpp"
-    "episodic/prop_scalable.cpp"
-    "episodic/vehicle_jeep_episodic.cpp"
-    "episodic/vehicle_jeep_episodic.h"
-    "episodic/weapon_striderbuster.cpp"
-    "episodic/weapon_striderbuster.h"
-    "hl2/ai_allymanager.cpp"
-    "hl2/ai_behavior_actbusy.cpp"
-    "hl2/ai_behavior_actbusy.h"
-    "hl2/ai_behavior_functank.cpp"
-    "hl2/ai_behavior_functank.h"
-    "hl2/ai_behavior_holster.cpp"
-    "hl2/ai_behavior_holster.h"
-    "hl2/ai_behavior_operator.cpp"
-    "hl2/ai_behavior_operator.h"
-    "hl2/ai_behavior_police.cpp"
-    "hl2/ai_behavior_police.h"
-    "hl2/ai_goal_police.cpp"
-    "hl2/ai_goal_police.h"
-    "hl2/ai_interactions.h"
-    "hl2/ai_spotlight.cpp"
-    "hl2/ai_spotlight.h"
-    "hl2/antlion_dust.cpp"
-    "hl2/antlion_dust.h"
-    "hl2/antlion_maker.cpp"
-    "hl2/antlion_maker.h"
-    "hl2/ar2_explosion.cpp"
-    "hl2/ar2_explosion.h"
-    "hl2/basehlcombatweapon.cpp"
-    "hl2/basehlcombatweapon.h"
-    "hl2/cbasehelicopter.cpp"
-    "hl2/cbasehelicopter.h"
-    "hl2/cbasespriteprojectile.cpp"
-    "hl2/cbasespriteprojectile.h"
-    "hl2/citadel_effects.cpp"
-    "hl2/combine_mine.cpp"
-    "hl2/combine_mine.h"
-    "hl2/energy_wave.h"
-    "hl2/env_alyxemp.cpp"
-    "hl2/env_headcrabcanister.cpp"
-    "hl2/env_speaker.cpp"
-    "hl2/env_starfield.cpp"
-    "hl2/func_bulletshield.cpp"
-    "hl2/func_bulletshield.h"
-    "hl2/Func_Monitor.cpp"
-    "hl2/func_tank.cpp"
-    "hl2/func_tank.h"
-    "hl2/grenade_ar2.cpp"
-    "hl2/grenade_ar2.h"
-    "hl2/grenade_bugbait.cpp"
-    "hl2/grenade_bugbait.h"
-    "hl2/grenade_frag.cpp"
-    "hl2/grenade_frag.h"
-    "hl2/grenade_spit.cpp"
-    "hl2/grenade_spit.h"
-    "hl2/hl2_ai_network.cpp"
-    "hl2/hl2_eventlog.cpp"
-    "hl2/hl2_player.cpp"
-    "hl2/hl2_player.h"
-    "hl2/hl2_playerlocaldata.cpp"
-    "hl2/hl2_playerlocaldata.h"
-    "hl2/hl2_triggers.cpp"
-    "hl2/hl_playermove.cpp"
-    "hl2/info_darknessmode_lightsource.cpp"
-    "hl2/info_darknessmode_lightsource.h"
-    "hl2/info_teleporter_countdown.cpp"
-    "hl2/item_ammo.cpp"
-    "hl2/item_battery.cpp"
-    "hl2/item_dynamic_resupply.cpp"
-    "hl2/item_dynamic_resupply.h"
-    "hl2/item_itemcrate.cpp"
-    "hl2/item_suit.cpp"
-    "hl2/look_door.cpp"
-    "hl2/monster_dummy.cpp"
-    "hl2/npc_alyx_episodic.cpp"
-    "hl2/npc_alyx_episodic.h"
-    "hl2/npc_antlion.cpp"
-    "hl2/npc_antlion.h"
-    "hl2/npc_antliongrub.cpp"
-    "hl2/npc_antlionguard.cpp"
-    "hl2/npc_apcdriver.cpp"
-    "hl2/npc_attackchopper.cpp"
-    "hl2/npc_attackchopper.h"
-    "hl2/npc_barnacle.cpp"
-    "hl2/npc_barnacle.h"
-    "hl2/npc_barney.cpp"
-    "hl2/npc_basescanner.cpp"
-    "hl2/npc_basescanner.h"
-    "hl2/npc_breen.cpp"
-    "hl2/npc_bullseye.cpp"
-    "hl2/npc_bullseye.h"
-    "hl2/npc_citizen17.cpp"
-    "hl2/npc_citizen17.h"
-    "hl2/npc_combinecamera.cpp"
-    "hl2/npc_combinedropship.cpp"
-    "hl2/npc_combinegunship.cpp"
-    "hl2/npc_cranedriver.cpp"
-    "hl2/npc_crow.cpp"
-    "hl2/npc_crow.h"
-    "hl2/npc_dog.cpp"
-    "hl2/npc_eli.cpp"
-    "hl2/npc_enemyfinder.cpp"
-    "hl2/npc_fastzombie.cpp"
-    "hl2/npc_fisherman.cpp"
-    "hl2/npc_gman.cpp"
-    "hl2/npc_headcrab.cpp"
-    "hl2/npc_headcrab.h"
-    "hl2/npc_ichthyosaur.cpp"
-    "hl2/npc_kleiner.cpp"
-    "hl2/npc_launcher.cpp"
-    "hl2/npc_manhack.cpp"
-    "hl2/npc_manhack.h"
-    "hl2/npc_metropolice.cpp"
-    "hl2/npc_metropolice.h"
-    "hl2/npc_monk.cpp"
-    "hl2/npc_mossman.cpp"
-    "hl2/npc_playercompanion.cpp"
-    "hl2/npc_playercompanion.h"
-    "hl2/npc_PoisonZombie.cpp"
-    "hl2/npc_rollermine.cpp"
-    "hl2/npc_rollermine.h"
-    "hl2/npc_scanner.cpp"
-    "hl2/npc_scanner.h"
-    "hl2/npc_stalker.cpp"
-    "hl2/npc_stalker.h"
-    "hl2/npc_strider.cpp"
-    "hl2/npc_strider.h"
-    "hl2/npc_turret_ceiling.cpp"
-    "hl2/npc_turret_floor.cpp"
-    "hl2/npc_turret_ground.cpp"
-    "hl2/npc_vortigaunt_episodic.cpp"
-    "hl2/npc_vortigaunt_episodic.h"
-    "hl2/npc_zombine.cpp"
-    "hl2/point_apc_controller.cpp"
-    "hl2/prop_combine_ball.cpp"
-    "hl2/prop_combine_ball.h"
-    "hl2/prop_thumper.cpp"
-    "hl2/proto_sniper.cpp"
-    "hl2/rotorwash.cpp"
-    "hl2/rotorwash.h"
-    "hl2/script_intro.cpp"
-    "hl2/script_intro.h"
-    "hl2/vehicle_airboat.cpp"
-    "hl2/vehicle_apc.h"
-    "hl2/vehicle_cannon.cpp"
-    "hl2/vehicle_crane.cpp"
-    "hl2/vehicle_crane.h"
-    "hl2/vehicle_jeep.cpp"
-    "hl2/vehicle_prisoner_pod.cpp"
-    "hl2/vehicle_viewcontroller.cpp"
-    "hl2/weapon_alyxgun.cpp"
-    "hl2/weapon_alyxgun.h"
-    "hl2/weapon_annabelle.cpp"
-    "hl2/weapon_bugbait.cpp"
-    "hl2/weapon_citizenpackage.cpp"
-    "hl2/weapon_citizenpackage.h"
-    "hl2/weapon_crowbar.cpp"
-    "hl2/weapon_crowbar.h"
-    "hl2/weapon_physcannon.cpp"
-    "hl2/weapon_physcannon.h"
-    "hl2/weapon_pistol.cpp"
-    "hl2/weapon_stunstick.cpp"
-    "hl2/weapon_stunstick.h"
-    "npc_talker.cpp"
-    "npc_talker.h"
-    "weapon_cubemap.cpp"
+set(Source_Files__Economy
+    "../shared/econ/attribute_manager.cpp"
+    "../shared/econ/attribute_manager.h"
+    "../shared/econ/econ_claimcode.cpp"
+    "../shared/econ/econ_claimcode.h"
+    "../shared/econ/econ_dynamic_recipe.cpp"
+    "../shared/econ/econ_dynamic_recipe.h"
+    "../shared/econ/econ_entity.cpp"
+    "../shared/econ/econ_entity.h"
+    "../shared/econ/econ_entity_creation.cpp"
+    "../shared/econ/econ_entity_creation.h"
+    "../shared/econ/econ_gcmessages.h"
+    "../shared/econ/econ_holidays.cpp"
+    "../shared/econ/econ_holidays.h"
+    "../shared/econ/econ_item.cpp"
+    "../shared/econ/econ_item.h"
+    "../shared/econ/econ_item_constants.cpp"
+    "../shared/econ/econ_item_constants.h"
+    "../shared/econ/econ_item_interface.cpp"
+    "../shared/econ/econ_item_interface.h"
+    "../shared/econ/econ_item_inventory.cpp"
+    "../shared/econ/econ_item_inventory.h"
+    "../shared/econ/econ_item_preset.cpp"
+    "../shared/econ/econ_item_preset.h"
+    "../shared/econ/econ_item_schema.cpp"
+    "../shared/econ/econ_item_schema.h"
+    "../shared/econ/econ_item_system.cpp"
+    "../shared/econ/econ_item_system.h"
+    "../shared/econ/econ_item_tools.cpp"
+    "../shared/econ/econ_item_tools.h"
+    "../shared/econ/econ_item_view.cpp"
+    "../shared/econ/econ_item_view.h"
+    "../shared/econ/econ_quests.cpp"
+    "../shared/econ/econ_quests.h"
+    "../shared/econ/econ_wearable.cpp"
+    "../shared/econ/econ_wearable.h"
+    "../shared/econ/ihasattributes.h"
+    "../shared/econ/item_selection_criteria.cpp"
+    "../shared/econ/item_selection_criteria.h"
+    "../shared/econ/localization_provider.cpp"
+    "../shared/econ/localization_provider.h"
+    "../shared/gc_clientsystem.cpp"
+    "../shared/gc_clientsystem.h"
+    "../shared/gc_replicated_convars.cpp"
+    "../shared/tf/tf_item_inventory.cpp"
+    "../shared/tf/tf_item_inventory.h"
+    "../shared/tf/tf_item_schema.cpp"
+    "../shared/tf/tf_item_schema.h"
+    "../shared/tf/tf_item_system.cpp"
+    "../shared/tf/tf_item_system.h"
+    "../shared/tf/tf_item_wearable.cpp"
+    "../shared/tf/tf_item_wearable.h"
+    "../shared/tf/tf_ladder_data.cpp"
+    "../shared/tf/tf_ladder_data.h"
+    "../shared/tf/tf_quest_restriction.cpp"
+    "../shared/tf/tf_quest_restriction.h"
+    "../shared/tf/tf_wardata.cpp"
+    "../shared/tf/tf_wardata.h"
 )
-source_group("Source Files\\HL2 DLL" FILES ${Source_Files__HL2_DLL})
+source_group("Source Files\\Economy" FILES ${Source_Files__Economy})
 
-set(Source_Files__HL2_DLL__unused
-    "hl2/grenade_beam.cpp"
-    "hl2/grenade_beam.h"
-    "hl2/grenade_homer.cpp"
-    "hl2/grenade_homer.h"
-    "hl2/grenade_pathfollower.cpp"
-    "hl2/grenade_pathfollower.h"
-    "hl2/npc_missiledefense.cpp"
-    "hl2/vehicle_apc.cpp"
-    "hl2/weapon_cguard.cpp"
-    "hl2/weapon_flaregun.cpp"
-    "hl2/weapon_flaregun.h"
+set(Source_Files__IFM
+    "../shared/weapon_ifmbase.cpp"
+    "../shared/weapon_ifmbase.h"
+    "../shared/weapon_ifmbasecamera.cpp"
+    "../shared/weapon_ifmbasecamera.h"
+    "../shared/weapon_ifmsteadycam.cpp"
+    "../shared/weapon_ifmsteadycam.h"
 )
-source_group("Source Files\\HL2 DLL\\unused" FILES ${Source_Files__HL2_DLL__unused})
+source_group("Source Files\\IFM" FILES ${Source_Files__IFM})
+
+set(Source_Files__Navigation_Mesh
+    "nav.h"
+    "nav_area.cpp"
+    "nav_area.h"
+    "nav_colors.cpp"
+    "nav_colors.h"
+    "nav_edit.cpp"
+    "nav_entities.cpp"
+    "nav_entities.h"
+    "nav_file.cpp"
+    "nav_generate.cpp"
+    "nav_ladder.cpp"
+    "nav_ladder.h"
+    "nav_merge.cpp"
+    "nav_mesh.cpp"
+    "nav_mesh.h"
+    "nav_mesh_factory.cpp"
+    "nav_node.cpp"
+    "nav_node.h"
+    "nav_pathfind.h"
+    "nav_simplify.cpp"
+)
+source_group("Source Files\\Navigation Mesh" FILES ${Source_Files__Navigation_Mesh})
+
+set(Source_Files__NextBot
+    "NextBot/NextBot.cpp"
+    "NextBot/NextBot.h"
+    "NextBot/NextBotBehavior.h"
+    "NextBot/NextBotGroundLocomotion.cpp"
+    "NextBot/NextBotGroundLocomotion.h"
+    "NextBot/NextBotKnownEntity.h"
+    "NextBot/NextBotManager.cpp"
+    "NextBot/NextBotManager.h"
+    "NextBot/NextBotUtil.h"
+    "NextBot/simple_bot.cpp"
+    "NextBot/simple_bot.h"
+)
+source_group("Source Files\\NextBot" FILES ${Source_Files__NextBot})
+
+set(Source_Files__NextBot__NextBotCommonBehaviors
+    "NextBot/Behavior/BehaviorBackUp.h"
+    "NextBot/Behavior/BehaviorMoveTo.h"
+)
+source_group("Source Files\\NextBot\\NextBotCommonBehaviors" FILES ${Source_Files__NextBot__NextBotCommonBehaviors})
+
+set(Source_Files__NextBot__NextBotInterfaces
+    "NextBot/NextBotBodyInterface.cpp"
+    "NextBot/NextBotBodyInterface.h"
+    "NextBot/NextBotComponentInterface.cpp"
+    "NextBot/NextBotComponentInterface.h"
+    "NextBot/NextBotContextualQueryInterface.h"
+    "NextBot/NextBotEventResponderInterface.h"
+    "NextBot/NextBotHearingInterface.h"
+    "NextBot/NextBotIntentionInterface.cpp"
+    "NextBot/NextBotIntentionInterface.h"
+    "NextBot/NextBotInterface.cpp"
+    "NextBot/NextBotInterface.h"
+    "NextBot/NextBotLocomotionInterface.cpp"
+    "NextBot/NextBotLocomotionInterface.h"
+    "NextBot/NextBotVisionInterface.cpp"
+    "NextBot/NextBotVisionInterface.h"
+)
+source_group("Source Files\\NextBot\\NextBotInterfaces" FILES ${Source_Files__NextBot__NextBotInterfaces})
+
+set(Source_Files__NextBot__NextBotNavMeshEntities
+    "NextBot/NavMeshEntities/func_nav_prerequisite.cpp"
+    "NextBot/NavMeshEntities/func_nav_prerequisite.h"
+)
+source_group("Source Files\\NextBot\\NextBotNavMeshEntities" FILES ${Source_Files__NextBot__NextBotNavMeshEntities})
+
+set(Source_Files__NextBot__NextBotPath
+    "NextBot/Path/NextBotChasePath.cpp"
+    "NextBot/Path/NextBotChasePath.h"
+    "NextBot/Path/NextBotPath.cpp"
+    "NextBot/Path/NextBotPath.h"
+    "NextBot/Path/NextBotPathFollow.cpp"
+    "NextBot/Path/NextBotPathFollow.h"
+    "NextBot/Path/NextBotRetreatPath.h"
+)
+source_group("Source Files\\NextBot\\NextBotPath" FILES ${Source_Files__NextBot__NextBotPath})
+
+set(Source_Files__NextBot__NextBotPlayer
+    "NextBot/Player/NextBotPlayer.cpp"
+    "NextBot/Player/NextBotPlayer.h"
+    "NextBot/Player/NextBotPlayerBody.cpp"
+    "NextBot/Player/NextBotPlayerBody.h"
+    "NextBot/Player/NextBotPlayerLocomotion.cpp"
+    "NextBot/Player/NextBotPlayerLocomotion.h"
+)
+source_group("Source Files\\NextBot\\NextBotPlayer" FILES ${Source_Files__NextBot__NextBotPlayer})
 
 set(Source_Files__Precompiled_Header
     "stdafx.cpp"
 )
 source_group("Source Files\\Precompiled Header" FILES ${Source_Files__Precompiled_Header})
 
-set(Source_Files__VANCE
-    "../shared/vance/singleplayer_animstate.cpp"
-    "../shared/vance/singleplayer_animstate.h"
-    "../shared/vance/vance_baseweapon_shared.cpp"
-    "../shared/vance/vance_baseweapon_shared.h"
-    "../shared/vance/vance_gamerules.cpp"
-    "../shared/vance/vance_gamerules.h"
-    "../shared/vance/vance_shareddefs.h"
-    "../shared/vance/vance_viewmodel.cpp"
-    "../shared/vance/vance_viewmodel.h"
-    "../shared/vance/vance_weapon_parse.cpp"
-    "../shared/vance/vance_weapon_parse.h"
-    "../shared/vance/weapon_akms.cpp"
-    "../shared/vance/weapon_melee.cpp"
-    "vance/func_recharge.cpp"
-    "vance/grenade_hopwire.cpp"
-    "vance/grenade_hopwire.h"
-    "vance/item_healthkit.cpp"
-    "vance/item_stim.cpp"
-    "vance/item_tourniquet.cpp"
-    "vance/lights_deferred.cpp"
-    "vance/lights_deferred.h"
-    "vance/npc_assassin.cpp"
-    "vance/npc_assassin.h"
-    "vance/npc_BaseZombie.cpp"
-    "vance/npc_BaseZombie.h"
-    "vance/npc_bullsquid.cpp"
-    "vance/npc_bullsquid.h"
-    "vance/npc_combine.cpp"
-    "vance/npc_combine.h"
-    "vance/npc_combines.cpp"
-    "vance/npc_combines.h"
-    "vance/npc_houndeye.cpp"
-    "vance/npc_houndeye.h"
-    "vance/npc_roach.cpp"
-    "vance/npc_zombie.cpp"
-    "vance/vance_bludgeonweapon.cpp"
-    "vance/vance_bludgeonweapon.h"
-    "vance/vance_client.cpp"
-    "vance/vance_player.cpp"
-    "vance/vance_player.h"
-    "vance/weapon_357.cpp"
-    "vance/weapon_ar2.cpp"
-    "vance/weapon_ar2.h"
-    "vance/weapon_crossbow.cpp"
-    "vance/weapon_frag.cpp"
-    "vance/weapon_gauss.cpp"
-    "vance/weapon_gauss.h"
-    "vance/weapon_hacktool.cpp"
-    "vance/weapon_hopwire.cpp"
-    "vance/weapon_resistancegun.cpp"
-    "vance/weapon_rpg.cpp"
-    "vance/weapon_rpg.h"
-    "vance/weapon_shotgun.cpp"
-    "vance/weapon_smg1.cpp"
-    "vance/weapon_sniper.cpp"
+set(Source_Files__Steam_Workshop
+    "../shared/workshop/ugc_utils.cpp"
+    "../shared/workshop/ugc_utils.h"
+    "tf/workshop/maps_workshop.cpp"
+    "tf/workshop/maps_workshop.h"
 )
-source_group("Source Files\\VANCE" FILES ${Source_Files__VANCE})
+source_group("Source Files\\Steam Workshop" FILES ${Source_Files__Steam_Workshop})
+
+set(Source_Files__TF
+    "../shared/Multiplayer/multiplayer_animstate.cpp"
+    "../shared/Multiplayer/multiplayer_animstate.h"
+    "../shared/steamworks_gamestats.cpp"
+    "../shared/steamworks_gamestats.h"
+    "../shared/tf/achievements_tf.cpp"
+    "../shared/tf/achievements_tf.h"
+    "../shared/tf/achievements_tf_demoman.cpp"
+    "../shared/tf/achievements_tf_engineer.cpp"
+    "../shared/tf/achievements_tf_halloween.cpp"
+    "../shared/tf/achievements_tf_heavy.cpp"
+    "../shared/tf/achievements_tf_maps.cpp"
+    "../shared/tf/achievements_tf_medic.cpp"
+    "../shared/tf/achievements_tf_mvm.cpp"
+    "../shared/tf/achievements_tf_pyro.cpp"
+    "../shared/tf/achievements_tf_scout.cpp"
+    "../shared/tf/achievements_tf_sniper.cpp"
+    "../shared/tf/achievements_tf_soldier.cpp"
+    "../shared/tf/achievements_tf_spy.cpp"
+    "../shared/tf/baseobject_shared.cpp"
+    "../shared/tf/baseobject_shared.h"
+    "../shared/tf/entity_bonuspack.cpp"
+    "../shared/tf/entity_bonuspack.h"
+    "../shared/tf/entity_capture_flag.cpp"
+    "../shared/tf/entity_capture_flag.h"
+    "../shared/tf/entity_halloween_pickup.cpp"
+    "../shared/tf/entity_halloween_pickup.h"
+    "../shared/tf/passtime_convars.cpp"
+    "../shared/tf/passtime_convars.h"
+    "../shared/tf/passtime_game_events.cpp"
+    "../shared/tf/passtime_game_events.h"
+    "../shared/tf/quest_objective_manager.cpp"
+    "../shared/tf/quest_objective_manager.h"
+    "../shared/tf/quest_objective_trackers.cpp"
+    "../shared/tf/shared_object_tracker.cpp"
+    "../shared/tf/shared_object_tracker.h"
+    "../shared/tf/tf_classdata.cpp"
+    "../shared/tf/tf_classdata.h"
+    "../shared/tf/tf_condition.cpp"
+    "../shared/tf/tf_condition.h"
+    "../shared/tf/tf_duckleaderboard.cpp"
+    "../shared/tf/tf_duckleaderboard.h"
+    "../shared/tf/tf_fx_shared.cpp"
+    "../shared/tf/tf_fx_shared.h"
+    "../shared/tf/tf_gamemovement.cpp"
+    "../shared/tf/tf_gamerules.cpp"
+    "../shared/tf/tf_gamerules.h"
+    "../shared/tf/tf_gamestats_shared.cpp"
+    "../shared/tf/tf_gamestats_shared.h"
+    "../shared/tf/tf_generic_bomb.cpp"
+    "../shared/tf/tf_generic_bomb.h"
+    "../shared/tf/tf_halloween_souls_pickup.cpp"
+    "../shared/tf/tf_halloween_souls_pickup.h"
+    "../shared/tf/tf_item.cpp"
+    "../shared/tf/tf_item.h"
+    "../shared/tf/tf_item_constants.h"
+    "../shared/tf/tf_item_powerup_bottle.cpp"
+    "../shared/tf/tf_item_powerup_bottle.h"
+    "../shared/tf/tf_logic_halloween_2014.cpp"
+    "../shared/tf/tf_logic_halloween_2014.h"
+    "../shared/tf/tf_logic_player_destruction.cpp"
+    "../shared/tf/tf_logic_player_destruction.h"
+    "../shared/tf/tf_logic_robot_destruction.cpp"
+    "../shared/tf/tf_logic_robot_destruction.h"
+    "../shared/tf/tf_mapinfo.cpp"
+    "../shared/tf/tf_mapinfo.h"
+    "../shared/tf/tf_obj_baseupgrade_shared.cpp"
+    "../shared/tf/tf_obj_baseupgrade_shared.h"
+    "../shared/tf/tf_player_shared.cpp"
+    "../shared/tf/tf_player_shared.h"
+    "../shared/tf/tf_playeranimstate.cpp"
+    "../shared/tf/tf_playeranimstate.h"
+    "../shared/tf/tf_playerclass_info_parse.cpp"
+    "../shared/tf/tf_playerclass_shared.cpp"
+    "../shared/tf/tf_playerclass_shared.h"
+    "../shared/tf/tf_projectile_base.cpp"
+    "../shared/tf/tf_projectile_base.h"
+    "../shared/tf/tf_projectile_nail.cpp"
+    "../shared/tf/tf_projectile_nail.h"
+    "../shared/tf/tf_pumpkin_bomb.cpp"
+    "../shared/tf/tf_pumpkin_bomb.h"
+    "../shared/tf/tf_revive.cpp"
+    "../shared/tf/tf_revive.h"
+    "../shared/tf/tf_robot_destruction_robot.cpp"
+    "../shared/tf/tf_robot_destruction_robot.h"
+    "../shared/tf/tf_shareddefs.cpp"
+    "../shared/tf/tf_shareddefs.h"
+    "../shared/tf/tf_target_dummy.cpp"
+    "../shared/tf/tf_target_dummy.h"
+    "../shared/tf/tf_usermessages.cpp"
+    "../shared/tf/tf_viewmodel.cpp"
+    "../shared/tf/tf_viewmodel.h"
+    "../shared/tf/tf_weapon_passtime_gun.cpp"
+    "../shared/tf/tf_weapon_passtime_gun.h"
+    "../shared/tf/tf_wheel_of_doom.cpp"
+    "../shared/tf/tf_wheel_of_doom.h"
+    "../shared/tf/trigger_catapult_shared.cpp"
+    "tf/countdown_announcer.h"
+    "tf/entity_ammopack.cpp"
+    "tf/entity_ammopack.h"
+    "tf/entity_armor.cpp"
+    "tf/entity_armor.h"
+    "tf/entity_bird.cpp"
+    "tf/entity_bird.h"
+    "tf/entity_currencypack.cpp"
+    "tf/entity_currencypack.h"
+    "tf/entity_forcerespawn.cpp"
+    "tf/entity_forcerespawn.h"
+    "tf/entity_game_text_tf.cpp"
+    "tf/entity_healthkit.cpp"
+    "tf/entity_healthkit.h"
+    "tf/entity_intermission.cpp"
+    "tf/entity_intermission.h"
+    "tf/entity_passtime_ball_spawn.cpp"
+    "tf/entity_passtime_ball_spawn.h"
+    "tf/entity_roundwin.cpp"
+    "tf/entity_roundwin.h"
+    "tf/entity_rune.cpp"
+    "tf/entity_rune.h"
+    "tf/entity_tfstart.cpp"
+    "tf/entity_tfstart.h"
+    "tf/entity_training_annotations.cpp"
+    "tf/entity_training_annotations.h"
+    "tf/func_achievement.cpp"
+    "tf/func_achievement.h"
+    "tf/func_capture_zone.cpp"
+    "tf/func_capture_zone.h"
+    "tf/func_changeclass.cpp"
+    "tf/func_changeclass.h"
+    "tf/func_flag_alert.cpp"
+    "tf/func_flag_alert.h"
+    "tf/func_forcefield.cpp"
+    "tf/func_forcefield.h"
+    "tf/func_no_build.cpp"
+    "tf/func_no_build.h"
+    "tf/func_nogrenades.cpp"
+    "tf/func_nogrenades.h"
+    "tf/func_passtime_goal.cpp"
+    "tf/func_passtime_goal.h"
+    "tf/func_passtime_goalie_zone.cpp"
+    "tf/func_passtime_goalie_zone.h"
+    "tf/func_passtime_no_ball_zone.cpp"
+    "tf/func_passtime_no_ball_zone.h"
+    "tf/func_powerupvolume.cpp"
+    "tf/func_powerupvolume.h"
+    "tf/func_regenerate.cpp"
+    "tf/func_regenerate.h"
+    "tf/func_respawnflag.cpp"
+    "tf/func_respawnflag.h"
+    "tf/func_respawnroom.cpp"
+    "tf/func_respawnroom.h"
+    "tf/func_suggested_build.cpp"
+    "tf/func_suggested_build.h"
+    "tf/passtime_ballcontroller.cpp"
+    "tf/passtime_ballcontroller.h"
+    "tf/passtime_ballcontroller_homing.cpp"
+    "tf/passtime_ballcontroller_homing.h"
+    "tf/passtime_ballcontroller_playerseek.cpp"
+    "tf/passtime_ballcontroller_playerseek.h"
+    "tf/serverbenchmark_tf.cpp"
+    "tf/serverbenchmark_tf.h"
+    "tf/te_tfblood.cpp"
+    "tf/te_tfblood.h"
+    "tf/tf_achievementdata.h"
+    "tf/tf_ammo_pack.cpp"
+    "tf/tf_ammo_pack.h"
+    "tf/tf_autobalance.cpp"
+    "tf/tf_autobalance.h"
+    "tf/tf_bot_temp.cpp"
+    "tf/tf_bot_temp.h"
+    "tf/tf_client.cpp"
+    "tf/tf_client.h"
+    "tf/tf_entity_spawner.cpp"
+    "tf/tf_entity_spawner.h"
+    "tf/tf_eventlog.cpp"
+    "tf/tf_extra_map_entity.cpp"
+    "tf/tf_extra_map_entity.h"
+    "tf/tf_filters.cpp"
+    "tf/tf_fx.cpp"
+    "tf/tf_fx.h"
+    "tf/tf_gameinterface.cpp"
+    "tf/tf_gamestats.cpp"
+    "tf/tf_gamestats.h"
+    "tf/tf_gc_api.cpp"
+    "tf/tf_gc_api.h"
+    "tf/tf_glow.cpp"
+    "tf/tf_hltvdirector.cpp"
+    "tf/tf_logic_on_holiday.cpp"
+    "tf/tf_obj.cpp"
+    "tf/tf_obj.h"
+    "tf/tf_obj_catapult.cpp"
+    "tf/tf_obj_catapult.h"
+    "tf/tf_obj_dispenser.cpp"
+    "tf/tf_obj_dispenser.h"
+    "tf/tf_obj_sapper.cpp"
+    "tf/tf_obj_sapper.h"
+    "tf/tf_obj_sentrygun.cpp"
+    "tf/tf_obj_sentrygun.h"
+    "tf/tf_obj_spy_trap.cpp"
+    "tf/tf_obj_spy_trap.h"
+    "tf/tf_obj_teleporter.cpp"
+    "tf/tf_obj_teleporter.h"
+    "tf/tf_objective_resource.cpp"
+    "tf/tf_objective_resource.h"
+    "tf/tf_passtime_ball.cpp"
+    "tf/tf_passtime_ball.h"
+    "tf/tf_passtime_logic.cpp"
+    "tf/tf_passtime_logic.h"
+    "tf/tf_player.cpp"
+    "tf/tf_player.h"
+    "tf/tf_player_resource.cpp"
+    "tf/tf_player_resource.h"
+    "tf/tf_playerclass.cpp"
+    "tf/tf_playerclass.h"
+    "tf/tf_playermove.cpp"
+    "tf/tf_powerup.cpp"
+    "tf/tf_powerup.h"
+    "tf/tf_projectile_rocket.cpp"
+    "tf/tf_projectile_rocket.h"
+    "tf/tf_props.cpp"
+    "tf/tf_props.h"
+    "tf/tf_pushentity.cpp"
+    "tf/tf_tactical_mission.cpp"
+    "tf/tf_tactical_mission.h"
+    "tf/tf_taunt_prop.cpp"
+    "tf/tf_taunt_prop.h"
+    "tf/tf_team.cpp"
+    "tf/tf_team.h"
+    "tf/tf_triggers.cpp"
+    "tf/tf_triggers.h"
+    "tf/tf_turret.cpp"
+    "tf/tf_turret.h"
+    "tf/tf_voteissues.cpp"
+    "tf/tf_voteissues.h"
+    "tf/tf_wartracker.cpp"
+    "tf/tf_wartracker.h"
+    "tf/trigger_catapult.cpp"
+    "tf/trigger_catapult.h"
+    "tf/trigger_passtime_ball.cpp"
+    "tf/trigger_passtime_ball.h"
+)
+source_group("Source Files\\TF" FILES ${Source_Files__TF})
+
+set(Source_Files__TF__Bot
+    "tf/bot/tf_bot.cpp"
+    "tf/bot/tf_bot.h"
+    "tf/bot/tf_bot_body.cpp"
+    "tf/bot/tf_bot_body.h"
+    "tf/bot/tf_bot_locomotion.cpp"
+    "tf/bot/tf_bot_locomotion.h"
+    "tf/bot/tf_bot_manager.cpp"
+    "tf/bot/tf_bot_manager.h"
+    "tf/bot/tf_bot_squad.cpp"
+    "tf/bot/tf_bot_squad.h"
+    "tf/bot/tf_bot_vision.cpp"
+    "tf/bot/tf_bot_vision.h"
+)
+source_group("Source Files\\TF\\Bot" FILES ${Source_Files__TF__Bot})
+
+set(Source_Files__TF__Bot_NPC
+    "tf/bot_npc/bot_npc.cpp"
+    "tf/bot_npc/bot_npc.h"
+    "tf/bot_npc/bot_npc_archer.cpp"
+    "tf/bot_npc/bot_npc_archer.h"
+    "tf/bot_npc/bot_npc_body.cpp"
+    "tf/bot_npc/bot_npc_body.h"
+    "tf/bot_npc/bot_npc_decoy.cpp"
+    "tf/bot_npc/bot_npc_decoy.h"
+    "tf/bot_npc/bot_npc_mini.cpp"
+    "tf/bot_npc/bot_npc_mini.h"
+    "tf/bot_npc/bot_npc_minion.cpp"
+    "tf/bot_npc/bot_npc_minion.h"
+)
+source_group("Source Files\\TF\\Bot NPC" FILES ${Source_Files__TF__Bot_NPC})
+
+set(Source_Files__TF__Bot__Behavior
+    "tf/bot/behavior/tf_bot_approach_object.cpp"
+    "tf/bot/behavior/tf_bot_approach_object.h"
+    "tf/bot/behavior/tf_bot_attack.cpp"
+    "tf/bot/behavior/tf_bot_attack.h"
+    "tf/bot/behavior/tf_bot_behavior.cpp"
+    "tf/bot/behavior/tf_bot_behavior.h"
+    "tf/bot/behavior/tf_bot_dead.cpp"
+    "tf/bot/behavior/tf_bot_dead.h"
+    "tf/bot/behavior/tf_bot_destroy_enemy_sentry.cpp"
+    "tf/bot/behavior/tf_bot_destroy_enemy_sentry.h"
+    "tf/bot/behavior/tf_bot_escort.cpp"
+    "tf/bot/behavior/tf_bot_escort.h"
+    "tf/bot/behavior/tf_bot_get_ammo.cpp"
+    "tf/bot/behavior/tf_bot_get_ammo.h"
+    "tf/bot/behavior/tf_bot_get_health.cpp"
+    "tf/bot/behavior/tf_bot_get_health.h"
+    "tf/bot/behavior/tf_bot_melee_attack.cpp"
+    "tf/bot/behavior/tf_bot_melee_attack.h"
+    "tf/bot/behavior/tf_bot_move_to_vantage_point.cpp"
+    "tf/bot/behavior/tf_bot_move_to_vantage_point.h"
+    "tf/bot/behavior/tf_bot_mvm_deploy_bomb.cpp"
+    "tf/bot/behavior/tf_bot_mvm_deploy_bomb.h"
+    "tf/bot/behavior/tf_bot_retreat_to_cover.cpp"
+    "tf/bot/behavior/tf_bot_retreat_to_cover.h"
+    "tf/bot/behavior/tf_bot_scenario_monitor.cpp"
+    "tf/bot/behavior/tf_bot_scenario_monitor.h"
+    "tf/bot/behavior/tf_bot_seek_and_destroy.cpp"
+    "tf/bot/behavior/tf_bot_seek_and_destroy.h"
+    "tf/bot/behavior/tf_bot_tactical_monitor.cpp"
+    "tf/bot/behavior/tf_bot_tactical_monitor.h"
+    "tf/bot/behavior/tf_bot_taunt.cpp"
+    "tf/bot/behavior/tf_bot_taunt.h"
+    "tf/bot/behavior/tf_bot_use_item.cpp"
+    "tf/bot/behavior/tf_bot_use_item.h"
+    "tf/bot/behavior/tf_bot_use_teleporter.cpp"
+    "tf/bot/behavior/tf_bot_use_teleporter.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior" FILES ${Source_Files__TF__Bot__Behavior})
+
+set(Source_Files__TF__Bot__Behavior__Demoman
+    "tf/bot/behavior/demoman/tf_bot_prepare_stickybomb_trap.cpp"
+    "tf/bot/behavior/demoman/tf_bot_prepare_stickybomb_trap.h"
+    "tf/bot/behavior/demoman/tf_bot_stickybomb_sentrygun.cpp"
+    "tf/bot/behavior/demoman/tf_bot_stickybomb_sentrygun.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Demoman" FILES ${Source_Files__TF__Bot__Behavior__Demoman})
+
+set(Source_Files__TF__Bot__Behavior__Engineer
+    "tf/bot/behavior/engineer/tf_bot_engineer_build.cpp"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build.h"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build_dispenser.cpp"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build_dispenser.h"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build_sentrygun.cpp"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build_sentrygun.h"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build_teleport_entrance.cpp"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build_teleport_entrance.h"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build_teleport_exit.cpp"
+    "tf/bot/behavior/engineer/tf_bot_engineer_build_teleport_exit.h"
+    "tf/bot/behavior/engineer/tf_bot_engineer_building.cpp"
+    "tf/bot/behavior/engineer/tf_bot_engineer_building.h"
+    "tf/bot/behavior/engineer/tf_bot_engineer_move_to_build.cpp"
+    "tf/bot/behavior/engineer/tf_bot_engineer_move_to_build.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Engineer" FILES ${Source_Files__TF__Bot__Behavior__Engineer})
+
+set(Source_Files__TF__Bot__Behavior__Engineer__MvMEngineer
+    "tf/bot/behavior/engineer/mvm_engineer/tf_bot_mvm_engineer_build_sentry.cpp"
+    "tf/bot/behavior/engineer/mvm_engineer/tf_bot_mvm_engineer_build_sentry.h"
+    "tf/bot/behavior/engineer/mvm_engineer/tf_bot_mvm_engineer_build_teleporter.cpp"
+    "tf/bot/behavior/engineer/mvm_engineer/tf_bot_mvm_engineer_build_teleporter.h"
+    "tf/bot/behavior/engineer/mvm_engineer/tf_bot_mvm_engineer_idle.cpp"
+    "tf/bot/behavior/engineer/mvm_engineer/tf_bot_mvm_engineer_idle.h"
+    "tf/bot/behavior/engineer/mvm_engineer/tf_bot_mvm_engineer_teleport_spawn.cpp"
+    "tf/bot/behavior/engineer/mvm_engineer/tf_bot_mvm_engineer_teleport_spawn.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Engineer\\MvMEngineer" FILES ${Source_Files__TF__Bot__Behavior__Engineer__MvMEngineer})
+
+set(Source_Files__TF__Bot__Behavior__Medic
+    "tf/bot/behavior/medic/tf_bot_medic_heal.cpp"
+    "tf/bot/behavior/medic/tf_bot_medic_heal.h"
+    "tf/bot/behavior/medic/tf_bot_medic_retreat.cpp"
+    "tf/bot/behavior/medic/tf_bot_medic_retreat.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Medic" FILES ${Source_Files__TF__Bot__Behavior__Medic})
+
+set(Source_Files__TF__Bot__Behavior__Missions
+    "tf/bot/behavior/missions/tf_bot_mission_destroy_sentries.cpp"
+    "tf/bot/behavior/missions/tf_bot_mission_destroy_sentries.h"
+    "tf/bot/behavior/missions/tf_bot_mission_reprogrammed.cpp"
+    "tf/bot/behavior/missions/tf_bot_mission_reprogrammed.h"
+    "tf/bot/behavior/missions/tf_bot_mission_suicide_bomber.cpp"
+    "tf/bot/behavior/missions/tf_bot_mission_suicide_bomber.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Missions" FILES ${Source_Files__TF__Bot__Behavior__Missions})
+
+set(Source_Files__TF__Bot__Behavior__NavEntities
+    "tf/bot/behavior/nav_entities/tf_bot_nav_ent_destroy_entity.cpp"
+    "tf/bot/behavior/nav_entities/tf_bot_nav_ent_destroy_entity.h"
+    "tf/bot/behavior/nav_entities/tf_bot_nav_ent_move_to.cpp"
+    "tf/bot/behavior/nav_entities/tf_bot_nav_ent_move_to.h"
+    "tf/bot/behavior/nav_entities/tf_bot_nav_ent_wait.cpp"
+    "tf/bot/behavior/nav_entities/tf_bot_nav_ent_wait.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\NavEntities" FILES ${Source_Files__TF__Bot__Behavior__NavEntities})
+
+set(Source_Files__TF__Bot__Behavior__Scenario__CapturePoint
+    "tf/bot/behavior/scenario/capture_point/tf_bot_capture_point.cpp"
+    "tf/bot/behavior/scenario/capture_point/tf_bot_capture_point.h"
+    "tf/bot/behavior/scenario/capture_point/tf_bot_defend_point.cpp"
+    "tf/bot/behavior/scenario/capture_point/tf_bot_defend_point.h"
+    "tf/bot/behavior/scenario/capture_point/tf_bot_defend_point_block_capture.cpp"
+    "tf/bot/behavior/scenario/capture_point/tf_bot_defend_point_block_capture.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Scenario\\CapturePoint" FILES ${Source_Files__TF__Bot__Behavior__Scenario__CapturePoint})
+
+set(Source_Files__TF__Bot__Behavior__Scenario__CaptureTheFlag
+    "tf/bot/behavior/scenario/capture_the_flag/tf_bot_attack_flag_defenders.cpp"
+    "tf/bot/behavior/scenario/capture_the_flag/tf_bot_attack_flag_defenders.h"
+    "tf/bot/behavior/scenario/capture_the_flag/tf_bot_deliver_flag.cpp"
+    "tf/bot/behavior/scenario/capture_the_flag/tf_bot_deliver_flag.h"
+    "tf/bot/behavior/scenario/capture_the_flag/tf_bot_escort_flag_carrier.cpp"
+    "tf/bot/behavior/scenario/capture_the_flag/tf_bot_escort_flag_carrier.h"
+    "tf/bot/behavior/scenario/capture_the_flag/tf_bot_fetch_flag.cpp"
+    "tf/bot/behavior/scenario/capture_the_flag/tf_bot_fetch_flag.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Scenario\\CaptureTheFlag" FILES ${Source_Files__TF__Bot__Behavior__Scenario__CaptureTheFlag})
+
+set(Source_Files__TF__Bot__Behavior__Scenario__CreepWave
+    "tf/bot/behavior/scenario/creep_wave/tf_bot_creep_wave.cpp"
+    "tf/bot/behavior/scenario/creep_wave/tf_bot_creep_wave.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Scenario\\CreepWave" FILES ${Source_Files__TF__Bot__Behavior__Scenario__CreepWave})
+
+set(Source_Files__TF__Bot__Behavior__Scenario__Payload
+    "tf/bot/behavior/scenario/payload/tf_bot_payload_block.cpp"
+    "tf/bot/behavior/scenario/payload/tf_bot_payload_block.h"
+    "tf/bot/behavior/scenario/payload/tf_bot_payload_guard.cpp"
+    "tf/bot/behavior/scenario/payload/tf_bot_payload_guard.h"
+    "tf/bot/behavior/scenario/payload/tf_bot_payload_push.cpp"
+    "tf/bot/behavior/scenario/payload/tf_bot_payload_push.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Scenario\\Payload" FILES ${Source_Files__TF__Bot__Behavior__Scenario__Payload})
+
+set(Source_Files__TF__Bot__Behavior__Scenario__Raid
+    "tf/bot/behavior/scenario/raid/tf_bot_companion.cpp"
+    "tf/bot/behavior/scenario/raid/tf_bot_companion.h"
+    "tf/bot/behavior/scenario/raid/tf_bot_guard_area.cpp"
+    "tf/bot/behavior/scenario/raid/tf_bot_guard_area.h"
+    "tf/bot/behavior/scenario/raid/tf_bot_mob_rush.cpp"
+    "tf/bot/behavior/scenario/raid/tf_bot_mob_rush.h"
+    "tf/bot/behavior/scenario/raid/tf_bot_squad_attack.cpp"
+    "tf/bot/behavior/scenario/raid/tf_bot_squad_attack.h"
+    "tf/bot/behavior/scenario/raid/tf_bot_wander.cpp"
+    "tf/bot/behavior/scenario/raid/tf_bot_wander.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Scenario\\Raid" FILES ${Source_Files__TF__Bot__Behavior__Scenario__Raid})
+
+set(Source_Files__TF__Bot__Behavior__Sniper
+    "tf/bot/behavior/sniper/tf_bot_sniper_attack.cpp"
+    "tf/bot/behavior/sniper/tf_bot_sniper_attack.h"
+    "tf/bot/behavior/sniper/tf_bot_sniper_lurk.cpp"
+    "tf/bot/behavior/sniper/tf_bot_sniper_lurk.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Sniper" FILES ${Source_Files__TF__Bot__Behavior__Sniper})
+
+set(Source_Files__TF__Bot__Behavior__Spy
+    "tf/bot/behavior/spy/tf_bot_spy_attack.cpp"
+    "tf/bot/behavior/spy/tf_bot_spy_attack.h"
+    "tf/bot/behavior/spy/tf_bot_spy_backstab.cpp"
+    "tf/bot/behavior/spy/tf_bot_spy_backstab.h"
+    "tf/bot/behavior/spy/tf_bot_spy_escape.cpp"
+    "tf/bot/behavior/spy/tf_bot_spy_escape.h"
+    "tf/bot/behavior/spy/tf_bot_spy_hide.cpp"
+    "tf/bot/behavior/spy/tf_bot_spy_hide.h"
+    "tf/bot/behavior/spy/tf_bot_spy_infiltrate.cpp"
+    "tf/bot/behavior/spy/tf_bot_spy_infiltrate.h"
+    "tf/bot/behavior/spy/tf_bot_spy_leave_spawn_room.cpp"
+    "tf/bot/behavior/spy/tf_bot_spy_leave_spawn_room.h"
+    "tf/bot/behavior/spy/tf_bot_spy_lurk.cpp"
+    "tf/bot/behavior/spy/tf_bot_spy_lurk.h"
+    "tf/bot/behavior/spy/tf_bot_spy_sap.cpp"
+    "tf/bot/behavior/spy/tf_bot_spy_sap.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Spy" FILES ${Source_Files__TF__Bot__Behavior__Spy})
+
+set(Source_Files__TF__Bot__Behavior__Squad
+    "tf/bot/behavior/squad/tf_bot_escort_squad_leader.cpp"
+    "tf/bot/behavior/squad/tf_bot_escort_squad_leader.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Squad" FILES ${Source_Files__TF__Bot__Behavior__Squad})
+
+set(Source_Files__TF__Bot__Behavior__Training
+    "tf/bot/behavior/training/tf_bot_training.cpp"
+    "tf/bot/behavior/training/tf_bot_training.h"
+)
+source_group("Source Files\\TF\\Bot\\Behavior\\Training" FILES ${Source_Files__TF__Bot__Behavior__Training})
+
+set(Source_Files__TF__Bot__MapEntities
+    "tf/bot/map_entities/tf_bot_generator.cpp"
+    "tf/bot/map_entities/tf_bot_generator.h"
+    "tf/bot/map_entities/tf_bot_hint.cpp"
+    "tf/bot/map_entities/tf_bot_hint.h"
+    "tf/bot/map_entities/tf_bot_hint_engineer_nest.cpp"
+    "tf/bot/map_entities/tf_bot_hint_engineer_nest.h"
+    "tf/bot/map_entities/tf_bot_hint_entity.cpp"
+    "tf/bot/map_entities/tf_bot_hint_entity.h"
+    "tf/bot/map_entities/tf_bot_hint_sentrygun.cpp"
+    "tf/bot/map_entities/tf_bot_hint_sentrygun.h"
+    "tf/bot/map_entities/tf_bot_hint_teleporter_exit.cpp"
+    "tf/bot/map_entities/tf_bot_hint_teleporter_exit.h"
+    "tf/bot/map_entities/tf_bot_proxy.cpp"
+    "tf/bot/map_entities/tf_bot_proxy.h"
+    "tf/bot/map_entities/tf_bot_roster.cpp"
+    "tf/bot/map_entities/tf_bot_roster.h"
+    "tf/bot/map_entities/tf_spawner.cpp"
+    "tf/bot/map_entities/tf_spawner.h"
+    "tf/bot/map_entities/tf_spawner_boss.cpp"
+    "tf/bot/map_entities/tf_spawner_boss.h"
+)
+source_group("Source Files\\TF\\Bot\\MapEntities" FILES ${Source_Files__TF__Bot__MapEntities})
+
+set(Source_Files__TF__Halloween
+    "tf/halloween/halloween_base_boss.cpp"
+    "tf/halloween/halloween_base_boss.h"
+    "tf/halloween/halloween_gift_spawn_locations.cpp"
+    "tf/halloween/halloween_gift_spawn_locations.h"
+    "tf/halloween/headless_hatman.cpp"
+    "tf/halloween/headless_hatman.h"
+    "tf/halloween/headless_hatman_body.cpp"
+    "tf/halloween/headless_hatman_body.h"
+)
+source_group("Source Files\\TF\\Halloween" FILES ${Source_Files__TF__Halloween})
+
+set(Source_Files__TF__Halloween__Behavior
+    "tf/halloween/halloween_behavior/headless_hatman_attack.cpp"
+    "tf/halloween/halloween_behavior/headless_hatman_attack.h"
+    "tf/halloween/halloween_behavior/headless_hatman_dying.cpp"
+    "tf/halloween/halloween_behavior/headless_hatman_dying.h"
+    "tf/halloween/halloween_behavior/headless_hatman_emerge.cpp"
+    "tf/halloween/halloween_behavior/headless_hatman_emerge.h"
+    "tf/halloween/halloween_behavior/headless_hatman_terrify.cpp"
+    "tf/halloween/halloween_behavior/headless_hatman_terrify.h"
+)
+source_group("Source Files\\TF\\Halloween\\Behavior" FILES ${Source_Files__TF__Halloween__Behavior})
+
+set(Source_Files__TF__Halloween__Eyeball_Boss
+    "../shared/tf/halloween/eyeball_boss/teleport_vortex.cpp"
+    "../shared/tf/halloween/eyeball_boss/teleport_vortex.h"
+    "tf/halloween/eyeball_boss/eyeball_boss.cpp"
+    "tf/halloween/eyeball_boss/eyeball_boss.h"
+)
+source_group("Source Files\\TF\\Halloween\\Eyeball Boss" FILES ${Source_Files__TF__Halloween__Eyeball_Boss})
+
+set(Source_Files__TF__Halloween__Eyeball_Boss__Behavior
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_approach_target.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_approach_target.h"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_behavior.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_behavior.h"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_emerge.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_emerge.h"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_emote.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_emote.h"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_idle.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_idle.h"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_launch_rockets.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_launch_rockets.h"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_notice.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_notice.h"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_stunned.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_stunned.h"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_teleport.cpp"
+    "tf/halloween/eyeball_boss/eyeball_behavior/eyeball_boss_teleport.h"
+)
+source_group("Source Files\\TF\\Halloween\\Eyeball Boss\\Behavior" FILES ${Source_Files__TF__Halloween__Eyeball_Boss__Behavior})
+
+set(Source_Files__TF__Halloween__Ghost
+    "tf/halloween/ghost/ghost.cpp"
+    "tf/halloween/ghost/ghost.h"
+)
+source_group("Source Files\\TF\\Halloween\\Ghost" FILES ${Source_Files__TF__Halloween__Ghost})
+
+set(Source_Files__TF__Halloween__Merasmus
+    "tf/halloween/merasmus/merasmus.cpp"
+    "tf/halloween/merasmus/merasmus.h"
+    "tf/halloween/merasmus/merasmus_body.cpp"
+    "tf/halloween/merasmus/merasmus_body.h"
+    "tf/halloween/merasmus/merasmus_dancer.cpp"
+    "tf/halloween/merasmus/merasmus_dancer.h"
+    "tf/halloween/merasmus/merasmus_trick_or_treat_prop.cpp"
+    "tf/halloween/merasmus/merasmus_trick_or_treat_prop.h"
+)
+source_group("Source Files\\TF\\Halloween\\Merasmus" FILES ${Source_Files__TF__Halloween__Merasmus})
+
+set(Source_Files__TF__Halloween__Merasmus__Behavior
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_aoe_attack.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_aoe_attack.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_attack.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_attack.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_disguise.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_disguise.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_dying.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_dying.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_reveal.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_reveal.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_staff_attack.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_staff_attack.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_stunned.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_stunned.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_teleport.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_teleport.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_throwing_grenade.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_throwing_grenade.h"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_zap.cpp"
+    "tf/halloween/merasmus/merasmus_behavior/merasmus_zap.h"
+)
+source_group("Source Files\\TF\\Halloween\\Merasmus\\Behavior" FILES ${Source_Files__TF__Halloween__Merasmus__Behavior})
+
+set(Source_Files__TF__Halloween__Spell
+    "../shared/tf/halloween/tf_weapon_spellbook.cpp"
+    "../shared/tf/halloween/tf_weapon_spellbook.h"
+    "tf/halloween/spell/tf_spell_pickup.cpp"
+    "tf/halloween/spell/tf_spell_pickup.h"
+)
+source_group("Source Files\\TF\\Halloween\\Spell" FILES ${Source_Files__TF__Halloween__Spell})
+
+set(Source_Files__TF__Halloween__Zombie
+    "tf/halloween/zombie/zombie.cpp"
+    "tf/halloween/zombie/zombie.h"
+    "tf/halloween/zombie/zombie_spawner.cpp"
+    "tf/halloween/zombie/zombie_spawner.h"
+)
+source_group("Source Files\\TF\\Halloween\\Zombie" FILES ${Source_Files__TF__Halloween__Zombie})
+
+set(Source_Files__TF__Halloween__Zombie__Behavior
+    "tf/halloween/zombie/zombie_behavior/zombie_attack.cpp"
+    "tf/halloween/zombie/zombie_behavior/zombie_attack.h"
+    "tf/halloween/zombie/zombie_behavior/zombie_spawn.cpp"
+    "tf/halloween/zombie/zombie_behavior/zombie_spawn.h"
+    "tf/halloween/zombie/zombie_behavior/zombie_special_attack.cpp"
+    "tf/halloween/zombie/zombie_behavior/zombie_special_attack.h"
+)
+source_group("Source Files\\TF\\Halloween\\Zombie\\Behavior" FILES ${Source_Files__TF__Halloween__Zombie__Behavior})
+
+set(Source_Files__TF__Matchmaking
+    "../shared/lobby.cpp"
+    "../shared/lobby.h"
+    "../shared/tf/tf_gc_shared.h"
+    "../shared/tf/tf_lobby_server.cpp"
+    "../shared/tf/tf_lobby_server.h"
+    "../shared/tf/tf_match_description.cpp"
+    "../shared/tf/tf_match_description.h"
+    "../shared/tf/tf_matchmaking_shared.cpp"
+    "../shared/tf/tf_matchmaking_shared.h"
+    "../shared/tf/tf_party.cpp"
+    "../shared/tf/tf_party.h"
+    "tf/tf_gc_server.cpp"
+    "tf/tf_gc_server.h"
+)
+source_group("Source Files\\TF\\Matchmaking" FILES ${Source_Files__TF__Matchmaking})
+
+set(Source_Files__TF__MiniGames
+    "tf/minigames/tf_duel.cpp"
+    "tf/minigames/tf_duel.h"
+)
+source_group("Source Files\\TF\\MiniGames" FILES ${Source_Files__TF__MiniGames})
+
+set(Source_Files__TF__NavMesh
+    "tf/nav_mesh/tf_nav_area.cpp"
+    "tf/nav_mesh/tf_nav_area.h"
+    "tf/nav_mesh/tf_nav_interface.cpp"
+    "tf/nav_mesh/tf_nav_mesh.cpp"
+    "tf/nav_mesh/tf_nav_mesh.h"
+    "tf/nav_mesh/tf_nav_mesh_edit.cpp"
+    "tf/nav_mesh/tf_nav_mesh_edit.h"
+    "tf/nav_mesh/tf_path_follower.cpp"
+    "tf/nav_mesh/tf_path_follower.h"
+)
+source_group("Source Files\\TF\\NavMesh" FILES ${Source_Files__TF__NavMesh})
+
+set(Source_Files__TF__PvE
+    "../shared/tf/tf_mann_vs_machine_stats.cpp"
+    "../shared/tf/tf_mann_vs_machine_stats.h"
+    "../shared/tf/tf_upgrades_shared.cpp"
+    "../shared/tf/tf_upgrades_shared.h"
+    "tf/player_vs_environment/archer_proxy.cpp"
+    "tf/player_vs_environment/archer_proxy.h"
+    "tf/player_vs_environment/monster_resource.cpp"
+    "tf/player_vs_environment/monster_resource.h"
+    "tf/player_vs_environment/tf_base_boss.cpp"
+    "tf/player_vs_environment/tf_base_boss.h"
+    "tf/player_vs_environment/tf_boss_battle_logic.cpp"
+    "tf/player_vs_environment/tf_boss_battle_logic.h"
+    "tf/player_vs_environment/tf_mann_vs_machine_logic.cpp"
+    "tf/player_vs_environment/tf_mann_vs_machine_logic.h"
+    "tf/player_vs_environment/tf_point_weapon_mimic.cpp"
+    "tf/player_vs_environment/tf_population_manager.cpp"
+    "tf/player_vs_environment/tf_population_manager.h"
+    "tf/player_vs_environment/tf_populator_interface.cpp"
+    "tf/player_vs_environment/tf_populator_spawners.cpp"
+    "tf/player_vs_environment/tf_populator_spawners.h"
+    "tf/player_vs_environment/tf_populators.cpp"
+    "tf/player_vs_environment/tf_populators.h"
+    "tf/player_vs_environment/tf_tank_boss.cpp"
+    "tf/player_vs_environment/tf_tank_boss.h"
+    "tf/player_vs_environment/tf_tank_boss_body.cpp"
+    "tf/player_vs_environment/tf_tank_boss_body.h"
+    "tf/player_vs_environment/tf_upgrades.cpp"
+    "tf/player_vs_environment/tf_upgrades.h"
+)
+source_group("Source Files\\TF\\PvE" FILES ${Source_Files__TF__PvE})
+
+set(Source_Files__TF__PvE__Boss_Alpha
+    "tf/player_vs_environment/boss_alpha/boss_alpha.cpp"
+    "tf/player_vs_environment/boss_alpha/boss_alpha.h"
+)
+source_group("Source Files\\TF\\PvE\\Boss Alpha" FILES ${Source_Files__TF__PvE__Boss_Alpha})
+
+set(Source_Files__TF__PvE__Boss_Alpha__Behavior
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_behavior.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_behavior.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_chase_victim.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_chase_victim.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_get_off_me.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_get_off_me.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_guard_spot.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_guard_spot.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_launch_grenades.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_launch_grenades.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_launch_rockets.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_launch_rockets.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_lost_victim.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_lost_victim.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_nuke_attack.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_nuke_attack.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_stunned.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_stunned.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_tactical_monitor.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_tactical_monitor.h"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_wait_for_players.cpp"
+    "tf/player_vs_environment/boss_alpha/behavior/boss_alpha_wait_for_players.h"
+)
+source_group("Source Files\\TF\\PvE\\Boss Alpha\\Behavior" FILES ${Source_Files__TF__PvE__Boss_Alpha__Behavior})
+
+set(Source_Files__TF__Raid
+    "tf/raid/tf_raid_logic.cpp"
+    "tf/raid/tf_raid_logic.h"
+)
+source_group("Source Files\\TF\\Raid" FILES ${Source_Files__TF__Raid})
+
+set(Source_Files__TF__Weapon
+    "../shared/tf/tf_dropped_weapon.cpp"
+    "../shared/tf/tf_dropped_weapon.h"
+    "../shared/tf/tf_projectile_energy_ring.cpp"
+    "../shared/tf/tf_projectile_energy_ring.h"
+    "../shared/tf/tf_weapon_bat.cpp"
+    "../shared/tf/tf_weapon_bat.h"
+    "../shared/tf/tf_weapon_bonesaw.cpp"
+    "../shared/tf/tf_weapon_bonesaw.h"
+    "../shared/tf/tf_weapon_bottle.cpp"
+    "../shared/tf/tf_weapon_bottle.h"
+    "../shared/tf/tf_weapon_buff_item.cpp"
+    "../shared/tf/tf_weapon_buff_item.h"
+    "../shared/tf/tf_weapon_club.cpp"
+    "../shared/tf/tf_weapon_club.h"
+    "../shared/tf/tf_weapon_compound_bow.cpp"
+    "../shared/tf/tf_weapon_compound_bow.h"
+    "../shared/tf/tf_weapon_fireaxe.cpp"
+    "../shared/tf/tf_weapon_fireaxe.h"
+    "../shared/tf/tf_weapon_fists.cpp"
+    "../shared/tf/tf_weapon_fists.h"
+    "../shared/tf/tf_weapon_flamethrower.cpp"
+    "../shared/tf/tf_weapon_flamethrower.h"
+    "../shared/tf/tf_weapon_flaregun.cpp"
+    "../shared/tf/tf_weapon_flaregun.h"
+    "../shared/tf/tf_weapon_grapplinghook.cpp"
+    "../shared/tf/tf_weapon_grapplinghook.h"
+    "../shared/tf/tf_weapon_grenade_pipebomb.cpp"
+    "../shared/tf/tf_weapon_grenade_pipebomb.h"
+    "../shared/tf/tf_weapon_grenadelauncher.cpp"
+    "../shared/tf/tf_weapon_grenadelauncher.h"
+    "../shared/tf/tf_weapon_invis.cpp"
+    "../shared/tf/tf_weapon_invis.h"
+    "../shared/tf/tf_weapon_jar.cpp"
+    "../shared/tf/tf_weapon_jar.h"
+    "../shared/tf/tf_weapon_knife.cpp"
+    "../shared/tf/tf_weapon_knife.h"
+    "../shared/tf/tf_weapon_laser_pointer.cpp"
+    "../shared/tf/tf_weapon_laser_pointer.h"
+    "../shared/tf/tf_weapon_lunchbox.cpp"
+    "../shared/tf/tf_weapon_lunchbox.h"
+    "../shared/tf/tf_weapon_mechanical_arm.cpp"
+    "../shared/tf/tf_weapon_mechanical_arm.h"
+    "../shared/tf/tf_weapon_medigun.cpp"
+    "../shared/tf/tf_weapon_medigun.h"
+    "../shared/tf/tf_weapon_minigun.cpp"
+    "../shared/tf/tf_weapon_minigun.h"
+    "../shared/tf/tf_weapon_parachute.cpp"
+    "../shared/tf/tf_weapon_parachute.h"
+    "../shared/tf/tf_weapon_parse.cpp"
+    "../shared/tf/tf_weapon_parse.h"
+    "../shared/tf/tf_weapon_particle_cannon.cpp"
+    "../shared/tf/tf_weapon_particle_cannon.h"
+    "../shared/tf/tf_weapon_pda.cpp"
+    "../shared/tf/tf_weapon_pda.h"
+    "../shared/tf/tf_weapon_pipebomblauncher.cpp"
+    "../shared/tf/tf_weapon_pipebomblauncher.h"
+    "../shared/tf/tf_weapon_pistol.cpp"
+    "../shared/tf/tf_weapon_pistol.h"
+    "../shared/tf/tf_weapon_raygun.cpp"
+    "../shared/tf/tf_weapon_raygun.h"
+    "../shared/tf/tf_weapon_revolver.cpp"
+    "../shared/tf/tf_weapon_revolver.h"
+    "../shared/tf/tf_weapon_rocketlauncher.cpp"
+    "../shared/tf/tf_weapon_rocketlauncher.h"
+    "../shared/tf/tf_weapon_shotgun.cpp"
+    "../shared/tf/tf_weapon_shotgun.h"
+    "../shared/tf/tf_weapon_shovel.cpp"
+    "../shared/tf/tf_weapon_shovel.h"
+    "../shared/tf/tf_weapon_smg.cpp"
+    "../shared/tf/tf_weapon_smg.h"
+    "../shared/tf/tf_weapon_sniperrifle.cpp"
+    "../shared/tf/tf_weapon_sniperrifle.h"
+    "../shared/tf/tf_weapon_sword.cpp"
+    "../shared/tf/tf_weapon_sword.h"
+    "../shared/tf/tf_weapon_syringegun.cpp"
+    "../shared/tf/tf_weapon_syringegun.h"
+    "../shared/tf/tf_weapon_throwable.cpp"
+    "../shared/tf/tf_weapon_throwable.h"
+    "../shared/tf/tf_weapon_wrench.cpp"
+    "../shared/tf/tf_weapon_wrench.h"
+    "../shared/tf/tf_weaponbase.cpp"
+    "../shared/tf/tf_weaponbase.h"
+    "../shared/tf/tf_weaponbase_grenadeproj.cpp"
+    "../shared/tf/tf_weaponbase_grenadeproj.h"
+    "../shared/tf/tf_weaponbase_gun.cpp"
+    "../shared/tf/tf_weaponbase_gun.h"
+    "../shared/tf/tf_weaponbase_melee.cpp"
+    "../shared/tf/tf_weaponbase_melee.h"
+    "../shared/tf/tf_weaponbase_merasmus_grenade.cpp"
+    "../shared/tf/tf_weaponbase_merasmus_grenade.h"
+    "../shared/tf/tf_weaponbase_rocket.cpp"
+    "../shared/tf/tf_weaponbase_rocket.h"
+    "../shared/tf/tf_wearable_item_demoshield.cpp"
+    "../shared/tf/tf_wearable_item_demoshield.h"
+    "../shared/tf/tf_wearable_levelable_item.cpp"
+    "../shared/tf/tf_wearable_levelable_item.h"
+    "tf/tf_projectile_arrow.cpp"
+    "tf/tf_projectile_arrow.h"
+    "tf/tf_projectile_energy_ball.cpp"
+    "tf/tf_projectile_energy_ball.h"
+    "tf/tf_projectile_flare.cpp"
+    "tf/tf_projectile_flare.h"
+    "tf/tf_weapon_builder.cpp"
+    "tf/tf_weapon_builder.h"
+)
+source_group("Source Files\\TF\\Weapon" FILES ${Source_Files__TF__Weapon})
 
 set(Source_Files__temporary_entities
     "../shared/SpriteTrail.cpp"
@@ -1227,53 +1978,73 @@ set(Tools_Framework
 )
 source_group("Tools Framework" FILES ${Tools_Framework})
 
-set(tymeta_Files
-        "tymeta/env_instructor_hint.cpp"
+
+set(CONTENTS_Files
+        "contents/env_instructor_hint.cpp"
         )
-source_group("Tymeta Files" FILES ${tymeta_Files})
-
-
-
-
-
-
-
-set(Source_Files__deferred
-        "deferred/cdeferred_manager_server.cpp"
-        "deferred/cdeferred_manager_server.h"
-        "deferred/deferred_server_common.h"
-        )
-source_group("Source Files\\deferred" FILES ${Source_Files__deferred})
-
-set(Source_Files__deferred__shared
-        "../shared/deferred/CDefLight.cpp"
-        "../shared/deferred/CDefLight.h"
-        "../shared/deferred/CDefLightContainer.cpp"
-        "../shared/deferred/CDefLightContainer.h"
-        "../shared/deferred/CDefLightGlobal.cpp"
-        "../shared/deferred/CDefLightGlobal.h"
-        "../shared/deferred/deferred_shared_common.cpp"
-        "../shared/deferred/deferred_shared_common.h"
-        )
-source_group("Source Files\\deferred\\shared" FILES ${Source_Files__deferred__shared})
-
-
+source_group("ReSource Files" FILES ${CONTENTS_Files})
 
 
 
 set(ALL_FILES
+    ${Generated_Files}
     ${Header_Files}
+    ${Protobuf_Files}
+    ${Protobuf_Files__Generated_Files}
     ${Replay}
+    ${CONTENTS_Files}
     ${Source_Files}
-    ${Source_Files__HL2_DLL}
-    ${Source_Files__HL2_DLL__unused}
+    ${Source_Files__Economy}
+    ${Source_Files__IFM}
+    ${Source_Files__Navigation_Mesh}
+    ${Source_Files__NextBot}
+    ${Source_Files__NextBot__NextBotCommonBehaviors}
+    ${Source_Files__NextBot__NextBotInterfaces}
+    ${Source_Files__NextBot__NextBotNavMeshEntities}
+    ${Source_Files__NextBot__NextBotPath}
+    ${Source_Files__NextBot__NextBotPlayer}
     ${Source_Files__Precompiled_Header}
-    ${Source_Files__VANCE}
+    ${Source_Files__Steam_Workshop}
+    ${Source_Files__TF}
+    ${Source_Files__TF__Bot}
+    ${Source_Files__TF__Bot_NPC}
+    ${Source_Files__TF__Bot__Behavior}
+    ${Source_Files__TF__Bot__Behavior__Demoman}
+    ${Source_Files__TF__Bot__Behavior__Engineer}
+    ${Source_Files__TF__Bot__Behavior__Engineer__MvMEngineer}
+    ${Source_Files__TF__Bot__Behavior__Medic}
+    ${Source_Files__TF__Bot__Behavior__Missions}
+    ${Source_Files__TF__Bot__Behavior__NavEntities}
+    ${Source_Files__TF__Bot__Behavior__Scenario__CapturePoint}
+    ${Source_Files__TF__Bot__Behavior__Scenario__CaptureTheFlag}
+    ${Source_Files__TF__Bot__Behavior__Scenario__CreepWave}
+    ${Source_Files__TF__Bot__Behavior__Scenario__Payload}
+    ${Source_Files__TF__Bot__Behavior__Scenario__Raid}
+    ${Source_Files__TF__Bot__Behavior__Sniper}
+    ${Source_Files__TF__Bot__Behavior__Spy}
+    ${Source_Files__TF__Bot__Behavior__Squad}
+    ${Source_Files__TF__Bot__Behavior__Training}
+    ${Source_Files__TF__Bot__MapEntities}
+    ${Source_Files__TF__Halloween}
+    ${Source_Files__TF__Halloween__Behavior}
+    ${Source_Files__TF__Halloween__Eyeball_Boss}
+    ${Source_Files__TF__Halloween__Eyeball_Boss__Behavior}
+    ${Source_Files__TF__Halloween__Ghost}
+    ${Source_Files__TF__Halloween__Merasmus}
+    ${Source_Files__TF__Halloween__Merasmus__Behavior}
+    ${Source_Files__TF__Halloween__Spell}
+    ${Source_Files__TF__Halloween__Zombie}
+    ${Source_Files__TF__Halloween__Zombie__Behavior}
+    ${Source_Files__TF__Matchmaking}
+    ${Source_Files__TF__MiniGames}
+    ${Source_Files__TF__NavMesh}
+    ${Source_Files__TF__PvE}
+    ${Source_Files__TF__PvE__Boss_Alpha}
+    ${Source_Files__TF__PvE__Boss_Alpha__Behavior}
+    ${Source_Files__TF__Raid}
+    ${Source_Files__TF__Weapon}
     ${Source_Files__temporary_entities}
     ${Tools_Framework}
-    ${tymeta_Files}
-    ${Source_Files__deferred}
-    ${Source_Files__deferred__shared}
 )
 
 ################################################################################
@@ -1284,6 +2055,8 @@ add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
 target_precompile_headers(${PROJECT_NAME} PRIVATE
     "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/cbase.h>"
 )
+
+set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "Game")
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 ################################################################################
@@ -1297,12 +2070,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/vance/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/vance/bin"
-        )
+    OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../game/vance/bin"
+    OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/vance/bin"
+)
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
-        )
+    PDB_OUTPUT_DIRECTORY         "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
+)
 ################################################################################
 # MSVC runtime library
 ################################################################################
@@ -1326,20 +2099,20 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_vance;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.3.0/src;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_tf;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.6.1/src;"
     "${CMAKE_CURRENT_SOURCE_DIR}/.;"
     "${CMAKE_CURRENT_SOURCE_DIR}/../shared;"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../utils/common;"
     "${CMAKE_CURRENT_SOURCE_DIR}/../shared/econ;"
     "${CMAKE_CURRENT_SOURCE_DIR}/NextBot;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../gcsdk/steamextra;"
     "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../shared/episodic;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../shared/vance;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/episodic;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/deferred;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/vance"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tf;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tf/vgui;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../statemachine;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../shared/Multiplayer;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../shared/tf"
 )
 
 ################################################################################
@@ -1347,12 +2120,16 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     "$<$<CONFIG:Debug>:"
-        "_HAS_ITERATOR_DEBUGGING=0;"
+        "DISABLE_ETW;"
         "_DEBUG;"
-        "DEBUG"
+        "DEBUG;"
+        "_SCL_SECURE_NO_WARNINGS"
     ">"
     "$<$<CONFIG:Release>:"
-        "NDEBUG"
+        "NDEBUG;"
+        "_ALLOW_RUNTIME_LIBRARY_MISMATCH;"
+        "_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;"
+        "_ALLOW_MSC_VER_MISMATCH"
     ">"
     "VPC;"
     "RAD_TELEMETRY_DISABLED;"
@@ -1362,9 +2139,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "_USRDLL;"
     "_CRT_SECURE_NO_DEPRECATE;"
     "_CRT_NONSTDC_NO_DEPRECATE;"
-    "_ALLOW_RUNTIME_LIBRARY_MISMATCH;"
-    "_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;"
-    "_ALLOW_MSC_VER_MISMATCH;"
+    "PLATFORM_32BITS;"
     "COMPILER_MSVC32;"
     "COMPILER_MSVC;"
     "_DLL_EXT=.dll;"
@@ -1374,6 +2149,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "WMV_VIDEO;"
     "DEV_BUILD;"
     "FRAME_POINTER_OMISSION_DISABLED;"
+    "REPLAY_ENABLED;"
     "GAME_DLL;"
     "VECTOR;"
     "VERSION_SAFE_STEAM_API_INTERFACES;"
@@ -1382,15 +2158,19 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "strncpy=use_Q_strncpy_instead;"
     "_snprintf=use_Q_snprintf_instead;"
     "fopen=dont_use_fopen;"
-    "HL2_DLL;"
-    "HL2_EPISODIC;"
-    "VANCE;"
-    "USES_SAVERESTORE;"
+    "USES_ECON_ITEMS;"
+    "USE_NAV_MESH;"
+    "TF_DLL;"
+    "ENABLE_GC_MATCHMAKING;"
+    "GLOWS_ENABLE;"
+    "USE_DYNAMIC_ASSET_LOADING;"
+    "NEXT_BOT;"
     "_EXTERNAL_DLL_EXT=.dll;"
     "VPCGAMECAPS=VANCE;"
-    "PROJECTDIR=E:\\Projects\\TymetaWorks\\AboutSource\\vance\\src\\game\\server;"
+    "PROJECTDIR=E:\\ReCrash\\ProjectRe\\InvadeEngine\\src\\game\\server;"
     "SOURCE1=1;"
-    "VPCGAME=vance;"
+	"FUCK_STEAM;"
+    "VPCGAME=tf;"
     "_MBCS"
 )
 
@@ -1410,22 +2190,48 @@ if(MSVC)
             /Gy;
             /Zi;
             /Ot;
-            /Zo
+            /Zo;
+            /Oy-
         >
         /MP;
+        /permissive;
         /GF;
-        /arch:SSE;
-
+        /W4;
+        /WX-;
         /TP;
         /fp:fast;
         /GR;
         /wd4316;
-        /Zm200;
+        /wd4577;
+        /wd4091;
+        /Zm750;
         /Gw;
         /Zc:inline;
+        /Zc:threadSafeInit-;
+        /Wv:18;
         /GS;
         /Zc:forScope
     )
+    string(CONCAT FILE_CL_OPTIONS
+        "/Y-"
+    )
+    source_file_compile_options(generated_proto_tf/gcsystemmsgs.pb.cc ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+        "/Y-"
+    )
+    source_file_compile_options(generated_proto_tf/tf_gcmessages.pb.cc ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+        "/Y-"
+    )
+    source_file_compile_options(generated_proto_tf/base_gcmessages.pb.cc ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+        "/Y-"
+    )
+    source_file_compile_options(generated_proto_tf/econ_gcmessages.pb.cc ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+        "/Y-"
+    )
+    source_file_compile_options(generated_proto_tf/steammessages.pb.cc ${FILE_CL_OPTIONS})
     string(CONCAT FILE_CL_OPTIONS
         "/Y-"
     )
@@ -1434,6 +2240,14 @@ if(MSVC)
         "/Y-"
     )
     source_file_compile_options(../../public/collisionutils.cpp ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+        "/Y-"
+    )
+    source_file_compile_options(../../common/crypto.cpp ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+        "/Y-"
+    )
+    source_file_compile_options(../../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
     string(CONCAT FILE_CL_OPTIONS
         "/Y-"
     )
@@ -1533,6 +2347,10 @@ if(MSVC)
     string(CONCAT FILE_CL_OPTIONS
         "/Y-"
     )
+    source_file_compile_options(../../common/steamid.cpp ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+        "/Y-"
+    )
     source_file_compile_options(../../public/stringregistry.cpp ${FILE_CL_OPTIONS})
     string(CONCAT FILE_CL_OPTIONS
         "/Y-"
@@ -1541,16 +2359,13 @@ if(MSVC)
     string(CONCAT FILE_CL_OPTIONS
         "/Y-"
     )
-    source_file_compile_options(episodic/ep1_gamestats.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-        "/Y-"
-    )
-    source_file_compile_options(episodic/ep2_gamestats.cpp ${FILE_CL_OPTIONS})
+    source_file_compile_options(tf/tf_voteissues.cpp ${FILE_CL_OPTIONS})
     target_link_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
             /NODEFAULTLIB:libcpmt;
             /NODEFAULTLIB:libcpmt1;
+            /NOLOGO;
             /INCREMENTAL
         >
         $<$<CONFIG:Release>:
@@ -1564,13 +2379,13 @@ if(MSVC)
         >
         /NODEFAULTLIB:libc;
         /NODEFAULTLIB:libcd;
-        /NOLOGO;
         /MANIFEST:NO;
-        /DEBUG;
+        /DEBUG:FASTLINK;
         /SAFESEH:NO;
         /SUBSYSTEM:WINDOWS;
         /DYNAMICBASE:NO;
-        /ignore:4221
+        /ignore:4221;
+
     )
 endif()
 
@@ -1578,65 +2393,64 @@ endif()
 # Dependencies
 ################################################################################
 add_dependencies(${PROJECT_NAME}
-        Dmxloader
-        bitmap
-        choreoobjects
-        gcsdk
-        mathlib
-        matsys_controls
-        particles
-        replay_common
-        tier0
-        tier1
-        tier2
-        tier3
-        vgui_controls
-        vpklib
-        vstdlib
-        vtf
-        zlib
-        )
+    Dmxloader
+    bitmap
+    choreoobjects
+    gcsdk
+    mathlib
+    matsys_controls
+    particles
+    replay_common
+    tier0
+    tier1
+    tier2
+    tier3
+    vgui_controls
+    vpklib
+    vstdlib
+    vtf
+    zlib
+)
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        Dmxloader
-        bitmap
-        choreoobjects
-        gcsdk
-        mathlib
-        matsys_controls
-        particles
-        replay_common
-        tier0
-        tier1
-        tier2
-        tier3
-        vgui_controls
-        vpklib
-        vstdlib
-        vtf
-        zlib
-        Jpeglib
+    Dmxloader
+    bitmap
+    choreoobjects
+    gcsdk
+    mathlib
+    matsys_controls
+    particles
+    replay_common
+    tier0
+    tier1
+    tier2
+    tier3
+    vgui_controls
+    vpklib
+    vstdlib
+    vtf
+    zlib
+	Jpeglib
 
-        steamemu
+	steamemu
 
-        cryptlib
+	cryptlib
 
 
-        libprotobuf
+	libprotobuf
 
-        "shell32;"
-        "user32;"
-        "advapi32;"
-        "gdi32;"
-        "comdlg32;"
-        "ole32;"
-        "winmm;"
-        "wsock32;"
-        "Ws2_32"
-        )
+    "shell32;"
+    "user32;"
+    "advapi32;"
+    "gdi32;"
+    "comdlg32;"
+    "ole32;"
+    "winmm;"
+    "ws2_32"
+)
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public"
-        )
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public"
+)

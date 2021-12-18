@@ -66,6 +66,8 @@ public:
 	bool IsBaseControlPoint( int iPointIndex );
 
 	bool PlayingMiniRounds( void ){	return ( m_ControlPointRounds.Count() > 0 ); }
+	int GetNumRounds( void ) { return m_ControlPointRounds.Count(); }
+	const CTeamControlPointRound* GetRoundByIndex( int nIndex ) const;
 
 	float PointLastContestedAt( int point );
 	CTeamControlPoint *GetControlPoint( int point )

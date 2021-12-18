@@ -13,7 +13,7 @@
 #include "vphysics/object_hash.h"
 #include "mathlib/IceKey.H"
 #include "checksum_crc.h"
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 #include "cdll_util.h"
 #endif
 #include "particle_parse.h"
@@ -34,6 +34,7 @@
 bool NPC_CheckBrushExclude( CBaseEntity *pEntity, CBaseEntity *pBrush );
 #endif
 
+#include "steam/steam_api.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -156,8 +157,11 @@ float SharedRandomFloat( const char *sharedname, float flMinVal, float flMaxVal,
 	Assert( CBaseEntity::GetPredictionRandomSeed() != -1 );
 
 	int seed = SeedFileLineHash( CBaseEntity::GetPredictionRandomSeed(), sharedname, additionalSeed );
-	RandomSeed( seed );
-	return RandomFloat( flMinVal, flMaxVal );
+	RandomStartScope();
+	RandomSeedScoped(seed);
+	const float Random = RandomFloatScoped(flMinVal, flMaxVal);
+	RandomEndScope();
+	return Random;
 }
 
 int SharedRandomInt( const char *sharedname, int iMinVal, int iMaxVal, int additionalSeed /*=0*/ )
@@ -165,8 +169,11 @@ int SharedRandomInt( const char *sharedname, int iMinVal, int iMaxVal, int addit
 	Assert( CBaseEntity::GetPredictionRandomSeed() != -1 );
 
 	int seed = SeedFileLineHash( CBaseEntity::GetPredictionRandomSeed(), sharedname, additionalSeed );
-	RandomSeed( seed );
-	return RandomInt( iMinVal, iMaxVal );
+	RandomStartScope();
+	RandomSeedScoped( seed );
+	const int Random = RandomIntScoped(iMinVal, iMaxVal);
+	RandomEndScope();
+	return Random;
 }
 
 Vector SharedRandomVector( const char *sharedname, float minVal, float maxVal, int additionalSeed /*=0*/ )
@@ -174,14 +181,16 @@ Vector SharedRandomVector( const char *sharedname, float minVal, float maxVal, i
 	Assert( CBaseEntity::GetPredictionRandomSeed() != -1 );
 
 	int seed = SeedFileLineHash( CBaseEntity::GetPredictionRandomSeed(), sharedname, additionalSeed );
-	RandomSeed( seed );
+	RandomStartScope();
+	RandomSeedScoped(seed);
 	// HACK:  Can't call RandomVector/Angle because it uses rand() not vstlib Random*() functions!
 	// Get a random vector.
-	Vector random;
-	random.x = RandomFloat( minVal, maxVal );
-	random.y = RandomFloat( minVal, maxVal );
-	random.z = RandomFloat( minVal, maxVal );
-	return random;
+	Vector vRandom;
+	vRandom.x = RandomFloat( minVal, maxVal );
+	vRandom.y = RandomFloat( minVal, maxVal );
+	vRandom.z = RandomFloat( minVal, maxVal );
+	RandomEndScope();
+	return vRandom;
 }
 
 QAngle SharedRandomAngle( const char *sharedname, float minVal, float maxVal, int additionalSeed /*=0*/ )
@@ -189,15 +198,16 @@ QAngle SharedRandomAngle( const char *sharedname, float minVal, float maxVal, in
 	Assert( CBaseEntity::GetPredictionRandomSeed() != -1 );
 
 	int seed = SeedFileLineHash( CBaseEntity::GetPredictionRandomSeed(), sharedname, additionalSeed );
-	RandomSeed( seed );
-
+	RandomStartScope();
+	RandomSeedScoped(seed);
 	// HACK:  Can't call RandomVector/Angle because it uses rand() not vstlib Random*() functions!
 	// Get a random vector.
-	Vector random;
-	random.x = RandomFloat( minVal, maxVal );
-	random.y = RandomFloat( minVal, maxVal );
-	random.z = RandomFloat( minVal, maxVal );
-	return QAngle( random.x, random.y, random.z );
+	Vector vRandom;
+	vRandom.x = RandomFloat( minVal, maxVal );
+	vRandom.y = RandomFloat( minVal, maxVal );
+	vRandom.z = RandomFloat( minVal, maxVal );
+	RandomEndScope();
+	return QAngle( vRandom.x, vRandom.y, vRandom.z );
 }
 
 
@@ -824,7 +834,7 @@ bool UTIL_IsLowViolence( void )
 	if ( !violence_hblood.GetBool() || !violence_ablood.GetBool() || !violence_hgibs.GetBool() || !violence_agibs.GetBool() )
 		return true;
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	// Use low violence if the local player has an item that allows them to see it (Pyro Goggles)
 	if ( IsLocalPlayerUsingVisionFilterFlags( TF_VISION_FILTER_PYRO ) )
 	{
@@ -1034,36 +1044,189 @@ float CountdownTimer::Now( void ) const
 	{
 		return ToBasePlayer( ClientEntityList().GetEnt( entindex ) );
 	}
-
-//=============================================================================
-// HPE_BEGIN:
-// [menglish] Added UTIL function for events in client win_panel which transmit the player as a user ID
-//=============================================================================
-
-	CBasePlayer* UTIL_PlayerByUserId( int userID )
-	{
-		for (int i = 1; i<=gpGlobals->maxClients; i++ )
-		{
-			CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
-
-			if ( !pPlayer )
-				continue;
-
-			if ( pPlayer->GetUserID() == userID )
-			{
-				return pPlayer;
-			}
-		}
-
-		return NULL;
-	}
-
-//=============================================================================
-// HPE_END
-//=============================================================================
-
 #endif
 
+
+CBasePlayer *UTIL_PlayerBySteamID( const CSteamID &steamID )
+{
+	CSteamID steamIDPlayer;
+	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
+	{
+		CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+		if ( !pPlayer )
+			continue;
+
+		if ( !pPlayer->GetSteamID( &steamIDPlayer ) )
+			continue;
+
+		if ( steamIDPlayer == steamID )
+			return pPlayer;
+	}
+	return NULL;
+}
+
+// Helper for use with console commands and the like.
+// Returns NULL if not found or if the provided arg would match multiple players.
+// Currently accepts, in descending priority:
+//  - Formatted SteamID ([U:1:1234])
+//  - SteamID64 (76561197989728462)
+//  - Legacy SteamID (STEAM_0:1:1234)
+//  - UserID preceded by a pound (#4)
+//  - Partial name match (if unique)
+//  - UserID not preceded by a pound*
+//
+// *Does not count as ambiguous with higher priority items
+CBasePlayer* UTIL_PlayerByCommandArg( const char *arg )
+{
+	size_t nLength = V_strlen( arg );
+	if ( nLength < 1 )
+		{ return NULL; }
+
+	// Is the argument numeric?
+	bool bAllButFirstNumbers = true;
+	for ( size_t idx = 1; bAllButFirstNumbers && idx < nLength; idx++ )
+	{
+		bAllButFirstNumbers = V_isdigit( arg[idx] );
+	}
+	bool bAllNumbers = V_isdigit( arg[0] ) && bAllButFirstNumbers;
+
+	// Keep searching when we find a match to track ambiguous results
+	CBasePlayer *pFound = NULL;
+
+	// Assign pFound unless we already found a different player, in which case return NULL due to ambiguous
+	// WTB Lambdas
+#define UTIL_PLAYERBYCMDARG_CHECKMATCH( pEvalMatch ) \
+	do                                               \
+	{                                                \
+		CBasePlayer *_pMacroMatch = (pEvalMatch);    \
+		if ( _pMacroMatch )                          \
+		{                                            \
+			/* Ambiguity check */                    \
+			if ( pFound && pFound != _pMacroMatch )  \
+				{ return NULL; }                     \
+			pFound = _pMacroMatch;                   \
+		}                                            \
+	} while ( false );
+
+	// Formatted SteamID or SteamID64
+	if ( bAllNumbers || ( arg[0] == '[' && arg[nLength-1] == ']' ) )
+	{
+		CSteamID steamID;
+		bool bMatch = steamID.SetFromStringStrict( arg, GetUniverse() );
+		UTIL_PLAYERBYCMDARG_CHECKMATCH( bMatch ? UTIL_PlayerBySteamID( steamID ) : NULL );
+	}
+
+	// Legacy SteamID?
+	const char szPrefix[] = "STEAM_";
+	if ( nLength >= V_ARRAYSIZE( szPrefix ) && V_strncmp( szPrefix, arg, V_ARRAYSIZE( szPrefix ) - 1 ) == 0 )
+	{
+		CSteamID steamID;
+		bool bMatch = steamID.SetFromSteam2String( arg, GetUniverse() );
+		UTIL_PLAYERBYCMDARG_CHECKMATCH( bMatch ? UTIL_PlayerBySteamID( steamID ) : NULL );
+	}
+
+	// UserID preceded by a pound (#4)
+	if ( nLength > 1 && arg[0] == '#' && bAllButFirstNumbers )
+	{
+		UTIL_PLAYERBYCMDARG_CHECKMATCH( UTIL_PlayerByUserId( V_atoi( arg + 1 ) ) );
+	}
+
+	// Partial name match (if unique)
+	UTIL_PLAYERBYCMDARG_CHECKMATCH( UTIL_PlayerByPartialName( arg ) );
+
+	// UserID not preceded by a pound
+	// *Does not count as ambiguous with higher priority items
+	if ( bAllNumbers && !pFound )
+	{
+		UTIL_PLAYERBYCMDARG_CHECKMATCH( UTIL_PlayerByUserId( V_atoi( arg ) ) );
+	}
+
+	return pFound;
+
+#undef UTIL_PLAYERBYCMDARG_CHECKMATCH
+}
+
+CBasePlayer* UTIL_PlayerByName( const char *name )
+{
+	if ( !name || !name[0] )
+		return NULL;
+
+	for (int i = 1; i<=gpGlobals->maxClients; i++ )
+	{
+		CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+
+		if ( !pPlayer )
+			continue;
+
+#ifndef CLIENT_DLL
+		if ( !pPlayer->IsConnected() )
+			continue;
+#endif
+
+		if ( Q_stricmp( pPlayer->GetPlayerName(), name ) == 0 )
+		{
+			return pPlayer;
+		}
+	}
+
+	return NULL;
+}
+
+// Finds a player who has this non-ambiguous substring
+CBasePlayer* UTIL_PlayerByPartialName( const char *name )
+{
+	if ( !name || !name[0] )
+		return NULL;
+
+	CBasePlayer *pFound = NULL;
+	for (int i = 1; i<=gpGlobals->maxClients; i++ )
+	{
+		CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+
+		if ( !pPlayer )
+			continue;
+
+#ifndef CLIENT_DLL
+		if ( !pPlayer->IsConnected() )
+			continue;
+#endif
+
+		if ( Q_stristr( pPlayer->GetPlayerName(), name ) )
+		{
+			if ( pFound )
+			{
+				// Ambiguous
+				return NULL;
+			}
+			pFound = pPlayer;
+		}
+	}
+
+	return pFound;
+}
+
+CBasePlayer* UTIL_PlayerByUserId( int userID )
+{
+	for (int i = 1; i<=gpGlobals->maxClients; i++ )
+	{
+		CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+
+		if ( !pPlayer )
+			continue;
+
+#ifndef CLIENT_DLL
+		if ( !pPlayer->IsConnected() )
+			continue;
+#endif
+
+		if ( pPlayer->GetUserID()  == userID )
+		{
+			return pPlayer;
+		}
+	}
+
+	return NULL;
+}
 
 char* ReadAndAllocStringValue( KeyValues *pSub, const char *pName, const char *pFilename )
 {
@@ -1099,57 +1262,6 @@ int UTIL_StringFieldToInt( const char *szValue, const char **pValueStrings, int 
 	return -1;
 }
 
-static char s_NumBitsInNibble[ 16 ] =
-        {
-                0, // 0000 = 0
-                1, // 0001 = 1
-                1, // 0010 = 2
-                2, // 0011 = 3
-                1, // 0100 = 4
-                2, // 0101 = 5
-                2, // 0110 = 6
-                3, // 0111 = 7
-                1, // 1000 = 8
-                2, // 1001 = 9
-                2, // 1010 = 10
-                3, // 1011 = 11
-                2, // 1100 = 12
-                3, // 1101 = 13
-                3, // 1110 = 14
-                4, // 1111 = 15
-        };
-
-int UTIL_CountNumBitsSet( unsigned int nVar )
-{
-    int nNumBits = 0;
-
-    while ( nVar > 0 )
-    {
-        // Look up and add in bits in the bottom nibble
-        nNumBits += s_NumBitsInNibble[ nVar & 0x0f ];
-
-        // Shift one nibble to the right
-        nVar >>= 4;
-    }
-
-    return nNumBits;
-}
-
-int UTIL_CountNumBitsSet( uint64 nVar )
-{
-    int nNumBits = 0;
-
-    while ( nVar > 0 )
-    {
-        // Look up and add in bits in the bottom nibble
-        nNumBits += s_NumBitsInNibble[ nVar & 0x0f ];
-
-        // Shift one nibble to the right
-        nVar >>= 4;
-    }
-
-    return nNumBits;
-}
 
 int find_day_of_week( struct tm& found_day, int day_of_week, int step )
 {
@@ -1225,4 +1337,79 @@ const char* UTIL_GetActiveHolidayString()
 #else
 	return NULL;
 #endif
+}
+
+extern ISoundEmitterSystemBase *soundemitterbase;
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+const char *UTIL_GetRandomSoundFromEntry( const char* pszEntryName )
+{
+	Assert( pszEntryName );
+
+	if ( pszEntryName )
+	{
+		int soundIndex = soundemitterbase->GetSoundIndex( pszEntryName );
+		CSoundParametersInternal *internal = ( soundIndex != -1 ) ? soundemitterbase->InternalGetParametersForSound( soundIndex ) : NULL;
+		// See if we need to pick a random one
+		if ( internal )
+		{
+			int wave = RandomInt( 0, internal->NumSoundNames() - 1 );
+			pszEntryName = soundemitterbase->GetWaveName( internal->GetSoundNames()[wave].symbol );
+		}
+	}
+
+	return pszEntryName;
+}
+
+/// Clamp and round float vals to int.  The values are in the 0...255 range.
+Color FloatRGBAToColor( float r, float g, float b, float a )
+{
+	return Color(
+		(unsigned char)clamp(r + .5f, 0.0, 255.0f),
+		(unsigned char)clamp(g + .5f, 0.0, 255.0f),
+		(unsigned char)clamp(b + .5f, 0.0, 255.0f),
+		(unsigned char)clamp(a + .5f, 0.0, 255.0f)
+	);
+}
+
+float LerpFloat( float x0, float x1, float t )
+{
+	return x0 + (x1 - x0) * t;
+}
+
+Color LerpColor( const Color &c0, const Color &c1, float t )
+{
+	if ( t <= 0.0f ) return c0;
+	if ( t >= 1.0f ) return c1;
+	return FloatRGBAToColor(
+		LerpFloat( (float)c0.r(), (float)c1.r(), t ),
+		LerpFloat( (float)c0.g(), (float)c1.g(), t ),
+		LerpFloat( (float)c0.b(), (float)c1.b(), t ),
+		LerpFloat( (float)c0.a(), (float)c1.a(), t )
+	);
+}
+
+ISteamUtils* GetSteamUtils()
+{
+#ifdef GAME_DLL
+	// Use steamgameserver context if this isn't a client/listenserver.
+	if ( engine->IsDedicatedServer() )
+	{
+		return steamgameserverapicontext ? steamgameserverapicontext->SteamGameServerUtils() : NULL;
+	}
+#endif
+	return steamapicontext ? steamapicontext->SteamUtils() : NULL;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+EUniverse GetUniverse()
+{
+	if ( !GetSteamUtils() )
+		return k_EUniverseInvalid;
+
+	static EUniverse steamUniverse = GetSteamUtils()->GetConnectedUniverse();
+	return steamUniverse;
 }

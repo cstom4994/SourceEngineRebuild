@@ -312,6 +312,7 @@ CTeamTrainWatcher::CTeamTrainWatcher()
 	m_bReceding = false;
 
 	m_flTrainDistanceFromStart = 0.0f;
+	m_flTrainDistanceAccumulator = 0.f;
 
 	m_nTrainRecedeTime = 0;
 
@@ -1236,7 +1237,47 @@ void CTeamTrainWatcher::WatcherThink( void )
 
 			m_flTotalProgress = clamp( 1.0 - ( flDistanceToGoal / m_flTotalPathDistance ), 0.0, 1.0 );
 
+			float flLastDistanceFromStart = m_flTrainDistanceFromStart;
 			m_flTrainDistanceFromStart = m_flTotalPathDistance - flDistanceToGoal;
+
+			//engine->Con_NPrintf( 0, "%f", m_flTrainDistanceAccumulator );
+
+			const int nMinProgressToReport = 16; // 16 hammer units per foot
+			// Check if we've made forward progress.
+			if ( m_flTrainDistanceFromStart > flLastDistanceFromStart )
+			{
+				// Accumulate distance traveled
+				m_flTrainDistanceAccumulator += m_flTrainDistanceFromStart - flLastDistanceFromStart;
+		
+				// If we're travelling forward and made enough progress to warrant firing an event
+				if ( m_iTrainSpeedLevel > 0 && m_flTrainDistanceAccumulator >= nMinProgressToReport )
+				{
+					
+					m_flTrainDistanceAccumulator -= nMinProgressToReport;
+
+					// Fire an event for all the touching players
+					if ( m_hAreaCap.Get() )
+					{
+						for ( int i = 1; i <= gpGlobals->maxClients; i++ )
+						{
+							CBaseMultiplayerPlayer *pPlayer = ToBaseMultiplayerPlayer( UTIL_PlayerByIndex( i ) );
+							if ( pPlayer )
+							{
+								if ( m_hAreaCap->IsTouching( pPlayer ) )
+								{
+									IGameEvent *pEvent = gameeventmanager->CreateEvent( "payload_pushed" );
+									if ( pEvent )
+									{
+										pEvent->SetInt( "pusher", pPlayer->GetUserID() );
+										pEvent->SetInt( "distance", 1 );
+										gameeventmanager->FireEvent( pEvent, true );
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 
 			// play alert sounds if necessary
 			for ( int iCount = 0 ; iCount < m_iNumCPLinks ; iCount++ )

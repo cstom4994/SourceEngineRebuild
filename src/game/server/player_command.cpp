@@ -178,6 +178,7 @@ void CPlayerMove::SetupMove( CBasePlayer *player, CUserCmd *ucmd, IMoveHelper *p
 	// Prepare remaining fields
 	move->m_flClientMaxSpeed		= player->m_flMaxspeed;
 	move->m_nOldButtons			= player->m_Local.m_nOldButtons;
+	move->m_flOldForwardMove = player->m_Local.m_flOldForwardMove;
 	move->m_vecAngles			= player->pl.v_angle;
 
 	move->m_vecVelocity			= player->GetAbsVelocity();

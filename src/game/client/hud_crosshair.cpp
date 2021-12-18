@@ -31,15 +31,12 @@
 
 ConVar crosshair( "crosshair", "1", FCVAR_ARCHIVE );
 ConVar cl_observercrosshair( "cl_observercrosshair", "1", FCVAR_ARCHIVE );
-#ifdef VANCE
-ConVar cl_crosshair_forceaimdirection( "cl_crosshair_forceaimdirection", "1" );
-#endif
 
 using namespace vgui;
 
 int ScreenTransform( const Vector& point, Vector& screen );
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 // If running TF, we use CHudTFCrosshair instead (which is derived from CHudCrosshair)
 #else
 DECLARE_HUDELEMENT( CHudCrosshair );
@@ -136,7 +133,7 @@ bool CHudCrosshair::ShouldDraw( void )
 	return ( bNeedsDraw && CHudElement::ShouldDraw() );
 }
 
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 extern ConVar cl_crosshair_red;
 extern ConVar cl_crosshair_green;
 extern ConVar cl_crosshair_blue;
@@ -168,18 +165,10 @@ void CHudCrosshair::GetDrawPosition ( float *pX, float *pY, bool *pbBehindCamera
 		Vector vecStart;
 		Vector vecEnd;
 
-		if ( UseVR() 
-#ifdef VANCE
-		|| cl_crosshair_forceaimdirection.GetBool()
-#endif
-		)
+		if ( UseVR() )
 		{
 			// These are the correct values to use, but they lag the high-speed view data...
-#ifdef VANCE
-			vecStart = MainViewOrigin();
-#else
 			vecStart = pPlayer->Weapon_ShootPosition();
-#endif
 			Vector vecAimDirection = pPlayer->GetAutoaimVector( 1.0f );
 			// ...so in some aim modes, they get zapped by something completely up-to-date.
 			g_ClientVirtualReality.OverrideWeaponHudAimVectors ( &vecStart, &vecAimDirection );
@@ -270,7 +259,7 @@ void CHudCrosshair::Paint( void )
 	}
 
 	float flPlayerScale = 1.0f;
-#ifdef TF_CLIENT_DLL
+#ifdef PONDER_CLIENT_DLL
 	Color clr( cl_crosshair_red.GetInt(), cl_crosshair_green.GetInt(), cl_crosshair_blue.GetInt(), 255 );
 	flPlayerScale = cl_crosshair_scale.GetFloat() / 32.0f;  // the player can change the scale in the options/multiplayer tab
 #else

@@ -46,7 +46,7 @@ void CBasePresence::SetupGameProperties( CUtlVector< XUSER_CONTEXT > &contexts, 
 {
 	// TODO: Implement for PC
 }
-unsigned int CBasePresence::GetPresenceID( const char *pIDName )
+uint CBasePresence::GetPresenceID(const char *pIDName )
 {
 	return 0;
 }
