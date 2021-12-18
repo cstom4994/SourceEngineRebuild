@@ -19,6 +19,11 @@
 #include "hl2mptextwindow.h"
 #include "ienginevgui.h"
 
+
+#ifdef ENABLE_CEF
+#include "src_cef.h"
+#endif // ENABLE_CEF
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 //-----------------------------------------------------------------------------
@@ -60,7 +65,37 @@ protected:
 	}
 
 	virtual IViewPortPanel *CreatePanelByName( const char *szPanelName );
+
+#ifdef ENABLE_CEF
+    virtual void PostChildPaint();
+#endif // ENABLE_CEF
 };
+
+
+#ifdef ENABLE_CEF
+extern ConVar g_cef_draw;
+extern ConVar cl_drawhud;
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+void CHudViewport::PostChildPaint()
+{
+    BaseClass::PostChildPaint();
+
+    if( !g_cef_draw.GetBool() || !cl_drawhud.GetBool() )
+        return;
+
+    SrcCefBrowser *pBrowser = CEFSystem().FindBrowserByName( "CefViewPort" );
+    if( pBrowser && pBrowser->GetPanel() )
+    {
+        SrcCefVGUIPanel *pPanel = pBrowser->GetPanel();
+        pPanel->SetDoNotDraw( true ); // we draw it here and not in Paint
+        pPanel->DrawWebview();
+    }
+}
+#endif // ENABLE_CEF
+
 
 int ClientModeHL2MPNormal::GetDeathMessageStartHeight( void )
 {

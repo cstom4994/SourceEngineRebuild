@@ -114,6 +114,7 @@ add_subdirectory(game/client)
 add_subdirectory(game/gameui2)
 add_subdirectory(game/server)
 
+add_subdirectory(cef_process_helper)
 add_subdirectory(gameui)
 add_subdirectory(gcsdk)
 add_subdirectory(launcher)

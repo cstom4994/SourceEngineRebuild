@@ -70,6 +70,8 @@ public:
 
     virtual void DetachFromWindow();
 
+    virtual void* GetAttachedWindow();
+
     virtual void EnableInput(bool bEnable);
 
     virtual void EnableMessagePump(bool bEnable);

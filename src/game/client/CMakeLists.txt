@@ -1245,6 +1245,30 @@ set(SEE_Files
 source_group("Shader Editor Files" FILES ${SEE_Files})
 
 
+set(Source_Files__cef
+        "cef/src_cef.cpp"
+        "cef/src_cef.h"
+        "cef/src_cef_avatar_handler.cpp"
+        "cef/src_cef_avatar_handler.h"
+        "cef/src_cef_browser.cpp"
+        "cef/src_cef_browser.h"
+        "cef/src_cef_js.cpp"
+        "cef/src_cef_js.h"
+        "cef/src_cef_local_handler.cpp"
+        "cef/src_cef_local_handler.h"
+        "cef/src_cef_osrenderer.cpp"
+        "cef/src_cef_osrenderer.h"
+        "cef/src_cef_python.cpp"
+        "cef/src_cef_python.h"
+        "cef/src_cef_vgui_panel.cpp"
+        "cef/src_cef_vgui_panel.h"
+        "cef/src_cef_vtf_handler.cpp"
+        "cef/src_cef_vtf_handler.h"
+        "../../public/warscef/wars_cef_shared.h"
+        )
+source_group("Source Files\\cef" FILES ${Source_Files__cef})
+
+
 set(ALL_FILES
         ${Game_Shared_Header_Files}
         ${Header_Files}
@@ -1262,6 +1286,7 @@ set(ALL_FILES
         ${Source_Files__Sixense}
         ${Source_Files__Temporary_Entities}
         ${Source_Files__game_controls}
+        ${Source_Files__cef}
         ${Tool_Framework}
         ${game_controls_Header_Files}
         )
@@ -1319,6 +1344,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
         "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_hl2mp;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.6.1/src;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/cef;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/include;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/controls;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared;"
@@ -1326,6 +1352,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/sixensesdk/include;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp/ui;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/cef;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2mp;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2/elements;"
@@ -1376,6 +1403,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "fopen=dont_use_fopen;"
         "HL2MP;"
         "HL2_CLIENT_DLL;"
+        "ENABLE_CEF;"
         "_EXTERNAL_DLL_EXT=.dll;"
         "VPCGAMECAPS=HL2MP;"
         "PROJECTDIR=E:\\Projects\\SourceEngineWorks\\SourceEngineRebuild\\src\\game\\client;"
@@ -1642,13 +1670,12 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         vtf
         zlib
         Jpeglib
-
         steamemu
-
         cryptlib
-
-
         libprotobuf
+
+        libcef
+        libcef_dll_wrapper
 
         "shell32;"
         "user32;"
@@ -1657,6 +1684,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         "comdlg32;"
         "ole32;"
         "winmm;"
+        "imm32;"
         "wsock32;"
         "Ws2_32"
         )

@@ -344,6 +344,9 @@ void CInputSystem::DetachFromWindow() {
     m_hAttachedHWnd = 0;
 }
 
+void* CInputSystem::GetAttachedWindow() {
+    return m_hAttachedHWnd;
+}
 
 //-----------------------------------------------------------------------------
 // Enables/disables input

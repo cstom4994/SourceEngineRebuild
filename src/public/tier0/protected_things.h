@@ -243,12 +243,6 @@
 	#endif
 	#define GetAsyncKeyState	GetAsyncKeyState__USE_VCR_MODE
 
-	
-	#if defined( GetKeyState )
-		#undef GetKeyState
-	#endif
-	#define GetKeyState			GetKeyState__USE_VCR_MODE
-
 
 	#if defined( CreateThread )
 		#undef CreateThread

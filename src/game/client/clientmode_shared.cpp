@@ -66,6 +66,10 @@ extern ConVar replay_rendersetting_renderglow;
 #include "c_tf_team.h"
 #endif
 
+#ifdef ENABLE_CEF
+#include "src_cef.h"
+#endif // ENABLE_CEF
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -661,7 +665,14 @@ int	ClientModeShared::KeyInput( int down, ButtonCode_t keynum, const char *pszCu
 {
 	if ( engine->Con_IsVisible() )
 		return 1;
-	
+
+#ifdef ENABLE_CEF
+    // Pass input to cef browser if they want it
+    int ret = CEFSystem().KeyInput( down, keynum, pszCurrentBinding );
+    if( ret == 0 )
+        return 0;
+#endif // ENABLE_CEF
+
 	// Should we start typing a message?
 	if ( pszCurrentBinding &&
 		( Q_strcmp( pszCurrentBinding, "messagemode" ) == 0 ||
