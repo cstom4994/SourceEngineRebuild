@@ -9,72 +9,72 @@ set(Header_Files
 source_group("Header Files" FILES ${Header_Files})
 
 set(Interface
-        "../public/movieobjects/dmeanimationlist.h"
-        "../public/movieobjects/dmeanimationset.h"
-        "../public/movieobjects/dmeattachment.h"
-        "../public/movieobjects/dmebalancetostereocalculatoroperator.h"
-        "../public/movieobjects/dmebookmark.h"
-        "../public/movieobjects/dmecamera.h"
-        "../public/movieobjects/dmechannel.h"
-        "../public/movieobjects/dmeclip.h"
-        "../public/movieobjects/dmecombinationoperator.h"
-        "../public/movieobjects/dmedag.h"
-        "../public/movieobjects/dmedccmakefile.h"
-        "../public/movieobjects/dmedrawsettings.h"
-        "../public/movieobjects/dmeeditortypedictionary.h"
-        "../public/movieobjects/dmeexpressionoperator.h"
-        "../public/movieobjects/dmeeyeball.h"
-        "../public/movieobjects/dmeeyeposition.h"
-        "../public/movieobjects/dmefaceset.h"
-        "../public/movieobjects/dmegamemodel.h"
-        "../public/movieobjects/dmegamemodelinput.h"
-        "../public/movieobjects/dmeinput.h"
-        "../public/movieobjects/dmejoint.h"
-        "../public/movieobjects/dmekeyboardinput.h"
-        "../public/movieobjects/dmelight.h"
-        "../public/movieobjects/dmelog.h"
-        "../public/movieobjects/dmemakefile.h"
-        "../public/movieobjects/dmemakefileutils.h"
-        "../public/movieobjects/dmematerial.h"
-        "../public/movieobjects/dmematerialoverlayfxclip.h"
-        "../public/movieobjects/dmemdl.h"
-        "../public/movieobjects/dmemdlmakefile.h"
-        "../public/movieobjects/dmemesh.h"
-        "../public/movieobjects/dmemodel.h"
-        "../public/movieobjects/dmemorphoperator.h"
-        "../public/movieobjects/dmemouseinput.h"
-        "../public/movieobjects/dmeoperator.h"
-        "../public/movieobjects/dmepackoperators.h"
-        "../public/movieobjects/dmeparticlesystemdefinition.h"
-        "../public/movieobjects/dmephonememapping.h"
-        "../public/movieobjects/dmeselection.h"
-        "../public/movieobjects/dmeshape.h"
-        "../public/movieobjects/dmesound.h"
-        "../public/movieobjects/dmetestmesh.h"
-        "../public/movieobjects/dmetimeframe.h"
-        "../public/movieobjects/dmetimeselection.h"
-        "../public/movieobjects/dmetimeselectiontimes.h"
-        "../public/movieobjects/dmetrack.h"
-        "../public/movieobjects/dmetrackgroup.h"
-        "../public/movieobjects/dmetransform.h"
-        "../public/movieobjects/dmetransforminput.h"
-        "../public/movieobjects/dmetransformlist.h"
-        "../public/movieobjects/dmetransformoperator.h"
-        "../public/movieobjects/dmeunpackoperators.h"
-        "../public/movieobjects/dmevertexdata.h"
-        "../public/movieobjects/dmmeshcomp.h"
-        "../public/movieobjects/dmmeshutils.h"
-        "../public/movieobjects/dmobjserializer.h"
-        "../public/movieobjects/dmsmdserializer.h"
-        "../public/movieobjects/idmemakefileutils.h"
-        "../public/movieobjects/movieobjects.h"
-        "../public/movieobjects/timeutils.h"
+        "../../public/movieobjects/dmeanimationlist.h"
+        "../../public/movieobjects/dmeanimationset.h"
+        "../../public/movieobjects/dmeattachment.h"
+        "../../public/movieobjects/dmebalancetostereocalculatoroperator.h"
+        "../../public/movieobjects/dmebookmark.h"
+        "../../public/movieobjects/dmecamera.h"
+        "../../public/movieobjects/dmechannel.h"
+        "../../public/movieobjects/dmeclip.h"
+        "../../public/movieobjects/dmecombinationoperator.h"
+        "../../public/movieobjects/dmedag.h"
+        "../../public/movieobjects/dmedccmakefile.h"
+        "../../public/movieobjects/dmedrawsettings.h"
+        "../../public/movieobjects/dmeeditortypedictionary.h"
+        "../../public/movieobjects/dmeexpressionoperator.h"
+        "../../public/movieobjects/dmeeyeball.h"
+        "../../public/movieobjects/dmeeyeposition.h"
+        "../../public/movieobjects/dmefaceset.h"
+        "../../public/movieobjects/dmegamemodel.h"
+        "../../public/movieobjects/dmegamemodelinput.h"
+        "../../public/movieobjects/dmeinput.h"
+        "../../public/movieobjects/dmejoint.h"
+        "../../public/movieobjects/dmekeyboardinput.h"
+        "../../public/movieobjects/dmelight.h"
+        "../../public/movieobjects/dmelog.h"
+        "../../public/movieobjects/dmemakefile.h"
+        "../../public/movieobjects/dmemakefileutils.h"
+        "../../public/movieobjects/dmematerial.h"
+        "../../public/movieobjects/dmematerialoverlayfxclip.h"
+        "../../public/movieobjects/dmemdl.h"
+        "../../public/movieobjects/dmemdlmakefile.h"
+        "../../public/movieobjects/dmemesh.h"
+        "../../public/movieobjects/dmemodel.h"
+        "../../public/movieobjects/dmemorphoperator.h"
+        "../../public/movieobjects/dmemouseinput.h"
+        "../../public/movieobjects/dmeoperator.h"
+        "../../public/movieobjects/dmepackoperators.h"
+        "../../public/movieobjects/dmeparticlesystemdefinition.h"
+        "../../public/movieobjects/dmephonememapping.h"
+        "../../public/movieobjects/dmeselection.h"
+        "../../public/movieobjects/dmeshape.h"
+        "../../public/movieobjects/dmesound.h"
+        "../../public/movieobjects/dmetestmesh.h"
+        "../../public/movieobjects/dmetimeframe.h"
+        "../../public/movieobjects/dmetimeselection.h"
+        "../../public/movieobjects/dmetimeselectiontimes.h"
+        "../../public/movieobjects/dmetrack.h"
+        "../../public/movieobjects/dmetrackgroup.h"
+        "../../public/movieobjects/dmetransform.h"
+        "../../public/movieobjects/dmetransforminput.h"
+        "../../public/movieobjects/dmetransformlist.h"
+        "../../public/movieobjects/dmetransformoperator.h"
+        "../../public/movieobjects/dmeunpackoperators.h"
+        "../../public/movieobjects/dmevertexdata.h"
+        "../../public/movieobjects/dmmeshcomp.h"
+        "../../public/movieobjects/dmmeshutils.h"
+        "../../public/movieobjects/dmobjserializer.h"
+        "../../public/movieobjects/dmsmdserializer.h"
+        "../../public/movieobjects/idmemakefileutils.h"
+        "../../public/movieobjects/movieobjects.h"
+        "../../public/movieobjects/timeutils.h"
         )
 source_group("Interface" FILES ${Interface})
 
 set(Source_Files
-        "../common/debug_lib_check.cpp"
-        "../common/movieobjects/timeutils.cpp"
+        "../../common/debug_lib_check.cpp"
+        "../../common/movieobjects/timeutils.cpp"
         "dmeanimationlist.cpp"
         "dmeanimationset.cpp"
         "dmeattachment.cpp"
@@ -134,28 +134,14 @@ set(Source_Files
         )
 source_group("Source Files" FILES ${Source_Files})
 
-set(VPC_Scripts
-        "../vpc_scripts/platform_dirs.vpc"
-        "../vpc_scripts/source_base.vpc"
-        "../vpc_scripts/source_lib_base.vpc"
-        "../vpc_scripts/source_lib_win32_base.vpc"
-        "../vpc_scripts/source_lib_win32_debug.vpc"
-        "../vpc_scripts/source_lib_win32_release.vpc"
-        "../vpc_scripts/source_video_base.vpc"
-        "../vpc_scripts/source_win32_base.vpc"
-        "../vpc_scripts/version.vpc"
-        "movieobjects.vpc"
-        )
-source_group("VPC Scripts" FILES ${VPC_Scripts})
-
 set(external
-        "../public/bone_setup.cpp"
-        "../public/collisionutils.cpp"
-        "../public/mathlib/mathlib.h"
-        "../public/mathlib/vector.h"
-        "../public/phonemeconverter.cpp"
-        "../public/phonemeconverter.h"
-        "../public/studio.cpp"
+        "../../public/bone_setup.cpp"
+        "../../public/collisionutils.cpp"
+        "../../public/mathlib/mathlib.h"
+        "../../public/mathlib/vector.h"
+        "../../public/phonemeconverter.cpp"
+        "../../public/phonemeconverter.h"
+        "../../public/studio.cpp"
         )
 source_group("external" FILES ${external})
 
@@ -163,7 +149,6 @@ set(ALL_FILES
         ${Header_Files}
         ${Interface}
         ${Source_Files}
-        ${VPC_Scripts}
         ${external}
         )
 
@@ -206,10 +191,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public/tier1"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1"
         )
 
 ################################################################################
@@ -292,6 +277,6 @@ if (MSVC)
     string(CONCAT FILE_CL_OPTIONS
             "/Y-"
             )
-    source_file_compile_options(../common/debug_lib_check.cpp ${FILE_CL_OPTIONS})
+    source_file_compile_options(../../common/debug_lib_check.cpp ${FILE_CL_OPTIONS})
 endif ()
 

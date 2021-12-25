@@ -128,12 +128,12 @@ add_subdirectory(materialsystem/shaderlib)
 add_subdirectory(materialsystem/stdshaders_old)
 add_subdirectory(materialsystem/newshadersystem/stdshaders)
 
-add_subdirectory(movieobjects)
+add_subdirectory(minisef/movieobjects)
 add_subdirectory(particles)
 
 add_subdirectory(replay)
 add_subdirectory(replay/common)
-add_subdirectory(scenefilecache)
+add_subdirectory(minisef/scenefilecache)
 add_subdirectory(soundemittersystem)
 add_subdirectory(soundsystem)
 add_subdirectory(sourcevr)
@@ -149,7 +149,7 @@ add_subdirectory(vgui2/matsys_controls)
 add_subdirectory(vgui2/vgui_controls)
 add_subdirectory(vgui2/vgui_surfacelib)
 
-add_subdirectory(serverbrowser)
+add_subdirectory(minisef/serverbrowser)
 add_subdirectory(studiorender)
 
 add_subdirectory(tracker/AdminServer)

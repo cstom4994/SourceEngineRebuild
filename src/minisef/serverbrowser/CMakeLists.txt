@@ -1,27 +1,84 @@
-set(PROJECT_NAME SceneFileCache)
+set(PROJECT_NAME ServerBrowser)
 
 ################################################################################
 # Source groups
 ################################################################################
-set(Public_Header_Files
-        "../public/appframework/IAppSystem.h"
-        "../public/scenefilecache/ISceneFileCache.h"
-        "../public/tier1/interface.h"
-        "../public/tier1/utlbuffer.h"
-        "../public/vstdlib/vstdlib.h"
+set(Exposed_interfaces
+        "../../common/ServerBrowser/IServerBrowser.h"
         )
-source_group("Public Header Files" FILES ${Public_Header_Files})
+source_group("Exposed interfaces" FILES ${Exposed_interfaces})
+
+set(Header_Files
+        "../../common/ServerBrowser/blacklisted_server_manager.h"
+        "BaseGamesPage.h"
+        "BlacklistedServers.h"
+        "CustomGames.h"
+        "DialogAddServer.h"
+        "DialogGameInfo.h"
+        "DialogServerPassword.h"
+        "FavoriteGames.h"
+        "FriendsGames.h"
+        "HistoryGames.h"
+        "InternetGames.h"
+        "LanGames.h"
+        "ModList.h"
+        "QuickListPanel.h"
+        "ServerBrowser.h"
+        "ServerBrowserDialog.h"
+        "ServerContextMenu.h"
+        "ServerListCompare.h"
+        "SpectateGames.h"
+        )
+source_group("Header Files" FILES ${Header_Files})
 
 set(Source_Files
-        "../common/debug_dll_check.cpp"
-        "../public/tier0/memoverride.cpp"
-        "SceneFileCache.cpp"
+        "../../common/debug_dll_check.cpp"
+        "../../common/ServerBrowser/blacklisted_server_manager.cpp"
+        "../../public/tier0/memoverride.cpp"
+        "../../public/vgui_controls/vgui_controls.cpp"
+        "BaseGamesPage.cpp"
+        "BlacklistedServers.cpp"
+        "CustomGames.cpp"
+        "DialogAddServer.cpp"
+        "DialogGameInfo.cpp"
+        "DialogServerPassword.cpp"
+        "FavoriteGames.cpp"
+        "FriendsGames.cpp"
+        "HistoryGames.cpp"
+        "InternetGames.cpp"
+        "LanGames.cpp"
+        "ModList.cpp"
+        "QuickListPanel.cpp"
+        "ServerBrowser.cpp"
+        "ServerBrowserDialog.cpp"
+        "ServerContextMenu.cpp"
+        "ServerListCompare.cpp"
+        "SpectateGames.cpp"
+        "VACBannedConnRefusedDialog.cpp"
+        "VACBannedConnRefusedDialog.h"
         )
 source_group("Source Files" FILES ${Source_Files})
 
+set(VPC_Scripts
+        "../../vpc_scripts/loadaddress.vpc"
+        "../../vpc_scripts/platform_dirs.vpc"
+        "../../vpc_scripts/source_base.vpc"
+        "../../vpc_scripts/source_dll_base.vpc"
+        "../../vpc_scripts/source_dll_win32_base.vpc"
+        "../../vpc_scripts/source_dll_win32_debug.vpc"
+        "../../vpc_scripts/source_dll_win32_release.vpc"
+        "../../vpc_scripts/source_video_base.vpc"
+        "../../vpc_scripts/source_win32_base.vpc"
+        "../../vpc_scripts/version.vpc"
+        "ServerBrowser.vpc"
+        )
+source_group("VPC Scripts" FILES ${VPC_Scripts})
+
 set(ALL_FILES
-        ${Public_Header_Files}
+        ${Exposed_interfaces}
+        ${Header_Files}
         ${Source_Files}
+        ${VPC_Scripts}
         )
 
 ################################################################################
@@ -34,8 +91,8 @@ use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 # Target name
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        TARGET_NAME_DEBUG "scenefilecache"
-        TARGET_NAME_RELEASE "scenefilecache"
+        TARGET_NAME_DEBUG "ServerBrowser"
+        TARGET_NAME_RELEASE "ServerBrowser"
         )
 ################################################################################
 # Output directory
@@ -66,12 +123,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/.;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../game/shared"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1"
         )
 
 ################################################################################
@@ -101,13 +156,15 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "PLATFORM_32BITS;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "DLLNAME=scenefilecache;"
+        "DLLNAME=ServerBrowser;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
         "WMV_VIDEO;"
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
-        "PROTECTED_THINGS_ENABLE;"
+        "VERSION_SAFE_STEAM_API_INTERFACES;"
+        "SERVERBROWSER_EXPORTS;"
+        "GAME_SRC;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"
@@ -154,11 +211,11 @@ if (MSVC)
     string(CONCAT FILE_CL_OPTIONS
             "/Y-"
             )
-    source_file_compile_options(../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
+    source_file_compile_options(../../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
     string(CONCAT FILE_CL_OPTIONS
             "/Y-"
             )
-    source_file_compile_options(../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
+    source_file_compile_options(../../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
     target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -184,7 +241,6 @@ if (MSVC)
             /SUBSYSTEM:WINDOWS;
             /DYNAMICBASE:NO;
             /ignore:4221;
-
             )
 endif ()
 
@@ -192,27 +248,56 @@ endif ()
 # Dependencies
 ################################################################################
 add_dependencies(${PROJECT_NAME}
+        Bzip2
+        Dmxloader
+        appframework
+        bitmap
+        mathlib
+        matsys_controls
+        replay_common
         tier0
         tier1
+        tier2
+        tier3
+        vgui_controls
         vstdlib
+        vtf
+        zlib
         )
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
+        Bzip2
+        Dmxloader
+        appframework
+        bitmap
+        mathlib
+        matsys_controls
+        replay_common
         tier0
         tier1
+        tier2
+        tier3
+        vgui_controls
         vstdlib
+        vtf
+        zlib
+
+        steamemu
 
         "shell32;"
         "user32;"
         "advapi32;"
         "gdi32;"
         "comdlg32;"
-        "ole32"
+        "ole32;"
+        "Advapi32;"
+        "wsock32;"
+        "Ws2_32;"
+        "User32"
         )
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../lib/common;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../lib/common/win32/2015/release;"
 
         )
-
