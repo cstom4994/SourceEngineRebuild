@@ -536,7 +536,7 @@ bool CVConfigApp::Create()
 	AppSystemInfo_t appSystems[] = 
 	{
 		{ "engine.dll",		INPUTSYSTEM_INTERFACE_VERSION },
-		{ "vgui2.dll",				VGUI_IVGUI_INTERFACE_VERSION },
+		{ "engine.dll",				VGUI_IVGUI_INTERFACE_VERSION },
 		{ "", "" }	// Required to terminate the list
 	};
 

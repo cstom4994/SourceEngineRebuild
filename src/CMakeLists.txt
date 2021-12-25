@@ -156,7 +156,7 @@ add_subdirectory(tracker/AdminServer)
 
 add_subdirectory(vgui2/dme_controls)
 
-
+add_subdirectory(SDKLauncher)
 add_subdirectory(hammer)
 add_subdirectory(hammer_launcher)
 add_subdirectory(utils/vbsp)

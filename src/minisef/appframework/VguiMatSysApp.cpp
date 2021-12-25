@@ -40,7 +40,7 @@ bool CVguiMatSysApp::Create()
         { "engine.dll",		INPUTSYSTEM_INTERFACE_VERSION },
         { "materialsystem.dll",		MATERIAL_SYSTEM_INTERFACE_VERSION },
 
-        // NOTE: This has to occur before vgui2.dll so it replaces vgui2's surface implementation
+        // NOTE: This has to occur before engine.dll so it replaces vgui2's surface implementation
         { "engine.dll",		        VGUI_SURFACE_INTERFACE_VERSION },
         { "engine.dll",				VGUI_IVGUI_INTERFACE_VERSION },
 

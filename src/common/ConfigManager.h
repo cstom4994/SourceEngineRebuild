@@ -17,7 +17,6 @@
 
 // See filesystem_init for the vconfig registry values.
 
-
 #define    TOKEN_GAMES                "Games"
 #define    TOKEN_GAME_DIRECTORY    "GameDir"
 #define    TOKEN_TOOLS                "Tools"

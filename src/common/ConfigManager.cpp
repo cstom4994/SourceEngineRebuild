@@ -16,10 +16,7 @@
 #include <stdio.h>
 #include "ConfigManager.h"
 #include "SourceAppInfo.h"
-#include "steam/steam_api.h"
-
-CSteamAPIContext g_SteamAPIContext;
-CSteamAPIContext *steamapicontext = &g_SteamAPIContext;
+#include <windows.h>
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -510,17 +507,7 @@ bool CGameConfigManager::AddDefaultConfig(const defaultConfigInfo_t &info, KeyVa
 // Output : Returns true if installed, false if not.
 //-----------------------------------------------------------------------------
 bool CGameConfigManager::IsAppSubscribed(int nAppID) {
-    bool bIsSubscribed = false;
-
-    if (steamapicontext && steamapicontext->SteamApps()) {
-        // See if specified app is installed
-        bIsSubscribed = steamapicontext->SteamApps()->BIsSubscribedApp(nAppID);
-    } else {
-        // If we aren't running FileSystem Steam then we must be doing internal development. Give everything.
-        bIsSubscribed = true;
-    }
-
-    return bIsSubscribed;
+    return false;
 }
 
 //-----------------------------------------------------------------------------

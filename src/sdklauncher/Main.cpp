@@ -45,6 +45,7 @@ HANDLE g_dwChangeHandle = NULL;
 static WNDCLASS staticWndclass = {NULL};
 static ATOM staticWndclassAtom = 0;
 static HWND staticHwnd = 0;
+
 CSteamAPIContext g_SteamAPIContext;
 CSteamAPIContext *steamapicontext = &g_SteamAPIContext;
 
@@ -541,7 +542,7 @@ bool CSDKLauncherApp::Create() {
     AppSystemInfo_t appSystems[] =
             {
                     {"engine.dll", INPUTSYSTEM_INTERFACE_VERSION},
-                    {"vgui2.dll",  VGUI_IVGUI_INTERFACE_VERSION},
+                    {"engine.dll",  VGUI_IVGUI_INTERFACE_VERSION},
                     {"", ""}    // Required to terminate the list
             };
 

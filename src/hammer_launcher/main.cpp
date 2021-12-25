@@ -95,8 +95,8 @@ bool CHammerApp::Create() {
                     {"datacache.dll",      DATACACHE_INTERFACE_VERSION},
                     {"datacache.dll",      MDLCACHE_INTERFACE_VERSION},
                     {"datacache.dll",      STUDIO_DATA_CACHE_INTERFACE_VERSION},
-                    {"vguimatsurface.dll", VGUI_SURFACE_INTERFACE_VERSION},
-                    {"vgui2.dll",          VGUI_IVGUI_INTERFACE_VERSION},
+                    {"engine.dll",          VGUI_SURFACE_INTERFACE_VERSION},
+                    {"engine.dll",          VGUI_IVGUI_INTERFACE_VERSION},
                     {"hammer_dll.dll",     INTERFACEVERSION_HAMMER},
                     {"", ""}    // Required to terminate the list
             };

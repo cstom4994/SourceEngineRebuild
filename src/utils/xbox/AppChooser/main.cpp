@@ -2076,8 +2076,8 @@ bool CAppChooser::Create()
 		{ "filesystem_stdio.dll",	QUEUEDLOADER_INTERFACE_VERSION },
 		{ "materialsystem.dll",		MATERIAL_SYSTEM_INTERFACE_VERSION },
 		{ "engine.dll",		INPUTSYSTEM_INTERFACE_VERSION },
-		{ "vgui2.dll",				VGUI_IVGUI_INTERFACE_VERSION },
-		{ "vguimatsurface.dll",		VGUI_SURFACE_INTERFACE_VERSION },
+		{ "engine.dll",				VGUI_IVGUI_INTERFACE_VERSION },
+		{ "engine.dll",		VGUI_SURFACE_INTERFACE_VERSION },
 		{ "", "" }
 	};
 

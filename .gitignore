@@ -8,6 +8,7 @@
 /src/.idea
 /src/_qpc_scripts
 /src/cmake-build-dev
+/src/cmake-build-debug
 /src/lib
 
 /bak/

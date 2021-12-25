@@ -723,8 +723,8 @@ bool CTest360App::Create()
 		{ "engine.dll",		INPUTSYSTEM_INTERFACE_VERSION },
 #endif
 #if defined( USE_VGUI )
-		{ "vgui2.dll",				VGUI_IVGUI_INTERFACE_VERSION },
-		{ "vguimatsurface.dll",		VGUI_SURFACE_INTERFACE_VERSION },
+		{ "engine.dll",				VGUI_IVGUI_INTERFACE_VERSION },
+		{ "engine.dll",		VGUI_SURFACE_INTERFACE_VERSION },
 #endif
 #if defined( USE_STUDIORENDER )
 		{ "engine.dll",			VPHYSICS_INTERFACE_VERSION },

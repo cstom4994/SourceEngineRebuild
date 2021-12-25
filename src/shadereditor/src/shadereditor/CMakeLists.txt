@@ -428,7 +428,6 @@ if (MSVC)
             /NOLOGO;
             /MANIFEST:NO;
             /DEBUG;
-            /MACHINE:X86;
             /SAFESEH:NO;
             /SUBSYSTEM:WINDOWS;
             /DYNAMICBASE:NO;

@@ -60,6 +60,7 @@ set(Common_Header_Files
 source_group("Common Header Files" FILES ${Common_Header_Files})
 
 set(Resource_Files
+        "Hammer.rc"
         "facepaint.cur"
         "res/afx_idi_.ico"
         "res/bitmap1.bmp"
@@ -849,7 +850,6 @@ if (MSVC)
             /NOLOGO;
             /MANIFEST:NO;
             /DEBUG;
-            /MACHINE:X86;
             /SAFESEH:NO;
             /SUBSYSTEM:WINDOWS;
             /DYNAMICBASE:NO;

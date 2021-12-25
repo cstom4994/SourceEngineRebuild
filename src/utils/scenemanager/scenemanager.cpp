@@ -92,7 +92,7 @@ bool CHLSceneManagerApp::Create()
 
 	AppSystemInfo_t appSystems[] = 
 	{
-		{ "vgui2.dll",				VGUI_IVGUI_INTERFACE_VERSION },
+		{ "engine.dll",				VGUI_IVGUI_INTERFACE_VERSION },
 		{ "soundemittersystem.dll",	SOUNDEMITTERSYSTEM_INTERFACE_VERSION },
 
 		{ "", "" }	// Required to terminate the list

@@ -1507,7 +1507,6 @@ if (MSVC)
             /NODEFAULTLIB:libcd;
             /MANIFEST:NO;
             /DEBUG:FASTLINK;
-            /MACHINE:X86;
             /SAFESEH:NO;
             /SUBSYSTEM:WINDOWS;
             /ignore:4221;
