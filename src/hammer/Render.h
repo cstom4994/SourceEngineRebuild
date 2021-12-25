@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -27,10 +27,6 @@ class CCamera;
 class CMapAtom;
 
 class IEditorTexture;
-
-class CMapClass;
-
-class CMapInstance;
 
 typedef unsigned short MDLHandle_t;
 
@@ -61,20 +57,6 @@ inline void SelectEdgeColor(Color &pColor) {
     pColor[2] = SELECT_EDGE_BLUE;
 }
 
-inline void InstanceColor(Color &pColor, bool bSelected) {
-    if (bSelected) {
-        pColor[0] = 192;
-        pColor[1] = 128;
-        pColor[2] = 0;
-        pColor[3] = 192;
-    } else {
-        pColor[0] = 128;
-        pColor[1] = 128;
-        pColor[2] = 0;
-        pColor[3] = 192;
-    }
-}
-
 enum EditorRenderMode_t {
     RENDER_MODE_NONE = 0,                // dont render anything
     RENDER_MODE_EXTERN,                    // other system is using material system
@@ -93,30 +75,7 @@ enum EditorRenderMode_t {
     RENDER_MODE_TEXTURED_SHADED,
     RENDER_MODE_LIGHT_PREVIEW2,
     RENDER_MODE_LIGHT_PREVIEW_RAYTRACED,
-    RENDER_MODE_INSTANCE_OVERLAY,
 };
-
-
-enum InstanceRenderingState_t {
-    INSTANCE_STATE_OFF,                // normal rendering
-    INSTANCE_STATE_ON,                // will be tinted as an instance
-    INSTANCE_STACE_SELECTED            // will be tinted as a selected instance
-};
-
-
-typedef struct SInstanceState {
-    CMapInstance *m_pInstanceClass;        // the func_instance entity
-    Vector m_InstanceOrigin;        // the origin offset of instance rendering
-    QAngle m_InstanceAngles;        // the rotation of the instance rendering
-    VMatrix m_InstanceMatrix;        // matrix of the origin and rotation of rendering
-    VMatrix m_InstanceRenderMatrix;    // matrix of the current camera transform
-    bool m_bIsEditable;
-    CMapInstance *m_pTopInstanceClass;
-} TInstanceState;
-
-
-#define STENCIL_AS_CALLS    1
-
 
 class CRender {
 public:
@@ -168,7 +127,7 @@ public:
 
     bool IsInClientSpace() { return m_bIsClientSpace; }
 
-    void BeginLocalTransfrom(const VMatrix &matrix, bool MultiplyCurrent = false);
+    void BeginLocalTransfrom(const VMatrix &matrix);
 
     void EndLocalTransfrom();
 
@@ -191,8 +150,6 @@ public:
     void SetDefaultRenderMode(EditorRenderMode_t eRenderMode);
 
     void BindTexture(IEditorTexture *pTexture);
-
-    void BindMaterial(IMaterial *pMaterial);
 
     virtual void SetRenderMode(EditorRenderMode_t eRenderMode, bool force = false);
 
@@ -246,48 +203,6 @@ public:
 
     void TransformNormal(Vector2D &vClient, const Vector &vWorld);
 
-    void GetViewForward(Vector &ViewForward) const;
-
-    void GetViewRight(Vector &ViewRight) const;
-
-    void GetViewUp(Vector &ViewUp) const;
-
-    void PrepareInstanceStencil(void);
-
-    void DrawInstanceStencil(void);
-
-    void PushInstanceRendering(InstanceRenderingState_t State);
-
-    void PopInstanceRendering(void);
-
-    void SetInstanceRendering(InstanceRenderingState_t State);
-
-    void SetInstanceRendering(bool InstanceRendering) { m_bInstanceRendering = InstanceRendering; }
-
-    virtual void PushInstanceData(CMapInstance *pInstanceClass, Vector &InstanceOrigin, QAngle &InstanceAngles);
-
-    virtual void PopInstanceData(void);
-
-    bool GetInstanceRendering(void) { return m_bInstanceRendering; }
-
-    CMapInstance *GetInstanceClass(void) { return m_CurrentInstanceState.m_pInstanceClass; }
-
-    void GetInstanceMatrix(VMatrix &Matrix) { Matrix = m_CurrentInstanceState.m_InstanceMatrix; }
-
-    Vector GetInstanceOrigin(void) { return m_CurrentInstanceState.m_InstanceOrigin; }
-
-    QAngle GetInstanceAngle(void) { return m_CurrentInstanceState.m_InstanceAngles; }
-
-    void TransformInstanceVector(Vector &In, Vector &Out) { m_CurrentInstanceState.m_InstanceMatrix.V3Mul(In, Out); }
-
-    void RotateInstanceVector(Vector &In, Vector &Out) {
-        VectorRotate(In, m_CurrentInstanceState.m_InstanceMatrix.As3x4(), Out);
-    }
-
-    void TransformInstanceAABB(Vector &InMins, Vector &InMaxs, Vector &OutMins, Vector &OutMaxs) {
-        TransformAABB(m_CurrentInstanceState.m_InstanceMatrix.As3x4(), InMins, InMaxs, OutMins, OutMaxs);
-    }
-
 protected:
 
     bool GetRequiredMaterial(const char *pName, IMaterial *&pMaterial);
@@ -307,9 +222,8 @@ protected:
     CMapView *m_pView;
     unsigned long m_DefaultFont;
     bool m_bIsClientSpace;
-
     bool m_bIsLocalTransform;
-    CUtlVector<VMatrix> m_LocalMatrix;
+    VMatrix m_LocalMatrix;
 
     VMatrix m_OrthoMatrix;
 
@@ -351,18 +265,6 @@ protected:
     EditorRenderMode_t m_eDefaultRenderMode;    // Default render mode - Wireframe, flat, or textured.
     CUtlStack<EditorRenderMode_t> m_RenderModeStack;
 
-    // instance
-    int m_nInstanceCount;        // increases each time an instance is drawn regardless of view
-    bool m_bInstanceRendering;    // if true, we are rendering an instance
-    VMatrix m_CurrentMatrix;        // matrix of the current transforms
-    int m_InstanceSelectionDepth;
-    TInstanceState m_CurrentInstanceState;    // the current instance state ( with current transforms )
-    CUtlVector<TInstanceState> m_InstanceState;        // the instance state stack
-#ifndef STENCIL_AS_CALLS
-    ShaderStencilState_t					m_ShaderStencilState;
-#endif // STENCIL_AS_CALLS
-    int m_nNumInstancesRendered;    // number of instances rendered that impacted the stencil buffer
-    CUtlVector<InstanceRenderingState_t> m_InstanceRenderingState;    // the instance rendering state stack
 
 };
 

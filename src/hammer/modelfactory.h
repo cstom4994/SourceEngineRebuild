@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -19,17 +19,15 @@
 class CMapClass;
 
 
-enum ModelType_t
-{
-	ModelTypeStudio = 0
+enum ModelType_t {
+    ModelTypeStudio = 0
 };
 
 
-class CModelFactory
-{
-	public:
+class CModelFactory {
+public:
 
-		static CMapClass *CreateModel(ModelType_t eModelType, const char *pszModelData);
+    static CMapClass *CreateModel(ModelType_t eModelType, const char *pszModelData);
 };
 
 

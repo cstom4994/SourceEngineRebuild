@@ -13,7 +13,7 @@
 #pragma once
 
 // Thanks for the useful define namespacing, LZMA
-#include "../../utils/lzma/C/7zVersion.h"
+#include "../../thirdparty/lzma/C/7zVersion.h"
 #define LZMA_SDK_VERSION_MAJOR MY_VER_MAJOR
 #define LZMA_SDK_VERSION_MINOR MY_VER_MINOR
 

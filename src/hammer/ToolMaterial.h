@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -15,22 +15,23 @@
 #include "ToolInterface.h"
 
 
-class CToolMaterial : public CBaseTool
-{
-	//
-	// CBaseTool implementation.
-	//
-	virtual ToolID_t GetToolID(void) { return TOOL_FACEEDIT_MATERIAL; }
+class CToolMaterial : public CBaseTool {
+    //
+    // CBaseTool implementation.
+    //
+    virtual ToolID_t GetToolID(void) { return TOOL_FACEEDIT_MATERIAL; }
 
-	virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
-	virtual bool OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnRMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+    virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
 
-	virtual void UpdateStatusBar();
+    virtual bool OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
 
-	virtual void OnDeactivate();
+    virtual bool OnRMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual void UpdateStatusBar();
+
+    virtual void OnDeactivate();
 };
 
 

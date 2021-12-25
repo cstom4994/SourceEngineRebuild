@@ -43,7 +43,7 @@
 #include "tier0/vcrmode.h"
 #include "cdll_engine_int.h"
 
-#include "../utils/bzip2/bzlib.h"
+#include "../thirdparty/bzip2/bzlib.h"
 
 #if defined( _X360 )
 #include "xbox/xbox_win32stubs.h"

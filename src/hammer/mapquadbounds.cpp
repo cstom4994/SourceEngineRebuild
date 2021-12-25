@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implements an entity helper that extracts the bounds of a non-nodraw
 //			face from a solid sibling, saving them as keyvalues in the entity.
@@ -13,7 +13,7 @@
 #include "Render3D.h"
 #include "material.h"
 #include "materialsystem/imaterialsystem.h"
-#include "materialsystem/imesh.h"
+#include "materialsystem/IMesh.h"
 #include "mapsolid.h"
 #include "mapentity.h"
 

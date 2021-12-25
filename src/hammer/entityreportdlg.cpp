@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Singleton dialog that generates and presents the entity report.
 //
@@ -11,7 +11,6 @@
 #include "History.h"
 #include "MainFrm.h"
 #include "MapEntity.h"
-#include "MapInstance.h"
 #include "MapView2D.h"
 #include "MapWorld.h"
 #include "ObjectProperties.h"
@@ -232,65 +231,31 @@ void CEntityReportDlg::OnChangeFiltervalue()
 //-----------------------------------------------------------------------------
 void CEntityReportDlg::OnGoto() 
 {
-	CMapDoc	*pMapDoc = MarkSelectedEntities();
-
-	if ( pMapDoc )
-	{
-		pMapDoc->ShowWindow( true );
-		pMapDoc->CenterViewsOnSelection();
-	}
+	MarkSelectedEntities();
+	m_pDoc->CenterViewsOnSelection();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CMapDoc *CEntityReportDlg::MarkSelectedEntities() 
+void CEntityReportDlg::MarkSelectedEntities() 
 {
-	CUtlVector< CMapDoc * >	FoundMaps;
+	m_pDoc->SelectObject(NULL, scClear|scSaveChanges);
 
 	for(int i = 0; i < m_cEntities.GetCount(); i++)
 	{
 		if(!m_cEntities.GetSel(i))
 			continue;
 		CMapEntity *pEntity = (CMapEntity*) m_cEntities.GetItemDataPtr(i);
-		CMapClass *pTopMapClass = pEntity;
-		while( pTopMapClass->GetParent() )
-		{
-			pTopMapClass = pTopMapClass->GetParent();
-		}
-		CMapWorld	*pMapWorld = dynamic_cast< CMapWorld * >( pTopMapClass );
-		if ( pMapWorld )
-		{
-			CMapDoc	*pMapDoc = pMapWorld->GetOwningDocument();
-
-			if ( FoundMaps.Find( pMapDoc ) == -1 )
-			{
-				FoundMaps.AddToTail( pMapDoc );
-				pMapDoc->SelectObject( NULL, scClear|scSaveChanges );
-			}
-
-			pMapDoc->SelectObject( pEntity, scSelect );
-		}
+		m_pDoc->SelectObject(pEntity, scSelect);
 	}
-
-	if ( FoundMaps.Count() == 1 )
-	{
-		return FoundMaps[ 0 ];
-	}
-
-	return NULL;
 }
 
 void CEntityReportDlg::OnProperties() 
 {
-	CMapDoc	*pMapDoc = MarkSelectedEntities();
-
-	if ( pMapDoc )
-	{
-		pMapDoc->ShowWindow( true );
-		GetMainWnd()->pObjectProperties->ShowWindow(SW_SHOW);
-	}
+	MarkSelectedEntities();
+	GetMainWnd()->pObjectProperties->ShowWindow(SW_SHOW);
 }
 
 void CEntityReportDlg::OnTimer(UINT nIDEvent) 
@@ -340,21 +305,6 @@ BOOL AddEntityToList(CMapEntity *pEntity, CEntityReportDlg *pDlg)
 		
 	const char* pszClassName = pEntity->GetClassName();
 
-	if ( pEntity && stricmp( pszClassName, "func_instance" ) == 0 )
-	{
-		CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
-		if ( pMapInstance )
-		{
-			CMapDoc		*pMapDoc = pMapInstance->GetInstancedMap();
-			if ( pMapDoc )
-			{
-				CMapWorld	*pWorld = pMapDoc->GetMapWorld();
-
-				pWorld->EnumChildren(ENUMMAPCHILDRENPROC(AddEntityToList), DWORD(pDlg), MAPCLASS_TYPE(CMapEntity));
-			}
-		}
-	}
-
 	if (pDlg->m_bFilterByClass)
 	{
 		if (pDlg->m_szFilterClass.IsEmpty())
@@ -366,7 +316,7 @@ BOOL AddEntityToList(CMapEntity *pEntity, CEntityReportDlg *pDlg)
 		}
 		else
 		{
-			V_strcpy_safe( szString, pEntity->GetClassName() );
+			strcpy(szString, pEntity->GetClassName());
 			strupr(szString);
 			if (!strstr(szString, pDlg->m_szFilterClass))
 			{
@@ -393,7 +343,7 @@ BOOL AddEntityToList(CMapEntity *pEntity, CEntityReportDlg *pDlg)
 			{
 				// now, check value
 				char szTmp1[128], szTmp2[128];
-				V_strcpy_safe( szTmp1, pEntity->GetKeyValue( i ) );
+				strcpy(szTmp1, pEntity->GetKeyValue(i));
 				strupr(szTmp1);
 				strcpy(szTmp2, pDlg->m_szFilterValue);
 				if ((!pDlg->m_bExact && strstr(szTmp1, szTmp2)) || !strcmpi(szTmp1, szTmp2))
@@ -524,13 +474,7 @@ void CEntityReportDlg::OnSelChangeEntityList()
 //-----------------------------------------------------------------------------
 void CEntityReportDlg::OnDblClkEntityList()
 {
-	CMapDoc *pMapDoc = MarkSelectedEntities();
-
-	if ( pMapDoc )
-	{
-		pMapDoc->ShowWindow( true );
-		pMapDoc->CenterViewsOnSelection();
-	}
+	m_pDoc->CenterViewsOnSelection();
 }
 
 

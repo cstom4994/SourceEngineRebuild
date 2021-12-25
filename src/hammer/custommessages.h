@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -28,11 +28,6 @@ enum
 	//
 	TWN_SELCHANGED,		// The texture window selection has changed.
 	TWN_LBUTTONDBLCLK,	// The user double clicked in the texture window.
-
-	//
-	// Posted by CLightingPreviewResultsWindow
-	//
-	LPRV_WINDOWCLOSED,
 };
 
 

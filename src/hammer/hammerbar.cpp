@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implements a special dockable dialog bar that activates itself when
 //			the mouse cursor moves over it. This enables stacking of the
@@ -22,7 +22,7 @@
 
 
 BEGIN_MESSAGE_MAP(CHammerBar, CDialogBar)
-	ON_WM_SETCURSOR()
+                    ON_WM_SETCURSOR()
 END_MESSAGE_MAP()
 
 
@@ -34,24 +34,20 @@ END_MESSAGE_MAP()
 //			message - 
 // Output : Always returns FALSE.
 //-----------------------------------------------------------------------------
-BOOL CHammerBar::OnSetCursor(CWnd *pWnd, UINT nHitTest, UINT message)
-{
-	if (APP()->IsActiveApp())
-	{
-		// The control bar window is actually our grandparent.
-		CWnd *pwnd = GetParent();
-		if (pwnd != NULL)
-		{
-			pwnd = pwnd->GetParent();
-			if (pwnd != NULL)
-			{
-				pwnd->BringWindowToTop();
-			}
-		}
-	}
+BOOL CHammerBar::OnSetCursor(CWnd *pWnd, UINT nHitTest, UINT message) {
+    if (APP()->IsActiveApp()) {
+        // The control bar window is actually our grandparent.
+        CWnd *pwnd = GetParent();
+        if (pwnd != NULL) {
+            pwnd = pwnd->GetParent();
+            if (pwnd != NULL) {
+                pwnd->BringWindowToTop();
+            }
+        }
+    }
 
-	//this wasn't being called and fixes some minor cursor problems.
-	return CWnd::OnSetCursor( pWnd, nHitTest, message );
+    //this wasn't being called and fixes some minor cursor problems.
+    return CWnd::OnSetCursor(pWnd, nHitTest, message);
 }
 
 //-----------------------------------------------------------------------------
@@ -64,11 +60,10 @@ BOOL CHammerBar::OnSetCursor(CWnd *pWnd, UINT nHitTest, UINT message)
 //			int cy - change in height
 // Output : void
 //-----------------------------------------------------------------------------
-void CHammerBar::OnSize( UINT nType, int cx, int cy )
-{
-	CWnd::OnSize( nType, cx, cy );
-	AdjustControls();
-	
+void CHammerBar::OnSize(UINT nType, int cx, int cy) {
+    CWnd::OnSize(nType, cx, cy);
+    AdjustControls();
+
 }
 
 //-----------------------------------------------------------------------------
@@ -79,48 +74,41 @@ void CHammerBar::OnSize( UINT nType, int cx, int cy )
 //			DWORD dwMode - type of dialog/movement we are dealing with			
 // Output : CSize - size of the dialog
 //-----------------------------------------------------------------------------
-CSize CHammerBar::CalcDynamicLayout(int nLength, DWORD dwMode)
-{		
-	CSize newSize;
+CSize CHammerBar::CalcDynamicLayout(int nLength, DWORD dwMode) {
+    CSize newSize;
 
     // If the bar is docked, use the default size
-    if ( (dwMode & LM_VERTDOCK) || (dwMode & LM_HORZDOCK) )
-    {	
-		m_sizeDocked.cy = m_sizeFloating.cy;		
- 		return m_sizeDocked;		
+    if ((dwMode & LM_VERTDOCK) || (dwMode & LM_HORZDOCK)) {
+        m_sizeDocked.cy = m_sizeFloating.cy;
+        return m_sizeDocked;
     }
 
-	//if the bar is floating, use the current floating size
-    if ( dwMode & LM_MRUWIDTH )
-	{
-		return m_sizeFloating;
-	}
-	
+    //if the bar is floating, use the current floating size
+    if (dwMode & LM_MRUWIDTH) {
+        return m_sizeFloating;
+    }
+
     // In all other cases, we are changing the length with a drag
-    if ( dwMode & LM_LENGTHY )
-	{
-		//the bar is being resized in the y direction
-		newSize = CSize( m_sizeFloating.cx, m_sizeFloating.cy = nLength );
-	}
-    else
-	{
-		//the bar is being resized in the x direction
-		newSize = CSize( m_sizeFloating.cx = nLength, m_sizeFloating.cy);
-	}    
+    if (dwMode & LM_LENGTHY) {
+        //the bar is being resized in the y direction
+        newSize = CSize(m_sizeFloating.cx, m_sizeFloating.cy = nLength);
+    } else {
+        //the bar is being resized in the x direction
+        newSize = CSize(m_sizeFloating.cx = nLength, m_sizeFloating.cy);
+    }
 
-	CString textTitle;
-	GetWindowText( textTitle );	
-	
-	//it should not be possible that a bar with no name could be dynamic; this check is just to be safe
-	if ( !textTitle.IsEmpty() )
-	{
-		//writing the new size of the bar to the registry
-		textTitle = "FloatingBarSize\\" + textTitle;
-		APP()->WriteProfileInt( textTitle, "floatX", newSize.cx );
-		APP()->WriteProfileInt( textTitle, "floatY", newSize.cy );    
-	}
+    CString textTitle;
+    GetWindowText(textTitle);
 
-	return newSize;
+    //it should not be possible that a bar with no name could be dynamic; this check is just to be safe
+    if (!textTitle.IsEmpty()) {
+        //writing the new size of the bar to the registry
+        textTitle = "FloatingBarSize\\" + textTitle;
+        APP()->WriteProfileInt(textTitle, "floatX", newSize.cx);
+        APP()->WriteProfileInt(textTitle, "floatY", newSize.cy);
+    }
+
+    return newSize;
 }
 
 //-----------------------------------------------------------------------------
@@ -133,15 +121,14 @@ CSize CHammerBar::CalcDynamicLayout(int nLength, DWORD dwMode)
 //			UINT nID - 
 // Output : BOOL - TRUE on success
 //-----------------------------------------------------------------------------
-BOOL CHammerBar::Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID )
-{
-	//cannot have a dynamic bar with this Create function; must use the one that takes the window name
-	UINT nStyleFixed = nStyle & ~CBRS_SIZE_DYNAMIC;
+BOOL CHammerBar::Create(CWnd *pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID) {
+    //cannot have a dynamic bar with this Create function; must use the one that takes the window name
+    UINT nStyleFixed = nStyle & ~CBRS_SIZE_DYNAMIC;
 
-	if ( !CDialogBar::Create(pParentWnd,nIDTemplate,nStyleFixed,nID) )
+    if (!CDialogBar::Create(pParentWnd, nIDTemplate, nStyleFixed, nID))
         return FALSE;
-	
-	m_sizeFloating = m_sizeDocked = m_sizeDefault;
+
+    m_sizeFloating = m_sizeDocked = m_sizeDefault;
     return TRUE;
 }
 
@@ -155,29 +142,25 @@ BOOL CHammerBar::Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT n
 //			UINT nID - 
 // Output : BOOL - TRUE on success
 //-----------------------------------------------------------------------------
-BOOL CHammerBar::Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID, char *pszName )
-{
-	UINT nStyleFixed = nStyle;
-	if ( *pszName == 0 )
-	{
-		//did not give a title and cannot have a dynamic bar.  Routing back through old create
-		return Create( pParentWnd, nIDTemplate, nStyle, nID );   
-	}
-	else
-	{
-		if ( !CDialogBar::Create(pParentWnd,nIDTemplate,nStyleFixed,nID) )
-			return FALSE;
+BOOL CHammerBar::Create(CWnd *pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID, char *pszName) {
+    UINT nStyleFixed = nStyle;
+    if (*pszName == 0) {
+        //did not give a title and cannot have a dynamic bar.  Routing back through old create
+        return Create(pParentWnd, nIDTemplate, nStyle, nID);
+    } else {
+        if (!CDialogBar::Create(pParentWnd, nIDTemplate, nStyleFixed, nID))
+            return FALSE;
 
-		SetWindowText( pszName );
+        SetWindowText(pszName);
 
-		CString textTitle;
-		textTitle = "FloatingBarSize\\" + CString(pszName);
+        CString textTitle;
+        textTitle = "FloatingBarSize\\" + CString(pszName);
 
-		//read size from registry
-		m_sizeFloating.cx = APP()->GetProfileInt( textTitle, "floatX", m_sizeDefault.cx );
-		m_sizeFloating.cy = APP()->GetProfileInt( textTitle, "floatY", m_sizeDefault.cy );
-		m_sizeDocked = m_sizeDefault;
-	}
+        //read size from registry
+        m_sizeFloating.cx = APP()->GetProfileInt(textTitle, "floatX", m_sizeDefault.cx);
+        m_sizeFloating.cy = APP()->GetProfileInt(textTitle, "floatY", m_sizeDefault.cy);
+        m_sizeDocked = m_sizeDefault;
+    }
     return TRUE;
 }
 
@@ -188,46 +171,40 @@ BOOL CHammerBar::Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT n
 //			
 // Output : void
 //-----------------------------------------------------------------------------
-void CHammerBar::AdjustControls( void )
-{
-	CRect HammerBarPos;
-	GetWindowRect( &HammerBarPos );
-	int nHammerBarHeight = HammerBarPos.Height();
-	int nHammerBarWidth  = HammerBarPos.Width();
-	
-	for( int iControl = 0; iControl < m_ControlList.Size(); iControl++ )
-	{
-		ControlInfo_t currentControl = m_ControlList[ iControl ];
-		int nDialogID = currentControl.m_nIDDialogItem;		
-		int nControlWidthDifference  = currentControl.m_nWidthBuffer;
-		int nControlHeightDifference = currentControl.m_nHeightBuffer;
-		DWORD dwPlacement = currentControl.m_dwPlacementFlag;
+void CHammerBar::AdjustControls(void) {
+    CRect HammerBarPos;
+    GetWindowRect(&HammerBarPos);
+    int nHammerBarHeight = HammerBarPos.Height();
+    int nHammerBarWidth = HammerBarPos.Width();
 
-		CWnd* pControl = GetDlgItem( nDialogID );
-		if ( pControl != NULL )
-		{
-			if ( dwPlacement & GROUP_BOX  )
-			{
-				pControl->SetWindowPos( NULL, 0, 0, nHammerBarWidth - nControlWidthDifference , 
-					nHammerBarHeight - nControlHeightDifference, SWP_NOMOVE|SWP_NOZORDER );			
-			}
-			if ( dwPlacement & BOTTOM_JUSTIFY )
-			{
-				CRect controlPos;
-				pControl->GetWindowRect( &controlPos );
-				pControl->SetWindowPos( NULL, controlPos.left - HammerBarPos.left,
-					HammerBarPos.Height() - currentControl.m_nPosY, 0, 0, SWP_NOSIZE|SWP_NOZORDER );
-			}
-			if ( dwPlacement & RIGHT_JUSTIFY )
-			{
-				CRect controlPos;
-				pControl->GetWindowRect( &controlPos );
-				pControl->SetWindowPos( NULL, HammerBarPos.Width() - currentControl.m_nPosX,
-					controlPos.top - HammerBarPos.top, 0, 0, SWP_NOSIZE|SWP_NOZORDER );
-			}
-		}
+    for (int iControl = 0; iControl < m_ControlList.Size(); iControl++) {
+        ControlInfo_t currentControl = m_ControlList[iControl];
+        int nDialogID = currentControl.m_nIDDialogItem;
+        int nControlWidthDifference = currentControl.m_nWidthBuffer;
+        int nControlHeightDifference = currentControl.m_nHeightBuffer;
+        DWORD dwPlacement = currentControl.m_dwPlacementFlag;
 
-	}
+        CWnd *pControl = GetDlgItem(nDialogID);
+        if (pControl != NULL) {
+            if (dwPlacement & GROUP_BOX) {
+                pControl->SetWindowPos(NULL, 0, 0, nHammerBarWidth - nControlWidthDifference,
+                                       nHammerBarHeight - nControlHeightDifference, SWP_NOMOVE | SWP_NOZORDER);
+            }
+            if (dwPlacement & BOTTOM_JUSTIFY) {
+                CRect controlPos;
+                pControl->GetWindowRect(&controlPos);
+                pControl->SetWindowPos(NULL, controlPos.left - HammerBarPos.left,
+                                       HammerBarPos.Height() - currentControl.m_nPosY, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+            }
+            if (dwPlacement & RIGHT_JUSTIFY) {
+                CRect controlPos;
+                pControl->GetWindowRect(&controlPos);
+                pControl->SetWindowPos(NULL, HammerBarPos.Width() - currentControl.m_nPosX,
+                                       controlPos.top - HammerBarPos.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+            }
+        }
+
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -240,29 +217,26 @@ void CHammerBar::AdjustControls( void )
 //				RIGHT_JUSTIFY - will move with the right side of the dialog//			
 // Output : void
 //-----------------------------------------------------------------------------
-void CHammerBar::AddControl( int nIDTemplate, DWORD dwPlacementFlag )
-{
-	ControlInfo_t newControl;
-	newControl.m_nIDDialogItem = nIDTemplate;
-	newControl.m_dwPlacementFlag = dwPlacementFlag;
+void CHammerBar::AddControl(int nIDTemplate, DWORD dwPlacementFlag) {
+    ControlInfo_t newControl;
+    newControl.m_nIDDialogItem = nIDTemplate;
+    newControl.m_dwPlacementFlag = dwPlacementFlag;
 
-	CWnd *pControl = GetDlgItem( nIDTemplate );
-	if ( pControl != NULL )
-	{
-		CRect controlPos, hammerBarPos;
-		pControl->GetWindowRect( &controlPos );
-		GetWindowRect( &hammerBarPos );
+    CWnd *pControl = GetDlgItem(nIDTemplate);
+    if (pControl != NULL) {
+        CRect controlPos, hammerBarPos;
+        pControl->GetWindowRect(&controlPos);
+        GetWindowRect(&hammerBarPos);
 
-		newControl.m_nHeightBuffer	= m_sizeDefault.cy - controlPos.Height(); 
-		newControl.m_nWidthBuffer	= m_sizeDefault.cx - controlPos.Width();
-		newControl.m_nPosX			= m_sizeDefault.cx + hammerBarPos.left - controlPos.left;
-		newControl.m_nPosY			= m_sizeDefault.cy + hammerBarPos.top - controlPos.top;
-		
-		m_ControlList.AddToTail( newControl );
-	}
+        newControl.m_nHeightBuffer = m_sizeDefault.cy - controlPos.Height();
+        newControl.m_nWidthBuffer = m_sizeDefault.cx - controlPos.Width();
+        newControl.m_nPosX = m_sizeDefault.cx + hammerBarPos.left - controlPos.left;
+        newControl.m_nPosY = m_sizeDefault.cy + hammerBarPos.top - controlPos.top;
+
+        m_ControlList.AddToTail(newControl);
+    }
 }
 
-CHammerBar::~CHammerBar()
-{
-	m_ControlList.RemoveAll();
+CHammerBar::~CHammerBar() {
+    m_ControlList.RemoveAll();
 }

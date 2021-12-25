@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Holds information relevant to saving the document, such as the
 //			rules for which objects to save.
@@ -17,27 +17,26 @@
 class CMapClass;
 
 
-class CSaveInfo
-{
-	public:
+class CSaveInfo {
+public:
 
-		inline CSaveInfo(void);
-		inline void SetVisiblesOnly(bool bVisiblesOnly);
+    inline CSaveInfo(void);
 
-		bool ShouldSaveObject(CMapClass *pObject);
+    inline void SetVisiblesOnly(bool bVisiblesOnly);
 
-	protected:
+    bool ShouldSaveObject(CMapClass *pObject);
 
-		bool m_bVisiblesOnly;
+protected:
+
+    bool m_bVisiblesOnly;
 };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
-CSaveInfo::CSaveInfo(void)
-{
-	m_bVisiblesOnly = false;
+CSaveInfo::CSaveInfo(void) {
+    m_bVisiblesOnly = false;
 }
 
 
@@ -45,9 +44,8 @@ CSaveInfo::CSaveInfo(void)
 // Purpose: 
 // Input  : bVisiblesOnly - 
 //-----------------------------------------------------------------------------
-void CSaveInfo::SetVisiblesOnly(bool bVisiblesOnly)
-{
-	m_bVisiblesOnly = bVisiblesOnly;
+void CSaveInfo::SetVisiblesOnly(bool bVisiblesOnly) {
+    m_bVisiblesOnly = bVisiblesOnly;
 }
 
 

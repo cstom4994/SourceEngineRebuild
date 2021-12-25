@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -77,9 +77,8 @@ protected:
     // Generated message map functions
     //{{AFX_MSG(CProgressDlg)
     virtual BOOL OnInitDialog();
-
     //}}AFX_MSG
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 };
 
 #endif // __PROGDLG_H__

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implementation of IEditorTexture interface for placeholder textures.
 //			Placeholder textures are used for textures that are referenced in
@@ -20,133 +20,116 @@
 enum TEXTUREFORMAT;
 
 
-class CDummyTexture : public IEditorTexture
-{
-	public:
+class CDummyTexture : public IEditorTexture {
+public:
 
-		CDummyTexture(const char *pszName, TEXTUREFORMAT eFormat);
-		virtual ~CDummyTexture();
+    CDummyTexture(const char *pszName, TEXTUREFORMAT eFormat);
 
-		inline const char *GetName() const
-		{
-			return(m_szName);
-		}
-		int GetShortName(char *pszName) const;
+    virtual ~CDummyTexture();
 
-		int GetKeywords(char *pszKeywords) const;
+    inline const char *GetName() const {
+        return (m_szName);
+    }
 
-		void Draw(CDC *pDC, RECT &rect, int iFontHeight, int iIconHeight, DrawTexData_t &DrawTexData);
+    int GetShortName(char *pszName) const;
 
-		const char *GetFileName(void) const;
+    int GetKeywords(char *pszKeywords) const;
 
-		void GetSize(SIZE &size) const;
+    void Draw(CDC *pDC, RECT &rect, int iFontHeight, int iIconHeight, DrawTexData_t &DrawTexData);
 
-		inline bool IsDummy() const
-		{
-			return(true);
-		}
+    const char *GetFileName(void) const;
 
-		int GetImageDataRGB( void *pImageRGB );
-		int GetImageDataRGBA( void *pImageRGBA );
+    void GetSize(SIZE &size) const;
 
-		inline int GetImageWidth() const
-		{
-			return(0);
-		}
+    inline bool IsDummy() const {
+        return (true);
+    }
 
-		inline int GetImageHeight() const
-		{
-			return(0);
-		}
+    int GetImageDataRGB(void *pImageRGB);
 
-		inline float GetDecalScale() const
-		{
-			return(1.0f);
-		}
+    int GetImageDataRGBA(void *pImageRGBA);
 
-		CPalette *GetPalette() const
-		{
-			return(NULL);
-		}
+    inline int GetImageWidth() const {
+        return (0);
+    }
 
-		inline int GetWidth() const
-		{
-			return(0);
-		}
+    inline int GetImageHeight() const {
+        return (0);
+    }
 
-		inline int GetHeight() const
-		{
-			return(0);
-		}
+    inline float GetDecalScale() const {
+        return (1.0f);
+    }
 
-		inline int GetTextureID() const
-		{
-			return(0);
-		}
+    CPalette *GetPalette() const {
+        return (NULL);
+    }
 
-		inline TEXTUREFORMAT GetTextureFormat() const
-		{
-			return(m_eTextureFormat);
-		}
+    inline int GetWidth() const {
+        return (0);
+    }
 
-		inline int GetSurfaceAttributes() const
-		{
-			return(0);
-		}
+    inline int GetHeight() const {
+        return (0);
+    }
 
-		inline int GetSurfaceContents() const
-		{
-			return(0);
-		}
+    inline int GetTextureID() const {
+        return (0);
+    }
 
-		inline int GetSurfaceValue() const
-		{
-			return(0);
-		}
+    inline TEXTUREFORMAT GetTextureFormat() const {
+        return (m_eTextureFormat);
+    }
 
-		inline bool HasAlpha() const
-		{
-			return(false);
-		}
+    inline int GetSurfaceAttributes() const {
+        return (0);
+    }
 
-		inline bool HasData() const
-		{
-			return(false);
-		}
+    inline int GetSurfaceContents() const {
+        return (0);
+    }
 
-		inline bool HasPalette() const
-		{
-			return(false);
-		}
+    inline int GetSurfaceValue() const {
+        return (0);
+    }
 
-		bool Load( void );
-		void Reload( bool bFullReload ) {}
+    inline bool HasAlpha() const {
+        return (false);
+    }
 
-		inline bool IsLoaded() const
-		{
-			return true;
-		}
+    inline bool HasData() const {
+        return (false);
+    }
 
-		inline void SetTextureFormat(TEXTUREFORMAT eFormat)
-		{
-			m_eTextureFormat = eFormat;
-		}
+    inline bool HasPalette() const {
+        return (false);
+    }
 
-		inline void SetTextureID( int nTextureID )
-		{
-		}
+    bool Load(void);
 
-		bool IsWater( void ) const
-		{
-			return false;
-		}
+    void Reload(bool bFullReload) {}
 
-	protected:
+    inline bool IsLoaded() const {
+        return true;
+    }
 
-		char m_szName[MAX_PATH];
-		char m_szFileName[MAX_PATH];
+    inline void SetTextureFormat(TEXTUREFORMAT eFormat) {
+        m_eTextureFormat = eFormat;
+    }
 
-		TEXTUREFORMAT m_eTextureFormat;
+    inline void SetTextureID(int nTextureID) {
+    }
+
+    bool IsWater(void) const {
+        return false;
+    }
+
+protected:
+
+    char m_szName[MAX_PATH];
+    char m_szFileName[MAX_PATH];
+
+    TEXTUREFORMAT m_eTextureFormat;
 };
 
 

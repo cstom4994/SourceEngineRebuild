@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: A helper that repesents a player hull swept through space between a
 //			start and end point. It writes out both points as keyvalues to the entity.
@@ -9,8 +9,8 @@
 #include "Box3D.h"
 #include "GlobalFunctions.h"
 #include "fgdlib/HelperInfo.h"
-#include "materialsystem/imaterialsystem.h"
-#include "materialsystem/imesh.h"
+#include "materialsystem/IMaterialSystem.h"
+#include "materialsystem/IMesh.h"
 #include "MainFrm.h"			// For refreshing the object properties dialog
 #include "MapDoc.h"
 #include "MapSweptPlayerHull.h"
@@ -48,7 +48,7 @@ CMapClass *CMapSweptPlayerHull::Create(CHelperInfo *pHelperInfo, CMapEntity *pPa
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 CMapSweptPlayerHull::CMapSweptPlayerHull(void)
 {
@@ -57,7 +57,7 @@ CMapSweptPlayerHull::CMapSweptPlayerHull(void)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::Initialize(void)
 {
@@ -74,7 +74,7 @@ void CMapSweptPlayerHull::Initialize(void)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 CMapSweptPlayerHull::~CMapSweptPlayerHull(void)
 {
@@ -82,8 +82,8 @@ CMapSweptPlayerHull::~CMapSweptPlayerHull(void)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : bFullUpdate - 
+// Purpose:
+// Input  : bFullUpdate -
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::CalcBounds(BOOL bFullUpdate)
 {
@@ -102,13 +102,12 @@ void CMapSweptPlayerHull::CalcBounds(BOOL bFullUpdate)
 		m_CullBox.UpdateBounds(vecMins, vecMaxs);
 	}
 
-	m_BoundingBox = m_CullBox;
 	m_Render2DBox = m_CullBox;
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 // Output : CMapClass
 //-----------------------------------------------------------------------------
 CMapClass *CMapSweptPlayerHull::Copy(bool bUpdateDependencies)
@@ -125,8 +124,8 @@ CMapClass *CMapSweptPlayerHull::Copy(bool bUpdateDependencies)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pObject - 
+// Purpose:
+// Input  : pObject -
 // Output : CMapClass
 //-----------------------------------------------------------------------------
 CMapClass *CMapSweptPlayerHull::CopyFrom(CMapClass *pObject, bool bUpdateDependencies)
@@ -167,10 +166,10 @@ CBaseTool *CMapSweptPlayerHull::GetToolObject(int nHitData, bool bAttachObject)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pView - 
-//			point - 
-//			nData - 
+// Purpose:
+// Input  : pView -
+//			point -
+//			nData -
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
 bool CMapSweptPlayerHull::HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t &HitData)
@@ -194,8 +193,8 @@ bool CMapSweptPlayerHull::HitTest2D(CMapView2D *pView, const Vector2D &point, Hi
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pRender - 
+// Purpose:
+// Input  : pRender -
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::Render2D(CRender2D *pRender)
 {
@@ -247,7 +246,7 @@ void CMapSweptPlayerHull::Render2D(CRender2D *pRender)
 
 	Vector line1[2];
 	Vector line2[2];
-	
+
 	line1[0].Init();
 	line1[1].Init();
 	line2[0].Init();
@@ -316,15 +315,15 @@ void CMapSweptPlayerHull::Render2D(CRender2D *pRender)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pRender - 
+// Purpose:
+// Input  : pRender -
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::Render3D(CRender3D *pRender)
 {
 	for (int i = 0; i < 2; i++)
-	{	
+	{
 		m_Point[i]->Render3D(pRender);
-	}	
+	}
 
 	if (GetSelectionState() == SELECT_NONE)
 	{
@@ -339,14 +338,14 @@ void CMapSweptPlayerHull::Render3D(CRender3D *pRender)
 	Vector vec2;
 	m_Point[0]->GetOrigin(vec1);
 	m_Point[1]->GetOrigin(vec2);
-	
+
 	pRender->DrawLine(vec1, vec2);
-	
+
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 int CMapSweptPlayerHull::SerializeRMF(std::fstream &File, BOOL bRMF)
 {
@@ -355,7 +354,7 @@ int CMapSweptPlayerHull::SerializeRMF(std::fstream &File, BOOL bRMF)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 int CMapSweptPlayerHull::SerializeMAP(std::fstream &File, BOOL bRMF)
 {
@@ -404,7 +403,7 @@ SelectionState_t CMapSweptPlayerHull::SetSelectionState(SelectionState_t eSelect
 //-----------------------------------------------------------------------------
 // Purpose: Overridden because origin helpers don't take the color of their
 //			parent entity.
-// Input  : red, green, blue - 
+// Input  : red, green, blue -
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::SetRenderColor(unsigned char red, unsigned char green, unsigned char blue)
 {
@@ -414,7 +413,7 @@ void CMapSweptPlayerHull::SetRenderColor(unsigned char red, unsigned char green,
 //-----------------------------------------------------------------------------
 // Purpose: Overridden because origin helpers don't take the color of their
 //			parent entity.
-// Input  : red, green, blue - 
+// Input  : red, green, blue -
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::SetRenderColor(color32 rgbColor)
 {
@@ -423,16 +422,16 @@ void CMapSweptPlayerHull::SetRenderColor(color32 rgbColor)
 static Vector playerFixup( 0, 0, 36 );
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : szKey - 
-//			szValue - 
+// Purpose:
+// Input  : szKey -
+//			szValue -
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::OnParentKeyChanged(const char *szKey, const char *szValue)
 {
 	if (!stricmp(szKey, "point0"))
 	{
-		Vector vecOrigin;
-		sscanf(szValue, "%f %f %f", &vecOrigin.x, &vecOrigin.y, &vecOrigin.z );
+		Vector vecOrigin, temp;
+		sscanf(szValue, "%f %f %f, %f %f %f", &vecOrigin.x, &vecOrigin.y, &vecOrigin.z, &temp.x, &temp.y, &temp.z );
 
 		vecOrigin += playerFixup;
 
@@ -441,8 +440,8 @@ void CMapSweptPlayerHull::OnParentKeyChanged(const char *szKey, const char *szVa
 	}
 	else if (!stricmp(szKey, "point1"))
 	{
-		Vector vecOrigin;
-		sscanf(szValue, "%f %f %f", &vecOrigin.x, &vecOrigin.y, &vecOrigin.z );
+		Vector vecOrigin, temp;
+		sscanf(szValue, "%f %f %f, %f %f %f", &vecOrigin.x, &vecOrigin.y, &vecOrigin.z, &temp.x, &temp.y, &temp.z );
 
 		vecOrigin += playerFixup;
 
@@ -477,7 +476,7 @@ void CMapSweptPlayerHull::DoTransform(const VMatrix &matrix)
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::UpdateParentKey(void)
 {
@@ -507,7 +506,7 @@ void CMapSweptPlayerHull::UpdateParentKey(void)
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets the keyvalue in our parent when we are	added to the world.
-// Input  : pWorld - 
+// Input  : pWorld -
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::OnAddToWorld(CMapWorld *pWorld)
 {
@@ -518,7 +517,7 @@ void CMapSweptPlayerHull::OnAddToWorld(CMapWorld *pWorld)
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets the keyvalue in our parent after the map is loaded.
-// Input  : pWorld - 
+// Input  : pWorld -
 //-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::PostloadWorld(CMapWorld *pWorld)
 {

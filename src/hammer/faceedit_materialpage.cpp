@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -330,7 +330,7 @@ void FloatToWnd(float fValue, CWnd *pWnd)
 	}
 	else
 	{
-		sprintf(szNew, "%g", fValue);
+		sprintf(szNew, "%.2f", fValue);
 	}
 
 	pWnd->GetWindowText(szCurrent, 128);
@@ -380,17 +380,13 @@ void TransferToInteger( CWnd *pWnd, int &nValue )
 void CFaceEditMaterialPage::ClickFace( CMapSolid *pSolid, int faceIndex, int cmd, int clickMode )
 {
 	// get the face
-	CMapFace	*pFace = pSolid->GetFace( faceIndex );
-	bool		bIsEditable = pSolid->IsEditable();
+	CMapFace *pFace = pSolid->GetFace( faceIndex );
 
 	//
 	// are updates enabled?
 	//
 	CFaceEditSheet *pSheet = ( CFaceEditSheet* )GetParent();
 	bool bEnableUpdate = pSheet->HasUpdateEnabled();
-
-
-	SetReadOnly( !bIsEditable );
 
 	//
 	// find the behavior of the page based on the "click mode"
@@ -399,10 +395,7 @@ void CFaceEditMaterialPage::ClickFace( CMapSolid *pSolid, int faceIndex, int cmd
 	{
 		case CFaceEditSheet::ModeAlignToView:
 		{
-			if ( bIsEditable )
-			{
-				AlignToView( pFace );
-			}
+			AlignToView( pFace );
 			break;
 		}
 
@@ -427,39 +420,33 @@ void CFaceEditMaterialPage::ClickFace( CMapSolid *pSolid, int faceIndex, int cmd
 		case CFaceEditSheet::ModeApplyLightmapScale:
 		{
 			// Apply the lightmap scale only. Leave everything else alone.
-			if ( bIsEditable )
-			{
-				Apply(pFace, FACE_APPLY_LIGHTMAP_SCALE);
-			}
+			Apply(pFace, FACE_APPLY_LIGHTMAP_SCALE);
 			break;
 		}
 
 		case CFaceEditSheet::ModeApply:
 		case CFaceEditSheet::ModeApplyAll:
 		{
-			if ( bIsEditable )
+			int flags = 0;
+
+			if (cmd & CFaceEditSheet::cfEdgeAlign)
 			{
-				int flags = 0;
-
-				if (cmd & CFaceEditSheet::cfEdgeAlign)
-				{
-					// Adust the mapping to align with a reference face.
-					flags |= FACE_APPLY_ALIGN_EDGE;
-				}
-
-				if (clickMode == CFaceEditSheet::ModeApplyAll)
-				{
-					// Apply the material, mapping, lightmap scale, etc.
-					flags |= FACE_APPLY_ALL;
-				}
-				else
-				{
-					// Apply the material only. Leave everything else alone.
-					flags |= FACE_APPLY_MATERIAL;
-				}
-
-				Apply(pFace, flags);
+				// Adust the mapping to align with a reference face.
+				flags |= FACE_APPLY_ALIGN_EDGE;
 			}
+
+			if (clickMode == CFaceEditSheet::ModeApplyAll)
+			{
+				// Apply the material, mapping, lightmap scale, etc.
+				flags |= FACE_APPLY_ALL;
+			}
+			else
+			{
+				// Apply the material only. Leave everything else alone.
+				flags |= FACE_APPLY_MATERIAL;
+			}
+
+			Apply(pFace, flags);
 			break;
 		}
 	}
@@ -618,7 +605,6 @@ void CFaceEditMaterialPage::Apply( CMapFace *pOnlyFace, int flags )
 	int			material = NOT_INIT;
 	int			nLightmapScale = NOT_INIT;
 	IEditorTexture	*pTex = m_TexturePic.GetTexture();
-	CMapDoc		*pMapDoc = CMapDoc::GetActiveMapDoc();
 
 	//
 	// Get numeric data.
@@ -738,13 +724,6 @@ void CFaceEditMaterialPage::Apply( CMapFace *pOnlyFace, int flags )
 			if( stricmp( szCurrentTexName, szNewTexName ) != 0 )
 			{
 				pFace->SetTexture( szNewTexName );
-
-				CMapClass	*pParent = dynamic_cast< CMapClass * >( pFace->GetParent() );
-				if ( pParent )
-				{
-					pMapDoc->RemoveFromAutoVisGroups( pParent );
-					pMapDoc->AddToAutoVisGroup( pParent );
-				}
 			}
 		}
 
@@ -806,7 +785,7 @@ void CFaceEditMaterialPage::Apply( CMapFace *pOnlyFace, int flags )
 		}
 	}
 
-	pMapDoc->SetModifiedFlag();
+	CMapDoc::GetActiveMapDoc()->SetModifiedFlag();
 }
 
 
@@ -1749,37 +1728,3 @@ void CFaceEditMaterialPage::NotifyNewMaterial( IEditorTexture *pTex )
 	UpdateTexture();
 }
 
-
-//-----------------------------------------------------------------------------
-// Purpose: Called to set the enabled state of the dialog controls
-//-----------------------------------------------------------------------------
-void CFaceEditMaterialPage::SetReadOnly( bool bIsReadOnly )
-{
-	BOOL	State = ( bIsReadOnly ? FALSE : TRUE );
-
-	m_shiftX.EnableWindow( State );
-	m_shiftY.EnableWindow( State );
-	m_scaleX.EnableWindow( State );
-	m_scaleY.EnableWindow( State );
-	m_rotate.EnableWindow( State );
-	m_cLightmapScale.EnableWindow( State );
-	m_cHideMask.EnableWindow( State );
-	m_cExpand.EnableWindow( State );
-	m_TextureList.EnableWindow( State );
-	m_TextureGroupList.EnableWindow( State );
-
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_JUSTIFY_LEFT ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_JUSTIFY_RIGHT ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_JUSTIFY_FITTOFACE ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_JUSTIFY_TOP ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_JUSTIFY_BOTTOM ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_JUSTIFY_CENTER ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_TREAT_AS_ONE ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_ALIGN_WORLD ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_ALIGN_FACE ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_BROWSE ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_REPLACE ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, ID_FACEEDIT_APPLY ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, IDC_MODE ), State );
-	::EnableWindow( ::GetDlgItem( m_hWnd, ID_BUTTON_SMOOTHING_GROUPS ), State );
-}

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Defines a connection (output-to-input) between two entities.
 //
@@ -429,7 +429,7 @@ void CEntityConnection::FixBadConnections(CMapEntity *pEntity, bool bVisibilityC
 		{
 			FOR_EACH_OBJ( *pTargetList, pos )
 			{
-				pEntity = pTargetList->Element( pos );
+				CMapEntity *pEntity = pTargetList->Element( pos );
 				pEntity->Upstream_Remove( pConnection );
 			}
 		}

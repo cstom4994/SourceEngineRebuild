@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,53 +17,58 @@
 #include "wndTex.h"
 
 
-class CReplaceTexDlg : public CDialog
-{
+class CReplaceTexDlg : public CDialog {
 // Construction
 public:
-	CReplaceTexDlg(int, CWnd* pParent = NULL);   // standard constructor
+    CReplaceTexDlg(int, CWnd *pParent = NULL);   // standard constructor
 
 // Dialog Data
-	//{{AFX_DATA(CReplaceTexDlg)
-	enum { IDD = IDD_REPLACETEX };
-	CEdit	m_cFind;
-	CEdit	m_cReplace;
-	wndTex	m_cReplacePic;
-	wndTex	m_cFindPic;
-	int		m_iSearchAll;
-	CString	m_strFind;
-	CString	m_strReplace;
-	int		m_iAction;
-	BOOL	m_bMarkOnly;
-	BOOL	m_bHidden;
-	BOOL	m_bRescaleTextureCoordinates;
-	//}}AFX_DATA
+    //{{AFX_DATA(CReplaceTexDlg)
+    enum {
+        IDD = IDD_REPLACETEX
+    };
+    CEdit m_cFind;
+    CEdit m_cReplace;
+    wndTex m_cReplacePic;
+    wndTex m_cFindPic;
+    int m_iSearchAll;
+    CString m_strFind;
+    CString m_strReplace;
+    int m_iAction;
+    BOOL m_bMarkOnly;
+    BOOL m_bHidden;
+    BOOL m_bRescaleTextureCoordinates;
+    //}}AFX_DATA
 
-	int m_nSelected;
+    int m_nSelected;
 
-	void DoReplaceTextures();
+    void DoReplaceTextures();
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CReplaceTexDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CReplaceTexDlg)
+protected:
+    virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
 // Implementation
 protected:
 
-	// Generated message map functions
-	//{{AFX_MSG(CReplaceTexDlg)
-	afx_msg void OnBrowsereplace();
-	afx_msg void OnBrowsefind();
-	afx_msg void OnUpdateFind();
-	afx_msg void OnUpdateReplace();
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CReplaceTexDlg)
+    afx_msg void OnBrowsereplace();
 
-	void BrowseTex(int iEdit);
+    afx_msg void OnBrowsefind();
+
+    afx_msg void OnUpdateFind();
+
+    afx_msg void OnUpdateReplace();
+
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+DECLARE_MESSAGE_MAP()
+
+    void BrowseTex(int iEdit);
 };
 
 #endif // REPLACETEXDLG_H

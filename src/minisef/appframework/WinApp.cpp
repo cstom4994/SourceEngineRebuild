@@ -18,7 +18,6 @@
 #include "appframework/iappsystemgroup.h"
 #include "filesystem_init.h"
 #include "vstdlib/cvar.h"
-#include "xbox/xbox_console.h"
 
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"

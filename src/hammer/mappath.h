@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -71,11 +71,11 @@ public:
     void GetNodeName(int iIndex, int iName, CString &str);
 
     // set name/class
-    void SetName(LPCTSTR pszName) { V_strcpy_safe(m_szName, pszName); }
+    void SetName(LPCTSTR pszName) { strcpy(m_szName, pszName); }
 
     LPCTSTR GetName() { return m_szName; }
 
-    void SetClass(LPCTSTR pszClass) { V_strcpy_safe(m_szClass, pszClass); }
+    void SetClass(LPCTSTR pszClass) { strcpy(m_szClass, pszClass); }
 
     LPCTSTR GetClass() { return m_szClass; }
 

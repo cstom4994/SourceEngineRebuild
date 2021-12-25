@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Defines the cordon tool. The cordon tool defines a rectangular
 //			volume that acts as a visibility filter. Only objects that intersect
@@ -20,36 +20,44 @@
 
 
 class CChunkFile;
+
 class CSaveInfo;
+
 class CMapWorld;
+
 class CMapView2D;
+
 class CMapView3D;
 
 
 enum ChunkFileResult_t;
 
 
-class Cordon3D : public Box3D
-{
-	typedef Box3D BaseClass;
+class Cordon3D : public Box3D {
+    typedef Box3D BaseClass;
 
-	public:
+public:
 
-		Cordon3D(void);
+    Cordon3D(void);
 
-		// CBaseTool implementation.
-		virtual void OnActivate();
-		virtual ToolID_t GetToolID(void) { return TOOL_EDITCORDON; }
+    // CBaseTool implementation.
+    virtual void OnActivate();
 
-		virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-		virtual bool OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-		virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-		virtual bool OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
-		virtual bool OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
-		
-	private:
+    virtual ToolID_t GetToolID(void) { return TOOL_EDITCORDON; }
 
-		void OnEscape(void);
+    virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
+
+    virtual bool OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
+
+private:
+
+    void OnEscape(void);
 };
 
 #endif // CORDON3D_H

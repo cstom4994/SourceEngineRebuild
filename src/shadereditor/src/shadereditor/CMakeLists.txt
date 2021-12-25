@@ -292,7 +292,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 ################################################################################
 # Include directories
 ################################################################################
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../shadereditor;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../vgui_editor;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../materialsystem;"

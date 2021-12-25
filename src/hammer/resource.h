@@ -1,5 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by hammer.rc
 //
@@ -34,8 +33,6 @@
 #define IDR_FORGEPAKTYPE                130
 #define IDR_QUAKEMAPTYPE                131
 #define IDS_NONE                        131
-#define IDR_FORGEMAPTYPE2               132
-#define IDR_MANIFESTDOC                 132
 #define IDD_BRUSH                       135
 #define IDD_BRUSHEDITOR                 135
 #define IDB_PAKENTRYTYPES               136
@@ -84,6 +81,7 @@
 #define IDD_OPTIONS_3D                  199
 #define IDD_WC_PASTESPECIAL             200
 #define IDD_MAPCHECK                    202
+#define IDD_UNDOWARNING                 203
 #define IDD_DIALOG1                     204
 #define IDD_PREFABS                     205
 #define IDD_EDITPREFAB                  206
@@ -175,20 +173,6 @@
 #define IDI_CAMERA                      334
 #define IDD_SAVEDIALOG                  337
 #define IDD_SCENE_PREVIEW               338
-#define IDD_EDIT_INSTANCE               339
-#define IDD_MANIFEST                    339
-#define IDB_MANIFEST                    340
-#define IDR_MANIFEST                    342
-#define IDD_MANIFEST_MOVE               343
-#define IDD_MANIFEST_CONTROL            344
-#define IDB_MANIFEST_ICONS              345
-#define IDR_MANIFEST_FILTER             347
-#define IDD_MANIFEST_MAP                348
-#define IDD_DISP_PAINT_SCULPT           349
-#define IDD_DISP_SCULPT_PUSH_OPTIONS    350
-#define IDD_DISP_SCULPT_PROJECT_OPTIONS 351
-#define IDD_DISP_SCULPT_CARVE_OPTIONS   352
-#define IDD_MANIFEST_CHECKIN            353
 #define IDC_BRDLG_FLIPHORIZ             1000
 #define IDC_BRDLG_FLIPVERT              1001
 #define CG_IDC_PROGDLG_PROGRESS         1003
@@ -262,9 +246,6 @@
 #define IDC_PASTE_SPECIAL_PREFIX        1009
 #define IDC_PASTE_SPECIAL_PREFIX_TEXT   1009
 #define IDC_MAPNAME                     1009
-#define IDC_MANIFEST_FRIENDLY_NAME      1009
-#define IDC_SCULPT_PUSH_OPTION_OFFSET_DISTANCE 1009
-#define IDC_CHECKIN_DESCRIPTION         1009
 #define IDC_BUTTON1                     1010
 #define IDC_CONTROLHEIGHT               1010
 #define IDC_EDITCLASSCODE               1010
@@ -285,7 +266,6 @@
 #define IDC_UP_BUTTON                   1010
 #define IDC_EDIT5                       1010
 #define IDC_AUTOSAVESPACE               1010
-#define IDC_LOAD_IMAGE                  1010
 #define IDC_REVERT                      1011
 #define IDC_TMOVEDOWN                   1011
 #define IDC_FILTER_GROUPS               1011
@@ -296,7 +276,6 @@
 #define IDC_VISGROUP_MOVEDOWN           1011
 #define IDC_LOOKIN                      1011
 #define IDC_MAPITERATIONS               1011
-#define IDC_SCULPT_PUSH_OPTION_OFFSET_AMOUNT 1011
 #define IDC_VISGROUP_MOVEUP             1012
 #define IDC_TDELETE                     1012
 #define IDC_BROWSE_BSP                  1012
@@ -304,11 +283,9 @@
 #define IDC_MODDIR                      1012
 #define ID_SG_VISUAL_2                  1012
 #define IDC_UNDOSPIN2                   1012
-#define IDC_SCULPT_PUSH_OPTION_SMOOTH_AMOUNT 1012
 #define IDC_TNEW                        1013
 #define IDC_PARMS_BSP                   1013
 #define ID_SG_VISUAL_3                  1013
-#define IDC_SCULPT_PUSH_OPTION_FALLOFF_POSITION 1013
 #define IDC_SOLIDWINDOW                 1014
 #define IDC_BROWSE_LIGHT                1014
 #define ID_SG_VISUAL_4                  1014
@@ -317,8 +294,6 @@
 #define IDC_PARMS_LIGHT                 1015
 #define ID_FACEEDIT_APPLY               1015
 #define ID_SG_VISUAL_5                  1015
-#define IDC_SCULPT_PUSH_OPTION_SMOOTH_AMOUNT3 1015
-#define IDC_SCULPT_PUSH_OPTION_FALLOFF_FINAL 1015
 #define IDC_BROWSE_VIS                  1016
 #define ID_SG_VISUAL_6                  1016
 #define IDC_PARMS_VIS                   1017
@@ -859,7 +834,6 @@
 #define ID_DISP_PAINT_GEO               1558
 #define ID_DISP_PAINT_DATA              1559
 #define ID_DISP_PAINT_DATA_RAISETO      1560
-#define ID_DISP_SCULPT_PAINT            1560
 #define ID_DISP_PAINT_DATA_SMOOTH       1561
 #define ID_DISP_PAINT_DATA_SLIDER_VALUE 1562
 #define ID_DISP_PAINT_DATA_TYPE         1564
@@ -938,12 +912,8 @@
 #define IDC_RAD_HDR                     1648
 #define ID_DISP_NOHULL_COLL             1648
 #define IDC_SHOWHIDDENTARGETS           1648
-#define IDC_MANIFEST_CENTER_AROUND_BRUSH 1648
-#define IDC_MANIFEST_PRIMARY            1648
-#define IDC_SCULPT_PUSH                 1648
 #define IDC_SIMILARCHECK                1649
 #define IDC_AUTOSAVEDIR                 1649
-#define IDC_SCULPT_CARVE                1649
 #define IDC_BROWSEAUTOSAVEDIR           1650
 #define IDC_ENABLEAUTOSAVE              1651
 #define IDC_AUTOSAVETIMELABEL           1652
@@ -954,9 +924,7 @@
 #define IDC_CHECK3                      1657
 #define ID_DISP_NORAY_COLL              1657
 #define IDC_FOV                         1659
-#define IDC_LIGHT_CONE_LENGTH			1660
 #define IDC_BUTTON2                     1661
-#define IDC_STOPSOUND                   1661
 #define IDC_SAVING_TEXT                 1662
 #define IDC_KEY_LABEL                   1663
 #define IDC_VALUE_LABEL                 1664
@@ -972,24 +940,6 @@
 #define IDC_PARAMETER_LABEL             1674
 #define IDC_DELAY_LABEL                 1675
 #define IDC_INFO_TEXT                   1676
-#define IDC_MANIFEST_LIST               1677
-#define IDC_MANIFEST_FILENAME           1678
-#define IDC_MANIFEST_NAME2              1679
-#define IDC_MANIFEST_FULL_FILENAME      1679
-#define IDC_BROWSE_INSTANCE             1680
-#define IDC_FULL_PATH                   1681
-#define IDC_SCULPT_PUSH_OPTION_OFFSET_MODE 1682
-#define IDC_SCULPT_PUSH_OPTION_DENSITY_MODE 1683
-#define IDC_IDC_SCULPT_PUSH_OPTION_OFFSET_MODE 1684
-#define IDC_IDC_SCULPT_PUSH_OPTION_NORMAL_MODE 1684
-#define IDC_SCULPT_OPTIONS_LOC          1686
-#define IDC_SCULPT_PROJECT              1688
-#define IDC_PROJECT_SIZE                1689
-#define IDC_PROJECT_SIZE_NUM            1690
-#define IDC_CARVE_BRUSH                 1692
-#define IDC_CHECK2                      1693
-#define ID_DISP_TAG_REMOVE              1694
-#define IDC_CHECKIN_LIST                1695
 #define IDI_OUTPUT_GREY                 31235
 #define IDI_OUTPUTBAD_GREY              31236
 #define IDI_INPUT_GREY                  31237
@@ -1235,67 +1185,7 @@
 #define ID_SHOW_DETAIL_OBJECTS          33224
 #define ID_MAP_LOADPORTALFILE           33225
 #define ID_SHOW_NODRAW_BRUSHES          33226
-#define ID_VIEW_INSTANCES               33226
 #define ID_MAP_UNLOADPORTALFILE         33227
-#define ID_INSTANCES_SHOWTINTED         33228
-#define ID_INSTANCES_SHOWNORMAL         33229
-#define ID_TOOLS_INSTANCES_HIDE         33230
-#define ID_TOOLS_INSTANCES_SHOWTINTED   33231
-#define ID_TOOLS_INSTANCES_SHOWNORMAL   33232
-#define ID_TOOLS_MANIFEST               33233
-#define ID_Menu33234                    33234
-#define ID_FILE_MANIFEST                33235
-#define ID_BUTTON33236                  33236
-#define ID_BUTTON33237                  33237
-#define ID_BUTTON33238                  33238
-#define ID_MANIFEST_MOVESELECTIONTONEWSUBMAP 33239
-#define ID_MANIFEST_FILE_MOVESELECTIONTONEWSUBMAP 33240
-#define ID_FILE_IMPORTFUNC              33241
-#define ID_FILE_IMPORT_FUNC_INSTANCES   33242
-#define ID_SCREENELEMENTS_MANIFESTBAR   33243
-#define ID_MOVESELECTIONTO_SUBMAP       33246
-#define ID_MOVESELECTIONTO_NEWSUBMAP    33247
-#define ID_VERSIONCONTROL_CHECKOUT      33248
-#define ID_INSTANCING_CREATENEWINSTANCEFROMSELECTION 33249
-#define ID_INSTANCING_CREATEMANIFEST    33250
-#define ID_INSTANCING_VERSIONCONTROL    33251
-#define ID_VERSIONCONTROL_CHECKINALL    33252
-#define ID_VERSIONCONTROL_CHECKOUTALL   33253
-#define ID_INSTANCING_VIEWMANIFESTS     33254
-#define ID_VIEWMANIFESTS_HIDEEXCEPTCURRENT 33255
-#define ID_VIEWMANIFESTS_TINTED         33256
-#define ID_VIEWMANIFESTS_SHOWNORMAL     33257
-#define ID_VERSIONCONTROL_CHECKIN       33258
-#define ID_INSTANCING_WINDOWS           33259
-#define ID_WINDOWS_HIDEALLINSTANCES     33260
-#define ID_WINDOWS_SHOWALLINSTANCES     33261
-#define ID_INSTANCES_HIDEALL            33262
-#define ID_INSTANCES_SHOWALL            33263
-#define ID_PRIMARY_INSERT               33264
-#define ID_INSERT_EMPTYSUBMAP           33265
-#define ID_INSERT_EXISTINGSUBMAP        33266
-#define ID_VERSIONCONTROL_CHECKIN33267  33267
-#define ID_Menu33268                    33268
-#define ID_INSTANCES_COLLAPSE           33269
-#define ID_INSTANCES_COLLAPSEALL        33270
-#define ID_VERSIONCONTROL_CHECKIN33271  33271
-#define ID_SECONDARY_PROPERTIES         33272
-#define ID_MANIFEST_PROPERTIES          33273
-#define ID_PRIMARY_REMOVE               33274
-#define ID_MANIFEST_REMOVE              33275
-#define ID_COLLAPSEALL_ALL              33276
-#define ID_COLLAPSEALL_ALL33277         33277
-#define ID_COLLAPSE_SELECTION           33278
-#define ID_COLLAPSE_ALL                 33279
-#define ID_INSTANCES_COLLAPSESELECTION  33280
-#define ID_VERSIONCONTROL_ADD           33281
-#define ID_VERSIONCONTROL_ADDMANIFEST   33282
-#define ID_VERSIONCONTROL_CHECKOUTMANIFEST 33283
-#define ID_VIEW_QUICKHIDE				33285
-#define ID_VIEW_QUICKHIDEUNSELECTED		33286
-#define ID_VIEW_QUICKUNHIDE				33287
-#define ID_TOGGLE_RADIUSCULLING			33288
-#define ID_VIEW_QUICKHIDEVISGROUP		33289
 #define IDS_NOPLAYERSTART               40000
 #define IDS_MIXEDFACES                  40001
 #define IDS_DUPLICATEPLANES             40002
@@ -1357,7 +1247,6 @@
 #define ID_VIEW_ANIMATIONBAR            0xE80D
 #define ID_VIEW_DISPEDITTOOLBAR         0xE80E
 #define ID_VIEW_SELECTION_MODE_BAR      0xE80F
-#define ID_VIEW_MANIFEST_BAR            0xE811
 #define ID_HDR                          0xf000
 #define IDC_LPRVWINDOW                  0xf010
 
@@ -1366,9 +1255,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        354
-#define _APS_NEXT_COMMAND_VALUE         33290
-#define _APS_NEXT_CONTROL_VALUE         1696
+#define _APS_NEXT_RESOURCE_VALUE        339
+#define _APS_NEXT_COMMAND_VALUE         33226
+#define _APS_NEXT_CONTROL_VALUE         1677
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif

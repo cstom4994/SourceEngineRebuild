@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -12,7 +12,7 @@
 #include "GlobalFunctions.h"
 #include "TextureSystem.h"
 #include "TextureConverter.h"
-#include "filesystem.h"
+#include "FileSystem.h"
 #include "Hammer.h"
 
 // memdbgon must be the last include file in a .cpp file!!!

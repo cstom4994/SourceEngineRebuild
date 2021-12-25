@@ -1,13 +1,12 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
-#pragma once
+﻿#pragma once
 
 #include "afxwin.h"
 #include "color.h"
 
+#include "vgui/VGUI.h"
+
 namespace vgui {
     class EditablePanel;
-
-    typedef unsigned long HCursor;
 }
 
 class CVGuiWnd {
@@ -50,7 +49,7 @@ protected:
 
 class CVGuiPanelWnd : public CWnd, public CVGuiWnd {
 protected:
-    DECLARE_DYNCREATE(CVGuiPanelWnd)
+DECLARE_DYNCREATE(CVGuiPanelWnd)
 
 public:
 
@@ -60,6 +59,6 @@ public:
 
     virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 };
 

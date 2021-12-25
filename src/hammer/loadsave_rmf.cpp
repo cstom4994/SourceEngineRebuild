@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -758,7 +758,7 @@ int CMapWorld::SerializeRMF(std::fstream &file, BOOL fIsStoring)
     float fVersion = 3.7f;
 	float fLastCompat = 0.3f;
 	
-	int nSolids = 0;
+	int nSolids = 0, i;
 	int iSize;
 
 	pLoadingWorld = this;
@@ -827,7 +827,7 @@ int CMapWorld::SerializeRMF(std::fstream &file, BOOL fIsStoring)
 		{
 			file.read((char*) &iSize, sizeof(int));
 
-			for ( int i = 0; i < iSize; i++)
+			for (i = 0; i < iSize; i++)
 			{
 				// just skip vis groups
 				COldVisGroup oldVisGroup;

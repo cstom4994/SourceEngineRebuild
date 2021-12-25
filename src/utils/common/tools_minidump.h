@@ -11,10 +11,9 @@
 #endif
 
 
-
 // Defaults to false. If true, it'll write larger minidump files with the contents
 // of global variables and following pointers from where the crash occurred.
-void EnableFullMinidumps( bool bFull );
+void EnableFullMinidumps(bool bFull);
 
 
 // This handler catches any crash, writes a minidump, and runs the default system
@@ -28,8 +27,9 @@ void SetupDefaultToolsMinidumpHandler();
 //		pvExceptionInfo		- on Win32 platform points to "struct _EXCEPTION_POINTERS"
 //							  otherwise NULL
 //
-typedef void (*ToolsExceptionHandler)( unsigned long exceptionCode, void *pvExceptionInfo );
-void SetupToolsMinidumpHandler( ToolsExceptionHandler fn );
+typedef void (*ToolsExceptionHandler)(unsigned long exceptionCode, void *pvExceptionInfo);
+
+void SetupToolsMinidumpHandler(ToolsExceptionHandler fn);
 
 
 #endif // MINIDUMP_H

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Default implementation for interface common to 2D and 3D views.
 //
@@ -19,6 +19,7 @@
 #include "camera.h"
 
 #define MMNOMIXER
+
 #include <mmsystem.h>
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -31,41 +32,34 @@
 //-----------------------------------------------------------------------------
 // Purpose: Constructor, sets to inactive.
 //-----------------------------------------------------------------------------
-CMapView::CMapView(void)
-{
-	m_bActive = false;
-	m_bUpdateView = false;
-	m_eDrawType = VIEW_INVALID;
-	m_pCamera = NULL;
-	m_dwTimeLastRender = 0;
-	m_nRenderedFrames = 0;
-	m_pToolManager = NULL;
+CMapView::CMapView(void) {
+    m_bActive = false;
+    m_bUpdateView = false;
+    m_eDrawType = VIEW_INVALID;
+    m_pCamera = NULL;
+    m_dwTimeLastRender = 0;
+    m_nRenderedFrames = 0;
+    m_pToolManager = NULL;
 }
 
-bool CMapView::IsOrthographic()
-{
-	return m_pCamera->IsOrthographic();
+bool CMapView::IsOrthographic() {
+    return m_pCamera->IsOrthographic();
 }
 
-void CMapView::UpdateView( int nFlags )
-{
-	m_bUpdateView = true;
+void CMapView::UpdateView(int nFlags) {
+    m_bUpdateView = true;
 
-	if ( nFlags & MAPVIEW_RENDER_NOW )
-	{
-		RenderView();
-	}
+    if (nFlags & MAPVIEW_RENDER_NOW) {
+        RenderView();
+    }
 }
 
 
-
-void CMapView::ActivateView(bool bActivate)
-{
-	if ( bActivate != m_bActive )
-	{
-		m_bActive = bActivate;
-		m_bUpdateView = true;
-	}
+void CMapView::ActivateView(bool bActivate) {
+    if (bActivate != m_bActive) {
+        m_bActive = bActivate;
+        m_bUpdateView = true;
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -73,35 +67,31 @@ void CMapView::ActivateView(bool bActivate)
 //			determines whether or not we are exceeding the framerate limit.
 // Output : Returns true if we are beyond the framerate limit, false if not.
 //-----------------------------------------------------------------------------
-bool CMapView::ShouldRender()
-{
-	DWORD dwTimeNow = timeGetTime();
+bool CMapView::ShouldRender() {
+    DWORD dwTimeNow = timeGetTime();
 
-	if (m_dwTimeLastRender != 0)
-	{
-		DWORD dwTimeElapsed = dwTimeNow - m_dwTimeLastRender;
-	
-		if ( dwTimeElapsed <= 0 )
-			return false;
-	
-		float flFrameRate = (1000.0f / dwTimeElapsed);
+    if (m_dwTimeLastRender != 0) {
+        DWORD dwTimeElapsed = dwTimeNow - m_dwTimeLastRender;
 
-		if (flFrameRate > 100.0f)
-		{
-			// never update view faster then 100Hz
-			return false;
-		}
-	}
+        if (dwTimeElapsed <= 0)
+            return false;
 
-	// update view if needed
-	if ( m_bUpdateView )
-	{
-		m_dwTimeLastRender = dwTimeNow;
-		m_nRenderedFrames++;
-		return true;
-	}
+        float flFrameRate = (1000.0f / dwTimeElapsed);
 
-	return false;
+        if (flFrameRate > 100.0f) {
+            // never update view faster then 100Hz
+            return false;
+        }
+    }
+
+    // update view if needed
+    if (m_bUpdateView) {
+        m_dwTimeLastRender = dwTimeNow;
+        m_nRenderedFrames++;
+        return true;
+    }
+
+    return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -110,94 +100,80 @@ bool CMapView::ShouldRender()
 //			bMakeFirst - 
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
-bool CMapView::SelectAt(const Vector2D &ptClient, bool bMakeFirst, bool bFace)
-{
-	CMapDoc *pDoc = GetMapDoc();
-	CSelection *pSelection = pDoc->GetSelection();
-	const CMapObjectList *pSelList = pSelection->GetList();
+bool CMapView::SelectAt(const Vector2D &ptClient, bool bMakeFirst, bool bFace) {
+    CMapDoc *pDoc = GetMapDoc();
+    CSelection *pSelection = pDoc->GetSelection();
+    const CMapObjectList *pSelList = pSelection->GetList();
 
-	pSelection->ClearHitList();
+    pSelection->ClearHitList();
 
-	GetHistory()->MarkUndoPosition(pSelList, "Selection");
+    GetHistory()->MarkUndoPosition(pSelList, "Selection");
 
-	//
-	// Check all the objects in the world for a hit at this point.
-	//
+    //
+    // Check all the objects in the world for a hit at this point.
+    //
 
-	HitInfo_t HitData[MAX_PICK_HITS];
-	int nHits = ObjectsAt(ptClient, HitData, MAX_PICK_HITS);
-	
-	//
-	// If there were no hits at the given point, clear selection.
-	//
-	if ( nHits == 0 )
-	{
-		if (bMakeFirst)
-		{
-			pDoc->SelectFace(NULL, 0, scClear|scSaveChanges );
-			pDoc->SelectObject(NULL, scClear|scSaveChanges );
-		}
+    HitInfo_t HitData[MAX_PICK_HITS];
+    int nHits = ObjectsAt(ptClient, HitData, MAX_PICK_HITS);
 
-		return false;
-	}
+    //
+    // If there were no hits at the given point, clear selection.
+    //
+    if (nHits == 0) {
+        if (bMakeFirst) {
+            pDoc->SelectFace(NULL, 0, scClear | scSaveChanges);
+            pDoc->SelectObject(NULL, scClear | scSaveChanges);
+        }
 
-	SelectMode_t eSelectMode = pSelection->GetMode();
+        return false;
+    }
 
-	for ( int i=0; i<nHits; i++ )
-	{
-		if ( HitData[i].pObject )
-		{
-			CMapClass *pSelObject = HitData[i].pObject->PrepareSelection( eSelectMode );
-			if (pSelObject)
-			{
-				pSelection->AddHit(pSelObject);
-			}
-		}
-	}
+    SelectMode_t eSelectMode = pSelection->GetMode();
 
-	//
-	// If we're selecting faces, mark all faces on the first solid we hit.
-	//
-	if ( bFace )
-	{
-		const CMapObjectList *pList = pSelection->GetHitList();
-		FOR_EACH_OBJ( *pList, pos )
-		{
-			CMapClass *pObject = pList->Element(pos);
-			if (pObject->IsMapClass(MAPCLASS_TYPE(CMapSolid)))
-			{
-				pDoc->SelectFace((CMapSolid*)pObject, -1, scSelect | (bMakeFirst ? scClear : 0));
-				break;
-			}
-		}
+    for (int i = 0; i < nHits; i++) {
+        CMapClass *pSelObject = HitData[i].pObject->PrepareSelection(eSelectMode);
+        if (pSelObject) {
+            pSelection->AddHit(pSelObject);
+        }
+    }
 
-		return true;
-	}
+    //
+    // If we're selecting faces, mark all faces on the first solid we hit.
+    //
+    if (bFace) {
+        const CMapObjectList *pList = pSelection->GetHitList();
+        FOR_EACH_OBJ(*pList, pos) {
+            CMapClass *pObject = pList->Element(pos);
+            if (pObject->IsMapClass(MAPCLASS_TYPE(CMapSolid))) {
+                pDoc->SelectFace((CMapSolid *) pObject, -1, scSelect | (bMakeFirst ? scClear : 0));
+                break;
+            }
+        }
 
-	//
-	// Select a single object.
-	//
-	if ( bMakeFirst )
-	{
-		pDoc->SelectFace(NULL, 0, scClear|scSaveChanges);
-		pDoc->SelectObject(NULL, scClear|scSaveChanges);
-	}
+        return true;
+    }
 
-	pSelection->SetCurrentHit(hitFirst);
+    //
+    // Select a single object.
+    //
+    if (bMakeFirst) {
+        pDoc->SelectFace(NULL, 0, scClear | scSaveChanges);
+        pDoc->SelectObject(NULL, scClear | scSaveChanges);
+    }
 
-	return true;
+    pSelection->SetCurrentHit(hitFirst);
+
+    return true;
 }
 
-void CMapView::BuildRay( const Vector2D &vView, Vector& vStart, Vector& vEnd )
-{
-	m_pCamera->BuildRay( vView, vStart, vEnd );
+void CMapView::BuildRay(const Vector2D &vView, Vector &vStart, Vector &vEnd) {
+    m_pCamera->BuildRay(vView, vStart, vEnd);
 }
 
-const Vector &CMapView::GetViewAxis()
-{
-	static Vector vForward;
-	m_pCamera->GetViewForward(vForward);
-	return vForward;
+const Vector &CMapView::GetViewAxis() {
+    static Vector vForward;
+    m_pCamera->GetViewForward(vForward);
+    return vForward;
 }
 
 

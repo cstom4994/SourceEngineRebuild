@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -19,7 +19,6 @@
 #include "MapDoc.h"
 #include "ChunkFile.h"
 #include "ToolManager.h"
-#include "SculptOptions.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -62,9 +61,6 @@ CToolDisplace::CToolDisplace()
 	strcat( szProgramDir, "filters\\dispfilters.txt" );
 	LoadFilters( szProgramDir );
 	AddFiltersToManagers();
-
-	m_SculptTool = NULL;
-	m_MousePoint.Init( 0.0f, 0.0f );
 }
 
 
@@ -142,18 +138,6 @@ bool CToolDisplace::OnLMouseDown3D( CMapView3D *pView, UINT nFlags, const Vector
 	// Set down flags
 	m_bLMBDown = true;
 
-	if( m_uiTool == DISPTOOL_PAINT_SCULPT )
-	{
-		m_SculptTool->OnLMouseDown3D( pView, nFlags, vPoint );
-		m_SculptTool->BeginPaint( pView, vPoint );
-		ApplySculptSpatialPaintTool( pView, nFlags, vPoint );
-
-		// update
-		UpdateMapViews( pView );
-
-		return true;
-	}
-
 	// Selection.
 	if( m_uiTool == DISPTOOL_SELECT || ( GetAsyncKeyState( VK_CONTROL ) & 0x8000 ) )
 	{
@@ -166,7 +150,7 @@ bool CToolDisplace::OnLMouseDown3D( CMapView3D *pView, UINT nFlags, const Vector
 	}
 
 	// Tagging.
-	if ( m_uiTool == DISPTOOL_TAG_WALKABLE || m_uiTool == DISPTOOL_TAG_BUILDABLE || m_uiTool == DISPTOOL_TAG_REMOVE )
+	if ( m_uiTool == DISPTOOL_TAG_WALKABLE || m_uiTool == DISPTOOL_TAG_BUILDABLE )
 	{
 		// Do tagging.
 		HandleTagging( pView, vPoint );
@@ -222,10 +206,10 @@ bool CToolDisplace::OnLMouseDown3D( CMapView3D *pView, UINT nFlags, const Vector
 			int nDispCount = pDispMgr->SelectCount();
 			for ( int iDisp = 0; iDisp < nDispCount; iDisp++ )
 			{
-				CMapDisp *pDispSelect = pDispMgr->GetFromSelect( iDisp );
-				if ( pDispSelect )
+				CMapDisp *pDisp = pDispMgr->GetFromSelect( iDisp );
+				if ( pDisp )
 				{
-					pDispSelect->Paint_Init( DISPPAINT_CHANNEL_POSITION );
+					pDisp->Paint_Init( DISPPAINT_CHANNEL_POSITION );
 				}
 			}
 
@@ -255,12 +239,6 @@ bool CToolDisplace::OnLMouseUp3D( CMapView3D *pView, UINT nFlags, const Vector2D
 	// left button up
 	m_bLMBDown = false;
 
-	if( m_uiTool == DISPTOOL_PAINT_SCULPT )
-	{
-		m_SculptTool->OnLMouseUp3D( pView, nFlags, vPoint );
-		return true;
-	}
-
 	if ( m_bNudge )
 	{
 		Nudge_Deactivate();
@@ -288,18 +266,6 @@ bool CToolDisplace::OnRMouseDown3D( CMapView3D *pView, UINT nFlags, const Vector
 	// left button down
     m_bRMBDown = true;
 
-	if( m_uiTool == DISPTOOL_PAINT_SCULPT )
-	{
-		m_SculptTool->OnRMouseDown3D( pView, nFlags, vPoint );
-		m_SculptTool->BeginPaint( pView, vPoint );
-		ApplySculptSpatialPaintTool( pView, nFlags, vPoint );
-
-		// update
-		UpdateMapViews( pView );
-
-		return true;
-	}
-
 	//
 	// lifting the face normal - painting with the axis set to "Face Normal"
 	//
@@ -311,7 +277,7 @@ bool CToolDisplace::OnRMouseDown3D( CMapView3D *pView, UINT nFlags, const Vector
 	}
 
 	// Tagging.
-	if ( m_uiTool == DISPTOOL_TAG_WALKABLE || m_uiTool == DISPTOOL_TAG_BUILDABLE || m_uiTool == DISPTOOL_TAG_REMOVE )
+	if ( m_uiTool == DISPTOOL_TAG_WALKABLE || m_uiTool == DISPTOOL_TAG_BUILDABLE )
 	{
 		// Do tagging.
 		HandleTaggingReset( pView, vPoint );
@@ -343,10 +309,10 @@ bool CToolDisplace::OnRMouseDown3D( CMapView3D *pView, UINT nFlags, const Vector
 			int nDispCount = pDispMgr->SelectCount();
 			for ( int iDisp = 0; iDisp < nDispCount; iDisp++ )
 			{
-				CMapDisp *pDispSelect = pDispMgr->GetFromSelect( iDisp );
-				if ( pDispSelect )
+				CMapDisp *pDisp = pDispMgr->GetFromSelect( iDisp );
+				if ( pDisp )
 				{
-					pDispSelect->Paint_Init( DISPPAINT_CHANNEL_POSITION );
+					pDisp->Paint_Init( DISPPAINT_CHANNEL_POSITION );
 				}
 			}
 
@@ -375,12 +341,6 @@ bool CToolDisplace::OnRMouseUp3D( CMapView3D *pView, UINT nFlags, const Vector2D
 	// left button up
 	m_bRMBDown = false;
 
-	if( m_uiTool == DISPTOOL_PAINT_SCULPT )
-	{
-		m_SculptTool->OnRMouseUp3D( pView, nFlags, vPoint );
-		return true;
-	}
-
 	IWorldEditDispMgr *pDispMgr = GetActiveWorldEditDispManager();
 	if( pDispMgr )
 	{
@@ -395,22 +355,6 @@ bool CToolDisplace::OnRMouseUp3D( CMapView3D *pView, UINT nFlags, const Vector2D
 //-----------------------------------------------------------------------------
 bool CToolDisplace::OnMouseMove3D( CMapView3D *pView, UINT nFlags, const Vector2D &vPoint )
 {
-	m_MousePoint = vPoint;
-
-	if( m_uiTool == DISPTOOL_PAINT_SCULPT )
-	{
-		m_SculptTool->OnMouseMove3D( pView, nFlags, vPoint );
-
-		if( ( m_bLMBDown || m_bRMBDown ) )
-		{	
-			ApplySculptSpatialPaintTool( pView, nFlags, vPoint );
-		}
-
-		// update
-		UpdateMapViews( pView );
-
-		return true;
-	}
 
 	// nudging
 	if ( ( m_uiTool == DISPTOOL_PAINT ) && ( GetAsyncKeyState( VK_SHIFT ) & 0x8000 ) && 
@@ -758,44 +702,6 @@ void CToolDisplace::ApplySpatialPaintTool( UINT nFlags, const Vector2D &vPoint, 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CToolDisplace::ApplySculptSpatialPaintTool( CMapView3D *pView, UINT nFlags, const Vector2D &vPoint )
-{
-	// Initialize the spatial paint data.
-	SpatialPaintData_t spatialData;
-
-	spatialData.m_vCenter.Init();
-
-	// get hit info
-	EditDispHandle_t handle = GetHitPos( pView, vPoint );
-	if( handle != EDITDISPHANDLE_INVALID )
-	{
-		m_EditDispHandle = handle;
-		CMapDisp *pDisp = EditDispMgr()->GetDisp( handle );
-
-		// Get the hit index and check for validity.
-		int iHit = pDisp->GetTexelHitIndex();
-		if ( iHit != -1 )
-		{
-			pDisp->GetVert( iHit, spatialData.m_vCenter );
-		}
-	}
-
-	spatialData.m_nEffect = m_uiEffect;
-	spatialData.m_uiBrushType = m_uiBrushType;
-	spatialData.m_flRadius = m_flSpatialRadius;
-	spatialData.m_flScalar = m_flPaintValueGeo;
-	spatialData.m_bNudge = false;
-	if ( m_bRMBDown )
-	{
-		spatialData.m_flScalar = -spatialData.m_flScalar;
-	}
-	VectorCopy( m_vecPaintAxis, spatialData.m_vPaintAxis );
-
-	m_SculptTool->Paint( pView, vPoint, spatialData );
-}
-
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
 void CToolDisplace::ResizeSpatialRadius_Activate( CMapView3D *pView )
 {
 	// Calculate the center of the view and capture the mouse cursor.
@@ -971,26 +877,11 @@ void CToolDisplace::HandleTagging( CMapView3D *pView, const Vector2D &vPoint )
 
 						pDisp->UpdateBuildable();
 					}
-					else if ( m_uiTool == DISPTOOL_TAG_REMOVE )
-					{
-						HandleTaggingRemove( pDisp, iTri );
-					}
 				}
 			}
 		}
 	}
 }
-
-
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
-void CToolDisplace::HandleTaggingRemove( CMapDisp *pDisp, int nTriIndex )
-{
-	pDisp->ToggleTriTag( nTriIndex, COREDISPTRI_TAG_FORCE_REMOVE_BIT );
-	pDisp->UpdateTriRemove();
-}
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Handle the overriding of displacement triangle tag.
@@ -1028,11 +919,6 @@ void CToolDisplace::HandleTaggingReset( CMapView3D *pView, const Vector2D &vPoin
 					else if ( m_uiTool == DISPTOOL_TAG_BUILDABLE )
 					{
 						pDisp->ResetTriTag( iTri, COREDISPTRI_TAG_FORCE_BUILDABLE_BIT );
-						pDisp->UpdateBuildable();
-					}
-					else if ( m_uiTool == DISPTOOL_TAG_REMOVE )
-					{
-						pDisp->ResetTriTag( iTri, COREDISPTRI_TAG_FORCE_REMOVE_BIT );
 						pDisp->UpdateBuildable();
 					}
 				}
@@ -1554,10 +1440,5 @@ void CToolDisplace::RenderTool3D(CRender3D *pRender)
 		{
 			RenderHitBox( pRender );
 		}
-	}
-
-	if ( uiTool == DISPTOOL_PAINT_SCULPT )
-	{
-		m_SculptTool->RenderTool3D( pRender );
 	}
 }

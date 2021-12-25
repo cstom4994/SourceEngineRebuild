@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: Data and functionality common to 2D and 3D views.
 //
@@ -57,10 +57,6 @@ enum DrawType_t {
 };
 
 
-#define FLAG_OBJECTS_AT_RESOLVE_INSTANCES    0x0000001
-#define FLAG_OBJECTS_AT_ONLY_SOLIDS            0x0000002
-
-
 class CMapView {
 public:
 
@@ -102,7 +98,7 @@ public:
 
     virtual void BuildRay(const Vector2D &ptClient, Vector &vStart, Vector &vEnd);
 
-    virtual int ObjectsAt(const Vector2D &ptClient, HitInfo_t *pObjects, int nMaxObjects, unsigned int nFlags = 0) = 0;
+    virtual int ObjectsAt(const Vector2D &ptClient, HitInfo_t *pObjects, int nMaxObjects) = 0;
 
     virtual bool HitTest(const Vector2D &ptClient, const Vector &mins, const Vector &maxs) = 0;
 

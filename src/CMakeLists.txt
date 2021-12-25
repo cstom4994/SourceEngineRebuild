@@ -138,14 +138,6 @@ add_subdirectory(soundsystem)
 add_subdirectory(sourcevr)
 add_subdirectory(steamemu)
 
-add_subdirectory(thirdparty/zlib-1.2.5)
-add_subdirectory(thirdparty/cryptopp860)
-add_subdirectory(thirdparty/re2)
-
-add_subdirectory(utils/bsppack)
-add_subdirectory(utils/bzip2)
-add_subdirectory(utils/jpeglib)
-add_subdirectory(utils/lzma)
 add_subdirectory(utils/remoteshadercompile)
 add_subdirectory(utils/shadercompile)
 add_subdirectory(utils/shadercompile_launcher)
@@ -164,9 +156,9 @@ add_subdirectory(tracker/AdminServer)
 add_subdirectory(vgui2/dme_controls)
 
 
-#add_subdirectory(hammer)
-#add_subdirectory(hammer_launcher)
-#add_subdirectory(utils/vbsp)
+add_subdirectory(hammer)
+add_subdirectory(hammer_launcher)
+add_subdirectory(utils/vbsp)
 
 add_subdirectory(utils/vrad)
 add_subdirectory(utils/vrad_launcher)
@@ -176,11 +168,10 @@ add_subdirectory(utils/vvis_launcher)
 #add_subdirectory(engine/voice_codecs/celt)
 
 add_subdirectory(thirdparty/libspeex)
-
-
-
+add_subdirectory(thirdparty/zlib-1.2.5)
+add_subdirectory(thirdparty/cryptopp860)
+add_subdirectory(thirdparty/re2)
+add_subdirectory(thirdparty/bzip2)
+add_subdirectory(thirdparty/jpeglib)
+add_subdirectory(thirdparty/lzma)
 add_subdirectory(thirdparty/protobuf-2.6.1/vsprojects)
-
-#add_subdirectory(shadereditor/src/materialsystem/procshader)
-#add_subdirectory(shadereditor/src/shadereditor)
-#add_subdirectory(shadereditor/src/vgui_editor)

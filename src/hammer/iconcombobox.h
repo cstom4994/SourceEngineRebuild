@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -19,58 +19,70 @@
 //  HasStrings: checked
 //	VSCROLL
 //
-class CIconComboBox : public CComboBox
-{
+class CIconComboBox : public CComboBox {
 public:
 
-	//=========================================================================
-	//
-	// Construction/Deconstruction
-	//
-	CIconComboBox();
-	virtual ~CIconComboBox();
- 
-	void Init( void );
+    //=========================================================================
+    //
+    // Construction/Deconstruction
+    //
+    CIconComboBox();
 
-	//=========================================================================
-	//
-	// Operations
-	//
-    int AddIcon( LPCTSTR pIconName );
-	int InsertIcon( LPCTSTR pIconName, int ndx );
-	int SelectIcon( LPCTSTR pIconName );
-	int SelectIcon( int ndx );
-	int DeleteIcon( LPCTSTR pIconName );
-	int DeleteIcon( int ndx );
+    virtual ~CIconComboBox();
+
+    void Init(void);
+
+    //=========================================================================
+    //
+    // Operations
+    //
+    int AddIcon(LPCTSTR pIconName);
+
+    int InsertIcon(LPCTSTR pIconName, int ndx);
+
+    int SelectIcon(LPCTSTR pIconName);
+
+    int SelectIcon(int ndx);
+
+    int DeleteIcon(LPCTSTR pIconName);
+
+    int DeleteIcon(int ndx);
 
 //protected:
 
-	CSize m_IconSize;				//	icon dimensions
+    CSize m_IconSize;                //	icon dimensions
 
-	//=========================================================================
-	//
-	// Overloaded String Operations
-	//
-	int AddString( LPCTSTR lpszString );
-	int InsertString( int nIndex, LPCTSTR lpszString );
-	int DeleteString( int nIndex );
+    //=========================================================================
+    //
+    // Overloaded String Operations
+    //
+    int AddString(LPCTSTR lpszString);
 
-	//=========================================================================
-	//
-	// Overrides
-	//
-	void MeasureItem( LPMEASUREITEMSTRUCT lpMeasureItemStruct );
-	void DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct );
+    int InsertString(int nIndex, LPCTSTR lpszString);
 
-	//=========================================================================
-	//
-	//
-	//
-	void OnDrawIcon( LPDRAWITEMSTRUCT lpDrawItemStruct );
-	void SetDisabledBrushAndPen( LPDRAWITEMSTRUCT lpDrawItemStruct, CBrush **ppOldBrush, CPen **ppOldPen );
-	void SetUnSelectedBrushAndPen( LPDRAWITEMSTRUCT lpDrawItemStruct, CBrush **ppOldBrush, CPen **ppOldPen );
-	void SetSelectedBrushAndPen( LPDRAWITEMSTRUCT lpDrawItemStruct, CBrush **ppOldBrush, CPen **ppOldPen );
-	void ResetBrushAndPen( LPDRAWITEMSTRUCT lpDrawItemStruct, CBrush *pBrush, CPen *pPen );
+    int DeleteString(int nIndex);
+
+    //=========================================================================
+    //
+    // Overrides
+    //
+    void MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct);
+
+    void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
+
+    //=========================================================================
+    //
+    //
+    //
+    void OnDrawIcon(LPDRAWITEMSTRUCT lpDrawItemStruct);
+
+    void SetDisabledBrushAndPen(LPDRAWITEMSTRUCT lpDrawItemStruct, CBrush **ppOldBrush, CPen **ppOldPen);
+
+    void SetUnSelectedBrushAndPen(LPDRAWITEMSTRUCT lpDrawItemStruct, CBrush **ppOldBrush, CPen **ppOldPen);
+
+    void SetSelectedBrushAndPen(LPDRAWITEMSTRUCT lpDrawItemStruct, CBrush **ppOldBrush, CPen **ppOldPen);
+
+    void ResetBrushAndPen(LPDRAWITEMSTRUCT lpDrawItemStruct, CBrush *pBrush, CPen *pPen);
 };
 
 #endif // ICONCOMBOBOX_H

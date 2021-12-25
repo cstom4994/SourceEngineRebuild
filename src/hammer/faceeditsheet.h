@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -14,192 +14,194 @@
 #include "FaceEdit_DispPage.h"
 
 class CMapFace;
+
 class CMapSolid;
 
 //=============================================================================
 //
 // Face Edit Sheet
 //
-class CFaceEditSheet : public CPropertySheet
-{
-	DECLARE_DYNAMIC( CFaceEditSheet )
+class CFaceEditSheet : public CPropertySheet {
+DECLARE_DYNAMIC(CFaceEditSheet)
 
 public:
 
-	// solid/face selection structure
-	typedef struct
-	{
-		CMapDoc *pMapDoc;	// From whence it came, so if we close the CMapDoc we can unselect it.
-		CMapFace *pMapFace;
-		CMapSolid *pMapSolid;
-	} StoredFace_t;
+    // solid/face selection structure
+    typedef struct {
+        CMapDoc *pMapDoc;    // From whence it came, so if we close the CMapDoc we can unselect it.
+        CMapFace *pMapFace;
+        CMapSolid *pMapSolid;
+    } StoredFace_t;
 
-	//=========================================================================
-	//
-	// Creation/Destruction
-	//
-					CFaceEditSheet( LPCTSTR pszCaption, CWnd *pParentWnd = NULL, UINT iSelectPage = 0 );
-	virtual			~CFaceEditSheet();
+    //=========================================================================
+    //
+    // Creation/Destruction
+    //
+    CFaceEditSheet(LPCTSTR pszCaption, CWnd *pParentWnd = NULL, UINT iSelectPage = 0);
 
-	BOOL			Create( CWnd *pParentWnd );
-	void			Setup( void );
+    virtual            ~CFaceEditSheet();
 
-	//=========================================================================
-	//
-	// Update
-	//
-	void			SetVisibility( bool bVisible );
-	inline void		NotifyGraphicsChanged( void );
+    BOOL Create(CWnd *pParentWnd);
 
-	void			CloseAllPageDialogs( void );
+    void Setup(void);
 
-	void			UpdateControls( void );
-	
-	// Called when the CMapDoc goes away. Don't hang onto old face pointers that come from this doc.
-	void			ClearFaceListByMapDoc( CMapDoc *pDoc );
+    //=========================================================================
+    //
+    // Update
+    //
+    void SetVisibility(bool bVisible);
 
-	//=========================================================================
-	//
-	// Selection
-	//
-	enum { FACE_LIST_SIZE = 32 };
+    inline void NotifyGraphicsChanged(void);
 
-	enum
-	{
-		id_SwitchModeStart = 0x100,
-		ModeLiftSelect,
-		ModeLift,
-		ModeSelect,
-		ModeApply,
-		ModeApplyAll,
-		ModeApplyLightmapScale,
-		ModeAlignToView,
-		id_SwitchModeEnd
-	};
+    void CloseAllPageDialogs(void);
 
-	enum
-	{
-		cfToggle    = 0x01,			// toggle - if selected, then unselect
-		cfSelect    = 0x02,			// select
-		cfUnselect  = 0x04,			// unselect
-		cfClear     = 0x08,			// clear face list
-		cfEdgeAlign = 0x10			// align face texture coordinates to 3d view alignment - should be here???
-	};
+    void UpdateControls(void);
 
-	void ClickFace( CMapSolid *pSolid, int faceIndex, int cmd, int clickMode = -1 );
-	inline void SetClickMode( int mode );
-	inline int GetClickMode( void );
+    // Called when the CMapDoc goes away. Don't hang onto old face pointers that come from this doc.
+    void ClearFaceListByMapDoc(CMapDoc *pDoc);
 
-	void EnableUpdate( bool bEnable );
-	inline bool HasUpdateEnabled( void );
-	
-	inline int GetFaceListCount( void );
-	inline CMapFace *GetFaceListDataFace( int index );
-	inline CMapSolid *GetFaceListDataSolid( int index );
+    //=========================================================================
+    //
+    // Selection
+    //
+    enum {
+        FACE_LIST_SIZE = 32
+    };
 
-	// Called when a new material is detected.
-	void NotifyNewMaterial( IEditorTexture *pTex );
-	
-	//=========================================================================
-	//
-	// Virtual Overrides
-	//
-	//{{AFX_VIRTUAL( CFaceEditSheet )
-	virtual BOOL PreTranslateMessage( MSG *pMsg );
-	//}}AFX_VIRTUAL
+    enum {
+        id_SwitchModeStart = 0x100,
+        ModeLiftSelect,
+        ModeLift,
+        ModeSelect,
+        ModeApply,
+        ModeApplyAll,
+        ModeApplyLightmapScale,
+        ModeAlignToView,
+        id_SwitchModeEnd
+    };
 
-	CFaceEditMaterialPage				m_MaterialPage;			// material "page"
-	CFaceEditDispPage					m_DispPage;				// displacement "page"
+    enum {
+        cfToggle = 0x01,            // toggle - if selected, then unselect
+        cfSelect = 0x02,            // select
+        cfUnselect = 0x04,            // unselect
+        cfClear = 0x08,            // clear face list
+        cfEdgeAlign = 0x10            // align face texture coordinates to 3d view alignment - should be here???
+    };
+
+    void ClickFace(CMapSolid *pSolid, int faceIndex, int cmd, int clickMode = -1);
+
+    inline void SetClickMode(int mode);
+
+    inline int GetClickMode(void);
+
+    void EnableUpdate(bool bEnable);
+
+    inline bool HasUpdateEnabled(void);
+
+    inline int GetFaceListCount(void);
+
+    inline CMapFace *GetFaceListDataFace(int index);
+
+    inline CMapSolid *GetFaceListDataSolid(int index);
+
+    // Called when a new material is detected.
+    void NotifyNewMaterial(IEditorTexture *pTex);
+
+    //=========================================================================
+    //
+    // Virtual Overrides
+    //
+    //{{AFX_VIRTUAL( CFaceEditSheet )
+    virtual BOOL PreTranslateMessage(MSG *pMsg);
+    //}}AFX_VIRTUAL
+
+    CFaceEditMaterialPage m_MaterialPage;            // material "page"
+    CFaceEditDispPage m_DispPage;                // displacement "page"
 
 protected:
 
-	CUtlVector<StoredFace_t>			m_Faces;				// face list
+    CUtlVector<StoredFace_t> m_Faces;                // face list
 
 //	CFaceEditMaterialPage				m_MaterialPage;			// material "page"
 //	CFaceEditDispPage					m_DispPage;				// displacement "page"
 
-	int									m_ClickMode;			// lame this is here!!!! -- see CMapDoc (SelectFace)
+    int m_ClickMode;            // lame this is here!!!! -- see CMapDoc (SelectFace)
 
-	bool								m_bEnableUpdate;		// update the dialog (true/false)
+    bool m_bEnableUpdate;        // update the dialog (true/false)
 
-	//=========================================================================
-	//
-	// Creation/Destruction
-	//
-	void SetupPages( void );
-	void SetupButtons( void );
+    //=========================================================================
+    //
+    // Creation/Destruction
+    //
+    void SetupPages(void);
 
-	//=========================================================================
-	//
-	// Selection
-	//
-	void ClearFaceList( void );
-	int FindFaceInList( CMapFace *pFace );
+    void SetupButtons(void);
 
-	//=========================================================================
-	//
-	// Message Map
-	//
-	//{{AFX_MSG( CFaceEditSheet )
-	afx_msg void OnClose( void );
-	//}}AFX_MSG
+    //=========================================================================
+    //
+    // Selection
+    //
+    void ClearFaceList(void);
 
-	DECLARE_MESSAGE_MAP()
+    int FindFaceInList(CMapFace *pFace);
+
+    //=========================================================================
+    //
+    // Message Map
+    //
+    //{{AFX_MSG( CFaceEditSheet )
+    afx_msg void OnClose(void);
+    //}}AFX_MSG
+
+DECLARE_MESSAGE_MAP()
 };
 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-inline void CFaceEditSheet::NotifyGraphicsChanged( void )
-{
-	m_MaterialPage.NotifyGraphicsChanged();
+inline void CFaceEditSheet::NotifyGraphicsChanged(void) {
+    m_MaterialPage.NotifyGraphicsChanged();
 }
 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-inline void CFaceEditSheet::SetClickMode( int mode )
-{
-	m_ClickMode = mode;
+inline void CFaceEditSheet::SetClickMode(int mode) {
+    m_ClickMode = mode;
 }
 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-inline int CFaceEditSheet::GetClickMode( void )
-{ 
-	return m_ClickMode; 
+inline int CFaceEditSheet::GetClickMode(void) {
+    return m_ClickMode;
 }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-inline int CFaceEditSheet::GetFaceListCount( void )
-{
-	return m_Faces.Count();
-}
-
-
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-inline CMapFace *CFaceEditSheet::GetFaceListDataFace( int index )
-{
-	return m_Faces[index].pMapFace;
+inline int CFaceEditSheet::GetFaceListCount(void) {
+    return m_Faces.Count();
 }
 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-inline CMapSolid *CFaceEditSheet::GetFaceListDataSolid( int index )
-{
-	return m_Faces[index].pMapSolid;
+inline CMapFace *CFaceEditSheet::GetFaceListDataFace(int index) {
+    return m_Faces[index].pMapFace;
 }
 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-inline bool CFaceEditSheet::HasUpdateEnabled( void )
-{
-	return m_bEnableUpdate;
+inline CMapSolid *CFaceEditSheet::GetFaceListDataSolid(int index) {
+    return m_Faces[index].pMapSolid;
+}
+
+
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+inline bool CFaceEditSheet::HasUpdateEnabled(void) {
+    return m_bEnableUpdate;
 }
 
 

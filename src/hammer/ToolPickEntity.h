@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Tool used for picking entities for filling out entity properties and
 //			I/O connections. Anywhere you see an entity name field there should

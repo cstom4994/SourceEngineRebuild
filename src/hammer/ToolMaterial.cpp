@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Handles the selection of faces and material application.
 //
@@ -18,7 +18,6 @@
 #include "StatusBarIDs.h"
 #include "ToolManager.h"
 #include "ToolMaterial.h"
-#include "Options.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -199,82 +198,5 @@ void CToolMaterial::UpdateStatusBar()
 	str.Format("%d faces selected", GetMainWnd()->m_pFaceEditSheet->GetFaceListCount() );
 	SetStatusText(SBI_SELECTION, str);
 	SetStatusText(SBI_SIZE, "");
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Handles the key down event in the 3D view.
-// Input  : Per CWnd::OnKeyDown.
-// Output : Returns true if the message was handled, false if not.
-//-----------------------------------------------------------------------------
-bool CToolMaterial::OnKeyDown3D( CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags )
-{
-	// TO DO:  undo?
-	//		   justify (SHIFT?)
-	
-	CMapDoc *pDoc = pView->GetMapDoc();
-	if ( pDoc == NULL )
-	{
-		return false;
-	}
-
-	if ( nChar == VK_UP || nChar == VK_DOWN || nChar == VK_LEFT || nChar == VK_RIGHT )
-	{
-		// Bail out if the user doesn't have Nudging enabled.
-		if ( !Options.view2d.bNudge )
-		{
-			return false;
-		}
-
-		CFaceEditSheet *pSheet = GetMainWnd()->m_pFaceEditSheet;
-		if( pSheet )
-		{
-			// Check for a face list.
-			int nFaceCount = pSheet->GetFaceListCount();
-			if( nFaceCount == 0 )
-			{
-				return false;
-			}
-
-			int nGridSize = m_pDocument->GetGridSpacing();
-			bool bCtrlDown = ( ( GetAsyncKeyState( VK_CONTROL ) & 0x8000 ) != 0 );
-
-			if ( bCtrlDown )
-			{
-				nGridSize = 1;
-			}
-
-			for( int ndxface = 0; ndxface < nFaceCount; ndxface++ )
-			{
-				CMapFace *pFace;
-				pFace = pSheet->GetFaceListDataFace( ndxface );
-
-				TEXTURE &t = pFace->texture;
-
-				if ( nChar == VK_UP )
-				{
-					t.VAxis[ 3 ] = ( (int)( t.VAxis[ 3 ] + nGridSize ) % 1024 );  
-				}
-				else if ( nChar == VK_DOWN )
-				{
-					t.VAxis[ 3 ] = ( (int)( t.VAxis[ 3 ] - nGridSize ) % 1024 );
-
-				}
-				else if ( nChar == VK_LEFT )
-				{
-					t.UAxis[ 3 ] = ( (int)( t.UAxis[ 3 ] + nGridSize ) % 1024 );
-				}
-				else
-				{
-					t.UAxis[ 3 ] = ( (int)( t.UAxis[ 3 ] - nGridSize ) % 1024 );
-				}
-				
-				pFace->CalcTextureCoords();
-				pSheet->m_MaterialPage.UpdateDialogData( pFace );
-			}
-			pDoc->SetModifiedFlag();
-			return true;
-		}
-	}
-	return false;
 }
 

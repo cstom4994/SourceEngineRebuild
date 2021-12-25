@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -28,7 +28,6 @@
 #include "mapdecal.h"
 #include "RenderUtils.h"
 #include "tier0/icommandline.h"
-#include "Manifest.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -110,7 +109,7 @@ void Selection3D::OnDeactivate()
 //-----------------------------------------------------------------------------
 void Selection3D::UpdateHandleState(void)
 {
-	if ( !IsActiveTool() || m_pSelection->IsEditable() == false )
+	if (!IsActiveTool())
 	{
 		EnableHandles(false);
 	}
@@ -802,7 +801,6 @@ bool Selection3D::OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT 
 			if (IsBoxSelecting())
 			{
 				SelectInBox(m_pDocument, bShift);
-				UpdateHandleState();
 			}
 			break;
 		}
@@ -912,14 +910,12 @@ bool Selection3D::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D 
 	{
 		// add object under cursor to selection
 		m_bSelected = pView->SelectAt(vPoint, false, false);
-		UpdateHandleState();
 	}
 	else if ( IsEmpty() || !HitTest(pView,vPoint, true) )
 	{
 		// start new selection
 		m_TranslateMode = modeScale;
 		m_bSelected = pView->SelectAt(vPoint, true, false);
-		UpdateHandleState();
 	}
 	
 	return true;
@@ -970,8 +966,6 @@ bool Selection3D::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &
 {
 	Tool3D::OnMouseMove2D(pView, nFlags, vPoint);
 
-	bool	IsEditable = m_pSelection->IsEditable();
-
 	vgui::HCursor hCursor = vgui::dc_arrow;
 
 	bool bCtrl = (GetAsyncKeyState(VK_CONTROL) & 0x8000);
@@ -1006,7 +1000,7 @@ bool Selection3D::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &
 	{
 		pView->SetCapture();
 
-		if ( IsEditable && !bCtrl && HitTest( pView, m_vMouseStart[MOUSE_LEFT], true) )
+		if ( !bCtrl && HitTest( pView, m_vMouseStart[MOUSE_LEFT], true) )
 		{
 			// we selected a handle - start translation the selection
 			StartTranslation( pView, m_vMouseStart[MOUSE_LEFT], m_LastHitTestHandle ); 
@@ -1054,16 +1048,14 @@ bool Selection3D::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &
 
 		// If we haven't moused over any interactive handles contained in the object, see if the
 		// mouse is over one of the selection handles.
-		if ( IsEditable && !bFoundTool && HitTest(pView, vPoint, true) )
+		if ( !bFoundTool && HitTest(pView, vPoint, true) )
 		{
 			hCursor = UpdateCursor( pView, m_LastHitTestHandle, m_TranslateMode );
 		}
 	}
 
 	if ( hCursor != vgui::dc_none )
-	{
 		pView->SetCursor( hCursor );
-	}
 
 	return true;
 }
@@ -1153,9 +1145,7 @@ bool Selection3D::OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &v
 	bool bShift = nFlags & MK_SHIFT;
 
 	Tool3D::OnLMouseUp2D(pView, nFlags, vPoint);
-
-	bool	IsEditable = m_pSelection->IsEditable();
-
+  	
 	if ( IsTranslating() )
 	{
 		// selecting stuff in box
@@ -1166,7 +1156,6 @@ bool Selection3D::OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &v
 			if (Options.view2d.bAutoSelect)
 			{
 				SelectInBox(m_pDocument, bShift);
-				UpdateHandleState();
 			}
 		}
 		else
@@ -1177,7 +1166,7 @@ bool Selection3D::OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &v
 	}
 	else if ( !m_bSelected && !m_pSelection->IsEmpty() )
 	{
-		if ( IsEditable && HitTest(pView, vPoint, false) )
+		if ( HitTest(pView, vPoint, false) )
 		{
 			ToggleTranslateMode();
 
@@ -1524,22 +1513,6 @@ bool Selection3D::OnLMouseDblClk3D(CMapView3D *pView, UINT nFlags, const Vector2
 {
 	if ( !m_pSelection->IsEmpty() )
 	{
-		if ( m_pSelection->GetCount() == 1 )
-		{
-			CMapClass			*pObject = m_pSelection->GetList()->Element( 0 );
-			CManifestInstance	*pManifestInstance = dynamic_cast< CManifestInstance * >( pObject );
-			if ( pManifestInstance )
-			{
-				CManifest *pManifest = CMapDoc::GetManifest();
-
-				if ( pManifest )
-				{
-					pManifest->SetPrimaryMap( pManifestInstance->GetManifestMap() );
-					return true;
-				}
-			}
-		}
-
 		GetMainWnd()->pObjectProperties->ShowWindow(SW_SHOW);
 	}
 
@@ -1636,8 +1609,8 @@ void Selection3D::EyedropperPick(CMapView *pView, CMapClass *pObject)
 
 	for (int i = 0; i < pSelList->Count(); i++)
 	{
-		pObject = pSelList->Element(i);
-		pEntity = dynamic_cast <CMapEntity *> (pObject);
+		CMapClass *pObject = pSelList->Element(i);
+		CMapEntity *pEntity = dynamic_cast <CMapEntity *> (pObject);
 		if (pEntity != NULL)
 		{
 			nEntityCount++;
@@ -1689,13 +1662,13 @@ void Selection3D::EyedropperPick(CMapView *pView, CMapClass *pObject)
 	//
 	for (int i = 0; i < pSelList->Count(); i++)
 	{
-		pObject = pSelList->Element(i);
+		CMapClass *pObject = pSelList->Element(i);
 	
-		pEntity = dynamic_cast <CMapEntity *> (pObject);
+		CMapEntity *pEntity = dynamic_cast <CMapEntity *> (pObject);
 		if (pEntity != NULL)
 		{
 			GDclass *pClass = pEntity->GetClass();
-			pVar = pClass->VarForName(pszVarName);
+			GDinputvariable *pVar = pClass->VarForName(pszVarName);
 			if (pVar && ((pVar->GetType() == ivTargetDest) || (pVar->GetType() == ivTargetNameOrClass)))
 			{
 				GetHistory()->Keep(pEntity);
@@ -1762,7 +1735,6 @@ bool Selection3D::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D 
 	if (nFlags & MK_CONTROL)
 	{
 		m_bSelected = pView->SelectAt(vPoint, false, false);;
-		UpdateHandleState();
 	}
 	else if ( m_b3DEditMode && HitTest(pView,vPoint, true) )
 	{
@@ -1780,7 +1752,6 @@ bool Selection3D::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D 
 			if ( HitData.pObject && !HitData.pObject->IsSelected() )
 			{
 				m_bSelected = pView->SelectAt(vPoint, true, false);
-				UpdateHandleState();
 			}
 
 			m_bDrawAsSolidBox = false;
@@ -1792,7 +1763,6 @@ bool Selection3D::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D 
 	{
 		m_TranslateMode = modeScale;
 		m_bSelected = pView->SelectAt(vPoint, true, false);
-		UpdateHandleState();
 	}
 
 	if ( m_bSelected && !m_b3DEditMode )
@@ -1815,8 +1785,6 @@ bool Selection3D::OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &v
 
 	Tool3D::OnLMouseUp3D(pView, nFlags, vPoint) ;
 
-	bool	IsEditable = m_pSelection->IsEditable();
-
 	if ( IsTranslating() )
 	{
 		// selecting stuff in box
@@ -1827,7 +1795,6 @@ bool Selection3D::OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &v
 			if (Options.view2d.bAutoSelect)
 			{
 				SelectInBox(m_pDocument, bShift);
-				UpdateHandleState();
 			}
 		}
 		else
@@ -1837,7 +1804,7 @@ bool Selection3D::OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &v
 	}
 	else if ( m_b3DEditMode && !m_bSelected && !m_pSelection->IsEmpty() )
 	{
-		if ( IsEditable && HitTest(pView, vPoint, false) )
+		if ( HitTest(pView, vPoint, false) )
 		{
 			ToggleTranslateMode();
 
@@ -1864,8 +1831,6 @@ bool Selection3D::OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &v
 bool Selection3D::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint)
 {
 	Tool3D::OnMouseMove3D(pView, nFlags, vPoint);
-
-	bool	IsEditable = m_pSelection->IsEditable();
 
 	vgui::HCursor hCursor = vgui::dc_arrow;
 
@@ -1895,7 +1860,7 @@ bool Selection3D::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 	//
 	else if ( m_b3DEditMode && m_bMouseDragged[MOUSE_LEFT] )
 	{
-		if ( IsEditable && HitTest( pView, m_vMouseStart[MOUSE_LEFT], true) )
+		if ( HitTest( pView, m_vMouseStart[MOUSE_LEFT], true) )
 		{
 			// we selected a handle - start translation the selection
 			StartTranslation( pView, vPoint, m_LastHitTestHandle ); 
@@ -1903,7 +1868,7 @@ bool Selection3D::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 			hCursor = UpdateCursor( pView, m_LastHitTestHandle, m_TranslateMode );
 		}
 	}
-	else if ( IsEditable && m_b3DEditMode && !IsEmpty() )
+	else if (m_b3DEditMode && !IsEmpty())
 	{
 		UpdateHandleState();
 
@@ -1913,10 +1878,7 @@ bool Selection3D::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 		}
 	}
 
-	if ( hCursor != vgui::dc_none )
-	{
-		pView->SetCursor( hCursor );
-	}
+	pView->SetCursor( hCursor );
 	
 	return true;
 }

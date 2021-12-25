@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -14,60 +14,76 @@
 /////////////////////////////////////////////////////////////////////////////
 // COPTBuild dialog
 
-class COPTBuild : public CPropertyPage
-{
+class COPTBuild : public CPropertyPage {
 // Construction
 public:
-	COPTBuild();   // standard constructor
+    COPTBuild();   // standard constructor
 
 // Dialog Data
-	//{{AFX_DATA(COPTBuild)
-	enum { IDD = IDD_OPTIONS_BUILD };
-	CEdit	m_cBSPDir;
-	CEdit	m_cVIS;
-	CEdit	m_cLIGHT;
-	CEdit	m_cGame;
-	CEdit	m_cBSP;
-	CComboBox	m_cConfigs;
-	//}}AFX_DATA
+    //{{AFX_DATA(COPTBuild)
+    enum {
+        IDD = IDD_OPTIONS_BUILD
+    };
+    CEdit m_cBSPDir;
+    CEdit m_cVIS;
+    CEdit m_cLIGHT;
+    CEdit m_cGame;
+    CEdit m_cBSP;
+    CComboBox m_cConfigs;
+    //}}AFX_DATA
 
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(COPTBuild)
-	public:
-	virtual BOOL OnApply();
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(COPTBuild)
+public:
+    virtual BOOL OnApply();
+
+protected:
+    virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
 // Implementation
 protected:
 
-	// Generated message map functions
-	//{{AFX_MSG(COPTBuild)
-	afx_msg void OnBrowseBsp();
-	afx_msg void OnBrowseGame();
-	afx_msg void OnBrowseLight();
-	afx_msg void OnBrowseVis();
-	afx_msg void OnSelchangeConfigs();
-	virtual BOOL OnInitDialog();
-	afx_msg void OnParmsBsp();
-	afx_msg void OnParmsGame();
-	afx_msg void OnParmsLight();
-	afx_msg void OnParmsVis();
-	afx_msg void OnBrowseBspdir();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(COPTBuild)
+    afx_msg void OnBrowseBsp();
 
-	CGameConfig *m_pConfig;
-	CEdit *m_pAddParmWnd;
+    afx_msg void OnBrowseGame();
 
-	void InsertParm(UINT nID, CEdit *pEdit);
-	BOOL HandleInsertParm(UINT nID);
-	void DoBrowse(CWnd *pWnd);
-	void UpdateConfigList();
-	void SaveInfo(CGameConfig *pConfig);
+    afx_msg void OnBrowseLight();
+
+    afx_msg void OnBrowseVis();
+
+    afx_msg void OnSelchangeConfigs();
+
+    virtual BOOL OnInitDialog();
+
+    afx_msg void OnParmsBsp();
+
+    afx_msg void OnParmsGame();
+
+    afx_msg void OnParmsLight();
+
+    afx_msg void OnParmsVis();
+
+    afx_msg void OnBrowseBspdir();
+    //}}AFX_MSG
+DECLARE_MESSAGE_MAP()
+
+    CGameConfig *m_pConfig;
+    CEdit *m_pAddParmWnd;
+
+    void InsertParm(UINT nID, CEdit *pEdit);
+
+    BOOL HandleInsertParm(UINT nID);
+
+    void DoBrowse(CWnd *pWnd);
+
+    void UpdateConfigList();
+
+    void SaveInfo(CGameConfig *pConfig);
 };
 
 //{{AFX_INSERT_LOCATION}}

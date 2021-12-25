@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,12 +17,12 @@ double I_FloatTime(void) {
 
     if (freq == 0.0) {
         __int64 perfFreq;
-        QueryPerformanceFrequency((LARGE_INTEGER * ) & perfFreq);
-        QueryPerformanceCounter((LARGE_INTEGER * ) & firstCount);
+        QueryPerformanceFrequency((LARGE_INTEGER *) &perfFreq);
+        QueryPerformanceCounter((LARGE_INTEGER *) &firstCount);
         freq = 1.0 / (double) perfFreq;
     }
 
-    QueryPerformanceCounter((LARGE_INTEGER * ) & curCount);
+    QueryPerformanceCounter((LARGE_INTEGER *) &curCount);
     curCount -= firstCount;
     double time = (double) curCount * freq;
     return time;

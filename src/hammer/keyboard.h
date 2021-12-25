@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -12,9 +12,9 @@
 #endif
 
 
-#define KEY_MOD_SHIFT				0x0001
-#define KEY_MOD_CONTROL				0x0002
-#define KEY_MOD_ALT					0x0004
+#define KEY_MOD_SHIFT                0x0001
+#define KEY_MOD_CONTROL                0x0002
+#define KEY_MOD_ALT                    0x0004
 
 
 //
@@ -22,7 +22,7 @@
 // the windows virtual key codes shown below. Missing key codes may be up for grabs,
 // but it is probably safer to add to the end of the list.
 //
-#define MAX_PHYSICAL_KEYS			256
+#define MAX_PHYSICAL_KEYS            256
 
 //
 // VK_LBUTTON        0x01
@@ -216,54 +216,58 @@
 // Defines the maximum number of logical keys. Logical keys are application-specific
 // values that are associated with physical keys via AddKeyMap.
 //
-#define MAX_LOGICAL_KEYS			256
+#define MAX_LOGICAL_KEYS            256
 
 
 //
 // Defines the maximum number of unique key bindings.
 //
-#define MAX_KEYMAPS					256
+#define MAX_KEYMAPS                    256
 
 
-typedef struct
-{
-	unsigned int uChar;
-	unsigned int uModifierKeys;
-	unsigned int uLogicalKey;
+typedef struct {
+    unsigned int uChar;
+    unsigned int uModifierKeys;
+    unsigned int uLogicalKey;
 } KeyMap_t;
 
 
-class CKeyboard
-{
-	public:
-			
-		CKeyboard(void);
-		~CKeyboard(void);
+class CKeyboard {
+public:
 
-		void AddKeyMap(unsigned int uChar, unsigned int uModifierKeys, unsigned int uLogicalKey);
-		void ClearImpulseFlags(void);
-		void ClearKeyStates(void);
-		float GetKeyScale(unsigned int uLogicalKey);
+    CKeyboard(void);
 
-		void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-		void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
+    ~CKeyboard(void);
 
-		void RemoveAllKeyMaps(void);
+    void AddKeyMap(unsigned int uChar, unsigned int uModifierKeys, unsigned int uLogicalKey);
 
-	protected:
+    void ClearImpulseFlags(void);
 
-		bool IsKeyPressed(unsigned int uChar, unsigned int uModifierKeys);
-		bool IsModifierKey(unsigned int uChar);
+    void ClearKeyStates(void);
 
-		unsigned int GetModifierKeyBit(unsigned int uChar);
+    float GetKeyScale(unsigned int uLogicalKey);
 
-		void UpdateLogicalKeys(unsigned int uChar, bool bPressed);
+    void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 
-		unsigned int g_uPhysicalKeyState[MAX_PHYSICAL_KEYS];
-		unsigned int g_uLogicalKeyState[MAX_LOGICAL_KEYS];
+    void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 
-		KeyMap_t g_uKeyMap[MAX_KEYMAPS];
-		unsigned int g_uKeyMaps;
+    void RemoveAllKeyMaps(void);
+
+protected:
+
+    bool IsKeyPressed(unsigned int uChar, unsigned int uModifierKeys);
+
+    bool IsModifierKey(unsigned int uChar);
+
+    unsigned int GetModifierKeyBit(unsigned int uChar);
+
+    void UpdateLogicalKeys(unsigned int uChar, bool bPressed);
+
+    unsigned int g_uPhysicalKeyState[MAX_PHYSICAL_KEYS];
+    unsigned int g_uLogicalKeyState[MAX_LOGICAL_KEYS];
+
+    KeyMap_t g_uKeyMap[MAX_KEYMAPS];
+    unsigned int g_uKeyMaps;
 };
 
 

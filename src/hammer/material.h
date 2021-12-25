@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: Implementation of IEditorTexture interface for materials.
 //
@@ -11,182 +11,184 @@
 
 
 #include "IEditorTexture.h"
-#include "materialsystem/imaterialvar.h"
-#include "materialsystem/imaterial.h"
+#include "materialsystem/IMaterialVar.h"
+#include "materialsystem/IMaterial.h"
 
 
 class IMaterial;
+
 class CMaterialCache;
+
 class IMaterialSystem;
+
 class IMaterialSystemHardwareConfig;
+
 struct MaterialSystem_Config_t;
 struct MaterialCacheEntry_t;
 
 
-#define INCLUDE_MODEL_MATERIALS		0x01
-#define INCLUDE_WORLD_MATERIALS		0x02
-#define INCLUDE_ALL_MATERIALS		0xFFFFFFFF
+#define INCLUDE_MODEL_MATERIALS        0x01
+#define INCLUDE_WORLD_MATERIALS        0x02
+#define INCLUDE_ALL_MATERIALS        0xFFFFFFFF
 
 
 //-----------------------------------------------------------------------------
 // Inherit from this to enumerate materials 
 //-----------------------------------------------------------------------------
-class IMaterialEnumerator
-{
+class IMaterialEnumerator {
 public:
-	virtual bool EnumMaterial( const char *pMaterialName, int nContext ) = 0;
+    virtual bool EnumMaterial(const char *pMaterialName, int nContext) = 0;
 };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class CMaterial : public IEditorTexture
-{
+class CMaterial : public IEditorTexture {
 public:
-	static bool Initialize( HWND hwnd );
-	static void ShutDown(void);
-	static void	EnumerateMaterials( IMaterialEnumerator *pEnum, const char *szRoot, int nContext, int nFlags = INCLUDE_ALL_MATERIALS );
-	static CMaterial *CreateMaterial( const char *pszMaterialName, bool bLoadImmediately, bool* pFound = 0 );
+    static bool Initialize(HWND hwnd);
 
-	virtual ~CMaterial(void);
+    static void ShutDown(void);
 
-	void Draw(CDC *pDC, RECT& rect, int iFontHeight, int iIconHeight, DrawTexData_t &DrawTexData); //DWORD dwFlags = (drawCaption|drawIcons));
+    static void EnumerateMaterials(IMaterialEnumerator *pEnum, const char *szRoot, int nContext,
+                                   int nFlags = INCLUDE_ALL_MATERIALS);
 
-	void FreeData(void);
+    static CMaterial *CreateMaterial(const char *pszMaterialName, bool bLoadImmediately, bool *pFound = 0);
 
-	inline const char *GetName(void) const
-	{
-		return(m_szName);
-	}
-	int GetShortName(char *pszName) const;
+    virtual ~CMaterial(void);
 
-	int GetKeywords(char *pszKeywords) const;
+    void Draw(CDC *pDC, RECT &rect, int iFontHeight, int iIconHeight,
+              DrawTexData_t &DrawTexData); //DWORD dwFlags = (drawCaption|drawIcons));
 
-	void GetSize(SIZE &size) const;
+    void FreeData(void);
 
-	int GetImageDataRGB(void *pImageRGB);
-	int GetImageDataRGBA(void *pImageRGBA);
+    inline const char *GetName(void) const {
+        return (m_szName);
+    }
 
-	// Image dimensions
-	int GetImageWidth(void) const;
-	int GetImageHeight(void) const;
-	int GetWidth(void) const;
-	int GetHeight(void) const;
+    int GetShortName(char *pszName) const;
 
-	float GetDecalScale(void) const;
-	
-	const char *GetFileName(void) const;
+    int GetKeywords(char *pszKeywords) const;
 
-	inline CPalette *GetPalette(void) const
-	{
-		return(NULL);
-	}
+    void GetSize(SIZE &size) const;
 
-	inline int GetSurfaceAttributes(void) const
-	{
-		return(0);
-	}
+    int GetImageDataRGB(void *pImageRGB);
 
-	inline int GetSurfaceContents(void) const
-	{
-		return(0);
-	}
+    int GetImageDataRGBA(void *pImageRGBA);
 
-	inline int GetSurfaceValue(void) const
-	{
-		return(0);
-	}
+    // Image dimensions
+    int GetImageWidth(void) const;
 
-	inline TEXTUREFORMAT GetTextureFormat(void) const
-	{
-		return(tfVMT);
-	}
+    int GetImageHeight(void) const;
 
-	inline int GetTextureID(void) const
-	{
-		return(m_nTextureID);
-	}
+    int GetWidth(void) const;
 
-	bool HasAlpha(void) const
-	{
-		return(false);
-	}
+    int GetHeight(void) const;
 
-	inline bool HasData(void) const
-	{
-		return((m_nWidth != 0) && (m_nHeight != 0));
-	}
+    float GetDecalScale(void) const;
 
-	inline bool HasPalette(void) const
-	{
-		return(false);
-	}
+    const char *GetFileName(void) const;
 
-	inline bool IsDummy(void) const
-	{
-		return(false);
-	}
+    inline CPalette *GetPalette(void) const {
+        return (NULL);
+    }
 
-	bool Load(void);
-	void Reload( bool bFullReload );
+    inline int GetSurfaceAttributes(void) const {
+        return (0);
+    }
 
-	inline bool IsLoaded() const
-	{
-		return m_bLoaded;
-	}
+    inline int GetSurfaceContents(void) const {
+        return (0);
+    }
 
-	inline void SetTextureID(int nTextureID)
-	{
-		m_nTextureID = nTextureID;
-	}
+    inline int GetSurfaceValue(void) const {
+        return (0);
+    }
 
-	bool IsWater( void ) const;
+    inline TEXTUREFORMAT GetTextureFormat(void) const {
+        return (tfVMT);
+    }
 
-	virtual IMaterial* GetMaterial( bool bForceLoad=true );
+    inline int GetTextureID(void) const {
+        return (m_nTextureID);
+    }
+
+    bool HasAlpha(void) const {
+        return (false);
+    }
+
+    inline bool HasData(void) const {
+        return ((m_nWidth != 0) && (m_nHeight != 0));
+    }
+
+    inline bool HasPalette(void) const {
+        return (false);
+    }
+
+    inline bool IsDummy(void) const {
+        return (false);
+    }
+
+    bool Load(void);
+
+    void Reload(bool bFullReload);
+
+    inline bool IsLoaded() const {
+        return m_bLoaded;
+    }
+
+    inline void SetTextureID(int nTextureID) {
+        m_nTextureID = nTextureID;
+    }
+
+    bool IsWater(void) const;
+
+    virtual IMaterial *GetMaterial(bool bForceLoad = true);
 
 protected:
-	// Used to draw the bitmap for the texture browser
-	void DrawBitmap( CDC *pDC, RECT& srcRect, RECT& dstRect );
-	void DrawBrowserIcons( CDC *pDC, RECT& dstRect, bool detectErrors );
-	void DrawIcon( CDC *pDC, CMaterial* pIcon, RECT& dstRect );
+    // Used to draw the bitmap for the texture browser
+    void DrawBitmap(CDC *pDC, RECT &srcRect, RECT &dstRect);
 
-	static bool ShouldSkipMaterial(const char *pszName, int nFlags);
+    void DrawBrowserIcons(CDC *pDC, RECT &dstRect, bool detectErrors);
 
-	// Finds all .VMT files in a particular directory
-	static bool LoadMaterialsInDirectory( char const* pDirectoryName, int nDirectoryNameLen, 
-						IMaterialEnumerator *pEnum, int nContext, int nFlags );
+    void DrawIcon(CDC *pDC, CMaterial *pIcon, RECT &dstRect);
 
-	// Discovers all .VMT files lying under a particular directory recursively
-	static bool InitDirectoryRecursive( char const* pDirectoryName, 
-						IMaterialEnumerator *pEnum, int nContext, int nFlags );
+    static bool ShouldSkipMaterial(const char *pszName, int nFlags);
 
-	CMaterial(void);
-	bool LoadMaterialHeader(IMaterial *material);
-	bool LoadMaterialImage();
+    // Finds all .VMT files in a particular directory
+    static bool LoadMaterialsInDirectory(char const *pDirectoryName, int nDirectoryNameLen,
+                                         IMaterialEnumerator *pEnum, int nContext, int nFlags);
 
-	static bool IsIgnoredMaterial( const char *pName );
+    // Discovers all .VMT files lying under a particular directory recursively
+    static bool InitDirectoryRecursive(char const *pDirectoryName,
+                                       IMaterialEnumerator *pEnum, int nContext, int nFlags);
 
-	// Will actually load the material bits
-	// We don't want to load them all at once because it takes way too long
-	bool LoadMaterial();
+    CMaterial(void);
 
-	char m_szName[MAX_PATH];
-	char m_szFileName[MAX_PATH];
-	char m_szKeywords[MAX_PATH];
+    bool LoadMaterialHeader(IMaterial *material);
 
-	int m_nTextureID;			// Uniquely identifies this texture in all 3D renderers.
+    bool LoadMaterialImage();
 
-	int m_nWidth;				// Texture width in texels.
-	int m_nHeight;				// Texture height in texels.
-	bool m_TranslucentBaseTexture;
-	bool m_bLoaded;				// We don't load these immediately; only when needed..
+    // Will actually load the material bits
+    // We don't want to load them all at once because it takes way too long
+    bool LoadMaterial();
 
-	void *m_pData;				// Loaded texel data (NULL if not loaded).
+    char m_szName[MAX_PATH];
+    char m_szFileName[MAX_PATH];
+    char m_szKeywords[MAX_PATH];
 
-	IMaterial *m_pMaterial;
+    int m_nTextureID;            // Uniquely identifies this texture in all 3D renderers.
 
-	friend class CMaterialImageCache;
+    int m_nWidth;                // Texture width in texels.
+    int m_nHeight;                // Texture height in texels.
+    bool m_TranslucentBaseTexture;
+    bool m_bLoaded;                // We don't load these immediately; only when needed..
+
+    void *m_pData;                // Loaded texel data (NULL if not loaded).
+
+    IMaterial *m_pMaterial;
+
+    friend class CMaterialImageCache;
 };
 
 
@@ -196,37 +198,40 @@ typedef CMaterial *CMaterialPtr;
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class CMaterialCache
-{
-	public:
+class CMaterialCache {
+public:
 
-		CMaterialCache(void);
-		~CMaterialCache(void);
+    CMaterialCache(void);
 
-		inline bool CacheExists(void);
-		bool Create(int nMaxEntries);
+    ~CMaterialCache(void);
 
-		CMaterial *CreateMaterial(const char *pszMaterialName);
-		void AddRef(CMaterial *pMaterial);
-		void Release(CMaterial *pMaterial);
+    inline bool CacheExists(void);
 
-	protected:
+    bool Create(int nMaxEntries);
 
-		CMaterial *FindMaterial(const char *pszMaterialName);
-		void AddMaterial(CMaterial *pMaterial);
+    CMaterial *CreateMaterial(const char *pszMaterialName);
 
-		MaterialCacheEntry_t *m_pCache;
-		int m_nMaxEntries;
-		int m_nEntries;
+    void AddRef(CMaterial *pMaterial);
+
+    void Release(CMaterial *pMaterial);
+
+protected:
+
+    CMaterial *FindMaterial(const char *pszMaterialName);
+
+    void AddMaterial(CMaterial *pMaterial);
+
+    MaterialCacheEntry_t *m_pCache;
+    int m_nMaxEntries;
+    int m_nEntries;
 };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns true if the cache has been allocated, false if not.
 //-----------------------------------------------------------------------------
-inline bool CMaterialCache::CacheExists(void)
-{
-	return((m_pCache != NULL) && (m_nMaxEntries > 0));
+inline bool CMaterialCache::CacheExists(void) {
+    return ((m_pCache != NULL) && (m_nMaxEntries > 0));
 }
 
 
@@ -234,21 +239,18 @@ inline bool CMaterialCache::CacheExists(void)
 // returns the material system interface + config
 //-----------------------------------------------------------------------------
 
-inline IMaterialSystem *MaterialSystemInterface()
-{
-	return materials;
+inline IMaterialSystem *MaterialSystemInterface() {
+    return materials;
 }
 
-inline MaterialSystem_Config_t& MaterialSystemConfig()
-{
-	extern MaterialSystem_Config_t g_materialSystemConfig;
-	return g_materialSystemConfig;
+inline MaterialSystem_Config_t &MaterialSystemConfig() {
+    extern MaterialSystem_Config_t g_materialSystemConfig;
+    return g_materialSystemConfig;
 }
 
-inline IMaterialSystemHardwareConfig* MaterialSystemHardwareConfig()
-{
-	extern IMaterialSystemHardwareConfig* g_pMaterialSystemHardwareConfig;
-	return g_pMaterialSystemHardwareConfig;
+inline IMaterialSystemHardwareConfig *MaterialSystemHardwareConfig() {
+    extern IMaterialSystemHardwareConfig *g_pMaterialSystemHardwareConfig;
+    return g_pMaterialSystemHardwareConfig;
 }
 
 //--------------------------------------------------------------------------------

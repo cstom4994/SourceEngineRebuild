@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Defines a base class for all helper objects. Helper objects are
 //			subordinate to their entity parents, and provide services such as
@@ -20,16 +20,15 @@
 #include "MapClass.h"
 
 
-class CMapHelper : public CMapClass
-{
+class CMapHelper : public CMapClass {
 public:
 
-	//
-	// Serialization.
-	//
-	virtual bool ShouldSerialize(void) { return(false); }
+    //
+    // Serialization.
+    //
+    virtual bool ShouldSerialize(void) { return (false); }
 
-	virtual CMapClass *PrepareSelection(SelectMode_t eSelectMode);
+    virtual CMapClass *PrepareSelection(SelectMode_t eSelectMode);
 };
 
 

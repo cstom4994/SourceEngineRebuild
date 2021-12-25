@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implements a helper that manages a single keyvalue of type "side"
 //			or "sidelist" for the entity that is its parent.
@@ -7,10 +7,10 @@
 
 #include "stdafx.h"
 #include "fgdlib/HelperInfo.h"
-#include "materialsystem/imesh.h"
+#include "materialsystem/IMesh.h"
 #include "MapClass.h"
 #include "MapSolid.h"
-#include "MapWorld.h"			// For the world's face ID functions.
+#include "MapWorld.h"            // For the world's face ID functions.
 #include "MapSideList.h"
 #include "Material.h"
 #include "Render3D.h"
@@ -29,67 +29,57 @@ IMPLEMENT_MAPCLASS(CMapSideList);
 //				about how to create the class.
 // Output : Returns a pointer to the class, NULL if an error occurs.
 //-----------------------------------------------------------------------------
-CMapClass *CMapSideList::CreateMapSideList(CHelperInfo *pHelperInfo, CMapEntity *pParent)
-{
-	CMapSideList *pSideList = NULL;
+CMapClass *CMapSideList::CreateMapSideList(CHelperInfo *pHelperInfo, CMapEntity *pParent) {
+    CMapSideList *pSideList = NULL;
 
-	const char *pszParam = pHelperInfo->GetParameter(0);
-	if (pszParam != NULL)
-	{
-		pSideList = new CMapSideList(pszParam);
-	}
-	else
-	{
-		pSideList = new CMapSideList("sides");
-	}
+    const char *pszParam = pHelperInfo->GetParameter(0);
+    if (pszParam != NULL) {
+        pSideList = new CMapSideList(pszParam);
+    } else {
+        pSideList = new CMapSideList("sides");
+    }
 
-	return(pSideList);
+    return (pSideList);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
-CMapSideList::CMapSideList(void)
-{
-	m_szKeyName[0] = '\0';
+CMapSideList::CMapSideList(void) {
+    m_szKeyName[0] = '\0';
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor with key name.
 //-----------------------------------------------------------------------------
-CMapSideList::CMapSideList(char const *pszKeyName)
-{
-	strcpy( m_szKeyName, pszKeyName );
+CMapSideList::CMapSideList(char const *pszKeyName) {
+    strcpy(m_szKeyName, pszKeyName);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor.
 //-----------------------------------------------------------------------------
-CMapSideList::~CMapSideList(void)
-{
+CMapSideList::~CMapSideList(void) {
 }
 
 
 //-----------------------------------------------------------------------------
 // Gets the keyvalue from our parent entity and rebuilds the face list from that.
 //-----------------------------------------------------------------------------
-void CMapSideList::RebuildFaceList()
-{
-	CMapWorld *pWorld = GetWorldObject(this);
-	if (pWorld == NULL)
-	{
-		return;
-	}
+void CMapSideList::RebuildFaceList() {
+    CMapWorld *pWorld = GetWorldObject(this);
+    if (pWorld == NULL) {
+        return;
+    }
 
-	CMapEntity *pParent = dynamic_cast <CMapEntity *>(GetParent());
-	const char *pszValue = pParent->GetKeyValue(m_szKeyName);
-	if (pszValue != NULL)
-	{
-		BuildFaceListForValue(pszValue, pWorld);
-	}
+    CMapEntity *pParent = dynamic_cast <CMapEntity *>(GetParent());
+    const char *pszValue = pParent->GetKeyValue(m_szKeyName);
+    if (pszValue != NULL) {
+        BuildFaceListForValue(pszValue, pWorld);
+    }
 }
 
 
@@ -98,47 +88,41 @@ void CMapSideList::RebuildFaceList()
 // Input  : pszValue - 
 //			pWorld - The world object that we are contained in.
 //-----------------------------------------------------------------------------
-void CMapSideList::BuildFaceListForValue(char const *pszValue, CMapWorld *pWorld)
-{
-	CMapFaceList NewFaces;
-	pWorld->FaceID_StringToFaceLists(&NewFaces, NULL, pszValue);
+void CMapSideList::BuildFaceListForValue(char const *pszValue, CMapWorld *pWorld) {
+    CMapFaceList NewFaces;
+    pWorld->FaceID_StringToFaceLists(&NewFaces, NULL, pszValue);
 
-	//
-	// Detach from the faces that are not in the new list. Go
-	// in reverse order since we are removing items as we go.
-	//
-	if (m_Faces.Count() > 0)
-	{
-		for (int i = m_Faces.Count() - 1; i >= 0; i--)
-		{
-			CMapFace *pFace = m_Faces.Element(i);
-			Assert(pFace != NULL);
-			if ((pFace != NULL) && (NewFaces.Find(pFace) == -1))
-			{
-				CMapSolid *pSolid = (CMapSolid *)pFace->GetParent();
-				UpdateDependency(pSolid, NULL);
-				m_Faces.FastRemove(i);
-			}
-		}
-	}
+    //
+    // Detach from the faces that are not in the new list. Go
+    // in reverse order since we are removing items as we go.
+    //
+    if (m_Faces.Count() > 0) {
+        for (int i = m_Faces.Count() - 1; i >= 0; i--) {
+            CMapFace *pFace = m_Faces.Element(i);
+            Assert(pFace != NULL);
+            if ((pFace != NULL) && (NewFaces.Find(pFace) == -1)) {
+                CMapSolid *pSolid = (CMapSolid *) pFace->GetParent();
+                UpdateDependency(pSolid, NULL);
+                m_Faces.FastRemove(i);
+            }
+        }
+    }
 
-	//
-	// Attach to the faces that are not in the old list.
-	//
-	for (int i = 0; i < NewFaces.Count(); i++)
-	{
-		CMapFace *pFace = NewFaces.Element(i);
-		Assert(pFace != NULL);
+    //
+    // Attach to the faces that are not in the old list.
+    //
+    for (int i = 0; i < NewFaces.Count(); i++) {
+        CMapFace *pFace = NewFaces.Element(i);
+        Assert(pFace != NULL);
 
-		if ((pFace != NULL) && (m_Faces.Find(pFace) == -1))
-		{
-			CMapSolid *pSolid = (CMapSolid *)pFace->GetParent();
-			UpdateDependency(NULL, pSolid);
-			m_Faces.AddToTail(pFace);
-		}
-	}
+        if ((pFace != NULL) && (m_Faces.Find(pFace) == -1)) {
+            CMapSolid *pSolid = (CMapSolid *) pFace->GetParent();
+            UpdateDependency(NULL, pSolid);
+            m_Faces.AddToTail(pFace);
+        }
+    }
 
-	CalcBounds();
+    CalcBounds();
 }
 
 
@@ -146,30 +130,27 @@ void CMapSideList::BuildFaceListForValue(char const *pszValue, CMapWorld *pWorld
 // Purpose: Calculates our bounds.
 // Input  : bFullUpdate - 
 //-----------------------------------------------------------------------------
-void CMapSideList::CalcBounds(BOOL bFullUpdate)
-{
-	//
-	// We're just a point in the 2D view because we don't render there.
-	//
-	m_Render2DBox.ResetBounds();
-	m_Render2DBox.UpdateBounds(m_Origin);
+void CMapSideList::CalcBounds(BOOL bFullUpdate) {
+    //
+    // We're just a point in the 2D view because we don't render there.
+    //
+    m_Render2DBox.ResetBounds();
+    m_Render2DBox.UpdateBounds(m_Origin);
 
-	//
-	// Our culling bounds includes the endpoints of all the lines we draw when
-	// our parent entity is selected.
-	//
-	m_CullBox.ResetBounds();
-	m_CullBox.UpdateBounds(m_Origin);
+    //
+    // Our culling bounds includes the endpoints of all the lines we draw when
+    // our parent entity is selected.
+    //
+    m_CullBox.ResetBounds();
+    m_CullBox.UpdateBounds(m_Origin);
 
-	for (int i = 0; i < m_Faces.Count(); i++)
-	{
-		CMapFace *pFace = m_Faces.Element(i);
+    for (int i = 0; i < m_Faces.Count(); i++) {
+        CMapFace *pFace = m_Faces.Element(i);
 
-		Vector Center;
-		pFace->GetCenter(Center);
-		m_CullBox.UpdateBounds(Center);
-	}
-	m_BoundingBox = m_CullBox;
+        Vector Center;
+        pFace->GetCenter(Center);
+        m_CullBox.UpdateBounds(Center);
+    }
 }
 
 
@@ -178,14 +159,12 @@ void CMapSideList::CalcBounds(BOOL bFullUpdate)
 // Input  : bUpdateDependencies - Whether the new object should link to any
 //				other objects in the world when it copies pointers.
 //-----------------------------------------------------------------------------
-CMapClass *CMapSideList::Copy(bool bUpdateDependencies)
-{
-	CMapSideList *pCopy = new CMapSideList;
-	if (pCopy != NULL)
-	{
-		pCopy->CopyFrom(this, bUpdateDependencies);
-	}
-	return(pCopy);
+CMapClass *CMapSideList::Copy(bool bUpdateDependencies) {
+    CMapSideList *pCopy = new CMapSideList;
+    if (pCopy != NULL) {
+        pCopy->CopyFrom(this, bUpdateDependencies);
+    }
+    return (pCopy);
 }
 
 
@@ -195,27 +174,24 @@ CMapClass *CMapSideList::Copy(bool bUpdateDependencies)
 // Input  : bUpdateDependencies - Whether we should link to any other objects
 //				in the world when we copy pointers.
 //-----------------------------------------------------------------------------
-CMapClass *CMapSideList::CopyFrom(CMapClass *pOther, bool bUpdateDependencies)
-{
-	CMapSideList *pFrom = dynamic_cast <CMapSideList *>(pOther);
-	Assert(pFrom != NULL);
+CMapClass *CMapSideList::CopyFrom(CMapClass *pOther, bool bUpdateDependencies) {
+    CMapSideList *pFrom = dynamic_cast <CMapSideList *>(pOther);
+    Assert(pFrom != NULL);
 
-	CMapClass::CopyFrom(pOther, bUpdateDependencies);
+    CMapClass::CopyFrom(pOther, bUpdateDependencies);
 
-	strcpy(m_szKeyName, pFrom->m_szKeyName);
-	m_Faces = pFrom->m_Faces;
+    strcpy(m_szKeyName, pFrom->m_szKeyName);
+    m_Faces = pFrom->m_Faces;
 
-	if (bUpdateDependencies)
-	{
-		for (int i = 0; i < m_Faces.Count(); i++)
-		{
-			CMapFace *pFace = m_Faces.Element(i);
-			CMapSolid *pSolid = (CMapSolid *)pFace->GetParent();
-			UpdateDependency(pSolid, NULL);
-		}
-	}
+    if (bUpdateDependencies) {
+        for (int i = 0; i < m_Faces.Count(); i++) {
+            CMapFace *pFace = m_Faces.Element(i);
+            CMapSolid *pSolid = (CMapSolid *) pFace->GetParent();
+            UpdateDependency(pSolid, NULL);
+        }
+    }
 
-	return(this);
+    return (this);
 }
 
 
@@ -226,55 +202,47 @@ CMapClass *CMapSideList::CopyFrom(CMapClass *pOther, bool bUpdateDependencies)
 //			List - List of objects to search.
 // Output : Returns the face with the given ID if it was found, NULL if not.
 //-----------------------------------------------------------------------------
-CMapFace *CMapSideList::FindFaceIDInList(int nFaceID, const CMapObjectList &List)
-{
-	FOR_EACH_OBJ( List, pos )
-	{
-		//
-		// If this object is a solid, look for the face there.
-		//
-		CMapClass *pObject = List.Element(pos);
-		CMapSolid *pSolid = dynamic_cast <CMapSolid *>(pObject);
-		if (pSolid != NULL)
-		{
-			CMapFace *pFace = pSolid->FindFaceID(nFaceID);
-			if (pFace != NULL)
-			{
-				return(pFace);
-			}
-		}
+CMapFace *CMapSideList::FindFaceIDInList(int nFaceID, const CMapObjectList &List) {
+    FOR_EACH_OBJ(List, pos) {
+        //
+        // If this object is a solid, look for the face there.
+        //
+        CMapClass *pObject = List.Element(pos);
+        CMapSolid *pSolid = dynamic_cast <CMapSolid *>(pObject);
+        if (pSolid != NULL) {
+            CMapFace *pFace = pSolid->FindFaceID(nFaceID);
+            if (pFace != NULL) {
+                return (pFace);
+            }
+        }
 
-		//
-		// Check all of this object's solid children.
-		//
-		EnumChildrenPos_t pos2;
-		CMapClass *pChild = pObject->GetFirstDescendent(pos2);
-		while (pChild != NULL)
-		{
-			pSolid = dynamic_cast <CMapSolid *>(pChild);
-			if (pSolid != NULL)
-			{
-				CMapFace *pFace = pSolid->FindFaceID(nFaceID);
-				if (pFace != NULL)
-				{
-					return(pFace);
-				}
-			}	
+        //
+        // Check all of this object's solid children.
+        //
+        EnumChildrenPos_t pos2;
+        CMapClass *pChild = pObject->GetFirstDescendent(pos2);
+        while (pChild != NULL) {
+            pSolid = dynamic_cast <CMapSolid *>(pChild);
+            if (pSolid != NULL) {
+                CMapFace *pFace = pSolid->FindFaceID(nFaceID);
+                if (pFace != NULL) {
+                    return (pFace);
+                }
+            }
 
-			pChild = pObject->GetNextDescendent(pos2);
-		}
-	}
+            pChild = pObject->GetNextDescendent(pos2);
+        }
+    }
 
-	return(NULL);
+    return (NULL);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns the total approximate memory consumed by this object.
 //-----------------------------------------------------------------------------
-size_t CMapSideList::GetSize(void)
-{
-	return(sizeof(this) + m_Faces.Count() * sizeof(CMapFace *));
+size_t CMapSideList::GetSize(void) {
+    return (sizeof(this) + m_Faces.Count() * sizeof(CMapFace *));
 }
 
 
@@ -285,9 +253,9 @@ size_t CMapSideList::GetSize(void)
 //			OriginalList - 
 //			NewList - 
 //-----------------------------------------------------------------------------
-void CMapSideList::OnClone(CMapClass *pCloneObject, CMapWorld *pWorld, const CMapObjectList &OriginalList, CMapObjectList &NewList)
-{
-	ReplaceFacesInCopy((CMapSideList *)pCloneObject, OriginalList, NewList);
+void CMapSideList::OnClone(CMapClass *pCloneObject, CMapWorld *pWorld, const CMapObjectList &OriginalList,
+                           CMapObjectList &NewList) {
+    ReplaceFacesInCopy((CMapSideList *) pCloneObject, OriginalList, NewList);
 }
 
 
@@ -299,46 +267,43 @@ void CMapSideList::OnClone(CMapClass *pCloneObject, CMapWorld *pWorld, const CMa
 //			OriginalList - 
 //			NewList - 
 //-----------------------------------------------------------------------------
-void CMapSideList::OnPaste(CMapClass *pCopyObject, CMapWorld *pSourceWorld, CMapWorld *pDestWorld, const CMapObjectList &OriginalList, CMapObjectList &NewList)
-{
-	CMapSideList *pCopy = (CMapSideList *)pCopyObject;
+void CMapSideList::OnPaste(CMapClass *pCopyObject, CMapWorld *pSourceWorld, CMapWorld *pDestWorld,
+                           const CMapObjectList &OriginalList, CMapObjectList &NewList) {
+    CMapSideList *pCopy = (CMapSideList *) pCopyObject;
 
-	//
-	// HACK: This is kinda nasty. Build a list of face IDs from our parent keyvalue so
-	// we can remap them to faces in the clipboard.
-	//
-	CMapEntity *pParent = dynamic_cast <CMapEntity *>(pCopy->GetParent());
-	const char *pszValue = pParent->GetKeyValue(m_szKeyName);
-	if (pszValue != NULL)
-	{
-		char szVal[KEYVALUE_MAX_VALUE_LENGTH];
-		strcpy(szVal, pszValue);
+    //
+    // HACK: This is kinda nasty. Build a list of face IDs from our parent keyvalue so
+    // we can remap them to faces in the clipboard.
+    //
+    CMapEntity *pParent = dynamic_cast <CMapEntity *>(pCopy->GetParent());
+    const char *pszValue = pParent->GetKeyValue(m_szKeyName);
+    if (pszValue != NULL) {
+        char szVal[KEYVALUE_MAX_VALUE_LENGTH];
+        strcpy(szVal, pszValue);
 
-		char *psz = strtok(szVal, " ");
-		while (psz != NULL)
-		{
-			//
-			// The substring should now be a single face ID. Get the corresponding
-			// face and add it to the list.
-			//
-			int nFaceID = atoi(psz);
-			CMapFace *pFace = FindFaceIDInList(nFaceID, OriginalList);
-			if (pFace != NULL)
-			{
-				pCopy->m_Faces.AddToTail(pFace);
-			}
+        char *psz = strtok(szVal, " ");
+        while (psz != NULL) {
+            //
+            // The substring should now be a single face ID. Get the corresponding
+            // face and add it to the list.
+            //
+            int nFaceID = atoi(psz);
+            CMapFace *pFace = FindFaceIDInList(nFaceID, OriginalList);
+            if (pFace != NULL) {
+                pCopy->m_Faces.AddToTail(pFace);
+            }
 
-			//
-			// Get the next substring.
-			//
-			psz = strtok(NULL, " ");
-		}
-	}
+            //
+            // Get the next substring.
+            //
+            psz = strtok(NULL, " ");
+        }
+    }
 
-	//
-	// Now replace all faces with their new counterparts, as in Clone.
-	//
-	ReplaceFacesInCopy(pCopy, OriginalList, NewList);
+    //
+    // Now replace all faces with their new counterparts, as in Clone.
+    //
+    ReplaceFacesInCopy(pCopy, OriginalList, NewList);
 }
 
 
@@ -347,55 +312,48 @@ void CMapSideList::OnPaste(CMapClass *pCopyObject, CMapWorld *pSourceWorld, CMap
 // Input  : pObject - 
 //			eNotifyType - 
 //-----------------------------------------------------------------------------
-void CMapSideList::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotifyType)
-{
-	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if ( pDoc->IsLoading() )
-		return;
+void CMapSideList::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotifyType) {
+    CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
+    if (pDoc->IsLoading())
+        return;
 
-	if ( eNotifyType == Notify_Changed )
-	{
-		// Remove? Purge?
-		m_Faces.RemoveAll();
-		
-		// Rebuild the face list 
-		RebuildFaceList();
-	}
+    if (eNotifyType == Notify_Changed) {
+        // Remove? Purge?
+        m_Faces.RemoveAll();
 
-	if (eNotifyType == Notify_Removed || eNotifyType == Notify_Clipped)
-	{
-		//
-		// Check for a solid that we refer to via face ID going away.
-		//
-		CMapSolid *pSolid = dynamic_cast<CMapSolid *>(pObject);
-		if ((pSolid != NULL) && (m_Faces.Count() > 0))
-		{
-			//
-			// Remove faces from our list that are in this solid.
-			// Do it backwards so we can remove them as we go. Also, add
-			// the face IDs to our list of lost IDs so that we can reacquire
-			// the face in our list if the solid comes back later.
-			//
-			for (int i = m_Faces.Count() - 1; i >= 0; i--)
-			{
-				CMapFace *pFace = m_Faces.Element(i);
-				if (pFace != NULL)
-				{
-					CMapSolid *pParent = (CMapSolid *)pFace->GetParent();
-					if (pParent == pSolid)
-					{
-						m_LostFaceIDs.AddToTail(pFace->GetFaceID());
-						m_Faces.FastRemove(i);
-					}
-				}
-			}
-		
-			//
-			// Submit the updated face list to our parent entity.
-			//
-			UpdateParentKey();
-		}
-	}
+        // Rebuild the face list
+        RebuildFaceList();
+    }
+
+    if (eNotifyType == Notify_Removed || eNotifyType == Notify_Clipped) {
+        //
+        // Check for a solid that we refer to via face ID going away.
+        //
+        CMapSolid *pSolid = dynamic_cast<CMapSolid *>(pObject);
+        if ((pSolid != NULL) && (m_Faces.Count() > 0)) {
+            //
+            // Remove faces from our list that are in this solid.
+            // Do it backwards so we can remove them as we go. Also, add
+            // the face IDs to our list of lost IDs so that we can reacquire
+            // the face in our list if the solid comes back later.
+            //
+            for (int i = m_Faces.Count() - 1; i >= 0; i--) {
+                CMapFace *pFace = m_Faces.Element(i);
+                if (pFace != NULL) {
+                    CMapSolid *pParent = (CMapSolid *) pFace->GetParent();
+                    if (pParent == pSolid) {
+                        m_LostFaceIDs.AddToTail(pFace->GetFaceID());
+                        m_Faces.FastRemove(i);
+                    }
+                }
+            }
+
+            //
+            // Submit the updated face list to our parent entity.
+            //
+            UpdateParentKey();
+        }
+    }
 }
 
 
@@ -404,22 +362,19 @@ void CMapSideList::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNot
 // Input  : key - 
 //			value - 
 //-----------------------------------------------------------------------------
-void CMapSideList::OnParentKeyChanged(char const *pszKey, char const *pszValue)
-{
-	CMapWorld *pWorld = GetWorldObject(this);
-	if (pWorld == NULL)
-	{
-		// We're probably being copied into the clipboard.
-		return;
-	}
+void CMapSideList::OnParentKeyChanged(char const *pszKey, char const *pszValue) {
+    CMapWorld *pWorld = GetWorldObject(this);
+    if (pWorld == NULL) {
+        // We're probably being copied into the clipboard.
+        return;
+    }
 
-	//
-	// Update our face list if the key we care about is changing.
-	//
-	if (!stricmp(pszKey, m_szKeyName))
-	{
-		BuildFaceListForValue(pszValue, pWorld);
-	}
+    //
+    // Update our face list if the key we care about is changing.
+    //
+    if (!stricmp(pszKey, m_szKeyName)) {
+        BuildFaceListForValue(pszValue, pWorld);
+    }
 }
 
 
@@ -429,18 +384,16 @@ void CMapSideList::OnParentKeyChanged(char const *pszKey, char const *pszValue)
 // Input  : pWorld - The world that we were just removed from.
 //			bNotifyChildren - Whether we should forward notification to our children.
 //-----------------------------------------------------------------------------
-void CMapSideList::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren)
-{
-	CMapClass::OnRemoveFromWorld(pWorld, bNotifyChildren);
+void CMapSideList::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren) {
+    CMapClass::OnRemoveFromWorld(pWorld, bNotifyChildren);
 
-	for (int i = 0; i < m_Faces.Count(); i++)
-	{
-		CMapFace *pFace = m_Faces.Element(i);
-		CMapSolid *pSolid = (CMapSolid *)pFace->GetParent();
-		UpdateDependency(pSolid, NULL);
-	}
-	
-	m_Faces.RemoveAll();
+    for (int i = 0; i < m_Faces.Count(); i++) {
+        CMapFace *pFace = m_Faces.Element(i);
+        CMapSolid *pSolid = (CMapSolid *) pFace->GetParent();
+        UpdateDependency(pSolid, NULL);
+    }
+
+    m_Faces.RemoveAll();
 }
 
 
@@ -448,22 +401,18 @@ void CMapSideList::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren)
 // Purpose: 
 // Input  : List - 
 //-----------------------------------------------------------------------------
-void CMapSideList::RemoveFacesNotInList(const CMapObjectList &List)
-{
-	if (m_Faces.Count() > 0)
-	{
-		for (int i = m_Faces.Count() - 1; i >= 0; i--)
-		{
-			CMapFace *pFace = m_Faces.Element(i);
+void CMapSideList::RemoveFacesNotInList(const CMapObjectList &List) {
+    if (m_Faces.Count() > 0) {
+        for (int i = m_Faces.Count() - 1; i >= 0; i--) {
+            CMapFace *pFace = m_Faces.Element(i);
 
-			if (FindFaceIDInList(pFace->GetFaceID(), List) == NULL)
-			{
-				CMapSolid *pSolid = (CMapSolid *)pFace->GetParent();
-				UpdateDependency(pSolid, NULL);
-				m_Faces.FastRemove(i);
-			}
-		}
-	}
+            if (FindFaceIDInList(pFace->GetFaceID(), List) == NULL) {
+                CMapSolid *pSolid = (CMapSolid *) pFace->GetParent();
+                UpdateDependency(pSolid, NULL);
+                m_Faces.FastRemove(i);
+            }
+        }
+    }
 }
 
 
@@ -475,67 +424,60 @@ void CMapSideList::RemoveFacesNotInList(const CMapObjectList &List)
 //			OriginalList - 
 //			NewList - 
 //-----------------------------------------------------------------------------
-void CMapSideList::ReplaceFacesInCopy(CMapSideList *pCopy, const CMapObjectList &OriginalList, CMapObjectList &NewList)
-{
-	Assert( OriginalList.Count() == NewList.Count() );
-	
-	FOR_EACH_OBJ( OriginalList, pos )
-	{
-		CMapClass *pOriginal = OriginalList.Element(pos);
-		CMapClass *pNew = NewList.Element(pos);
+void
+CMapSideList::ReplaceFacesInCopy(CMapSideList *pCopy, const CMapObjectList &OriginalList, CMapObjectList &NewList) {
+    Assert(OriginalList.Count() == NewList.Count());
 
-		if (pOriginal != this)
-		{
-			//
-			// Check to see if these two objects are solids.
-			//
-			CMapSolid *pOrigSolid = dynamic_cast <CMapSolid *>(pOriginal);
-			if (pOrigSolid != NULL)
-			{
-				CMapSolid *pNewSolid = dynamic_cast <CMapSolid *>(pNew);
-				Assert(pNewSolid != NULL);
+    FOR_EACH_OBJ(OriginalList, pos) {
+        CMapClass *pOriginal = OriginalList.Element(pos);
+        CMapClass *pNew = NewList.Element(pos);
 
-				if (pNewSolid != NULL)
-				{
-					pCopy->ReplaceSolidFaces(pOrigSolid, pNewSolid);
-				}
-			}
+        if (pOriginal != this) {
+            //
+            // Check to see if these two objects are solids.
+            //
+            CMapSolid *pOrigSolid = dynamic_cast <CMapSolid *>(pOriginal);
+            if (pOrigSolid != NULL) {
+                CMapSolid *pNewSolid = dynamic_cast <CMapSolid *>(pNew);
+                Assert(pNewSolid != NULL);
 
-			//
-			// Check all of these objects' children.
-			//
-			EnumChildrenPos_t e1;
-			EnumChildrenPos_t e2;
+                if (pNewSolid != NULL) {
+                    pCopy->ReplaceSolidFaces(pOrigSolid, pNewSolid);
+                }
+            }
 
-			CMapClass *pOrigChild = pOriginal->GetFirstDescendent(e1);
-			CMapClass *pNewChild = pNew->GetFirstDescendent(e2);
+            //
+            // Check all of these objects' children.
+            //
+            EnumChildrenPos_t e1;
+            EnumChildrenPos_t e2;
 
-			while (pOrigChild != NULL)
-			{
-				Assert(pNewChild != NULL);
+            CMapClass *pOrigChild = pOriginal->GetFirstDescendent(e1);
+            CMapClass *pNewChild = pNew->GetFirstDescendent(e2);
 
-				pOrigSolid = dynamic_cast <CMapSolid *>(pOrigChild);
-				if (pOrigSolid != NULL)
-				{
-					CMapSolid *pNewSolid = dynamic_cast <CMapSolid *>(pNewChild);
-					Assert(pNewSolid != NULL);
+            while (pOrigChild != NULL) {
+                Assert(pNewChild != NULL);
 
-					if (pNewSolid != NULL)
-					{
-						pCopy->ReplaceSolidFaces(pOrigSolid, pNewSolid);
-					}
-				}
+                pOrigSolid = dynamic_cast <CMapSolid *>(pOrigChild);
+                if (pOrigSolid != NULL) {
+                    CMapSolid *pNewSolid = dynamic_cast <CMapSolid *>(pNewChild);
+                    Assert(pNewSolid != NULL);
 
-				pOrigChild = pOriginal->GetNextDescendent(e1);
-				pNewChild = pNew->GetNextDescendent(e2);
-			}
-		}
-	}
-	
-	//
-	// Update the keyvalue in the copy's parent entity.
-	//
-	pCopy->UpdateParentKey();
+                    if (pNewSolid != NULL) {
+                        pCopy->ReplaceSolidFaces(pOrigSolid, pNewSolid);
+                    }
+                }
+
+                pOrigChild = pOriginal->GetNextDescendent(e1);
+                pNewChild = pNew->GetNextDescendent(e2);
+            }
+        }
+    }
+
+    //
+    // Update the keyvalue in the copy's parent entity.
+    //
+    pCopy->UpdateParentKey();
 }
 
 
@@ -543,8 +485,7 @@ void CMapSideList::ReplaceFacesInCopy(CMapSideList *pCopy, const CMapObjectList 
 // Purpose: 
 // Input  : pRender - Interface to use for rendering.
 //-----------------------------------------------------------------------------
-void CMapSideList::Render2D(CRender2D *pRender)
-{
+void CMapSideList::Render2D(CRender2D *pRender) {
 }
 
 
@@ -552,47 +493,45 @@ void CMapSideList::Render2D(CRender2D *pRender)
 // Purpose: Renders us in the 3D view.
 // Input  : pRender - Interface to use for rendering.
 //-----------------------------------------------------------------------------
-void CMapSideList::Render3D(CRender3D *pRender)
-{
-	if ( !m_pParent->IsSelected() )
-		return;
-	
-	//
-	// Draw lines from us to the center of all faces in the list.
-	//
-	pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
+void CMapSideList::Render3D(CRender3D *pRender) {
+    if (!m_pParent->IsSelected())
+        return;
 
-	CMeshBuilder meshBuilder;
-	CMatRenderContextPtr pRenderContext( MaterialSystemInterface() );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh();
+    //
+    // Draw lines from us to the center of all faces in the list.
+    //
+    pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
 
-	meshBuilder.Begin(pMesh, MATERIAL_LINES, m_Faces.Count());
+    CMeshBuilder meshBuilder;
+    CMatRenderContextPtr pRenderContext(MaterialSystemInterface());
+    IMesh *pMesh = pRenderContext->GetDynamicMesh();
 
-	for (int i = 0; i < m_Faces.Count(); i++)
-	{
-		CMapFace *pFace = m_Faces.Element(i);
+    meshBuilder.Begin(pMesh, MATERIAL_LINES, m_Faces.Count());
 
-		Vector Center;
-		pFace->GetCenter(Center);
+    for (int i = 0; i < m_Faces.Count(); i++) {
+        CMapFace *pFace = m_Faces.Element(i);
 
-		unsigned char color[3];
-		color[0] = SELECT_EDGE_RED; 
-		color[1] = SELECT_EDGE_GREEN;
-		color[2] = SELECT_EDGE_BLUE;
+        Vector Center;
+        pFace->GetCenter(Center);
 
-		meshBuilder.Color3ubv( color );
-		meshBuilder.Position3f(m_Origin.x, m_Origin.y, m_Origin.z);
-		meshBuilder.AdvanceVertex();
+        unsigned char color[3];
+        color[0] = SELECT_EDGE_RED;
+        color[1] = SELECT_EDGE_GREEN;
+        color[2] = SELECT_EDGE_BLUE;
 
-		meshBuilder.Color3ubv( color );
-		meshBuilder.Position3f(Center.x, Center.y, Center.z);
-		meshBuilder.AdvanceVertex();
-	}
+        meshBuilder.Color3ubv(color);
+        meshBuilder.Position3f(m_Origin.x, m_Origin.y, m_Origin.z);
+        meshBuilder.AdvanceVertex();
 
-	meshBuilder.End();
-	pMesh->Draw();
+        meshBuilder.Color3ubv(color);
+        meshBuilder.Position3f(Center.x, Center.y, Center.z);
+        meshBuilder.AdvanceVertex();
+    }
 
-	pRender->PopRenderMode();
+    meshBuilder.End();
+    pMesh->Draw();
+
+    pRender->PopRenderMode();
 }
 
 
@@ -604,27 +543,24 @@ void CMapSideList::Render3D(CRender3D *pRender)
 //			pNewSolid - Solid with faces to replace with.
 // Output : Returns true if it replaced at least one face.
 //-----------------------------------------------------------------------------
-bool CMapSideList::ReplaceSolidFaces(CMapSolid *pOrigSolid, CMapSolid *pNewSolid)
-{
-	bool bDidSomething = false;
-	for (int i = 0; i < pOrigSolid->GetFaceCount(); i++)
-	{
-		CMapFace *pFace = pOrigSolid->GetFace(i);
+bool CMapSideList::ReplaceSolidFaces(CMapSolid *pOrigSolid, CMapSolid *pNewSolid) {
+    bool bDidSomething = false;
+    for (int i = 0; i < pOrigSolid->GetFaceCount(); i++) {
+        CMapFace *pFace = pOrigSolid->GetFace(i);
 
-		int nIndex = m_Faces.FindFaceID(pFace->GetFaceID());
-		if (nIndex != -1)
-		{
-			//
-			// Replace the element in our face list and unlink
-			// us from the original solid, relinking us to the new solid.
-			//
-			m_Faces.Element(nIndex) = pNewSolid->GetFace(i);
-			UpdateDependency(pOrigSolid, pNewSolid);
-			bDidSomething = true;
-		}
-	}
+        int nIndex = m_Faces.FindFaceID(pFace->GetFaceID());
+        if (nIndex != -1) {
+            //
+            // Replace the element in our face list and unlink
+            // us from the original solid, relinking us to the new solid.
+            //
+            m_Faces.Element(nIndex) = pNewSolid->GetFace(i);
+            UpdateDependency(pOrigSolid, pNewSolid);
+            bDidSomething = true;
+        }
+    }
 
-	return(bDidSomething);
+    return (bDidSomething);
 }
 
 
@@ -633,40 +569,35 @@ bool CMapSideList::ReplaceSolidFaces(CMapSolid *pOrigSolid, CMapSolid *pNewSolid
 //			dependencies. Try to reacquire face IDs in our deleted faces list.
 // Input  : pWorld - 
 //-----------------------------------------------------------------------------
-void CMapSideList::UpdateDependencies(CMapWorld *pWorld, CMapClass *pObject)
-{
-	CMapClass::UpdateDependencies(pWorld, pObject);
+void CMapSideList::UpdateDependencies(CMapWorld *pWorld, CMapClass *pObject) {
+    CMapClass::UpdateDependencies(pWorld, pObject);
 
-	//
-	// See if it is a solid that holds faces in our lost faces list.
-	//
-	CMapSolid *pSolid = dynamic_cast <CMapSolid *>(pObject);
-	if ((pSolid != NULL) && (m_LostFaceIDs.Count() > 0))
-	{
-		//
-		// Walk the list backwards so we can remove as we go.
-		//
-		for (int i = m_LostFaceIDs.Count() - 1; i >= 0; i--)
-		{
-			int nFaceID = m_LostFaceIDs.Element(i);
+    //
+    // See if it is a solid that holds faces in our lost faces list.
+    //
+    CMapSolid *pSolid = dynamic_cast <CMapSolid *>(pObject);
+    if ((pSolid != NULL) && (m_LostFaceIDs.Count() > 0)) {
+        //
+        // Walk the list backwards so we can remove as we go.
+        //
+        for (int i = m_LostFaceIDs.Count() - 1; i >= 0; i--) {
+            int nFaceID = m_LostFaceIDs.Element(i);
 
-			CMapFace *pFace = pSolid->FindFaceID(nFaceID);
-			if (pFace != NULL)
-			{
-				if (m_Faces.Find(pFace) == -1)
-				{
-					m_Faces.AddToTail(pFace);
-				}
+            CMapFace *pFace = pSolid->FindFaceID(nFaceID);
+            if (pFace != NULL) {
+                if (m_Faces.Find(pFace) == -1) {
+                    m_Faces.AddToTail(pFace);
+                }
 
-				//
-				// We've reacquired the face, so it's no longer lost.
-				//
-				m_LostFaceIDs.FastRemove(i);
-			}
-		}
+                //
+                // We've reacquired the face, so it's no longer lost.
+                //
+                m_LostFaceIDs.FastRemove(i);
+            }
+        }
 
-		UpdateParentKey();
-	}
+        UpdateParentKey();
+    }
 }
 
 
@@ -675,14 +606,12 @@ void CMapSideList::UpdateDependencies(CMapWorld *pWorld, CMapClass *pObject)
 //			current list of faces and submits the keyvalue to our parent for
 //			storage.
 //-----------------------------------------------------------------------------
-void CMapSideList::UpdateParentKey(void)
-{
-	char szValue[KEYVALUE_MAX_VALUE_LENGTH];
-	CMapWorld::FaceID_FaceListsToString(szValue, sizeof(szValue), &m_Faces, NULL);
+void CMapSideList::UpdateParentKey(void) {
+    char szValue[KEYVALUE_MAX_VALUE_LENGTH];
+    CMapWorld::FaceID_FaceListsToString(szValue, sizeof(szValue), &m_Faces, NULL);
 
-	CMapEntity *pEntity = dynamic_cast<CMapEntity *>(m_pParent);
-	if (pEntity != NULL)
-	{
-		pEntity->NotifyChildKeyChanged(this, m_szKeyName, szValue);
-	}
+    CMapEntity *pEntity = dynamic_cast<CMapEntity *>(m_pParent);
+    if (pEntity != NULL) {
+        pEntity->NotifyChildKeyChanged(this, m_szKeyName, szValue);
+    }
 }

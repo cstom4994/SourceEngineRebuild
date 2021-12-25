@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -16,55 +16,59 @@
 #pragma once
 
 
-class CMapInfoDlg : public CDialog
-{
-	// Construction
-	public:
-		CMapInfoDlg(CMapWorld *, CWnd* pParent = NULL);   // standard constructor
+class CMapInfoDlg : public CDialog {
+    // Construction
+public:
+    CMapInfoDlg(CMapWorld *, CWnd *pParent = NULL);   // standard constructor
 
-		void CountEntity(CMapEntity *pEntity);
-		void CountFace(CMapFace *pFace);
-		void CountSolid(CMapSolid *pSolid);
-		void CountTexture(IEditorTexture *pTex);
+    void CountEntity(CMapEntity *pEntity);
 
-	// Dialog Data
-		//{{AFX_DATA(CMapInfoDlg)
-		enum { IDD = IDD_MAPINFO };
-		CStatic	m_Faces;
-		CStatic	m_Solids;
-		CStatic	m_SolidEntities;
-		CStatic	m_PointEntities;
-		CStatic	m_TextureMemory;
-		CStatic	m_UniqueTextures;
-		CListBox m_WadsUsed;
-		//}}AFX_DATA
+    void CountFace(CMapFace *pFace);
 
-		CMapWorld *pWorld;
+    void CountSolid(CMapSolid *pSolid);
 
-	// Overrides
-		// ClassWizard generated virtual function overrides
-		//{{AFX_VIRTUAL(CMapInfoDlg)
-		protected:
-		virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-		//}}AFX_VIRTUAL
+    void CountTexture(IEditorTexture *pTex);
 
-		UINT m_uSolidCount;
-		UINT m_uPointEntityCount;
-		UINT m_uSolidEntityCount;
-		UINT m_uFaceCount;
-		UINT m_uUniqueTextures;
-		UINT m_uTextureMemory;
+    // Dialog Data
+    //{{AFX_DATA(CMapInfoDlg)
+    enum {
+        IDD = IDD_MAPINFO
+    };
+    CStatic m_Faces;
+    CStatic m_Solids;
+    CStatic m_SolidEntities;
+    CStatic m_PointEntities;
+    CStatic m_TextureMemory;
+    CStatic m_UniqueTextures;
+    CListBox m_WadsUsed;
+    //}}AFX_DATA
 
-		IEditorTexture *m_pTextures[1024];
+    CMapWorld *pWorld;
 
-	// Implementation
-	protected:
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMapInfoDlg)
+protected:
+    virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-		// Generated message map functions
-		//{{AFX_MSG(CMapInfoDlg)
-		virtual BOOL OnInitDialog();
-		//}}AFX_MSG
-		DECLARE_MESSAGE_MAP()
+    UINT m_uSolidCount;
+    UINT m_uPointEntityCount;
+    UINT m_uSolidEntityCount;
+    UINT m_uFaceCount;
+    UINT m_uUniqueTextures;
+    UINT m_uTextureMemory;
+
+    IEditorTexture *m_pTextures[1024];
+
+    // Implementation
+protected:
+
+    // Generated message map functions
+    //{{AFX_MSG(CMapInfoDlg)
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+DECLARE_MESSAGE_MAP()
 };
 
 #endif // MAPINFODLG_H

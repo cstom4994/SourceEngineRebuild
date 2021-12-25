@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -32,14 +32,11 @@ public:
 			FACEEDITTOOL_DESTROY,
 			FACEEDITTOOL_PAINTGEO,
 			FACEEDITTOOL_PAINTDATA,
-			FACEEDITTOOL_PAINTSCULPT,
 			FACEEDITTOOL_SEW,
 			FACEEDITTOOL_SUBDIV,
 			FACEEDITTOOL_NOISE,
 			FACEEDITTOOL_TAG_WALK,
-			FACEEDITTOOL_TAG_BUILD,
-			FACEEDITTOOL_TAG_REMOVE,
-	};
+			FACEEDITTOOL_TAG_BUILD };
 
 public:
 
@@ -76,11 +73,9 @@ protected:
 	CDispNoiseDlg		m_NoiseDlg;
 	CDispPaintDistDlg	m_PaintDistDlg;
 	CDispPaintDataDlg	m_PaintDataDlg;
-	CPaintSculptDlg		m_PaintSculptDlg;
 
 	bool				m_bForceShowWalkable;
 	bool				m_bForceShowBuildable;
-	bool				m_bIsEditable;
 
 protected:
 
@@ -115,7 +110,6 @@ protected:
 	afx_msg void OnButtonPaintData( void );
 	afx_msg void OnButtonTagWalkable( void );
 	afx_msg void OnButtonTagBuildable( void );
-	afx_msg void OnButtonTagRemove( void );
 	afx_msg void OnSelectAdjacent();
 	afx_msg void OnButtonInvertAlpha( void );
 
@@ -124,8 +118,6 @@ protected:
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnBnClickedDispSculptPaint( );
 };
 
 

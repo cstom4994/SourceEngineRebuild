@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -16,38 +16,40 @@
 #pragma once
 
 
-class CTitleWnd : public CWnd
-{
-	public:
+class CTitleWnd : public CWnd {
+public:
 
-		static CTitleWnd *CreateTitleWnd(CWnd *pwndParent, UINT uID);
+    static CTitleWnd *CreateTitleWnd(CWnd *pwndParent, UINT uID);
 
-		void SetTitle(LPCTSTR pszTitle);
+    void SetTitle(LPCTSTR pszTitle);
 
-	private:
+private:
 
-		char m_szTitle[256];
-		static CFont m_FontNormal;
-		static CFont m_FontActive;
+    char m_szTitle[256];
+    static CFont m_FontNormal;
+    static CFont m_FontActive;
 
-	protected:
+protected:
 
-		CTitleWnd(void);
+    CTitleWnd(void);
 
-		void OnMouseButton(void);
+    void OnMouseButton(void);
 
-		bool m_bMouseOver;
-		bool m_bMenuOpen;
+    bool m_bMouseOver;
+    bool m_bMenuOpen;
 
-		afx_msg void OnPaint();
-		afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-		afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-		afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-		afx_msg LRESULT OnMouseLeave(WPARAM wParam, LPARAM lParam);
+    afx_msg void OnPaint();
 
-		DECLARE_MESSAGE_MAP()
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+
+    afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+
+    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+
+    afx_msg LRESULT OnMouseLeave(WPARAM wParam, LPARAM lParam);
+
+DECLARE_MESSAGE_MAP()
 };
-
 
 
 #endif // TITLEWND_H

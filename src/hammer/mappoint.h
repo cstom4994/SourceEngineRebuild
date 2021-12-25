@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -19,22 +19,22 @@
 #include "MapAtom.h"
 
 
-class CMapPoint : public CMapAtom
-{
-	typedef CMapAtom BaseClass;
+class CMapPoint : public CMapAtom {
+    typedef CMapAtom BaseClass;
 
-	public:
+public:
 
-		CMapPoint(void);
+    CMapPoint(void);
 
-		virtual void GetOrigin(Vector& pfOrigin);
-		virtual void SetOrigin(Vector& pfOrigin);
-		
-	protected:
+    virtual void GetOrigin(Vector &pfOrigin);
 
-		void DoTransform(const VMatrix &matrix);
-		
-		Vector m_Origin;
+    virtual void SetOrigin(Vector &pfOrigin);
+
+protected:
+
+    void DoTransform(const VMatrix &matrix);
+
+    Vector m_Origin;
 };
 
 

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -12,49 +12,52 @@
 #endif
 
 
+class CUpdateHint : public CObject {
+#define MAX_NOTIFY_CODES 16
 
-class CUpdateHint : public CObject
-{
-	#define MAX_NOTIFY_CODES 16
+    struct NotifyList_t {
+        int nCode;
+        CMapObjectList Objects;
+    };
 
-	struct NotifyList_t
-	{
-		int nCode;
-		CMapObjectList Objects;
-	};
+public:
 
-	public:
+    CUpdateHint(void) {}
 
-		CUpdateHint(void) {}
+    //
+    // Called by the code that modifies map objects:
+    //
+    inline void PreUpdateObject(CMapClass *pObject);
 
-		//
-		// Called by the code that modifies map objects:
-		//
-		inline void PreUpdateObject(CMapClass *pObject);
-		inline void PreUpdateObjects(CMapObjectList *pObjects);
+    inline void PreUpdateObjects(CMapObjectList *pObjects);
 
-		inline void PostUpdateObject(CMapClass *pObject, int nNotifyCode);
-		inline void PostUpdateObjects(CMapObjectList *pObjects, int nNotifyCode);
+    inline void PostUpdateObject(CMapClass *pObject, int nNotifyCode);
 
-		inline BoundBox const &GetUpdateRegion(void);
-		inline void Reset(void);
-		inline void UpdateBounds(BoundBox &bbox);
+    inline void PostUpdateObjects(CMapObjectList *pObjects, int nNotifyCode);
 
-		//
-		// Called by the document when processing an update:
-		//
-		inline int GetNotifyCodeCount(void);
-		inline int GetNotifyCode(int nIndex);
+    inline BoundBox const &GetUpdateRegion(void);
 
-		inline POSITION GetHeadPosition(int nIndex);
-		inline CMapClass *GetNext(int nIndex, POSITION &pos);
+    inline void Reset(void);
 
-	protected:
+    inline void UpdateBounds(BoundBox &bbox);
 
-		NotifyList_t m_NotifyList[MAX_NOTIFY_CODES];	// Lists of objects with common notification codes.
-		int m_nListEntries;								// Number of items in the notify list.
+    //
+    // Called by the document when processing an update:
+    //
+    inline int GetNotifyCodeCount(void);
 
-		BoundBox m_UpdateRegion;						// 3D map extents that were affected by the change.
+    inline int GetNotifyCode(int nIndex);
+
+    inline POSITION GetHeadPosition(int nIndex);
+
+    inline CMapClass *GetNext(int nIndex, POSITION &pos);
+
+protected:
+
+    NotifyList_t m_NotifyList[MAX_NOTIFY_CODES];    // Lists of objects with common notification codes.
+    int m_nListEntries;                                // Number of items in the notify list.
+
+    BoundBox m_UpdateRegion;                        // 3D map extents that were affected by the change.
 };
 
 

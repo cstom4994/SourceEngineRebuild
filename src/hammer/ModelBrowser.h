@@ -1,63 +1,68 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
-#pragma once
+﻿#pragma once
 
 #include "resource.h"
 #include "VGuiWnd.h"
 
 // CModelBrowser dialog
 
-namespace vgui
-{
-	class TextEntry;
-	class Splitter;
-	class Button;
+namespace vgui {
+    class TextEntry;
+
+    class Splitter;
+
+    class Button;
 }
 
 class CModelBrowserPanel;
-class CMDLPicker;
+
+class CMDLPicker2;
 
 
-class CModelBrowser : public CDialog
-{
-	DECLARE_DYNAMIC(CModelBrowser)
+class CModelBrowser : public CDialog {
+DECLARE_DYNAMIC(CModelBrowser)
 
 public:
-	CModelBrowser(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CModelBrowser();
+    CModelBrowser(CWnd *pParent = NULL);   // standard constructor
+    virtual ~CModelBrowser();
 
-	void	SetModelName( const char *pModelName );
-	void	GetModelName( char *pModelName, int length );
-	void	GetSkin( int &nSkin );
-	void	SetSkin( int nSkin );
+    void SetModelName(const char *pModelName);
+
+    void GetModelName(char *pModelName, int length);
+
+    void GetSkin(int &nSkin);
+
+    void SetSkin(int nSkin);
 
 // Dialog Data
-	enum { IDD = IDD_MODEL_BROWSER };
+    enum {
+        IDD = IDD_MODEL_BROWSER
+    };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL PreTranslateMessage( MSG* pMsg ); 
+    virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
+    virtual BOOL PreTranslateMessage(MSG *pMsg);
 
 
-	DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnDestroy();
+    afx_msg void OnSize(UINT nType, int cx, int cy);
 
-	virtual BOOL OnInitDialog();
+    afx_msg void OnDestroy();
 
-	void UpdateStatusLine();
-	void SaveLoadSettings( bool bSave ); 
-	void Resize( void );
+    virtual BOOL OnInitDialog();
 
-	CVGuiPanelWnd	m_VGuiWindow;
+    void UpdateStatusLine();
 
-	CMDLPicker		*m_pPicker;
-	vgui::Button	*m_pButtonOK;
-	vgui::Button	*m_pButtonCancel;
-	vgui::TextEntry	*m_pStatusLine;
+    void SaveLoadSettings(bool bSave);
 
-	void Show();
-	void Hide();
-	
+    void Resize(void);
+
+    CVGuiPanelWnd m_VGuiWindow;
+
+    CMDLPicker2 *m_pPicker;
+    vgui::Button *m_pButtonOK;
+    vgui::Button *m_pButtonCancel;
+    vgui::TextEntry *m_pStatusLine;
+
 };

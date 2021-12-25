@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -27,7 +27,7 @@ typedef struct {
 class CPakDoc : public CDocument {
 protected:
     CPakDoc();           // protected constructor used by dynamic creation
-    DECLARE_DYNCREATE(CPakDoc)
+DECLARE_DYNCREATE(CPakDoc)
 
 // Attributes
 public:
@@ -58,5 +58,5 @@ protected:
     //{{AFX_MSG(CPakDoc)
     // NOTE - the ClassWizard will add and remove member functions here.
     //}}AFX_MSG
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 };

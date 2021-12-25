@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//====== Copyright � 1996-2005, Valve Corporation, All rights reserved. =======//
 //
 // Purpose: 
 //
@@ -23,7 +23,7 @@
 #include "MapAtom.h"
 #include "DispManager.h"
 #include "mathlib/Vector4d.h"
-#include "utlvector.h"
+#include "UtlVector.h"
 #include "Color.h"
 #include "smoothinggroupmgr.h"
 #include "detailobjects.h"
@@ -85,11 +85,11 @@ enum {
 typedef Vector Extents_t[NUM_EXTENTS_DIMS];
 
 
-struct PLANE {
+typedef struct {
     Vector normal;
     float dist;
     Vector planepts[3];
-};
+} PLANE;
 
 
 typedef struct {
@@ -224,14 +224,6 @@ public:
     inline IEditorTexture *GetTexture(void) const;
 
     // Renders opaque faces
-    static void
-    AddFaceToQueue(CMapFace *pMapFace, IEditorTexture *pTexture, EditorRenderMode_t renderMode, bool selected,
-                   SelectionState_t faceSelectionState);
-
-    static void PushFaceQueue(void);
-
-    static void PopFaceQueue(void);
-
     static void RenderOpaqueFaces(CRender3D *pRender);
 
     //

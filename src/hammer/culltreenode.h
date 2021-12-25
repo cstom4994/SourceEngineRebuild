@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -18,47 +18,54 @@
 
 class CCullTreeNode;
 
-class CCullTreeNode : public BoundBox
-{
-	public:
+class CCullTreeNode : public BoundBox {
+public:
 
-		CCullTreeNode(void);
-		~CCullTreeNode(void);
+    CCullTreeNode(void);
 
-		//
-		// Children.
-		//
-		inline int GetChildCount(void) { return(m_Children.Count()); }
-		inline CCullTreeNode *GetCullTreeChild(int nChild) { return(m_Children[nChild]); }
+    ~CCullTreeNode(void);
 
-		void AddCullTreeChild(CCullTreeNode *pChild);
-		
-		//
-		// Objects.
-		//
-		inline int GetObjectCount(void) { return(m_Objects.Count()); }
-		inline CMapClass *GetCullTreeObject(int nObject) { return(m_Objects[nObject]); }
+    //
+    // Children.
+    //
+    inline int GetChildCount(void) { return (m_Children.Count()); }
 
-		void AddCullTreeObject(CMapClass *pObject);
-		void AddCullTreeObjectRecurse(CMapClass *pObject);
+    inline CCullTreeNode *GetCullTreeChild(int nChild) { return (m_Children[nChild]); }
 
-		CCullTreeNode *FindCullTreeObjectRecurse(CMapClass *pObject);
+    void AddCullTreeChild(CCullTreeNode *pChild);
 
-		void RemoveAllCullTreeObjects(void);
-		void RemoveAllCullTreeObjectsRecurse(void);
+    //
+    // Objects.
+    //
+    inline int GetObjectCount(void) { return (m_Objects.Count()); }
 
-		void RemoveCullTreeObject(CMapClass *pObject);
-		void RemoveCullTreeObjectRecurse(CMapClass *pObject);
+    inline CMapClass *GetCullTreeObject(int nObject) { return (m_Objects[nObject]); }
 
-		void UpdateAllCullTreeObjects(void);
-		void UpdateAllCullTreeObjectsRecurse(void);
+    void AddCullTreeObject(CMapClass *pObject);
 
-		void UpdateCullTreeObject(CMapClass *pObject);
-		void UpdateCullTreeObjectRecurse(CMapClass *pObject);
+    void AddCullTreeObjectRecurse(CMapClass *pObject);
 
-	protected:
+    CCullTreeNode *FindCullTreeObjectRecurse(CMapClass *pObject);
 
-		CUtlVector<CCullTreeNode*> m_Children;	// The child nodes. This is an octree.
-		CMapObjectList m_Objects;		// The objects contained in this node.
+    void RemoveAllCullTreeObjects(void);
+
+    void RemoveAllCullTreeObjectsRecurse(void);
+
+    void RemoveCullTreeObject(CMapClass *pObject);
+
+    void RemoveCullTreeObjectRecurse(CMapClass *pObject);
+
+    void UpdateAllCullTreeObjects(void);
+
+    void UpdateAllCullTreeObjectsRecurse(void);
+
+    void UpdateCullTreeObject(CMapClass *pObject);
+
+    void UpdateCullTreeObjectRecurse(CMapClass *pObject);
+
+protected:
+
+    CUtlVector<CCullTreeNode *> m_Children;    // The child nodes. This is an octree.
+    CMapObjectList m_Objects;        // The objects contained in this node.
 };
 

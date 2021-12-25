@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ====
 //
 // Purpose: 
 //
@@ -16,61 +16,70 @@
 
 
 class CToolSphere;
+
 class CHelperInfo;
+
 class CRender2D;
+
 class CRender3D;
+
 class IMesh;
 
 
-class CMapSphere : public CMapHelper
-{
-	friend class CToolSphere;
+class CMapSphere : public CMapHelper {
+    friend class CToolSphere;
 
-	public:
+public:
 
-		DECLARE_MAPCLASS(CMapSphere,CMapHelper)
+    DECLARE_MAPCLASS(CMapSphere, CMapHelper)
 
-		//
-		// Factory for building from a list of string parameters.
-		//
-		static CMapClass *Create(CHelperInfo *pInfo, CMapEntity *pParent);
+    //
+    // Factory for building from a list of string parameters.
+    //
+    static CMapClass *Create(CHelperInfo *pInfo, CMapEntity *pParent);
 
-		//
-		// Construction/destruction:
-		//
-		CMapSphere(void);
-		~CMapSphere(void);
+    //
+    // Construction/destruction:
+    //
+    CMapSphere(void);
 
-		virtual void CalcBounds(BOOL bFullUpdate = FALSE);
+    ~CMapSphere(void);
 
-		virtual CMapClass *Copy(bool bUpdateDependencies);
-		virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+    virtual void CalcBounds(BOOL bFullUpdate = FALSE);
 
-		virtual void OnParentKeyChanged(const char *szKey, const char *szValue);
+    virtual CMapClass *Copy(bool bUpdateDependencies);
 
-		virtual void Render2D(CRender2D *pRender);
-		virtual void Render3D(CRender3D *pRender);
+    virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
 
-		virtual int SerializeRMF(std::fstream &File, BOOL bRMF) { return(0); }
-		virtual int SerializeMAP(std::fstream &File, BOOL bRMF) { return(0); }
+    virtual void OnParentKeyChanged(const char *szKey, const char *szValue);
 
-		virtual bool IsVisualElement(void) { return false; } // Only visible when the parent entity is selected.
-		virtual bool IsScaleable(void) { return false; } // TODO: allow for scaling the sphere by itself
-		virtual bool IsClutter(void) { return true; }
-		virtual bool IsCulledByCordon(const Vector &vecMins, const Vector &vecMaxs) { return false; } // We don't hide unless our parent hides.
+    virtual void Render2D(CRender2D *pRender);
 
-		virtual CBaseTool *GetToolObject(int nHitData, bool bAttachObject );
-		
-		virtual bool HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t &HitData);
+    virtual void Render3D(CRender3D *pRender);
 
-		virtual const char* GetDescription() { return "Sphere helper"; }
+    virtual int SerializeRMF(std::fstream &File, BOOL bRMF) { return (0); }
 
-	protected:
+    virtual int SerializeMAP(std::fstream &File, BOOL bRMF) { return (0); }
 
-		void SetRadius(float flRadius);
+    virtual bool IsVisualElement(void) { return false; } // Only visible when the parent entity is selected.
+    virtual bool IsScaleable(void) { return false; } // TODO: allow for scaling the sphere by itself
+    virtual bool IsClutter(void) { return true; }
 
-		char m_szKeyName[KEYVALUE_MAX_KEY_LENGTH];
-		float m_flRadius;
+    virtual bool IsCulledByCordon(const Vector &vecMins,
+                                  const Vector &vecMaxs) { return false; } // We don't hide unless our parent hides.
+
+    virtual CBaseTool *GetToolObject(int nHitData, bool bAttachObject);
+
+    virtual bool HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t &HitData);
+
+    virtual const char *GetDescription() { return "Sphere helper"; }
+
+protected:
+
+    void SetRadius(float flRadius);
+
+    char m_szKeyName[KEYVALUE_MAX_KEY_LENGTH];
+    float m_flRadius;
 };
 
 #endif // MAPSPHERE_H

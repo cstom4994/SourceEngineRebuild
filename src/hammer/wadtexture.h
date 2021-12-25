@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implementation of the IEditorTexture interface for WAD textures.
 //
@@ -19,159 +19,148 @@
 class IMaterial;
 
 
-class CWADTexture : public IEditorTexture
-{
-	public:
+class CWADTexture : public IEditorTexture {
+public:
 
-		CWADTexture(void);
-		virtual ~CWADTexture(void);
+    CWADTexture(void);
 
-		static bool Initialize(void);
-		static void ShutDown(void);
+    virtual ~CWADTexture(void);
 
-		BOOL Init(int, DWORD, BOOL, LPCTSTR);
+    static bool Initialize(void);
 
-		BOOL AdjustTexture(char *pLoadBuf);
+    static void ShutDown(void);
 
-		inline const char *GetName(void) const
-		{
-			return(m_szName);
-		}
-		int GetShortName(char *pszName) const;
+    BOOL Init(int, DWORD, BOOL, LPCTSTR);
 
-		int GetKeywords(char *pszKeywords) const;
+    BOOL AdjustTexture(char *pLoadBuf);
 
-		void Draw(CDC *pDC, RECT &rect, int iFontHeight, int iIconHeight, DrawTexData_t &DrawTexData);//, DWORD dwFlags = (drawCaption|drawIcons));
-		void GetSize(SIZE &size);
+    inline const char *GetName(void) const {
+        return (m_szName);
+    }
 
-		const char *GetFileName(void) const;
+    int GetShortName(char *pszName) const;
 
-		int GetImageDataRGB( void *pImageRGB );
-		int GetImageDataRGBA( void *pImageRGBA );
+    int GetKeywords(char *pszKeywords) const;
 
-		inline int GetImageWidth() const
-		{
-			return( m_datawidth );
-		}
+    void Draw(CDC *pDC, RECT &rect, int iFontHeight, int iIconHeight,
+              DrawTexData_t &DrawTexData);//, DWORD dwFlags = (drawCaption|drawIcons));
+    void GetSize(SIZE &size);
 
-		inline int GetImageHeight() const
-		{
-			return( m_dataheight );
-		}
+    const char *GetFileName(void) const;
 
-		inline int GetWidth() const
-		{
-			return(m_nWidth);
-		}
+    int GetImageDataRGB(void *pImageRGB);
 
-		inline int GetHeight() const
-		{
-			return(m_nHeight);
-		}
+    int GetImageDataRGBA(void *pImageRGBA);
 
-		inline float GetDecalScale() const
-		{
-			return( 1.0f );
-		}
-		
-		CPalette *GetPalette() const;
+    inline int GetImageWidth() const {
+        return (m_datawidth);
+    }
 
-		inline int GetTextureID() const
-		{
-			return( m_nTextureID );
-		}
-		
-		inline TEXTUREFORMAT GetTextureFormat() const
-		{
-			return(format);
-		}
+    inline int GetImageHeight() const {
+        return (m_dataheight);
+    }
 
-		inline int GetSurfaceAttributes() const
-		{
-			return(m_WALsurface);
-		}
+    inline int GetWidth() const {
+        return (m_nWidth);
+    }
 
-		inline int GetSurfaceContents() const
-		{
-			return(m_WALcontents);
-		}
+    inline int GetHeight() const {
+        return (m_nHeight);
+    }
 
-		inline int GetSurfaceValue() const
-		{
-			return(m_WALvalue);
-		}
+    inline float GetDecalScale() const {
+        return (1.0f);
+    }
 
-		inline bool HasAlpha() const
-		{
-			return( false );
-		}
+    CPalette *GetPalette() const;
 
-		inline bool HasData( void ) const
-		{
-			return(m_pData != NULL);
-		}
+    inline int GetTextureID() const {
+        return (m_nTextureID);
+    }
 
-		inline bool HasPalette() const
-		{
-			return(m_bLocalPalette == TRUE);
-		}
+    inline TEXTUREFORMAT GetTextureFormat() const {
+        return (format);
+    }
 
-		inline bool IsDummy( void ) const
-		{
-			return( false );
-		}
+    inline int GetSurfaceAttributes() const {
+        return (m_WALsurface);
+    }
 
-		bool Load( void );
-		void Reload( bool bFullReload ) {}
-		bool IsLoaded() const;
+    inline int GetSurfaceContents() const {
+        return (m_WALcontents);
+    }
 
-		inline void SetTextureFormat(TEXTUREFORMAT eFormat)
-		{
-			format = eFormat;
-		}
+    inline int GetSurfaceValue() const {
+        return (m_WALvalue);
+    }
 
-		inline void SetTextureID( int nTextureID )
-		{
-			m_nTextureID = nTextureID;
-		}
+    inline bool HasAlpha() const {
+        return (false);
+    }
 
-		bool IsWater( void ) const
-		{
-			return false;
-		}
+    inline bool HasData(void) const {
+        return (m_pData != NULL);
+    }
 
-	protected:
+    inline bool HasPalette() const {
+        return (m_bLocalPalette == TRUE);
+    }
 
-		BOOL Load(int fd, HANDLE hFile);
-		void DrawNoImage(CDC *pDC, RECT &rect, int iFontHeight);
+    inline bool IsDummy(void) const {
+        return (false);
+    }
 
-		char m_szName[MAX_PATH];
-		char m_szFileName[MAX_PATH];
+    bool Load(void);
 
-		// additional data for new .WAL textures:
-		int m_WALsurface;
-		int m_WALvalue;
-		int m_WALcontents;
+    void Reload(bool bFullReload) {}
 
-		// Used when the texture is in a .WAD or a .PAK file.
-		// Otherwise, texture is loaded automatically.
-		DWORD m_ulFileOffset;		// Offset to texture in WAD file.
-		DWORD m_ulFileID;			// ID of WAD file the texture is in.
+    bool IsLoaded() const;
 
-		TEXTUREFORMAT format;
+    inline void SetTextureFormat(TEXTUREFORMAT eFormat) {
+        format = eFormat;
+    }
 
-		LOGPALETTE *m_pPalette;		// This texture's palette.
-		BOOL m_bLocalPalette;		// Use m_pPalette?
+    inline void SetTextureID(int nTextureID) {
+        m_nTextureID = nTextureID;
+    }
 
-		int m_nTextureID;			// Uniquely identifies this texture in all 3D renderers.
+    bool IsWater(void) const {
+        return false;
+    }
 
-		int m_datawidth;
-		int m_dataheight;
+protected:
 
-		int m_nWidth;
-		int m_nHeight;
+    BOOL Load(int fd, HANDLE hFile);
 
-		void *m_pData;				// Loaded pixel data (NULL if not loaded)
+    void DrawNoImage(CDC *pDC, RECT &rect, int iFontHeight);
+
+    char m_szName[MAX_PATH];
+    char m_szFileName[MAX_PATH];
+
+    // additional data for new .WAL textures:
+    int m_WALsurface;
+    int m_WALvalue;
+    int m_WALcontents;
+
+    // Used when the texture is in a .WAD or a .PAK file.
+    // Otherwise, texture is loaded automatically.
+    DWORD m_ulFileOffset;        // Offset to texture in WAD file.
+    DWORD m_ulFileID;            // ID of WAD file the texture is in.
+
+    TEXTUREFORMAT format;
+
+    LOGPALETTE *m_pPalette;        // This texture's palette.
+    BOOL m_bLocalPalette;        // Use m_pPalette?
+
+    int m_nTextureID;            // Uniquely identifies this texture in all 3D renderers.
+
+    int m_datawidth;
+    int m_dataheight;
+
+    int m_nWidth;
+    int m_nHeight;
+
+    void *m_pData;                // Loaded pixel data (NULL if not loaded)
 };
 
 

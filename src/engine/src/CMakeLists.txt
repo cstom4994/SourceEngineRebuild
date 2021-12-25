@@ -97,6 +97,20 @@ set(rebuiltin
         )
 source_group("rebuiltin" FILES ${rebuiltin})
 
+set(rebuiltin_components
+        "../components/bsppack/bsppack.cpp"
+        "../../public/bspfile.h"
+        "../../public/ibsppack.h"
+        "../../public/zip_utils.cpp"
+        "../../utils/common/bsplib.cpp"
+        "../../utils/common/cmdlib.cpp"
+        "../../utils/common/filesystem_tools.cpp"
+        "../../utils/common/filesystem_tools.h"
+        "../../utils/common/scriplib.cpp"
+        )
+source_group("rebuiltin_components" FILES ${rebuiltin_components})
+
+
 set(Client
         "baseclient.cpp"
         "baseclientstate.cpp"
@@ -1131,6 +1145,7 @@ set(ALL_FILES
         ${Input_Public_Headers}
         ${Input_Source_Files}
         ${rebuiltin}
+        ${rebuiltin_components}
         ${Client}
         ${Header_Files}
         ${Link_Libraries}
@@ -1188,7 +1203,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 ################################################################################
 # Include directories
 ################################################################################
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
@@ -1266,7 +1281,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FUCK_STEAM;"
         "VPCGAME=tf;"
         "_MBCS;"
-
+        "ZIP_SUPPORT_LZMA_ENCODE"
         "ENGINE_DLL;"
         "VGUIMATSURFACE_DLL_EXPORT;"
         "GAMEUI_EXPORTS;"
@@ -1375,6 +1390,7 @@ add_dependencies(${PROJECT_NAME}
         vtf
         ivp
         zlib
+        lzma
         )
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
@@ -1396,6 +1412,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         ivp
         zlib
         Jpeglib
+        lzma
 
         steamemu
 

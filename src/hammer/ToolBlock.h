@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -19,38 +19,46 @@
 class CToolBlockMessageWnd;
 
 
-class CToolBlock : public Box3D
-{
+class CToolBlock : public Box3D {
 
-friend class CToolBlockMessageWnd;
+    friend class CToolBlockMessageWnd;
 
 public:
 
-	CToolBlock();
-	~CToolBlock();
+    CToolBlock();
 
-	//
-	// CBaseTool implementation.
-	//
-	virtual ToolID_t GetToolID(void) { return TOOL_BLOCK; }
+    ~CToolBlock();
 
-	virtual bool OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
-	virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) ;
-	virtual bool OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+    //
+    // CBaseTool implementation.
+    //
+    virtual ToolID_t GetToolID(void) { return TOOL_BLOCK; }
 
-	virtual bool OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
+    virtual bool OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
+
+    virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags);
 
 private:
 
-	void CreateMapObject(CMapView *pView);
-	void OnEscape();
+    void CreateMapObject(CMapView *pView);
 
-	void SetBlockCursor();
+    void OnEscape();
+
+    void SetBlockCursor();
 };
 
 

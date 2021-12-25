@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Defines options that are written to the registry.
 //
@@ -50,7 +50,6 @@ public:
     BOOL bShowNoDrawBrushes;
     BOOL bEnableAutosave;
     BOOL bShowHiddenTargetsAsBroken;
-    BOOL bRadiusCulling;
 };
 
 
@@ -88,9 +87,6 @@ public:
     COLORREF clrToolMorph;        // The color of the morph tool.
     COLORREF clrToolPath;        // The color of the path tool.
     COLORREF clrToolDrag;        // The color of tool bounds while it is being dragged.
-    COLORREF clrModelCollisionWireframe;            // The color of a model's collision wireframe
-    COLORREF clrModelCollisionWireframeDisabled;    // The color of a model's collision wireframe when set to "Not Solid" via the entity properties
-
 };
 
 
@@ -138,7 +134,6 @@ public:
     BOOL bReverseSelection;    // Whether to animate studio models.
     bool bPreviewModelFade; // Whether to preview model fade in the 3D view.
     float fFOV;                // FOV of 3D Camera
-    float fLightConeLength;  // Multiplier for light_spot cone length
 };
 
 

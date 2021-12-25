@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -15,50 +15,58 @@
 
 
 class GDclass;
+
 class CRichEditCtrlEx;
 
 
-class CEntityHelpDlg : public CDialog
-{
-	public:
+class CEntityHelpDlg : public CDialog {
+public:
 
-		// Construction
-		CEntityHelpDlg(CWnd *pwndParent = NULL);
-		~CEntityHelpDlg(void);
+    // Construction
+    CEntityHelpDlg(CWnd *pwndParent = NULL);
 
-		//{{AFX_DATA(CEntityHelpDlg)
-		enum { IDD = IDD_ENTITY_HELP };
-		CRichEditCtrlEx *m_pHelpText;
-		//}}AFX_DATA
+    ~CEntityHelpDlg(void);
 
-		static void ShowEntityHelpDialog(void);
-		static void SetEditGameClass(GDclass *pClass);
+    //{{AFX_DATA(CEntityHelpDlg)
+    enum {
+        IDD = IDD_ENTITY_HELP
+    };
+    CRichEditCtrlEx *m_pHelpText;
+    //}}AFX_DATA
 
-	protected:
-		
-		void UpdateClass(GDclass *pClass);
+    static void ShowEntityHelpDialog(void);
 
-		int GetTextWidth(const char *pszText, CDC *pDC = NULL);
-		int GetMaxVariableWidth(GDclass *pClass);
+    static void SetEditGameClass(GDclass *pClass);
 
-		void UpdateHelp(void);
+protected:
 
-		// ClassWizard generate virtual function overrides
-		//{{AFX_VIRTUAL(CEntityHelpDlg)
-		virtual void DoDataExchange(CDataExchange *pDX);
-		//}}AFX_VIRTUAL
+    void UpdateClass(GDclass *pClass);
 
-		// Generated message map functions
-		//{{AFX_MSG(CEntityHelpDlg)
-		virtual BOOL OnInitDialog(void);
-		virtual void OnDestroy(void);
-		virtual void OnClose(void);
-		afx_msg void OnSize( UINT nType, int cx, int cy );
-		//}}AFX_MSG
+    int GetTextWidth(const char *pszText, CDC *pDC = NULL);
 
-		GDclass *m_pClass;
+    int GetMaxVariableWidth(GDclass *pClass);
 
-		DECLARE_MESSAGE_MAP()
+    void UpdateHelp(void);
+
+    // ClassWizard generate virtual function overrides
+    //{{AFX_VIRTUAL(CEntityHelpDlg)
+    virtual void DoDataExchange(CDataExchange *pDX);
+    //}}AFX_VIRTUAL
+
+    // Generated message map functions
+    //{{AFX_MSG(CEntityHelpDlg)
+    virtual BOOL OnInitDialog(void);
+
+    virtual void OnDestroy(void);
+
+    virtual void OnClose(void);
+
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    //}}AFX_MSG
+
+    GDclass *m_pClass;
+
+DECLARE_MESSAGE_MAP()
 };
 
 #endif // ENTITYHELPDLG_H

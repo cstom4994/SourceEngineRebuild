@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -16,19 +16,14 @@
 #include "OP_Model.h"
 #include "OP_Input.h"
 #include "MapDoc.h"
-#include "MapView.h"
 #include "MapEntity.h"
 #include "MapGroup.h"
-#include "MapInstance.h"
 #include "MapSolid.h"
 #include "MapStudioModel.h"
 #include "MapWorld.h"
 #include "History.h"
 #include "GlobalFunctions.h"
 #include "Selection.h"
-#include "CustomMessages.h"
-#include "Camera.h"
-#include "Manifest.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -70,7 +65,6 @@ BEGIN_MESSAGE_MAP(CObjectProperties, CPropertySheet)
 	ON_COMMAND(IDCANCEL, OnCancel)
 	ON_COMMAND(IDI_INPUT, OnInputs)
 	ON_COMMAND(IDI_OUTPUT, OnOutputs)
-	ON_COMMAND(IDD_EDIT_INSTANCE, OnEditInstance)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -92,10 +86,8 @@ CObjectProperties::CObjectProperties(void) :
 	m_pDummy = NULL;
 	m_pInputButton = NULL;
 	m_pOutputButton = NULL;
-	m_pInstanceButton = NULL;
 	m_pOrgObjects = NULL;
 	m_bDataDirty = false;
-	m_bCanEdit = false;
 
 	CreatePages();
 }
@@ -114,8 +106,6 @@ CObjectProperties::CObjectProperties(UINT nIDCaption, CWnd* pParentWnd, UINT iSe
 	m_pDummy = NULL;
 	m_pInputButton = NULL;
 	m_pOutputButton = NULL;
-	m_pInstanceButton = NULL;
-	m_bCanEdit = false;
 
 	CreatePages();
 }
@@ -134,8 +124,6 @@ CObjectProperties::CObjectProperties(LPCTSTR pszCaption, CWnd* pParentWnd, UINT 
 	m_pDummy = NULL;
 	m_pInputButton = NULL;
 	m_pOutputButton = NULL;
-	m_pInstanceButton = NULL;
-	m_bCanEdit = false;
 
 	CreatePages();
 }
@@ -157,7 +145,6 @@ CObjectProperties::~CObjectProperties()
 
 	delete m_pInputButton;
 	delete m_pOutputButton;
-	delete m_pInstanceButton;
 
 	delete[] m_ppPages;
 }
@@ -492,9 +479,6 @@ void CObjectProperties::CreateButtons(void)
 
 	m_pOutputButton = new CButton;
 	m_pOutputButton->Create(_T("My button"), WS_CHILD|WS_VISIBLE|BS_ICON|BS_FLAT, CRect(40,rect.bottom - 34,72,rect.bottom - 2), this, IDI_OUTPUT);
-
-	m_pInstanceButton = new CButton;
-	m_pInstanceButton->Create( _T( "Edit Instance" ), WS_CHILD|WS_VISIBLE|BS_TEXT, CRect( 6, rect.bottom - 28, 140, rect.bottom - 4 ), this, IDD_EDIT_INSTANCE );
 }
 
 
@@ -955,7 +939,6 @@ void CObjectProperties::LoadDataForPages(int iPage)
 	// Determine whether we are editing multiple objects or not.
 	//
 	bool bMultiEdit = (m_DstObjects.Count() > 1);
-	m_bCanEdit = true;
 
 	//
 	// Submit the edit objects to each page one at a time.
@@ -965,11 +948,6 @@ void CObjectProperties::LoadDataForPages(int iPage)
 	FOR_EACH_OBJ( m_DstObjects, pos )
 	{
 		CMapClass *pobj = m_DstObjects.Element(pos);
-
-		if ( pobj->IsEditable() == false )
-		{
-			m_bCanEdit = false;
-		}
 
 		if (iPage != -1)
 		{
@@ -981,7 +959,7 @@ void CObjectProperties::LoadDataForPages(int iPage)
 			void *pObject = GetEditObjectFromMapObject(pobj, m_ppPages[iPage]->GetEditObjectRuntimeClass());
 			if (pObject != NULL)
 			{
-				m_ppPages[iPage]->UpdateData(nMode, pObject, m_bCanEdit);
+				m_ppPages[iPage]->UpdateData(nMode, pObject);
 				m_ppPages[iPage]->m_bHasUpdatedData = true;
 			}
 		}
@@ -999,16 +977,13 @@ void CObjectProperties::LoadDataForPages(int iPage)
 			void *pObject = GetEditObjectFromMapObject(pobj, m_ppPages[i]->GetEditObjectRuntimeClass());
 			if (pObject != NULL)
 			{
-				m_ppPages[i]->UpdateData(nMode, pObject, m_bCanEdit);
+				m_ppPages[i]->UpdateData(nMode, pObject);
 				m_ppPages[i]->m_bHasUpdatedData = true;
 			}								  
 		}
 
 		nMode = CObjectPage::LoadData;
 	}
-
-	CButton *pApplyButton = reinterpret_cast<CButton *>(GetDlgItem(ID_APPLY_NOW));
-	pApplyButton->EnableWindow( ( m_bCanEdit ? TRUE : FALSE ) );
 
 	//
 	// Tell the pages that we are done submitting data.
@@ -1018,7 +993,7 @@ void CObjectProperties::LoadDataForPages(int iPage)
 		//
 		// Specific page.
 		//
-		m_ppPages[iPage]->UpdateData(CObjectPage::LoadFinished, NULL, m_bCanEdit);
+		m_ppPages[iPage]->UpdateData(CObjectPage::LoadFinished, NULL);
 	}
 	else for (int i = 0; i < m_nPages; i++)
 	{
@@ -1030,7 +1005,7 @@ void CObjectProperties::LoadDataForPages(int iPage)
 		if (m_ppPages[i]->m_bFirstTimeActive)
 			continue;
 
-		m_ppPages[i]->UpdateData(CObjectPage::LoadFinished, NULL, m_bCanEdit);
+		m_ppPages[i]->UpdateData(CObjectPage::LoadFinished, NULL);
 	}
 
 	//
@@ -1073,8 +1048,6 @@ void CObjectProperties::ReloadData()
 {
 	//VPROF_BUDGET( "CObjectProperties::LoadData", "Object Properties" );
 
-	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-
 	//
 	// Disable window so it does not gain focus during this operation.
 	//
@@ -1093,8 +1066,6 @@ void CObjectProperties::ReloadData()
 			AddObjectExpandGroups( m_pOrgObjects->Element(pos) );
 		}
 	}
-
-	m_pInstanceButton->ShowWindow( SW_HIDE );
 
 	//
 	// If there is only one object selected, copy its data to our temporary
@@ -1115,45 +1086,6 @@ void CObjectProperties::ReloadData()
 		char szTitle[MAX_PATH];
 		sprintf(szTitle, "Object Properties: %s", pobj->GetDescription());
 		SetWindowText(szTitle);
-
-		CManifestInstance	*pManifestInstance = dynamic_cast< CManifestInstance * >( pobj );
-		if ( pManifestInstance )
-		{
-			CManifest *pManifest = CMapDoc::GetManifest();
-
-			if ( pManifest )
-			{
-				ShowWindow( SW_HIDE );
-				if ( pDoc )
-				{
-					pDoc->UpdateAllViews( MAPVIEW_UPDATE_SELECTION | MAPVIEW_UPDATE_TOOL | MAPVIEW_RENDER_NOW );
-				}
-				pManifest->SetPrimaryMap( pManifestInstance->GetManifestMap() );
-				return;
-			}
-		}
-
-		CMapEntity	*pEntity = dynamic_cast< CMapEntity * >( pobj );
-		if ( pEntity )
-		{
-			if ( strcmpi( pEntity->GetClassName(), "func_instance" ) == 0 )
-			{
-				pDoc->PopulateInstance( pEntity );
-				CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
-				if ( pMapInstance && pMapInstance->GetInstancedMap() )
-				{
-					m_pInstanceButton->ShowWindow( SW_SHOW );
-				}
-			}
-			else if ( strcmpi( pEntity->GetClassName(), "func_instance_parms" ) == 0 )
-			{
-				if ( pDoc )
-				{
-					pDoc->PopulateInstanceParms( pEntity );
-				}
-			}
-		}
-
 	}
 	else if (m_DstObjects.Count() > 1)
 	{
@@ -1202,7 +1134,6 @@ void CObjectProperties::UpdateAnchors( CWnd *pPage )
 		CAnchorDef( IDCANCEL, k_eSimpleAnchorBottomRight ),
 		CAnchorDef( IDI_INPUT, k_eSimpleAnchorBottomRight ),
 		CAnchorDef( IDI_OUTPUT, k_eSimpleAnchorBottomRight ),
-		CAnchorDef( IDD_EDIT_INSTANCE, k_eSimpleAnchorBottomRight ),
 		CAnchorDef( hTab, k_eSimpleAnchorAllSides ),
 		CAnchorDef( pPage ? pPage->GetSafeHwnd() : (HWND)NULL, k_eSimpleAnchorAllSides )
 	};
@@ -1264,11 +1195,6 @@ void CObjectProperties::OnSize( UINT nType, int cx, int cy )
 void CObjectProperties::OnApply(void)
 {
 	//VPROF_BUDGET( "CObjectProperties::OnApply", "Object Properties" );
-
-	if ( !m_bCanEdit )
-	{
-		return;
-	}
 
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 	if ( !pDoc )
@@ -1346,41 +1272,6 @@ void CObjectProperties::OnInputs(void)
 void CObjectProperties::OnOutputs(void)
 {
 	SetActivePage(m_pOutput);
-}
-
-
-//-----------------------------------------------------------------------------
-// Purpose: handle the pushing of the Edit Instance button.  Will attempt to 
-//			switch to the map document containing the instance.
-// Input  : none
-// Output : none
-//-----------------------------------------------------------------------------
-void CObjectProperties::OnEditInstance(void)
-{
-	if (m_DstObjects.Count() == 1)
-	{
-		CMapClass	*pObj = m_DstObjects.Element( 0 );
-		CMapEntity	*pEntity = dynamic_cast< CMapEntity * >( pObj );
-
-		if ( pEntity )
-		{
-			EnumChildrenPos_t	pos;
-			CMapClass *pChild = pEntity->GetFirstDescendent( pos );
-			while ( pChild != NULL )
-			{
-				CMapInstance *pMapInstance = dynamic_cast< CMapInstance * >( pChild );
-				if ( pMapInstance != NULL )
-				{
-					OnClose();
-
-					pMapInstance->SwitchTo();
-				}
-
-				pChild = pEntity->GetNextDescendent( pos );
-			}
-		}
-	}
-
 }
 
 

@@ -1,6 +1,6 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
-// Purpose: 
+// Purpose:
 //
 //===========================================================================//
 
@@ -38,7 +38,6 @@ class IBSPLighting;
 
 class CRender;
 
-class CManifest;
 
 struct FindEntity_t;
 struct FindGroup_t;
@@ -77,19 +76,6 @@ enum {
     VI_CENTER = 0x02
 };
 
-
-// Display modes for instances
-enum ShowInstance_t {
-    INSTANCES_HIDE = 0,            // instance contents are not displayed
-    INSTANCES_SHOW_TINTED,        // instance contents are displayed with a yellowish tint
-    INSTANCES_SHOW_NORMAL        // instance contents are displayed normally
-};
-
-
-enum VMFLoadFlags_t {
-    VMF_LOAD_ACTIVATE = 0x01,    // loading map should be activated
-    VMF_LOAD_IS_SUBMAP = 0x02,    // loading map is part of an instance / manifest
-};
 
 typedef struct {
     WORD wFlags;
@@ -135,35 +121,14 @@ struct portalfile_t {
     CUtlVector<int> vertCount;
 };
 
-
-struct UpdateVisibilityData_t {
-    CMapDoc *pDoc;
-    bool bRadiusCullingEnabled;
-    Vector vecRadiusCullCenter;
-    float flRadiusCullDistSq;
-};
-
-
-// this is a structure to manage clipboards
-class IHammerClipboard {
-protected:
-    IHammerClipboard() {}
-
-    virtual ~IHammerClipboard() {}
-
-public:
-    static IHammerClipboard *CreateInstance();
-
-public:
-    virtual void Destroy() = 0;
-};
-
-
 class CMapDoc : public CDocument {
-    friend class CManifest;
-
 protected:
-    DECLARE_DYNCREATE(CMapDoc)
+
+    CMapDoc(void);
+
+    virtual ~CMapDoc();
+
+DECLARE_DYNCREATE(CMapDoc)
 
 public:
 
@@ -187,27 +152,11 @@ public:
 
     static void SetActiveMapDoc(CMapDoc *pDoc);
 
-    static void ActivateMapDoc(CMapDoc *pDoc);
-
-    static inline CManifest *GetManifest(void);
-
-    static inline int GetInLevelLoad();
-
 private:
 
     static CMapDoc *m_pMapDoc;
-    static CManifest *m_pManifest;
-    static int m_nInLevelLoad;
 
 public:
-
-    CMapDoc(void);
-
-    virtual ~CMapDoc();
-
-    virtual void Initialize(void);
-
-    virtual bool IsManifest(void) { return false; }
 
     IBSPLighting *GetBSPLighting() { return m_pBSPLighting; }
 
@@ -243,9 +192,9 @@ public:
 
     bool FindEntitiesByNameOrClassName(CMapEntityList &Found, const char *pszName, bool bVisiblesOnly);
 
-    virtual void Update(void);
+    void Update(void);
 
-    virtual void SetModifiedFlag(BOOL bModified = TRUE);
+    void SetModifiedFlag(BOOL bModified = TRUE);
 
     void SetAutosaveFlag(BOOL bAutosave = TRUE);
 
@@ -254,12 +203,6 @@ public:
     BOOL IsAutosave();
 
     CString *AutosavedFrom();
-
-    void AddReference(void);
-
-    void RemoveReference(void);
-
-    int GetReferenceCount(void) { return m_nExternalReferenceCount; }
 
     // Used to track down a potential crash.
     bool AnyNotificationsForObject(CMapClass *pObject);
@@ -327,7 +270,7 @@ public:
 
     void SelectObjectList(const CMapObjectList *pList, int cmd = (scSelect | scClear | scSaveChanges));
 
-    void SelectRegion(BoundBox *pBox, bool bInsideOnly, bool ResetSelection = true);
+    void SelectRegion(BoundBox *pBox, bool bInsideOnly);
 
     void SelectLogicalRegion(const Vector2D &vecMins, const Vector2D &vecMaxs, bool bInsideOnly);
 
@@ -354,23 +297,9 @@ public:
 
     void GetBestVisiblePoint(Vector &ptOrg);
 
-    void Cut(IHammerClipboard *pClipboard);
-
-    void Copy(IHammerClipboard *pClipboard = NULL);
-
     void
     Paste(CMapObjectList &Objects, CMapWorld *pSourceWorld, CMapWorld *pDestWorld, Vector vecOffset, QAngle vecRotate,
           CMapClass *pParent, bool bMakeEntityNamesUnique, const char *pszEntityNamePrefix);
-
-    void PasteInstance(CMapObjectList &Objects, CMapWorld *pSourceWorld, CMapWorld *pDestWorld, Vector vecOffset,
-                       QAngle vecRotate, CMapClass *pParent, bool bMakeEntityNamesUnique,
-                       const char *pszEntityNamePrefix);
-
-    void
-    Paste(IHammerClipboard *pClipboard, CMapWorld *pDestWorld, Vector vecOffset, QAngle vecRotate, CMapClass *pParent,
-          bool bMakeEntityNamesUnique, const char *pszEntityNamePrefix);
-
-    void Delete(void);
 
     // FIXME: refactor these!
     void CloneObjects(const CMapObjectList &Objects);
@@ -410,8 +339,6 @@ public:
     void BatchReplaceTextures(FileHandle_t fp);
 
     bool Is3DGridEnabled(void) { return (m_bShow3DGrid); }
-
-    ShowInstance_t GetShowInstance(void) { return m_tShowInstance; }
 
     void ReleaseVideoMemory();
 
@@ -456,7 +383,7 @@ public:
     //
     // Call these when modifying the document contents.
     //
-    virtual void AddObjectToWorld(CMapClass *pObject, CMapClass *pParent = NULL);
+    void AddObjectToWorld(CMapClass *pObject, CMapClass *pParent = NULL);
 
     BOOL FindObject(CMapClass *pObject);
 
@@ -471,9 +398,6 @@ public:
     void UpdateVisibility(CMapClass *pObject);
 
     void NotifyDependents(CMapClass *pObject, Notify_Dependent_t eNotifyType);
-
-    // Radius culling
-    bool IsCulledBy3DCameraDistance(CMapClass *pObject, UpdateVisibilityData_t *pData);
 
     //
     // Morph tool.
@@ -500,10 +424,6 @@ public:
     inline void SetDispDrawBuildable(bool bValue) { m_bDispDrawBuildable = bValue; }
 
     inline bool IsDispDrawBuildable(void) { return m_bDispDrawBuildable; }
-
-    inline void SetDispDrawRemove(bool bValue) { m_bDispDrawRemove = bValue; }
-
-    inline bool IsDispDrawRemove(void) { return m_bDispDrawRemove; }
 
     inline bool IsDispDrawRemovedVerts(void) { return m_bDispDrawRemovedVerts; }
 
@@ -566,20 +486,6 @@ public:
 
     void VisGroups_CheckMemberVisibility(CVisGroup *pGroup);
 
-    // Quick Hide
-    void QuickHide_HideObjects(void);
-
-    void QuickHide_HideUnselectedObjects(void);
-
-    void QuickHide_Unhide(void);
-
-    bool QuickHide_IsObjectHidden(CMapClass *pObject);
-
-    ChunkFileResult_t QuickHide_SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo);
-
-    CUtlVector<CMapClass *> m_QuickHideGroup;
-    CUtlVector<CMapClass *> m_QuickHideGroupedParents;
-
     // Default logical placement for new entities
     void GetDefaultNewLogicalPosition(Vector2D &vecPosition);
 
@@ -616,49 +522,11 @@ public:
     // Save a VMF file. saveFlags is a combination of SAVEFLAGS_ defines.
     bool SaveVMF(const char *pszFileName, int saveFlags);
 
-    bool LoadVMF(const char *pszFileName, int LoadFlags = VMF_LOAD_ACTIVATE);
+    bool LoadVMF(const char *pszFileName);
 
-    void Postload(const char *pszFileName);
+    void Postload(void);
 
     inline bool IsLoading(void);
-
-    inline void SetInitialUpdate(void) { m_bHasInitialUpdate = true; }
-
-    inline bool HasInitialUpdate(void) { return m_bHasInitialUpdate; }
-
-    // manifest routines
-    void SetManifest(CManifest *pManifest);
-
-    void SetEditable(bool IsEditable) { m_bIsEditable = IsEditable; }
-
-    bool IsEditable(void) { return m_bIsEditable; }
-
-    bool IsSelectionEditable(void);
-
-    bool CreateNewManifest(void);
-
-    CMapWorld *GetCurrentWorld(void);
-
-    int GetClipboardCount(void);
-
-    void ManifestPaste(CMapWorld *pDestWorld, Vector vecOffset, QAngle vecRotate, CMapClass *pParent,
-                       bool bMakeEntityNamesUnique, const char *pszEntityNamePrefix);
-
-    virtual void UpdateInstanceMap(CMapDoc *pInstanceMapDoc);
-
-    void CollapseInstances(bool bOnlySelected);
-
-    void PopulateInstanceParms_r(CMapEntity *pEntity, const CMapObjectList *pChildren, CUtlVector<CString> &ParmList);
-
-    void PopulateInstanceParms(CMapEntity *pEntity);
-
-    void PopulateInstance(CMapEntity *pEntity);
-
-    void InstanceMoved(void);
-
-    void ShowWindow(bool bIsVisible);
-
-    bool IsVisible(void);
 
     void BuildAllDetailObjects();
 
@@ -685,14 +553,12 @@ public:
 
     void RemoveFromAutoVisGroups(CMapClass *pObject);
 
-    void AddToFGDAutoVisGroups(CMapClass *pObject);
-
     // Builds a list of all objects which are connected to outputs of pObj
     void BuildCascadingSelectionList(CMapClass *pObj, CUtlRBTree<CMapClass *, unsigned short> &list, bool bRecursive);
 
-    void Public_SaveMap() { OnFileSave(); }
-
 protected:
+
+    void Initialize();
 
     void AssignAllToAutoVisGroups();
 
@@ -707,10 +573,8 @@ protected:
     bool m_bDispDrawWalkable;
     bool m_bDispDraw3D;
     bool m_bDispDrawBuildable;
-    bool m_bDispDrawRemove;
     bool m_bDispDrawRemovedVerts;
 
-    bool m_bHasInitialUpdate;
     bool m_bLoading; // Set to true while we are being loaded from VMF.
 
     static BOOL GetBrushNumberCallback(CMapClass *pObject, void *pFindInfo);
@@ -765,11 +629,11 @@ protected:
 
     void CountGUIDs(void);
 
-    void InitUpdateVisibilityData(UpdateVisibilityData_t &data);
+    bool ShouldObjectBeVisible(CMapClass *pObject);
 
-    bool ShouldObjectBeVisible(CMapClass *pObject, UpdateVisibilityData_t *pData);
+    static BOOL UpdateVisibilityCallback(CMapClass *pObject, CMapDoc *pDoc);
 
-    static BOOL UpdateVisibilityCallback(CMapClass *pObject, UpdateVisibilityData_t *pData);
+    static BOOL ForceVisibilityCallback(CMapClass *pObject, bool bVisibility);
 
     bool GetChildrenToHide(CMapClass *pObject, bool bSelected, CMapObjectList &List);
 
@@ -811,12 +675,6 @@ protected:
     bool m_bShow3DGrid;                // Whether to render a grid in the 3D views.
     bool m_bHideItems;                // Whether to render point entities in all views.
 
-    int m_nExternalReferenceCount;    // Indicates how many external references ( instances ) are pointing to this map
-    ShowInstance_t m_tShowInstance;    // Indicates how instance contents should be displayed
-    CManifest *m_pManifestOwner;
-    bool m_bIsEditable;
-    bool m_bCollapsingInstances;
-
     //
     // Animation.
     //
@@ -828,8 +686,8 @@ protected:
     //
     // Visgroups.
     //
-    CUtlVector<CVisGroup *> *m_VisGroups;
-    CUtlVector<CVisGroup *> *m_RootVisGroups;
+    CUtlVector<CVisGroup *> m_VisGroups;
+    CUtlVector<CVisGroup *> m_RootVisGroups;
     bool m_bVisGroupUpdatesLocked;
 
     int m_SmoothingGroupVisual;
@@ -955,21 +813,7 @@ protected:
 
     afx_msg void OnViewCenter3DViewsOnSelection();
 
-    afx_msg BOOL
-    OnViewHideObjects(UINT
-    nID);
-
-    afx_msg void OnQuickHide_HideObjects();
-
-    afx_msg void OnQuickHide_HideUnselectedObjects();
-
-    afx_msg void OnQuickHide_Unhide();
-
-    afx_msg void OnQuickHide_UpdateUnHide(CCmdUI *pCmdUI);
-
-    afx_msg void OnQuickHide_CreateVisGroupFromHidden();
-
-    afx_msg void OnQuickHide_UpdateCreateVisGroupFromHidden(CCmdUI *pCmdUI);
+    afx_msg BOOL OnViewHideObjects(UINT nID);
 
     afx_msg void OnViewShowconnections();
 
@@ -988,10 +832,6 @@ protected:
     afx_msg void OnShowDetailObjects();
 
     afx_msg void OnShowNoDrawBrushes();
-
-    afx_msg void OnRadiusCulling();
-
-    afx_msg void OnUpdateRadiusCulling(CCmdUI *pCmdUI);
 
     afx_msg void OnToolsHollow();
 
@@ -1095,15 +935,11 @@ protected:
 
     afx_msg void OnUpdate3dViewUI(CCmdUI *pCmdUI);
 
-    afx_msg BOOL
-    OnChange3dViewType(UINT
-    nID);
+    afx_msg BOOL OnChange3dViewType(UINT nID);
 
     afx_msg void OnEditToEntity();
 
-    afx_msg BOOL
-    OnUndoRedo(UINT
-    nID);
+    afx_msg BOOL OnUndoRedo(UINT nID);
 
     afx_msg void OnUpdateUndoRedo(CCmdUI *pCmdUI);
 
@@ -1157,52 +993,16 @@ protected:
 
     afx_msg void OnMapDiff();
 
-    afx_msg void OnToolsInstancesHide(void);
-
-    afx_msg void OnUpdateToolsInstancesHide(CCmdUI *pCmdUI);
-
-    afx_msg void OnToolsInstancesShowTinted(void);
-
-    afx_msg void OnUpdateToolsInstancesShowTinted(CCmdUI *pCmdUI);
-
-    afx_msg void OnToolsInstancesShowNormal(void);
-
-    afx_msg void OnUpdateToolsInstancesShowNormal(CCmdUI *pCmdUI);
-
-    afx_msg void OnInstancesHideAll(void);
-
-    afx_msg void OnInstancesShowAll(void);
-
 public:
     afx_msg void OnToggle3DGrid();
     //}}AFX_MSG
 
-    DECLARE_MESSAGE_MAP()
-
-    afx_msg void OnInstancingCreatemanifest();
-
-    afx_msg void OnUpdateInstancingCreatemanifest(CCmdUI *pCmdUI);
-
-    afx_msg void OnInstancingCheckinAll();
-
-    afx_msg void OnUpdateInstancingCheckinAll(CCmdUI *pCmdUI);
-
-    afx_msg void OnInstancingCheckOutManifest();
-
-    afx_msg void OnUpdateInstancingCheckOutManifest(CCmdUI *pCmdUI);
-
-    afx_msg void OnInstancingAddManifest();
-
-    afx_msg void OnUpdateInstancingAddManifest(CCmdUI *pCmdUI);
-
-    afx_msg void OnInstancesCollapseAll();
-
-    afx_msg void OnInstancesCollapseSelection();
+DECLARE_MESSAGE_MAP()
 };
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 // Output : inline void
 //-----------------------------------------------------------------------------
 void CMapDoc::DecrementDocVersion(void) {
@@ -1225,22 +1025,6 @@ bool CMapDoc::IsLoading(void) {
 //-----------------------------------------------------------------------------
 CMapDoc *CMapDoc::GetActiveMapDoc(void) {
     return (m_pMapDoc);
-}
-
-
-//-----------------------------------------------------------------------------
-// Purpose: Returns the manifest associated with the active document.
-//-----------------------------------------------------------------------------
-CManifest *CMapDoc::GetManifest(void) {
-    return m_pManifest;
-}
-
-
-//-----------------------------------------------------------------------------
-// Purpose: Returns the current level loading depth.  0 = not loading level
-//-----------------------------------------------------------------------------
-int CMapDoc::GetInLevelLoad() {
-    return m_nInLevelLoad;
 }
 
 

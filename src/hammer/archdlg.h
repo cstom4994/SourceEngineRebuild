@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ====
 //
 // Purpose: 
 //
@@ -20,6 +20,8 @@ public:
 
     void DrawArch(CDC *pDC);
 
+    float fOuterPoints[ARC_MAX_POINTS][2];
+    float fInnerPoints[ARC_MAX_POINTS][2];
     Vector bmins, bmaxs;
 
 // Dialog Data
@@ -73,9 +75,8 @@ protected:
     afx_msg void OnPaint();
 
     afx_msg void OnArchPreview();
-
     //}}AFX_MSG
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

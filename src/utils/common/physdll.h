@@ -11,17 +11,20 @@
 
 
 #ifdef __cplusplus
+
 #include "vphysics_interface.h"
+
 class IPhysics;
+
 class IPhysicsCollision;
 
-extern CreateInterfaceFn	GetPhysicsFactory( void );
+extern CreateInterfaceFn GetPhysicsFactory(void);
 
 extern "C" {
 #endif
 
 // tools need to force the path
-void					PhysicsDLLPath( const char *pPathname );
+void PhysicsDLLPath(const char *pPathname);
 
 #ifdef __cplusplus
 }

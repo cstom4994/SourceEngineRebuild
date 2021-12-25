@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -21,35 +21,43 @@
 class IEditorTexture;
 
 
-class CTextureBar : public CHammerBar
-{
-	public:
+class CTextureBar : public CHammerBar {
+public:
 
-		CTextureBar() : CHammerBar() {}
-		BOOL Create(CWnd *pParentWnd, int IDD = IDD_TEXTUREBAR, int iBarID = IDCB_TEXTUREBAR);
+    CTextureBar() : CHammerBar() {}
 
-		void NotifyGraphicsChanged(void);
-		void NotifyNewMaterial( IEditorTexture *pTexture );
-		void SelectTexture(LPCSTR pszTextureName);
+    BOOL Create(CWnd *pParentWnd, int IDD = IDD_TEXTUREBAR, int iBarID = IDCB_TEXTUREBAR);
 
-	protected:
+    void NotifyGraphicsChanged(void);
 
-		void UpdateTexture(void);
+    void NotifyNewMaterial(IEditorTexture *pTexture);
 
-		IEditorTexture *m_pCurTex;
-		CTextureBox m_TextureList;
-		CComboBox m_TextureGroupList;
-		wndTex m_TexturePic;
+    void SelectTexture(LPCSTR pszTextureName);
 
-		afx_msg void UpdateControl(CCmdUI *);
-		afx_msg void OnBrowse(void);
-		afx_msg void OnChangeTextureGroup(void);
-		afx_msg void OnReplace(void);
-		afx_msg void OnUpdateTexname(void);
-		afx_msg void OnWindowPosChanged(WINDOWPOS *pPos);
-		virtual afx_msg void OnSelChangeTexture(void);
+protected:
 
-		DECLARE_MESSAGE_MAP()
+    void UpdateTexture(void);
+
+    IEditorTexture *m_pCurTex;
+    CTextureBox m_TextureList;
+    CComboBox m_TextureGroupList;
+    wndTex m_TexturePic;
+
+    afx_msg void UpdateControl(CCmdUI *);
+
+    afx_msg void OnBrowse(void);
+
+    afx_msg void OnChangeTextureGroup(void);
+
+    afx_msg void OnReplace(void);
+
+    afx_msg void OnUpdateTexname(void);
+
+    afx_msg void OnWindowPosChanged(WINDOWPOS *pPos);
+
+    virtual afx_msg void OnSelChangeTexture(void);
+
+DECLARE_MESSAGE_MAP()
 };
 
 

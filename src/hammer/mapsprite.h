@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -15,79 +15,88 @@
 
 
 class CRender3D;
+
 class CSpriteModel;
 
 
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
-class CMapSprite : public CMapHelper
-{
-	public:
+class CMapSprite : public CMapHelper {
+public:
 
-		//
-		// Factories.
-		//
-		static CMapClass *CreateMapSprite(CHelperInfo *pHelperInfo, CMapEntity *pParent);
-		static CMapSprite *CreateMapSprite(const char *pszSpritePath);
+    //
+    // Factories.
+    //
+    static CMapClass *CreateMapSprite(CHelperInfo *pHelperInfo, CMapEntity *pParent);
 
-		//
-		// Construction/destruction:
-		//
-		CMapSprite(void);
-		~CMapSprite(void);
+    static CMapSprite *CreateMapSprite(const char *pszSpritePath);
 
-		DECLARE_MAPCLASS(CMapSprite, CMapHelper)
+    //
+    // Construction/destruction:
+    //
+    CMapSprite(void);
 
-		void CalcBounds(BOOL bFullUpdate = FALSE);
+    ~CMapSprite(void);
 
-		virtual CMapClass *Copy(bool bUpdateDependencies);
-		virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+    DECLARE_MAPCLASS(CMapSprite, CMapHelper)
 
-		void Initialize(void);
-		void Render2D(CRender2D *pRender);
-		void Render3D(CRender3D *pRender);
+    void CalcBounds(BOOL bFullUpdate = FALSE);
 
-		// Called by entity code to render sprites
-		void RenderLogicalAt(CRender2D *pRender, const Vector2D &vecMins, const Vector2D &vecMaxs );
+    virtual CMapClass *Copy(bool bUpdateDependencies);
 
-		void GetAngles(QAngle &Angles);
+    virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
 
-		int SerializeRMF(std::fstream &File, BOOL bRMF);
-		int SerializeMAP(std::fstream &File, BOOL bRMF);
+    void Initialize(void);
 
-		static void SetRenderDistance(float fRenderDistance);
-		static void EnableAnimation(BOOL bEnable);
+    void Render2D(CRender2D *pRender);
 
-		bool ShouldRenderLast(void);
+    void Render3D(CRender3D *pRender);
 
-		bool IsVisualElement(void) { return(true); }
-		
-		const char* GetDescription() { return("Sprite"); }
+    // Called by entity code to render sprites
+    void RenderLogicalAt(CRender2D *pRender, const Vector2D &vecMins, const Vector2D &vecMaxs);
 
-		void OnParentKeyChanged(const char* szKey, const char* szValue);
+    void GetAngles(QAngle &Angles);
 
-	protected:
+    int SerializeRMF(std::fstream &File, BOOL bRMF);
 
-		//
-		// Implements CMapAtom transformation functions.
-		//
-		void DoTransform(const VMatrix &matrix);
-		
-		int  GetNextSpriteFrame( CRender3D* pRender );
-		void SetRenderMode( int mode );
-		void SpriteColor(unsigned char *pColor, int eRenderMode, colorVec RenderColor, int alpha);
+    int SerializeMAP(std::fstream &File, BOOL bRMF);
 
-		QAngle m_Angles;
+    static void SetRenderDistance(float fRenderDistance);
 
-		CSpriteModel *m_pSpriteInfo;	// Pointer to a sprite model in the cache.
-		int m_nCurrentFrame;			// Current sprite frame for rendering.
-		float m_fSecondsPerFrame;		// How many seconds to render each frame before advancing.
-		float m_fElapsedTimeThisFrame;	// How many seconds we have rendered this sprite frame so far.
-		float m_fScale;					// Sprite scale along sprite axes.
-		int m_eRenderMode;				// Our render mode (transparency, etc.).
-		colorVec m_RenderColor;			// Our render color.
-		bool m_bIsIcon;					// If true, this sprite is an iconic representation of an entity.
+    static void EnableAnimation(BOOL bEnable);
+
+    bool ShouldRenderLast(void);
+
+    bool IsVisualElement(void) { return (true); }
+
+    const char *GetDescription() { return ("Sprite"); }
+
+    void OnParentKeyChanged(const char *szKey, const char *szValue);
+
+protected:
+
+    //
+    // Implements CMapAtom transformation functions.
+    //
+    void DoTransform(const VMatrix &matrix);
+
+    int GetNextSpriteFrame(CRender3D *pRender);
+
+    void SetRenderMode(int mode);
+
+    void SpriteColor(unsigned char *pColor, int eRenderMode, colorVec RenderColor, int alpha);
+
+    QAngle m_Angles;
+
+    CSpriteModel *m_pSpriteInfo;    // Pointer to a sprite model in the cache.
+    int m_nCurrentFrame;            // Current sprite frame for rendering.
+    float m_fSecondsPerFrame;        // How many seconds to render each frame before advancing.
+    float m_fElapsedTimeThisFrame;    // How many seconds we have rendered this sprite frame so far.
+    float m_fScale;                    // Sprite scale along sprite axes.
+    int m_eRenderMode;                // Our render mode (transparency, etc.).
+    colorVec m_RenderColor;            // Our render color.
+    bool m_bIsIcon;                    // If true, this sprite is an iconic representation of an entity.
 };
 
 #endif // MAPSPRITE_H

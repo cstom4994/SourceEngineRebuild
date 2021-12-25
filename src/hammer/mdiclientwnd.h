@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -12,24 +12,24 @@
 #endif
 
 
-class CMDIClientWnd : public CWnd
-{
+class CMDIClientWnd : public CWnd {
 public:
 
-	CMDIClientWnd();
-	virtual ~CMDIClientWnd();
+    CMDIClientWnd();
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMDIClientWnd)
-	//}}AFX_VIRTUAL
+    virtual ~CMDIClientWnd();
+
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMDIClientWnd)
+    //}}AFX_VIRTUAL
 
 protected:
 
-	//{{AFX_MSG(CMDIClientWnd)
-	afx_msg BOOL OnEraseBkgnd(CDC *pDC);
-	//}}AFX_MSG
+    //{{AFX_MSG(CMDIClientWnd)
+    afx_msg BOOL OnEraseBkgnd(CDC *pDC);
+    //}}AFX_MSG
 
-	DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 
 };
 

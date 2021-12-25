@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -8,14 +8,13 @@
 #include "Box3D.h"
 #include "GlobalFunctions.h"
 #include "MapDefs.h"		// dvs: For COORD_NOTINIT
-#include "MapDoc.h"
 #include "MapEntity.h"
 #include "MapStudioModel.h"
 #include "Render2D.h"
 #include "Render3D.h"
 #include "ViewerSettings.h"
 #include "hammer.h"
-#include "materialsystem/imesh.h"
+#include "materialsystem/IMesh.h"
 #include "TextureSystem.h"
 #include "Material.h"
 #include "Options.h"
@@ -188,7 +187,6 @@ void CMapStudioModel::CalcBounds(BOOL bFullUpdate)
 		Maxs = m_CullBox.bmaxs = m_Origin + Vector(10, 10, 10);
 	}
 
-	m_BoundingBox = m_CullBox;
 	m_Render2DBox.UpdateBounds(Mins, Maxs);
 }
 
@@ -239,7 +237,6 @@ CMapClass *CMapStudioModel::CopyFrom(CMapClass *pObject, bool bUpdateDependencie
 	m_flFadeScale = pFrom->m_flFadeScale;
 	m_flFadeMinDist = pFrom->m_flFadeMinDist;
 	m_flFadeMaxDist = pFrom->m_flFadeMaxDist;
-	m_iSolid = pFrom->m_iSolid;
 
 	return(this);
 }
@@ -299,7 +296,6 @@ void CMapStudioModel::Initialize(void)
 	m_flFadeScale = 1.0f;
 	m_flFadeMinDist = 0.0f;
 	m_flFadeMaxDist = 0.0f;
-	m_iSolid = -1;
 }
 
 
@@ -342,10 +338,6 @@ void CMapStudioModel::OnParentKeyChanged(const char* szKey, const char* szValue)
 	else if (!stricmp(szKey, "fadescale"))
 	{
 		m_flFadeScale = atof(szValue);
-	}
-	else if ( !stricmp( szKey, "solid") )
-	{
-		m_iSolid = atof( szValue );
 	}
 }
 
@@ -434,7 +426,6 @@ void CMapStudioModel::Render2D(CRender2D *pRender)
 	pRender->TransformPoint(pt2, vecMaxs);
 
 	color32 rgbColor = GetRenderColor();
-	bool	bIsEditable = IsEditable();
 
 	if (GetSelectionState() != SELECT_NONE)
 	{
@@ -453,7 +444,7 @@ void CMapStudioModel::Render2D(CRender2D *pRender)
 	//
 	// Don't draw the center handle if the model is smaller than the handle cross 	
 	//
-	if ( bIsEditable && sizeX >= 8 && sizeY >= 8 && pRender->IsActiveView() )
+	if ( sizeX >= 8 && sizeY >= 8 && pRender->IsActiveView() )
 	{
 		pRender->SetHandleStyle( HANDLE_RADIUS, CRender::HANDLE_CROSS );
 
@@ -464,7 +455,7 @@ void CMapStudioModel::Render2D(CRender2D *pRender)
 	GetRenderAngles(vecAngles);
 
 	bool bDrawAsModel = (Options.view2d.bDrawModels && ((sizeX+sizeY) > 50)) ||	
-						IsSelected() ||	( pRender->IsInLocalTransformMode() && !pRender->GetInstanceRendering() );
+						IsSelected() ||	pRender->IsInLocalTransformMode();
 						
 	if ( !bDrawAsModel || IsSelected() )
 	{
@@ -482,7 +473,7 @@ void CMapStudioModel::Render2D(CRender2D *pRender)
 		m_pStudioModel->SetOrigin(m_Origin[0], m_Origin[1], m_Origin[2]);
 		m_pStudioModel->SetSkin(m_Skin);
 
-		if ( GetSelectionState() == SELECT_NORMAL || ( pRender->IsInLocalTransformMode() && pRender->GetInstanceRendering() == false ) )
+		if ( GetSelectionState()==SELECT_NORMAL || pRender->IsInLocalTransformMode() )
 		{
  			// draw textured model half translucent
 			m_pStudioModel->DrawModel2D(pRender, 0.6 , false );
@@ -575,9 +566,6 @@ inline float CMapStudioModel::ComputeFade( CRender3D *pRender ) const
 //-----------------------------------------------------------------------------
 void CMapStudioModel::Render3D(CRender3D *pRender)
 {
-	Color CurrentColor;
-	CurrentColor.SetColor( r, g, b );
-
 	//
 	// Set to the default rendering mode, unless we're in lightmap mode
 	//
@@ -600,15 +588,9 @@ void CMapStudioModel::Render3D(CRender3D *pRender)
 		Vector ViewPoint;
 		pRender->GetCamera()->GetViewPoint(ViewPoint);
 
-		Vector	Origin( m_Origin );
-		if ( pRender->GetInstanceRendering() )
-		{
-			pRender->TransformInstanceVector( m_Origin, Origin );
-		}
-
-		if ((fabs(ViewPoint[0] - Origin[0]) < m_fRenderDistance) &&
-			(fabs(ViewPoint[1] - Origin[1]) < m_fRenderDistance) &&
-			(fabs(ViewPoint[2] - Origin[2]) < m_fRenderDistance))
+		if ((fabs(ViewPoint[0] - m_Origin[0]) < m_fRenderDistance) &&
+			(fabs(ViewPoint[1] - m_Origin[1]) < m_fRenderDistance) &&
+			(fabs(ViewPoint[2] - m_Origin[2]) < m_fRenderDistance))
 		{
 			color32 rgbColor = GetRenderColor();
 
@@ -618,24 +600,6 @@ void CMapStudioModel::Render3D(CRender3D *pRender)
 			}
 			else
 			{
-				// If the user disabled collisions on this instance of the model, color the wireframe differently
-				if ( m_iSolid != -1 )
-				{
-					if ( m_iSolid == 0 )
-					{
-						rgbColor.r = GetRValue( Options.colors.clrModelCollisionWireframeDisabled );
-						rgbColor.g = GetGValue( Options.colors.clrModelCollisionWireframeDisabled );
-						rgbColor.b = GetBValue( Options.colors.clrModelCollisionWireframeDisabled );
-						rgbColor.a = 255;
-					}
-					else
-					{
-						rgbColor.r = GetRValue( Options.colors.clrModelCollisionWireframe );
-						rgbColor.g = GetGValue( Options.colors.clrModelCollisionWireframe );
-						rgbColor.b = GetBValue( Options.colors.clrModelCollisionWireframe );
-						rgbColor.a = 255;
-					}
-				}
 				pRender->SetDrawColor( rgbColor.r, rgbColor.g, rgbColor.b );
 			}
 
@@ -669,7 +633,7 @@ void CMapStudioModel::Render3D(CRender3D *pRender)
 		else
 		{
 			pRender->BeginRenderHitTarget(this);
-			pRender->RenderBox(m_Render2DBox.bmins, m_Render2DBox.bmaxs, CurrentColor.r(), CurrentColor.g(), CurrentColor.b(), GetSelectionState());
+			pRender->RenderBox(m_Render2DBox.bmins, m_Render2DBox.bmaxs, r, g, b, GetSelectionState());
 			pRender->EndRenderHitTarget();
 		}
 	}
@@ -679,7 +643,7 @@ void CMapStudioModel::Render3D(CRender3D *pRender)
 	else
 	{
 		pRender->BeginRenderHitTarget(this);
-		pRender->RenderBox(m_Render2DBox.bmins, m_Render2DBox.bmaxs, CurrentColor.r(), CurrentColor.g(), CurrentColor.b(), GetSelectionState());
+		pRender->RenderBox(m_Render2DBox.bmins, m_Render2DBox.bmaxs, r, g, b, GetSelectionState());
 		pRender->EndRenderHitTarget();
 	}
 

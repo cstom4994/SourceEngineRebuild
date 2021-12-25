@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,34 +17,35 @@
 /////////////////////////////////////////////////////////////////////////////
 // CNewDocType dialog
 
-class CNewDocType : public CDialog
-{
+class CNewDocType : public CDialog {
 // Construction
 public:
-	CNewDocType(CWnd* pParent = NULL);   // standard constructor
+    CNewDocType(CWnd *pParent = NULL);   // standard constructor
 
 // Dialog Data
-	//{{AFX_DATA(CNewDocType)
-	enum { IDD = IDD_NEWDOCTYPE };
-	int		m_iNewType;
-	//}}AFX_DATA
+    //{{AFX_DATA(CNewDocType)
+    enum {
+        IDD = IDD_NEWDOCTYPE
+    };
+    int m_iNewType;
+    //}}AFX_DATA
 
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CNewDocType)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CNewDocType)
+protected:
+    virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
 // Implementation
 protected:
 
-	// Generated message map functions
-	//{{AFX_MSG(CNewDocType)
-		// NOTE: the ClassWizard will add member functions here
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CNewDocType)
+    // NOTE: the ClassWizard will add member functions here
+    //}}AFX_MSG
+DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -58,7 +58,7 @@ enum MWMSGTYPE
 
 extern CMessageWnd *g_pwndMessage;
 
-void Msg(int type, PRINTF_FORMAT_STRING const char *fmt, ...);
+void Msg(int type, const char *fmt, ...);
 
 
 //
@@ -72,6 +72,6 @@ double I_EndTime( void );
 float PerlinNoise2D( float x, float y, float rockiness );
 float PerlinNoise2DScaled( float x, float y, float rockiness );
 
-void DBG(PRINTF_FORMAT_STRING const char *fmt, ...);
+void DBG(char *fmt, ...);
 
 #endif // GLOBALFUNCTIONS_H

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -14,39 +14,44 @@
 #include "MapClass.h"
 
 
-class CMapGroup : public CMapClass
-{
-	public:
-		DECLARE_MAPCLASS(CMapGroup,CMapClass)
-		
-		CMapGroup() : m_vecLogicalPosition(COORD_NOTINIT, COORD_NOTINIT) {}
+class CMapGroup : public CMapClass {
+public:
+    DECLARE_MAPCLASS(CMapGroup, CMapClass)
 
-		const char* GetDescription(void);
+    CMapGroup() : m_vecLogicalPosition(COORD_NOTINIT, COORD_NOTINIT) {}
 
-		virtual CMapClass *Copy(bool bUpdateDependencies);
-		virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+    const char *GetDescription(void);
 
-		virtual bool IsGroup(void) { return true; }
+    virtual CMapClass *Copy(bool bUpdateDependencies);
 
-		// Groups have to be treated as logical because they potentially have logical children
-		virtual bool IsLogical(void) { return true; }
-		virtual bool IsVisibleLogical(void) { return IsVisible(); }
+    virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
 
-		void AddChild(CMapClass *pChild);
-		void AddVisGroup(CVisGroup *pVisGroup);
+    virtual bool IsGroup(void) { return true; }
 
-		// NOTE: Logical position is in global space
-		virtual void SetLogicalPosition( const Vector2D &vecPosition );
-		virtual const Vector2D& GetLogicalPosition( );
-		virtual void GetRenderLogicalBox( Vector2D &mins, Vector2D &maxs );
+    // Groups have to be treated as logical because they potentially have logical children
+    virtual bool IsLogical(void) { return true; }
 
-		//
-		// Serialization.
-		//
-		ChunkFileResult_t LoadVMF(CChunkFile *pFile);
-		ChunkFileResult_t SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo);
+    virtual bool IsVisibleLogical(void) { return IsVisible(); }
 
- 		Vector2D m_vecLogicalPosition;	// Position in logical space
+    void AddChild(CMapClass *pChild);
+
+    void AddVisGroup(CVisGroup *pVisGroup);
+
+    // NOTE: Logical position is in global space
+    virtual void SetLogicalPosition(const Vector2D &vecPosition);
+
+    virtual const Vector2D &GetLogicalPosition();
+
+    virtual void GetRenderLogicalBox(Vector2D &mins, Vector2D &maxs);
+
+    //
+    // Serialization.
+    //
+    ChunkFileResult_t LoadVMF(CChunkFile *pFile);
+
+    ChunkFileResult_t SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo);
+
+    Vector2D m_vecLogicalPosition;    // Position in logical space
 };
 
 

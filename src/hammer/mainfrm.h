@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,7 +17,6 @@
 #include "MapAnimationDlg.h"
 #include "SelectModeDlgBar.h"
 #include "materialdlg.h"
-#include "ManifestDialog.h"
 
 class CChildFrame;
 
@@ -35,7 +34,7 @@ class CLightingPreviewResultsWindow;
 
 
 class CMainFrame : public CMDIFrameWnd {
-    DECLARE_DYNAMIC( CMainFrame )
+DECLARE_DYNAMIC(CMainFrame)
 
 public:
 
@@ -101,10 +100,8 @@ public:
     CFilterControl m_FilterControl;
     CObjectBar m_ObjectBar;
     CTextureBar m_TextureBar;
-    CManifestFilter m_ManifestFilterControl;
     CFaceEditSheet *m_pFaceEditSheet;
     CLightingPreviewResultsWindow *m_pLightingPreviewOutputWindow;
-    bool m_bLightingPreviewOutputWindowShowing;
 
     //CMapAnimationDlg m_AnimationDlg;
 
@@ -148,9 +145,7 @@ protected:
 
     afx_msg void OnToolsPrefabfactory();
 
-    afx_msg BOOL
-    OnHelpOpenURL(UINT
-    nID);
+    afx_msg BOOL OnHelpOpenURL(UINT nID);
 
     afx_msg void OnHelpFinder();
 
@@ -158,8 +153,7 @@ protected:
 
     afx_msg void OnUpdateEditUndoredoactive(CCmdUI *pCmdUI);
 
-    afx_msg BOOL
-    OnFileNew(UINT);
+    afx_msg BOOL OnFileNew(UINT);
 
     afx_msg void OnSavewindowstate();
 
@@ -167,12 +161,9 @@ protected:
 
     afx_msg void OnFileOpen();
 
-    afx_msg BOOL
-    OnChange3dViewType(UINT
-    nID);
-    afx_msg BOOL
-    OnUnits(UINT
-    nID);
+    afx_msg BOOL OnChange3dViewType(UINT nID);
+
+    afx_msg BOOL OnUnits(UINT nID);
 
     afx_msg void OnUpdateUnits(CCmdUI *pCmdUI);
 
@@ -182,37 +173,27 @@ protected:
 
     afx_msg void OnUpdateToolUI(CCmdUI *pUI);
 
-    afx_msg BOOL
-    OnView3dChangeBrightness(UINT
-    nID);
+    afx_msg BOOL OnView3dChangeBrightness(UINT nID);
 
     afx_msg void OnUpdateApplicatorUI(CCmdUI *pUI);
 
-    afx_msg BOOL
-    OnHelpInfo(HELPINFO
-    *);
+    afx_msg BOOL OnHelpInfo(HELPINFO *);
 
     afx_msg void OnEnterMenuLoop(BOOL bIsTrackPopupMenu);
 
 #if _MSC_VER < 1300
     afx_msg void OnActivateApp(BOOL bActive, HTASK hTask);
 #else
-
     afx_msg void OnActivateApp(BOOL bActive, DWORD hThread);
 
 #endif
-
     afx_msg void OnUpdateEditFunction(CCmdUI *pCmdUI);
 
-    afx_msg BOOL
-    OnApplicator(UINT
-    nID);
-    afx_msg BOOL
-    OnSoundBrowser(UINT
-    nID);
-    afx_msg BOOL
-    OnReloadSounds(UINT
-    nID);
+    afx_msg BOOL OnApplicator(UINT nID);
+
+    afx_msg BOOL OnSoundBrowser(UINT nID);
+
+    afx_msg BOOL OnReloadSounds(UINT nID);
 
     afx_msg void OnUpdateOpaqueMaterials(CCmdUI *pCmdUI);
 
@@ -220,16 +201,14 @@ protected:
 
     afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 
-    afx_msg BOOL
-    OnChangeTool(UINT
-    nID);
+    afx_msg BOOL OnChangeTool(UINT nID);
 
     afx_msg void OnInitMenu(CMenu *pMenu);
 
     afx_msg void OnHDR(void);
     //}}AFX_MSG
 
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 
 private:
 

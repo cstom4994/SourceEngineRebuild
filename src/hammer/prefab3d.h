@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -14,102 +14,114 @@
 
 
 class CChunkFile;
+
 class CMapWorld;
+
 class Vector;
 
 
 enum ChunkFileResult_t;
 
 
-class CPrefab3D : public CPrefab
-{
-	public:
+class CPrefab3D : public CPrefab {
+public:
 
-		CPrefab3D();
-		~CPrefab3D();
+    CPrefab3D();
 
-		virtual bool IsLoaded(void);
-		void FreeData();
+    ~CPrefab3D();
 
-		void CenterOnZero();
+    virtual bool IsLoaded(void);
 
-		CMapClass *Create(void);
-		CMapClass *CreateInBox(BoundBox *pBox);
-		CMapClass *CreateAtPoint(const Vector &point);
-		CMapClass *CreateAtPointAroundOrigin( Vector const &point );
+    void FreeData();
 
-		int GetType(void) { return pt3D; }
-		inline CMapWorld *GetWorld(void);
-		inline void SetWorld(CMapWorld *pWorld);
+    void CenterOnZero();
 
-	protected:
+    CMapClass *Create(void);
 
-		// prefab data:
-		CMapWorld *m_pWorld;
-}; 
+    CMapClass *CreateInBox(BoundBox *pBox);
+
+    CMapClass *CreateAtPoint(const Vector &point);
+
+    CMapClass *CreateAtPointAroundOrigin(Vector const &point);
+
+    int GetType(void) { return pt3D; }
+
+    inline CMapWorld *GetWorld(void);
+
+    inline void SetWorld(CMapWorld *pWorld);
+
+protected:
+
+    // prefab data:
+    CMapWorld *m_pWorld;
+};
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns a world containing the objects that make up this prefab.
 //-----------------------------------------------------------------------------
-CMapWorld *CPrefab3D::GetWorld(void)
-{
-	return(m_pWorld);
+CMapWorld *CPrefab3D::GetWorld(void) {
+    return (m_pWorld);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CPrefab3D::SetWorld(CMapWorld *pWorld)
-{
-	FreeData();
-	m_pWorld = pWorld;
+void CPrefab3D::SetWorld(CMapWorld *pWorld) {
+    FreeData();
+    m_pWorld = pWorld;
 }
 
 
-class CPrefabRMF : public CPrefab3D
-{
-	public:
+class CPrefabRMF : public CPrefab3D {
+public:
 
-		CPrefabRMF();
-		~CPrefabRMF();
+    CPrefabRMF();
 
-		int Init(LPCTSTR pszFilename, BOOL bLoadNow = FALSE, DWORD = 0);
-		int Load(DWORD dwFlags = 0);
-		int Save(LPCTSTR pszFilename, DWORD = 0);
+    ~CPrefabRMF();
 
-		int Init(std::fstream &file, BOOL bLoadNow = FALSE, DWORD = 0);
-		int Save(std::fstream &file, DWORD = 0);
+    int Init(LPCTSTR pszFilename, BOOL bLoadNow = FALSE, DWORD = 0);
 
-	private:
+    int Load(DWORD dwFlags = 0);
 
-		int DoLoad(std::fstream&, DWORD = 0);
-		int DoSave(std::fstream&, DWORD = 0);
-}; 
+    int Save(LPCTSTR pszFilename, DWORD = 0);
+
+    int Init(std::fstream &file, BOOL bLoadNow = FALSE, DWORD = 0);
+
+    int Save(std::fstream &file, DWORD = 0);
+
+private:
+
+    int DoLoad(std::fstream &, DWORD = 0);
+
+    int DoSave(std::fstream &, DWORD = 0);
+};
 
 
-class CPrefabVMF : public CPrefab3D
-{
-	public:
+class CPrefabVMF : public CPrefab3D {
+public:
 
-		CPrefabVMF();
-		~CPrefabVMF();
+    CPrefabVMF();
 
-		int Load(DWORD dwFlags = 0);
-		int Save(LPCTSTR pszFilename, DWORD = 0);
+    ~CPrefabVMF();
 
-		virtual bool IsLoaded(void);
+    int Load(DWORD dwFlags = 0);
 
-		void SetFilename(const char *szFilename);
+    int Save(LPCTSTR pszFilename, DWORD = 0);
 
-	protected:
+    virtual bool IsLoaded(void);
 
-		static ChunkFileResult_t LoadEntityCallback(CChunkFile *pFile, CPrefabVMF *pPrefab);
-		static ChunkFileResult_t LoadWorldCallback(CChunkFile *pFile, CPrefabVMF *pPrefab);
+    void SetFilename(const char *szFilename);
 
-		char m_szFilename[MAX_PATH];	// Full path of the prefab VMF.
-		int m_nFileTime;				// File modification time of the last loaded version of the prefab.
-}; 
+protected:
+
+    static ChunkFileResult_t LoadEntityCallback(CChunkFile *pFile, CPrefabVMF *pPrefab);
+
+    static ChunkFileResult_t LoadWorldCallback(CChunkFile *pFile, CPrefabVMF *pPrefab);
+
+    char m_szFilename[MAX_PATH];    // Full path of the prefab VMF.
+    int m_nFileTime;                // File modification time of the last loaded version of the prefab.
+};
 
 #endif // PREFAB3D_H

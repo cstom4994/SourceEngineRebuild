@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -25,18 +25,15 @@
 // Input  : Per CWnd::OnKeyDown. 
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
-bool CToolDecal::OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	switch (nChar)
-	{
-		case VK_ESCAPE:
-		{
-			ToolManager()->SetTool(TOOL_POINTER);
-			return true;
-		}
-	}
-	
-	return false;
+bool CToolDecal::OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT nFlags) {
+    switch (nChar) {
+        case VK_ESCAPE: {
+            ToolManager()->SetTool(TOOL_POINTER);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
@@ -45,10 +42,9 @@ bool CToolDecal::OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT n
 // Input  : Per CWnd::OnMouseMove.
 // Output : Returns true if the message was handled, false if not.
 //-----------------------------------------------------------------------------
-bool CToolDecal::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) 
-{
-	SetDecalCursor();
-	return true;
+bool CToolDecal::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) {
+    SetDecalCursor();
+    return true;
 }
 
 
@@ -57,17 +53,14 @@ bool CToolDecal::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &v
 // Input  : Per CWnd::OnKeyDown.
 // Output : Returns true if the message was handled, false if not.
 //-----------------------------------------------------------------------------
-bool CToolDecal::OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags) 
-{
-	switch (nChar)
-	{
-		case VK_ESCAPE:
-		{
-			ToolManager()->SetTool(TOOL_POINTER);
-		}
-	}
+bool CToolDecal::OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags) {
+    switch (nChar) {
+        case VK_ESCAPE: {
+            ToolManager()->SetTool(TOOL_POINTER);
+        }
+    }
 
-	return false;
+    return false;
 }
 
 
@@ -76,61 +69,56 @@ bool CToolDecal::OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT n
 // Input  : Per CWnd::OnLButtonDown.
 // Output : Returns true if the message was handled, false if not.
 //-----------------------------------------------------------------------------
-bool CToolDecal::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) 
-{
-	//
-	// See if they clicked on a brush face. If so, apply a decal where they clicked.
-	//
-	CMapDoc *pDoc = pView->GetMapDoc();
+bool CToolDecal::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) {
+    //
+    // See if they clicked on a brush face. If so, apply a decal where they clicked.
+    //
+    CMapDoc *pDoc = pView->GetMapDoc();
 
-	ULONG ulFace;
-	CMapClass *pObject;
+    ULONG ulFace;
+    CMapClass *pObject;
 
-	if ((pObject = pView->NearestObjectAt( vPoint, ulFace)) != NULL)
-	{
-		CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pObject);
-		if (pSolid == NULL)
-		{
-			return true;
-		}
+    if ((pObject = pView->NearestObjectAt(vPoint, ulFace)) != NULL) {
+        CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pObject);
+        if (pSolid == NULL) {
+            return true;
+        }
 
-		//
-		// Build a ray to trace against the face that they clicked on to
-		// find the point of intersection.
-		//			
-		Vector Start,End;
-		pView->GetCamera()->BuildRay( vPoint, Start, End);
+        //
+        // Build a ray to trace against the face that they clicked on to
+        // find the point of intersection.
+        //
+        Vector Start, End;
+        pView->GetCamera()->BuildRay(vPoint, Start, End);
 
-		Vector HitPos, HitNormal;
-		CMapFace *pFace = pSolid->GetFace(ulFace);
-		if (pFace->TraceLine(HitPos, HitNormal, Start, End))
-		{
-			GetHistory()->MarkUndoPosition(NULL, "Create decal");
+        Vector HitPos, HitNormal;
+        CMapFace *pFace = pSolid->GetFace(ulFace);
+        if (pFace->TraceLine(HitPos, HitNormal, Start, End)) {
+            GetHistory()->MarkUndoPosition(NULL, "Create decal");
 
-			CMapEntity *pEntity = new CMapEntity;
-			pEntity->SetKeyValue("texture", GetDefaultTextureName());
-			pEntity->SetPlaceholder(TRUE);
-			pEntity->SetOrigin(HitPos);
-			pEntity->SetClass("infodecal");
+            CMapEntity *pEntity = new CMapEntity;
+            pEntity->SetKeyValue("texture", GetDefaultTextureName());
+            pEntity->SetPlaceholder(TRUE);
+            pEntity->SetOrigin(HitPos);
+            pEntity->SetClass("infodecal");
 
-			CMapWorld *pWorld = pDoc->GetMapWorld();
+            CMapWorld *pWorld = pDoc->GetMapWorld();
 
-			CMapDecal *pDecal = pEntity->GetChildOfType((CMapDecal *)NULL);
-			if (pDecal != NULL)
-			{
-				pDecal->DecalAllSolids(pWorld);
-			}
+            CMapDecal *pDecal = pEntity->GetChildOfType((CMapDecal *) NULL);
+            if (pDecal != NULL) {
+                pDecal->DecalAllSolids(pWorld);
+            }
 
-			pEntity->CalcBounds(TRUE);
-			pDoc->AddObjectToWorld(pEntity);
+            pEntity->CalcBounds(TRUE);
+            pDoc->AddObjectToWorld(pEntity);
 
-			GetHistory()->KeepNew(pEntity);
+            GetHistory()->KeepNew(pEntity);
 
-			pDoc->SetModifiedFlag();
-		}
-	}
+            pDoc->SetModifiedFlag();
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -139,25 +127,22 @@ bool CToolDecal::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 // Input  : Per CWnd::OnMouseMove.
 // Output : Returns true if the message was handled, false if not.
 //-----------------------------------------------------------------------------
-bool CToolDecal::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	SetDecalCursor();
-	return true;
+bool CToolDecal::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) {
+    SetDecalCursor();
+    return true;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets the cursor to the decal application cursor.
 //-----------------------------------------------------------------------------
-void CToolDecal::SetDecalCursor(void)
-{
-	static HCURSOR hcurDecal;
-	
-	if (!hcurDecal)
-	{
-		hcurDecal = LoadCursor(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDC_DECAL));
-	}
-	
-	SetCursor(hcurDecal);
+void CToolDecal::SetDecalCursor(void) {
+    static HCURSOR hcurDecal;
+
+    if (!hcurDecal) {
+        hcurDecal = LoadCursor(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDC_DECAL));
+    }
+
+    SetCursor(hcurDecal);
 }
 

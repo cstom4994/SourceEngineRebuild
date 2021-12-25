@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: Defines the application object.
 //
@@ -31,8 +31,6 @@ class IStudioRender;
 
 class IBaseFileSystem;
 
-class IEngineAPI;
-
 class IMDLCache;
 
 class CGameConfig;
@@ -59,32 +57,6 @@ public:
     CCommandArray m_Commands;
     char m_szName[128];
 };
-
-
-class CHammerDocTemplate : public CMultiDocTemplate {
-public:
-    CHammerDocTemplate(UINT nIDResource, CRuntimeClass *pDocClass, CRuntimeClass *pFrameClass,
-                       CRuntimeClass *pViewClass) :
-            CMultiDocTemplate(nIDResource, pDocClass, pFrameClass, pViewClass) {
-    }
-
-    virtual CDocument *OpenDocumentFile(LPCTSTR lpszPathName, BOOL bMakeVisible = TRUE);
-
-    virtual void CloseAllDocuments(BOOL bEndSession);
-
-    virtual void InitialUpdateFrame(CFrameWnd *pFrame, CDocument *pDoc, BOOL bMakeVisible = TRUE);
-
-    void UpdateInstanceMap(CMapDoc *pInstanceMapDoc);
-};
-
-
-void AppRegisterPostInitFn(void (*)());
-
-void AppRegisterMessageLoopFn(void (*)());
-
-void AppRegisterMessagePretranslateFn(void (*)(MSG *));
-
-void AppRegisterPreShutdownFn(void (*)());
 
 
 class CHammer : public CWinApp, public CTier3AppSystem<IHammer> {
@@ -204,12 +176,8 @@ public:
 
     bool GetForceRenderNextFrame();
 
-    static void SetIsNewDocumentVisible(bool bIsVisible);
-
-    static bool IsNewDocumentVisible(void);
-
-    CHammerDocTemplate *pMapDocTemplate;
-    CHammerDocTemplate *pManifestDocTemplate;
+    CMultiDocTemplate *pMapDocTemplate;
+    CMultiDocTemplate *pPakDocTemplate;
 
     //{{AFX_MSG(CHammer)
     afx_msg void OnAppAbout();
@@ -219,7 +187,7 @@ public:
     afx_msg void OnFileNew();
     //}}AFX_MSG
 
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 
 protected:
 
@@ -231,8 +199,6 @@ protected:
     static int StaticInternalMainLoop(void *pParam);
 
     int InternalMainLoop();
-
-    static bool m_bIsNewDocumentVisible;
 
     // Check for 16-bit color or higher.
     bool Check16BitColor();
@@ -257,10 +223,7 @@ protected:
 // Global interfaces...
 //-----------------------------------------------------------------------------
 extern IBaseFileSystem *g_pFileSystem;
-extern IEngineAPI *g_pEngineAPI;
 extern CreateInterfaceFn g_Factory;
-
-bool IsRunningInEngine();
 
 // event update system - lets you check for events such as gemoetry modification for updating stuff.
 void SignalUpdate(int ev);                                    // EVTYPE_xx

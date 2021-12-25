@@ -1,6 +1,6 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2006, Valve Corporation, All rights reserved. ============//
 //
-// Purpose: 
+// Purpose:
 //
 //=============================================================================//
 
@@ -30,23 +30,21 @@ IMPLEMENT_DYNCREATE(COPTConfigs, CPropertyPage)
 //			*pReturn - string buffer to receive read string
 //			size - size of specified buffer
 //-----------------------------------------------------------------------------
-bool GetPersistentEnvironmentVariable( const char *pName, char *pReturn, int size )
-{
-	// Open the key
-	HKEY hregkey; 
-	// Changed to HKEY_CURRENT_USER from HKEY_LOCAL_MACHINE
-	if ( RegOpenKeyEx( HKEY_CURRENT_USER, VPROJECT_REG_KEY, 0, KEY_QUERY_VALUE, &hregkey ) != ERROR_SUCCESS )
-		return false;
-	
-	// Get the value
-	DWORD dwSize = size;
-	if ( RegQueryValueEx( hregkey, pName, NULL, NULL,(LPBYTE) pReturn, &dwSize ) != ERROR_SUCCESS )
-		return false;
-	
-	// Close the key
-	RegCloseKey( hregkey );
+bool GetPersistentEnvironmentVariable(const char *pName, char *pReturn, int size) {
+    // Open the key
+    HKEY hregkey;
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, VPROJECT_REG_KEY, 0, KEY_QUERY_VALUE, &hregkey) != ERROR_SUCCESS)
+        return false;
 
-	return true;
+    // Get the value
+    DWORD dwSize = size;
+    if (RegQueryValueEx(hregkey, pName, NULL, NULL, (LPBYTE) pReturn, &dwSize) != ERROR_SUCCESS)
+        return false;
+
+    // Close the key
+    RegCloseKey(hregkey);
+
+    return true;
 }
 
 
@@ -55,75 +53,66 @@ bool GetPersistentEnvironmentVariable( const char *pName, char *pReturn, int siz
 // Input  : *pName - name of the subKey to set
 //			*pValue - string value
 //-----------------------------------------------------------------------------
-void SetPersistentEnvironmentVariable( const char *pName, const char *pValue )
-{
-	HKEY hregkey; 
-	DWORD dwReturnValue = 0;
+void SetPersistentEnvironmentVariable(const char *pName, const char *pValue) {
+    HKEY hregkey;
+    DWORD dwReturnValue = 0;
 
-	// Changed from HKEY_LOCAL_MACHINE to HKEY_CURRENT_USER
-	if ( RegOpenKeyEx( HKEY_CURRENT_USER, VPROJECT_REG_KEY, 0, KEY_ALL_ACCESS, &hregkey ) != ERROR_SUCCESS )
-		return;
-	
-	// Set the value to the string passed in
-	RegSetValueEx( hregkey, pName, 0, REG_SZ, (const unsigned char *)pValue, (int) strlen(pValue) );
-	
-	// Propagate changes so that environment variables takes immediate effect!
-	SendMessageTimeout( HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM) "Environment", SMTO_ABORTIFHUNG, 5000, &dwReturnValue );
+    // Open the key
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, VPROJECT_REG_KEY, 0, KEY_ALL_ACCESS, &hregkey) != ERROR_SUCCESS)
+        return;
 
-	// Close the key
-	RegCloseKey( hregkey );
+    // Set the value to the string passed in
+    RegSetValueEx(hregkey, pName, 0, REG_SZ, (const unsigned char *) pValue, (int) strlen(pValue));
+
+    // Propagate changes so that environment variables takes immediate effect!
+    SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM) "Environment", SMTO_ABORTIFHUNG, 5000,
+                       &dwReturnValue);
+
+    // Close the key
+    RegCloseKey(hregkey);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Converts a Steam path prefix to %STEAM% and back.
 //-----------------------------------------------------------------------------
-void EditorUtil_ConvertPath(CString &str, bool bExpand)
-{
-	CString strSteamDir;
-	g_pGameConfig->GetSteamDir(strSteamDir);
+void EditorUtil_ConvertPath(CString &str, bool bExpand) {
+    CString strSteamDir;
+    g_pGameConfig->GetSteamDir(strSteamDir);
 
-	CString strSteamUserDir;
-	g_pGameConfig->GetSteamUserDir(strSteamUserDir);
+    CString strSteamUserDir;
+    g_pGameConfig->GetSteamUserDir(strSteamUserDir);
 
-	if (!strSteamDir.GetLength() && !strSteamUserDir.GetLength())
-	{
-		// Can't do the token replacement.
-		return;
-	}
+    if (!strSteamDir.GetLength() && !strSteamUserDir.GetLength()) {
+        // Can't do the token replacement.
+        return;
+    }
 
-	const char *szSteamDirToken = "$SteamDir";
-	const char *szSteamUserDirToken = "$SteamUserDir";
+    const char *szSteamDirToken = "$SteamDir";
+    const char *szSteamUserDirToken = "$SteamUserDir";
 
-	char szPathOut[MAX_PATH];
+    char szPathOut[MAX_PATH];
 
-	if (bExpand)
-	{
-		// Replace the tokens with the full strings
-		if (Q_StrSubst(str, szSteamUserDirToken, strSteamUserDir, szPathOut, sizeof(szPathOut)))
-		{
-			str = szPathOut;
-		}
+    if (bExpand) {
+        // Replace the tokens with the full strings
+        if (Q_StrSubst(str, szSteamUserDirToken, strSteamUserDir, szPathOut, sizeof(szPathOut))) {
+            str = szPathOut;
+        }
 
-		if (Q_StrSubst(str, szSteamDirToken, strSteamDir, szPathOut, sizeof(szPathOut)))
-		{
-			str = szPathOut;
-		}
-	}
-	else
-	{
-		// Replace the full strings with the tokens
-		// Go from longest paths to shortest paths to insure the most brief expression.
-		if (Q_StrSubst(str, strSteamUserDir, szSteamUserDirToken, szPathOut, sizeof(szPathOut)))
-		{
-			str = szPathOut;
-		}
+        if (Q_StrSubst(str, szSteamDirToken, strSteamDir, szPathOut, sizeof(szPathOut))) {
+            str = szPathOut;
+        }
+    } else {
+        // Replace the full strings with the tokens
+        // Go from longest paths to shortest paths to insure the most brief expression.
+        if (Q_StrSubst(str, strSteamUserDir, szSteamUserDirToken, szPathOut, sizeof(szPathOut))) {
+            str = szPathOut;
+        }
 
-		if (Q_StrSubst(str, strSteamDir, szSteamDirToken, szPathOut, sizeof(szPathOut)))
-		{
-			str = szPathOut;
-		}
-	}
+        if (Q_StrSubst(str, strSteamDir, szSteamDirToken, szPathOut, sizeof(szPathOut))) {
+            str = szPathOut;
+        }
+    }
 }
 
 
@@ -131,397 +120,356 @@ void EditorUtil_ConvertPath(CString &str, bool bExpand)
 // Purpose: Exchanges path data between a CString and an edit control, converting
 //			the Steam path to %STEAM% and back.
 //-----------------------------------------------------------------------------
-void EditorUtil_TransferPath(CDialog *pDlg, int nIDC, char *szDest, bool bExpand)
-{
-	CWnd *pwnd = pDlg->GetDlgItem(nIDC);
-	if (!pwnd)
-		return;
+void EditorUtil_TransferPath(CDialog *pDlg, int nIDC, char *szDest, bool bExpand) {
+    CWnd *pwnd = pDlg->GetDlgItem(nIDC);
+    if (!pwnd)
+        return;
 
-	CString str;
+    CString str;
 
-	if (bExpand)
-	{
-		pwnd->GetWindowText(str);
-		EditorUtil_ConvertPath(str, true);
-		strcpy(szDest, str);
-	}
-	else
-	{
-		str = szDest;
-		EditorUtil_ConvertPath(str, false);
-		pwnd->SetWindowText(str);
-	}
+    if (bExpand) {
+        pwnd->GetWindowText(str);
+        EditorUtil_ConvertPath(str, true);
+        strcpy(szDest, str);
+    } else {
+        str = szDest;
+        EditorUtil_ConvertPath(str, false);
+        pwnd->SetWindowText(str);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
-COPTConfigs::COPTConfigs(void) : CPropertyPage(COPTConfigs::IDD)
-{
-	//{{AFX_DATA_INIT(COPTConfigs)
-	//}}AFX_DATA_INIT
+COPTConfigs::COPTConfigs(void) : CPropertyPage(COPTConfigs::IDD) {
+    //{{AFX_DATA_INIT(COPTConfigs)
+    //}}AFX_DATA_INIT
 
-	m_pLastSelConfig = NULL;
-	m_pInitialSelectedConfig = NULL;
+    m_pLastSelConfig = NULL;
+    m_pInitialSelectedConfig = NULL;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor.
 //-----------------------------------------------------------------------------
-COPTConfigs::~COPTConfigs(void)
-{
+COPTConfigs::~COPTConfigs(void) {
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pDX - 
+// Purpose:
+// Input  : pDX -
 //-----------------------------------------------------------------------------
-void COPTConfigs::DoDataExchange(CDataExchange* pDX)
-{
-	CPropertyPage::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(COPTConfigs)
-	DDX_Control(pDX, IDC_MAPDIR, m_cMapDir);
-	DDX_Control(pDX, IDC_GAMEEXEDIR, m_cGameExeDir);
-	DDX_Control(pDX, IDC_MODDIR, m_cModDir);
-	DDX_Control(pDX, IDC_MAPFORMAT, m_cMapFormat);
-	DDX_Control(pDX, IDC_CORDON_TEXTURE, m_cCordonTexture);
-	DDX_Control(pDX, IDC_TEXTUREFORMAT, m_cTextureFormat);
-	DDX_Control(pDX, IDC_DEFAULTPOINT, m_cDefaultPoint);
-	DDX_Control(pDX, IDC_DEFAULTENTITY, m_cDefaultSolid);
-	DDX_Control(pDX, IDC_DATAFILES, m_cGDFiles);
-	DDX_Control(pDX, IDC_CONFIGURATIONS, m_cConfigs);
-	DDX_Control(pDX, IDC_DEFAULT_TEXTURE_SCALE, m_cDefaultTextureScale);
-	//}}AFX_DATA_MAP
+void COPTConfigs::DoDataExchange(CDataExchange *pDX) {
+    CPropertyPage::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(COPTConfigs)
+    DDX_Control(pDX, IDC_MAPDIR, m_cMapDir);
+    DDX_Control(pDX, IDC_GAMEEXEDIR, m_cGameExeDir);
+    DDX_Control(pDX, IDC_MODDIR, m_cModDir);
+    DDX_Control(pDX, IDC_MAPFORMAT, m_cMapFormat);
+    DDX_Control(pDX, IDC_CORDON_TEXTURE, m_cCordonTexture);
+    DDX_Control(pDX, IDC_TEXTUREFORMAT, m_cTextureFormat);
+    DDX_Control(pDX, IDC_DEFAULTPOINT, m_cDefaultPoint);
+    DDX_Control(pDX, IDC_DEFAULTENTITY, m_cDefaultSolid);
+    DDX_Control(pDX, IDC_DATAFILES, m_cGDFiles);
+    DDX_Control(pDX, IDC_CONFIGURATIONS, m_cConfigs);
+    DDX_Control(pDX, IDC_DEFAULT_TEXTURE_SCALE, m_cDefaultTextureScale);
+    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(COPTConfigs, CPropertyPage)
-	//{{AFX_MSG_MAP(COPTConfigs)
-	ON_BN_CLICKED(IDC_EDITCONFIGS, OnEditconfigs)
-	ON_BN_CLICKED(IDC_GDFILE_ADD, OnGdfileAdd)
-	ON_BN_CLICKED(IDC_GDFILE_EDIT, OnGdfileEdit)
-	ON_BN_CLICKED(IDC_GDFILE_REMOVE, OnGdfileRemove)
-	ON_CBN_SELCHANGE(IDC_CONFIGURATIONS, OnSelchangeConfigurations)
-	ON_BN_CLICKED(IDC_BROWSEMAPDIR, OnBrowsemapdir)
-	ON_BN_CLICKED(IDC_BROWSEGAMEEXEDIR, OnBrowseGameExeDir)
-	ON_BN_CLICKED(IDC_BROWSEMODDIR, OnBrowseModDir)
-	ON_BN_CLICKED(IDC_BROWSE_CORDON_TEXTURE, OnBrowseCordonTexture)
-	ON_MESSAGE( WM_SETTINGCHANGE, OnSettingChange )
-	//}}AFX_MSG_MAP
+                    //{{AFX_MSG_MAP(COPTConfigs)
+                    ON_BN_CLICKED(IDC_EDITCONFIGS, OnEditconfigs)
+                    ON_BN_CLICKED(IDC_GDFILE_ADD, OnGdfileAdd)
+                    ON_BN_CLICKED(IDC_GDFILE_EDIT, OnGdfileEdit)
+                    ON_BN_CLICKED(IDC_GDFILE_REMOVE, OnGdfileRemove)
+                    ON_CBN_SELCHANGE(IDC_CONFIGURATIONS, OnSelchangeConfigurations)
+                    ON_BN_CLICKED(IDC_BROWSEMAPDIR, OnBrowsemapdir)
+                    ON_BN_CLICKED(IDC_BROWSEGAMEEXEDIR, OnBrowseGameExeDir)
+                    ON_BN_CLICKED(IDC_BROWSEMODDIR, OnBrowseModDir)
+                    ON_BN_CLICKED(IDC_BROWSE_CORDON_TEXTURE, OnBrowseCordonTexture)
+                    ON_MESSAGE(WM_SETTINGCHANGE, OnSettingChange)
+                    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
-void COPTConfigs::OnEditconfigs(void)
-{
-	SaveInfo(m_pLastSelConfig);
+void COPTConfigs::OnEditconfigs(void) {
+    SaveInfo(m_pLastSelConfig);
 
-	CEditGameConfigs dlg;
-	dlg.DoModal();
-	UpdateConfigList();
+    CEditGameConfigs dlg;
+    dlg.DoModal();
+    UpdateConfigList();
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::OnGdfileAdd(void)
-{
-	if (m_pLastSelConfig == NULL)
-		return;
+void COPTConfigs::OnGdfileAdd(void) {
+    if (m_pLastSelConfig == NULL)
+        return;
 
-	char szAppDir[MAX_PATH];
-	APP()->GetDirectory(DIR_PROGRAM, szAppDir);
+    char szAppDir[MAX_PATH];
+    APP()->GetDirectory(DIR_PROGRAM, szAppDir);
 
-	// browse for .FGD files
-	CFileDialog dlg(TRUE, ".fgd", NULL, OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST, "Game Data Files (*.fgd)|*.fgd||");
-	dlg.m_ofn.lpstrInitialDir = szAppDir;
-	if (dlg.DoModal() != IDOK)
-		return;
+    // browse for .FGD files
+    CFileDialog dlg(TRUE, ".fgd", NULL, OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST,
+                    "Game Data Files (*.fgd)|*.fgd||");
+    dlg.m_ofn.lpstrInitialDir = szAppDir;
+    if (dlg.DoModal() != IDOK)
+        return;
 
-	CString str = dlg.GetPathName();
-	EditorUtil_ConvertPath(str, false);
-	m_cGDFiles.AddString(str);
+    CString str = dlg.GetPathName();
+    EditorUtil_ConvertPath(str, false);
+    m_cGDFiles.AddString(str);
 
-	SaveInfo(m_pLastSelConfig);
-	m_pLastSelConfig->LoadGDFiles();
-	UpdateEntityLists();
+    SaveInfo(m_pLastSelConfig);
+    m_pLastSelConfig->LoadGDFiles();
+    UpdateEntityLists();
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::OnGdfileEdit(void)
-{
-	if(m_pLastSelConfig == NULL)
-		return;
+void COPTConfigs::OnGdfileEdit(void) {
+    if (m_pLastSelConfig == NULL)
+        return;
 
-	// edit the selected FGD file
-	int iCurSel = m_cGDFiles.GetCurSel();
-	if(iCurSel == LB_ERR)
-		return;
+    // edit the selected FGD file
+    int iCurSel = m_cGDFiles.GetCurSel();
+    if (iCurSel == LB_ERR)
+        return;
 
-	CString str;
-	m_cGDFiles.GetText(iCurSel, str);
-	EditorUtil_ConvertPath(str, true);
+    CString str;
+    m_cGDFiles.GetText(iCurSel, str);
+    EditorUtil_ConvertPath(str, true);
 
-	// call editor (notepad!)
-	char szBuf[MAX_PATH];
-	GetWindowsDirectory(szBuf, MAX_PATH);
-	strcat(szBuf, "\\notepad.exe");
-	_spawnl(_P_WAIT, szBuf, szBuf, str, NULL);
+    // call editor (notepad!)
+    char szBuf[MAX_PATH];
+    GetWindowsDirectory(szBuf, MAX_PATH);
+    strcat(szBuf, "\\notepad.exe");
+    _spawnl(_P_WAIT, szBuf, szBuf, (LPCTSTR) str, NULL);
 
-	m_pLastSelConfig->LoadGDFiles();
-	UpdateEntityLists();
+    m_pLastSelConfig->LoadGDFiles();
+    UpdateEntityLists();
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::OnGdfileRemove(void)
-{
-	if(m_pLastSelConfig == NULL)
-		return;
+void COPTConfigs::OnGdfileRemove(void) {
+    if (m_pLastSelConfig == NULL)
+        return;
 
-	int iCurSel = m_cGDFiles.GetCurSel();
-	if(iCurSel == LB_ERR)
-		return;
+    int iCurSel = m_cGDFiles.GetCurSel();
+    if (iCurSel == LB_ERR)
+        return;
 
-	m_cGDFiles.DeleteString(iCurSel);
+    m_cGDFiles.DeleteString(iCurSel);
 
-	SaveInfo(m_pLastSelConfig);
-	m_pLastSelConfig->LoadGDFiles();
-	UpdateEntityLists();
+    SaveInfo(m_pLastSelConfig);
+    m_pLastSelConfig->LoadGDFiles();
+    UpdateEntityLists();
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *pConfig - 
+// Purpose:
+// Input  : *pConfig -
 //-----------------------------------------------------------------------------
-void COPTConfigs::SaveInfo(CGameConfig *pConfig)
-{
-	if (pConfig == NULL)
-	{
-		return;
-	}
+void COPTConfigs::SaveInfo(CGameConfig *pConfig) {
+    if (pConfig == NULL) {
+        return;
+    }
 
-	// game data files
-	pConfig->nGDFiles = 0;
-	pConfig->GDFiles.RemoveAll();
-	int iSize = m_cGDFiles.GetCount();
-	for(int i = 0; i < iSize; i++)
-	{
-		CString str;
-		m_cGDFiles.GetText(i, str);
+    // game data files
+    pConfig->nGDFiles = 0;
+    pConfig->GDFiles.RemoveAll();
+    int iSize = m_cGDFiles.GetCount();
+    for (int i = 0; i < iSize; i++) {
+        CString str;
+        m_cGDFiles.GetText(i, str);
 
-		EditorUtil_ConvertPath(str, true);
+        EditorUtil_ConvertPath(str, true);
 
-		pConfig->GDFiles.Add(str);
-		++pConfig->nGDFiles;
-	}
+        pConfig->GDFiles.Add(str);
+        ++pConfig->nGDFiles;
+    }
 
-	//
-	// Map file type.
-	//
-	int nIndex = m_cMapFormat.GetCurSel();
-	if (nIndex != CB_ERR)
-	{
-		pConfig->mapformat = (MAPFORMAT)m_cMapFormat.GetItemData(nIndex);
-	}
-	else
-	{
-		pConfig->mapformat = mfHalfLife2;
-	}
+    //
+    // Map file type.
+    //
+    int nIndex = m_cMapFormat.GetCurSel();
+    if (nIndex != CB_ERR) {
+        pConfig->mapformat = (MAPFORMAT) m_cMapFormat.GetItemData(nIndex);
+    } else {
+        pConfig->mapformat = mfHalfLife2;
+    }
 
-	//
-	// WAD file type.
-	//
-	nIndex = m_cTextureFormat.GetCurSel();
-	if (nIndex != CB_ERR)
-	{
-		pConfig->SetTextureFormat((TEXTUREFORMAT)m_cTextureFormat.GetItemData(nIndex));
-	}
-	else
-	{
-		pConfig->SetTextureFormat(tfVMT);
-	}
+    //
+    // WAD file type.
+    //
+    nIndex = m_cTextureFormat.GetCurSel();
+    if (nIndex != CB_ERR) {
+        pConfig->SetTextureFormat((TEXTUREFORMAT) m_cTextureFormat.GetItemData(nIndex));
+    } else {
+        pConfig->SetTextureFormat(tfVMT);
+    }
 
-	m_cDefaultSolid.GetWindowText(pConfig->szDefaultSolid, sizeof pConfig->szDefaultSolid);
-	m_cDefaultPoint.GetWindowText(pConfig->szDefaultPoint, sizeof pConfig->szDefaultPoint);
+    m_cDefaultSolid.GetWindowText(pConfig->szDefaultSolid, sizeof pConfig->szDefaultSolid);
+    m_cDefaultPoint.GetWindowText(pConfig->szDefaultPoint, sizeof pConfig->szDefaultPoint);
 
-	EditorUtil_TransferPath(this, IDC_GAMEEXEDIR, pConfig->m_szGameExeDir, true);
-	EditorUtil_TransferPath(this, IDC_MODDIR, pConfig->m_szModDir, true);
-	EditorUtil_TransferPath(this, IDC_MAPDIR, pConfig->szMapDir, true);
+    EditorUtil_TransferPath(this, IDC_GAMEEXEDIR, pConfig->m_szGameExeDir, true);
+    EditorUtil_TransferPath(this, IDC_MODDIR, pConfig->m_szModDir, true);
+    EditorUtil_TransferPath(this, IDC_MAPDIR, pConfig->szMapDir, true);
 
-	char szCordonTexture[MAX_PATH];
-	m_cCordonTexture.GetWindowText(szCordonTexture, sizeof(szCordonTexture));
-	pConfig->SetCordonTexture(szCordonTexture);
+    char szCordonTexture[MAX_PATH];
+    m_cCordonTexture.GetWindowText(szCordonTexture, sizeof(szCordonTexture));
+    pConfig->SetCordonTexture(szCordonTexture);
 
-	//
-	// Default texture scale.
-	//
-	char szText[100];
-	m_cDefaultTextureScale.GetWindowText(szText, sizeof(szText));
-	float fScale = (float)atof(szText);
-	if (fScale == 0)
-	{
-		fScale = 1;
-	}
-	pConfig->SetDefaultTextureScale(fScale);
+    //
+    // Default texture scale.
+    //
+    char szText[100];
+    m_cDefaultTextureScale.GetWindowText(szText, sizeof(szText));
+    float fScale = (float) atof(szText);
+    if (fScale == 0) {
+        fScale = 1;
+    }
+    pConfig->SetDefaultTextureScale(fScale);
 
-	//
-	// Default lightmap scale.
-	//
-	int nLightmapScale = GetDlgItemInt(IDC_DEFAULT_LIGHTMAP_SCALE, NULL, FALSE);
-	pConfig->SetDefaultLightmapScale(nLightmapScale);
+    //
+    // Default lightmap scale.
+    //
+    int nLightmapScale = GetDlgItemInt(IDC_DEFAULT_LIGHTMAP_SCALE, NULL, FALSE);
+    pConfig->SetDefaultLightmapScale(nLightmapScale);
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::OnSelchangeConfigurations(void) 
-{
-	// save info from controls into last selected config
-	SaveInfo(m_pLastSelConfig);
+void COPTConfigs::OnSelchangeConfigurations(void) {
+    // save info from controls into last selected config
+    SaveInfo(m_pLastSelConfig);
 
-	m_pLastSelConfig = NULL;
+    m_pLastSelConfig = NULL;
 
-	// load info from newly selected config into controls
-	int iCurSel = m_cConfigs.GetCurSel();
-	CGameConfig *pConfig = Options.configs.FindConfig(m_cConfigs.GetItemData(iCurSel));
+    // load info from newly selected config into controls
+    int iCurSel = m_cConfigs.GetCurSel();
+    CGameConfig *pConfig = Options.configs.FindConfig(m_cConfigs.GetItemData(iCurSel));
 
-	BOOL bKillFields = FALSE;
-	if (pConfig == NULL)
-	{
-		bKillFields = TRUE;
-	}
+    BOOL bKillFields = FALSE;
+    if (pConfig == NULL) {
+        bKillFields = TRUE;
+    }
 
-	m_cGDFiles.EnableWindow(!bKillFields);
-	m_cDefaultPoint.EnableWindow(!bKillFields);
-	m_cDefaultSolid.EnableWindow(!bKillFields);
-	m_cTextureFormat.EnableWindow(!bKillFields);
-	m_cMapFormat.EnableWindow(!bKillFields);
-	m_cGameExeDir.EnableWindow(!bKillFields);
-	m_cModDir.EnableWindow(!bKillFields);
-	m_cMapDir.EnableWindow(!bKillFields);
-	m_cCordonTexture.EnableWindow(!bKillFields);
+    m_cGDFiles.EnableWindow(!bKillFields);
+    m_cDefaultPoint.EnableWindow(!bKillFields);
+    m_cDefaultSolid.EnableWindow(!bKillFields);
+    m_cTextureFormat.EnableWindow(!bKillFields);
+    m_cMapFormat.EnableWindow(!bKillFields);
+    m_cGameExeDir.EnableWindow(!bKillFields);
+    m_cModDir.EnableWindow(!bKillFields);
+    m_cMapDir.EnableWindow(!bKillFields);
+    m_cCordonTexture.EnableWindow(!bKillFields);
 
-	if (pConfig == NULL)
-	{
-		return;
-	}
+    if (pConfig == NULL) {
+        return;
+    }
 
-	m_pLastSelConfig = pConfig;
+    m_pLastSelConfig = pConfig;
 
-	// load game data files
-	m_cGDFiles.ResetContent();
-	for (int i = 0; i < pConfig->nGDFiles; i++)
-	{
-		CString str(pConfig->GDFiles[i]);
-		EditorUtil_ConvertPath(str, false);
-		m_cGDFiles.AddString(str);
-	}
+    // load game data files
+    m_cGDFiles.ResetContent();
+    for (int i = 0; i < pConfig->nGDFiles; i++) {
+        CString str(pConfig->GDFiles[i]);
+        EditorUtil_ConvertPath(str, false);
+        m_cGDFiles.AddString(str);
+    }
 
-	//
-	// Select the correct map format.
-	//
-	m_cMapFormat.SetCurSel(0);
-	int nItems = m_cMapFormat.GetCount();
-	for (int i = 0; i < nItems; i++)
-	{
-		if (pConfig->mapformat == (MAPFORMAT)m_cMapFormat.GetItemData(i))
-		{
-			m_cMapFormat.SetCurSel(i);
-			break;
-		}
-	}
+    //
+    // Select the correct map format.
+    //
+    m_cMapFormat.SetCurSel(0);
+    int nItems = m_cMapFormat.GetCount();
+    for (int i = 0; i < nItems; i++) {
+        if (pConfig->mapformat == (MAPFORMAT) m_cMapFormat.GetItemData(i)) {
+            m_cMapFormat.SetCurSel(i);
+            break;
+        }
+    }
 
-	//
-	// Select the correct texture format.
-	//
-	m_cTextureFormat.SetCurSel(0);
-	nItems = m_cTextureFormat.GetCount();
-	for (int i = 0; i < nItems; i++)
-	{
-		if (pConfig->GetTextureFormat() == (TEXTUREFORMAT)m_cTextureFormat.GetItemData(i))
-		{
-			m_cTextureFormat.SetCurSel(i);
-			break;
-		}
-	}
+    //
+    // Select the correct texture format.
+    //
+    m_cTextureFormat.SetCurSel(0);
+    nItems = m_cTextureFormat.GetCount();
+    for (int i = 0; i < nItems; i++) {
+        if (pConfig->GetTextureFormat() == (TEXTUREFORMAT) m_cTextureFormat.GetItemData(i)) {
+            m_cTextureFormat.SetCurSel(i);
+            break;
+        }
+    }
 
-	EditorUtil_TransferPath(this, IDC_GAMEEXEDIR, pConfig->m_szGameExeDir, false);
-	EditorUtil_TransferPath(this, IDC_MODDIR, pConfig->m_szModDir, false);
-	EditorUtil_TransferPath(this, IDC_MAPDIR, pConfig->szMapDir, false);
+    EditorUtil_TransferPath(this, IDC_GAMEEXEDIR, pConfig->m_szGameExeDir, false);
+    EditorUtil_TransferPath(this, IDC_MODDIR, pConfig->m_szModDir, false);
+    EditorUtil_TransferPath(this, IDC_MAPDIR, pConfig->szMapDir, false);
 
-	m_cCordonTexture.SetWindowText(pConfig->GetCordonTexture());
-	
-	char szText[100];
-	sprintf(szText, "%g", pConfig->GetDefaultTextureScale());
-	m_cDefaultTextureScale.SetWindowText(szText);
+    m_cCordonTexture.SetWindowText(pConfig->GetCordonTexture());
 
-	SetDlgItemInt(IDC_DEFAULT_LIGHTMAP_SCALE, pConfig->GetDefaultLightmapScale(), FALSE);
-	
-	// load entity type comboboxes and set strings
-	UpdateEntityLists();
+    char szText[100];
+    sprintf(szText, "%g", pConfig->GetDefaultTextureScale());
+    m_cDefaultTextureScale.SetWindowText(szText);
+
+    SetDlgItemInt(IDC_DEFAULT_LIGHTMAP_SCALE, pConfig->GetDefaultLightmapScale(), FALSE);
+
+    // load entity type comboboxes and set strings
+    UpdateEntityLists();
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::UpdateEntityLists(void)
-{
-	if(m_pLastSelConfig == NULL)
-		return;
+void COPTConfigs::UpdateEntityLists(void) {
+    if (m_pLastSelConfig == NULL)
+        return;
 
-	m_cDefaultPoint.ResetContent();
-	m_cDefaultSolid.ResetContent();
+    m_cDefaultPoint.ResetContent();
+    m_cDefaultSolid.ResetContent();
 
-	CGameConfig *pConfig = m_pLastSelConfig;
+    CGameConfig *pConfig = m_pLastSelConfig;
 
-	int nCount = pConfig->GD.GetClassCount();
-	for (int i = 0; i < nCount; i++)
-	{
-		GDclass *pClass = pConfig->GD.GetClass(i);
-		if (pClass->IsBaseClass())
-		{
-			continue;
-		}
-		else if (pClass->IsSolidClass())
-		{
-			m_cDefaultSolid.AddString(pClass->GetName());
-		}
-		else
-		{
-			m_cDefaultPoint.AddString(pClass->GetName());
-		}
-	}
+    int nCount = pConfig->GD.GetClassCount();
+    for (int i = 0; i < nCount; i++) {
+        GDclass *pClass = pConfig->GD.GetClass(i);
+        if (pClass->IsBaseClass()) {
+            continue;
+        } else if (pClass->IsSolidClass()) {
+            m_cDefaultSolid.AddString(pClass->GetName());
+        } else {
+            m_cDefaultPoint.AddString(pClass->GetName());
+        }
+    }
 
-	if (pConfig->szDefaultSolid[0] != '\0')
-	{
-		m_cDefaultSolid.SetWindowText(pConfig->szDefaultSolid);
-	}
-	else
-	{
-		m_cDefaultSolid.SetCurSel(0);
-	}
+    if (pConfig->szDefaultSolid[0] != '\0') {
+        m_cDefaultSolid.SetWindowText(pConfig->szDefaultSolid);
+    } else {
+        m_cDefaultSolid.SetCurSel(0);
+    }
 
-		
-	if (pConfig->szDefaultPoint[0] != '\0')
-	{
-		m_cDefaultPoint.SetWindowText(pConfig->szDefaultPoint);
-	}
-	else
-	{
-		m_cDefaultPoint.SetCurSel(0);
-	}
+
+    if (pConfig->szDefaultPoint[0] != '\0') {
+        m_cDefaultPoint.SetWindowText(pConfig->szDefaultPoint);
+    } else {
+        m_cDefaultPoint.SetCurSel(0);
+    }
 }
 
 
@@ -530,91 +478,78 @@ void COPTConfigs::UpdateEntityLists(void)
 //			config that was selected before coming in or, failing that, the
 //			currently active config.
 //-----------------------------------------------------------------------------
-void UpdateConfigList(CComboBox &combo)
-{
-	int iCurSel = combo.GetCurSel();
-	DWORD dwSelID = 0xffffffff;
-	if (iCurSel != CB_ERR)
-	{
-		dwSelID = combo.GetItemData(iCurSel);
-	}
+void UpdateConfigList(CComboBox &combo) {
+    int iCurSel = combo.GetCurSel();
+    DWORD dwSelID = 0xffffffff;
+    if (iCurSel != CB_ERR) {
+        dwSelID = combo.GetItemData(iCurSel);
+    }
 
-	combo.ResetContent();
+    combo.ResetContent();
 
-	// add configs to the combo box
-	for (int i = 0; i < Options.configs.nConfigs; i++)
-	{
-		CGameConfig *pConfig = Options.configs.Configs[i];
+    // add configs to the combo box
+    for (int i = 0; i < Options.configs.nConfigs; i++) {
+        CGameConfig *pConfig = Options.configs.Configs[i];
 
-		int iIndex = combo.AddString(pConfig->szName);
-		combo.SetItemData(iIndex, pConfig->dwID);
-	}
+        int iIndex = combo.AddString(pConfig->szName);
+        combo.SetItemData(iIndex, pConfig->dwID);
+    }
 
-	if (dwSelID == 0xffffffff)
-	{
-		dwSelID = g_pGameConfig->dwID;
-	}
+    if (dwSelID == 0xffffffff) {
+        dwSelID = g_pGameConfig->dwID;
+    }
 
-	// Find the item with the given ID.
-	int nSelIndex = -1;
-	for (int i = 0; i < Options.configs.nConfigs; i++)
-	{
-		DWORD dwData = combo.GetItemData(i);
-		if (dwData == dwSelID)
-		{
-			nSelIndex = i;
-		}
-	}
+    // Find the item with the given ID.
+    int nSelIndex = -1;
+    for (int i = 0; i < Options.configs.nConfigs; i++) {
+        DWORD dwData = combo.GetItemData(i);
+        if (dwData == dwSelID) {
+            nSelIndex = i;
+        }
+    }
 
-	combo.SetCurSel(nSelIndex == -1 ? 0 : nSelIndex);
+    combo.SetCurSel(nSelIndex == -1 ? 0 : nSelIndex);
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void SelectActiveConfig(CComboBox &combo)
-{
-	char szGameDir[MAX_PATH];
-	if (GetPersistentEnvironmentVariable(GAMEDIR_TOKEN, szGameDir, sizeof(szGameDir)))
-	{
-		CGameConfig *pConfig = Options.configs.FindConfigForGame(szGameDir);
-		if (pConfig)
-		{
-			// Find the item with the given ID.
-			int nSelIndex = -1;
-			int nCount = combo.GetCount();
-			for (int i = 0; i < nCount; i++)
-			{
-				DWORD dwData = combo.GetItemData(i);
-				if (pConfig->dwID == dwData)
-				{
-					nSelIndex = i;
-					break;
-				}
-			}
+void SelectActiveConfig(CComboBox &combo) {
+    char szGameDir[MAX_PATH];
+    if (GetPersistentEnvironmentVariable(GAMEDIR_TOKEN, szGameDir, sizeof(szGameDir))) {
+        CGameConfig *pConfig = Options.configs.FindConfigForGame(szGameDir);
+        if (pConfig) {
+            // Find the item with the given ID.
+            int nSelIndex = -1;
+            int nCount = combo.GetCount();
+            for (int i = 0; i < nCount; i++) {
+                DWORD dwData = combo.GetItemData(i);
+                if (pConfig->dwID == dwData) {
+                    nSelIndex = i;
+                    break;
+                }
+            }
 
-			if (nSelIndex != -1)
-			{
-				combo.SetCurSel(nSelIndex);
-			}
-		}
-	}
+            if (nSelIndex != -1) {
+                combo.SetCurSel(nSelIndex);
+            }
+        }
+    }
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::UpdateConfigList()
-{
-	m_pLastSelConfig = NULL;
+void COPTConfigs::UpdateConfigList() {
+    m_pLastSelConfig = NULL;
 
-	::UpdateConfigList(m_cConfigs);
-	::SelectActiveConfig(m_cConfigs);
+    ::UpdateConfigList(m_cConfigs);
+    ::SelectActiveConfig(m_cConfigs);
 
-	OnSelchangeConfigurations();
-	SetModified();
+    OnSelchangeConfigurations();
+    SetModified();
 }
 
 
@@ -622,42 +557,40 @@ void COPTConfigs::UpdateConfigList()
 // Purpose: Populates the combo boxes with the map formats and WAD formats, and
 //			the list of game configurations.
 //-----------------------------------------------------------------------------
-BOOL COPTConfigs::OnInitDialog(void) 
-{
-	CPropertyPage::OnInitDialog();
+BOOL COPTConfigs::OnInitDialog(void) {
+    CPropertyPage::OnInitDialog();
 
-	int nIndex;
+    int nIndex;
 
-	//
-	// Add map formats.
-	//
-	nIndex = m_cMapFormat.AddString("Half-Life 2");
-	m_cMapFormat.SetItemData(nIndex, mfHalfLife2);
+    //
+    // Add map formats.
+    //
+    nIndex = m_cMapFormat.AddString("Half-Life 2");
+    m_cMapFormat.SetItemData(nIndex, mfHalfLife2);
 
-	nIndex = m_cMapFormat.AddString("Half-Life / TFC");
-	m_cMapFormat.SetItemData(nIndex, mfHalfLife);
+    nIndex = m_cMapFormat.AddString("Half-Life / TFC");
+    m_cMapFormat.SetItemData(nIndex, mfHalfLife);
 
-	//
-	// Add texture formats.
-	//
-	nIndex = m_cTextureFormat.AddString("Materials (Half-Life 2)");
-	m_cTextureFormat.SetItemData(nIndex, tfVMT);
+    //
+    // Add texture formats.
+    //
+    nIndex = m_cTextureFormat.AddString("Materials (Half-Life 2)");
+    m_cTextureFormat.SetItemData(nIndex, tfVMT);
 
-	nIndex = m_cTextureFormat.AddString("WAD3 (Half-Life / TFC)");
-	m_cTextureFormat.SetItemData(nIndex, tfWAD3);
-	
-	UpdateConfigList();
+    nIndex = m_cTextureFormat.AddString("WAD3 (Half-Life / TFC)");
+    m_cTextureFormat.SetItemData(nIndex, tfWAD3);
 
-	int nCurSel = m_cConfigs.GetCurSel();
-	m_pInitialSelectedConfig = Options.configs.FindConfig(m_cConfigs.GetItemData(nCurSel));
+    UpdateConfigList();
 
-	m_strInitialGameDir.Empty();
-	if (m_pInitialSelectedConfig)
-	{
-		m_strInitialGameDir = m_pInitialSelectedConfig->m_szModDir;
-	}
+    int nCurSel = m_cConfigs.GetCurSel();
+    m_pInitialSelectedConfig = Options.configs.FindConfig(m_cConfigs.GetItemData(nCurSel));
 
-	return TRUE;
+    m_strInitialGameDir.Empty();
+    if (m_pInitialSelectedConfig) {
+        m_strInitialGameDir = m_pInitialSelectedConfig->m_szModDir;
+    }
+
+    return TRUE;
 }
 
 
@@ -665,175 +598,159 @@ BOOL COPTConfigs::OnInitDialog(void)
 // Purpose: Returns true if the given config is different from the one set when
 //			OnInitDialog was called.
 //-----------------------------------------------------------------------------
-bool COPTConfigs::ConfigChanged(CGameConfig *pConfig)
-{
-	if (m_pInitialSelectedConfig != pConfig)
-		return true;
+bool COPTConfigs::ConfigChanged(CGameConfig *pConfig) {
+    if (m_pInitialSelectedConfig != pConfig)
+        return true;
 
-	if (pConfig && m_pInitialSelectedConfig)
-	{
-		if (m_pInitialSelectedConfig->dwID != pConfig->dwID)
-			return true;
+    if (pConfig && m_pInitialSelectedConfig) {
+        if (m_pInitialSelectedConfig->dwID != pConfig->dwID)
+            return true;
 
-		if (m_strInitialGameDir.CompareNoCase(pConfig->m_szModDir))
-			return true;
-	}
+        if (m_strInitialGameDir.CompareNoCase(pConfig->m_szModDir))
+            return true;
+    }
 
-	return false;
+    return false;
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 // Output : Returns TRUE on success, FALSE on failure.
 //-----------------------------------------------------------------------------
-BOOL COPTConfigs::OnApply(void)
-{
-	SaveInfo(m_pLastSelConfig);
+BOOL COPTConfigs::OnApply(void) {
+    SaveInfo(m_pLastSelConfig);
 
-	int nCurSel = m_cConfigs.GetCurSel();
-	CGameConfig *pConfig = Options.configs.FindConfig(m_cConfigs.GetItemData(nCurSel));
+    int nCurSel = m_cConfigs.GetCurSel();
+    CGameConfig *pConfig = Options.configs.FindConfig(m_cConfigs.GetItemData(nCurSel));
 
-	if ( pConfig != NULL && ConfigChanged( pConfig ) )
-	{
-		SetPersistentEnvironmentVariable("vproject", pConfig->m_szModDir);
-		AfxMessageBox("Your changes to the active configuration will not take effect until the next time you run Hammer.");
-	}
+    if (pConfig != NULL && ConfigChanged(pConfig)) {
+        SetPersistentEnvironmentVariable("vproject", pConfig->m_szModDir);
+        AfxMessageBox(
+                "Your changes to the active configuration will not take effect until the next time you run Hammer.");
+    }
 
-	Options.PerformChanges(COptions::secConfigs);
-	
-	return CPropertyPage::OnApply();
+    Options.PerformChanges(COptions::secConfigs);
+
+    return CPropertyPage::OnApply();
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *pszTitle - 
-//			*pszDirectory - 
+// Purpose:
+// Input  : *pszTitle -
+//			*pszDirectory -
 // Output : Returns TRUE on success, FALSE on failure.
 //-----------------------------------------------------------------------------
-BOOL COPTConfigs::BrowseForFolder(char *pszTitle, char *pszDirectory)
-{
-	char szTmp[MAX_PATH];
+BOOL COPTConfigs::BrowseForFolder(char *pszTitle, char *pszDirectory) {
+    char szTmp[MAX_PATH];
 
-	BROWSEINFO bi;
-	memset(&bi, 0, sizeof bi);
-	bi.hwndOwner = m_hWnd;
-	bi.pszDisplayName = szTmp;
-	bi.lpszTitle = pszTitle;
-	bi.ulFlags = BIF_RETURNONLYFSDIRS;
+    BROWSEINFO bi;
+    memset(&bi, 0, sizeof bi);
+    bi.hwndOwner = m_hWnd;
+    bi.pszDisplayName = szTmp;
+    bi.lpszTitle = pszTitle;
+    bi.ulFlags = BIF_RETURNONLYFSDIRS;
 
-	LPITEMIDLIST idl = SHBrowseForFolder(&bi);
+    LPITEMIDLIST idl = SHBrowseForFolder(&bi);
 
-	if(idl == NULL)
-		return FALSE;
+    if (idl == NULL)
+        return FALSE;
 
-	SHGetPathFromIDList(idl, pszDirectory);
-	CoTaskMemFree(idl);
+    SHGetPathFromIDList(idl, pszDirectory);
+    CoTaskMemFree(idl);
 
-	return TRUE;
+    return TRUE;
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::OnBrowseCordonTexture(void)
-{
-	CTextureBrowser *pBrowser = new CTextureBrowser(this);
-	if (pBrowser != NULL)
-	{
-		//
-		// Use the currently selected texture format for browsing.
-		//
-		TEXTUREFORMAT eTextureFormat = tfVMT;
-		int nIndex = m_cTextureFormat.GetCurSel();
-		if (nIndex != LB_ERR)
-		{
-			eTextureFormat = (TEXTUREFORMAT)m_cTextureFormat.GetItemData(nIndex);
-		}
-		pBrowser->SetTextureFormat(eTextureFormat);
+void COPTConfigs::OnBrowseCordonTexture(void) {
+    CTextureBrowser *pBrowser = new CTextureBrowser(this);
+    if (pBrowser != NULL) {
+        //
+        // Use the currently selected texture format for browsing.
+        //
+        TEXTUREFORMAT eTextureFormat = tfVMT;
+        int nIndex = m_cTextureFormat.GetCurSel();
+        if (nIndex != LB_ERR) {
+            eTextureFormat = (TEXTUREFORMAT) m_cTextureFormat.GetItemData(nIndex);
+        }
+        pBrowser->SetTextureFormat(eTextureFormat);
 
-		//
-		// Select the current cordon texture in the texture browser.
-		//
-		CString strTex;
-		m_cCordonTexture.GetWindowText(strTex);
-		pBrowser->SetInitialTexture(strTex);
+        //
+        // Select the current cordon texture in the texture browser.
+        //
+        CString strTex;
+        m_cCordonTexture.GetWindowText(strTex);
+        pBrowser->SetInitialTexture(strTex);
 
-		if (pBrowser->DoModal() == IDOK)
-		{
-			m_cCordonTexture.SetWindowText(pBrowser->m_cTextureWindow.szCurTexture);
-		}
+        if (pBrowser->DoModal() == IDOK) {
+            m_cCordonTexture.SetWindowText(pBrowser->m_cTextureWindow.szCurTexture);
+        }
 
-		delete pBrowser;
-	}
+        delete pBrowser;
+    }
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::OnBrowseGameExeDir(void)
-{
-	char szTmp[MAX_PATH];
-	if (!BrowseForFolder("Select Game Executable Directory", szTmp))
-	{
-		return;
-	}
+void COPTConfigs::OnBrowseGameExeDir(void) {
+    char szTmp[MAX_PATH];
+    if (!BrowseForFolder("Select Game Executable Directory", szTmp)) {
+        return;
+    }
 
-	CString str(szTmp);
-	EditorUtil_ConvertPath(str, false);
-	m_cGameExeDir.SetWindowText(str);
+    CString str(szTmp);
+    EditorUtil_ConvertPath(str, false);
+    m_cGameExeDir.SetWindowText(str);
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::OnBrowseModDir(void)
-{
-	char szTmp[MAX_PATH];
-	if (!BrowseForFolder("Select Mod Directory", szTmp))
-	{
-		return;
-	}
+void COPTConfigs::OnBrowseModDir(void) {
+    char szTmp[MAX_PATH];
+    if (!BrowseForFolder("Select Mod Directory", szTmp)) {
+        return;
+    }
 
-	CString str(szTmp);
-	EditorUtil_ConvertPath(str, false);
-	m_cModDir.SetWindowText(str);
+    CString str(szTmp);
+    EditorUtil_ConvertPath(str, false);
+    m_cModDir.SetWindowText(str);
 }
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void COPTConfigs::OnBrowsemapdir(void)
-{
-	char szTmp[MAX_PATH];
-	if (!BrowseForFolder("Select Map Directory", szTmp))
-	{
-		return;
-	}
+void COPTConfigs::OnBrowsemapdir(void) {
+    char szTmp[MAX_PATH];
+    if (!BrowseForFolder("Select Map Directory", szTmp)) {
+        return;
+    }
 
-	CString str(szTmp);
-	EditorUtil_ConvertPath(str, false);
-	m_cMapDir.SetWindowText(str);
+    CString str(szTmp);
+    EditorUtil_ConvertPath(str, false);
+    m_cMapDir.SetWindowText(str);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Handles the notification from the VCONFIG that the active config has changed.
 //-----------------------------------------------------------------------------
-LRESULT COPTConfigs::OnSettingChange(WPARAM wParam, LPARAM lParam)
-{
-    const char *changedSection = (const char *)lParam;
-    if ( Q_stricmp( changedSection, "Environment" ) == 0 )
-	{
-		UpdateConfigList();		
-		//SelectActiveConfig();
-	}
+LRESULT COPTConfigs::OnSettingChange(WPARAM wParam, LPARAM lParam) {
+    const char *changedSection = (const char *) lParam;
+    if (Q_stricmp(changedSection, "Environment") == 0) {
+        UpdateConfigList();
+        //SelectActiveConfig();
+    }
 
-	return 0;
+    return 0;
 }
 
 

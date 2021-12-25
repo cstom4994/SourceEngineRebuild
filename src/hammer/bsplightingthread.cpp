@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -85,13 +85,17 @@ CBSPLightingThread::~CBSPLightingThread()
 
 		// Tell the thread to exit.
 		SetThreadCmd( THREADCMD_EXIT );
+		
+		DWORD dwCode;
+		while( 1 )
+		{
+			if( GetExitCodeThread( m_hThread, &dwCode ) && dwCode == 0 )
+				break;
 
-		// Wait for the thread to exit.
-		WaitForSingleObject( m_hThread, INFINITE );
+			Sleep( 10 );
+		}
 
-		// Now we can close the thread handle.
 		CloseHandle( m_hThread );
-		m_hThread = NULL;
 	}
 
 	DeleteCriticalSection( &m_CS );

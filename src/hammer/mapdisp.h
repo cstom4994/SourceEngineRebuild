@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -24,7 +24,7 @@
 
 #pragma warning(pop)
 
-#include <utlvector.h>
+#include <UtlVector.h>
 #include "MapAtom.h"
 #include "Render3D.h"
 #include "mathlib/VMatrix.h"
@@ -54,11 +54,11 @@ struct ExportDXFInfo_s;
 enum ChunkFileResult_t;
 
 // Painting Defines
-#define DISPPAINT_CHANNEL_POSITION      0
-#define DISPPAINT_CHANNEL_ALPHA         1
+#define DISPPAINT_CHANNEL_POSITION        0
+#define DISPPAINT_CHANNEL_ALPHA            1
 
-#define WALKABLE_NORMAL_VALUE           0.7f
-#define BUILDABLE_NORMAL_VALUE          0.8f
+#define WALKABLE_NORMAL_VALUE            0.7f
+#define BUILDABLE_NORMAL_VALUE            0.8f
 
 //=============================================================================
 //
@@ -85,10 +85,10 @@ public:
 
     enum {
         MAPDISP_MAX_VERTS = 289
-    };          // 17x17
+    };            // 17x17
     enum {
         MAPDISP_MAX_FACES = 512
-    };          // ( 16x16 ) x 2
+    };            // ( 16x16 ) x 2
     enum {
         MAPDISP_MAX_NEIGHBORS = 8
     };            // 4 edges + 4 corners -- always four-sided
@@ -110,7 +110,7 @@ public:
     void ResetFieldData(void);
 
     void InitData(int power);
-//  void InitData( int power, int minTess, float smoothingAngle, Vector **dispVectorField, Vector **dispVectorOffset, float *dispDistances );
+//	void InitData( int power, int minTess, float smoothingAngle, Vector **dispVectorField, Vector **dispVectorOffset, float *dispDistances );
 
     //=========================================================================
     //
@@ -153,8 +153,6 @@ public:
     void UpdateWalkable(void);
 
     void UpdateBuildable(void);
-
-    void UpdateTriRemove(void);
 
     void CreateShoreOverlays(CMapFace *pFace, Shoreline_t *pShoreline);
 
@@ -287,10 +285,7 @@ public:
 
     inline bool IsTriBuildable(int iTri) { return m_CoreDispInfo.IsTriBuildable(iTri); }
 
-    // this is gone in m_CoreDispInfo.
-    inline bool IsTriRemove(int iTri) { return false; } //m_CoreDispInfo.IsTriRemove( iTri ); }
-
-    int CollideWithDispTri(const Vector &rayStart, const Vector &rayEnd, float &flFraction, bool OneSided = false);
+    int CollideWithDispTri(const Vector &rayStart, const Vector &rayEnd, float &flFraction);
 
     //=========================================================================
     //
@@ -417,30 +412,30 @@ private:
         MAX_CORNER_NEIGHBORS = 4
     };
 
-    EditDispHandle_t m_EditHandle;                                                       // id of displacement in global manager's list
+    EditDispHandle_t m_EditHandle;                                                        // id of displacement in global manager's list
 
-    CCoreDispInfo m_CoreDispInfo;                                                         // core displacement info
+    CCoreDispInfo m_CoreDispInfo;                                                            // core displacement info
 
     int m_HitTexelIndex;                                                        // the displacement map texel that was "hit"
-    int m_HitDispIndex;                                                         // the displacement map that was hit (this or one of its neighbors)
+    int m_HitDispIndex;                                                            // the displacement map that was hit (this or one of its neighbors)
 
     Vector m_LightPosition;
     float m_LightColor[3];
 
-    EditDispHandle_t m_EdgeNeighbors[NUM_EDGES_CORNERS];                                     // four possible edge neighbors (W, N, E, S)
-    int m_EdgeNeighborOrientations[NUM_EDGES_CORNERS];                          // neighbor edge orientations
-    int m_CornerNeighborCounts[NUM_EDGES_CORNERS];                              // number of corner neighbors (not counting edge neighbors)
-    EditDispHandle_t m_CornerNeighbors[NUM_EDGES_CORNERS][MAX_CORNER_NEIGHBORS];             // four corners/multiple corner neighbors possible (SW, SE, NW, NE)
-    int m_CornerNeighborOrientations[NUM_EDGES_CORNERS][MAX_CORNER_NEIGHBORS];  // neighbor corner orientations
+    EditDispHandle_t m_EdgeNeighbors[NUM_EDGES_CORNERS];                                        // four possible edge neighbors (W, N, E, S)
+    int m_EdgeNeighborOrientations[NUM_EDGES_CORNERS];                            // neighbor edge orientations
+    int m_CornerNeighborCounts[NUM_EDGES_CORNERS];                                // number of corner neighbors (not counting edge neighbors)
+    EditDispHandle_t m_CornerNeighbors[NUM_EDGES_CORNERS][MAX_CORNER_NEIGHBORS];                // four corners/multiple corner neighbors possible (SW, SE, NW, NE)
+    int m_CornerNeighborOrientations[NUM_EDGES_CORNERS][MAX_CORNER_NEIGHBORS];    // neighbor corner orientations
 
     bool m_bHasMappingAxes;
-    Vector m_MapAxes[2];                                                           // for older files (.map, .rmf)
+    Vector m_MapAxes[2];                                                            // for older files (.map, .rmf)
 
-    Vector m_BBox[2];                                                              // axial-aligned bounding box
+    Vector m_BBox[2];                                                                // axial-aligned bounding box
 
     float m_Scale;
 
-    static bool m_bSelectMask;                                                          // masks for the Displacement Tool (FaceEditSheet)
+    static bool m_bSelectMask;                                                            // masks for the Displacement Tool (FaceEditSheet)
     static bool m_bGridMask;
 
     bool m_bSubdiv;
@@ -452,8 +447,6 @@ private:
     CUtlVector<CoreDispVert_t *> m_aBuildableVerts;
     CUtlVector<unsigned short> m_aBuildableIndices;
     CUtlVector<unsigned short> m_aForcedBuildableIndices;
-    CUtlVector<CoreDispVert_t *> m_aRemoveVerts;
-    CUtlVector<unsigned short> m_aRemoveIndices;
 
     // Painting Data.
     struct PaintCanvas_t {
@@ -544,8 +537,6 @@ private:
     void RenderOverlaySurface(CRender3D *pRender, bool bIsSelected, SelectionState_t faceSelectionState);
 
     void RenderWalkableSurface(CRender3D *pRender, bool bIsSelected, SelectionState_t faceSelectionState);
-
-    void RenderRemoveSurface(CRender3D *pRender, bool bIsSelected, SelectionState_t faceSelectionState);
 
     void RenderBuildableSurface(CRender3D *pRender, bool bIsSelected, SelectionState_t faceSelectionState);
 
@@ -795,7 +786,7 @@ inline void CMapDisp::GetSurfTexCoord(int ndx, Vector2D &texCoord) {
 
 
 //-----------------------------------------------------------------------------
-//----------------------------------------------------------------------------- 
+//-----------------------------------------------------------------------------	
 inline void CMapDisp::SetSurfTexCoord(int ndx, Vector2D const &texCoord) {
     CCoreDispSurface *pSurf = m_CoreDispInfo.GetSurface();
     pSurf->SetTexCoord(ndx, texCoord);
@@ -945,8 +936,8 @@ inline void CMapDisp::ResetNeighbors(void) {
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline void CMapDisp::SetEdgeNeighbor(int direction, EditDispHandle_t handle, int orient) {
-    Assert(direction >= 0);
-    Assert(direction < NUM_EDGES_CORNERS);
+    assert(direction >= 0);
+    assert(direction < NUM_EDGES_CORNERS);
     m_EdgeNeighbors[direction] = handle;
     m_EdgeNeighborOrientations[direction] = orient;
 }
@@ -955,8 +946,8 @@ inline void CMapDisp::SetEdgeNeighbor(int direction, EditDispHandle_t handle, in
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline void CMapDisp::GetEdgeNeighbor(int direction, EditDispHandle_t &handle, int &orient) {
-    Assert(direction >= 0);
-    Assert(direction < NUM_EDGES_CORNERS);
+    assert(direction >= 0);
+    assert(direction < NUM_EDGES_CORNERS);
     handle = m_EdgeNeighbors[direction];
     orient = m_EdgeNeighborOrientations[direction];
 }
@@ -965,8 +956,8 @@ inline void CMapDisp::GetEdgeNeighbor(int direction, EditDispHandle_t &handle, i
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline EditDispHandle_t CMapDisp::GetEdgeNeighbor(int direction) {
-    Assert(direction >= 0);
-    Assert(direction < NUM_EDGES_CORNERS);
+    assert(direction >= 0);
+    assert(direction < NUM_EDGES_CORNERS);
     return m_EdgeNeighbors[direction];
 }
 
@@ -974,8 +965,8 @@ inline EditDispHandle_t CMapDisp::GetEdgeNeighbor(int direction) {
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline void CMapDisp::AddCornerNeighbor(int direction, EditDispHandle_t handle, int orient) {
-    Assert(direction >= 0);
-    Assert(direction < NUM_EDGES_CORNERS);
+    assert(direction >= 0);
+    assert(direction < NUM_EDGES_CORNERS);
     if (m_CornerNeighborCounts[direction] >= MAX_CORNER_NEIGHBORS)
         return;
 
@@ -988,8 +979,8 @@ inline void CMapDisp::AddCornerNeighbor(int direction, EditDispHandle_t handle, 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline int CMapDisp::GetCornerNeighborCount(int direction) {
-    Assert(direction >= 0);
-    Assert(direction < NUM_EDGES_CORNERS);
+    assert(direction >= 0);
+    assert(direction < NUM_EDGES_CORNERS);
     return m_CornerNeighborCounts[direction];
 }
 
@@ -997,10 +988,10 @@ inline int CMapDisp::GetCornerNeighborCount(int direction) {
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline void CMapDisp::GetCornerNeighbor(int direction, int cornerIndex, EditDispHandle_t &handle, int &orient) {
-    Assert(direction >= 0);
-    Assert(direction < NUM_EDGES_CORNERS);
-    Assert(cornerIndex >= 0);
-    Assert(cornerIndex < MAX_CORNER_NEIGHBORS);
+    assert(direction >= 0);
+    assert(direction < NUM_EDGES_CORNERS);
+    assert(cornerIndex >= 0);
+    assert(cornerIndex < MAX_CORNER_NEIGHBORS);
 
     handle = EDITDISPHANDLE_INVALID;
     orient = 0;
@@ -1016,11 +1007,11 @@ inline void CMapDisp::GetCornerNeighbor(int direction, int cornerIndex, EditDisp
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 inline EditDispHandle_t CMapDisp::GetCornerNeighbor(int direction, int cornerIndex) {
-    Assert(direction >= 0);
-    Assert(direction < NUM_EDGES_CORNERS);
+    assert(direction >= 0);
+    assert(direction < NUM_EDGES_CORNERS);
 
-    Assert(cornerIndex >= 0);
-    Assert(cornerIndex < MAX_CORNER_NEIGHBORS);
+    assert(cornerIndex >= 0);
+    assert(cornerIndex < MAX_CORNER_NEIGHBORS);
 
     if (cornerIndex >= m_CornerNeighborCounts[direction])
         return NULL;

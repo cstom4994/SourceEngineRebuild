@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//====== Copyright � 1996-2005, Valve Corporation, All rights reserved. =======
 //
 // Purpose: 
 //
@@ -141,8 +141,8 @@ void CScenePreviewDlg::OnIdle()
 		m_iLastEventPlayed = iLastSound;
 
 		// Play the current sound.
-		CChoreoEvent *pChoreoEvent = m_pScene->GetEvent( iLastSound );
-		const char *pSoundName = pChoreoEvent->GetParameters();
+		CChoreoEvent *e = m_pScene->GetEvent( iLastSound );
+		const char *pSoundName = e->GetParameters();
 		
 		SoundType_t soundType;
 		int nIndex;

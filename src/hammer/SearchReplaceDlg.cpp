@@ -1,6 +1,6 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================//
@@ -36,7 +36,7 @@ struct FindObject_t
 
 	//
 	// What to look for.
-	//	
+	//
 	CString strFindText;
 	bool bVisiblesOnly;
 	bool bCaseSensitive;
@@ -76,7 +76,7 @@ bool MatchString(const char *pszString, FindObject_t &FindObject)
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns true if the string matches the search criteria, false if not.
-// Input  : pszIn - 
+// Input  : pszIn -
 //			pszOut - String to check.
 //			FindObject - Search criteria, including string to search for.
 //-----------------------------------------------------------------------------
@@ -170,8 +170,8 @@ CMapClass *FindFirstObject(FindObject_t &FindObject)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pObject - 
+// Purpose:
+// Input  : pObject -
 //-----------------------------------------------------------------------------
 CMapClass *FindNextObject(FindObject_t &FindObject)
 {
@@ -202,9 +202,9 @@ CMapClass *FindNextObject(FindObject_t &FindObject)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pObject - 
-//			FindObject - 
+// Purpose:
+// Input  : pObject -
+//			FindObject -
 // Output : Returns true if the object matches the search criteria, false if not.
 //-----------------------------------------------------------------------------
 bool FindCheck(CMapClass *pObject, FindObject_t &FindObject)
@@ -254,16 +254,16 @@ bool FindCheck(CMapClass *pObject, FindObject_t &FindObject)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pLastFound - 
-//			FindObject - 
-//			pszReplaceText - 
+// Purpose:
+// Input  : pLastFound -
+//			FindObject -
+//			pszReplaceText -
 // Output : Returns the number of occurrences of the find text that were replaced.
 //-----------------------------------------------------------------------------
 int FindReplace(CMapEntity *pEntity, FindObject_t &FindObject, const char *pszReplace)
 {
 	int nReplacedCount = 0;
-	
+
 	//
 	// Replace keyvalues.
 	//
@@ -298,7 +298,7 @@ int FindReplace(CMapEntity *pEntity, FindObject_t &FindObject, const char *pszRe
 				pConn->SetTargetName(szNewValue);
 				nReplacedCount++;
 			}
-			
+
 			if (ReplaceString(szNewValue, pConn->GetParam(), FindObject, pszReplace))
 			{
 				pConn->SetParam(szNewValue);
@@ -322,8 +322,8 @@ END_MESSAGE_MAP()
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pParent - 
+// Purpose:
+// Input  : pParent -
 //-----------------------------------------------------------------------------
 CSearchReplaceDlg::CSearchReplaceDlg(CWnd *pParent)
 	: CDialog(CSearchReplaceDlg::IDD, pParent)
@@ -340,7 +340,7 @@ CSearchReplaceDlg::CSearchReplaceDlg(CWnd *pParent)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 // Output : Returns TRUE on success, FALSE on failure.
 //-----------------------------------------------------------------------------
 BOOL CSearchReplaceDlg::Create(CWnd *pwndParent)
@@ -350,8 +350,8 @@ BOOL CSearchReplaceDlg::Create(CWnd *pwndParent)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : pDX - 
+// Purpose:
+// Input  : pDX -
 //-----------------------------------------------------------------------------
 void CSearchReplaceDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -369,7 +369,7 @@ void CSearchReplaceDlg::DoDataExchange(CDataExchange* pDX)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 void CSearchReplaceDlg::OnCancel(void)
 {
@@ -379,7 +379,7 @@ void CSearchReplaceDlg::OnCancel(void)
 
 //-----------------------------------------------------------------------------
 // Purpose: Fill out the find criteria from the dialog controls.
-// Input  : FindObject - 
+// Input  : FindObject -
 //-----------------------------------------------------------------------------
 void CSearchReplaceDlg::GetFindCriteria(FindObject_t &FindObject, CMapDoc *pDoc)
 {
@@ -404,7 +404,7 @@ void CSearchReplaceDlg::GetFindCriteria(FindObject_t &FindObject, CMapDoc *pDoc)
 					FindObject.SelectionList.AddToTail( pChildren->Element(pos) );
 				}
 			}
-			else				 
+			else
 			{
 				FindObject.SelectionList.AddToTail(pObject);
 			}
@@ -453,7 +453,7 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd)
 	do
 	{
 		CMapClass *pObject = NULL;
-		
+
 		if (m_bNewSearch)
 		{
 			//
@@ -539,7 +539,7 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd)
 			if ((m_bNewSearch) || (uCmd != IDC_REPLACE_ALL))
 			{
 				CString str;
-				str.Format("Finished searching for '%s'.", m_strFindText.GetBuffer());
+				str.Format("Finished searching for '%s'.", (LPCTSTR)m_strFindText);
 				MessageBox(str, "Find/Replace Text", MB_OK);
 
 				// TODO: put the old selection back
@@ -547,7 +547,7 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd)
 			else if (uCmd == IDC_REPLACE_ALL)
 			{
 				CString str;
-				str.Format("Replaced %d occurrences of the string '%s' with '%s'.", nReplaceCount, m_strFindText.GetBuffer(), m_strReplaceText.GetBuffer());
+				str.Format("Replaced %d occurrences of the string '%s' with '%s'.", nReplaceCount, (LPCTSTR)m_strFindText, (LPCTSTR)m_strReplaceText);
 				MessageBox(str, "Find/Replace Text", MB_OK);
 			}
 
@@ -562,17 +562,17 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
-void CSearchReplaceDlg::OnOK() 
+void CSearchReplaceDlg::OnOK()
 {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Called any time we are hidden or shown.
-// Input  : bShow - 
-//			nStatus - 
+// Input  : bShow -
+//			nStatus -
 //-----------------------------------------------------------------------------
 void CSearchReplaceDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 {

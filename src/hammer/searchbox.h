@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -10,11 +10,10 @@
 /////////////////////////////////////////////////////////////////////////////
 // CSearchBox window
 
-class CSearchBox : public CComboBox
-{
+class CSearchBox : public CComboBox {
 // Construction
 public:
-	CSearchBox();
+    CSearchBox();
 
 // Attributes
 public:
@@ -23,23 +22,23 @@ public:
 public:
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSearchBox)
-	public:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CSearchBox)
+public:
+    virtual BOOL PreTranslateMessage(MSG *pMsg);
+    //}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~CSearchBox();
+    virtual ~CSearchBox();
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CSearchBox)
-		// NOTE - the ClassWizard will add and remove member functions here.
-	//}}AFX_MSG
+    //{{AFX_MSG(CSearchBox)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //}}AFX_MSG
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

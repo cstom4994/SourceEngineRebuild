@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -10,27 +10,26 @@
 #pragma once
 #endif
 
-#include "utlvector.h"
+#include "UtlVector.h"
 
 
-class CLightingPreviewResultsWindow : public CWnd
-{
+class CLightingPreviewResultsWindow : public CWnd {
 public:
-	CLightingPreviewResultsWindow();
-	virtual ~CLightingPreviewResultsWindow();
+    CLightingPreviewResultsWindow();
 
-	void Create(CWnd *pParentWnd );
+    virtual ~CLightingPreviewResultsWindow();
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CLightingPreviewResultsWindow)
-	//}}AFX_VIRTUAL
+    void Create(CWnd *pParentWnd);
+
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CLightingPreviewResultsWindow)
+    //}}AFX_VIRTUAL
 
 
 protected:
 
-	//{{AFX_MSG(CLightingPreviewResultsWindow)
- 	afx_msg void OnPaint();
-	afx_msg void OnClose(); 
+    //{{AFX_MSG(CLightingPreviewResultsWindow)
+    afx_msg void OnPaint();
 // 	afx_msg void OnSize(UINT nType, int cx, int cy);
 // 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 // 	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
@@ -39,8 +38,8 @@ protected:
 // 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 // 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 // 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint point);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //}}AFX_MSG
+DECLARE_MESSAGE_MAP()
 };
 
 

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Holds information relevant to saving the document, such as the
 //			rules for which objects to save.
@@ -19,17 +19,15 @@
 //			"Visible objects only" option enabled will not save hidden objects.
 // Input  : pObject - Object to check.
 //-----------------------------------------------------------------------------
-bool CSaveInfo::ShouldSaveObject(CMapClass *pObject)
-{
-	//
-	// Currently the only thing that enables visible objects only serialization
-	// is the Export dialog. Normal VMF saves just save everything.
-	//
-	if (m_bVisiblesOnly && !pObject->IsVisible())
-	{
-		return(false);
-	}
+bool CSaveInfo::ShouldSaveObject(CMapClass *pObject) {
+    //
+    // Currently the only thing that enables visible objects only serialization
+    // is the Export dialog. Normal VMF saves just save everything.
+    //
+    if (m_bVisiblesOnly && !pObject->IsVisible()) {
+        return (false);
+    }
 
-	return(true);
+    return (true);
 }
 

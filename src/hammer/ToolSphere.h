@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -18,32 +18,32 @@
 class CMapSphere;
 
 
-class CToolSphere : public CBaseTool
-{
+class CToolSphere : public CBaseTool {
 
 public:
 
-	CToolSphere();
+    CToolSphere();
 
-	void Attach(CMapSphere *pShere);
+    void Attach(CMapSphere *pShere);
 
-	//
-	// CBaseTool implementation.
-	//
-	virtual ToolID_t GetToolID(void) { return TOOL_SPHERE; }
+    //
+    // CBaseTool implementation.
+    //
+    virtual ToolID_t GetToolID(void) { return TOOL_SPHERE; }
 
-	virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+    virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
 
-	//virtual void RenderTool2D(CRender2D *pRender);
+    virtual bool OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    //virtual void RenderTool2D(CRender2D *pRender);
 
 private:
 
-	CMapSphere *m_pSphere;
+    CMapSphere *m_pSphere;
 
 };
-
 
 
 #endif // TOOLSPHERE_H

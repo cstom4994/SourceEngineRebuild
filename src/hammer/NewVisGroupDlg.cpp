@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: A dialog that is invoked when a new visgroup is created.
 //			It lets the user pick an existing visgroup or create a new one.

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -22,13 +22,12 @@ IMPLEMENT_MAPCLASS(CMapGroup)
 // Purpose: Sets the new child's color to our own.
 // Input  : pChild - Object being added to this group.
 //-----------------------------------------------------------------------------
-void CMapGroup::AddChild(CMapClass *pChild)
-{
-	pChild->SetRenderColor(r,g,b);
-	CMapClass::AddChild(pChild);
-	Vector2D	mins, maxs;
-	GetRenderLogicalBox(mins, maxs);
-	m_vecLogicalPosition = ( mins + maxs ) / 2;
+void CMapGroup::AddChild(CMapClass *pChild) {
+    pChild->SetRenderColor(r, g, b);
+    CMapClass::AddChild(pChild);
+    Vector2D mins, maxs;
+    GetRenderLogicalBox(mins, maxs);
+    m_vecLogicalPosition = (mins + maxs) / 2;
 }
 
 
@@ -37,9 +36,8 @@ void CMapGroup::AddChild(CMapClass *pChild)
 // Input  : *pobj - 
 // Output : CMapClass *
 //-----------------------------------------------------------------------------
-CMapClass *CMapGroup::CopyFrom(CMapClass *pobj, bool bUpdateDependencies)
-{
-	return(CMapClass::CopyFrom(pobj, bUpdateDependencies));
+CMapClass *CMapGroup::CopyFrom(CMapClass *pobj, bool bUpdateDependencies) {
+    return (CMapClass::CopyFrom(pobj, bUpdateDependencies));
 }
 
 
@@ -47,62 +45,54 @@ CMapClass *CMapGroup::CopyFrom(CMapClass *pobj, bool bUpdateDependencies)
 // Purpose: 
 // Output : CMapClass *
 //-----------------------------------------------------------------------------
-CMapClass *CMapGroup::Copy(bool bUpdateDependencies)
-{
-	CMapGroup *pNew = new CMapGroup;
-	return(pNew->CopyFrom(this, bUpdateDependencies));
+CMapClass *CMapGroup::Copy(bool bUpdateDependencies) {
+    CMapGroup *pNew = new CMapGroup;
+    return (pNew->CopyFrom(this, bUpdateDependencies));
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns a string describing this group.
 //-----------------------------------------------------------------------------
-const char* CMapGroup::GetDescription(void)
-{
-	static char szBuf[128];
-	sprintf(szBuf, "group of %d objects", m_Children.Count());
-	return(szBuf);
+const char *CMapGroup::GetDescription(void) {
+    static char szBuf[128];
+    sprintf(szBuf, "group of %d objects", m_Children.Count());
+    return (szBuf);
 }
 
 
-void CMapGroup::SetLogicalPosition( const Vector2D &vecPosition )
-{
-	if ( ( m_vecLogicalPosition.x != COORD_NOTINIT  )
-	  && ( m_vecLogicalPosition.y != COORD_NOTINIT )
-	  && ( vecPosition != m_vecLogicalPosition ) )
-	{
-		Vector2D	vecDelta = vecPosition - m_vecLogicalPosition;
-		
-		FOR_EACH_OBJ( m_Children, pos )
-		{		
-			CMapClass *pobj = m_Children[pos];
-			// update logical bounds
-			pobj->SetLogicalPosition( pobj->GetLogicalPosition() + vecDelta );
-		}
+void CMapGroup::SetLogicalPosition(const Vector2D &vecPosition) {
+    if ((m_vecLogicalPosition.x != COORD_NOTINIT)
+        && (m_vecLogicalPosition.y != COORD_NOTINIT)
+        && (vecPosition != m_vecLogicalPosition)) {
+        Vector2D vecDelta = vecPosition - m_vecLogicalPosition;
 
-	}
-	m_vecLogicalPosition = vecPosition;
+        FOR_EACH_OBJ(m_Children, pos) {
+            CMapClass *pobj = m_Children[pos];
+            // update logical bounds
+            pobj->SetLogicalPosition(pobj->GetLogicalPosition() + vecDelta);
+        }
+
+    }
+    m_vecLogicalPosition = vecPosition;
 }
 
-const Vector2D& CMapGroup::GetLogicalPosition()
-{
-	return m_vecLogicalPosition;
+const Vector2D &CMapGroup::GetLogicalPosition() {
+    return m_vecLogicalPosition;
 }
 
-void CMapGroup::GetRenderLogicalBox( Vector2D &mins, Vector2D &maxs ) 
-{ 
-	mins.Init( COORD_NOTINIT, COORD_NOTINIT ); 
-	maxs.Init( -COORD_NOTINIT, -COORD_NOTINIT ); 
+void CMapGroup::GetRenderLogicalBox(Vector2D &mins, Vector2D &maxs) {
+    mins.Init(COORD_NOTINIT, COORD_NOTINIT);
+    maxs.Init(-COORD_NOTINIT, -COORD_NOTINIT);
 
-	FOR_EACH_OBJ( m_Children, pos )
-	{		
-		CMapClass *pobj = m_Children[pos];
-		// update logical bounds
-		Vector2D logicalMins,logicalMaxs;
-		pobj->GetRenderLogicalBox( logicalMins, logicalMaxs );
-		mins = mins.Min(logicalMins);
-		maxs = maxs.Max(logicalMaxs);
-	}
+    FOR_EACH_OBJ(m_Children, pos) {
+        CMapClass *pobj = m_Children[pos];
+        // update logical bounds
+        Vector2D logicalMins, logicalMaxs;
+        pobj->GetRenderLogicalBox(logicalMins, logicalMaxs);
+        mins = mins.Min(logicalMins);
+        maxs = maxs.Max(logicalMaxs);
+    }
 }
 
 
@@ -111,16 +101,15 @@ void CMapGroup::GetRenderLogicalBox( Vector2D &mins, Vector2D &maxs )
 // Input  : *pFile - 
 // Output : ChunkFileResult_t
 //-----------------------------------------------------------------------------
-ChunkFileResult_t CMapGroup::LoadVMF(CChunkFile *pFile)
-{
-	CChunkHandlerMap Handlers;
-	Handlers.AddHandler("editor", (ChunkHandler_t)CMapClass::LoadEditorCallback, this);
+ChunkFileResult_t CMapGroup::LoadVMF(CChunkFile *pFile) {
+    CChunkHandlerMap Handlers;
+    Handlers.AddHandler("editor", (ChunkHandler_t) CMapClass::LoadEditorCallback, this);
 
-	pFile->PushHandlers(&Handlers);
-	ChunkFileResult_t eResult = pFile->ReadChunk((KeyHandler_t)CMapClass::LoadEditorKeyCallback, this);
-	pFile->PopHandlers();
+    pFile->PushHandlers(&Handlers);
+    ChunkFileResult_t eResult = pFile->ReadChunk((KeyHandler_t) CMapClass::LoadEditorKeyCallback, this);
+    pFile->PopHandlers();
 
-	return(eResult);
+    return (eResult);
 }
 
 
@@ -129,37 +118,32 @@ ChunkFileResult_t CMapGroup::LoadVMF(CChunkFile *pFile)
 // Input  : *pFile - 
 // Output : ChunkFileResult_t
 //-----------------------------------------------------------------------------
-ChunkFileResult_t CMapGroup::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo)
-{
-	//
-	// Check rules before saving this object.
-	//
-	if (!pSaveInfo->ShouldSaveObject(this))
-	{
-		return(ChunkFile_Ok);
-	}
+ChunkFileResult_t CMapGroup::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo) {
+    //
+    // Check rules before saving this object.
+    //
+    if (!pSaveInfo->ShouldSaveObject(this)) {
+        return (ChunkFile_Ok);
+    }
 
-	ChunkFileResult_t eResult = pFile->BeginChunk("group");
+    ChunkFileResult_t eResult = pFile->BeginChunk("group");
 
-	//
-	// Save the group's ID.
-	//
-	if (eResult == ChunkFile_Ok)
-	{
-		eResult = pFile->WriteKeyValueInt("id", GetID());
-	}
+    //
+    // Save the group's ID.
+    //
+    if (eResult == ChunkFile_Ok) {
+        eResult = pFile->WriteKeyValueInt("id", GetID());
+    }
 
-	if (eResult == ChunkFile_Ok)
-	{
-		eResult = CMapClass::SaveVMF(pFile, pSaveInfo);
-	}	
+    if (eResult == ChunkFile_Ok) {
+        eResult = CMapClass::SaveVMF(pFile, pSaveInfo);
+    }
 
-	if (eResult == ChunkFile_Ok)
-	{
-		eResult = pFile->EndChunk();
-	}
+    if (eResult == ChunkFile_Ok) {
+        eResult = pFile->EndChunk();
+    }
 
-	return(eResult);
+    return (eResult);
 }
 
 
@@ -167,11 +151,9 @@ ChunkFileResult_t CMapGroup::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo)
 // Purpose: Groups don't accept visgroups themselves, they 
 // Input  : *pVisGroup - 
 //-----------------------------------------------------------------------------
-void CMapGroup::AddVisGroup(CVisGroup *pVisGroup)
-{
-	FOR_EACH_OBJ( m_Children, pos )
-	{
-		m_Children[pos]->AddVisGroup( pVisGroup );
-	}
+void CMapGroup::AddVisGroup(CVisGroup *pVisGroup) {
+    FOR_EACH_OBJ(m_Children, pos) {
+        m_Children[pos]->AddVisGroup(pVisGroup);
+    }
 }
 

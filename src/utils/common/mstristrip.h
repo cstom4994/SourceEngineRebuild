@@ -20,10 +20,10 @@ typedef unsigned short WORD;
 // in ppstripindices. Caller must delete [] ppstripindices.
 //
 int Stripify(
-    int numtris,                    // Number of triangles
-    WORD *ptriangles,               // triangle indices pointer
-    int *pnumindices,               // number of indices in ppstripindices (out)
-    WORD **ppstripindices           // triangle strip indices
+        int numtris,                    // Number of triangles
+        WORD *ptriangles,               // triangle indices pointer
+        int *pnumindices,               // number of indices in ppstripindices (out)
+        WORD **ppstripindices           // triangle strip indices
 );
 
 //
@@ -34,10 +34,10 @@ int Stripify(
 // locations. Caller must delete [] pVertexPermutation.
 //
 void ComputeVertexPermutation
-(
-    int numstripindices,            // Number of strip indices
-    WORD *pstripindices,            // Strip indices
-    int *pnumverts,                 // Number of verts (in and out)
-    WORD **ppvertexpermutation      // Map from orignal index to remapped index
-);
+        (
+                int numstripindices,            // Number of strip indices
+                WORD *pstripindices,            // Strip indices
+                int *pnumverts,                 // Number of verts (in and out)
+                WORD **ppvertexpermutation      // Map from orignal index to remapped index
+        );
 

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,19 +17,19 @@
 #include "MapEntity.h"
 
 
-class CMapLight : public CMapHelper
-{
+class CMapLight : public CMapHelper {
 public:
 
-	DECLARE_MAPCLASS(CMapLight,CMapHelper);
+    DECLARE_MAPCLASS(CMapLight, CMapHelper);
 
 
-	static CMapClass *CreateMapLight(CHelperInfo *pHelperInfo, CMapEntity *pParent);
+    static CMapClass *CreateMapLight(CHelperInfo *pHelperInfo, CMapEntity *pParent);
 
-	virtual void OnParentKeyChanged(const char* key, const char* value);
-	virtual CMapClass *Copy(bool bUpdateDependencies);
+    virtual void OnParentKeyChanged(const char *key, const char *value);
 
-	virtual CMapClass *PrepareSelection(SelectMode_t eSelectMode);
+    virtual CMapClass *Copy(bool bUpdateDependencies);
+
+    virtual CMapClass *PrepareSelection(SelectMode_t eSelectMode);
 };
 
 

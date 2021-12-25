@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -66,7 +66,7 @@ static UINT uMapVersion = 0;
 static void StuffLine(char * buf)
 {
 	Assert(!bStuffed);
-	V_strcpy_safe(szStuffed, buf);
+	strcpy(szStuffed, buf);
 	bStuffed = TRUE;
 }
 
@@ -375,9 +375,9 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 		//
 		for (int nPlane = 0; nPlane < 3; nPlane++)
 		{
-			plane.planepts[nPlane][0] = V_rint(plane.planepts[nPlane][0]);
-			plane.planepts[nPlane][1] = V_rint(plane.planepts[nPlane][1]);
-			plane.planepts[nPlane][2] = V_rint(plane.planepts[nPlane][2]);
+			plane.planepts[nPlane][0] = rint(plane.planepts[nPlane][0]);
+			plane.planepts[nPlane][1] = rint(plane.planepts[nPlane][1]);
+			plane.planepts[nPlane][2] = rint(plane.planepts[nPlane][2]);
 		}
 
 		//
@@ -433,10 +433,9 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 
         if( uMapVersion >= 340 )
         {
-			COMPILE_TIME_ASSERT( ARRAYSIZE(szTexName) == 128 );
 			nRead = sscanf(szBuf,
 				"( %f %f %f ) ( %f %f %f ) ( %f %f %f ) "
-				"%127s "
+				"%s "
 				"[ %f %f %f %f ] "
 				"[ %f %f %f %f ] "
 				"%f %f %f "
@@ -446,7 +445,7 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 				&plane.planepts[1][0], &plane.planepts[1][1], &plane.planepts[1][2],
 				&plane.planepts[2][0], &plane.planepts[2][1], &plane.planepts[2][2],
 		
-				szTexName,
+				&szTexName,
 
 				&texture.UAxis[0], &texture.UAxis[1], &texture.UAxis[2], &texture.UAxis[3],
 				&texture.VAxis[0], &texture.VAxis[1], &texture.VAxis[2], &texture.VAxis[3],
@@ -458,8 +457,6 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 				&q2contents,
 				&q2surface,
 				&nLightmapScale);
-			// Guarantee null-termination to keep /analyze happy.
-			szTexName[ ARRAYSIZE(szTexName) - 1 ] = 0;
 
 			if (nRead < 21)
 			{
@@ -494,10 +491,9 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
         }
 		else if (uMapVersion >= 220 )
 		{
-			COMPILE_TIME_ASSERT( ARRAYSIZE(szTexName) == 128 );
 			nRead = sscanf(szBuf,
 				"( %f %f %f ) ( %f %f %f ) ( %f %f %f ) "
-				"%127s "
+				"%s "
 				"[ %f %f %f %f ] "
 				"[ %f %f %f %f ] "
 				"%f %f %f "
@@ -507,7 +503,7 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 				&plane.planepts[1][0], &plane.planepts[1][1], &plane.planepts[1][2],
 				&plane.planepts[2][0], &plane.planepts[2][1], &plane.planepts[2][2],
 		
-				szTexName,
+				&szTexName,
 
 				&texture.UAxis[0], &texture.UAxis[1], &texture.UAxis[2], &texture.UAxis[3],
 				&texture.VAxis[0], &texture.VAxis[1], &texture.VAxis[2], &texture.VAxis[3],
@@ -519,8 +515,6 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 				&q2contents,
 				&q2surface,
 				&nDummy);		// Pre-340 didn't have lightmap scale.
-			// Guarantee null-termination to keep /analyze happy.
-			szTexName[ ARRAYSIZE(szTexName) - 1 ] = 0;
 
 			if (nRead < 21)
 			{
@@ -535,10 +529,9 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 		}
 		else
 		{
-			COMPILE_TIME_ASSERT( ARRAYSIZE(szTexName) == 128 );
 			nRead = sscanf(szBuf,
 				"( %f %f %f ) ( %f %f %f ) ( %f %f %f ) "
-				"%127s "
+				"%s "
 				"%f %f %f "
 				"%f %f %u %u %u",
 
@@ -546,7 +539,7 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 				&plane.planepts[1][0], &plane.planepts[1][1], &plane.planepts[1][2],
 				&plane.planepts[2][0], &plane.planepts[2][1], &plane.planepts[2][2],
 		
-				szTexName,
+				&szTexName,
 
 				&texture.UAxis[3],
 				&texture.VAxis[3],
@@ -557,8 +550,6 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 				&q2contents,
 				&q2surface,
 				&nDummy);		// Pre-340 didn't have lightmap scale.
-			// Guarantee null-termination to keep /analyze happy.
-			szTexName[ ARRAYSIZE(szTexName) - 1 ] = 0;
 
 			if (nRead < 15)
 			{
@@ -627,7 +618,7 @@ int MDkeyvalue::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 		if(!p)
 			return fileError;
 		p[0] = 0;
-		V_strcpy_safe(szKey, szBuf+1);
+		strcpy(szKey, szBuf+1);
 
 		// advance to start of value string
 		p = strchr(p+1, '\"');

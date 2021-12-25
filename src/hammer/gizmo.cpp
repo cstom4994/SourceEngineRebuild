@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -10,7 +10,7 @@
 #include "Gizmo.h"
 #include "Render3D.h"
 #include "Resource.h"
-#include "materialsystem/imesh.h"
+#include "materialsystem/IMesh.h"
 #include "TextureSystem.h"
 #include "camera.h"
 

@@ -1,16 +1,16 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //
 //=============================================================================//
-typedef enum eOSVersion {
+typedef enum {
     eUninitialized,
     eUnknown,
     eWin9x,
     eWinNT,
-};
+} eOSVersion;
 
 extern void initOSVersion();
 

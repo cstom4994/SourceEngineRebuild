@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -13,8 +13,10 @@
 #include "GamePalette.h"
 #include "Hammer.h"
 #include "tier1/strtools.h"
+
 #pragma warning(push, 1)
 #pragma warning(disable:4701 4702 4530)
+
 #include <fstream>
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -24,131 +26,120 @@
 
 #pragma warning(disable:4244)
 
-CGamePalette::CGamePalette()
-{
-	fBrightness = 1.0;
+CGamePalette::CGamePalette() {
+    fBrightness = 1.0;
 
-	uPaletteBytes = sizeof(LOGPALETTE) + sizeof(PALETTEENTRY) * 256;
+    uPaletteBytes = sizeof(LOGPALETTE) + sizeof(PALETTEENTRY) * 256;
 
-	// allocate memory
-	pPalette = (LOGPALETTE*) malloc(uPaletteBytes);
-	pOriginalPalette = (LOGPALETTE*) malloc(uPaletteBytes);
+    // allocate memory
+    pPalette = (LOGPALETTE *) malloc(uPaletteBytes);
+    pOriginalPalette = (LOGPALETTE *) malloc(uPaletteBytes);
 
-	memset(pPalette, 0, uPaletteBytes);
-	memset(pOriginalPalette, 0, uPaletteBytes);
+    memset(pPalette, 0, uPaletteBytes);
+    memset(pOriginalPalette, 0, uPaletteBytes);
 
-	if(!pPalette || !pOriginalPalette)
-	{
-		AfxMessageBox("I couldn't allocate memory for the palette.");
-		PostQuitMessage(-1);
-		return;
-	}
+    if (!pPalette || !pOriginalPalette) {
+        AfxMessageBox("I couldn't allocate memory for the palette.");
+        PostQuitMessage(-1);
+        return;
+    }
 
-	pPalette->palVersion = 0x300;
-	pPalette->palNumEntries = 256;
+    pPalette->palVersion = 0x300;
+    pPalette->palNumEntries = 256;
 
-	pOriginalPalette->palVersion = 0x300;
-	pOriginalPalette->palNumEntries = 256;
+    pOriginalPalette->palVersion = 0x300;
+    pOriginalPalette->palNumEntries = 256;
 
-	GDIPalette.CreatePalette(pPalette);
+    GDIPalette.CreatePalette(pPalette);
 }
 
-CGamePalette::~CGamePalette()
-{
-	if(pPalette && pOriginalPalette)
-	{
-		// free memory
-		free(pPalette);
-		free(pOriginalPalette);
-	}
+CGamePalette::~CGamePalette() {
+    if (pPalette && pOriginalPalette) {
+        // free memory
+        free(pPalette);
+        free(pOriginalPalette);
+    }
 }
 
-BOOL CGamePalette::Create(LPCTSTR pszFile)
-{
-	char szRootDir[MAX_PATH];
-	char szFullPath[MAX_PATH];
-	APP()->GetDirectory(DIR_PROGRAM, szRootDir);
-	Q_MakeAbsolutePath( szFullPath, MAX_PATH, pszFile, szRootDir ); 
+BOOL CGamePalette::Create(LPCTSTR pszFile) {
+    char szRootDir[MAX_PATH];
+    char szFullPath[MAX_PATH];
+    APP()->GetDirectory(DIR_PROGRAM, szRootDir);
+    Q_MakeAbsolutePath(szFullPath, MAX_PATH, pszFile, szRootDir);
 
-	strFile = szFullPath;
+    strFile = szFullPath;
 
-	if( GetFileAttributes(strFile) == 0xffffffff )
-		return FALSE;	// not exist
+    if (GetFileAttributes(strFile) == 0xffffffff)
+        return FALSE;    // not exist
 
-	// open file & read palette
-	std::ifstream file(strFile, std::ios::binary);
+    // open file & read palette
+    std::ifstream file(strFile, std::ios::binary);
 
-	if( !file.is_open() )
-		return FALSE;
+    if (!file.is_open())
+        return FALSE;
 
-	int i;
-	for(i = 0; i < 256; i++)
-	{
-		if(file.eof())
-			break;
+    int i;
+    for (i = 0; i < 256; i++) {
+        if (file.eof())
+            break;
 
-		pOriginalPalette->palPalEntry[i].peRed = file.get();
-		pOriginalPalette->palPalEntry[i].peGreen = file.get();
-		pOriginalPalette->palPalEntry[i].peBlue = file.get();
-		pOriginalPalette->palPalEntry[i].peFlags = D3DRMPALETTE_READONLY |
-			PC_NOCOLLAPSE;
-	}
+        pOriginalPalette->palPalEntry[i].peRed = file.get();
+        pOriginalPalette->palPalEntry[i].peGreen = file.get();
+        pOriginalPalette->palPalEntry[i].peBlue = file.get();
+        pOriginalPalette->palPalEntry[i].peFlags = D3DRMPALETTE_READONLY |
+                                                   PC_NOCOLLAPSE;
+    }
 
-	file.close();
+    file.close();
 
-	if(i < 256)
-		return FALSE;
+    if (i < 256)
+        return FALSE;
 
-	// copy  into working palette
-	memcpy((void*) pPalette, (void*) pOriginalPalette, uPaletteBytes);
-	GDIPalette.SetPaletteEntries(0, 256, pPalette->palPalEntry);
+    // copy  into working palette
+    memcpy((void *) pPalette, (void *) pOriginalPalette, uPaletteBytes);
+    GDIPalette.SetPaletteEntries(0, 256, pPalette->palPalEntry);
 
-	return TRUE;
+    return TRUE;
 }
 
-static BYTE fixbyte(float fValue)
-{
-	if(fValue > 255.0)
-		fValue = 255.0;
-	if(fValue < 0)
-		fValue = 0;
+static BYTE fixbyte(float fValue) {
+    if (fValue > 255.0)
+        fValue = 255.0;
+    if (fValue < 0)
+        fValue = 0;
 
-	return BYTE(fValue);
+    return BYTE(fValue);
 }
 
-void CGamePalette::SetBrightness(float fValue)
-{
-	if(fValue <= 0)
-		return;
+void CGamePalette::SetBrightness(float fValue) {
+    if (fValue <= 0)
+        return;
 
-	fBrightness = fValue;
+    fBrightness = fValue;
 
-	// if fValue is 1.0, memcpy
-	if(fValue == 1.0)
-	{
-		memcpy((void*) pPalette, (void*) pOriginalPalette, uPaletteBytes);
-		GDIPalette.SetPaletteEntries(0, 256, pPalette->palPalEntry);
-		return;
-	}
+    // if fValue is 1.0, memcpy
+    if (fValue == 1.0) {
+        memcpy((void *) pPalette, (void *) pOriginalPalette, uPaletteBytes);
+        GDIPalette.SetPaletteEntries(0, 256, pPalette->palPalEntry);
+        return;
+    }
 
-	// copy original palette to new palette, scaling by fValue
-	PALETTEENTRY * pOriginalEntry;
-	PALETTEENTRY * pNewEntry;
+    // copy original palette to new palette, scaling by fValue
+    PALETTEENTRY *pOriginalEntry;
+    PALETTEENTRY *pNewEntry;
 
-	for(int i = 0; i < 256; i++)
-	{
-		pOriginalEntry = &pOriginalPalette->palPalEntry[i];
-		pNewEntry = &pPalette->palPalEntry[i];
+    for (int i = 0; i < 256; i++) {
+        pOriginalEntry = &pOriginalPalette->palPalEntry[i];
+        pNewEntry = &pPalette->palPalEntry[i];
 
-		pNewEntry->peRed = fixbyte(pOriginalEntry->peRed * fBrightness);
-		pNewEntry->peGreen = fixbyte(pOriginalEntry->peGreen * fBrightness);
-		pNewEntry->peBlue = fixbyte(pOriginalEntry->peBlue * fBrightness);
-	}
+        pNewEntry->peRed = fixbyte(pOriginalEntry->peRed * fBrightness);
+        pNewEntry->peGreen = fixbyte(pOriginalEntry->peGreen * fBrightness);
+        pNewEntry->peBlue = fixbyte(pOriginalEntry->peBlue * fBrightness);
+    }
 
-	GDIPalette.SetPaletteEntries(0, 256, pPalette->palPalEntry);
+    GDIPalette.SetPaletteEntries(0, 256, pPalette->palPalEntry);
 }
 
-float CGamePalette::GetBrightness()
-{
-	return fBrightness;
+float CGamePalette::GetBrightness() {
+    return fBrightness;
 }

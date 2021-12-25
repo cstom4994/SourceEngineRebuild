@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -56,7 +56,7 @@ protected:
     afx_msg void OnTimer(UINT nIDEvent);
     //}}AFX_MSG
 
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 
     bool m_bHideRequested;        // Set when the app signals the splash screen to hide.
     bool m_bMinTimerExpired;    // Set when OnTimer is called -- ensures that we stay up long enough to be seen.

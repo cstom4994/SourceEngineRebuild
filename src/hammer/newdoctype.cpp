@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -19,28 +19,26 @@
 // CNewDocType dialog
 
 
-CNewDocType::CNewDocType(CWnd* pParent /*=NULL*/)
-	: CDialog(CNewDocType::IDD, pParent)
-{
-	//{{AFX_DATA_INIT(CNewDocType)
-	m_iNewType = -1;
-	//}}AFX_DATA_INIT
+CNewDocType::CNewDocType(CWnd *pParent /*=NULL*/)
+        : CDialog(CNewDocType::IDD, pParent) {
+    //{{AFX_DATA_INIT(CNewDocType)
+    m_iNewType = -1;
+    //}}AFX_DATA_INIT
 }
 
 
-void CNewDocType::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CNewDocType)
-	DDX_Radio(pDX, IDC_NEWTYPE, m_iNewType);
-	//}}AFX_DATA_MAP
+void CNewDocType::DoDataExchange(CDataExchange *pDX) {
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CNewDocType)
+    DDX_Radio(pDX, IDC_NEWTYPE, m_iNewType);
+    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CNewDocType, CDialog)
-	//{{AFX_MSG_MAP(CNewDocType)
-		// NOTE: the ClassWizard will add message map macros here
-	//}}AFX_MSG_MAP
+                    //{{AFX_MSG_MAP(CNewDocType)
+                    // NOTE: the ClassWizard will add message map macros here
+                    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

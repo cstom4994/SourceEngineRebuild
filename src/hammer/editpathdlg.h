@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,37 +17,38 @@
 /////////////////////////////////////////////////////////////////////////////
 // CEditPathDlg dialog
 
-class CEditPathDlg : public CDialog
-{
+class CEditPathDlg : public CDialog {
 // Construction
 public:
-	CEditPathDlg(CWnd* pParent = NULL);   // standard constructor
+    CEditPathDlg(CWnd *pParent = NULL);   // standard constructor
 
 // Dialog Data
-	//{{AFX_DATA(CEditPathDlg)
-	enum { IDD = IDD_EDITPATH };
-	CComboBox	m_cClass;
-	CString	m_strClass;
-	int		m_iDirection;
-	CString	m_strName;
-	//}}AFX_DATA
+    //{{AFX_DATA(CEditPathDlg)
+    enum {
+        IDD = IDD_EDITPATH
+    };
+    CComboBox m_cClass;
+    CString m_strClass;
+    int m_iDirection;
+    CString m_strName;
+    //}}AFX_DATA
 
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CEditPathDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CEditPathDlg)
+protected:
+    virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
 // Implementation
 protected:
 
-	// Generated message map functions
-	//{{AFX_MSG(CEditPathDlg)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CEditPathDlg)
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

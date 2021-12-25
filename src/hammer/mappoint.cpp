@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -18,27 +18,24 @@
 //-----------------------------------------------------------------------------
 // Purpose: Constructor. Initializes the origin point to all zeros.
 //-----------------------------------------------------------------------------
-CMapPoint::CMapPoint(void)
-{
-	m_Origin.Init();
+CMapPoint::CMapPoint(void) {
+    m_Origin.Init();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns this point's X, Y, Z coordinates.
 //-----------------------------------------------------------------------------
-void CMapPoint::GetOrigin(Vector &Origin)
-{
-	Origin = m_Origin;
+void CMapPoint::GetOrigin(Vector &Origin) {
+    Origin = m_Origin;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets this point's X, Y, Z coordinates.
 //-----------------------------------------------------------------------------
-void CMapPoint::SetOrigin(Vector &Origin)
-{
-	m_Origin = Origin;
+void CMapPoint::SetOrigin(Vector &Origin) {
+    m_Origin = Origin;
 }
 
 
@@ -46,8 +43,7 @@ void CMapPoint::SetOrigin(Vector &Origin)
 // Purpose: 
 // Input  : pTransBox - 
 //-----------------------------------------------------------------------------
-void CMapPoint::DoTransform(const VMatrix &matrix)
-{
-	TransformPoint( matrix, m_Origin );
+void CMapPoint::DoTransform(const VMatrix &matrix) {
+    TransformPoint(matrix, m_Origin);
 }
 

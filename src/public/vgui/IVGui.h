@@ -17,6 +17,8 @@
 
 #include "appframework/IAppSystem.h"
 
+#undef MessageBox
+
 class KeyValues;
 
 namespace vgui {

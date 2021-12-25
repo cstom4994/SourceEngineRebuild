@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Defines a window for displaying a single texture within.
 //
@@ -34,7 +34,7 @@ protected:
 
     afx_msg void OnPaint();
 
-    DECLARE_MESSAGE_MAP();
+DECLARE_MESSAGE_MAP();
 };
 
 

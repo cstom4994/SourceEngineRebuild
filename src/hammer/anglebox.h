@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -74,7 +74,7 @@ protected:
     afx_msg void OnPaint();
     //}}AFX_MSG
 
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 
 private:
 
@@ -117,7 +117,7 @@ protected:
     afx_msg void OnSelChangeAngleEdit();
     //}}AFX_MSG
 
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 
 private:
 

@@ -1,5 +1,5 @@
 ﻿
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ====
 //
 // Purpose: 
 //
@@ -100,10 +100,10 @@ void CFilteredComboBox::SetSuggestions( CUtlVector<CString> &suggestions, int fl
 		
 		if ( GetCount() > 0 )
 		{
-			CString strLB;
-			GetLBText( 0, strLB );
+			CString str;
+			GetLBText( 0, str );
 			if ( bCallback )
-				DoTextChangedCallback( strLB );
+				DoTextChangedCallback( str );
 		}
 		else
 		{
@@ -161,9 +161,9 @@ void CFilteredComboBox::SelectItem( const char *pStr )
 		{
 			// Make sure the edit control has the right text in there. If they called ForceEditControlText,
 			// then it might not.
-			CString strWindow;
-			GetWindowText( strWindow );
-			if ( Q_stricmp( strWindow, pStr ) != 0 )
+			CString str;
+			GetWindowText( str );
+			if ( Q_stricmp( str, pStr ) != 0 )
 			{
 				SetWindowText( pStr );
 			}			
@@ -827,11 +827,7 @@ void CFilteredComboBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	// If this item is selected, set the background color 
 	// and the text color to appropriate values. Erase
 	// the rect by filling it with the background color.
-	// The left side of this expression was originally
-	// "(lpDrawItemStruct->itemAction | ODA_SELECT)", which is always true.
-	// To suppress the associated /analyze warning without changing
-	// behavior the expression was fixed but commented out.
-	if ( /*(lpDrawItemStruct->itemAction & ODA_SELECT) &&*/ (lpDrawItemStruct->itemState & ODS_SELECTED) )
+	if ( (lpDrawItemStruct->itemAction | ODA_SELECT) && (lpDrawItemStruct->itemState & ODS_SELECTED) )
 	{
 		dc.SetTextColor( ::GetSysColor(COLOR_HIGHLIGHTTEXT) );
 		dc.SetBkColor( ::GetSysColor(COLOR_HIGHLIGHT) );

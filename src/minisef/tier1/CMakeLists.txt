@@ -79,9 +79,9 @@ set(Header_Files__Internal_Header_Files
 source_group("Header Files\\Internal Header Files" FILES ${Header_Files__Internal_Header_Files})
 
 set(LZMA_Decompression_Support
-        "../../utils/lzma/C/7zTypes.h"
-        "../../utils/lzma/C/LzmaDec.c"
-        "../../utils/lzma/C/LzmaDec.h"
+        "../../thirdparty/lzma/C/7zTypes.h"
+        "../../thirdparty/lzma/C/LzmaDec.c"
+        "../../thirdparty/lzma/C/LzmaDec.h"
         )
 source_group("LZMA Decompression Support" FILES ${LZMA_Decompression_Support})
 
@@ -180,7 +180,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 ################################################################################
 # Include directories
 ################################################################################
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"

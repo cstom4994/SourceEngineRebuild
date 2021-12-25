@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: Rendering and mouse handling in the logical view.
 //
@@ -522,16 +522,17 @@ void CMapViewLogical::RenderConnections(const bool bDrawSelected, const bool bAn
 					float my = y + ( nInputCount / 2 ) * LOGICAL_CONN_VERT_SPACING/2;
 
 					Vector vecStart( x + LOGICAL_CONN_MULTI_CIRCLE_RADIUS, y, 0.0f );
+					Vector vecDelta;
 					for ( int k = 0; k < nInputCount; ++k )
 					{ 
 						// bBadInput = false; // This should be based on whether downstream entity has the specificied named input
 						bInputSelected = ( pEntityList->Element( k )->GetSelectionState() != SELECT_NONE );
-						color32 col = GetWireColor( pConn->GetOutputName(), 
+						color32 c = GetWireColor( pConn->GetOutputName(), 
 												  bEntitySelected || bInputSelected,
 												  bBadInput,
 												  bAnySelected );
 
-						pRender->SetDrawColor( col.r, col.g, col.b );
+						pRender->SetDrawColor( c.r, c.g, c.b );
 
 						Vector vecEnd( mx, my, 0.0f );
 						Vector vecDelta;

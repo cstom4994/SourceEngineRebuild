@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ====
 //
 // Purpose: Implements a factory for entity helpers. When an entity is created,
 //			the helpers from its class definition in the FGD are each instantiated
@@ -26,7 +26,6 @@
 #include "MapLight.h"
 #include "MapSideList.h"
 #include "MapCylinder.h"
-#include "MapInstance.h"
 #include "mapsweptplayerhull.h"
 #include "DispShore.h"
 
@@ -69,7 +68,6 @@ static HelperFactoryMap_t HelperFactoryMap[] =
 	"cylinder", CMapCylinder::Create,						// Wireframe cylinder with separate radii at each end
 	"sweptplayerhull", CMapSweptPlayerHull::Create,			// A swept player sized hull between two points (ladders)
 	"overlay_transition", CMapOverlayTransition::Create,	// Notes!!	
-	"instance", CMapInstance::Create,						// A map instance used for rendering the sub-map
 };
 
 

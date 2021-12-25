@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -10,11 +10,13 @@
 
 
 #include "BaseTypes.h"
-#include "utlvector.h"
+#include "UtlVector.h"
 
 
 class CChunkFile;
+
 class CSaveInfo;
+
 class CMapDoc;
 
 struct LoadVisGroupData_t;
@@ -23,218 +25,218 @@ struct LoadVisGroupData_t;
 enum ChunkFileResult_t;
 
 
-enum VisGroupState_t
-{
-	VISGROUP_UNDEFINED = -1,	// Used for initialization when updating state
-	VISGROUP_HIDDEN,			// All members are currently hidden
-	VISGROUP_SHOWN,				// All members are currently shown
-	VISGROUP_PARTIAL,			// Some members are currently hidden, some are shown
+enum VisGroupState_t {
+    VISGROUP_UNDEFINED = -1,    // Used for initialization when updating state
+    VISGROUP_HIDDEN,            // All members are currently hidden
+    VISGROUP_SHOWN,                // All members are currently shown
+    VISGROUP_PARTIAL,            // Some members are currently hidden, some are shown
 };
 
 
-class CVisGroup
-{
-	public:
+class CVisGroup {
+public:
 
-		CVisGroup(void);
+    CVisGroup(void);
 
-		inline unsigned int GetID(void) { return(m_dwID); }
-		inline void SetID(unsigned int dwID) { m_dwID = dwID; }
+    inline unsigned int GetID(void) { return (m_dwID); }
 
-		inline const char *GetName(void)
-		{
-			return(m_szName);
-		}
+    inline void SetID(unsigned int dwID) { m_dwID = dwID; }
 
-		inline void SetName(const char *pszName)
-		{
-			if (pszName != NULL)
-			{
-				strncpy(m_szName, pszName, sizeof(m_szName));
-			}
-		}
+    inline const char *GetName(void) {
+        return (m_szName);
+    }
 
-		inline color32 GetColor(void);
-		inline void SetColor(color32 rgbColor);
-		inline void SetColor(unsigned char red, unsigned char green, unsigned char blue);
+    inline void SetName(const char *pszName) {
+        if (pszName != NULL) {
+            strncpy(m_szName, pszName, sizeof(m_szName));
+        }
+    }
 
-		inline CVisGroup *GetParent(void);
-		inline void SetParent(CVisGroup *pNewParent);
+    inline color32 GetColor(void);
 
-		inline int GetChildCount(void);
-		inline CVisGroup *GetChild(int nIndex);
+    inline void SetColor(color32 rgbColor);
 
-		void AddChild(CVisGroup *pChild);
-		void RemoveChild(CVisGroup *pChild);
+    inline void SetColor(unsigned char red, unsigned char green, unsigned char blue);
 
-		bool FindDescendent(CVisGroup *pGroup);
+    inline CVisGroup *GetParent(void);
 
-		void MoveUp(CVisGroup *pChild);
-		void MoveDown(CVisGroup *pChild);
+    inline void SetParent(CVisGroup *pNewParent);
 
-		bool CanMoveUp(CVisGroup *pChild);
-		bool CanMoveDown(CVisGroup *pChild);
+    inline int GetChildCount(void);
 
-		VisGroupState_t GetVisible(void);
-		void VisGroups_UpdateParent( VisGroupState_t state );
-		inline void SetVisible(VisGroupState_t  eVisible) { m_eVisible = eVisible; }
+    inline CVisGroup *GetChild(int nIndex);
 
-		static bool IsShowAllActive(void);
-		static void ShowAllVisGroups(bool bShow);
+    void AddChild(CVisGroup *pChild);
 
-		//
-		// Serialization.
-		//
-		ChunkFileResult_t LoadVMF(CChunkFile *pFile, CMapDoc *pDoc);
-		ChunkFileResult_t SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo);
+    void RemoveChild(CVisGroup *pChild);
 
-		static ChunkFileResult_t LoadVisGroupCallback(CChunkFile *pFile, LoadVisGroupData_t *pLoadData);
-		static ChunkFileResult_t LoadVisGroupsCallback(CChunkFile *pFile, CMapDoc *pDoc);
+    bool FindDescendent(CVisGroup *pGroup);
 
-		static bool IsConvertingOldVisGroups();
+    void MoveUp(CVisGroup *pChild);
 
-		bool IsAutoVisGroup(void);
-		void SetAuto( bool bAuto );
+    void MoveDown(CVisGroup *pChild);
 
-	protected:
+    bool CanMoveUp(CVisGroup *pChild);
 
-		CUtlVector<CVisGroup *> m_Children;
-		CVisGroup *m_pParent;
+    bool CanMoveDown(CVisGroup *pChild);
 
-		bool m_bIsAuto;
+    VisGroupState_t GetVisible(void);
 
-		static ChunkFileResult_t LoadKeyCallback(const char *szKey, const char *szValue, CVisGroup *pGroup);
+    void VisGroups_UpdateParent(VisGroupState_t state);
 
-		static bool s_bShowAll;
-		static bool s_bIsConvertingOldVisGroups;
+    inline void SetVisible(VisGroupState_t eVisible) { m_eVisible = eVisible; }
 
-		char m_szName[128];
-		color32 m_rgbColor;
+    static bool IsShowAllActive(void);
 
-		unsigned int m_dwID;
-		VisGroupState_t m_eVisible;
+    static void ShowAllVisGroups(bool bShow);
+
+    //
+    // Serialization.
+    //
+    ChunkFileResult_t LoadVMF(CChunkFile *pFile, CMapDoc *pDoc);
+
+    ChunkFileResult_t SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo);
+
+    static ChunkFileResult_t LoadVisGroupCallback(CChunkFile *pFile, LoadVisGroupData_t *pLoadData);
+
+    static ChunkFileResult_t LoadVisGroupsCallback(CChunkFile *pFile, CMapDoc *pDoc);
+
+    static bool IsConvertingOldVisGroups();
+
+    bool IsAutoVisGroup(void);
+
+    void SetAuto(bool bAuto);
+
+protected:
+
+    CUtlVector<CVisGroup *> m_Children;
+    CVisGroup *m_pParent;
+
+    bool m_bIsAuto;
+
+    static ChunkFileResult_t LoadKeyCallback(const char *szKey, const char *szValue, CVisGroup *pGroup);
+
+    static bool s_bShowAll;
+    static bool s_bIsConvertingOldVisGroups;
+
+    char m_szName[128];
+    color32 m_rgbColor;
+
+    unsigned int m_dwID;
+    VisGroupState_t m_eVisible;
 };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns the render color of this visgroup.
 //-----------------------------------------------------------------------------
-inline color32 CVisGroup::GetColor(void)
-{
-	return m_rgbColor;
+inline color32 CVisGroup::GetColor(void) {
+    return m_rgbColor;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets the color of this visgroup.
 //-----------------------------------------------------------------------------
-inline void CVisGroup::SetColor(color32 rgbColor)
-{
-	m_rgbColor = rgbColor;
+inline void CVisGroup::SetColor(color32 rgbColor) {
+    m_rgbColor = rgbColor;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets the color of this visgroup using RGB values.
 //-----------------------------------------------------------------------------
-inline void CVisGroup::SetColor(unsigned char red, unsigned char green, unsigned char blue)
-{
-	m_rgbColor.r = red;
-	m_rgbColor.g = green;
-	m_rgbColor.b = blue;
-	m_rgbColor.a = 0;
+inline void CVisGroup::SetColor(unsigned char red, unsigned char green, unsigned char blue) {
+    m_rgbColor.r = red;
+    m_rgbColor.g = green;
+    m_rgbColor.b = blue;
+    m_rgbColor.a = 0;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns the number of visgroups that are children of this visgroup.
 //-----------------------------------------------------------------------------
-inline int CVisGroup::GetChildCount(void)
-{
-	return m_Children.Count();
+inline int CVisGroup::GetChildCount(void) {
+    return m_Children.Count();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns the given child visgroup.
 //-----------------------------------------------------------------------------
-inline CVisGroup *CVisGroup::GetChild(int nIndex)
-{
-	return m_Children.Element(nIndex);
+inline CVisGroup *CVisGroup::GetChild(int nIndex) {
+    return m_Children.Element(nIndex);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns this visgroup's parent in the hierarchy.
 //-----------------------------------------------------------------------------
-inline CVisGroup *CVisGroup::GetParent(void)
-{
-	return m_pParent;
+inline CVisGroup *CVisGroup::GetParent(void) {
+    return m_pParent;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-inline void CVisGroup::SetParent(CVisGroup *pNewParent)
-{
-	m_pParent = pNewParent;
+inline void CVisGroup::SetParent(CVisGroup *pNewParent) {
+    m_pParent = pNewParent;
 }
 
 
 //-----------------------------------------------------------------------------
 // A list of visgroups.
 //-----------------------------------------------------------------------------
-class CVisGroupList
-{
+class CVisGroupList {
 public:
 
-	inline int AddToTail(CVisGroup *pVisGroup);
-	inline int Count(void);
-	inline CVisGroup *Element(int nElement);
-	inline int Find(CVisGroup *pVisGroup);
-	inline void FastRemove(int nElement);
-	inline void RemoveAll(void);
+    inline int AddToTail(CVisGroup *pVisGroup);
+
+    inline int Count(void);
+
+    inline CVisGroup *Element(int nElement);
+
+    inline int Find(CVisGroup *pVisGroup);
+
+    inline void FastRemove(int nElement);
+
+    inline void RemoveAll(void);
 
 private:
 
-	CUtlVector<CVisGroup *> m_List;
+    CUtlVector<CVisGroup *> m_List;
 };
 
 
-int CVisGroupList::AddToTail(CVisGroup *pVisGroup)
-{
-	return m_List.AddToTail(pVisGroup);
+int CVisGroupList::AddToTail(CVisGroup *pVisGroup) {
+    return m_List.AddToTail(pVisGroup);
 }
 
 
-int CVisGroupList::Count(void)
-{
-	return m_List.Count();
+int CVisGroupList::Count(void) {
+    return m_List.Count();
 }
 
 
-CVisGroup *CVisGroupList::Element(int nElement)
-{
-	return m_List.Element(nElement);
+CVisGroup *CVisGroupList::Element(int nElement) {
+    return m_List.Element(nElement);
 }
 
 
-int CVisGroupList::Find(CVisGroup *pVisGroup)
-{
-	return m_List.Find(pVisGroup);
+int CVisGroupList::Find(CVisGroup *pVisGroup) {
+    return m_List.Find(pVisGroup);
 }
 
 
-inline void CVisGroupList::FastRemove(int nElement)
-{
-	m_List.FastRemove(nElement);
+inline void CVisGroupList::FastRemove(int nElement) {
+    m_List.FastRemove(nElement);
 }
 
 
-inline void CVisGroupList::RemoveAll(void)
-{
-	m_List.RemoveAll();
+inline void CVisGroupList::RemoveAll(void) {
+    m_List.RemoveAll();
 }
 
 

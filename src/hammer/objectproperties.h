@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -117,11 +117,6 @@ protected:
 	COP_Model *m_pModel;
 
 	//
-	// instance button
-	//
-	CButton *m_pInstanceButton;
-
-	//
 	// Input/output connection buttons
 	//
 	CButton *m_pInputButton;
@@ -141,8 +136,7 @@ protected:
 	int						m_nPages;					// Number of pages currently in use
 	CObjectPage				*m_pLastActivePage;	// Used for restoring the last active page when changing selection.
 
-	bool m_bDataDirty;	// true if selected object somehow changed etc
-	bool m_bCanEdit;	// true if the object can be edited
+	bool m_bDataDirty;	//ture if selected object somehow changed etc
 
 
 	//{{AFX_MSG(CObjectProperties)
@@ -151,7 +145,6 @@ protected:
 	afx_msg void OnCancel(void);
 	afx_msg void OnInputs(void);
 	afx_msg void OnOutputs(void);
-	afx_msg void OnEditInstance(void);
 	afx_msg void OnClose();
 	afx_msg void OnPaint();
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);

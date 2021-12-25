@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -13,109 +13,114 @@
 
 #include <afxtempl.h>
 
-enum
-{
-	lbdBool,
-	lbdString,
-	lbdInteger
+enum {
+    lbdBool,
+    lbdString,
+    lbdInteger
 };
 
-enum
-{
-	lbeYesNo,
-	lbeOnOff,
-	lbeString,
-	lbeInteger,
-	lbeTexture,
-	lbeChoices
+enum {
+    lbeYesNo,
+    lbeOnOff,
+    lbeString,
+    lbeInteger,
+    lbeTexture,
+    lbeChoices
 };
 
-typedef struct
-{
-	char szCaption[128];	// field named
-	char *pszSaveCaption;	// save caption to this, if supported
-	int iDataType;			// how to display	(lbdxxx)
-	int iEditType;			// how to edit		(lbexxx)
-	
-	int iDataValue;			// int value for integer/bool fields
-	char szDataString[128];	// str value for string fields
-	
-	PVOID pSaveTo;
-	const char * pszHelp;	// help text		(ptr or NULL)
-	int iRangeMin;			// ranged value min	(-1 if no range)
-	int iRangeMax;			// ranged value max	(-1 if no range)
-	CStringArray* pChoices;	// choices, if lbdChoices
+typedef struct {
+    char szCaption[128];    // field named
+    char *pszSaveCaption;    // save caption to this, if supported
+    int iDataType;            // how to display	(lbdxxx)
+    int iEditType;            // how to edit		(lbexxx)
+
+    int iDataValue;            // int value for integer/bool fields
+    char szDataString[128];    // str value for string fields
+
+    PVOID pSaveTo;
+    const char *pszHelp;    // help text		(ptr or NULL)
+    int iRangeMin;            // ranged value min	(-1 if no range)
+    int iRangeMax;            // ranged value max	(-1 if no range)
+    CStringArray *pChoices;    // choices, if lbdChoices
 
 } LBEXTITEMSTRUCT;
 
 // listboxex styles
-enum
-{
-	LBES_EDITCAPTIONS = 0x01
+enum {
+    LBES_EDITCAPTIONS = 0x01
 };
 
 /////////////////////////////////////////////////////////////////////////////
 // CListBoxEx window
 
-class CListBoxEx : public CListBox
-{
+class CListBoxEx : public CListBox {
 // Construction
 public:
-	CListBoxEx();
+    CListBoxEx();
 
 // Attributes
 public:
-	int iCaptionWidthUnits;
-	int iCaptionWidthPixels;
-	int iItemHeight;
-	CEdit EditCtrl;
-	CComboBox ComboCtrl;
-	DWORD dwStyle;
-	BOOL bControlActive;
-	BOOL bIgnoreChange;
-	int iControlItem;
+    int iCaptionWidthUnits;
+    int iCaptionWidthPixels;
+    int iItemHeight;
+    CEdit EditCtrl;
+    CComboBox ComboCtrl;
+    DWORD dwStyle;
+    BOOL bControlActive;
+    BOOL bIgnoreChange;
+    int iControlItem;
 
-	void SetStyle(DWORD dwStyle);
+    void SetStyle(DWORD dwStyle);
 
-	void AddItem(char * pszCaption, int iEditType, PVOID pData,
-		int iRangeMin = -1, int iRangeMax = -1, const char * pszHelp = NULL);
-	void SetItemChoices(int iItem, CStringArray * pChoices, 
-		int iDefaultChoice = 0);
-	void GetItemText(int iItem, char *pszText);
-	void CreateEditControl();
-	void CreateComboControl();
-	void DestroyControls();
+    void AddItem(char *pszCaption, int iEditType, PVOID pData,
+                 int iRangeMin = -1, int iRangeMax = -1, const char *pszHelp = NULL);
 
-	CArray<LBEXTITEMSTRUCT, LBEXTITEMSTRUCT&> Items;
-	unsigned nItems;
+    void SetItemChoices(int iItem, CStringArray *pChoices,
+                        int iDefaultChoice = 0);
+
+    void GetItemText(int iItem, char *pszText);
+
+    void CreateEditControl();
+
+    void CreateComboControl();
+
+    void DestroyControls();
+
+    CArray<LBEXTITEMSTRUCT, LBEXTITEMSTRUCT &> Items;
+    unsigned nItems;
 
 // Operations
 public:
-	BOOL bActivateOnRelease;
+    BOOL bActivateOnRelease;
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CListBoxEx)
-	public:
-	virtual void MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct);
-	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
-	virtual int CompareItem(LPCOMPAREITEMSTRUCT lpCompareItemStruct);
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CListBoxEx)
+public:
+    virtual void MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct);
+
+    virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
+
+    virtual int CompareItem(LPCOMPAREITEMSTRUCT lpCompareItemStruct);
+    //}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~CListBoxEx();
+    virtual ~CListBoxEx();
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CListBoxEx)
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnSelchange();
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
-	//}}AFX_MSG
+    //{{AFX_MSG(CListBoxEx)
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 
-	DECLARE_MESSAGE_MAP()
+    afx_msg void OnSelchange();
+
+    afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+
+    afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+    //}}AFX_MSG
+
+DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

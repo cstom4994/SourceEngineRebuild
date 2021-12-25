@@ -1,6 +1,6 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================//
@@ -23,14 +23,14 @@ using namespace std;
 #ifdef RICHED_IMPL
 	#ifdef _AFXEXT
 		#define RICHED_DECL __declspec(dllexport)
-	#else 
-		#define RICHED_DECL 
+	#else
+		#define RICHED_DECL
 	#endif
 #else
 	#ifdef _AFXEXT
 		#define RICHED_DECL __declspec(dllimport)
 	#else
-		#define RICHED_DECL 
+		#define RICHED_DECL
 	#endif//_AFXEXT
 #endif //RICHED_IMPL
 
@@ -41,7 +41,7 @@ class CIntManip;
 
 
 typedef CRTFBuilder &(*RTFSM_PFUNC)	(CRTFBuilder &);
-typedef CRTFBuilder &(*RTFSM_STRINGPFUNC) (CRTFBuilder &, CString &); 
+typedef CRTFBuilder &(*RTFSM_STRINGPFUNC) (CRTFBuilder &, CString &);
 typedef CRTFBuilder &(*RTFSM_INTPFUNC) (CRTFBuilder &, int);
 typedef CRTFBuilder &(*RTFSM_BOOLPFUNC)	(CRTFBuilder &, bool);
 typedef CRTFBuilder &(*RTFSM_CONTROLPFUNC) (CRTFBuilder &, CRichEditCtrl &);
@@ -97,7 +97,7 @@ class CTextAttributes
 			: m_bsBold("\\b") ,
 			  m_bsUnderline("\\ul"),
 			  m_bsItalic("\\i"),
-			  m_bsStrike("\\strike") 
+			  m_bsStrike("\\strike")
 		{
 			m_nColorBground = m_nColorFground = m_nFontNumber = m_nFontSize = 0;
 			m_bsBold = false;
@@ -107,8 +107,8 @@ class CTextAttributes
 		{
 			CString s;
 			s.Format("\\plain%s%s%s%s\\f%d\\fs%d\\cb%d\\cf%d ",
-					((CString)m_bsBold).GetBuffer(),
-					((CString)m_bsUnderline).GetBuffer(), ((CString)m_bsItalic).GetBuffer(), ((CString)m_bsStrike).GetBuffer(),
+					(LPCTSTR)(CString)m_bsBold,
+					(LPCTSTR)(CString)m_bsUnderline, (LPCTSTR)(CString)m_bsItalic, (LPCTSTR)(CString)m_bsStrike,
 					m_nFontNumber ,
 					m_nFontSize ,
 					m_nColorBground,
@@ -126,7 +126,7 @@ class CFontList : public list<CString>
 	public:
 
 		operator CString() const
-		{ 
+		{
 			CString s;
 			s = "{\\fonttbl";
 
@@ -134,7 +134,7 @@ class CFontList : public list<CString>
 			for (const_iterator i = begin(); i!=end(); i++)
 			{
 				CString s2;
-				s2.Format("{\\f%d %s;}", nCount++, (const char*)(*i));
+				s2.Format("{\\f%d %s;}", nCount++, (LPCTSTR)(*i));
 				s+=s2;
 			}
 
@@ -154,8 +154,8 @@ class CColorList : public list<COLORREF>
 	public:
 
 		int add(COLORREF c)
-		{ 
-			push_back(c); 
+		{
+			push_back(c);
 			return size() - 1;
 		}
 
@@ -174,7 +174,7 @@ class CColorList : public list<COLORREF>
 			return -1;
 		}
 
-		
+
 		operator CString() const
 		{
 			CString s("{\\colortbl");
@@ -210,10 +210,10 @@ class RICHED_DECL CManip
 		virtual CRTFBuilder &go(CRTFBuilder &) = 0;
 
 		CManip()
-		{ 
-			m_pFunc =  NULL; 
-			m_nVal = 0; 
-			m_strVal = ""; 
+		{
+			m_pFunc =  NULL;
+			m_nVal = 0;
+			m_strVal = "";
 		}
 
 		CManip(LPVOID p, CString s)
@@ -320,7 +320,7 @@ class RICHED_DECL CRTFBuilder
 
 		void push();
 		void pop();
-		
+
 		CRTFBuilder &operator+=(CString &s);
 		CRTFBuilder();
 		virtual ~CRTFBuilder();
@@ -329,7 +329,7 @@ class RICHED_DECL CRTFBuilder
 		{
 			m_fontList.add(s);
 		}
-		
+
 		void addColor(COLORREF c)
 		{
 			m_colorList.add(c);
@@ -403,7 +403,7 @@ class RICHED_DECL CRichEditCtrlEx : public CRichEditCtrl
 		{
 			ModifyStyle(b ? WS_DISABLED : 0, b ?  0 : WS_DISABLED, 0);
 		}
-		
+
 		void disable(bool b = true)
 		{
 			enable(!b);

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -23,71 +23,63 @@
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CPrefab3D::CPrefab3D()
-{
-	m_pWorld = NULL;
+CPrefab3D::CPrefab3D() {
+    m_pWorld = NULL;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CPrefab3D::~CPrefab3D()
-{
-	FreeData();
+CPrefab3D::~CPrefab3D() {
+    FreeData();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CPrefab3D::FreeData()
-{
-	delete m_pWorld;
-	m_pWorld = NULL;
+void CPrefab3D::FreeData() {
+    delete m_pWorld;
+    m_pWorld = NULL;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CMapClass *CPrefab3D::Create(void)
-{
-	if (!IsLoaded() && (Load() == -1))
-	{
-		return(NULL);
-	}
+CMapClass *CPrefab3D::Create(void) {
+    if (!IsLoaded() && (Load() == -1)) {
+        return (NULL);
+    }
 
-	CMapClass *pCopy;
-	CMapClass *pOriginal;
+    CMapClass *pCopy;
+    CMapClass *pOriginal;
 
-	//
-	// Check for just one object - if only one, don't group it.
-	//
-	if (m_pWorld->GetChildCount() == 1)
-	{
-		
-		pOriginal = m_pWorld->GetChildren()->Element(0);
-		pCopy = pOriginal->Copy(false);
-	}
-	else
-	{
-		// Original object is world
-		pOriginal = m_pWorld;
+    //
+    // Check for just one object - if only one, don't group it.
+    //
+    if (m_pWorld->GetChildCount() == 1) {
 
-		// New object is a new group
-		pCopy = (CMapClass *)new CMapGroup;
-	}
+        pOriginal = m_pWorld->GetChildren()->Element(0);
+        pCopy = pOriginal->Copy(false);
+    } else {
+        // Original object is world
+        pOriginal = m_pWorld;
 
-	//
-	// Copy children from original (if any).
-	//
-	pCopy->CopyChildrenFrom(pOriginal, false);
+        // New object is a new group
+        pCopy = (CMapClass *) new CMapGroup;
+    }
 
-	// HACK: must calculate bounds here due to a hack in CMapClass::CopyChildrenFrom
-	pCopy->CalcBounds();
+    //
+    // Copy children from original (if any).
+    //
+    pCopy->CopyChildrenFrom(pOriginal, false);
 
-	return(pCopy);
+    // HACK: must calculate bounds here due to a hack in CMapClass::CopyChildrenFrom
+    pCopy->CalcBounds();
+
+    return (pCopy);
 }
 
 
@@ -96,33 +88,30 @@ CMapClass *CPrefab3D::Create(void)
 // Input  : point - Where to center the prefab.
 // Output : CMapClass
 //-----------------------------------------------------------------------------
-CMapClass *CPrefab3D::CreateAtPoint(const Vector &point)
-{
-	//
-	// Create the prefab object. It will either be a single object
-	// or a group containing the prefab objects.
-	//
-	CMapClass *pObject = Create();
+CMapClass *CPrefab3D::CreateAtPoint(const Vector &point) {
+    //
+    // Create the prefab object. It will either be a single object
+    // or a group containing the prefab objects.
+    //
+    CMapClass *pObject = Create();
 
-	if (pObject != NULL)
-	{
-		//
-		// Move the prefab center to match the given point.
-		//
-		Vector move = point;
-		Vector center;
-		pObject->GetBoundsCenter(center);
-		for (int i = 0; i < 3; i++)
-		{
-			move[i] -= center[i];
-		}
+    if (pObject != NULL) {
+        //
+        // Move the prefab center to match the given point.
+        //
+        Vector move = point;
+        Vector center;
+        pObject->GetBoundsCenter(center);
+        for (int i = 0; i < 3; i++) {
+            move[i] -= center[i];
+        }
 
-		BOOL bOldLock = Options.SetLockingTextures(TRUE);
-		pObject->TransMove(move);
-		Options.SetLockingTextures(bOldLock);
-	}
+        BOOL bOldLock = Options.SetLockingTextures(TRUE);
+        pObject->TransMove(move);
+        Options.SetLockingTextures(bOldLock);
+    }
 
-	return(pObject);
+    return (pObject);
 }
 
 
@@ -131,24 +120,23 @@ CMapClass *CPrefab3D::CreateAtPoint(const Vector &point)
 // Input  : 
 // Output : 
 //-----------------------------------------------------------------------------
-CMapClass *CPrefab3D::CreateAtPointAroundOrigin( Vector const &point )
-{
-	//
-	// Create the prefab object. It will either be a single object
-	// or a group containing the prefab objects.
-	//
-	CMapClass *pObject = Create();
+CMapClass *CPrefab3D::CreateAtPointAroundOrigin(Vector const &point) {
+    //
+    // Create the prefab object. It will either be a single object
+    // or a group containing the prefab objects.
+    //
+    CMapClass *pObject = Create();
 
-	if( !pObject )
-		return NULL;
+    if (!pObject)
+        return NULL;
 
-	Vector move = point;
+    Vector move = point;
 
-	BOOL bOldLock = Options.SetLockingTextures( TRUE );
-	pObject->TransMove( move );
-	Options.SetLockingTextures( bOldLock );
+    BOOL bOldLock = Options.SetLockingTextures(TRUE);
+    pObject->TransMove(move);
+    Options.SetLockingTextures(bOldLock);
 
-	return ( pObject );
+    return (pObject);
 }
 
 
@@ -157,134 +145,87 @@ CMapClass *CPrefab3D::CreateAtPointAroundOrigin( Vector const &point )
 // Input  : pBox - 
 // Output : 
 //-----------------------------------------------------------------------------
-CMapClass *CPrefab3D::CreateInBox(BoundBox *pBox)
-{
-	//
-	// Create the prefab object. It will either be a single object
-	// or a group containing the prefab objects.
-	//
-	CMapClass *pObject = Create();
+CMapClass *CPrefab3D::CreateInBox(BoundBox *pBox) {
+    //
+    // Create the prefab object. It will either be a single object
+    // or a group containing the prefab objects.
+    //
+    CMapClass *pObject = Create();
 
-	if (pObject != NULL)
-	{
-		//
-		// Scale the prefab to match the box bounds.
-		//
-		Vector NewSize;
-		pBox->GetBoundsSize(NewSize);
+    if (pObject != NULL) {
+        //
+        // Scale the prefab to match the box bounds.
+        //
+        Vector NewSize;
+        pBox->GetBoundsSize(NewSize);
 
-		Vector CurSize;
-		pObject->GetBoundsSize(CurSize);
+        Vector CurSize;
+        pObject->GetBoundsSize(CurSize);
 
-		Vector scale;
-		for (int i = 0; i < 3; i++)
-		{
-			scale[i] = NewSize[i] / CurSize[i];
-		}
+        Vector scale;
+        for (int i = 0; i < 3; i++) {
+            scale[i] = NewSize[i] / CurSize[i];
+        }
 
-		Vector zero(0, 0, 0);
-		pObject->TransScale(zero, scale);
+        Vector zero(0, 0, 0);
+        pObject->TransScale(zero, scale);
 
-		//
-		// Move the prefab center to match the box center.
-		//
-		Vector move;
-		pBox->GetBoundsCenter(move);
+        //
+        // Move the prefab center to match the box center.
+        //
+        Vector move;
+        pBox->GetBoundsCenter(move);
 
-		Vector center;
-		pObject->GetBoundsCenter(center);
-		for (int i = 0; i < 3; i++)
-		{
-			move[i] -= center[i];
-		}
+        Vector center;
+        pObject->GetBoundsCenter(center);
+        for (int i = 0; i < 3; i++) {
+            move[i] -= center[i];
+        }
 
-		BOOL bOldLock = Options.SetLockingTextures(TRUE);
-		pObject->TransMove(move);
-		Options.SetLockingTextures(bOldLock);
-	}
+        BOOL bOldLock = Options.SetLockingTextures(TRUE);
+        pObject->TransMove(move);
+        Options.SetLockingTextures(bOldLock);
+    }
 
-	return(pObject);
+    return (pObject);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CPrefab3D::CenterOnZero()
-{
-	Vector ptCenter;
-	m_pWorld->GetBoundsCenter(ptCenter);
-	ptCenter[0] = -ptCenter[0];
-	ptCenter[1] = -ptCenter[1];
-	ptCenter[2] = -ptCenter[2];
+void CPrefab3D::CenterOnZero() {
+    Vector ptCenter;
+    m_pWorld->GetBoundsCenter(ptCenter);
+    ptCenter[0] = -ptCenter[0];
+    ptCenter[1] = -ptCenter[1];
+    ptCenter[2] = -ptCenter[2];
 
-	BOOL bOldLock = Options.SetLockingTextures(TRUE);
-	m_pWorld->TransMove(ptCenter);
-	Options.SetLockingTextures(bOldLock);
+    BOOL bOldLock = Options.SetLockingTextures(TRUE);
+    m_pWorld->TransMove(ptCenter);
+    Options.SetLockingTextures(bOldLock);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns true if the prefab data has been loaded from disk, false if not.
 //-----------------------------------------------------------------------------
-bool CPrefab3D::IsLoaded(void)
-{
-	return (m_pWorld != NULL);
+bool CPrefab3D::IsLoaded(void) {
+    return (m_pWorld != NULL);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CPrefabRMF::CPrefabRMF()
-{
+CPrefabRMF::CPrefabRMF() {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CPrefabRMF::~CPrefabRMF()
-{
-}
-
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : file - 
-//			dwFlags - 
-// Output : int
-//-----------------------------------------------------------------------------
-int CPrefabRMF::DoLoad(std::fstream& file, DWORD dwFlags)
-{
-	int iRvl;
-
-	GetHistory()->Pause();
-
-	AddMRU(this);
-
-	if(m_pWorld)
-		delete m_pWorld;
-	m_pWorld = new CMapWorld( NULL );
-
-	// read data
-	if(dwFlags & lsMAP)
-		iRvl = m_pWorld->SerializeMAP(file, FALSE);
-	else
-		iRvl = m_pWorld->SerializeRMF(file, FALSE);
-
-	// error?
-	if(iRvl == -1)
-	{
-		GetHistory()->Resume();
-		return iRvl;
-	}
-
-	m_pWorld->CalcBounds(TRUE);
-
-	GetHistory()->Resume();
-
-	return 1;
+CPrefabRMF::~CPrefabRMF() {
 }
 
 
@@ -294,13 +235,49 @@ int CPrefabRMF::DoLoad(std::fstream& file, DWORD dwFlags)
 //			dwFlags - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CPrefabRMF::DoSave(std::fstream& file, DWORD dwFlags)
-{
-	// save world
-	if(dwFlags & lsMAP)
-		return m_pWorld->SerializeMAP(file, TRUE);
+int CPrefabRMF::DoLoad(std::fstream &file, DWORD dwFlags) {
+    int iRvl;
 
-	return m_pWorld->SerializeRMF(file, TRUE);
+    GetHistory()->Pause();
+
+    AddMRU(this);
+
+    if (m_pWorld)
+        delete m_pWorld;
+    m_pWorld = new CMapWorld;
+
+    // read data
+    if (dwFlags & lsMAP)
+        iRvl = m_pWorld->SerializeMAP(file, FALSE);
+    else
+        iRvl = m_pWorld->SerializeRMF(file, FALSE);
+
+    // error?
+    if (iRvl == -1) {
+        GetHistory()->Resume();
+        return iRvl;
+    }
+
+    m_pWorld->CalcBounds(TRUE);
+
+    GetHistory()->Resume();
+
+    return 1;
+}
+
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Input  : file - 
+//			dwFlags - 
+// Output : int
+//-----------------------------------------------------------------------------
+int CPrefabRMF::DoSave(std::fstream &file, DWORD dwFlags) {
+    // save world
+    if (dwFlags & lsMAP)
+        return m_pWorld->SerializeMAP(file, TRUE);
+
+    return m_pWorld->SerializeRMF(file, TRUE);
 }
 
 
@@ -309,21 +286,19 @@ int CPrefabRMF::DoSave(std::fstream& file, DWORD dwFlags)
 // Input  : dwFlags - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CPrefabRMF::Load(DWORD dwFlags)
-{
-	//
-	// Get parent library's file handle.
-	//
-	CPrefabLibraryRMF *pLibrary = dynamic_cast <CPrefabLibraryRMF *>(CPrefabLibrary::FindID(dwLibID));
-	if (!pLibrary)
-	{
-		return -1;
-	}
+int CPrefabRMF::Load(DWORD dwFlags) {
+    //
+    // Get parent library's file handle.
+    //
+    CPrefabLibraryRMF *pLibrary = dynamic_cast <CPrefabLibraryRMF *>(CPrefabLibrary::FindID(dwLibID));
+    if (!pLibrary) {
+        return -1;
+    }
 
-	std::fstream &file = pLibrary->m_file;
-	file.seekg(dwFileOffset);
+    std::fstream &file = pLibrary->m_file;
+    file.seekg(dwFileOffset);
 
-	return(DoLoad(file, dwFlags));
+    return (DoLoad(file, dwFlags));
 }
 
 
@@ -334,14 +309,13 @@ int CPrefabRMF::Load(DWORD dwFlags)
 //			dwFlags - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CPrefabRMF::Init(LPCTSTR pszFilename, BOOL bLoadNow, DWORD dwFlags)
-{
-	std::fstream file(pszFilename, std::ios::in | std::ios::binary);
+int CPrefabRMF::Init(LPCTSTR pszFilename, BOOL bLoadNow, DWORD dwFlags) {
+    std::fstream file(pszFilename, std::ios::in | std::ios::binary);
 
-	// ensure we're named
-	memset(szName, 0, sizeof szName);
-	strncpy(szName, pszFilename, sizeof szName - 1);
-	return Init(file, bLoadNow, dwFlags);
+    // ensure we're named
+    memset(szName, 0, sizeof szName);
+    strncpy(szName, pszFilename, sizeof szName - 1);
+    return Init(file, bLoadNow, dwFlags);
 }
 
 
@@ -352,23 +326,20 @@ int CPrefabRMF::Init(LPCTSTR pszFilename, BOOL bLoadNow, DWORD dwFlags)
 //			dwFlags - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CPrefabRMF::Init(std::fstream &file, BOOL bLoadNow, DWORD dwFlags)
-{
-	int iRvl = 1;	// start off ok
-	
-	if(bLoadNow)
-	{
-		// do load now
-		iRvl = DoLoad(file, dwFlags);
-	}
+int CPrefabRMF::Init(std::fstream &file, BOOL bLoadNow, DWORD dwFlags) {
+    int iRvl = 1;    // start off ok
 
-	if(!szName[0])
-	{
-		// ensure we're named
-		strcpy(szName, "Prefab");
-	}
+    if (bLoadNow) {
+        // do load now
+        iRvl = DoLoad(file, dwFlags);
+    }
 
-	return iRvl;
+    if (!szName[0]) {
+        // ensure we're named
+        strcpy(szName, "Prefab");
+    }
+
+    return iRvl;
 }
 
 
@@ -378,10 +349,9 @@ int CPrefabRMF::Init(std::fstream &file, BOOL bLoadNow, DWORD dwFlags)
 //			dwFlags - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CPrefabRMF::Save(LPCTSTR pszFilename, DWORD dwFlags)
-{
-	std::fstream file(pszFilename, std::ios::out | std::ios::binary);
-	return Save(file, dwFlags);
+int CPrefabRMF::Save(LPCTSTR pszFilename, DWORD dwFlags) {
+    std::fstream file(pszFilename, std::ios::out | std::ios::binary);
+    return Save(file, dwFlags);
 }
 
 
@@ -391,58 +361,50 @@ int CPrefabRMF::Save(LPCTSTR pszFilename, DWORD dwFlags)
 //			dwFlags - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CPrefabRMF::Save(std::fstream& file, DWORD dwFlags)
-{
-	if (!IsLoaded() && (Load() == -1))
-	{
-		AfxMessageBox("Couldn't Load prefab to Save it.");
-		return -1;
-	}
+int CPrefabRMF::Save(std::fstream &file, DWORD dwFlags) {
+    if (!IsLoaded() && (Load() == -1)) {
+        AfxMessageBox("Couldn't Load prefab to Save it.");
+        return -1;
+    }
 
-	return DoSave(file, dwFlags);
+    return DoSave(file, dwFlags);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CPrefabVMF::CPrefabVMF()
-{
+CPrefabVMF::CPrefabVMF() {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CPrefabVMF::~CPrefabVMF()
-{
+CPrefabVMF::~CPrefabVMF() {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns true if the prefab data has been loaded from disk, false if not.
 //-----------------------------------------------------------------------------
-bool CPrefabVMF::IsLoaded(void)
-{
-	if (m_pWorld == NULL)
-	{
-		return false;
-	}
+bool CPrefabVMF::IsLoaded(void) {
+    if (m_pWorld == NULL) {
+        return false;
+    }
 
-	//
-	// We have loaded this prefab at least once this session. Check the file date/time
-	// against our cached date/time to see if we need to reload it.
-	//
-	struct _stat info;
-	if (_stat(m_szFilename, &info) == 0)
-	{
-		if (info.st_mtime > m_nFileTime)
-		{
-			return false;
-		}
-	}
+    //
+    // We have loaded this prefab at least once this session. Check the file date/time
+    // against our cached date/time to see if we need to reload it.
+    //
+    struct _stat info;
+    if (_stat(m_szFilename, &info) == 0) {
+        if (info.st_mtime > m_nFileTime) {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -451,82 +413,73 @@ bool CPrefabVMF::IsLoaded(void)
 // Input  : dwFlags - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CPrefabVMF::Load(DWORD dwFlags)
-{
-	//
-	// Create a new world to hold the loaded objects.
-	//
-	if (m_pWorld != NULL)
-	{
-		delete m_pWorld;
-	}
+int CPrefabVMF::Load(DWORD dwFlags) {
+    //
+    // Create a new world to hold the loaded objects.
+    //
+    if (m_pWorld != NULL) {
+        delete m_pWorld;
+    }
 
-	m_pWorld = new CMapWorld( NULL );
+    m_pWorld = new CMapWorld;
 
-	//
-	// Open the file.
-	//
-	CChunkFile File;
-	ChunkFileResult_t eResult = File.Open(m_szFilename, ChunkFile_Read);
+    //
+    // Open the file.
+    //
+    CChunkFile File;
+    ChunkFileResult_t eResult = File.Open(m_szFilename, ChunkFile_Read);
 
-	//
-	// Read the file.
-	//
-	if (eResult == ChunkFile_Ok)
-	{
-		//
-		// Set up handlers for the subchunks that we are interested in.
-		//
-		CChunkHandlerMap Handlers;
-		Handlers.AddHandler("world", (ChunkHandler_t)CPrefabVMF::LoadWorldCallback, this);
-		Handlers.AddHandler("entity", (ChunkHandler_t)CPrefabVMF::LoadEntityCallback, this);
-		// dvs: Handlers.SetErrorHandler((ChunkErrorHandler_t)CPrefabVMF::HandleLoadError, this);
+    //
+    // Read the file.
+    //
+    if (eResult == ChunkFile_Ok) {
+        //
+        // Set up handlers for the subchunks that we are interested in.
+        //
+        CChunkHandlerMap Handlers;
+        Handlers.AddHandler("world", (ChunkHandler_t) CPrefabVMF::LoadWorldCallback, this);
+        Handlers.AddHandler("entity", (ChunkHandler_t) CPrefabVMF::LoadEntityCallback, this);
+        // dvs: Handlers.SetErrorHandler((ChunkErrorHandler_t)CPrefabVMF::HandleLoadError, this);
 
-		File.PushHandlers(&Handlers);
+        File.PushHandlers(&Handlers);
 
-		//CMapDoc::SetLoadingMapDoc( this );  dvs: fix - without this, no displacements in prefabs
+        //CMapDoc::SetLoadingMapDoc( this );  dvs: fix - without this, no displacements in prefabs
 
-		//
-		// Read the sub-chunks. We ignore keys in the root of the file, so we don't pass a
-		// key value callback to ReadChunk.
-		//
-		while (eResult == ChunkFile_Ok)
-		{
-			eResult = File.ReadChunk();
-		}
+        //
+        // Read the sub-chunks. We ignore keys in the root of the file, so we don't pass a
+        // key value callback to ReadChunk.
+        //
+        while (eResult == ChunkFile_Ok) {
+            eResult = File.ReadChunk();
+        }
 
-		if (eResult == ChunkFile_EOF)
-		{
-			eResult = ChunkFile_Ok;
-		}
+        if (eResult == ChunkFile_EOF) {
+            eResult = ChunkFile_Ok;
+        }
 
-		//CMapDoc::SetLoadingMapDoc( NULL );
+        //CMapDoc::SetLoadingMapDoc( NULL );
 
-		File.PopHandlers();
-	}
+        File.PopHandlers();
+    }
 
-	if (eResult == ChunkFile_Ok)
-	{
-		m_pWorld->PostloadWorld();
-		m_pWorld->CalcBounds();
+    if (eResult == ChunkFile_Ok) {
+        m_pWorld->PostloadWorld();
+        m_pWorld->CalcBounds();
 
-		File.Close();
+        File.Close();
 
-		//
-		// Store the file modification time to use as a cache check.
-		//
-		struct _stat info;
-		if (_stat(m_szFilename, &info) == 0)
-		{
-			m_nFileTime = info.st_mtime;
-		}
-	}
-	else
-	{
-		//GetMainWnd()->MessageBox(File.GetErrorText(eResult), "Error loading prefab", MB_OK | MB_ICONEXCLAMATION);
-	}
+        //
+        // Store the file modification time to use as a cache check.
+        //
+        struct _stat info;
+        if (_stat(m_szFilename, &info) == 0) {
+            m_nFileTime = info.st_mtime;
+        }
+    } else {
+        //GetMainWnd()->MessageBox(File.GetErrorText(eResult), "Error loading prefab", MB_OK | MB_ICONEXCLAMATION);
+    }
 
-	return(eResult == ChunkFile_Ok);
+    return (eResult == ChunkFile_Ok);
 }
 
 
@@ -536,19 +489,17 @@ int CPrefabVMF::Load(DWORD dwFlags)
 //			pData - 
 // Output : ChunkFileResult_t
 //-----------------------------------------------------------------------------
-ChunkFileResult_t CPrefabVMF::LoadEntityCallback(CChunkFile *pFile, CPrefabVMF *pPrefab)
-{
-	CMapEntity *pEntity = new CMapEntity;
+ChunkFileResult_t CPrefabVMF::LoadEntityCallback(CChunkFile *pFile, CPrefabVMF *pPrefab) {
+    CMapEntity *pEntity = new CMapEntity;
 
-	ChunkFileResult_t eResult = pEntity->LoadVMF(pFile);
+    ChunkFileResult_t eResult = pEntity->LoadVMF(pFile);
 
-	if (eResult == ChunkFile_Ok)
-	{
-		CMapWorld *pWorld = pPrefab->GetWorld();
-		pWorld->AddChild(pEntity);
-	}
+    if (eResult == ChunkFile_Ok) {
+        CMapWorld *pWorld = pPrefab->GetWorld();
+        pWorld->AddChild(pEntity);
+    }
 
-	return(ChunkFile_Ok);
+    return (ChunkFile_Ok);
 }
 
 
@@ -558,11 +509,10 @@ ChunkFileResult_t CPrefabVMF::LoadEntityCallback(CChunkFile *pFile, CPrefabVMF *
 //			pData - 
 // Output : ChunkFileResult_t
 //-----------------------------------------------------------------------------
-ChunkFileResult_t CPrefabVMF::LoadWorldCallback(CChunkFile *pFile, CPrefabVMF *pPrefab)
-{
-	CMapWorld *pWorld = pPrefab->GetWorld();
-	ChunkFileResult_t eResult = pWorld->LoadVMF(pFile);
-	return(eResult);
+ChunkFileResult_t CPrefabVMF::LoadWorldCallback(CChunkFile *pFile, CPrefabVMF *pPrefab) {
+    CMapWorld *pWorld = pPrefab->GetWorld();
+    ChunkFileResult_t eResult = pWorld->LoadVMF(pFile);
+    return (eResult);
 }
 
 
@@ -572,22 +522,20 @@ ChunkFileResult_t CPrefabVMF::LoadWorldCallback(CChunkFile *pFile, CPrefabVMF *p
 //			dwFlags - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CPrefabVMF::Save(LPCTSTR pszFilename, DWORD dwFlags)
-{
-	return 1;
+int CPrefabVMF::Save(LPCTSTR pszFilename, DWORD dwFlags) {
+    return 1;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CPrefabVMF::SetFilename(const char *szFilename)
-{
-	//
-	// Extract the file name without the path or extension as the prefab name.
-	//
-	_splitpath(szFilename, NULL, NULL, szName, NULL);
+void CPrefabVMF::SetFilename(const char *szFilename) {
+    //
+    // Extract the file name without the path or extension as the prefab name.
+    //
+    _splitpath(szFilename, NULL, NULL, szName, NULL);
 
-	strcpy(m_szFilename, szFilename);
+    strcpy(m_szFilename, szFilename);
 }
 

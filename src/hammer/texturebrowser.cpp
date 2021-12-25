@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -318,11 +318,9 @@ BOOL CTextureBrowser::OnInitDialog()
 	//
 	// Create CTextureWindow that takes up area of dummy control.
 	//
-	{
-		RECT r;
-		GetDlgItem( IDC_BROWSERDUMMY )->GetClientRect( &r );
-		m_cTextureWindow.Create( this, r );
-	}
+	RECT r;
+	GetDlgItem(IDC_BROWSERDUMMY)->GetClientRect(&r);
+	m_cTextureWindow.Create(this, r);
 
 	// Show everything initially
 	m_cTextureWindow.SetTypeFilter( ~0, true );
@@ -382,7 +380,7 @@ BOOL CTextureBrowser::OnInitDialog()
 	CString str = pApp->GetProfileString(pszIniSection, "Position");
 	if (!str.IsEmpty())
 	{
-		RECT r;
+		CRect r;
 		sscanf(str, "%d %d %d %d", &r.left, &r.top, &r.right, &r.bottom);
 
 		if (r.left < 0)

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//===== Copyright � 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -25,7 +25,7 @@ public:
 
 
 class CChildFrame : public CMDIChildWnd {
-    DECLARE_DYNCREATE(CChildFrame)
+DECLARE_DYNCREATE(CChildFrame)
 
 public:
 
@@ -95,7 +95,6 @@ protected:
     afx_msg void OnView3dWireframe();
 
     afx_msg void OnView3dSmooth(void);
-
     //afx_msg void OnView3dEngine(void);
     //afx_msg void OnUpdateView2d(CCmdUI* pCmdUI);
     //afx_msg void OnUpdateView3d(CCmdUI* pCmdUI);
@@ -116,7 +115,7 @@ protected:
     afx_msg void OnWindowToggle();
     //}}AFX_MSG
 
-    DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 
     CMySplitterWnd *m_wndSplitter;
 };

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -90,7 +90,7 @@ protected:
 
 private:
 
-	CMapDoc *MarkSelectedEntities( void );
+	void MarkSelectedEntities();
 
 	friend BOOL AddEntityToList(CMapEntity *pEntity, CEntityReportDlg *pDlg);
 };

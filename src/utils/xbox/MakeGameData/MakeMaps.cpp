@@ -118,10 +118,10 @@ bool CreateTargetFile_BSP( const char *pSourceName, const char *pTargetName, boo
 		return false;
 	}
 
-	// Load bsppack.dll
+	// Load engine.dll
 	void *pBSPPack;
 	CSysModule *pBSPModule;
-	if ( !Sys_LoadInterface( "bsppack.dll", IBSPPACK_VERSION_STRING, &pBSPModule, &pBSPPack ) )
+	if ( !Sys_LoadInterface( "engine.dll", IBSPPACK_VERSION_STRING, &pBSPModule, &pBSPPack ) )
 	{
 		Msg( "Failed to load bsppack interface\n" );
 		return false;
@@ -361,10 +361,10 @@ bool GetDependants_BSP( const char *pBspName, CUtlVector< CUtlString > *pList )
 		return false;
 	}
 
-	// Load bsppack.dll
+	// Load engine.dll
 	void *pBSPPack;
 	CSysModule *pBSPModule;
-	if ( !Sys_LoadInterface( "bsppack.dll", IBSPPACK_VERSION_STRING, &pBSPModule, &pBSPPack ) )
+	if ( !Sys_LoadInterface( "engine.dll", IBSPPACK_VERSION_STRING, &pBSPModule, &pBSPPack ) )
 	{
 		Msg( "Failed to load bsppack interface\n" );
 		return false;

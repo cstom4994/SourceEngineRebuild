@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implements a class that encapsulates much of the functionality
 //			of entities. CMapWorld and CMapEntity are both derived from this
@@ -536,6 +536,58 @@ ChunkFileResult_t CEditGameClass::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInf
 
 	return(eResult);
 }
+
+
+//-----------------------------------------------------------------------------
+// Purpose: Slightly modified strtok. Does not modify the input string. Does
+//			not skip over more than one seperator at a time. This allows parsing
+//			strings where tokens between seperators may or may not be present:
+//
+//			Door01,,,0 would be parsed as "Door01"  ""  ""  "0"
+//			Door01,Open,,0 would be parsed as "Door01"  "Open"  ""  "0"
+//
+// Input  : token - Returns with a token, or zero length if the token was missing.
+//			str - String to parse.
+//			sep - Character to use as seperator. UNDONE: allow multiple seperator chars
+// Output : Returns a pointer to the next token to be parsed.
+//-----------------------------------------------------------------------------
+static const char *nexttoken(char *token, const char *str, char sep)
+{
+	if (*str == '\0')
+	{
+		return(NULL);
+	}
+
+	//
+	// Find the first seperator.
+	//
+	const char *ret = str;
+	while ((*str != sep) && (*str != '\0'))
+	{
+		str++;
+	}
+
+	//
+	// Copy everything up to the first seperator into the return buffer.
+	// Do not include seperators in the return buffer.
+	//
+	while (ret < str)
+	{
+		*token++ = *ret++;
+	}
+	*token = '\0';
+
+	//
+	// Advance the pointer unless we hit the end of the input string.
+	//
+	if (*str == '\0')
+	{
+		return(str);
+	}
+
+	return(++str);
+}
+
 
 //-----------------------------------------------------------------------------
 // Purpose: Builds a connection from a keyvalue pair.

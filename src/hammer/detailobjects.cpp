@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Places "detail" objects which are client-only renderable things
 //
@@ -13,16 +13,16 @@
 #include "interface.h"
 
 #include "KeyValues.h"
-#include "utlsymbol.h"
-#include "utlvector.h"
+#include "UtlSymbol.h"
+#include "UtlVector.h"
 #include "utilmatlib.h"
 #include "mathlib/VMatrix.h"
 #include "vstdlib/random.h"
 #include "builddisp.h"
-#include "tier1/utlbuffer.h"
+#include "UtlBuffer.h"
 #include "IEditorTexture.h"
-#include "materialsystem/imaterialvar.h"
-#include "materialsystem/imaterial.h"
+#include "materialsystem/IMaterialVar.h"
+#include "materialsystem/IMaterial.h"
 #include "mapface.h"
 #include "camera.h"
 #include "options.h"
@@ -41,9 +41,9 @@ bool DetailObjects::s_bBuildDetailObjects = true;
 
 // Defaults to match the parsing defaults in ParseDetailGroup -- code path defaults may/may not execute
 DetailObjects::~DetailObjects()
-{ 
+{
 	m_DetailModels.PurgeAndDeleteElements();
-	m_DetailSprites.PurgeAndDeleteElements(); 
+	m_DetailSprites.PurgeAndDeleteElements();
 }
 
 DetailObjects::DetailModel_t::DetailModel_t() : m_ModelName()
@@ -73,17 +73,17 @@ void DetailObjects::ParseDetailGroup( int detailId, KeyValues* pGroupKeyValues )
 {
 	// Sort the group by alpha
 	float alpha = pGroupKeyValues->GetFloat( "alpha", 1.0f );
-	
-	int iGroup = s_DetailObjectDict[detailId].m_Groups.Count();
-	while ( --iGroup >= 0 )
+
+	int i = s_DetailObjectDict[detailId].m_Groups.Count();
+	while ( --i >= 0 )
 	{
-		if (alpha > s_DetailObjectDict[detailId].m_Groups[iGroup].m_Alpha)
+		if (alpha > s_DetailObjectDict[detailId].m_Groups[i].m_Alpha)
 			break;
 	}
 
 	// Insert after the first guy who's more transparent that we are!
-	iGroup = s_DetailObjectDict[detailId].m_Groups.InsertAfter( iGroup );
-	DetailObjectGroup_t& group = s_DetailObjectDict[detailId].m_Groups[iGroup];
+	i = s_DetailObjectDict[detailId].m_Groups.InsertAfter(i);
+	DetailObjectGroup_t& group = s_DetailObjectDict[detailId].m_Groups[i];
 
 	group.m_Alpha = alpha;
 
@@ -122,7 +122,7 @@ void DetailObjects::ParseDetailGroup( int detailId, KeyValues* pGroupKeyValues )
 						}
 						else
 							model.m_Type = DETAIL_PROP_TYPE_SPRITE;
-					}					
+					}
 					else
 					{
 						// card sprite
@@ -133,7 +133,7 @@ void DetailObjects::ParseDetailGroup( int detailId, KeyValues* pGroupKeyValues )
 					model.m_Tex[1].Init();
 
 					float x = 0, y = 0, flWidth = 64, flHeight = 64, flTextureSize = 512;
-					int nValid = sscanf( pSpriteData, "%f %f %f %f %f", &x, &y, &flWidth, &flHeight, &flTextureSize ); 
+					int nValid = sscanf( pSpriteData, "%f %f %f %f %f", &x, &y, &flWidth, &flHeight, &flTextureSize );
 					if ( (nValid != 5) || (flTextureSize == 0) )
 					{
 						Error( "Invalid arguments to \"sprite\" in detail.vbsp (model %s)!\n", model.m_ModelName.String() );
@@ -206,7 +206,7 @@ void DetailObjects::ParseDetailGroup( int detailId, KeyValues* pGroupKeyValues )
 	// renormalize the amount if the total > 1
 	if (totalAmount > 1.0f)
 	{
-		for (int i = 0; i < group.m_Models.Count(); ++i)
+		for (i = 0; i < group.m_Models.Count(); ++i)
 		{
 			group.m_Models[i].m_Amount /= totalAmount;
 		}
@@ -256,7 +256,7 @@ const char *DetailObjects::FindDetailVBSPName( void )
 		if ( !strcmp( pEntity, "worldspawn" ) )
 		{
 			const char *pDetailVBSP = ValueForKey( &entities[i], "detailvbsp" );
-			if ( !pDetailVBSP || !pDetailVBSP[0] ) 
+			if ( !pDetailVBSP || !pDetailVBSP[0] )
 			{
 				pDetailVBSP = "detail.vbsp";
 			}
@@ -314,12 +314,12 @@ int DetailObjects::SelectGroup( const DetailObject_t& detail, float alpha )
 	}
 
 	// Pick a number, any number...
-	float flR = rand() / (float)VALVE_RAND_MAX;
+	float r = rand() / (float)RAND_MAX;
 
 	// When dist == 0, we *always* want start.
 	// When dist == 1, we *always* want end
 	// That's why this logic looks a little reversed
-	return (flR > dist) ? start : end;
+	return (r > dist) ? start : end;
 }
 
 
@@ -329,12 +329,12 @@ int DetailObjects::SelectGroup( const DetailObject_t& detail, float alpha )
 int DetailObjects::SelectDetail( DetailObjectGroup_t const& group )
 {
 	// Pick a number, any number...
-	float flR = rand() / (float)VALVE_RAND_MAX;
+	float r = rand() / (float)RAND_MAX;
 
 	// Look through the list of models + pick the one associated with this number
 	for ( int i = 0; i < group.m_Models.Count(); ++i )
 	{
-		if ( flR <= group.m_Models[i].m_Amount)
+		if (r <= group.m_Models[i].m_Amount)
 			return i;
 	}
 
@@ -360,7 +360,7 @@ void DetailObjects::AddDetailModelToFace( const char* pModelName, const Vector& 
 //-----------------------------------------------------------------------------
 
 void DetailObjects::AddDetailSpriteToFace( const Vector &vecOrigin, const QAngle &vecAngles, DetailModel_t const& model, float flScale )
-{	
+{
 	CSpriteModel	*pSpriteModel = new CSpriteModel;
 	m_DetailSprites.AddToTail(pSpriteModel);
 
@@ -399,10 +399,10 @@ void DetailObjects::PlaceDetail( DetailModel_t const& model, const Vector& pt, c
 	// If it's between min + max, flip a coin...
 	if (cosAngle < model.m_MinCosAngle)
 	{
-		float probability = (cosAngle - model.m_MaxCosAngle) / 
+		float probability = (cosAngle - model.m_MaxCosAngle) /
 			(model.m_MinCosAngle - model.m_MaxCosAngle);
 
-		float t = rand() / (float)VALVE_RAND_MAX;
+		float t = rand() / (float)RAND_MAX;
 		if (t > probability)
 			return;
 	}
@@ -412,7 +412,7 @@ void DetailObjects::PlaceDetail( DetailModel_t const& model, const Vector& pt, c
 	if (model.m_Flags & MODELFLAG_UPRIGHT)
 	{
 		// If it's upright, we just select a random yaw
-		angles.Init( 0, 360.0f * rand() / (float)VALVE_RAND_MAX, 0.0f );
+		angles.Init( 0, 360.0f * rand() / (float)RAND_MAX, 0.0f );
 	}
 	else
 	{
@@ -436,7 +436,7 @@ void DetailObjects::PlaceDetail( DetailModel_t const& model, const Vector& pt, c
 		matrix.SetBasisVectors( xaxis, yaxis, zaxis );
 		matrix.SetTranslation( vec3_origin );
 
-		float rotAngle = 360.0f * rand() / (float)VALVE_RAND_MAX;
+		float rotAngle = 360.0f * rand() / (float)RAND_MAX;
 		VMatrix rot = SetupMatrixAxisRot( Vector( 0, 0, 1 ), rotAngle );
 		matrix = matrix * rot;
 
@@ -457,7 +457,7 @@ void DetailObjects::PlaceDetail( DetailModel_t const& model, const Vector& pt, c
 	default:
 		{
 			float flScale = 1.0f;
-			if ( model.m_flRandomScaleStdDev != 0.0f ) 
+			if ( model.m_flRandomScaleStdDev != 0.0f )
 			{
 				flScale = fabs( RandomGaussianFloat( 1.0f, model.m_flRandomScaleStdDev ) );
 			}
@@ -477,7 +477,7 @@ void DetailObjects::EmitDetailObjectsOnFace( CMapFace *pMapFace, DetailObject_t&
 	// See how many points define this particular face
 	int	nPoints = pMapFace->GetPointCount();
 
-	// Faces with detail props need at least 3 point to form a plane 
+	// Faces with detail props need at least 3 point to form a plane
 	if (nPoints < 3)
 		return;
 
@@ -506,13 +506,13 @@ void DetailObjects::EmitDetailObjectsOnFace( CMapFace *pMapFace, DetailObject_t&
 
 		// Calculate the detail prop density based on the expected density and the tesselated triangle area
 		int numSamples = clamp( area * detail.m_Density * 0.000001, 0, MAX_DETAIL_SPRITES_PER_FACE );
-		
+
 		// For each possible sample, attempt to randomly place a detail object there
-		for (int j = 0; j < numSamples; ++j )
+		for (int i = 0; i < numSamples; ++i )
 		{
 			// Create a random sample location...
-			float u = rand() / (float)VALVE_RAND_MAX;
-			float v = rand() / (float)VALVE_RAND_MAX;
+			float u = rand() / (float)RAND_MAX;
+			float v = rand() / (float)RAND_MAX;
 
 			// Make sure the u,v coordinate stay within the triangle boundaries (ie they NOT in the far half of the parallelogram)
 			if (v > 1.0f - u)
@@ -575,7 +575,7 @@ float DetailObjects::ComputeDisplacementFaceArea( CMapFace *pMapFace )
 //-----------------------------------------------------------------------------
 // Places Detail Objects on a face
 //-----------------------------------------------------------------------------
-void DetailObjects::EmitDetailObjectsOnDisplacementFace( CMapFace *pMapFace, 
+void DetailObjects::EmitDetailObjectsOnDisplacementFace( CMapFace *pMapFace,
 						DetailObject_t& detail )
 {
 	assert(pMapFace->GetPointCount() == 4);
@@ -597,8 +597,8 @@ void DetailObjects::EmitDetailObjectsOnDisplacementFace( CMapFace *pMapFace,
 	for (int i = 0; i < numSamples; ++i )
 	{
 		// Create a random sample...
-		float u = rand() / (float)VALVE_RAND_MAX;
-		float v = rand() / (float)VALVE_RAND_MAX;
+		float u = rand() / (float)RAND_MAX;
+		float v = rand() / (float)RAND_MAX;
 
 		// Compute alpha
 		float alpha;
@@ -636,7 +636,7 @@ void	DetailObjects::BuildAnyDetailObjects(CMapFace *pMapFace)
 	// Ignore this call while loading the VMF or else we'll generate a lot of redundant ones.
 	if ( !s_bBuildDetailObjects )
 		return;
-		
+
 	if ( pMapFace->IsCordonFace() )
 		return;
 
@@ -667,7 +667,7 @@ void	DetailObjects::BuildAnyDetailObjects(CMapFace *pMapFace)
 	if ( pMapFace->m_pDetailObjects )
 	{
 		pDetails->m_DetailModels.PurgeAndDeleteElements();
-		pDetails->m_DetailSprites.PurgeAndDeleteElements(); 
+		pDetails->m_DetailSprites.PurgeAndDeleteElements();
 	}
 	else
 	{

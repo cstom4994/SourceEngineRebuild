@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -14,54 +14,66 @@
 #include "MapKeyFrame.h"
 
 
-class CMapAnimator : public CMapKeyFrame
-{
+class CMapAnimator : public CMapKeyFrame {
 public:
 
-	DECLARE_MAPCLASS( CMapAnimator, CMapKeyFrame );
+    DECLARE_MAPCLASS(CMapAnimator, CMapKeyFrame);
 
-	//
-	// Factories.
-	//
-	static CMapClass *CreateMapAnimator(CHelperInfo *pHelperInfo, CMapEntity *pParent);
+    //
+    // Factories.
+    //
+    static CMapClass *CreateMapAnimator(CHelperInfo *pHelperInfo, CMapEntity *pParent);
 
-	//
-	// Construction/destruction.
-	//
-	CMapAnimator();
-	~CMapAnimator();
+    //
+    // Construction/destruction.
+    //
+    CMapAnimator();
 
-	virtual size_t GetSize( void ) { return sizeof(*this); }
-	virtual CMapClass *Copy(bool bUpdateDependencies);
-	virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+    ~CMapAnimator();
 
-	virtual void UpdateAnimation( float animTime );
-	virtual void OnClone( CMapClass *pClone, CMapWorld *pWorld, const CMapObjectList &OriginalList, CMapObjectList &NewList );
-	virtual bool GetTransformMatrix( VMatrix& matrix );
-	virtual void OnParentKeyChanged( const char* key, const char* value );
-	virtual CMapAnimator *GetAnimator(void) { return this; }
-	void RebuildPath( void );
+    virtual size_t GetSize(void) { return sizeof(*this); }
 
-	float GetKeyFramesAtTime( float time, CMapKeyFrame *&pKeyFrame, CMapKeyFrame *&pPrevKeyFrame );
-	CMapEntity *CreateNewKeyFrame( float time );
-	void GetAnimationAtTime( float animTime, Vector& newOrigin, Quaternion &newAngles );
-	static void GetAnimationAtTime( CMapKeyFrame *currentKey, CMapKeyFrame *pPrevKey, float animTime, Vector& newOrigin, Quaternion &newAngles, int posInterpolator, int rotInterpolator );
+    virtual CMapClass *Copy(bool bUpdateDependencies);
 
-	int GetNumKeysChanged() {return m_nKeysChanged;}
+    virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+
+    virtual void UpdateAnimation(float animTime);
+
+    virtual void
+    OnClone(CMapClass *pClone, CMapWorld *pWorld, const CMapObjectList &OriginalList, CMapObjectList &NewList);
+
+    virtual bool GetTransformMatrix(VMatrix &matrix);
+
+    virtual void OnParentKeyChanged(const char *key, const char *value);
+
+    virtual CMapAnimator *GetAnimator(void) { return this; }
+
+    void RebuildPath(void);
+
+    float GetKeyFramesAtTime(float time, CMapKeyFrame *&pKeyFrame, CMapKeyFrame *&pPrevKeyFrame);
+
+    CMapEntity *CreateNewKeyFrame(float time);
+
+    void GetAnimationAtTime(float animTime, Vector &newOrigin, Quaternion &newAngles);
+
+    static void GetAnimationAtTime(CMapKeyFrame *currentKey, CMapKeyFrame *pPrevKey, float animTime, Vector &newOrigin,
+                                   Quaternion &newAngles, int posInterpolator, int rotInterpolator);
+
+    int GetNumKeysChanged() { return m_nKeysChanged; }
 
 private:
-	// Used by the keys to detect when changes need to be sent to the position interpolators.
-	int			m_nKeysChanged;
-	
-	VMatrix m_CoordFrame;
-	bool m_bCurrentlyAnimating;
-	CMapKeyFrame *m_pCurrentKeyFrame;	// keyframe it's currently at
+    // Used by the keys to detect when changes need to be sent to the position interpolators.
+    int m_nKeysChanged;
 
-	int m_iTimeModifier;
-	int m_iPositionInterpolator;
-	int m_iRotationInterpolator;
+    VMatrix m_CoordFrame;
+    bool m_bCurrentlyAnimating;
+    CMapKeyFrame *m_pCurrentKeyFrame;    // keyframe it's currently at
 
-	friend CMapKeyFrame;
+    int m_iTimeModifier;
+    int m_iPositionInterpolator;
+    int m_iRotationInterpolator;
+
+    friend CMapKeyFrame;
 };
 
 

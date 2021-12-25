@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -14,22 +14,25 @@
 #include "ToolInterface.h"
 
 
-class CToolMagnify : public CBaseTool
-{
+class CToolMagnify : public CBaseTool {
 public:
 
-	CToolMagnify(void);
-	~CToolMagnify(void) {}
+    CToolMagnify(void);
 
-	//
-	// CBaseTool implementation.
-	//
-	virtual ToolID_t GetToolID(void) { return TOOL_MAGNIFY; }
+    ~CToolMagnify(void) {}
 
-	virtual bool OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnRMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+    //
+    // CBaseTool implementation.
+    //
+    virtual ToolID_t GetToolID(void) { return TOOL_MAGNIFY; }
+
+    virtual bool OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnRMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
 };
 
 #endif // TOOLMAGNIFY_H

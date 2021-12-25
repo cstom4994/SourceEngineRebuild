@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Defines a connection (output-to-input) between two entities.
 //
@@ -20,7 +20,7 @@
 #pragma once
 #endif
 
-#include "utlvector.h"
+#include "UtlVector.h"
 #include "fgdlib/InputOutput.h"
 
 

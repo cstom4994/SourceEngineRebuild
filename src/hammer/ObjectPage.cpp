@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -27,50 +27,34 @@ IMPLEMENT_DYNCREATE(CObjectPage, CPropertyPage)
 
 
 //-----------------------------------------------------------------------------
-// Purpose: stores whether or not this page can be updated
-// Input  : Mode - unused
-//			pData - unused
-//			bCanEdit - the edit state
-//-----------------------------------------------------------------------------
-void CObjectPage::UpdateData( int Mode, PVOID pData, bool bCanEdit ) 
-{ 
-	m_bCanEdit = bCanEdit;
-}
-
-
-//-----------------------------------------------------------------------------
 // Purpose: Called when we become the active page.
 //-----------------------------------------------------------------------------
-BOOL CObjectPage::OnSetActive(void)
-{
-	//VPROF_BUDGET( "CObjectPage::OnSetActive", "Object Properties" );
+BOOL CObjectPage::OnSetActive(void) {
+    //VPROF_BUDGET( "CObjectPage::OnSetActive", "Object Properties" );
 
-	if (CObjectPage::s_bRESTRUCTURING || !GetActiveWorld())
-	{
-		return CPropertyPage::OnSetActive();
-	}
+    if (CObjectPage::s_bRESTRUCTURING || !GetActiveWorld()) {
+        return CPropertyPage::OnSetActive();
+    }
 
-	CObjectProperties *pParent = (CObjectProperties *)GetParent();
-	
-	pParent->UpdateAnchors( this );
+    CObjectProperties *pParent = (CObjectProperties *) GetParent();
 
-	if (m_bFirstTimeActive)
-	{
-		m_bFirstTimeActive = false;
-		pParent->LoadDataForPages(pParent->GetPageIndex(this));
-	}
+    pParent->UpdateAnchors(this);
 
-	return CPropertyPage::OnSetActive();
+    if (m_bFirstTimeActive) {
+        m_bFirstTimeActive = false;
+        pParent->LoadDataForPages(pParent->GetPageIndex(this));
+    }
+
+    return CPropertyPage::OnSetActive();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-PVOID CObjectPage::GetEditObject()
-{ 
-	//VPROF_BUDGET( "CObjectPage::GetEditObject", "Object Properties" );
-	return ((CObjectProperties*) GetParent())->GetEditObject(GetEditObjectRuntimeClass());
+PVOID CObjectPage::GetEditObject() {
+    //VPROF_BUDGET( "CObjectPage::GetEditObject", "Object Properties" );
+    return ((CObjectProperties *) GetParent())->GetEditObject(GetEditObjectRuntimeClass());
 }
 
 

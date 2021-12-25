@@ -1,10 +1,11 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implements a camera for the 3D view.
 //
 // $NoKeywords: $
 //=============================================================================//
 
+#include <windows.h>
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,7 +27,7 @@
 #define MAX_PITCH        90.0f
 
 
-static void DBG(PRINTF_FORMAT_STRING const char *fmt, ...) {
+static void DBG(char *fmt, ...) {
     char ach[128];
     va_list va;
 
@@ -103,16 +104,6 @@ float CCamera::GetRoll(void) {
 float CCamera::GetYaw(void) {
     return (m_fYaw);
 }
-
-
-//-----------------------------------------------------------------------------
-// Purpose: returns the camera angles
-// Output : returns the camera angles
-//-----------------------------------------------------------------------------
-QAngle CCamera::GetAngles() {
-    return QAngle(m_fPitch, m_fYaw, m_fRoll);
-}
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Moves the camera along the camera's right axis.
@@ -526,7 +517,7 @@ void CCamera::CameraIdentityMatrix(VMatrix &Matrix) {
 //-----------------------------------------------------------------------------
 void CCamera::BuildViewMatrix() {
     // The camera transformation is produced by multiplying roll * yaw * pitch.
-    // This will transform a point from world space into quake camera space, 
+    // This will transform a point from world space into quake camera space,
     // which is exactly what we want for our view matrix. However, quake
     // camera space isn't the same as material system camera space, so
     // we're going to have to apply a transformation that goes from quake
@@ -562,16 +553,6 @@ void CCamera::GetViewMatrix(VMatrix &Matrix) {
 void CCamera::GetProjMatrix(VMatrix &Matrix) {
     Matrix = m_ProjMatrix;
 }
-
-
-//-----------------------------------------------------------------------------
-// Purpose: Sets the view matrix of the current projection
-// Output : Matrix - the matrix to store the current projection matrix
-//-----------------------------------------------------------------------------
-void CCamera::GetViewProjMatrix(VMatrix &Matrix) {
-    Matrix = m_ViewProjMatrix;
-}
-
 
 //-----------------------------------------------------------------------------
 // Purpose: to set the zoom in the orthographic gl view

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: A helper that measures the extents of the only non-NODRAW face of
 //			its only solid sibling. Writes the extents as four vector keyvalues:
@@ -24,44 +24,47 @@
 
 
 class CHelperInfo;
+
 class CRender3D;
 
 
-class CMapQuadBounds : public CMapHelper
-{
-	public:
+class CMapQuadBounds : public CMapHelper {
+public:
 
-		DECLARE_MAPCLASS(CMapQuadBounds,CMapHelper)
+    DECLARE_MAPCLASS(CMapQuadBounds, CMapHelper)
 
-		//
-		// Factory for building from a list of string parameters.
-		//
-		static CMapClass *CreateQuadBounds(CHelperInfo *pInfo, CMapEntity *pParent);
+    //
+    // Factory for building from a list of string parameters.
+    //
+    static CMapClass *CreateQuadBounds(CHelperInfo *pInfo, CMapEntity *pParent);
 
-		//
-		// Construction/destruction:
-		//
-		CMapQuadBounds(void);
-		~CMapQuadBounds(void);
+    //
+    // Construction/destruction:
+    //
+    CMapQuadBounds(void);
 
-		void PresaveWorld(void);
+    ~CMapQuadBounds(void);
 
-		virtual CMapClass *Copy(bool bUpdateDependencies);
-		virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+    void PresaveWorld(void);
 
-		int SerializeRMF(std::fstream &File, BOOL bRMF) { return(0); }
-		int SerializeMAP(std::fstream &File, BOOL bRMF) { return(0); }
+    virtual CMapClass *Copy(bool bUpdateDependencies);
 
-		bool IsVisualElement(void) { return(false); } // Only visible when the parent entity is selected.
-		
-		const char* GetDescription() { return("Quad bounds helper"); }
+    virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
 
-	protected:
-		Vector			m_vLowerLeft;
-		Vector			m_vUpperLeft;
-		Vector			m_vLowerRight;
-		Vector			m_vUpperRight;
-		int				m_nError;
+    int SerializeRMF(std::fstream &File, BOOL bRMF) { return (0); }
+
+    int SerializeMAP(std::fstream &File, BOOL bRMF) { return (0); }
+
+    bool IsVisualElement(void) { return (false); } // Only visible when the parent entity is selected.
+
+    const char *GetDescription() { return ("Quad bounds helper"); }
+
+protected:
+    Vector m_vLowerLeft;
+    Vector m_vUpperLeft;
+    Vector m_vLowerRight;
+    Vector m_vUpperRight;
+    int m_nError;
 };
 
 #endif // MAPQUADBOUNDS_H

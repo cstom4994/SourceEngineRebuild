@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: A helper that represents the axis of rotation for a rotating entity.
 //			When selected, it exposes handles for the endpoints of the axis.
@@ -13,8 +13,8 @@
 #include "Box3D.h"
 #include "GlobalFunctions.h"
 #include "fgdlib/HelperInfo.h"
-#include "materialsystem/imaterialsystem.h"
-#include "materialsystem/imesh.h"
+#include "materialsystem/IMaterialSystem.h"
+#include "materialsystem/IMesh.h"
 #include "MainFrm.h"			// For refreshing the object properties dialog
 #include "MapDoc.h"
 #include "MapAxisHandle.h"
@@ -127,7 +127,6 @@ void CMapAxisHandle::CalcBounds(BOOL bFullUpdate)
 		m_Point[i].GetCullBox(vecMins, vecMaxs);
 		m_CullBox.UpdateBounds(vecMins, vecMaxs);
 	}
-	m_BoundingBox = m_CullBox;
 }
 
 

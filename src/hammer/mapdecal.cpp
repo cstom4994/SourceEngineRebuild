@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implements a decal helper. The decal attaches itself to nearby
 //			solids, dynamically creating decal faces as necessary.
@@ -29,34 +29,30 @@ IMPLEMENT_MAPCLASS(CMapDecal)
 //				about how to create the class.
 // Output : Returns a pointer to the class, NULL if an error occurs.
 //-----------------------------------------------------------------------------
-CMapClass *CMapDecal::CreateMapDecal(CHelperInfo *pHelperInfo, CMapEntity *pParent)
-{
-	CMapDecal *pDecal = new CMapDecal;
-	return(pDecal);
+CMapClass *CMapDecal::CreateMapDecal(CHelperInfo *pHelperInfo, CMapEntity *pParent) {
+    CMapDecal *pDecal = new CMapDecal;
+    return (pDecal);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor. Initializes data members.
 //-----------------------------------------------------------------------------
-CMapDecal::CMapDecal(void)
-{
-	m_pTexture = NULL;
+CMapDecal::CMapDecal(void) {
+    m_pTexture = NULL;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor. Frees allocated memory.
 //-----------------------------------------------------------------------------
-CMapDecal::~CMapDecal(void)
-{
-	// Delete our list of faces and each face in the list.
-	FOR_EACH_OBJ( m_Faces, pos )
-	{
-		DecalFace_t *pDecalFace = m_Faces.Element(pos);
-		delete pDecalFace->pFace;
-		delete pDecalFace;
-	}
+CMapDecal::~CMapDecal(void) {
+    // Delete our list of faces and each face in the list.
+    FOR_EACH_OBJ(m_Faces, pos) {
+        DecalFace_t *pDecalFace = m_Faces.Element(pos);
+        delete pDecalFace->pFace;
+        delete pDecalFace;
+    }
 }
 
 
@@ -64,13 +60,11 @@ CMapDecal::~CMapDecal(void)
 // Purpose: 
 // Input  : pSolid - 
 //-----------------------------------------------------------------------------
-void CMapDecal::AddSolid(CMapSolid *pSolid)
-{
-	if ( m_Solids.Find(pSolid) == -1 )
-	{
-		UpdateDependency(NULL, pSolid);
-		m_Solids.AddToTail(pSolid);
-	}
+void CMapDecal::AddSolid(CMapSolid *pSolid) {
+    if (m_Solids.Find(pSolid) == -1) {
+        UpdateDependency(NULL, pSolid);
+        m_Solids.AddToTail(pSolid);
+    }
 }
 
 
@@ -78,58 +72,48 @@ void CMapDecal::AddSolid(CMapSolid *pSolid)
 // Purpose: 
 // Input  : bFullUpdate - 
 //-----------------------------------------------------------------------------
-void CMapDecal::CalcBounds(BOOL bFullUpdate)
-{
-	CMapClass::CalcBounds(bFullUpdate);
+void CMapDecal::CalcBounds(BOOL bFullUpdate) {
+    CMapClass::CalcBounds(bFullUpdate);
 
-	//
-	// Calculate the 2D render box.
-	//
-	Vector Mins = m_Origin - Vector(2, 2, 2);
-	Vector Maxs = m_Origin + Vector(2, 2, 2);
+    //
+    // Calculate the 2D render box.
+    //
+    Vector Mins = m_Origin - Vector(2, 2, 2);
+    Vector Maxs = m_Origin + Vector(2, 2, 2);
 
-	m_Render2DBox.UpdateBounds(Mins, Maxs);
+    m_Render2DBox.UpdateBounds(Mins, Maxs);
 
-	//
-	// Calculate the 3D culling bounds.
-	//
-	m_CullBox.ResetBounds();
+    //
+    // Calculate the 3D culling bounds.
+    //
+    m_CullBox.ResetBounds();
 
-	if (m_Faces.Count() > 0)
-	{
-		Vector MinsFace;
-		Vector MaxsFace;
+    if (m_Faces.Count() > 0) {
+        Vector Mins;
+        Vector Maxs;
 
-		FOR_EACH_OBJ( m_Faces, pos )
-		{
-			DecalFace_t *pDecalFace = m_Faces.Element(pos);
+        FOR_EACH_OBJ(m_Faces, pos) {
+            DecalFace_t *pDecalFace = m_Faces.Element(pos);
 
-			if ((pDecalFace != NULL) && (pDecalFace->pFace != NULL))
-			{
-				pDecalFace->pFace->GetFaceBounds( MinsFace, MaxsFace );
+            if ((pDecalFace != NULL) && (pDecalFace->pFace != NULL)) {
+                pDecalFace->pFace->GetFaceBounds(Mins, Maxs);
 
-				m_CullBox.UpdateBounds( MinsFace, MaxsFace );
-			}
-		}
+                m_CullBox.UpdateBounds(Mins, Maxs);
+            }
+        }
 
-		//
-		// Insure that the 3D bounds are at least 1 unit in all dimensions.
-		//
-		for (int nDim = 0; nDim < 3; nDim++)
-		{
-			if ((m_CullBox.bmaxs[nDim] - m_CullBox.bmins[nDim]) == 0)
-			{
-				m_CullBox.bmins[nDim] -= 0.5;
-				m_CullBox.bmaxs[nDim] += 0.5;
-			}
-		}
-	}
-	else
-	{
-		m_CullBox.UpdateBounds(Mins, Maxs);
-	}
-
-	m_BoundingBox = m_CullBox;
+        //
+        // Insure that the 3D bounds are at least 1 unit in all dimensions.
+        //
+        for (int nDim = 0; nDim < 3; nDim++) {
+            if ((m_CullBox.bmaxs[nDim] - m_CullBox.bmins[nDim]) == 0) {
+                m_CullBox.bmins[nDim] -= 0.5;
+                m_CullBox.bmaxs[nDim] += 0.5;
+            }
+        }
+    } else {
+        m_CullBox.UpdateBounds(Mins, Maxs);
+    }
 }
 
 
@@ -141,33 +125,29 @@ void CMapDecal::CalcBounds(BOOL bFullUpdate)
 //			ppFaces - Returns with pointers to the faces that are eligible.
 // Output : Returns the number of faces that were eligible.
 //-----------------------------------------------------------------------------
-int CMapDecal::CanDecalSolid(CMapSolid *pSolid, CMapFace **ppFaces)
-{
-	//
-	// Check distance from our origin to each face along the face's normal.
-	// If the distance is very very small, add the face.
-	//
-	int nDecalFaces = 0;
+int CMapDecal::CanDecalSolid(CMapSolid *pSolid, CMapFace **ppFaces) {
+    //
+    // Check distance from our origin to each face along the face's normal.
+    // If the distance is very very small, add the face.
+    //
+    int nDecalFaces = 0;
 
-	int nFaces = pSolid->GetFaceCount();
-	Assert(nFaces <= MAPSOLID_MAX_FACES);
-	for (int i = 0; i < nFaces; i++)
-	{
-		CMapFace *pFace = pSolid->GetFace(i);
-		float fDistance = pFace->GetNormalDistance(m_Origin);
+    int nFaces = pSolid->GetFaceCount();
+    Assert(nFaces <= MAPSOLID_MAX_FACES);
+    for (int i = 0; i < nFaces; i++) {
+        CMapFace *pFace = pSolid->GetFace(i);
+        float fDistance = pFace->GetNormalDistance(m_Origin);
 
-		if ((fDistance <= 16.0f) && (fDistance >= -0.0001))
-		{
-			if (ppFaces != NULL)
-			{
-				ppFaces[nDecalFaces] = pFace;
-			}
+        if ((fDistance <= 16.0f) && (fDistance >= -0.0001)) {
+            if (ppFaces != NULL) {
+                ppFaces[nDecalFaces] = pFace;
+            }
 
-			nDecalFaces++;
-		}
-	}
+            nDecalFaces++;
+        }
+    }
 
-	return(nDecalFaces);
+    return (nDecalFaces);
 }
 
 
@@ -175,16 +155,14 @@ int CMapDecal::CanDecalSolid(CMapSolid *pSolid, CMapFace **ppFaces)
 // Purpose: 
 // Output : CMapClass
 //-----------------------------------------------------------------------------
-CMapClass *CMapDecal::Copy(bool bUpdateDependencies)
-{
-	CMapDecal *pCopy = new CMapDecal;
+CMapClass *CMapDecal::Copy(bool bUpdateDependencies) {
+    CMapDecal *pCopy = new CMapDecal;
 
-	if (pCopy != NULL)
-	{
-		pCopy->CopyFrom(this, bUpdateDependencies);
-	}
+    if (pCopy != NULL) {
+        pCopy->CopyFrom(this, bUpdateDependencies);
+    }
 
-	return(pCopy);
+    return (pCopy);
 }
 
 
@@ -193,48 +171,44 @@ CMapClass *CMapDecal::Copy(bool bUpdateDependencies)
 // Input  : pObject - Object to copy.
 //			bUpdateDependencies - 
 //-----------------------------------------------------------------------------
-CMapClass *CMapDecal::CopyFrom(CMapClass *pObject, bool bUpdateDependencies)
-{
-	Assert(pObject->IsMapClass(MAPCLASS_TYPE(CMapDecal)));
-	CMapDecal *pFrom = (CMapDecal *)pObject;
+CMapClass *CMapDecal::CopyFrom(CMapClass *pObject, bool bUpdateDependencies) {
+    Assert(pObject->IsMapClass(MAPCLASS_TYPE(CMapDecal)));
+    CMapDecal *pFrom = (CMapDecal *) pObject;
 
-	CMapClass::CopyFrom(pObject, bUpdateDependencies);
+    CMapClass::CopyFrom(pObject, bUpdateDependencies);
 
-	m_pTexture = pFrom->m_pTexture;
+    m_pTexture = pFrom->m_pTexture;
 
-	//
-	// Copy our list of solids to which we are attached.
-	//
-	m_Solids.RemoveAll();
-	m_Solids.AddVectorToTail(pFrom->m_Solids);
+    //
+    // Copy our list of solids to which we are attached.
+    //
+    m_Solids.RemoveAll();
+    m_Solids.AddVectorToTail(pFrom->m_Solids);
 
-	//
-	// Copy our decal faces. We don't copy the pointers because we don't do
-	// reference counting yet.
-	//
-	m_Faces.RemoveAll();
-	
-	FOR_EACH_OBJ( pFrom->m_Faces, pos )
-	{
-		DecalFace_t *pDecalFace = new DecalFace_t;
-		if (pDecalFace != NULL)
-		{
-			pDecalFace->pFace = new CMapFace;
-			if (pDecalFace->pFace != NULL)
-			{
-				DecalFace_t *pFromDecalFace = pFrom->m_Faces.Element(pos);
+    //
+    // Copy our decal faces. We don't copy the pointers because we don't do
+    // reference counting yet.
+    //
+    m_Faces.RemoveAll();
 
-				pDecalFace->pFace->CopyFrom(pFromDecalFace->pFace);
-				pDecalFace->pFace->SetParent(this);
+    FOR_EACH_OBJ(pFrom->m_Faces, pos) {
+        DecalFace_t *pDecalFace = new DecalFace_t;
+        if (pDecalFace != NULL) {
+            pDecalFace->pFace = new CMapFace;
+            if (pDecalFace->pFace != NULL) {
+                DecalFace_t *pFromDecalFace = pFrom->m_Faces.Element(pos);
 
-				pDecalFace->pSolid = pFromDecalFace->pSolid;
+                pDecalFace->pFace->CopyFrom(pFromDecalFace->pFace);
+                pDecalFace->pFace->SetParent(this);
 
-				m_Faces.AddToTail(pDecalFace);
-			}
-		}
-	}
+                pDecalFace->pSolid = pFromDecalFace->pSolid;
 
-	return(this);
+                m_Faces.AddToTail(pDecalFace);
+            }
+        }
+    }
+
+    return (this);
 }
 
 
@@ -245,80 +219,74 @@ CMapClass *CMapDecal::CopyFrom(CMapClass *pObject, bool bUpdateDependencies)
 //			piFacesRvl - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CMapDecal::DecalSolid(CMapSolid *pSolid)
-{
-	if (m_pTexture == NULL)
-	{
-		return(0);
-	}
+int CMapDecal::DecalSolid(CMapSolid *pSolid) {
+    if (m_pTexture == NULL) {
+        return (0);
+    }
 
-	//
-	// Determine how many, if any, faces will accept the decal.
-	//
-	CMapFace *ppFaces[MAPSOLID_MAX_FACES];
-	int nDecalFaces = 0;
-	int nTestFaces = CanDecalSolid(pSolid, ppFaces);
-	if (nTestFaces != 0)
-	{
-		//
-		// Apply the decal to each face that will accept it.
-		//
-		for (int nFace = 0; nFace < nTestFaces; nFace++)
-		{
-			CMapFace *pFace = ppFaces[nFace];
+    //
+    // Determine how many, if any, faces will accept the decal.
+    //
+    CMapFace *ppFaces[MAPSOLID_MAX_FACES];
+    int nDecalFaces = 0;
+    int nTestFaces = CanDecalSolid(pSolid, ppFaces);
+    if (nTestFaces != 0) {
+        //
+        // Apply the decal to each face that will accept it.
+        //
+        for (int nFace = 0; nFace < nTestFaces; nFace++) {
+            CMapFace *pFace = ppFaces[nFace];
 
-			//
-			// Create the polygon, clipping it to this face.
-			//
-			vec5_t ClipPoints[MAX_CLIPVERT];
-			int nPointCount = CreateClippedPoly(pFace, m_pTexture, m_Origin, ClipPoints, sizeof(ClipPoints) / sizeof(ClipPoints[0]));
+            //
+            // Create the polygon, clipping it to this face.
+            //
+            vec5_t ClipPoints[MAX_CLIPVERT];
+            int nPointCount = CreateClippedPoly(pFace, m_pTexture, m_Origin, ClipPoints,
+                                                sizeof(ClipPoints) / sizeof(ClipPoints[0]));
 
-			if (nPointCount != 0)
-			{
-				nDecalFaces++;
+            if (nPointCount != 0) {
+                nDecalFaces++;
 
-				Vector CreatePoints[64];
-				for (int nPoint = 0; nPoint < nPointCount; nPoint++)
-				{
-					CreatePoints[nPoint][0] = ClipPoints[nPoint][0];
-					CreatePoints[nPoint][1] = ClipPoints[nPoint][1];
-					CreatePoints[nPoint][2] = ClipPoints[nPoint][2];
-				}
+                Vector CreatePoints[64];
+                for (int nPoint = 0; nPoint < nPointCount; nPoint++) {
+                    CreatePoints[nPoint][0] = ClipPoints[nPoint][0];
+                    CreatePoints[nPoint][1] = ClipPoints[nPoint][1];
+                    CreatePoints[nPoint][2] = ClipPoints[nPoint][2];
+                }
 
-				//
-				// Create the decal face from the polygon.
-				//
-				DecalFace_t *pDecalFace = new DecalFace_t;
-				pDecalFace->pFace = new CMapFace;
+                //
+                // Create the decal face from the polygon.
+                //
+                DecalFace_t *pDecalFace = new DecalFace_t;
+                pDecalFace->pFace = new CMapFace;
 
-				pDecalFace->pFace->CreateFace(CreatePoints, nPointCount);
+                pDecalFace->pFace->CreateFace(CreatePoints, nPointCount);
 
-				pDecalFace->pFace->SetRenderColor(255, 255, 255);
-				pDecalFace->pFace->SetParent(this);
+                pDecalFace->pFace->SetRenderColor(255, 255, 255);
+                pDecalFace->pFace->SetParent(this);
 
-				//
-				// Associate this decal face with the solid.
-				//
-				pDecalFace->pSolid = pSolid;
+                //
+                // Associate this decal face with the solid.
+                //
+                pDecalFace->pSolid = pSolid;
 
-				//
-				// Set the texture in the decal face.
-				//
-				pDecalFace->pFace->SetTexture(m_pTexture);
-				pDecalFace->pFace->CalcTextureCoords();
+                //
+                // Set the texture in the decal face.
+                //
+                pDecalFace->pFace->SetTexture(m_pTexture);
+                pDecalFace->pFace->CalcTextureCoords();
 
-				for (int nPoint = 0; nPoint < nPointCount; nPoint++)
-				{
-					pDecalFace->pFace->SetTextureCoords(nPoint, ClipPoints[nPoint][3], ClipPoints[nPoint][4]);
-				}
+                for (int nPoint = 0; nPoint < nPointCount; nPoint++) {
+                    pDecalFace->pFace->SetTextureCoords(nPoint, ClipPoints[nPoint][3], ClipPoints[nPoint][4]);
+                }
 
-				m_Faces.AddToTail(pDecalFace);
-				break;
-			}
-		}
-	}
+                m_Faces.AddToTail(pDecalFace);
+                break;
+            }
+        }
+    }
 
-	return(nDecalFaces);
+    return (nDecalFaces);
 }
 
 
@@ -327,33 +295,28 @@ int CMapDecal::DecalSolid(CMapSolid *pSolid)
 // Input  : szKey - The key that changed.
 //			szValue - The new value of the key.
 //-----------------------------------------------------------------------------
-void CMapDecal::OnParentKeyChanged(const char* szKey, const char* szValue)
-{
-	//
-	// The decal texture has changed.
-	//
-	if (!stricmp(szKey, "texture"))
-	{
-		IEditorTexture *pTexNew = g_Textures.FindActiveTexture(szValue);
+void CMapDecal::OnParentKeyChanged(const char *szKey, const char *szValue) {
+    //
+    // The decal texture has changed.
+    //
+    if (!stricmp(szKey, "texture")) {
+        IEditorTexture *pTexNew = g_Textures.FindActiveTexture(szValue);
 
-		if (pTexNew != NULL)
-		{
-			m_pTexture = pTexNew;
+        if (pTexNew != NULL) {
+            m_pTexture = pTexNew;
 
-			//
-			// Rebuild all the decal faces with the new texture by pretending
-			// that all the solids we are attached to have changed.
-			//
-			FOR_EACH_OBJ( m_Solids, pos )
-			{
-				CMapSolid *pSolid = (CMapSolid *)m_Solids.Element(pos);
-				if (pSolid != NULL)
-				{
-					OnNotifyDependent(pSolid, Notify_Changed);
-				}
-			}
-		}
-	}
+            //
+            // Rebuild all the decal faces with the new texture by pretending
+            // that all the solids we are attached to have changed.
+            //
+            FOR_EACH_OBJ(m_Solids, pos) {
+                CMapSolid *pSolid = (CMapSolid *) m_Solids.Element(pos);
+                if (pSolid != NULL) {
+                    OnNotifyDependent(pSolid, Notify_Changed);
+                }
+            }
+        }
+    }
 }
 
 
@@ -361,31 +324,27 @@ void CMapDecal::OnParentKeyChanged(const char* szKey, const char* szValue)
 // Purpose: This function enumerates all children of the world and tries to
 //			apply the decal to them.
 //-----------------------------------------------------------------------------
-void CMapDecal::DecalAllSolids(CMapWorld *pWorld)
-{
-	Assert(pWorld != NULL);
+void CMapDecal::DecalAllSolids(CMapWorld *pWorld) {
+    Assert(pWorld != NULL);
 
-	if (pWorld != NULL)
-	{
-		//
-		// Try to apply the decal to every solid in the world.
-		//
-		EnumChildrenPos_t pos;
-		CMapClass *pChild = pWorld->GetFirstDescendent(pos);
-		while (pChild != NULL)
-		{
-			CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pChild);
-			if ((pSolid != NULL) && (DecalSolid(pSolid) != 0))
-			{
-				AddSolid(pSolid);
-			}
+    if (pWorld != NULL) {
+        //
+        // Try to apply the decal to every solid in the world.
+        //
+        EnumChildrenPos_t pos;
+        CMapClass *pChild = pWorld->GetFirstDescendent(pos);
+        while (pChild != NULL) {
+            CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pChild);
+            if ((pSolid != NULL) && (DecalSolid(pSolid) != 0)) {
+                AddSolid(pSolid);
+            }
 
-			pChild = pWorld->GetNextDescendent(pos);
-		}
+            pChild = pWorld->GetNextDescendent(pos);
+        }
 
-		PostUpdate(Notify_Changed);
-	}
-}		
+        PostUpdate(Notify_Changed);
+    }
+}
 
 
 //-----------------------------------------------------------------------------
@@ -394,53 +353,46 @@ void CMapDecal::DecalAllSolids(CMapWorld *pWorld)
 //			bSolidDeleted - whether the solid is being deleted.
 // Output : Returns true if the decal is still attached to the solid, false if not.
 //-----------------------------------------------------------------------------
-void CMapDecal::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotifyType)
-{
-	CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pObject);
+void CMapDecal::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotifyType) {
+    CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pObject);
 
-	if (pSolid != NULL)
-	{
-		//
-		// Delete any decal faces that are attached to this solid. They will be
-		// rebuilt if we can still decal the solid.
-		//
-		
-		for( int pos = m_Faces.Count()-1; pos>=0; pos-- )
-		{
-			DecalFace_t *pDecalFace = m_Faces.Element(pos);
-			if ((pDecalFace != NULL) && (pDecalFace->pSolid == pSolid))
-			{
-				delete pDecalFace->pFace;
-				delete pDecalFace;
-				m_Faces.Remove(pos);
-			}
-		}
+    if (pSolid != NULL) {
+        //
+        // Delete any decal faces that are attached to this solid. They will be
+        // rebuilt if we can still decal the solid.
+        //
 
-		//
-		// Attempt to re-attach to the solid.
-		//
-		if (eNotifyType != Notify_Removed)
-		{
-			if (DecalSolid(pSolid) != 0)
-			{
-				CalcBounds();
-				return;
-			}
-		}
+        for (int pos = m_Faces.Count() - 1; pos >= 0; pos--) {
+            DecalFace_t *pDecalFace = m_Faces.Element(pos);
+            if ((pDecalFace != NULL) && (pDecalFace->pSolid == pSolid)) {
+                delete pDecalFace->pFace;
+                delete pDecalFace;
+                m_Faces.Remove(pos);
+            }
+        }
 
-		//
-		// We could not re-attach to the solid because it was moved out of range or deleted. If we are
-		// no longer attached to any solids, remove our entity from the world.
-		//
-		int index = m_Solids.Find(pSolid);
-		if (index != -1)
-		{
-			m_Solids.Remove(index);
-			UpdateDependency(pSolid, NULL);
-		}
-	}
+        //
+        // Attempt to re-attach to the solid.
+        //
+        if (eNotifyType != Notify_Removed) {
+            if (DecalSolid(pSolid) != 0) {
+                CalcBounds();
+                return;
+            }
+        }
 
-	CalcBounds();
+        //
+        // We could not re-attach to the solid because it was moved out of range or deleted. If we are
+        // no longer attached to any solids, remove our entity from the world.
+        //
+        int index = m_Solids.Find(pSolid);
+        if (index != -1) {
+            m_Solids.Remove(index);
+            UpdateDependency(pSolid, NULL);
+        }
+    }
+
+    CalcBounds();
 }
 
 
@@ -450,40 +402,36 @@ void CMapDecal::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotify
 //			that require all world objects to be present.
 // Input  : pWorld - The world that we are in.
 //-----------------------------------------------------------------------------
-void CMapDecal::PostloadWorld(CMapWorld *pWorld)
-{
-	CMapClass::PostloadWorld(pWorld);
+void CMapDecal::PostloadWorld(CMapWorld *pWorld) {
+    CMapClass::PostloadWorld(pWorld);
 
-	// Apply ourselves to all solids now that the map is loaded.
-	DecalAllSolids(pWorld);
+    // Apply ourselves to all solids now that the map is loaded.
+    DecalAllSolids(pWorld);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CMapDecal::RebuildDecalFaces(void)
-{
-	//
-	// Delete all current decal faces. They will be rebuilt below.
-	//
-	FOR_EACH_OBJ( m_Faces, pos )
-	{
-		DecalFace_t *pDecalFace = m_Faces.Element(pos);
-		if (pDecalFace != NULL)
-		{
-			delete pDecalFace->pFace;
-			delete pDecalFace;
-		}
-	}
+void CMapDecal::RebuildDecalFaces(void) {
+    //
+    // Delete all current decal faces. They will be rebuilt below.
+    //
+    FOR_EACH_OBJ(m_Faces, pos) {
+        DecalFace_t *pDecalFace = m_Faces.Element(pos);
+        if (pDecalFace != NULL) {
+            delete pDecalFace->pFace;
+            delete pDecalFace;
+        }
+    }
 
-	m_Faces.RemoveAll();
+    m_Faces.RemoveAll();
 
-	//
-	// Attach to all eligible solids in the world.
-	//
-	CMapWorld *pWorld = (CMapWorld *)GetWorldObject(this);
-	DecalAllSolids(pWorld);	
+    //
+    // Attach to all eligible solids in the world.
+    //
+    CMapWorld *pWorld = (CMapWorld *) GetWorldObject(this);
+    DecalAllSolids(pWorld);
 }
 
 
@@ -491,64 +439,55 @@ void CMapDecal::RebuildDecalFaces(void)
 // Purpose: 
 // Input  : pRender - 
 //-----------------------------------------------------------------------------
-void CMapDecal::Render3D(CRender3D *pRender)
-{
-	//
-	// Determine whether we need to render in one or two passes. If we are selected,
-	// and rendering in flat or textured mode, we need to render using two passes.
-	//
-	int nPasses = 1;
-	int nStart = 1;
-	SelectionState_t eSelectionState = GetSelectionState();
-	EditorRenderMode_t eDefaultRenderMode = pRender->GetDefaultRenderMode();
-	if ((eSelectionState != SELECT_NONE) && (eDefaultRenderMode != RENDER_MODE_WIREFRAME))
-	{
-		nPasses = 2;
-	}
-	
+void CMapDecal::Render3D(CRender3D *pRender) {
+    //
+    // Determine whether we need to render in one or two passes. If we are selected,
+    // and rendering in flat or textured mode, we need to render using two passes.
+    //
+    int nPasses = 1;
+    int nStart = 1;
+    SelectionState_t eSelectionState = GetSelectionState();
+    EditorRenderMode_t eDefaultRenderMode = pRender->GetDefaultRenderMode();
+    if ((eSelectionState != SELECT_NONE) && (eDefaultRenderMode != RENDER_MODE_WIREFRAME)) {
+        nPasses = 2;
+    }
 
-	if ( eSelectionState == SELECT_MODIFY )
-	{
-		 nStart = 2;
-	}
 
-	pRender->RenderEnable( RENDER_POLYGON_OFFSET_FILL, true );
+    if (eSelectionState == SELECT_MODIFY) {
+        nStart = 2;
+    }
 
-	for (int nPass = nStart; nPass <= nPasses; nPass++)
-	{
-		//
-		// Render the second pass in wireframe.
-		//
-		
-		if ( nPass == 1 )
-		{
-			// use the texture instead of the lightmap coord for decals
-			if (eDefaultRenderMode == RENDER_MODE_LIGHTMAP_GRID)
-				pRender->PushRenderMode( RENDER_MODE_TEXTURED );
-			else
-				pRender->PushRenderMode( RENDER_MODE_CURRENT );
-		}
-		else
-		{
-			pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
-		}
+    pRender->RenderEnable(RENDER_POLYGON_OFFSET_FILL, true);
 
-		FOR_EACH_OBJ( m_Faces, pos )
-		{
-			DecalFace_t *pDecalFace = m_Faces.Element(pos);
+    for (int nPass = nStart; nPass <= nPasses; nPass++) {
+        //
+        // Render the second pass in wireframe.
+        //
 
-			if ((pDecalFace != NULL) && (pDecalFace->pFace != NULL))
-			{
-				pDecalFace->pFace->Render3D(pRender);
-			}
-		}
+        if (nPass == 1) {
+            // use the texture instead of the lightmap coord for decals
+            if (eDefaultRenderMode == RENDER_MODE_LIGHTMAP_GRID)
+                pRender->PushRenderMode(RENDER_MODE_TEXTURED);
+            else
+                pRender->PushRenderMode(RENDER_MODE_CURRENT);
+        } else {
+            pRender->PushRenderMode(RENDER_MODE_WIREFRAME);
+        }
 
-		pRender->PopRenderMode();
-	}
+        FOR_EACH_OBJ(m_Faces, pos) {
+            DecalFace_t *pDecalFace = m_Faces.Element(pos);
 
-	pRender->RenderEnable( RENDER_POLYGON_OFFSET_FILL, false );
+            if ((pDecalFace != NULL) && (pDecalFace->pFace != NULL)) {
+                pDecalFace->pFace->Render3D(pRender);
+            }
+        }
 
-	
+        pRender->PopRenderMode();
+    }
+
+    pRender->RenderEnable(RENDER_POLYGON_OFFSET_FILL, false);
+
+
 }
 
 
@@ -558,9 +497,8 @@ void CMapDecal::Render3D(CRender3D *pRender)
 //			bRMF - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CMapDecal::SerializeRMF(std::fstream &File, BOOL bRMF)
-{
-	return(0);
+int CMapDecal::SerializeRMF(std::fstream &File, BOOL bRMF) {
+    return (0);
 }
 
 
@@ -570,23 +508,23 @@ int CMapDecal::SerializeRMF(std::fstream &File, BOOL bRMF)
 //			bRMF - 
 // Output : int
 //-----------------------------------------------------------------------------
-int CMapDecal::SerializeMAP(std::fstream &File, BOOL bRMF)
-{
-	return(0);
+int CMapDecal::SerializeMAP(std::fstream &File, BOOL bRMF) {
+    return (0);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Notifies us that a copy of ourselves was pasted.
 //-----------------------------------------------------------------------------
-void CMapDecal::OnPaste(CMapClass *pCopy, CMapWorld *pSourceWorld, CMapWorld *pDestWorld, const CMapObjectList &OriginalList, CMapObjectList &NewList)
-{
-	CMapClass::OnPaste(pCopy, pSourceWorld, pDestWorld, OriginalList, NewList);
+void
+CMapDecal::OnPaste(CMapClass *pCopy, CMapWorld *pSourceWorld, CMapWorld *pDestWorld, const CMapObjectList &OriginalList,
+                   CMapObjectList &NewList) {
+    CMapClass::OnPaste(pCopy, pSourceWorld, pDestWorld, OriginalList, NewList);
 
-	//
-	// Apply the copy to all solids in the destination world.
-	//
-	((CMapDecal *)pCopy)->DecalAllSolids(pDestWorld);
+    //
+    // Apply the copy to all solids in the destination world.
+    //
+    ((CMapDecal *) pCopy)->DecalAllSolids(pDestWorld);
 }
 
 
@@ -596,20 +534,18 @@ void CMapDecal::OnPaste(CMapClass *pCopy, CMapWorld *pSourceWorld, CMapWorld *pD
 // Input  : pWorld - The world that we were just removed from.
 //			bNotifyChildren - Whether we should forward notification to our children.
 //-----------------------------------------------------------------------------
-void CMapDecal::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren)
-{
-	CMapClass::OnRemoveFromWorld(pWorld, bNotifyChildren);
+void CMapDecal::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren) {
+    CMapClass::OnRemoveFromWorld(pWorld, bNotifyChildren);
 
-	//
-	// We're going away. Unlink ourselves from any solids that we are attached to.
-	//
-	FOR_EACH_OBJ( m_Solids, pos )
-	{
-		CMapSolid *pSolid = (CMapSolid *)m_Solids.Element(pos);
-		UpdateDependency(pSolid, NULL);
-	}
+    //
+    // We're going away. Unlink ourselves from any solids that we are attached to.
+    //
+    FOR_EACH_OBJ(m_Solids, pos) {
+        CMapSolid *pSolid = (CMapSolid *) m_Solids.Element(pos);
+        UpdateDependency(pSolid, NULL);
+    }
 
-	m_Solids.RemoveAll();
+    m_Solids.RemoveAll();
 }
 
 
@@ -617,8 +553,7 @@ void CMapDecal::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren)
 // Purpose: 
 // Input  : pTransBox - 
 //-----------------------------------------------------------------------------
-void CMapDecal::DoTransform(const VMatrix &matrix)
-{
-	BaseClass::DoTransform(matrix);
-	RebuildDecalFaces();
+void CMapDecal::DoTransform(const VMatrix &matrix) {
+    BaseClass::DoTransform(matrix);
+    RebuildDecalFaces();
 }

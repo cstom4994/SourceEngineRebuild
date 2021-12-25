@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -20,8 +20,7 @@
 //-----------------------------------------------------------------------------
 // Purpose: Loads the cursor (only once).
 //-----------------------------------------------------------------------------
-CToolMagnify::CToolMagnify(void)
-{
+CToolMagnify::CToolMagnify(void) {
 }
 
 
@@ -32,10 +31,9 @@ CToolMagnify::CToolMagnify(void)
 //			point - 
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
-bool CToolMagnify::OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	// Return true to suppress the default view context menu behavior.
-	return true;
+bool CToolMagnify::OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) {
+    // Return true to suppress the default view context menu behavior.
+    return true;
 }
 
 
@@ -46,11 +44,10 @@ bool CToolMagnify::OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2
 //			point - 
 // Output : Returns true to indicate that the message was handled.
 //-----------------------------------------------------------------------------
-bool CToolMagnify::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	pView->SetZoom(pView->GetZoom() * 2);
-	pView->Invalidate();
-	return true;
+bool CToolMagnify::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) {
+    pView->SetZoom(pView->GetZoom() * 2);
+    pView->Invalidate();
+    return true;
 }
 
 
@@ -61,11 +58,10 @@ bool CToolMagnify::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D
 //			point - 
 // Output : Returns true to indicate that the message was handled.
 //-----------------------------------------------------------------------------
-bool CToolMagnify::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	// cursors are cached by surface
-	pView->SetCursor( "Resource/magnify.cur" );
-	return true;
+bool CToolMagnify::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) {
+    // cursors are cached by surface
+    pView->SetCursor("Resource/magnify.cur");
+    return true;
 }
 
 
@@ -76,10 +72,9 @@ bool CToolMagnify::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D 
 //			point - 
 // Output : Returns true to indicate that the message was handled.
 //-----------------------------------------------------------------------------
-bool CToolMagnify::OnRMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	pView->SetZoom(pView->GetZoom() * 0.5f);
-	return true;
+bool CToolMagnify::OnRMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) {
+    pView->SetZoom(pView->GetZoom() * 0.5f);
+    return true;
 }
 
 

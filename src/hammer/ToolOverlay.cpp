@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -419,8 +419,8 @@ void CToolOverlay::SnapHandle( Vector &vecHandlePt )
 	if ( !pWorld )
 		return;
 
-	EnumChildrenPos_t posWorld;
-	CMapClass *pChild = pWorld->GetFirstDescendent( posWorld );
+	EnumChildrenPos_t pos;
+	CMapClass *pChild = pWorld->GetFirstDescendent( pos );
 	while ( pChild )
 	{
 		CMapEntity *pEntity = dynamic_cast<CMapEntity*>( pChild );
@@ -442,7 +442,7 @@ void CToolOverlay::SnapHandle( Vector &vecHandlePt )
 			}
 		}
 
-		pChild = pWorld->GetNextDescendent( posWorld );
+		pChild = pWorld->GetNextDescendent( pos );
 	}
 }
 

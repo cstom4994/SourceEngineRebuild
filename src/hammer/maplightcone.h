@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,106 +17,113 @@
 
 
 class CHelperInfo;
+
 class CRender3D;
 
 
-class CMapLightCone : public CMapHelper
-{
+class CMapLightCone : public CMapHelper {
 public:
 
-	DECLARE_MAPCLASS(CMapLightCone,CMapHelper);
-	
-	//
-	// Factory for building from a list of string parameters.
-	//
-	static CMapClass *Create(CHelperInfo *pInfo, CMapEntity *pParent);
-	
-	//
-	// Construction/destruction:
-	//
-	CMapLightCone(void);
-	~CMapLightCone(void);
+    DECLARE_MAPCLASS(CMapLightCone, CMapHelper);
 
-	void CalcBounds(BOOL bFullUpdate = FALSE);
+    //
+    // Factory for building from a list of string parameters.
+    //
+    static CMapClass *Create(CHelperInfo *pInfo, CMapEntity *pParent);
 
-	virtual CMapClass *Copy(bool bUpdateDependencies);
-	virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+    //
+    // Construction/destruction:
+    //
+    CMapLightCone(void);
 
-	void Render3D(CRender3D *pRender);
+    ~CMapLightCone(void);
 
-	int SerializeRMF(std::fstream &File, BOOL bRMF);
-	int SerializeMAP(std::fstream &File, BOOL bRMF);
+    void CalcBounds(BOOL bFullUpdate = FALSE);
 
-	virtual void PostloadWorld(CMapWorld *pWorld);
+    virtual CMapClass *Copy(bool bUpdateDependencies);
 
-	virtual bool IsVisualElement(void) { return(false); } // Only visible when parent entity is selected.
-	virtual bool IsClutter(void) { return true; }
-	virtual bool IsCulledByCordon(const Vector &vecMins, const Vector &vecMaxs) { return false; } // We don't hide unless our parent hides.
+    virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
 
-	virtual CMapClass *PrepareSelection(SelectMode_t eSelectMode);
-		
-	const char* GetDescription() { return("Light cone helper"); }
+    void Render3D(CRender3D *pRender);
 
-	void OnParentKeyChanged( const char* key, const char* value );
-	bool ShouldRenderLast(void) { return(true); }
-	void GetAngles(QAngle& fAngles);
+    int SerializeRMF(std::fstream &File, BOOL bRMF);
 
-	float GetInnerConeAngle(void) const
-	{
-		return m_fInnerConeAngle;
-	}
+    int SerializeMAP(std::fstream &File, BOOL bRMF);
 
-	float GetOuterConeAngle(void) const
-	{
-		return m_fOuterConeAngle;
-	}
+    virtual void PostloadWorld(CMapWorld *pWorld);
 
-	Vector GetColor(void) const
-	{
-		float multiplier=m_fBrightness/256.0;
-		Vector ret;
-		ret.x=GammaToLinear(m_LightColor.x/255.0)*multiplier;
-		ret.y=GammaToLinear(m_LightColor.y/255.0)*multiplier;
-		ret.z=GammaToLinear(m_LightColor.z/255.0)*multiplier;
-		return ret;
-	}
+    virtual bool IsVisualElement(void) { return (false); } // Only visible when parent entity is selected.
+    virtual bool IsClutter(void) { return true; }
 
-	float m_fQuadraticAttn;
-	float m_fLinearAttn;
-	float m_fConstantAttn;
+    virtual bool IsCulledByCordon(const Vector &vecMins,
+                                  const Vector &vecMaxs) { return false; } // We don't hide unless our parent hides.
 
-	float m_fFiftyPercentDistance;							// "_fifty_percent_distance" <0 = not
-															// using this mode
-	float m_fZeroPercentDistance;							// "_zero_percent_distance"
+    virtual CMapClass *PrepareSelection(SelectMode_t eSelectMode);
+
+    const char *GetDescription() { return ("Light cone helper"); }
+
+    void OnParentKeyChanged(const char *key, const char *value);
+
+    bool ShouldRenderLast(void) { return (true); }
+
+    void GetAngles(QAngle &fAngles);
+
+    float GetInnerConeAngle(void) const {
+        return m_fInnerConeAngle;
+    }
+
+    float GetOuterConeAngle(void) const {
+        return m_fOuterConeAngle;
+    }
+
+    Vector GetColor(void) const {
+        float multiplier = m_fBrightness / 256.0;
+        Vector ret;
+        ret.x = GammaToLinear(m_LightColor.x / 255.0) * multiplier;
+        ret.y = GammaToLinear(m_LightColor.y / 255.0) * multiplier;
+        ret.z = GammaToLinear(m_LightColor.z / 255.0) * multiplier;
+        return ret;
+    }
+
+    float m_fQuadraticAttn;
+    float m_fLinearAttn;
+    float m_fConstantAttn;
+
+    float m_fFiftyPercentDistance;                            // "_fifty_percent_distance" <0 = not
+    // using this mode
+    float m_fZeroPercentDistance;                            // "_zero_percent_distance"
 
 
 protected:
 
-	void BuildCone(void);
-	float GetBrightnessAtDist(float fDistance);
-	float GetLightDist(float fBrightness);
-	bool SolveQuadratic(float &x, float y, float A, float B, float C);
+    void BuildCone(void);
 
-	Vector m_LightColor;
-	float m_fBrightness;
+    float GetBrightnessAtDist(float fDistance);
+
+    float GetLightDist(float fBrightness);
+
+    bool SolveQuadratic(float &x, float y, float A, float B, float C);
+
+    Vector m_LightColor;
+    float m_fBrightness;
 
 
-	float m_fInnerConeAngle;
-	float m_fOuterConeAngle;
+    float m_fInnerConeAngle;
+    float m_fOuterConeAngle;
 
-	QAngle m_Angles;
+    QAngle m_Angles;
 
-	bool m_bPitchSet;
-	float m_fPitch;
+    bool m_bPitchSet;
+    float m_fPitch;
 
-	float m_fFocus;
+    float m_fFocus;
 
-	CMapFaceList m_Faces;
+    CMapFaceList m_Faces;
 
-	char m_szColorKeyName[KEYVALUE_MAX_KEY_LENGTH];
-	char m_szInnerConeKeyName[KEYVALUE_MAX_KEY_LENGTH];
-	char m_szOuterConeKeyName[KEYVALUE_MAX_KEY_LENGTH];
-	float m_flPitchScale;
+    char m_szColorKeyName[KEYVALUE_MAX_KEY_LENGTH];
+    char m_szInnerConeKeyName[KEYVALUE_MAX_KEY_LENGTH];
+    char m_szOuterConeKeyName[KEYVALUE_MAX_KEY_LENGTH];
+    float m_flPitchScale;
 };
 
 #endif // MAPLIGHTCONE_H

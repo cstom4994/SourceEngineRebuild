@@ -980,7 +980,7 @@ void R_BuildCubemapSamples(int numIterations) {
             }
         }
         if (!iBSPPack) {
-            ConMsg("Can't load bsppack.dll\n");
+            ConMsg("Can't load engine.dll\n");
             R_BuildCubemapSamples_PostBuild();
             return;
         }

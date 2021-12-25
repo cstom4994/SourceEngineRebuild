@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -64,15 +64,11 @@ public:
 
     void GetProjMatrix(VMatrix &Matrix);
 
-    void GetViewProjMatrix(VMatrix &Matrix);
-
     float GetYaw(void);
 
     float GetPitch(void);
 
     float GetRoll(void);
-
-    QAngle GetAngles();
 
     void SetYaw(float fDegrees);
 

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -34,8 +34,6 @@ CSoundBrowser::CSoundBrowser( const char *pCurrentSoundName, CWnd* pParent /*=NU
 	m_Autoplay = AfxGetApp()->GetProfileInt(s_pszSection, "Sound Autoplay", 0);
 	Q_strncpy(m_szFilter, (LPCSTR)(AfxGetApp()->GetProfileString(s_pszSection, "Sound Filter", "")), 256 ); 
 	m_nSelectedSoundIndex = -1;
-
-//	m_bSoundPlayed = false;
 }
 
 void CSoundBrowser::SaveValues()
@@ -69,7 +67,6 @@ BEGIN_MESSAGE_MAP(CSoundBrowser, CDialog)
 	ON_LBN_DBLCLK(IDC_SOUND_LIST, OnDblclkSoundList)
 	ON_BN_CLICKED(IDC_PREVIEW, OnPreview)
 	ON_BN_CLICKED(IDC_AUTOPLAY, OnAutoplay)
-	ON_BN_CLICKED(IDC_STOPSOUND, OnBnClickedStopsound)
 	ON_BN_CLICKED(IDC_REFRESH_SOUNDS, OnRefreshSounds)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_OPEN_SOURCE, OnOpenSource)
@@ -124,7 +121,7 @@ void CSoundBrowser::OnClose(void)
 void CSoundBrowser::Shutdown()
 {
 	SaveValues();
-	PlaySound( NULL, NULL, SND_FILENAME | SND_NODEFAULT); 
+	PlaySound( NULL, NULL, SND_FILENAME );
 
 	// save current filter string
 	int i;
@@ -370,9 +367,4 @@ void CSoundBrowser::OnOpenSource()
 	{
 		g_Sounds.OpenSource( GetSoundType(), m_nSelectedSoundIndex );
 	}
-}
-
-void CSoundBrowser::OnBnClickedStopsound()
-{
-	g_Sounds.StopSound(); 
 }

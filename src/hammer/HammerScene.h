@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//====== Copyright � 1996-2005, Valve Corporation, All rights reserved. =======
 //
 // Purpose: 
 //
@@ -15,10 +15,10 @@ class CChoreoScene;
 
 
 // Load the specified vcd file.
-CChoreoScene* HammerLoadScene( const char *pFilename );
+CChoreoScene *HammerLoadScene(const char *pFilename);
 
 // Load the VCD file and get the first sound in it.
-bool GetFirstSoundInScene( const char *pSceneFilename, char *pSoundName, int soundNameLen );
+bool GetFirstSoundInScene(const char *pSceneFilename, char *pSoundName, int soundNameLen);
 
 
 #endif // HAMMERSCENE_H

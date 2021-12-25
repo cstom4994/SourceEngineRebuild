@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -40,8 +40,8 @@ private:
 	static void			ReplaceDecalTexture( CMapEntity * pEnt, IEditorTexture * pNewTexture );
 	static IEditorTexture *	FindWAD3Texture( const char * pszName );
 	static void			RescaleFaceTexture( CMapFace * pFace, IEditorTexture * pNewTexture );
-	static void			MsgConvertFace( CMapFace * pFace, PRINTF_FORMAT_STRING const char * format, ... );
-	static void			MsgConvertDecal( CMapEntity * pEnt, PRINTF_FORMAT_STRING const char * format, ... );
+	static void			MsgConvertFace( CMapFace * pFace, const char * format, ... );
+	static void			MsgConvertDecal( CMapEntity * pEnt, const char * format, ... );
 	static void			DisplayStatistics( void );
 
 	static CProgressDlg *	m_pProgDlg;

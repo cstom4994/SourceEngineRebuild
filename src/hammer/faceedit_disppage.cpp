@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -51,7 +51,6 @@ BEGIN_MESSAGE_MAP( CFaceEditDispPage, CPropertyPage )
 	ON_BN_CLICKED( ID_DISP_PAINT_DATA, OnButtonPaintData )
 	ON_BN_CLICKED( ID_DISP_TAG_WALK, OnButtonTagWalkable )
 	ON_BN_CLICKED( ID_DISP_TAG_BUILD, OnButtonTagBuildable )
-	ON_BN_CLICKED( ID_DISP_TAG_REMOVE, OnButtonTagRemove )
 	ON_BN_CLICKED( ID_DISP_INVERT_ALPHA, OnButtonInvertAlpha )
 	ON_BN_CLICKED( IDC_SELECT_ADJACENT, OnSelectAdjacent )
 
@@ -59,7 +58,6 @@ BEGIN_MESSAGE_MAP( CFaceEditDispPage, CPropertyPage )
 	ON_NOTIFY( UDN_DELTAPOS, ID_SPIN_DISP_ELEVATION, OnSpinUpDown )
 	ON_BN_CLICKED( ID_DISP_APPLY, OnButtonApply )
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(ID_DISP_SCULPT_PAINT, &CFaceEditDispPage::OnBnClickedDispSculptPaint)
 END_MESSAGE_MAP()
 
 //-----------------------------------------------------------------------------
@@ -101,8 +99,6 @@ inline void CFaceEditDispPage::PostToolUpdate( void )
 //-----------------------------------------------------------------------------
 void CFaceEditDispPage::ClickFace( CMapSolid *pSolid, int faceIndex, int cmd, int clickMode )
 {
-	m_bIsEditable = ( pSolid ? pSolid->IsEditable() : true );
-
 	UpdateDialogData();
 }
 
@@ -126,7 +122,6 @@ void CFaceEditDispPage::UpdateEditControls( bool bAllDisps, bool bHasFace )
 	CButton *pbuttonCreate = ( CButton* )GetDlgItem( ID_DISP_CREATE );
 	CButton *pbuttonDestroy = ( CButton* )GetDlgItem( ID_DISP_DESTROY );
 	CButton *pbuttonPaintGeo = ( CButton* )GetDlgItem( ID_DISP_PAINT_GEO );
-	CButton *pbuttonPaintSculpt = ( CButton* )GetDlgItem( ID_DISP_SCULPT_PAINT );
 	CButton *pbuttonPaintData = ( CButton* )GetDlgItem( ID_DISP_PAINT_DATA );
 	CButton *pbuttonSubdiv = ( CButton* )GetDlgItem( ID_DISP_SUBDIVIDE );
 	CButton *pbuttonSew = ( CButton* )GetDlgItem( ID_DISP_SEW );
@@ -138,7 +133,6 @@ void CFaceEditDispPage::UpdateEditControls( bool bAllDisps, bool bHasFace )
 	pbuttonCreate->EnableWindow( FALSE );	
 	pbuttonDestroy->EnableWindow( FALSE );
 	pbuttonPaintGeo->EnableWindow( FALSE );
-	pbuttonPaintSculpt->EnableWindow( FALSE );
 	pbuttonPaintData->EnableWindow( FALSE );
 	pbuttonSubdiv->EnableWindow( FALSE );
 	pbuttonSew->EnableWindow( FALSE );
@@ -179,40 +173,36 @@ void CFaceEditDispPage::UpdateEditControls( bool bAllDisps, bool bHasFace )
 	// if not all selected faces are displacements then highlight only
 	// SELECTION, CREATE, DESTROY, and SEW
 	//
-	if ( m_bIsEditable )
+	if( !bAllDisps )
 	{
-		if( !bAllDisps )
-		{
-			pbuttonCreate->EnableWindow( TRUE );	
-			pbuttonDestroy->EnableWindow( TRUE );
-			pbuttonSew->EnableWindow( TRUE );
-		}
-		// highlight all tool buttons, but CREATE
-		else
-		{
-			pbuttonDestroy->EnableWindow( TRUE );
-			pbuttonPaintGeo->EnableWindow( TRUE );
-			pbuttonPaintSculpt->EnableWindow( TRUE );
-			pbuttonPaintData->EnableWindow( TRUE );
-			pbuttonSubdiv->EnableWindow( TRUE );
-			pbuttonSew->EnableWindow( TRUE );
-			pbuttonNoise->EnableWindow( TRUE );
-		}
+		pbuttonCreate->EnableWindow( TRUE );	
+		pbuttonDestroy->EnableWindow( TRUE );
+		pbuttonSew->EnableWindow( TRUE );
+	}
+	// highlight all tool buttons, but CREATE
+	else
+	{
+		pbuttonDestroy->EnableWindow( TRUE );
+		pbuttonPaintGeo->EnableWindow( TRUE );
+		pbuttonPaintData->EnableWindow( TRUE );
+		pbuttonSubdiv->EnableWindow( TRUE );
+		pbuttonSew->EnableWindow( TRUE );
+		pbuttonNoise->EnableWindow( TRUE );
+	}
 
-		// active attributes if in selection mode
-		if( m_uiTool == FACEEDITTOOL_SELECT )
-		{
-			peditPower->EnableWindow( TRUE );
-			pspinPower->EnableWindow( TRUE );
-			peditElevation->EnableWindow( TRUE );
-			pspinElevation->EnableWindow( TRUE );
-			peditScale->EnableWindow( TRUE );
-			pbuttonApply->EnableWindow( TRUE );
-			pbuttonInvertAlpha->EnableWindow( TRUE );
-			pCheckNoPhysicsColl->EnableWindow( TRUE );
-			pCheckNoHullColl->EnableWindow( TRUE );
-			pCheckNoRayColl->EnableWindow( TRUE );
-		}
+	// active attributes if in selection mode
+	if( m_uiTool == FACEEDITTOOL_SELECT )
+	{
+		peditPower->EnableWindow( TRUE );
+		pspinPower->EnableWindow( TRUE );
+		peditElevation->EnableWindow( TRUE );
+		pspinElevation->EnableWindow( TRUE );
+		peditScale->EnableWindow( TRUE );
+		pbuttonApply->EnableWindow( TRUE );
+		pbuttonInvertAlpha->EnableWindow( TRUE );
+		pCheckNoPhysicsColl->EnableWindow( TRUE );
+		pCheckNoHullColl->EnableWindow( TRUE );
+		pCheckNoRayColl->EnableWindow( TRUE );
 	}
 }
 
@@ -580,19 +570,17 @@ void CFaceEditDispPage::SetTool( unsigned int tool )
 		m_PaintDistDlg.DestroyWindow();
 	}
 
-	if( m_uiTool == FACEEDITTOOL_PAINTSCULPT )
-	{
-		m_PaintSculptDlg.DestroyWindow();
-	}
-
 	if( m_uiTool == FACEEDITTOOL_PAINTDATA )
 	{
 		m_PaintDataDlg.DestroyWindow();
 	}
 
-	if ( ( m_uiTool == FACEEDITTOOL_TAG_WALK ) ||
-		 ( m_uiTool == FACEEDITTOOL_TAG_BUILD ) || 
-		 ( m_uiTool == FACEEDITTOOL_TAG_REMOVE ) )
+	if ( m_uiTool == FACEEDITTOOL_TAG_WALK )
+	{
+		ResetForceShows();
+	}
+
+	if ( m_uiTool == FACEEDITTOOL_TAG_BUILD )
 	{
 		ResetForceShows();
 	}
@@ -604,27 +592,23 @@ void CFaceEditDispPage::SetTool( unsigned int tool )
 	CButton *pbuttonCreate = ( CButton* )GetDlgItem( ID_DISP_CREATE );
 	CButton *pbuttonDestroy = ( CButton* )GetDlgItem( ID_DISP_DESTROY );
 	CButton *pbuttonPaintGeo = ( CButton* )GetDlgItem( ID_DISP_PAINT_GEO );
-	CButton *pbuttonPaintSculpt = ( CButton* )GetDlgItem( ID_DISP_SCULPT_PAINT );
 	CButton *pbuttonPaintData = ( CButton* )GetDlgItem( ID_DISP_PAINT_DATA );
 	CButton *pbuttonSubdiv = ( CButton* )GetDlgItem( ID_DISP_SUBDIVIDE );
 	CButton *pbuttonSew = ( CButton* )GetDlgItem( ID_DISP_SEW );
 	CButton *pbuttonNoise = ( CButton* )GetDlgItem( ID_DISP_NOISE );
 	CButton *pButtonWalk = ( CButton* )GetDlgItem( ID_DISP_TAG_WALK );
 	CButton *pButtonBuild = ( CButton* )GetDlgItem( ID_DISP_TAG_BUILD );
-	CButton *pButtonRemove = ( CButton* )GetDlgItem( ID_DISP_TAG_REMOVE );
 
 	pbuttonSelect->SetCheck( m_uiTool == FACEEDITTOOL_SELECT );
 	pbuttonCreate->SetCheck( m_uiTool == FACEEDITTOOL_CREATE );
 	pbuttonDestroy->SetCheck( m_uiTool == FACEEDITTOOL_DESTROY );
 	pbuttonPaintGeo->SetCheck( m_uiTool == FACEEDITTOOL_PAINTGEO );
-	pbuttonPaintSculpt->SetCheck( m_uiTool == FACEEDITTOOL_PAINTSCULPT );
 	pbuttonPaintData->SetCheck( m_uiTool == FACEEDITTOOL_PAINTDATA );
 	pbuttonSubdiv->SetCheck( m_uiTool == FACEEDITTOOL_SUBDIV );
 	pbuttonSew->SetCheck( m_uiTool == FACEEDITTOOL_SEW );
 	pbuttonNoise->SetCheck( m_uiTool == FACEEDITTOOL_NOISE );
 	pButtonWalk->SetCheck( m_uiTool == FACEEDITTOOL_TAG_WALK );
 	pButtonBuild->SetCheck( m_uiTool == FACEEDITTOOL_TAG_BUILD );
-	pButtonRemove->SetCheck( m_uiTool == FACEEDITTOOL_TAG_REMOVE );
 
 	// Update button state, etc.
 	UpdateDialogData();
@@ -1023,29 +1007,6 @@ void CFaceEditDispPage::OnButtonPaintGeo( void )
 
 
 //-----------------------------------------------------------------------------
-// Purpose: handles the user clicking on the sculpt button
-//-----------------------------------------------------------------------------
-void CFaceEditDispPage::OnBnClickedDispSculptPaint( )
-{
-	// set selection tool
-	SetTool( FACEEDITTOOL_PAINTSCULPT );
-
-	// get the displacement tool and set the paint tool active
-	CToolDisplace *pDispTool = GetDisplacementTool();
-	if( pDispTool )
-	{
-		pDispTool->SetTool( DISPTOOL_PAINT_SCULPT );
-		UpdateDialogData();
-	}
-
-	if( !m_PaintSculptDlg.Create( IDD_DISP_PAINT_SCULPT, this ) )
-		return;	
-
-	m_PaintSculptDlg.ShowWindow( SW_SHOW );
-}
-
-
-//-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 void CFaceEditDispPage::OnButtonPaintData( void )
 {
@@ -1136,7 +1097,7 @@ void CFaceEditDispPage::OnButtonTagBuildable( void )
 	}
 	else
 	{
-		// Set the tag buildable tool.
+		// Set the tag walkable tool.
 		SetTool( FACEEDITTOOL_TAG_BUILD );
 		pDispTool->SetTool( DISPTOOL_TAG_BUILDABLE );
 
@@ -1144,42 +1105,6 @@ void CFaceEditDispPage::OnButtonTagBuildable( void )
 		{
 			pDoc->SetDispDrawBuildable( true );
 			m_bForceShowBuildable = true;
-		}
-	}
-
-	UpdateDialogData();
-}
-
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
-void CFaceEditDispPage::OnButtonTagRemove( void )
-{
-	// Set removed faces viewable -- if they are not already.
-	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if ( !pDoc )
-		return;
-
-	CToolDisplace *pDispTool = GetDisplacementTool();
-	if( !pDispTool )
-		return;
-
-	// Toggle the functionality.
-	if ( GetTool() == FACEEDITTOOL_TAG_REMOVE )
-	{
-		// Set the select tool.
-		SetTool( FACEEDITTOOL_SELECT );
-		pDispTool->SetTool( DISPTOOL_SELECT_DISP_FACE );
-		pDoc->SetDispDrawRemove( false );
-	}
-	else
-	{
-		// Set the tag remove tool.
-		SetTool( FACEEDITTOOL_TAG_REMOVE );
-		pDispTool->SetTool( DISPTOOL_TAG_REMOVE );
-		if ( !pDoc->IsDispDrawRemove() )
-		{
-			pDoc->SetDispDrawRemove( true );
 		}
 	}
 
@@ -1260,7 +1185,7 @@ void CFaceEditDispPage::OnSelectAdjacent()
 				continue;
 
 			// Get its map face and solid.
-			pFace = dynamic_cast< CMapFace* >( pNeighbor->GetParent() );
+			CMapFace *pFace = dynamic_cast< CMapFace* >( pNeighbor->GetParent() );
 			if ( !pFace || pFace->GetSelectionState() != SELECT_NONE )
 				continue;
 
@@ -1446,11 +1371,6 @@ void CFaceEditDispPage::CloseAllDialogs( void )
 		m_PaintDistDlg.DestroyWindow();
 	}
 
-	if( m_uiTool == FACEEDITTOOL_PAINTSCULPT )
-	{
-		m_PaintSculptDlg.DestroyWindow();
-	}
-
 	if( m_uiTool == FACEEDITTOOL_PAINTDATA )
 	{
 		m_PaintDataDlg.DestroyWindow();
@@ -1461,12 +1381,10 @@ void CFaceEditDispPage::CloseAllDialogs( void )
 //-----------------------------------------------------------------------------
 void CFaceEditDispPage::ResetForceShows( void )
 {
-	// Get the active map doc.
-	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-
 	// Walkable
 	if ( m_bForceShowWalkable )
 	{
+		CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 		if ( pDoc )
 		{
 			pDoc->SetDispDrawWalkable( false );
@@ -1477,17 +1395,12 @@ void CFaceEditDispPage::ResetForceShows( void )
 	// Buildable
 	if ( m_bForceShowBuildable )
 	{
+		CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 		if ( pDoc )
 		{
 			pDoc->SetDispDrawBuildable( false );
 		}
 		m_bForceShowBuildable = false;
-	}
-
-	// Always force this off!
-	if ( pDoc )
-	{
-		pDoc->SetDispDrawRemove( false );
 	}
 }
 
@@ -1528,4 +1441,3 @@ BOOL CFaceEditDispPage::PreTranslateMessage( MSG *pMsg )
 		return TRUE;
 	}
 }
-

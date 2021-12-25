@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -20,20 +20,18 @@
 // Output : Returns a pointer to the object that should be selected, based on
 //			the selection mode.
 //-----------------------------------------------------------------------------
-CMapClass *CMapHelper::PrepareSelection(SelectMode_t eSelectMode)
-{
-	//
-	// If we have a parent that is not the world, select our parent.
-	//
-	if (m_pParent && !IsWorldObject(m_pParent))
-	{
-		return GetParent()->PrepareSelection(eSelectMode);
-	}
+CMapClass *CMapHelper::PrepareSelection(SelectMode_t eSelectMode) {
+    //
+    // If we have a parent that is not the world, select our parent.
+    //
+    if (m_pParent && !IsWorldObject(m_pParent)) {
+        return GetParent()->PrepareSelection(eSelectMode);
+    }
 
-	//
-	// We should never have a helper as a child of the world!
-	//
-	Assert(false);
-	return NULL;
+    //
+    // We should never have a helper as a child of the world!
+    //
+    Assert(false);
+    return NULL;
 }
 

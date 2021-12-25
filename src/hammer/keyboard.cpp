@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -15,36 +15,34 @@
 //
 // Defines key state bit masks.
 //
-#define KEYSTATE_DOWN				0x0000FFFF
-#define KEYSTATE_IMPULSE_DOWN		0x00010000
-#define KEYSTATE_IMPULSE_UP			0x00020000
+#define KEYSTATE_DOWN                0x0000FFFF
+#define KEYSTATE_IMPULSE_DOWN        0x00010000
+#define KEYSTATE_IMPULSE_UP            0x00020000
 
 
 //
 // List of allowed modifier keys and their associated bit masks.
 //
-static KeyMap_t ModifierKeyTable[] = 
-{
-	{ VK_SHIFT, KEY_MOD_SHIFT, 0 },
-	{ VK_CONTROL, KEY_MOD_CONTROL, 0 },
-	{ VK_MENU, KEY_MOD_ALT, 0 }
-};
+static KeyMap_t ModifierKeyTable[] =
+        {
+                {VK_SHIFT,   KEY_MOD_SHIFT,   0},
+                {VK_CONTROL, KEY_MOD_CONTROL, 0},
+                {VK_MENU,    KEY_MOD_ALT,     0}
+        };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
-CKeyboard::CKeyboard(void)
-{
-	g_uKeyMaps = 0;	
+CKeyboard::CKeyboard(void) {
+    g_uKeyMaps = 0;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor.
 //-----------------------------------------------------------------------------
-CKeyboard::~CKeyboard(void)
-{
+CKeyboard::~CKeyboard(void) {
 }
 
 
@@ -56,12 +54,11 @@ CKeyboard::~CKeyboard(void)
 //			uLogicalKey - An application-specific value that indicates which
 //				logical function
 //-----------------------------------------------------------------------------
-void CKeyboard::AddKeyMap(unsigned int uChar, unsigned int uModifierKeys, unsigned int uLogicalKey)
-{
-	g_uKeyMap[g_uKeyMaps].uChar = uChar;
-	g_uKeyMap[g_uKeyMaps].uModifierKeys = uModifierKeys;
-	g_uKeyMap[g_uKeyMaps].uLogicalKey = uLogicalKey;
-	g_uKeyMaps++;
+void CKeyboard::AddKeyMap(unsigned int uChar, unsigned int uModifierKeys, unsigned int uLogicalKey) {
+    g_uKeyMap[g_uKeyMaps].uChar = uChar;
+    g_uKeyMap[g_uKeyMaps].uModifierKeys = uModifierKeys;
+    g_uKeyMap[g_uKeyMaps].uLogicalKey = uLogicalKey;
+    g_uKeyMaps++;
 }
 
 
@@ -69,51 +66,44 @@ void CKeyboard::AddKeyMap(unsigned int uChar, unsigned int uModifierKeys, unsign
 // Purpose: Clears the KEYSTATE_IMPULSE_UP and KEYSTATE_IMPULSE_DOWN flags from
 //			all physical and logical keys.
 //-----------------------------------------------------------------------------
-void CKeyboard::ClearImpulseFlags(void)
-{
-	int nKey;
+void CKeyboard::ClearImpulseFlags(void) {
+    int nKey;
 
-	//
-	// Clear the impulse flags for all the physical keys.
-	//
-	for (nKey = 0; nKey < sizeof(g_uPhysicalKeyState) / sizeof(g_uPhysicalKeyState[0]); nKey++)
-	{
-		g_uPhysicalKeyState[nKey] &= ~(KEYSTATE_IMPULSE_DOWN | KEYSTATE_IMPULSE_UP);
-	}
+    //
+    // Clear the impulse flags for all the physical keys.
+    //
+    for (nKey = 0; nKey < sizeof(g_uPhysicalKeyState) / sizeof(g_uPhysicalKeyState[0]); nKey++) {
+        g_uPhysicalKeyState[nKey] &= ~(KEYSTATE_IMPULSE_DOWN | KEYSTATE_IMPULSE_UP);
+    }
 
-	//
-	// Clear the impulse flags for all the logical keys.
-	//
-	for (nKey = 0; nKey < sizeof(g_uLogicalKeyState) / sizeof(g_uLogicalKeyState[0]); nKey++)
-	{
-		g_uLogicalKeyState[nKey] &= ~(KEYSTATE_IMPULSE_DOWN | KEYSTATE_IMPULSE_UP);
-	}
+    //
+    // Clear the impulse flags for all the logical keys.
+    //
+    for (nKey = 0; nKey < sizeof(g_uLogicalKeyState) / sizeof(g_uLogicalKeyState[0]); nKey++) {
+        g_uLogicalKeyState[nKey] &= ~(KEYSTATE_IMPULSE_DOWN | KEYSTATE_IMPULSE_UP);
+    }
 }
-
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Zeros out the key state for all physical and logical keys.
 //-----------------------------------------------------------------------------
-void CKeyboard::ClearKeyStates(void)
-{
-	int nKey;
+void CKeyboard::ClearKeyStates(void) {
+    int nKey;
 
-	//
-	// Clear the physical key states.
-	//
-	for (nKey = 0; nKey < sizeof(g_uPhysicalKeyState) / sizeof(g_uPhysicalKeyState[0]); nKey++)
-	{
-		g_uPhysicalKeyState[nKey] = 0;
-	}
+    //
+    // Clear the physical key states.
+    //
+    for (nKey = 0; nKey < sizeof(g_uPhysicalKeyState) / sizeof(g_uPhysicalKeyState[0]); nKey++) {
+        g_uPhysicalKeyState[nKey] = 0;
+    }
 
-	//
-	// Clear the logical key states.
-	//
-	for (nKey = 0; nKey < sizeof(g_uLogicalKeyState) / sizeof(g_uLogicalKeyState[0]); nKey++)
-	{
-		g_uLogicalKeyState[nKey] = 0;
-	}
+    //
+    // Clear the logical key states.
+    //
+    for (nKey = 0; nKey < sizeof(g_uLogicalKeyState) / sizeof(g_uLogicalKeyState[0]); nKey++) {
+        g_uLogicalKeyState[nKey] = 0;
+    }
 }
 
 
@@ -127,93 +117,79 @@ void CKeyboard::ClearKeyStates(void)
 //			0 if held then released, and
 //			1.0 if held for the entire time.
 //-----------------------------------------------------------------------------
-float CKeyboard::GetKeyScale(unsigned int uLogicalKey)
-{
-	if (uLogicalKey >= MAX_LOGICAL_KEYS)
-	{
-		return(0);
-	}
+float CKeyboard::GetKeyScale(unsigned int uLogicalKey) {
+    if (uLogicalKey >= MAX_LOGICAL_KEYS) {
+        return (0);
+    }
 
-	unsigned int uKeyState = g_uLogicalKeyState[uLogicalKey];
+    unsigned int uKeyState = g_uLogicalKeyState[uLogicalKey];
 
-	bool bImpulseDown = (uKeyState & KEYSTATE_IMPULSE_DOWN) != 0;
-	bool bImpulseUp = (uKeyState & KEYSTATE_IMPULSE_UP) != 0;
-	bool bDown = (uKeyState & KEYSTATE_DOWN) != 0;
-	float fValue = 0;
-	
-	//
-	// If we have a leading edge and no trailing edge, the key should be down.
-	//
-	if (bImpulseDown && !bImpulseUp)
-	{
-		if (bDown)
-		{
-			//
-			// Pressed and held this frame.
-			//
-			fValue = 0.5;
-		}
-	}
+    bool bImpulseDown = (uKeyState & KEYSTATE_IMPULSE_DOWN) != 0;
+    bool bImpulseUp = (uKeyState & KEYSTATE_IMPULSE_UP) != 0;
+    bool bDown = (uKeyState & KEYSTATE_DOWN) != 0;
+    float fValue = 0;
 
-	//
-	// If we have a trailing edge and no leading edge, the key should be up.
-	//
-	if (bImpulseUp && !bImpulseDown)
-	{
-		if (!bDown)
-		{
-			//
-			// Released this frame.
-			//
-			fValue = 0;
-		}
-	}
+    //
+    // If we have a leading edge and no trailing edge, the key should be down.
+    //
+    if (bImpulseDown && !bImpulseUp) {
+        if (bDown) {
+            //
+            // Pressed and held this frame.
+            //
+            fValue = 0.5;
+        }
+    }
 
-	//
-	// If we have neither a leading edge nor a trailing edge, the key was either
-	// up the whole frame or down the whole frame.
-	//
-	if (!bImpulseDown && !bImpulseUp)
-	{
-		if (bDown)
-		{
-			//
-			// Held the entire frame
-			//
-			fValue = 1.0;
-		}
-		else
-		{
-			//
-			// Up the entire frame.
-			//
-			fValue = 0;
-		}
-	}
+    //
+    // If we have a trailing edge and no leading edge, the key should be up.
+    //
+    if (bImpulseUp && !bImpulseDown) {
+        if (!bDown) {
+            //
+            // Released this frame.
+            //
+            fValue = 0;
+        }
+    }
 
-	//
-	// If we have both a leading and trailing edge, it was either released and repressed
-	// this frame, or pressed and released this frame.
-	//
-	if (bImpulseDown && bImpulseUp)
-	{
-		if (bDown)
-		{
-			//
-			// Released and re-pressed this frame.
-			//
-			fValue = 0.75;
-		}
-		else
-		{
-			//
-			// Pressed and released this frame.
-			//
-			fValue = 0.25;
-		}
-	}
-	
-	return fValue;
+    //
+    // If we have neither a leading edge nor a trailing edge, the key was either
+    // up the whole frame or down the whole frame.
+    //
+    if (!bImpulseDown && !bImpulseUp) {
+        if (bDown) {
+            //
+            // Held the entire frame
+            //
+            fValue = 1.0;
+        } else {
+            //
+            // Up the entire frame.
+            //
+            fValue = 0;
+        }
+    }
+
+    //
+    // If we have both a leading and trailing edge, it was either released and repressed
+    // this frame, or pressed and released this frame.
+    //
+    if (bImpulseDown && bImpulseUp) {
+        if (bDown) {
+            //
+            // Released and re-pressed this frame.
+            //
+            fValue = 0.75;
+        } else {
+            //
+            // Pressed and released this frame.
+            //
+            fValue = 0.25;
+        }
+    }
+
+    return fValue;
 }
 
 
@@ -222,17 +198,14 @@ float CKeyboard::GetKeyScale(unsigned int uLogicalKey)
 // Input  : uModifierKey - The virtual key code corresponding to the modifier key.
 // Output : The modifier key's bitmask.
 //-----------------------------------------------------------------------------
-unsigned int CKeyboard::GetModifierKeyBit(unsigned int uChar)
-{
-	for (int nKey = 0; nKey < sizeof(ModifierKeyTable) / sizeof(ModifierKeyTable[0]); nKey++)
-	{
-		if (ModifierKeyTable[nKey].uChar == uChar)
-		{
-			return(ModifierKeyTable[nKey].uModifierKeys);
-		}
-	}
+unsigned int CKeyboard::GetModifierKeyBit(unsigned int uChar) {
+    for (int nKey = 0; nKey < sizeof(ModifierKeyTable) / sizeof(ModifierKeyTable[0]); nKey++) {
+        if (ModifierKeyTable[nKey].uChar == uChar) {
+            return (ModifierKeyTable[nKey].uModifierKeys);
+        }
+    }
 
-	return(0);
+    return (0);
 }
 
 
@@ -245,31 +218,24 @@ unsigned int CKeyboard::GetModifierKeyBit(unsigned int uChar)
 //				KEY_MOD_ALT
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
-bool CKeyboard::IsKeyPressed(unsigned int uChar, unsigned int uModifierKeys)
-{
-	if (!(g_uPhysicalKeyState[uChar] & KEYSTATE_DOWN))
-	{
-		return(false);
-	}
+bool CKeyboard::IsKeyPressed(unsigned int uChar, unsigned int uModifierKeys) {
+    if (!(g_uPhysicalKeyState[uChar] & KEYSTATE_DOWN)) {
+        return (false);
+    }
 
-	bool bKeyPressed = true;
+    bool bKeyPressed = true;
 
-	for (int nKey = 0; nKey < sizeof(ModifierKeyTable) / sizeof(ModifierKeyTable[0]); nKey++)
-	{
-		if (g_uPhysicalKeyState[ModifierKeyTable[nKey].uChar] & KEYSTATE_DOWN)
-		{
-			if (!(uModifierKeys & ModifierKeyTable[nKey].uModifierKeys))
-			{
-				bKeyPressed = false;
-			}
-		}
-		else if (uModifierKeys & ModifierKeyTable[nKey].uModifierKeys)
-		{
-			bKeyPressed = false;
-		}
-	}
+    for (int nKey = 0; nKey < sizeof(ModifierKeyTable) / sizeof(ModifierKeyTable[0]); nKey++) {
+        if (g_uPhysicalKeyState[ModifierKeyTable[nKey].uChar] & KEYSTATE_DOWN) {
+            if (!(uModifierKeys & ModifierKeyTable[nKey].uModifierKeys)) {
+                bKeyPressed = false;
+            }
+        } else if (uModifierKeys & ModifierKeyTable[nKey].uModifierKeys) {
+            bKeyPressed = false;
+        }
+    }
 
-	return(bKeyPressed);
+    return (bKeyPressed);
 }
 
 
@@ -280,9 +246,8 @@ bool CKeyboard::IsKeyPressed(unsigned int uChar, unsigned int uModifierKeys)
 // Input  : uChar - Virtual key to check.
 // Output : Returns true if this key is a modifier key, false if not.
 //-----------------------------------------------------------------------------
-bool CKeyboard::IsModifierKey(unsigned int uChar)
-{
-	return((uChar == VK_SHIFT) || (uChar == VK_CONTROL) || (uChar == VK_MENU));
+bool CKeyboard::IsModifierKey(unsigned int uChar) {
+    return ((uChar == VK_SHIFT) || (uChar == VK_CONTROL) || (uChar == VK_MENU));
 }
 
 
@@ -292,65 +257,54 @@ bool CKeyboard::IsModifierKey(unsigned int uChar)
 // Input  : uChar - The key whose state has changed.
 //			bPressed - True if the key was pressed, false if it was released.
 //-----------------------------------------------------------------------------
-void CKeyboard::UpdateLogicalKeys(unsigned int uChar, bool bPressed)
-{
-	//
-	// Determine whether the key is a modifier key. If so, find its modifier bit.
-	//
-	bool bIsModifierKey = IsModifierKey(uChar);
-	unsigned int uModifierKeyBit = 0;
-	if (bIsModifierKey)
-	{
-		uModifierKeyBit = GetModifierKeyBit(uChar);
-	}
+void CKeyboard::UpdateLogicalKeys(unsigned int uChar, bool bPressed) {
+    //
+    // Determine whether the key is a modifier key. If so, find its modifier bit.
+    //
+    bool bIsModifierKey = IsModifierKey(uChar);
+    unsigned int uModifierKeyBit = 0;
+    if (bIsModifierKey) {
+        uModifierKeyBit = GetModifierKeyBit(uChar);
+    }
 
-	//
-	// For every key in the keymap that depends upon this physical key, update
-	// the state of the corresponding logical key based on this event.
-	//
-	for (unsigned int nKey = 0; nKey < g_uKeyMaps; nKey++)
-	{
-		unsigned int uPhysicalKey = g_uKeyMap[nKey].uChar;
-		unsigned int uLogicalKey = g_uKeyMap[nKey].uLogicalKey;
-		unsigned int uModifierKeys = g_uKeyMap[nKey].uModifierKeys;
+    //
+    // For every key in the keymap that depends upon this physical key, update
+    // the state of the corresponding logical key based on this event.
+    //
+    for (unsigned int nKey = 0; nKey < g_uKeyMaps; nKey++) {
+        unsigned int uPhysicalKey = g_uKeyMap[nKey].uChar;
+        unsigned int uLogicalKey = g_uKeyMap[nKey].uLogicalKey;
+        unsigned int uModifierKeys = g_uKeyMap[nKey].uModifierKeys;
 
-		if ((uPhysicalKey == uChar) || (uModifierKeys & uModifierKeyBit))
-		{
-			//
-			// Check the state of all modifier keys to which this logical key
-			// is bound to determine whether the logical key is pressed or not.
-			//
-			bool bLogicalKeyPressed = IsKeyPressed(g_uKeyMap[nKey].uChar, g_uKeyMap[nKey].uModifierKeys);
+        if ((uPhysicalKey == uChar) || (uModifierKeys & uModifierKeyBit)) {
+            //
+            // Check the state of all modifier keys to which this logical key
+            // is bound to determine whether the logical key is pressed or not.
+            //
+            bool bLogicalKeyPressed = IsKeyPressed(g_uKeyMap[nKey].uChar, g_uKeyMap[nKey].uModifierKeys);
 
-			//
-			// Update the logical key state.
-			//
-			if (bPressed)
-			{
-				if (bLogicalKeyPressed)
-				{
-					if (!(g_uLogicalKeyState[uLogicalKey] & KEYSTATE_DOWN))
-					{
-						g_uLogicalKeyState[uLogicalKey] |= KEYSTATE_IMPULSE_DOWN;
-					}
+            //
+            // Update the logical key state.
+            //
+            if (bPressed) {
+                if (bLogicalKeyPressed) {
+                    if (!(g_uLogicalKeyState[uLogicalKey] & KEYSTATE_DOWN)) {
+                        g_uLogicalKeyState[uLogicalKey] |= KEYSTATE_IMPULSE_DOWN;
+                    }
 
-					g_uLogicalKeyState[uLogicalKey]++;
-				}
-			}
-			else
-			{
-				if (g_uLogicalKeyState[uLogicalKey] & KEYSTATE_DOWN)
-				{
-					g_uLogicalKeyState[uLogicalKey]--;
-				}
-				
-				if (!(g_uLogicalKeyState[uLogicalKey] & KEYSTATE_DOWN))
-				{
-					g_uLogicalKeyState[uLogicalKey] |= KEYSTATE_IMPULSE_UP;
-				}
-			}
-		}
-	}
+                    g_uLogicalKeyState[uLogicalKey]++;
+                }
+            } else {
+                if (g_uLogicalKeyState[uLogicalKey] & KEYSTATE_DOWN) {
+                    g_uLogicalKeyState[uLogicalKey]--;
+                }
+
+                if (!(g_uLogicalKeyState[uLogicalKey] & KEYSTATE_DOWN)) {
+                    g_uLogicalKeyState[uLogicalKey] |= KEYSTATE_IMPULSE_UP;
+                }
+            }
+        }
+    }
 }
 
 
@@ -358,15 +312,13 @@ void CKeyboard::UpdateLogicalKeys(unsigned int uChar, bool bPressed)
 // Purpose: Called by the client when a WM_KEYDOWN message is received. 
 // Input  : Per CWnd::OnKeyDown.
 //-----------------------------------------------------------------------------
-void CKeyboard::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
-{
-	if ((!(nFlags & 0x4000)) || (!(g_uPhysicalKeyState[nChar] & KEYSTATE_DOWN)))
-	{
-		g_uPhysicalKeyState[nChar] |= KEYSTATE_DOWN;
-		g_uPhysicalKeyState[nChar] |= KEYSTATE_IMPULSE_DOWN;
+void CKeyboard::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+    if ((!(nFlags & 0x4000)) || (!(g_uPhysicalKeyState[nChar] & KEYSTATE_DOWN))) {
+        g_uPhysicalKeyState[nChar] |= KEYSTATE_DOWN;
+        g_uPhysicalKeyState[nChar] |= KEYSTATE_IMPULSE_DOWN;
 
-		UpdateLogicalKeys(nChar, true);
-	}
+        UpdateLogicalKeys(nChar, true);
+    }
 }
 
 
@@ -374,25 +326,21 @@ void CKeyboard::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 // Purpose: Called by the client when a WM_KEYUP message is received. 
 // Input  : Per CWnd::OnKeyDown.
 //-----------------------------------------------------------------------------
-void CKeyboard::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) 
-{
-	if (g_uPhysicalKeyState[nChar] & KEYSTATE_DOWN)
-	{
-		g_uPhysicalKeyState[nChar] &= ~KEYSTATE_DOWN;
-	}
+void CKeyboard::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) {
+    if (g_uPhysicalKeyState[nChar] & KEYSTATE_DOWN) {
+        g_uPhysicalKeyState[nChar] &= ~KEYSTATE_DOWN;
+    }
 
-	g_uPhysicalKeyState[nChar] |= KEYSTATE_IMPULSE_UP;
+    g_uPhysicalKeyState[nChar] |= KEYSTATE_IMPULSE_UP;
 
-	UpdateLogicalKeys(nChar, false);
+    UpdateLogicalKeys(nChar, false);
 }
-
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Deletes all key bindings.
 //-----------------------------------------------------------------------------
-void CKeyboard::RemoveAllKeyMaps(void)
-{
-	g_uKeyMaps = 0;
+void CKeyboard::RemoveAllKeyMaps(void) {
+    g_uKeyMaps = 0;
 }
 

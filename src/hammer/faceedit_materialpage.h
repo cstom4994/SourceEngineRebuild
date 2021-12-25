@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -125,8 +125,6 @@ protected:
 
 	unsigned short		m_iMaterialTool;
 	CFaceSmoothingDlg	m_FaceSmoothDlg;
-
-	void SetReadOnly( bool bIsReadOnly );
 
 	//=========================================================================
 	//

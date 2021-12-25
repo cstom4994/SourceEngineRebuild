@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -15,20 +15,22 @@
 class CMapDisp;
 
 //=============================================================================
-class IEditDispSubdivMesh
-{
+class IEditDispSubdivMesh {
 public:
 
-	virtual void Init( void ) = 0;
-	virtual void Shutdown( void ) = 0;
+    virtual void Init(void) = 0;
 
-	virtual void AddDispTo( CMapDisp *pDisp  ) = 0;
-	virtual void GetDispFrom( CMapDisp *pDisp ) = 0;
+    virtual void Shutdown(void) = 0;
 
-	virtual void DoCatmullClarkSubdivision( void ) = 0;
+    virtual void AddDispTo(CMapDisp *pDisp) = 0;
+
+    virtual void GetDispFrom(CMapDisp *pDisp) = 0;
+
+    virtual void DoCatmullClarkSubdivision(void) = 0;
 };
 
-IEditDispSubdivMesh *CreateEditDispSubdivMesh( void );
-void DestroyEditDispSubdivMesh( IEditDispSubdivMesh **pSubdivMesh );
+IEditDispSubdivMesh *CreateEditDispSubdivMesh(void);
+
+void DestroyEditDispSubdivMesh(IEditDispSubdivMesh **pSubdivMesh);
 
 #endif // DISPSUBDIV_H

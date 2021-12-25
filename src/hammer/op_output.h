@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,7 +17,7 @@
 #include "AnchorMgr.h"
 
 
-#define OUTPUT_LIST_NUM_COLUMNS		6
+#define OUTPUT_LIST_NUM_COLUMNS        6
 
 
 class COP_Output;
@@ -29,202 +29,251 @@ enum SortDirection_t;
 //-----------------------------------------------------------------------------
 // Purpose: A little glue object that connects the entity picker tool to our dialog.
 //-----------------------------------------------------------------------------
-class COP_OutputPickEntityTarget : public IPickEntityTarget
-{
-	public:
+class COP_OutputPickEntityTarget : public IPickEntityTarget {
+public:
 
-		void AttachEntityDlg(COP_Output *pDlg) { m_pDlg = pDlg; }
-		void OnNotifyPickEntity(CToolPickEntity *pTool);
-		void AttachDlgItem( int nItem ) { m_nDlgItem = nItem; }
+    void AttachEntityDlg(COP_Output *pDlg) { m_pDlg = pDlg; }
 
-	private:
-		int m_nDlgItem;
-		COP_Output *m_pDlg;
+    void OnNotifyPickEntity(CToolPickEntity *pTool);
+
+    void AttachDlgItem(int nItem) { m_nDlgItem = nItem; }
+
+private:
+    int m_nDlgItem;
+    COP_Output *m_pDlg;
 };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: A list of connections and entites that send them.
 //-----------------------------------------------------------------------------
-class COutputConnection
-{
+class COutputConnection {
 public:
-	CEntityConnectionList*	m_pConnList;
-	CMapEntityList*			m_pEntityList;
-	bool					m_bIsValid;
-	bool					m_bOwnedByAll;	// Connection used by all selected entities
+    CEntityConnectionList *m_pConnList;
+    CMapEntityList *m_pEntityList;
+    bool m_bIsValid;
+    bool m_bOwnedByAll;    // Connection used by all selected entities
 };
 
 
-class COP_Output : public CObjectPage, public CFilteredComboBox::ICallbacks
-{
-	public:
-		static CImageList *m_pImageList;
-		static CEntityConnectionList*	m_pConnectionBuffer;	// Stores connections for copy/pasting
-		static void EmptyCopyBuffer(void);
+class COP_Output : public CObjectPage, public CFilteredComboBox::ICallbacks {
+public:
+    static CImageList *m_pImageList;
+    static CEntityConnectionList *m_pConnectionBuffer;    // Stores connections for copy/pasting
+    static void EmptyCopyBuffer(void);
 
-	public:
+public:
 
-		DECLARE_DYNCREATE(COP_Output)
+DECLARE_DYNCREATE(COP_Output)
 
-		// Construction
-		COP_Output(void);
-		~COP_Output(void);
+    // Construction
+    COP_Output(void);
 
-		virtual void UpdateData( int Mode, PVOID pData, bool bCanEdit );
-		void SetSelectedConnection(CEntityConnection *pConnection);
-		bool ShouldShowHiddenTargets();
+    ~COP_Output(void);
 
-	protected:
+    virtual void UpdateData(int Mode, PVOID pData);
 
-		virtual void OnTextChanged( const char *pText );
+    void SetSelectedConnection(CEntityConnection *pConnection);
 
-		void AddEntityConnections(CMapEntity *pEntity, bool bFirst);
-		void AddConnection(CEntityConnection *pConnection);
-		void RemoveAllEntityConnections(void);
-		void UpdateConnectionList(void);
-		void ResizeColumns(void);
+    bool ShouldShowHiddenTargets();
 
-		void SetSelectedItem(int nItem);
-		void SetSelectedConnections(CEntityConnectionList &List);
+protected:
 
-		// Validation functions
-		bool ValidateConnections(COutputConnection *pOutputConn, bool bVisibilityCheck);
-		void UpdateValidityButton(void);
+    virtual void OnTextChanged(const char *pText);
 
-		// Edit controls
-		void UpdateEditControls(void);
-		void EnableEditControls(bool bValue = true);
-		void UpdateItemValidity(int nItem);
-		void EnableTarget(bool bEnable);
-		void EnableParam(bool bEnable);
-		bool bSkipEditControlRefresh;
+    void AddEntityConnections(CMapEntity *pEntity, bool bFirst);
 
-		// Functions for updating edited connections
-		void UpdateEditedInputs(void);
-		void UpdateEditedOutputs(void);
-		void UpdateEditedTargets(void);
-		void UpdateEditedDelays(void);
-		void UpdateEditedFireOnce(void);
-		void UpdateEditedParams(void);
+    void AddConnection(CEntityConnection *pConnection);
 
-		// Fuctions for reacting to combo box changes
-		void OutputChanged(void);
-		void InputChanged(void);
+    void RemoveAllEntityConnections(void);
 
-		void SortListByColumn(int nColumn, SortDirection_t eDirection);
-		void SetSortColumn(int nColumn, SortDirection_t eDirection);
-		void UpdateColumnHeaderText(int nColumn, bool bIsSortColumn, SortDirection_t eDirection);
+    void UpdateConnectionList(void);
 
-		CMapEntityList			m_EntityList;			// Filtered m_pObjectList that only includes map entities
-		const CMapEntityList*	m_pMapEntityList;		// List of all entities in the map.
-		CEntityConnectionList	m_EditList;				// List of selected connections being edited 
+    void ResizeColumns(void);
 
-		void UpdateEntityList();						// Generates m_EntityList from m_pObjectList
+    void SetSelectedItem(int nItem);
 
-	protected:
-	
-		CAnchorMgr m_AnchorMgr;
-		
-		CEditGameClass	*m_pEditGameClass;
-		CMapEntity		*m_pEntity;
-		bool			m_bNoParamEdit;
+    void SetSelectedConnections(CEntityConnectionList &List);
 
-		//
-		// Cached data for sorting the list view.
-		//
-		int m_nSortColumn;												// Current column used for sorting.
-		SortDirection_t m_eSortDirection[OUTPUT_LIST_NUM_COLUMNS];		// Last sort direction per column.
+    // Validation functions
+    bool ValidateConnections(COutputConnection *pOutputConn, bool bVisibilityCheck);
 
-		bool m_bPickingEntities;
+    void UpdateValidityButton(void);
 
-		// ########################################
-		//  Message editing
-		// ########################################
-		void SetConnection(CEntityConnectionList *pConnectionList);
+    // Edit controls
+    void UpdateEditControls(void);
 
-		void SetMapEntityList(const CMapEntityList *pMapEntityList);
+    void EnableEditControls(bool bValue = true);
 
-		void AddEntityOutputs(CMapEntity *pEntity);
+    void UpdateItemValidity(int nItem);
 
-		void FillInputList(void);
-		void FillOutputList(void);
-		void FillTargetList(void);
+    void EnableTarget(bool bEnable);
 
-		void FilterInputList(void);
-		void FilterOutputList(void);
-		void FilterTargetList(void);
-		void FilterEntityOutputs(CMapEntity *pEntity);
+    void EnableParam(bool bEnable);
 
-		void StopPicking(void);
+    bool bSkipEditControlRefresh;
 
-		CClassInput*	GetInput(char *szInput, int nSize);
-		CClassOutput*	GetOutput(char *szOutput, int nSize);
-		CMapEntityList*	GetTarget(char *szTarget, int nSize);
+    // Functions for updating edited connections
+    void UpdateEditedInputs(void);
 
-		void UpdateCombosForSelectedInput(CClassInput *pInput);
-		void UpdateCombosForSelectedOutput(CClassOutput *pOutput);
+    void UpdateEditedOutputs(void);
 
-		// #########################################
+    void UpdateEditedTargets(void);
 
-		//{{AFX_DATA(COP_Output)
-		enum { IDD = IDD_OBJPAGE_OUTPUT };
-		CListCtrl m_ListCtrl;
-		CAutoSelComboBox	m_ComboOutput;
-		CTargetNameComboBox m_ComboTarget;
-		CAutoSelComboBox	m_ComboInput;
-		CButton				m_CheckBoxFireOnce;
-		CButton				m_ctlShowHiddenTargetsAsBroken;
-		CButton				m_AddControl;
-		CButton				m_PasteControl;
-		CButton				m_DeleteControl;
+    void UpdateEditedDelays(void);
 
-		CString	m_strOutput;
-		CString	m_strTarget;
-		CString	m_strInput;
-		CString	m_strParam;
-		float m_fDelay;
-		BOOL m_bFireOnce;
-		//}}AFX_DATA
+    void UpdateEditedFireOnce(void);
 
-		// ClassWizard generate virtual function overrides
-		//{{AFX_VIRTUAL(COP_Output)
-		virtual void DoDataExchange(CDataExchange* pDX);
-		virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT *pResult);
-		virtual BOOL OnInitDialog(void);
-		virtual void OnDestroy(void);
-		//}}AFX_VIRTUAL
+    void UpdateEditedParams(void);
 
-		// Generated message map functions
-		//{{AFX_MSG(COP_Output)
-		afx_msg void OnAdd(void);
-		afx_msg void OnCopy(void);
-		afx_msg void OnPaste(void);
-		afx_msg void OnSize( UINT nType, int cx, int cy );
-		afx_msg void OnDelete(void);
-		afx_msg void OnMark(void);
-		afx_msg void OnPickEntity(void);
-		afx_msg void OnPickEntityParam(void);
-		afx_msg void OnSelChangeInput(void);
-		afx_msg void OnEditUpdateInput(void);
-		afx_msg void OnSelChangeOutput(void);
-		afx_msg void OnEditUpdateOutput(void);
-		afx_msg void OnSelChangeParam(void);
-		afx_msg void OnEditUpdateParam(void);
-		afx_msg void OnEditDelay(void);
-		afx_msg void OnFireOnce(void);
-		afx_msg void OnShowHiddenTargetsAsBroken();
-		//}}AFX_MSG
+    // Fuctions for reacting to combo box changes
+    void OutputChanged(void);
 
-		DECLARE_MESSAGE_MAP()
+    void InputChanged(void);
 
-	private:
-		bool m_bEntityParamTarget;
-		COP_OutputPickEntityTarget m_PickEntityTarget;
-		CString m_strLastParam;
-		bool m_bIgnoreTextChanged;
+    void SortListByColumn(int nColumn, SortDirection_t eDirection);
 
-	friend class COP_OutputPickEntityTarget;
+    void SetSortColumn(int nColumn, SortDirection_t eDirection);
+
+    void UpdateColumnHeaderText(int nColumn, bool bIsSortColumn, SortDirection_t eDirection);
+
+    CMapEntityList m_EntityList;            // Filtered m_pObjectList that only includes map entities
+    const CMapEntityList *m_pMapEntityList;        // List of all entities in the map.
+    CEntityConnectionList m_EditList;                // List of selected connections being edited
+
+    void UpdateEntityList();                        // Generates m_EntityList from m_pObjectList
+
+
+protected:
+
+    CAnchorMgr m_AnchorMgr;
+
+    CEditGameClass *m_pEditGameClass;
+    CMapEntity *m_pEntity;
+    bool m_bNoParamEdit;
+
+    //
+    // Cached data for sorting the list view.
+    //
+    int m_nSortColumn;                                                // Current column used for sorting.
+    SortDirection_t m_eSortDirection[OUTPUT_LIST_NUM_COLUMNS];        // Last sort direction per column.
+
+    bool m_bPickingEntities;
+
+    // ########################################
+    //  Message editing
+    // ########################################
+    void SetConnection(CEntityConnectionList *pConnectionList);
+
+    void SetMapEntityList(const CMapEntityList *pMapEntityList);
+
+    void AddEntityOutputs(CMapEntity *pEntity);
+
+    void FillInputList(void);
+
+    void FillOutputList(void);
+
+    void FillTargetList(void);
+
+    void FilterInputList(void);
+
+    void FilterOutputList(void);
+
+    void FilterTargetList(void);
+
+    void FilterEntityOutputs(CMapEntity *pEntity);
+
+    void StopPicking(void);
+
+    CClassInput *GetInput(char *szInput, int nSize);
+
+    CClassOutput *GetOutput(char *szOutput, int nSize);
+
+    CMapEntityList *GetTarget(char *szTarget, int nSize);
+
+    void UpdateCombosForSelectedInput(CClassInput *pInput);
+
+    void UpdateCombosForSelectedOutput(CClassOutput *pOutput);
+
+    // #########################################
+
+    //{{AFX_DATA(COP_Output)
+    enum {
+        IDD = IDD_OBJPAGE_OUTPUT
+    };
+    CListCtrl m_ListCtrl;
+    CAutoSelComboBox m_ComboOutput;
+    CTargetNameComboBox m_ComboTarget;
+    CAutoSelComboBox m_ComboInput;
+    CButton m_CheckBoxFireOnce;
+    CButton m_ctlShowHiddenTargetsAsBroken;
+
+    CString m_strOutput;
+    CString m_strTarget;
+    CString m_strInput;
+    CString m_strParam;
+    float m_fDelay;
+    BOOL m_bFireOnce;
+    //}}AFX_DATA
+
+    // ClassWizard generate virtual function overrides
+    //{{AFX_VIRTUAL(COP_Output)
+    virtual void DoDataExchange(CDataExchange *pDX);
+
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT *pResult);
+
+    virtual BOOL OnInitDialog(void);
+
+    virtual void OnDestroy(void);
+    //}}AFX_VIRTUAL
+
+    // Generated message map functions
+    //{{AFX_MSG(COP_Output)
+    afx_msg void OnAdd(void);
+
+    afx_msg void OnCopy(void);
+
+    afx_msg void OnPaste(void);
+
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+
+    afx_msg void OnDelete(void);
+
+    afx_msg void OnMark(void);
+
+    afx_msg void OnPickEntity(void);
+
+    afx_msg void OnPickEntityParam(void);
+
+    afx_msg void OnSelChangeInput(void);
+
+    afx_msg void OnEditUpdateInput(void);
+
+    afx_msg void OnSelChangeOutput(void);
+
+    afx_msg void OnEditUpdateOutput(void);
+
+    afx_msg void OnSelChangeParam(void);
+
+    afx_msg void OnEditUpdateParam(void);
+
+    afx_msg void OnEditDelay(void);
+
+    afx_msg void OnFireOnce(void);
+
+    afx_msg void OnShowHiddenTargetsAsBroken();
+    //}}AFX_MSG
+
+DECLARE_MESSAGE_MAP()
+
+private:
+    bool m_bEntityParamTarget;
+    COP_OutputPickEntityTarget m_PickEntityTarget;
+    CString m_strLastParam;
+    bool m_bIgnoreTextChanged;
+
+    friend class COP_OutputPickEntityTarget;
+
 public:
 };
 

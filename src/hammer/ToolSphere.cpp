@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -7,11 +7,11 @@
 
 #include "stdafx.h"
 #include "History.h"
-#include "MainFrm.h"			// FIXME: For ObjectProperties
+#include "MainFrm.h"            // FIXME: For ObjectProperties
 #include "MapDoc.h"
 #include "MapView2D.h"
 #include "MapSphere.h"
-#include "StatusBarIDs.h"		// For updating status bar text
+#include "StatusBarIDs.h"        // For updating status bar text
 #include "ToolManager.h"
 #include "ToolSphere.h"
 #include "Selection.h"
@@ -23,9 +23,8 @@
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CToolSphere::CToolSphere()
-{
-	m_pSphere = NULL;
+CToolSphere::CToolSphere() {
+    m_pSphere = NULL;
 }
 
 
@@ -33,9 +32,8 @@ CToolSphere::CToolSphere()
 // Purpose: 
 // Input  : pSphere - 
 //-----------------------------------------------------------------------------
-void CToolSphere::Attach(CMapSphere *pSphere)
-{
-	m_pSphere = pSphere;
+void CToolSphere::Attach(CMapSphere *pSphere) {
+    m_pSphere = pSphere;
 }
 
 
@@ -46,17 +44,16 @@ void CToolSphere::Attach(CMapSphere *pSphere)
 //			point - 
 // Output : Returns true if the message was handled, false otherwise.
 //-----------------------------------------------------------------------------
-bool CToolSphere::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	//
-	// Activate this tool and start resizing the sphere.
-	//
-	ToolManager()->PushTool(TOOL_SPHERE);
-	pView->SetCapture();
+bool CToolSphere::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) {
+    //
+    // Activate this tool and start resizing the sphere.
+    //
+    ToolManager()->PushTool(TOOL_SPHERE);
+    pView->SetCapture();
 
-	GetHistory()->MarkUndoPosition(m_pDocument->GetSelection()->GetList(), "Modify Radius");
-	GetHistory()->Keep(m_pSphere);
-	return true;
+    GetHistory()->MarkUndoPosition(m_pDocument->GetSelection()->GetList(), "Modify Radius");
+    GetHistory()->Keep(m_pSphere);
+    return true;
 }
 
 
@@ -67,15 +64,14 @@ bool CToolSphere::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D 
 //			point - 
 // Output : Returns true if the message was handled, false otherwise.
 //-----------------------------------------------------------------------------
-bool CToolSphere::OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	ToolManager()->PopTool();
+bool CToolSphere::OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) {
+    ToolManager()->PopTool();
 
-	ReleaseCapture();
+    ReleaseCapture();
 
-	m_pDocument->SetModifiedFlag();
+    m_pDocument->SetModifiedFlag();
 
-	return true;
+    return true;
 }
 
 
@@ -86,34 +82,33 @@ bool CToolSphere::OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &v
 //			point - 
 // Output : Returns true if the message was handled, false otherwise.
 //-----------------------------------------------------------------------------
-bool CToolSphere::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	// Make sure the point is visible.
-	pView->ToolScrollToPoint( vPoint );
+bool CToolSphere::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint) {
+    // Make sure the point is visible.
+    pView->ToolScrollToPoint(vPoint);
 
-	Vector	vecWorld;
-	pView->ClientToWorld( vecWorld,  vPoint );
-	m_pDocument->Snap( vecWorld, constrainSnap );
+    Vector vecWorld;
+    pView->ClientToWorld(vecWorld, vPoint);
+    m_pDocument->Snap(vecWorld, constrainSnap);
 
-	//
-	// Use whichever axis they dragged the most along as the drag axis.
-	// Calculate the drag distance in client coordinates.
-	//
-	float flHorzRadius = fabs((float)vecWorld[pView->axHorz] - m_pSphere->m_Origin[pView->axHorz]);
-	float flVertRadius = fabs((float)vecWorld[pView->axVert] - m_pSphere->m_Origin[pView->axVert]);
-	float flRadius = max(flHorzRadius, flVertRadius);
-	
-	m_pSphere->SetRadius(flRadius);
+    //
+    // Use whichever axis they dragged the most along as the drag axis.
+    // Calculate the drag distance in client coordinates.
+    //
+    float flHorzRadius = fabs((float) vecWorld[pView->axHorz] - m_pSphere->m_Origin[pView->axHorz]);
+    float flVertRadius = fabs((float) vecWorld[pView->axVert] - m_pSphere->m_Origin[pView->axVert]);
+    float flRadius = max(flHorzRadius, flVertRadius);
 
-	//
-	// Update the status bar text with the new value of the radius.
-	//
-	char szBuf[128];
-	sprintf(szBuf, " %s = %g ", m_pSphere->m_szKeyName, (double)m_pSphere->m_flRadius);
-	SetStatusText(SBI_COORDS, szBuf);
+    m_pSphere->SetRadius(flRadius);
 
-	m_pDocument->UpdateAllViews( MAPVIEW_UPDATE_TOOL );
+    //
+    // Update the status bar text with the new value of the radius.
+    //
+    char szBuf[128];
+    sprintf(szBuf, " %s = %g ", m_pSphere->m_szKeyName, (double) m_pSphere->m_flRadius);
+    SetStatusText(SBI_COORDS, szBuf);
 
-	return true;
+    m_pDocument->UpdateAllViews(MAPVIEW_UPDATE_TOOL);
+
+    return true;
 }
 

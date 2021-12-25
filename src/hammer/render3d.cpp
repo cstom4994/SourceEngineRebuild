@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -13,15 +13,12 @@
 #include <tier0/memdbgon.h>
 
 
-CRender3D *CreateRender3D(Render3DType_t eRender3DType)
-{
-	switch (eRender3DType)
-	{
-		case Render3DTypeMaterialSystem:
-		{
-			return(new CRender3DMS());
-		}
-	}
+CRender3D *CreateRender3D(Render3DType_t eRender3DType) {
+    switch (eRender3DType) {
+        case Render3DTypeMaterialSystem: {
+            return (new CRender3DMS());
+        }
+    }
 
-	return(NULL);
+    return (NULL);
 }

@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Implementation of IEditorTexture interface for placeholder textures.
 //			Placeholder textures are used for textures that are referenced in

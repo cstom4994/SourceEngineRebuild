@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -15,54 +15,63 @@
 //
 // Face Smoothing Group Dialog
 //
-class CFaceSmoothingDlg : public CDialog
-{
+class CFaceSmoothingDlg : public CDialog {
 public:
 
-	CFaceSmoothingDlg( CWnd *pParent = NULL );
-	~CFaceSmoothingDlg();
+    CFaceSmoothingDlg(CWnd *pParent = NULL);
 
-	void UpdateControls( void );
+    ~CFaceSmoothingDlg();
 
-	//{{AFX_DATA( CFaceSmoothingDlg )
-	enum { IDD = IDD_SMOOTHING_GROUPS };
-	//}}AFX_DATA
+    void UpdateControls(void);
 
-	//{{AFX_VIRTUAL( CFaceSmoothingDlg )
-	virtual BOOL OnInitDialog( void );
-	//}}AFX_VIRTUAL
+    //{{AFX_DATA( CFaceSmoothingDlg )
+    enum {
+        IDD = IDD_SMOOTHING_GROUPS
+    };
+    //}}AFX_DATA
+
+    //{{AFX_VIRTUAL( CFaceSmoothingDlg )
+    virtual BOOL OnInitDialog(void);
+    //}}AFX_VIRTUAL
 
 protected:
 
-	void InitButtonIDs( void );
+    void InitButtonIDs(void);
 
-	UINT GetSmoothingGroup( UINT uCmd );
-	int GetActiveSmoothingGroup( void );
+    UINT GetSmoothingGroup(UINT uCmd);
 
-	void CheckGroupButtons( int *pGroupCounts, int nFaceCount );
+    int GetActiveSmoothingGroup(void);
 
-	float GetEditBoxSmoothingAngle( void );
-	void SetEditBoxSmoothingAngle( float flAngle );
-	void UpdateSmoothingAngle( int *pGroupCounts, int nFaceCount );
+    void CheckGroupButtons(int *pGroupCounts, int nFaceCount);
 
-	//{{AFX_MSG( CFaceSmoothingDlg )
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	afx_msg void OnButtonApply( void );
-	afx_msg BOOL OnButtonGroup( UINT uCmd );
-	afx_msg void OnClose( void );
-	afx_msg void OnDestroy( void );
-	//}}AFX_MSG
+    float GetEditBoxSmoothingAngle(void);
 
-	DECLARE_MESSAGE_MAP()
+    void SetEditBoxSmoothingAngle(float flAngle);
+
+    void UpdateSmoothingAngle(int *pGroupCounts, int nFaceCount);
+
+    //{{AFX_MSG( CFaceSmoothingDlg )
+    afx_msg HBRUSH OnCtlColor(CDC *pDC, CWnd *pWnd, UINT nCtlColor);
+
+    afx_msg void OnButtonApply(void);
+
+    afx_msg BOOL OnButtonGroup(UINT uCmd);
+
+    afx_msg void OnClose(void);
+
+    afx_msg void OnDestroy(void);
+    //}}AFX_MSG
+
+DECLARE_MESSAGE_MAP()
 
 private:
 
-	UINT			m_ButtonIDs[MAX_SMOOTHING_GROUP_COUNT+1];			// Ids
-	CRect			m_DialogPosRect;									// Save/Restore the window position.
+    UINT m_ButtonIDs[MAX_SMOOTHING_GROUP_COUNT + 1];            // Ids
+    CRect m_DialogPosRect;                                    // Save/Restore the window position.
 
-	CBrush			m_Brush;
-	bool			m_bColorOverride;
-	bool			m_bColorSelectAll;
+    CBrush m_Brush;
+    bool m_bColorOverride;
+    bool m_bColorSelectAll;
 };
 
 
@@ -70,35 +79,38 @@ private:
 //
 // Face Smoothing Group Visual Dialog
 //
-class CFaceSmoothingVisualDlg : public CDialog
-{
+class CFaceSmoothingVisualDlg : public CDialog {
 public:
 
-	CFaceSmoothingVisualDlg( CWnd *pParent = NULL );
-	~CFaceSmoothingVisualDlg();
+    CFaceSmoothingVisualDlg(CWnd *pParent = NULL);
 
-	//{{AFX_DATA( CFaceSmoothingVisualDlg )
-	enum { IDD = IDD_SMOOTHING_GROUP_VISUAL };
-	//}}AFX_DATA
+    ~CFaceSmoothingVisualDlg();
 
-	//{{AFX_VIRTUAL( CFaceSmoothingVisualDlg )
-	virtual BOOL OnInitDialog( void );
-	//}}AFX_VIRTUAL
+    //{{AFX_DATA( CFaceSmoothingVisualDlg )
+    enum {
+        IDD = IDD_SMOOTHING_GROUP_VISUAL
+    };
+    //}}AFX_DATA
+
+    //{{AFX_VIRTUAL( CFaceSmoothingVisualDlg )
+    virtual BOOL OnInitDialog(void);
+    //}}AFX_VIRTUAL
 
 protected:
 
-	void InitButtonIDs( void );
-	UINT GetSmoothingGroup( UINT uCmd );
+    void InitButtonIDs(void);
 
-	//{{AFX_MSG( CFaceSmoothingDlg )
-	afx_msg BOOL OnButtonGroup( UINT uCmd );
-	//}}AFX_MSG
+    UINT GetSmoothingGroup(UINT uCmd);
 
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG( CFaceSmoothingDlg )
+    afx_msg BOOL OnButtonGroup(UINT uCmd);
+    //}}AFX_MSG
+
+DECLARE_MESSAGE_MAP()
 
 private:
 
-	UINT			m_ButtonIDs[MAX_SMOOTHING_GROUP_COUNT+1];			// Ids
+    UINT m_ButtonIDs[MAX_SMOOTHING_GROUP_COUNT + 1];            // Ids
 };
 
 #endif // MATERIALDLG_H

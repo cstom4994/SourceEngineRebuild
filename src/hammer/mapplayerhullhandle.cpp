@@ -1,4 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -8,7 +8,7 @@
 #include "Box3D.h"
 #include "GlobalFunctions.h"
 #include "fgdlib/HelperInfo.h"
-#include "materialsystem/imaterialsystem.h"
+#include "materialsystem/IMaterialSystem.h"
 #include "MainFrm.h"			// For refreshing the object properties dialog
 #include "MapDoc.h"
 #include "MapPlayerHullHandle.h"
@@ -126,7 +126,6 @@ void CMapPlayerHullHandle::CalcBounds(BOOL bFullUpdate)
 
 	m_Render2DBox.UpdateBounds(Mins, Maxs);
 	m_CullBox = m_Render2DBox;
-	m_BoundingBox = m_CullBox;
 }
 
 
@@ -340,7 +339,7 @@ void CMapPlayerHullHandle::UpdateParentKey(void)
 	// Snap to prevent error creep.
 	for (int i = 0; i < 3; i++)
 	{
-		m_Origin[i] = V_rint(m_Origin[i] / 0.01f) * 0.01f;
+		m_Origin[i] = rint(m_Origin[i] / 0.01f) * 0.01f;
 	}
 
 	if (m_szKeyName[0])
