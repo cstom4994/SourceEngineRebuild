@@ -141,7 +141,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "_ALLOW_MSC_VER_MISMATCH;"
     "COMPILER_MSVC32;"
     "COMPILER_MSVC;"
-    "_DLL_EXT=.dll;"
     "DLLNAME=gameui2;"
     "BINK_VIDEO;"
     "AVI_VIDEO;"
@@ -152,11 +151,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "VERSION_SAFE_STEAM_API_INTERFACES;"
     "strncpy=use_Q_strncpy_instead;"
     "_snprintf=use_Q_snprintf_instead;"
-    "_EXTERNAL_DLL_EXT=.dll;"
-    "VPCGAMECAPS=VANCE;"
-    "PROJECTDIR=E:\\Projects\\TymetaWorks\\AboutSource\\vance\\src\\game\\gameui2;"
     "SOURCE1=1;"
-    "VPCGAME=vance;"
     "_MBCS"
 )
 

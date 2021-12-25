@@ -3774,7 +3774,7 @@ void Host_Init(bool bDedicated) {
 
     if (Host_IsSecureServerAllowed()) {
         // double check the engine's signature in case it was hooked/modified
-        if (!Host_AllowLoadModule("engine" DLL_EXT_STRING, "EXECUTABLE_PATH", false, bDedicated)) {
+        if (!Host_AllowLoadModule("engine.dll", "EXECUTABLE_PATH", false, bDedicated)) {
             // not supposed to load this but we will anyway
             Host_DisallowSecureServers();
         }

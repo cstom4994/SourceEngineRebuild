@@ -237,7 +237,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_I386_;"
         "_I386;"
         "DEV_BUILD;"
-        "_DLL_EXT=.dll;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "VPC;"
         "_USRDLL;"

@@ -1505,7 +1505,7 @@ bool CEngineAPI::InitVR() {
         if (g_pSourceVR) {
             // make sure that the sourcevr DLL we loaded is secure. If not, don't 
             // let this client connect to secure servers.
-            if (!Host_AllowLoadModule("sourcevr" DLL_EXT_STRING, "EXECUTABLE_PATH", false)) {
+            if (!Host_AllowLoadModule("sourcevr.dll", "EXECUTABLE_PATH", false)) {
                 Warning("Preventing connections to secure servers because sourcevr.dll is not signed.\n");
                 Host_DisallowSecureServers();
             }
@@ -1840,7 +1840,7 @@ bool CModAppSystemGroup::AddLegacySystems() {
 #if !defined( DEDICATED )
     //	if ( CommandLine()->FindParm( "-tools" ) )
     {
-        AppModule_t toolFrameworkModule = LoadModule("engine" DLL_EXT_STRING);
+        AppModule_t toolFrameworkModule = LoadModule("engine.dll");
 
         if (!AddSystem(toolFrameworkModule, VTOOLFRAMEWORK_INTERFACE_VERSION))
             return false;
@@ -1925,7 +1925,7 @@ bool CModAppSystemGroup::Create() {
 #if !defined( DEDICATED )
     //	if ( CommandLine()->FindParm( "-tools" ) )
     {
-        AppModule_t toolFrameworkModule = LoadModule("engine" DLL_EXT_STRING);
+        AppModule_t toolFrameworkModule = LoadModule("engine.dll");
 
         if (!AddSystem(toolFrameworkModule, VTOOLFRAMEWORK_INTERFACE_VERSION))
             return false;

@@ -443,8 +443,8 @@ EXPOSE_SINGLE_INTERFACE(CGameClientExports, IGameClientExports, GAMECLIENTEXPORT
 class CClientDLLSharedAppSystems : public IClientDLLSharedAppSystems {
 public:
     CClientDLLSharedAppSystems() {
-        AddAppSystem("soundemittersystem" DLL_EXT_STRING, SOUNDEMITTERSYSTEM_INTERFACE_VERSION);
-        AddAppSystem("scenefilecache" DLL_EXT_STRING, SCENE_FILE_CACHE_INTERFACE_VERSION);
+        AddAppSystem("soundemittersystem.dll", SOUNDEMITTERSYSTEM_INTERFACE_VERSION);
+        AddAppSystem("scenefilecache.dll", SCENE_FILE_CACHE_INTERFACE_VERSION);
     }
 
     virtual int Count() {

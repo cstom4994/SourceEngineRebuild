@@ -99,17 +99,14 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "_ALLOW_MSC_VER_MISMATCH;"
     "COMPILER_MSVC32;"
     "COMPILER_MSVC;"
-    "_DLL_EXT=.dll;"
     "LIBNAME=fgdlib;"
     "BINK_VIDEO;"
     "AVI_VIDEO;"
     "WMV_VIDEO;"
     "DEV_BUILD;"
     "FRAME_POINTER_OMISSION_DISABLED;"
-    "_EXTERNAL_DLL_EXT=.dll;"
     "VPCGAMECAPS=VALVE;"
     "SOURCE1=1;"
-    "VPCGAME=valve;"
     "_MBCS"
 )
 

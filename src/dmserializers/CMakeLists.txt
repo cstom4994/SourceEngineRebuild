@@ -122,7 +122,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "PLATFORM_32BITS;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "_DLL_EXT=.dll;"
         "LIBNAME=dmserializers;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -130,12 +129,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "DMSERIALIZERS_LIB;"
-        "_EXTERNAL_DLL_EXT=.dll;"
-        "VPCGAMECAPS=VANCE;"
-        "PROJECTDIR=E:\\ReCrash\\ProjectRe\\InvadeEngine\\src\\dmserializers;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
-        "VPCGAME=tf;"
         "_MBCS"
         )
 

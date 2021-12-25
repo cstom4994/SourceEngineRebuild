@@ -57,7 +57,7 @@ void ReplaySystem_Init( bool bDedicated )
 	extern IFileSystem *g_pFileSystem;
 
 	// Load the replay DLL
-	const char *szDllName = "replay" DLL_EXT_STRING;
+	const char *szDllName = "replay.dll";
 	gs_hReplayModule = g_pFileSystem->LoadModule( szDllName );
 	g_fnReplayFactory = Sys_GetFactory( gs_hReplayModule );
 	if ( !g_fnReplayFactory )

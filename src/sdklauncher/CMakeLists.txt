@@ -129,12 +129,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
         "EXENAME=SDKLauncher;"
-        "_DLL_EXT=.dll;"
         "VERSION_SAFE_STEAM_API_INTERFACES;"
-        "_EXTERNAL_DLL_EXT=.dll;"
-        "VPCGAMECAPS=HL2MP;"
-        "PROJECTDIR=E:\\Projects\\SourceEngineWorks\\SourceEngineRebuild\\src\\sdklauncher;"
-        "VPCGAME=hl2mp;"
         "SOURCE1=1;"
         "_MBCS"
         )

@@ -261,7 +261,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_ALLOW_MSC_VER_MISMATCH;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "_DLL_EXT=.dll;"
         "LIBNAME=vgui_controls_editor;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -269,9 +268,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "SHADER_EDITOR_DLL_SER;"
-        "_EXTERNAL_DLL_EXT=.dll;"
         "VPCGAMECAPS=VALVE;"
-        "VPCGAME=valve;"
         "SOURCE1=1;"
         "_MBCS"
         )

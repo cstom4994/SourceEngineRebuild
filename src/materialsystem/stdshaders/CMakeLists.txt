@@ -154,7 +154,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "_ALLOW_MSC_VER_MISMATCH;"
     "COMPILER_MSVC32;"
     "COMPILER_MSVC;"
-    "_DLL_EXT=.dll;"
     "DLLNAME=game_shader_dx9;"
     "BINK_VIDEO;"
     "AVI_VIDEO;"
@@ -165,10 +164,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "FAST_MATERIALVAR_ACCESS;"
     "GAME_SHADER_DLL;"
     "USE_ACTUAL_DX;"
-    "_EXTERNAL_DLL_EXT=.dll;"
-    "VPCGAMECAPS=LAZUUL;"
-    "PROJECTDIR=E:\\Projects\\TymetaWorks\\AboutSource\\Source-PlusPlus\\src\\materialsystem\\stdshaders;"
-    "VPCGAME=lazuul;"
     "SOURCE1=1;"
     "_MBCS"
 )

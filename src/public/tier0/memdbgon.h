@@ -278,3 +278,7 @@ inline void *valve_aligned_malloc_check_oom( size_t size, size_t alignment )
 #undef _aligned_malloc
 
 #endif // NO_MALLOC_OVERRIDE
+
+#if defined(_DEBUG)
+#undef new
+#endif

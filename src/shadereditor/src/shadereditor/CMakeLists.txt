@@ -339,7 +339,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_ALLOW_MSC_VER_MISMATCH;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "_DLL_EXT=.dll;"
         "DLLNAME=shadereditor;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -357,10 +356,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "fopen=dont_use_fopen;"
         "SHADER_EDITOR_DLL;"
         "SHADER_EDITOR_DLL_SER;"
-        "_EXTERNAL_DLL_EXT=.dll;"
         "VPCGAMECAPS=VALVE;"
         "SOURCE1=1;"
-        "VPCGAME=valve;"
         "_MBCS"
         )
 

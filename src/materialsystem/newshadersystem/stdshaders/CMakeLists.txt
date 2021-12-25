@@ -212,7 +212,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_ALLOW_MSC_VER_MISMATCH;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "_DLL_EXT=.dll;"
         "DLLNAME=game_shader_dx9;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -224,10 +223,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "GAME_SHADER_DLL;"
         "USE_ACTUAL_DX;"
         "VANCE;"
-        "_EXTERNAL_DLL_EXT=.dll;"
         "VPCGAMECAPS=VANCE;"
         "SOURCE1=1;"
-        "VPCGAME=vance;"
         "_MBCS"
         )
 

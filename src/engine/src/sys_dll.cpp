@@ -1155,10 +1155,10 @@ void LoadEntityDLLs(const char *szBaseDir, bool bIsServerOnly) {
     modinfo->deleteThis();
 
     // Load the game .dll
-    LoadThisDll((char *) "server" DLL_EXT_STRING, bIsServerOnly);
+    LoadThisDll((char *) "server.dll", bIsServerOnly);
 
     if (serverGameDLL) {
-        Msg("server%s loaded for \"%s\"\n", DLL_EXT_STRING, (char *) serverGameDLL->GetGameDescription());
+        Msg("server%s loaded for \"%s\"\n", ".dll", (char *) serverGameDLL->GetGameDescription());
     }
 }
 

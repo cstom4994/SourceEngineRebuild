@@ -244,16 +244,16 @@ GameInit
 bool CSys::LoadModules(CDedicatedAppSystemGroup *pAppSystemGroup) {
     AppSystemInfo_t appSystems[] =
             {
-                    {"engine" DLL_EXT_STRING,             CVAR_QUERY_INTERFACE_VERSION},
-                    {"soundemittersystem" DLL_EXT_STRING, SOUNDEMITTERSYSTEM_INTERFACE_VERSION}, // loaded for backwards compatability, prevents crash on exit for old game dlls
-                    {"materialsystem" DLL_EXT_STRING,     MATERIAL_SYSTEM_INTERFACE_VERSION},
-                    {"studiorender" DLL_EXT_STRING,       STUDIO_RENDER_INTERFACE_VERSION},
-                    {"engine" DLL_EXT_STRING,             VPHYSICS_INTERFACE_VERSION},
-                    {"datacache" DLL_EXT_STRING,          DATACACHE_INTERFACE_VERSION},
-                    {"datacache" DLL_EXT_STRING,          MDLCACHE_INTERFACE_VERSION},
-                    {"datacache" DLL_EXT_STRING,          STUDIO_DATA_CACHE_INTERFACE_VERSION},
-                    {"dedicated" DLL_EXT_STRING,          QUEUEDLOADER_INTERFACE_VERSION},
-                    {"engine" DLL_EXT_STRING,             VENGINE_HLDS_API_VERSION},
+                    {"engine.dll",             CVAR_QUERY_INTERFACE_VERSION},
+                    {"soundemittersystem.dll", SOUNDEMITTERSYSTEM_INTERFACE_VERSION}, // loaded for backwards compatability, prevents crash on exit for old game dlls
+                    {"materialsystem.dll",     MATERIAL_SYSTEM_INTERFACE_VERSION},
+                    {"studiorender.dll",       STUDIO_RENDER_INTERFACE_VERSION},
+                    {"engine.dll",             VPHYSICS_INTERFACE_VERSION},
+                    {"datacache.dll",          DATACACHE_INTERFACE_VERSION},
+                    {"datacache.dll",          MDLCACHE_INTERFACE_VERSION},
+                    {"datacache.dll",          STUDIO_DATA_CACHE_INTERFACE_VERSION},
+                    {"dedicated.dll",          QUEUEDLOADER_INTERFACE_VERSION},
+                    {"engine.dll",             VENGINE_HLDS_API_VERSION},
                     {"", ""}    // Required to terminate the list
             };
 
@@ -265,7 +265,7 @@ bool CSys::LoadModules(CDedicatedAppSystemGroup *pAppSystemGroup) {
 
     IMaterialSystem *pMaterialSystem = (IMaterialSystem *) pAppSystemGroup->FindSystem(
             MATERIAL_SYSTEM_INTERFACE_VERSION);
-    pMaterialSystem->SetShaderAPI("shaderapiempty" DLL_EXT_STRING);
+    pMaterialSystem->SetShaderAPI("shaderapiempty.dll");
     return true;
 }
 

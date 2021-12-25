@@ -87,18 +87,15 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "PLATFORM_32BITS;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "_DLL_EXT=.dll;"
         "LIBNAME=raytrace;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
         "WMV_VIDEO;"
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
-        "_EXTERNAL_DLL_EXT=.dll;"
         "VPCGAMECAPS=VANCE;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
-        "VPCGAME=tf;"
         "_MBCS"
         )
 

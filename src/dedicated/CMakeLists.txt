@@ -199,7 +199,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "PLATFORM_32BITS;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "_DLL_EXT=.dll;"
         "DLLNAME=dedicated;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -209,12 +208,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEDICATED;"
         "LAUNCHERONLY;"
         "SUPPORT_PACKED_STORE;"
-        "_EXTERNAL_DLL_EXT=.dll;"
-        "VPCGAMECAPS=VANCE;"
-        "PROJECTDIR=E:\\ReCrash\\ProjectRe\\InvadeEngine\\src\\dedicated;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
-        "VPCGAME=tf;"
         "_MBCS"
         )
 

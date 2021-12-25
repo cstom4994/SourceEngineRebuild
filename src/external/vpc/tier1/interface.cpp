@@ -226,7 +226,7 @@ static HMODULE Sys_LoadLibraryGuts(const char *pLibraryName) {
     char str[1024];
 
     // How to get a string out of a #define on the command line.
-    const char *pModuleExtension = DLL_EXT_STRING;
+    const char *pModuleExtension = ".dll";
     const char *pModuleAddition = pModuleExtension;
 
     V_strncpy(str, pLibraryName, sizeof(str));

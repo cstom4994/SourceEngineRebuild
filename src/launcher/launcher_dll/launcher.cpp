@@ -528,7 +528,7 @@ static bool IsWin98OrOlder() {
 void TryToLoadSteamOverlayDLL() {
 #if defined( WIN32 ) && !defined( _X360 )
     // First, check if the module is already loaded, perhaps because we were run from Steam directly
-    HMODULE hMod = GetModuleHandle("GameOverlayRenderer" DLL_EXT_STRING);
+    HMODULE hMod = GetModuleHandle("GameOverlayRenderer.dll");
     if (hMod) {
         return;
     }
@@ -598,20 +598,20 @@ bool CSourceAppSystemGroup::Create() {
 
     AppSystemInfo_t appSystems[] =
             {
-                    {"engine" DLL_EXT_STRING,         CVAR_QUERY_INTERFACE_VERSION},    // NOTE: This one must be first!!
-                    {"engine" DLL_EXT_STRING,         INPUTSYSTEM_INTERFACE_VERSION},
-                    {"materialsystem" DLL_EXT_STRING, MATERIAL_SYSTEM_INTERFACE_VERSION},
-                    {"datacache" DLL_EXT_STRING,      DATACACHE_INTERFACE_VERSION},
-                    {"datacache" DLL_EXT_STRING,      MDLCACHE_INTERFACE_VERSION},
-                    {"datacache" DLL_EXT_STRING,      STUDIO_DATA_CACHE_INTERFACE_VERSION},
-                    {"studiorender" DLL_EXT_STRING,   STUDIO_RENDER_INTERFACE_VERSION},
-                    {"engine" DLL_EXT_STRING,         VPHYSICS_INTERFACE_VERSION},
-                    {"engine" DLL_EXT_STRING,         VIDEO_SERVICES_INTERFACE_VERSION},
+                    {"engine.dll",         CVAR_QUERY_INTERFACE_VERSION},    // NOTE: This one must be first!!
+                    {"engine.dll",         INPUTSYSTEM_INTERFACE_VERSION},
+                    {"materialsystem.dll", MATERIAL_SYSTEM_INTERFACE_VERSION},
+                    {"datacache.dll",      DATACACHE_INTERFACE_VERSION},
+                    {"datacache.dll",      MDLCACHE_INTERFACE_VERSION},
+                    {"datacache.dll",      STUDIO_DATA_CACHE_INTERFACE_VERSION},
+                    {"studiorender.dll",   STUDIO_RENDER_INTERFACE_VERSION},
+                    {"engine.dll",         VPHYSICS_INTERFACE_VERSION},
+                    {"engine.dll",         VIDEO_SERVICES_INTERFACE_VERSION},
 
                     // NOTE: This has to occur before engine.dll so it replaces vgui2's surface implementation
-                    {"engine" DLL_EXT_STRING,         VGUI_SURFACE_INTERFACE_VERSION},
-                    {"engine" DLL_EXT_STRING,         VGUI_IVGUI_INTERFACE_VERSION},
-                    {"engine" DLL_EXT_STRING,         VENGINE_LAUNCHER_API_VERSION},
+                    {"engine.dll",         VGUI_SURFACE_INTERFACE_VERSION},
+                    {"engine.dll",         VGUI_IVGUI_INTERFACE_VERSION},
+                    {"engine.dll",         VENGINE_LAUNCHER_API_VERSION},
 
                     {"", ""}                            // Required to terminate the list
             };
@@ -625,7 +625,7 @@ bool CSourceAppSystemGroup::Create() {
 
 
     // This will be NULL for games that don't support VR. That's ok. Just don't load the DLL
-    AppModule_t sourceVRModule = LoadModule("sourcevr" DLL_EXT_STRING);
+    AppModule_t sourceVRModule = LoadModule("sourcevr.dll");
     if (sourceVRModule != APP_MODULE_INVALID) {
         AddSystem(sourceVRModule, SOURCE_VIRTUAL_REALITY_INTERFACE_VERSION);
     }
@@ -644,7 +644,7 @@ bool CSourceAppSystemGroup::Create() {
     if (IsPC() &&
         ((CommandLine()->FindParm("-tools") && !CommandLine()->FindParm("-nop4")) || CommandLine()->FindParm("-p4"))) {
 #ifdef STAGING_ONLY
-        AppModule_t p4libModule = LoadModule( "p4lib" DLL_EXT_STRING );
+        AppModule_t p4libModule = LoadModule( "p4lib.dll" );
         IP4 *p4 = (IP4*)AddSystem( p4libModule, P4_INTERFACE_VERSION );
 
         // If we are running with -steam then that means the tools are being used by an SDK user. Don't exit in this case!
@@ -654,7 +654,7 @@ bool CSourceAppSystemGroup::Create() {
         }
 #endif // STAGING_ONLY
 
-        AppModule_t vstdlibModule = LoadModule("vstdlib" DLL_EXT_STRING);
+        AppModule_t vstdlibModule = LoadModule("vstdlib.dll");
         IProcessUtils *processUtils = (IProcessUtils *) AddSystem(vstdlibModule, PROCESS_UTILS_INTERFACE_VERSION);
         if (!processUtils)
             return false;
@@ -671,7 +671,7 @@ bool CSourceAppSystemGroup::Create() {
 #if defined( _WIN32 ) && defined( STAGING_ONLY )
     if ( m_bEditMode )
     {
-        AppModule_t hammerModule = LoadModule( "hammer_dll" DLL_EXT_STRING );
+        AppModule_t hammerModule = LoadModule( "hammer_dll.dll" );
         g_pHammer = (IHammer*)AddSystem( hammerModule, INTERFACEVERSION_HAMMER );
         if ( !g_pHammer )
         {
@@ -682,9 +682,9 @@ bool CSourceAppSystemGroup::Create() {
 
     // Load up the appropriate shader DLL
     // This has to be done before connection.
-    char const *pDLLName = "shaderapidx9" DLL_EXT_STRING;
+    char const *pDLLName = "shaderapidx9.dll";
     if (CommandLine()->FindParm("-noshaderapi")) {
-        pDLLName = "shaderapiempty" DLL_EXT_STRING;
+        pDLLName = "shaderapiempty.dll";
     }
 
     pMaterialSystem->SetShaderAPI(pDLLName);

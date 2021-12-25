@@ -156,7 +156,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "PLATFORM_32BITS;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "_DLL_EXT=.dll;"
         "DLLNAME=ServerBrowser;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -166,12 +165,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "VERSION_SAFE_STEAM_API_INTERFACES;"
         "SERVERBROWSER_EXPORTS;"
         "GAME_SRC;"
-        "_EXTERNAL_DLL_EXT=.dll;"
-        "VPCGAMECAPS=VANCE;"
-        "PROJECTDIR=E:\\ReCrash\\ProjectRe\\InvadeEngine\\src\\serverbrowser;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
-        "VPCGAME=tf;"
         "_MBCS"
         )
 

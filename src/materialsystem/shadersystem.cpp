@@ -53,6 +53,7 @@ public:
     virtual void TakeSnapshot();
 
     virtual void DrawSnapshot(bool bMakeActualDrawCall = true);
+
     virtual bool IsUsingGraphics() const;
 
     virtual bool CanUseEditorMaterials() const;
@@ -328,7 +329,7 @@ void CShaderSystem::LoadAllShaderDLLs() {
     // 360 has the the debug shaders in its dx9 dll
     if (IsPC() || !IsX360()) {
         // Always need the debug shaders
-        LoadShaderDLL("stdshader_dbg" DLL_EXT_STRING);
+        LoadShaderDLL("stdshader_dbg.dll");
     }
 
     // Load up standard shader DLLs...
@@ -342,7 +343,7 @@ void CShaderSystem::LoadAllShaderDLLs() {
     int dxStart = IsX360() || !IsWindows() || IsOpenGL() ? 9 : 6;
     char buf[32];
     for (i = dxStart; i <= dxSupportLevel; ++i) {
-        Q_snprintf(buf, sizeof(buf), "stdshader_dx%d%s", i, DLL_EXT_STRING);
+        Q_snprintf(buf, sizeof(buf), "stdshader_dx%d%s", i, ".dll");
         LoadShaderDLL(buf);
     }
 
@@ -361,7 +362,7 @@ void CShaderSystem::LoadAllShaderDLLs() {
     // For fast-iteration debugging
     if ( CommandLine()->FindParm( "-testshaders" ) )
     {
-        LoadShaderDLL( "shader_test" DLL_EXT_STRING );
+        LoadShaderDLL( "shader_test.dll" );
     }
 #endif
 }
@@ -401,7 +402,7 @@ void CShaderSystem::LoadModShaderDLLs(int dxSupportLevel) {
 
     int dxStart = 6;
     for (int i = dxStart; i <= dxSupportLevel; ++i) {
-        Q_snprintf(buf, sizeof(buf), "game_shader_dx%d%s", i, DLL_EXT_STRING);
+        Q_snprintf(buf, sizeof(buf), "game_shader_dx%d%s", i, ".dll");
         LoadShaderDLL(buf, pModShaderPathID, true);
     }
 
@@ -409,7 +410,7 @@ void CShaderSystem::LoadModShaderDLLs(int dxSupportLevel) {
     FileFindHandle_t findHandle;
     const char *pFilename = g_pFullFileSystem->FindFirstEx("game_shader_generic*", pModShaderPathID, &findHandle);
     while (pFilename) {
-        Q_snprintf(buf, sizeof(buf), "%s%s", pFilename, DLL_EXT_STRING);
+        Q_snprintf(buf, sizeof(buf), "%s%s", pFilename, ".dll");
         LoadShaderDLL(buf, pModShaderPathID, true);
 
         pFilename = g_pFullFileSystem->FindNext(findHandle);

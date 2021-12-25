@@ -103,7 +103,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "PLATFORM_32BITS;"
     "COMPILER_MSVC32;"
     "COMPILER_MSVC;"
-    "_DLL_EXT=.dll;"
     "DLLNAME=vaudio_speex;"
     "BINK_VIDEO;"
     "AVI_VIDEO;"
@@ -111,11 +110,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "DEV_BUILD;"
     "FRAME_POINTER_OMISSION_DISABLED;"
     "SPEEX_EXPORTS;"
-    "_EXTERNAL_DLL_EXT=.dll;"
-    "VPCGAMECAPS=VANCE;"
-    "PROJECTDIR=E:\\ReCrash\\ProjectRe\\InvadeEngine\\src\\engine\\voice_codecs\\speex;"
     "SOURCE1=1;"
-    "VPCGAME=tf;"
     "_MBCS"
 )
 

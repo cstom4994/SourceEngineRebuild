@@ -368,9 +368,9 @@ void CFileSystem_Steam::LoadAndStartSteam() {
         if (pchSteamInstallPath) {
             char szSteamDLLPath[MAX_PATH];
 #ifdef WIN32
-            V_ComposeFileName(pchSteamInstallPath, "steam" DLL_EXT_STRING, szSteamDLLPath, Q_ARRAYSIZE(szSteamDLLPath));
+            V_ComposeFileName(pchSteamInstallPath, "steam.dll", szSteamDLLPath, Q_ARRAYSIZE(szSteamDLLPath));
 #elif defined(POSIX)
-            V_ComposeFileName( pchSteamInstallPath, "libsteam" DLL_EXT_STRING, szSteamDLLPath, Q_ARRAYSIZE(szSteamDLLPath) );
+            V_ComposeFileName( pchSteamInstallPath, "libsteam.dll", szSteamDLLPath, Q_ARRAYSIZE(szSteamDLLPath) );
 #else
 #error
 #endif
@@ -380,9 +380,9 @@ void CFileSystem_Steam::LoadAndStartSteam() {
 
         if (!m_hSteamDLL)
 #ifdef WIN32
-            m_hSteamDLL = (HMODULE) Sys_LoadModule("steam" DLL_EXT_STRING);
+            m_hSteamDLL = (HMODULE) Sys_LoadModule("steam.dll");
 #elif defined(POSIX)
-        m_hSteamDLL = (HMODULE)Sys_LoadModule( "libsteam" DLL_EXT_STRING );
+        m_hSteamDLL = (HMODULE)Sys_LoadModule( "libsteam.dll" );
 #else
 #error
 #endif

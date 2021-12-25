@@ -1300,7 +1300,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_CRT_NONSTDC_NO_DEPRECATE;"
         "COMPILER_MSVC32;"
         "COMPILER_MSVC;"
-        "_DLL_EXT=.dll;"
         "DLLNAME=server;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -1316,11 +1315,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "fopen=dont_use_fopen;"
         "HL2MP;"
         "HL2_DLL;"
-        "_EXTERNAL_DLL_EXT=.dll;"
-        "VPCGAMECAPS=HL2MP;"
-        "PROJECTDIR=E:\\Projects\\SourceEngineWorks\\SourceEngineRebuild\\src\\game\\server;"
         "SOURCE1=1;"
-        "VPCGAME=hl2mp;"
         "_MBCS"
         )
 
@@ -3591,7 +3586,6 @@ if (BUILD_TF)
             "PLATFORM_32BITS;"
             "COMPILER_MSVC32;"
             "COMPILER_MSVC;"
-            "_DLL_EXT=.dll;"
             "DLLNAME=server;"
             "BINK_VIDEO;"
             "AVI_VIDEO;"
@@ -3614,12 +3608,8 @@ if (BUILD_TF)
             "GLOWS_ENABLE;"
             "USE_DYNAMIC_ASSET_LOADING;"
             "NEXT_BOT;"
-            "_EXTERNAL_DLL_EXT=.dll;"
-            "VPCGAMECAPS=VANCE;"
-            "PROJECTDIR=E:\\ReCrash\\ProjectRe\\InvadeEngine\\src\\game\\server;"
             "SOURCE1=1;"
             "FUCK_STEAM;"
-            "VPCGAME=tf;"
             "_MBCS"
             )
 

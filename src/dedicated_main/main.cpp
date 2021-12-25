@@ -203,10 +203,10 @@ int main( int argc, char *argv[] )
     {
         printf( "%s\n", strerror(errno) );
     }
-    void *tier0 = dlopen( "libtier0" DLL_EXT_STRING, RTLD_NOW );
-    void *vstdlib = dlopen( "libvstdlib" DLL_EXT_STRING, RTLD_NOW );
+    void *tier0 = dlopen( "libtier0.dll", RTLD_NOW );
+    void *vstdlib = dlopen( "libvstdlib.dll", RTLD_NOW );
 
-    const char *pBinaryName = "dedicated" DLL_EXT_STRING;
+    const char *pBinaryName = "dedicated.dll";
 
     void *dedicated = dlopen( pBinaryName, RTLD_NOW );
     if ( !dedicated )

@@ -117,14 +117,9 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "COMPILER_MSVC32;"
     "COMPILER_MSVC;"
     "EXENAME=vrad;"
-    "_DLL_EXT=.dll;"
     "DEV_BUILD;"
     "FRAME_POINTER_OMISSION_DISABLED;"
-    "_EXTERNAL_DLL_EXT=.dll;"
-    "VPCGAMECAPS=VANCE;"
-    "PROJECTDIR=E:\\ReCrash\\ProjectRe\\InvadeEngine\\src\\utils\\vrad_launcher;"
     "SOURCE1=1;"
-    "VPCGAME=tf;"
     "_MBCS"
 )
 
