@@ -13,49 +13,48 @@
 #include "hl1_player.h"
 
 
-class CItemLongJump : public CHL1Item
-{
+class CItemLongJump : public CHL1Item {
 public:
-	DECLARE_CLASS( CItemLongJump, CHL1Item );
+    DECLARE_CLASS( CItemLongJump, CHL1Item
+    );
 
-	void Spawn( void )
-	{ 
-		Precache( );
-		SetModel( "models/w_longjump.mdl" );
-		BaseClass::Spawn( );
+    void Spawn(void) {
+        Precache();
+        SetModel("models/w_longjump.mdl");
+        BaseClass::Spawn();
 
-		CollisionProp()->UseTriggerBounds( true, 16.0f );
-	}
-	void Precache( void )
-	{
-		PrecacheModel ("models/w_longjump.mdl");
-	}
-	bool MyTouch( CBasePlayer *pPlayer )
-	{
-		CHL1_Player *pHL1Player = (CHL1_Player*)pPlayer;
+        CollisionProp()->UseTriggerBounds(true, 16.0f);
+    }
 
-		if ( pHL1Player->m_bHasLongJump == true )
-		{
-			return false;
-		}
+    void Precache(void) {
+        PrecacheModel("models/w_longjump.mdl");
+    }
 
-		if ( pHL1Player->IsSuitEquipped() )
-		{
-			pHL1Player->m_bHasLongJump = true;// player now has longjump module
+    bool MyTouch(CBasePlayer *pPlayer) {
+        CHL1_Player *pHL1Player = (CHL1_Player *) pPlayer;
 
-			CSingleUserRecipientFilter user( pHL1Player );
-			user.MakeReliable();
+        if (pHL1Player->m_bHasLongJump == true) {
+            return false;
+        }
 
-			UserMessageBegin( user, "ItemPickup" );
-				WRITE_STRING( STRING(m_iClassname) );
-			MessageEnd();
+        if (pHL1Player->IsSuitEquipped()) {
+            pHL1Player->m_bHasLongJump = true;// player now has longjump module
 
-			UTIL_EmitSoundSuit( pHL1Player->edict(), "!HEV_A1" );	// Play the longjump sound UNDONE: Kelly? correct sound?
-			return true;		
-		}
-		return false;
-	}
+            CSingleUserRecipientFilter user(pHL1Player);
+            user.MakeReliable();
+
+            UserMessageBegin(user, "ItemPickup");
+            WRITE_STRING(STRING(m_iClassname));
+            MessageEnd();
+
+            UTIL_EmitSoundSuit(pHL1Player->edict(),
+                               "!HEV_A1");    // Play the longjump sound UNDONE: Kelly? correct sound?
+            return true;
+        }
+        return false;
+    }
 };
 
-LINK_ENTITY_TO_CLASS( item_longjump, CItemLongJump );
+LINK_ENTITY_TO_CLASS( item_longjump, CItemLongJump
+);
 PRECACHE_REGISTER(item_longjump);

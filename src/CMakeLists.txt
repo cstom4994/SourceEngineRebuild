@@ -113,6 +113,7 @@ add_subdirectory(engine)
 add_subdirectory(game/client)
 add_subdirectory(game/gameui2)
 add_subdirectory(game/server)
+add_subdirectory(game/imgui)
 
 add_subdirectory(cef_process_helper)
 add_subdirectory(gameui)

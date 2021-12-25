@@ -11,107 +11,121 @@
 #include "ai_squad.h"
 #include "hl1_ai_basenpc.h"
 
-class CNPC_HGrunt : public CHL1BaseNPC
-{
-	DECLARE_CLASS( CNPC_HGrunt, CHL1BaseNPC );
+class CNPC_HGrunt : public CHL1BaseNPC {
+    DECLARE_CLASS( CNPC_HGrunt, CHL1BaseNPC
+    );
 public:
 
-	void	Precache( void );
-	void	Spawn( void );
+    void Precache(void);
 
-	void	JustSpoke( void );
-	void	SpeakSentence( void );
-	void	PrescheduleThink ( void );
+    void Spawn(void);
 
-	bool	FOkToSpeak( void );
-	
-	Class_T	Classify ( void );
-	int     RangeAttack1Conditions ( float flDot, float flDist );
-	int		MeleeAttack1Conditions ( float flDot, float flDist );
-	int     RangeAttack2Conditions ( float flDot, float flDist );
+    void JustSpoke(void);
 
-	Activity NPC_TranslateActivity( Activity eNewActivity );
+    void SpeakSentence(void);
 
-	void	ClearAttackConditions( void );
+    void PrescheduleThink(void);
 
-	int		IRelationPriority( CBaseEntity *pTarget );
+    bool FOkToSpeak(void);
 
-	int     GetGrenadeConditions ( float flDot, float flDist );
+    Class_T Classify(void);
 
-	bool	FCanCheckAttacks( void );
+    int RangeAttack1Conditions(float flDot, float flDist);
 
-	int     GetSoundInterests ( void );
+    int MeleeAttack1Conditions(float flDot, float flDist);
 
-	void    TraceAttack( const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator );
-	int		OnTakeDamage_Alive( const CTakeDamageInfo &inputInfo );
+    int RangeAttack2Conditions(float flDot, float flDist);
 
-	float	MaxYawSpeed( void );
+    Activity NPC_TranslateActivity(Activity eNewActivity);
 
-	void    IdleSound( void );
+    void ClearAttackConditions(void);
 
-	void	CheckAmmo ( void );
+    int IRelationPriority(CBaseEntity *pTarget);
 
-	CBaseEntity *Kick( void );
+    int GetGrenadeConditions(float flDot, float flDist);
 
-	Vector	Weapon_ShootPosition( void );
-	void	HandleAnimEvent( animevent_t *pEvent );
+    bool FCanCheckAttacks(void);
 
-	void	Shoot ( void );
-	void	Shotgun( void );
-	
-	void	StartTask ( const Task_t *pTask );
-	void	RunTask ( const Task_t *pTask );
+    int GetSoundInterests(void);
 
-	int		SelectSchedule( void );
-	int		TranslateSchedule( int scheduleType );
+    void TraceAttack(const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator);
+
+    int OnTakeDamage_Alive(const CTakeDamageInfo &inputInfo);
+
+    float MaxYawSpeed(void);
+
+    void IdleSound(void);
+
+    void CheckAmmo(void);
+
+    CBaseEntity *Kick(void);
+
+    Vector Weapon_ShootPosition(void);
+
+    void HandleAnimEvent(animevent_t *pEvent);
+
+    void Shoot(void);
+
+    void Shotgun(void);
+
+    void StartTask(const Task_t *pTask);
+
+    void RunTask(const Task_t *pTask);
+
+    int SelectSchedule(void);
+
+    int TranslateSchedule(int scheduleType);
 
 
-	void	PainSound( const CTakeDamageInfo &info );
-	void	DeathSound( const CTakeDamageInfo &info );
-	void	SetAim( const Vector &aimDir );
+    void PainSound(const CTakeDamageInfo &info);
 
-	bool	HandleInteraction(int interactionType, void *data, CBaseCombatCharacter* sourceEnt);
+    void DeathSound(const CTakeDamageInfo &info);
 
-	void	StartNPC ( void );
+    void SetAim(const Vector &aimDir);
 
-	int		SquadRecruit( int searchRadius, int maxMembers );
-	
-	void	Event_Killed( const CTakeDamageInfo &info );
+    bool HandleInteraction(int interactionType, void *data, CBaseCombatCharacter *sourceEnt);
 
-	
-	static const char *pGruntSentences[];
-	
-	bool	m_bInBarnacleMouth;
+    void StartNPC(void);
+
+    int SquadRecruit(int searchRadius, int maxMembers);
+
+    void Event_Killed(const CTakeDamageInfo &info);
+
+
+    static const char *pGruntSentences[];
+
+    bool m_bInBarnacleMouth;
 
 public:
-	DECLARE_DATADESC();
-	DEFINE_CUSTOM_AI;
+    DECLARE_DATADESC();
+
+    DEFINE_CUSTOM_AI;
 
 private:
 
-	// checking the feasibility of a grenade toss is kind of costly, so we do it every couple of seconds,
-	// not every server frame.
-	float m_flNextGrenadeCheck;
-	float m_flNextPainTime;
-	float m_flLastEnemySightTime;
-	float m_flTalkWaitTime;
+    // checking the feasibility of a grenade toss is kind of costly, so we do it every couple of seconds,
+    // not every server frame.
+    float m_flNextGrenadeCheck;
+    float m_flNextPainTime;
+    float m_flLastEnemySightTime;
+    float m_flTalkWaitTime;
 
-	Vector	m_vecTossVelocity;
+    Vector m_vecTossVelocity;
 
-	int		m_iLastGrenadeCondition;
-	bool	m_fStanding;
-	bool	m_fFirstEncounter;// only put on the handsign show in the squad's first encounter.
-	int		m_iClipSize;
+    int m_iLastGrenadeCondition;
+    bool m_fStanding;
+    bool m_fFirstEncounter;// only put on the handsign show in the squad's first encounter.
+    int m_iClipSize;
 
-	int		m_voicePitch;
+    int m_voicePitch;
 
-	int		m_iSentence;
+    int m_iSentence;
 
-	float	m_flCheckAttackTime;
+    float m_flCheckAttackTime;
 
-	int		m_iAmmoType;
-	
-	int		m_iWeapons;
+    int m_iAmmoType;
+
+    int m_iWeapons;
 };
 
 #endif

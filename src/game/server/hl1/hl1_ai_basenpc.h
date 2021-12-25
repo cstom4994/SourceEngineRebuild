@@ -21,31 +21,34 @@
 // >> CHL1NPCTalker
 //=============================================================================
 
-class CHL1BaseNPC : public CAI_BaseNPC
-{
-	DECLARE_CLASS( CHL1BaseNPC, CAI_BaseNPC );
-	
+class CHL1BaseNPC : public CAI_BaseNPC {
+    DECLARE_CLASS( CHL1BaseNPC, CAI_BaseNPC
+    );
+
 public:
-	CHL1BaseNPC( void )
-	{
+    CHL1BaseNPC(void) {
 
-	}
+    }
 
-	void	TraceAttack( const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator );
-	bool	ShouldGib( const CTakeDamageInfo &info );
-	bool	CorpseGib( const CTakeDamageInfo &info );
+    void TraceAttack(const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator);
 
-	bool	HasAlienGibs( void );
-	bool	HasHumanGibs( void );
+    bool ShouldGib(const CTakeDamageInfo &info);
 
-	void	Precache( void );
+    bool CorpseGib(const CTakeDamageInfo &info);
 
-	int		IRelationPriority( CBaseEntity *pTarget );
-	bool	NoFriendlyFire( void );
+    bool HasAlienGibs(void);
 
-	void	EjectShell( const Vector &vecOrigin, const Vector &vecVelocity, float rotation, int iType );
+    bool HasHumanGibs(void);
 
-	virtual int		SelectDeadSchedule();
+    void Precache(void);
+
+    int IRelationPriority(CBaseEntity *pTarget);
+
+    bool NoFriendlyFire(void);
+
+    void EjectShell(const Vector &vecOrigin, const Vector &vecVelocity, float rotation, int iType);
+
+    virtual int SelectDeadSchedule();
 };
 
 #endif //HL1_AI_BASENPC_H

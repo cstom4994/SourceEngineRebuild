@@ -11,10 +11,9 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-void CServerGameClients::GetPlayerLimits( int& minplayers, int& maxplayers, int &defaultMaxPlayers ) const
-{
-	minplayers = defaultMaxPlayers = 8; 
-	maxplayers = MAX_PLAYERS - 1;
+void CServerGameClients::GetPlayerLimits(int &minplayers, int &maxplayers, int &defaultMaxPlayers) const {
+    minplayers = defaultMaxPlayers = 8;
+    maxplayers = MAX_PLAYERS - 1;
 }
 
 
@@ -22,7 +21,6 @@ void CServerGameClients::GetPlayerLimits( int& minplayers, int& maxplayers, int 
 // Mod-specific CServerGameDLL implementation.
 // -------------------------------------------------------------------------------------------- //
 
-void CServerGameDLL::LevelInit_ParseAllEntities( const char *pMapEntities )
-{
-	MapEntity_ParseAllEntities( pMapEntities, NULL );
+void CServerGameDLL::LevelInit_ParseAllEntities(const char *pMapEntities) {
+    MapEntity_ParseAllEntities(pMapEntities, NULL);
 }

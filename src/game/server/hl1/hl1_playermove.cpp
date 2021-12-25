@@ -22,14 +22,16 @@ IPredictionSystem *IPredictionSystem::g_pPredictionSystems = NULL;
 //-----------------------------------------------------------------------------
 // Sets up the move data for Halflife 1
 //-----------------------------------------------------------------------------
-class CHL1PlayerMove : public CPlayerMove
-{
-DECLARE_CLASS( CHL1PlayerMove, CPlayerMove );
+class CHL1PlayerMove : public CPlayerMove {
+    DECLARE_CLASS( CHL1PlayerMove, CPlayerMove
+    );
 
 public:
-	virtual void	StartCommand( CBasePlayer *player, CUserCmd *cmd );
-	virtual void	SetupMove( CBasePlayer *player, CUserCmd *ucmd, IMoveHelper *pHelper, CMoveData *move );
-	virtual void	FinishMove( CBasePlayer *player, CUserCmd *ucmd, CMoveData *move );
+    virtual void StartCommand(CBasePlayer *player, CUserCmd *cmd);
+
+    virtual void SetupMove(CBasePlayer *player, CUserCmd *ucmd, IMoveHelper *pHelper, CMoveData *move);
+
+    virtual void FinishMove(CBasePlayer *player, CUserCmd *ucmd, CMoveData *move);
 };
 
 // PlayerMove Interface
@@ -38,18 +40,16 @@ static CHL1PlayerMove g_PlayerMove;
 //-----------------------------------------------------------------------------
 // Singleton accessor
 //-----------------------------------------------------------------------------
-CPlayerMove *PlayerMove()
-{
-	return &g_PlayerMove;
+CPlayerMove *PlayerMove() {
+    return &g_PlayerMove;
 }
 
 //-----------------------------------------------------------------------------
 // Main setup, finish
 //-----------------------------------------------------------------------------
 
-void CHL1PlayerMove::StartCommand( CBasePlayer *player, CUserCmd *cmd )
-{
-	BaseClass::StartCommand( player, cmd );
+void CHL1PlayerMove::StartCommand(CBasePlayer *player, CUserCmd *cmd) {
+    BaseClass::StartCommand(player, cmd);
 }
 
 //-----------------------------------------------------------------------------
@@ -57,9 +57,8 @@ void CHL1PlayerMove::StartCommand( CBasePlayer *player, CUserCmd *cmd )
 //          from the player for movement. (Server-side, the client-side version
 //          of this code can be found in prediction.cpp.)
 //-----------------------------------------------------------------------------
-void CHL1PlayerMove::SetupMove( CBasePlayer *player, CUserCmd *ucmd, IMoveHelper *pHelper, CMoveData *move )
-{
-	BaseClass::SetupMove( player, ucmd, pHelper, move );
+void CHL1PlayerMove::SetupMove(CBasePlayer *player, CUserCmd *ucmd, IMoveHelper *pHelper, CMoveData *move) {
+    BaseClass::SetupMove(player, ucmd, pHelper, move);
 }
 
 
@@ -69,8 +68,7 @@ void CHL1PlayerMove::SetupMove( CBasePlayer *player, CUserCmd *ucmd, IMoveHelper
 //          movement. (Server-side, the client-side version of this code can 
 //          be found in prediction.cpp.)
 //-----------------------------------------------------------------------------
-void CHL1PlayerMove::FinishMove( CBasePlayer *player, CUserCmd *ucmd, CMoveData *move )
-{
-	// Call the default FinishMove code.
-	BaseClass::FinishMove( player, ucmd, move );
+void CHL1PlayerMove::FinishMove(CBasePlayer *player, CUserCmd *ucmd, CMoveData *move) {
+    // Call the default FinishMove code.
+    BaseClass::FinishMove(player, ucmd, move);
 }
