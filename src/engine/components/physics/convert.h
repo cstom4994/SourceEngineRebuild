@@ -11,7 +11,7 @@
 
 #include "mathlib/vector.h"
 #include "mathlib/mathlib.h"
-#include "ivp_physics.hxx"
+#include "ivp/ivp_physics/ivp_physics.hxx"
 
 struct cplane_t;
 

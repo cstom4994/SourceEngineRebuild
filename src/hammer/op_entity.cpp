@@ -453,7 +453,7 @@ BOOL COP_Entity::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT *pResult) {
             LPNMLISTVIEW pListView = (LPNMLISTVIEW) lParam;
 
             // Now sort by this column.
-            m_iSortColumn = max(0, min(pListView->iSubItem, ARRAYSIZE(g_ColumnSortFunctions) - 1));
+            m_iSortColumn = max(0, min(pListView->iSubItem, (int)(ARRAYSIZE(g_ColumnSortFunctions) - 1)));
             ResortItems();
         }
     }

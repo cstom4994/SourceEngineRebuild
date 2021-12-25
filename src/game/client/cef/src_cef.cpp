@@ -9,7 +9,7 @@
 #include "src_cef_local_handler.h"
 #include "warscef/wars_cef_shared.h"
 #include <filesystem.h>
-#include "gameui/gameui_interface.h"
+#include "../gameui/gameui_interface.h"
 #include "materialsystem/materialsystem_config.h"
 #include "tier0/icommandline.h"
 

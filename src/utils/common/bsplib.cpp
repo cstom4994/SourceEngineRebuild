@@ -39,7 +39,7 @@
 // Data descriptions for byte swapping - only needed
 // for structures that are written to file for use by the game.
 
-#if defined(VVIS) || defined(VRAD)
+#if defined(VVIS) || defined(VRAD) || defined(VBSP)
 
 BEGIN_BYTESWAP_DATADESC(dheader_t)
                     DEFINE_FIELD(ident, FIELD_INTEGER),

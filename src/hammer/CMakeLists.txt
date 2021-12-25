@@ -872,6 +872,12 @@ add_dependencies(${PROJECT_NAME}
         mathlib
         Raytrace
         lzma
+        fgdlib
+        choreoobjects
+        matsys_controls
+        vgui_controls
+        Dmxloader
+        steamemu
         )
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
@@ -886,9 +892,12 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         mathlib
         Raytrace
         lzma
-
-
         fgdlib
+        choreoobjects
+        matsys_controls
+        vgui_controls
+        Dmxloader
+        steamemu
 
         "shell32;"
         "user32;"

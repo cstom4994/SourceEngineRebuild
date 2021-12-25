@@ -158,7 +158,7 @@ SpewRetval_t LauncherDefaultSpewFunc(SpewType_t spewType, char const *pMsg) {
         case SPEW_WARNING:
             if (!stricmp(GetSpewOutputGroup(), "init")) {
 #if defined( WIN32 ) || defined( USE_SDL )
-                ::MessageBox(NULL, pMsg, "Warning!", MB_OK | MB_SYSTEMMODAL | MB_ICONERROR);
+                ::MessageBoxA(NULL, pMsg, "Warning!", MB_OK | MB_SYSTEMMODAL | MB_ICONERROR);
 #endif
             }
             return SPEW_CONTINUE;
@@ -166,7 +166,7 @@ SpewRetval_t LauncherDefaultSpewFunc(SpewType_t spewType, char const *pMsg) {
         case SPEW_ASSERT:
             if (!ShouldUseNewAssertDialog()) {
 #if defined( WIN32 ) || defined( USE_SDL )
-                ::MessageBox(NULL, pMsg, "Assert!", MB_OK | MB_SYSTEMMODAL | MB_ICONERROR);
+                ::MessageBoxA(NULL, pMsg, "Assert!", MB_OK | MB_SYSTEMMODAL | MB_ICONERROR);
 #endif
             }
             return SPEW_DEBUGGER;
@@ -174,7 +174,7 @@ SpewRetval_t LauncherDefaultSpewFunc(SpewType_t spewType, char const *pMsg) {
         case SPEW_ERROR:
         default:
 #if defined( WIN32 ) || defined( USE_SDL )
-            ::MessageBox(NULL, pMsg, "Error!", MB_OK | MB_SYSTEMMODAL | MB_ICONERROR);
+            ::MessageBoxA(NULL, pMsg, "Error!", MB_OK | MB_SYSTEMMODAL | MB_ICONERROR);
 #endif
             _exit(1);
     }
@@ -193,7 +193,7 @@ class CVCRHelpers : public IVCRHelpers {
 public:
     virtual void ErrorMessage(const char *pMsg) {
 #if defined( WIN32 ) || defined( LINUX )
-        NOVCR(::MessageBox(NULL, pMsg, "VCR Error", MB_OK));
+        NOVCR(::MessageBoxA(NULL, pMsg, "VCR Error", MB_OK));
 #endif
     }
 
@@ -1269,7 +1269,7 @@ DLL_EXPORT int LauncherMain( int argc, char **argv )
 
                 // Can't find the engine
                 if (hwndEngine == NULL) {
-                    ::MessageBox(NULL,
+                    ::MessageBoxA(NULL,
                                  "The modified entity keyvalues could not be sent to the Source Engine because the engine does not appear to be running.",
                                  "Source Engine Not Running", MB_OK | MB_ICONEXCLAMATION);
                 } else {
@@ -1284,7 +1284,7 @@ DLL_EXPORT int LauncherMain( int argc, char **argv )
                     copyData.lpData = (void *) szCommand;
 
                     if (!::SendMessage(hwndEngine, WM_COPYDATA, 0, (LPARAM) &copyData)) {
-                        ::MessageBox(NULL,
+                        ::MessageBoxA(NULL,
                                      "The Source Engine was found running, but did not accept the request to load a savegame. It may be an old version of the engine that does not support this functionality.",
                                      "Source Engine Declined Request", MB_OK | MB_ICONEXCLAMATION);
                     } else {
@@ -1295,7 +1295,7 @@ DLL_EXPORT int LauncherMain( int argc, char **argv )
                 }
             } else {
                 if (!multiRun) {
-                    ::MessageBox(NULL, "Only one instance of the game can be running at one time.", "Source - Warning",
+                    ::MessageBoxA(NULL, "Only one instance of the game can be running at one time.", "Source - Warning",
                                  MB_ICONINFORMATION | MB_OK);
                 }
             }

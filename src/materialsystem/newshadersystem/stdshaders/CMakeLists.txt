@@ -154,8 +154,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/vance/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/vance/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/mod_hl2mp/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/mod_hl2mp/bin"
         )
 ################################################################################
 # MSVC runtime library

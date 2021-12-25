@@ -136,7 +136,7 @@ SpewRetval_t HammerSpewFunc(SpewType_t type, tchar const *pMsg) {
     if (type == SPEW_ASSERT) {
         return SPEW_DEBUGGER;
     } else if (type == SPEW_ERROR) {
-        MessageBox(NULL, pMsg, "Hammer Error", MB_OK | MB_ICONSTOP);
+        MessageBoxA(NULL, pMsg, "Hammer Error", MB_OK | MB_ICONSTOP);
         return SPEW_ABORT;
     } else {
         return SPEW_CONTINUE;

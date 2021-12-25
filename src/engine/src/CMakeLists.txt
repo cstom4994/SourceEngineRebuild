@@ -1220,15 +1220,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/controls;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/dxsdk/include;"
 
-        "${MYROOTDIR}/ivp/ivp_intern;"
-        "${MYROOTDIR}/ivp/ivp_collision;"
-        "${MYROOTDIR}/ivp/ivp_physics;"
-        "${MYROOTDIR}/ivp/ivp_surface_manager;"
-        "${MYROOTDIR}/ivp/ivp_utility;"
-        "${MYROOTDIR}/ivp/ivp_controller;"
-        "${MYROOTDIR}/ivp/ivp_compact_builder;"
-        "${MYROOTDIR}/ivp/havana/havok;"
-        "${MYROOTDIR}/ivp/havana"
+        "${MYROOTDIR}/engine/ivp/ivp_intern;"
+        "${MYROOTDIR}/engine/ivp/ivp_collision;"
+        "${MYROOTDIR}/engine/ivp/ivp_physics;"
+        "${MYROOTDIR}/engine/ivp/ivp_surface_manager;"
+        "${MYROOTDIR}/engine/ivp/ivp_utility;"
+        "${MYROOTDIR}/engine/ivp/ivp_controller;"
+        "${MYROOTDIR}/engine/ivp/ivp_compact_builder;"
+        "${MYROOTDIR}/engine/ivp/havana/havok;"
+        "${MYROOTDIR}/engine/ivp/havana"
         )
 
 ################################################################################

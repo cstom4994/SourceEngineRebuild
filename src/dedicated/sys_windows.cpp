@@ -133,7 +133,7 @@ bool CSys::GetExecutableName(char *out) {
 //			*msg - 
 //-----------------------------------------------------------------------------
 void CSys::ErrorMessage(int level, const char *msg) {
-    MessageBox(NULL, msg, "Half-Life", MB_OK);
+    MessageBoxA(NULL, msg, "Half-Life", MB_OK);
     PostQuitMessage(0);
 }
 

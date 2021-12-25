@@ -18,7 +18,8 @@
 #include "SourceAppInfo.h"
 #include "steam/steam_api.h"
 
-extern CSteamAPIContext *steamapicontext;
+CSteamAPIContext g_SteamAPIContext;
+CSteamAPIContext *steamapicontext = &g_SteamAPIContext;
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
