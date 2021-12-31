@@ -464,7 +464,6 @@ set(Public_Headers
         "../../common/qlimits.h"
         "../../common/steamcommon.h"
         "../../thirdparty/dxsdk/include/dinput.h"
-        "../../gameui/GameUI_Interface.h"
         "../../public/appframework/IAppSystem.h"
         "../../public/basehandle.h"
         "../../public/bitvec.h"

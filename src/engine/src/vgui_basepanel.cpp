@@ -12,8 +12,8 @@
 #include "tier0/memdbgon.h"
 
 
-ConVar vgui_nav_lock( "vgui_nav_lock", "0", FCVAR_DEVELOPMENTONLY );
-ConVar vgui_nav_lock_default_button( "vgui_nav_lock_default_button", "0", FCVAR_DEVELOPMENTONLY );
+ConVar vgui_nav_lock("vgui_nav_lock", "0", FCVAR_DEVELOPMENTONLY);
+ConVar vgui_nav_lock_default_button("vgui_nav_lock_default_button", "0", FCVAR_DEVELOPMENTONLY);
 
 
 //-----------------------------------------------------------------------------
@@ -23,27 +23,25 @@ ConVar vgui_nav_lock_default_button( "vgui_nav_lock_default_button", "0", FCVAR_
 //			... - 
 // Output : 
 //-----------------------------------------------------------------------------
-int DrawTextLen( vgui::HFont font, const wchar_t *text )
-{
-	int len = wcslen( text );
+int DrawTextLen(vgui::HFont font, const wchar_t *text) {
+    int len = wcslen(text);
 
-	int x = 0;
+    int x = 0;
 
-	vgui::surface()->DrawSetTextFont( font );
+    vgui::surface()->DrawSetTextFont(font);
 
-	for ( int i = 0 ; i < len; i++ )
-	{
-		int a, b, c;
-		vgui::surface()->GetCharABCwide( font, text[i], a, b, c );
-		// Ignore a
-		if ( i != 0 )
-			x += a;
-		x += b;
-		if ( i != len - 1 )
-			x += c;
-	}
+    for (int i = 0; i < len; i++) {
+        int a, b, c;
+        vgui::surface()->GetCharABCwide(font, text[i], a, b, c);
+        // Ignore a
+        if (i != 0)
+            x += a;
+        x += b;
+        if (i != len - 1)
+            x += c;
+    }
 
-	return x;
+    return x;
 }
 
 
@@ -61,70 +59,63 @@ int DrawTextLen( vgui::HFont font, const wchar_t *text )
 // Output : int - horizontal # of pixels drawn
 //-----------------------------------------------------------------------------
 
-int DrawColoredText( vgui::HFont font, int x, int y, int r, int g, int b, int a, const wchar_t *text )
-{
-	int len = wcslen( text );
-	
-	if ( len <= 0 )
-		return x;
+int DrawColoredText(vgui::HFont font, int x, int y, int r, int g, int b, int a, const wchar_t *text) {
+    int len = wcslen(text);
 
-	MatSysQueueMark( g_pMaterialSystem, "DrawColoredText\n" );
-	vgui::surface()->DrawSetTextFont( font );
+    if (len <= 0)
+        return x;
 
-	vgui::surface()->DrawSetTextPos( x, y );
-	vgui::surface()->DrawSetTextColor( r, g, b, a );
+    MatSysQueueMark(g_pMaterialSystem, "DrawColoredText\n");
+    vgui::surface()->DrawSetTextFont(font);
 
-	int pixels = DrawTextLen( font, text );
+    vgui::surface()->DrawSetTextPos(x, y);
+    vgui::surface()->DrawSetTextColor(r, g, b, a);
 
-	vgui::surface()->DrawPrintText( text, len );
+    int pixels = DrawTextLen(font, text);
 
-	MatSysQueueMark( g_pMaterialSystem, "END DrawColoredText\n" );
-	return x + pixels;
+    vgui::surface()->DrawPrintText(text, len);
+
+    MatSysQueueMark(g_pMaterialSystem, "END DrawColoredText\n");
+    return x + pixels;
 }
 
-int DrawColoredText( vgui::HFont font, int x, int y, Color clr, const wchar_t *text )
-{
-	int r, g, b, a;
-	clr.GetColor( r, g, b, a );
-	return ::DrawColoredText( font, x, y, r, g, b, a, text);
+int DrawColoredText(vgui::HFont font, int x, int y, Color clr, const wchar_t *text) {
+    int r, g, b, a;
+    clr.GetColor(r, g, b, a);
+    return ::DrawColoredText(font, x, y, r, g, b, a, text);
 }
 
-int DrawCenteredColoredText( vgui::HFont font, int left, int top, int right, int bottom, Color clr, const wchar_t *text )
-{
-	int textHeight = vgui::surface()->GetFontTall( font );
-	int textWidth = DrawTextLen( font, text );
-	return DrawColoredText( font, (right + left) / 2 - textWidth / 2, (bottom + top) / 2 - textHeight / 2, clr, text );
+int
+DrawCenteredColoredText(vgui::HFont font, int left, int top, int right, int bottom, Color clr, const wchar_t *text) {
+    int textHeight = vgui::surface()->GetFontTall(font);
+    int textWidth = DrawTextLen(font, text);
+    return DrawColoredText(font, (right + left) / 2 - textWidth / 2, (bottom + top) / 2 - textHeight / 2, clr, text);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CBasePanel::CBasePanel( vgui::Panel *parent, char const *panelName )
-: vgui::Panel( parent, panelName )
-{
-	vgui::ivgui()->AddTickSignal( GetVPanel() );
+CBasePanel::CBasePanel(vgui::Panel *parent, char const *panelName)
+        : vgui::Panel(parent, panelName) {
+    vgui::ivgui()->AddTickSignal(GetVPanel());
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CBasePanel::~CBasePanel( void )
-{
+CBasePanel::~CBasePanel(void) {
 }
 
-void CBasePanel::OnTick()
-{
-	if ( vgui_nav_lock.GetInt() > 0 )
-	{
-		vgui_nav_lock.SetValue( vgui_nav_lock.GetInt() - 1 );
-	}
+void CBasePanel::OnTick() {
+    if (vgui_nav_lock.GetInt() > 0) {
+        vgui_nav_lock.SetValue(vgui_nav_lock.GetInt() - 1);
+    }
 
-	if ( vgui_nav_lock_default_button.GetInt() > 0 )
-	{
-		vgui_nav_lock_default_button.SetValue( vgui_nav_lock_default_button.GetInt() - 1 );
-	}
+    if (vgui_nav_lock_default_button.GetInt() > 0) {
+        vgui_nav_lock_default_button.SetValue(vgui_nav_lock_default_button.GetInt() - 1);
+    }
 
-	SetVisible( ShouldDraw() );
+    SetVisible(ShouldDraw());
 }
 

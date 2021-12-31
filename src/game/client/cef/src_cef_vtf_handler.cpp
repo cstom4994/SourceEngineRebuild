@@ -86,7 +86,7 @@ METHODDEF(void) term_destination(j_compress_ptr cinfo) {
 //-----------------------------------------------------------------------------
 // Purpose: Set up functions for writing data to a CUtlBuffer instead of FILE *
 //-----------------------------------------------------------------------------
-GLOBAL(void) jpeg_UtlBuffer_dest(j_compress_ptr cinfo, CUtlBuffer *pBuffer) {
+GLOBAL(void) VTFHandler_jpeg_UtlBuffer_dest(j_compress_ptr cinfo, CUtlBuffer *pBuffer) {
     JPEGDestinationManager_t *dest;
 
     /* The destination object is made permanent so that multiple JPEG images
@@ -130,7 +130,7 @@ void VTFHandler_ConvertImageToJPG(CUtlBuffer &buf, unsigned char *imageData, uin
     jpeg_create_compress(&cinfo);
 
     // Hook CUtlBuffer to compression
-    jpeg_UtlBuffer_dest(&cinfo, &buf);
+    VTFHandler_jpeg_UtlBuffer_dest(&cinfo, &buf);
 
     // image width and height, in pixels
     cinfo.image_width = width;

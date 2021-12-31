@@ -1244,6 +1244,197 @@ set(SEE_Files
         )
 source_group("Shader Editor Files" FILES ${SEE_Files})
 
+set(Source_Files__awesomium
+        "awesomium/MainMenu.cpp"
+        "awesomium/MainMenu.h"
+        "awesomium/VAwesomium.cpp"
+        "awesomium/VAwesomium.h"
+        "HTMLMainMenu.cpp"
+        "HTMLMainMenu.h"
+        )
+source_group("Source Files\\awesomium" FILES ${Source_Files__awesomium})
+
+set(Source_Files__GAMEUI
+        "../../../common/GameUI/scriptobject.h"
+        "../../../engine/components/vgui2/src/Memorybitmap.h"
+
+        "../../../common/GameUI/cvarslider.cpp"
+        "../../../common/GameUI/cvarslider.h"
+
+
+        "../../../common/GameUI/IGameUI.h"
+        "../../../common/GameUI/ObjectList.h"
+        "../../../common/imageutils.h"
+        "../../../common/IObjectContainer.h"
+        "../../../common/IRunGameEngine.h"
+        "../../../common/IVguiModule.h"
+        "../../../common/IVGuiModuleLoader.h"
+        "../../../common/language.h"
+        "../../../common/ValveCDKeyGameAndTerritoryCodes.h"
+        "../../../public/game/client/IGameClientExports.h"
+        "../../../public/iachievementmgr.h"
+        "../../../public/IGameUIFuncs.h"
+        "../../../public/savegame_version.h"
+        "../../../public/tier1/interface.h"
+        "../../../tracker/common/TrackerMessageFlags.h"
+
+        "../../../common/crypto.cpp"
+        "../../../common/debug_dll_check.cpp"
+        "../../../common/GameUI/ObjectList.cpp"
+        "../../../common/GameUI/scriptobject.cpp"
+        "../../../common/imageutils.cpp"
+        "../../../common/language.cpp"
+        "../../../public/tier0/memoverride.cpp"
+        "../../../public/vgui_controls/vgui_controls.cpp"
+        "../../../tracker/common/msgbuffer.cpp"
+        "../../../tracker/common/netapi.cpp"
+        "../../../tracker/common/Socket.cpp"
+        "gameui/BackgroundMenuButton.cpp"
+        "gameui/BasePanel.cpp"
+        "gameui/BonusMapsDatabase.cpp"
+        "gameui/BonusMapsDatabase.h"
+        "gameui/GameConsole.cpp"
+        "gameui/GameUI_Interface.cpp"
+        "gameui/gameui_util.cpp"
+        "gameui/gameui_util.h"
+        "gameui/LogoFile.cpp"
+        "gameui/ModInfo.cpp"
+        "gameui/MouseMessageForwardingPanel.cpp"
+        "gameui/PanelListPanel.cpp"
+        "gameui/RunGameEngine.cpp"
+        "gameui/SaveGameBrowserDialog.cpp"
+        "gameui/Sys_Utils.cpp"
+        "gameui/TextEntryBox.cpp"
+        "gameui/TGAImagePanel.cpp"
+        "gameui/VGuiSystemModuleLoader.cpp"
+
+        "gameui/BitmapImagePanel.cpp"
+        "gameui/BitmapImagePanel.h"
+        "gameui/CommandCheckButton.cpp"
+        "gameui/CommandCheckButton.h"
+        "gameui/CvarNegateCheckButton.cpp"
+        "gameui/CvarNegateCheckButton.h"
+        "gameui/CvarTextEntry.cpp"
+        "gameui/CvarTextEntry.h"
+        "gameui/CvarToggleCheckButton.cpp"
+        "gameui/CvarToggleCheckButton.h"
+        "gameui/HapticControlBox.cpp"
+        "gameui/HapticControlBox.h"
+        "gameui/KeyToggleCheckButton.cpp"
+        "gameui/KeyToggleCheckButton.h"
+        "gameui/LabeledCommandComboBox.cpp"
+        "gameui/LabeledCommandComboBox.h"
+        "gameui/URLButton.cpp"
+        "gameui/URLButton.h"
+        "gameui/vcontrolslistpanel.cpp"
+        "gameui/vcontrolslistpanel.h"
+
+        "gameui/BaseSaveGameDialog.cpp"
+        "gameui/BenchmarkDialog.cpp"
+        "gameui/BenchmarkDialog.h"
+        "gameui/BonusMapsDialog.cpp"
+        "gameui/BonusMapsDialog.h"
+        "gameui/ChangeGameDialog.cpp"
+        "gameui/CommentaryDialog.cpp"
+        "gameui/CommentaryDialog.h"
+        "gameui/CommentaryExplanationDialog.cpp"
+        "gameui/CommentaryExplanationDialog.h"
+        "gameui/ContentControlDialog.cpp"
+        "gameui/ContentControlDialog.h"
+        "gameui/ControllerDialog.cpp"
+        "gameui/ControllerDialog.h"
+        "gameui/CreateMultiplayerGameBotPage.cpp"
+        "gameui/CreateMultiplayerGameDialog.cpp"
+        "gameui/CreateMultiplayerGameGameplayPage.cpp"
+        "gameui/CreateMultiplayerGameServerPage.cpp"
+        "gameui/CustomTabExplanationDialog.cpp"
+        "gameui/CustomTabExplanationDialog.h"
+        "gameui/GameConsoleDialog.cpp"
+        "gameui/GameConsoleDialog.h"
+        "gameui/LoadCommentaryDialog.cpp"
+        "gameui/LoadGameDialog.cpp"
+        "gameui/LoadGameDialog.h"
+        "gameui/LoadGameDialog_Xbox.cpp"
+        "gameui/LoadingDialog.cpp"
+        "gameui/MultiplayerAdvancedDialog.cpp"
+        "gameui/MultiplayerAdvancedDialog.h"
+        "gameui/NewGameDialog.cpp"
+        "gameui/NewGameDialog.h"
+        "gameui/OptionsDialog_Xbox.cpp"
+        "gameui/PlayerListDialog.cpp"
+        "gameui/PlayerListDialog.h"
+        "gameui/SaveGameDialog.cpp"
+        "gameui/SaveGameDialog.h"
+        "gameui/SaveGameDialog_Xbox.cpp"
+
+        "gameui/BackgroundMenuButton.h"
+        "gameui/BasePanel.h"
+        "gameui/BaseSaveGameDialog.h"
+        "gameui/CDKeyEntryDialog.h"
+        "gameui/ChangeGameDialog.h"
+        "gameui/CreateMultiplayerGameBotPage.h"
+        "gameui/CreateMultiplayerGameDialog.h"
+        "gameui/CreateMultiplayerGameGameplayPage.h"
+        "gameui/CreateMultiplayerGameServerPage.h"
+        "gameui/EngineInterface.h"
+        "gameui/GameConsole.h"
+        "gameui/GameUI_Interface.h"
+        "gameui/LoadingDialog.h"
+        "gameui/ModInfo.h"
+        "gameui/MouseMessageForwardingPanel.h"
+        "gameui/PanelListPanel.h"
+        "gameui/SaveGameBrowserDialog.h"
+        "gameui/Sys_Utils.h"
+        "gameui/TextEntryBox.h"
+        "gameui/TGAImagePanel.h"
+        "gameui/VGuiSystemModuleLoader.h"
+
+        "gameui/matchmaking/achievementsdialog.cpp"
+        "gameui/matchmaking/achievementsdialog.h"
+        "gameui/matchmaking/basedialog.cpp"
+        "gameui/matchmaking/basedialog.h"
+        "gameui/matchmaking/dialogmenu.cpp"
+        "gameui/matchmaking/dialogmenu.h"
+        "gameui/matchmaking/leaderboarddialog.cpp"
+        "gameui/matchmaking/leaderboarddialog.h"
+        "gameui/matchmaking/matchmakingbasepanel.cpp"
+        "gameui/matchmaking/matchmakingbasepanel.h"
+        "gameui/matchmaking/pausedialog.cpp"
+        "gameui/matchmaking/pausedialog.h"
+        "gameui/matchmaking/sessionbrowserdialog.cpp"
+        "gameui/matchmaking/sessionbrowserdialog.h"
+        "gameui/matchmaking/sessionlobbydialog.cpp"
+        "gameui/matchmaking/sessionlobbydialog.h"
+        "gameui/matchmaking/sessionoptionsdialog.cpp"
+        "gameui/matchmaking/sessionoptionsdialog.h"
+        "gameui/matchmaking/welcomedialog.cpp"
+        "gameui/matchmaking/welcomedialog.h"
+
+        "gameui/OptionsDialog.cpp"
+        "gameui/OptionsDialog.h"
+        "gameui/OptionsSubAudio.cpp"
+        "gameui/OptionsSubAudio.h"
+        "gameui/OptionsSubDifficulty.cpp"
+        "gameui/OptionsSubDifficulty.h"
+        "gameui/OptionsSubGame.cpp"
+        "gameui/OptionsSubGame.h"
+        "gameui/OptionsSubHaptics.cpp"
+        "gameui/OptionsSubHaptics.h"
+        "gameui/OptionsSubKeyboard.cpp"
+        "gameui/OptionsSubKeyboard.h"
+        "gameui/OptionsSubMouse.cpp"
+        "gameui/OptionsSubMouse.h"
+        "gameui/OptionsSubMultiplayer.cpp"
+        "gameui/OptionsSubMultiplayer.h"
+        "gameui/OptionsSubPortal.cpp"
+        "gameui/OptionsSubPortal.h"
+        "gameui/OptionsSubVideo.cpp"
+        "gameui/OptionsSubVideo.h"
+        "gameui/OptionsSubVoice.cpp"
+        "gameui/OptionsSubVoice.h"
+        )
+source_group("GameUI Sources" FILES ${Source_Files__GAMEUI})
+
 
 set(Source_Files__cef
         "cef/src_cef.cpp"
@@ -1286,7 +1477,8 @@ set(ALL_FILES
         ${Source_Files__Sixense}
         ${Source_Files__Temporary_Entities}
         ${Source_Files__game_controls}
-#        ${Source_Files__cef}
+        ${Source_Files__GAMEUI}
+        ${Source_Files__cef}
         ${Tool_Framework}
         ${game_controls_Header_Files}
         )
@@ -1347,7 +1539,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/cef;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/include;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/controls;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../common/GameUI;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/gameui;"
         "${CMAKE_CURRENT_SOURCE_DIR}/game_controls;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/sixensesdk/include;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp/ui;"
@@ -1394,14 +1588,15 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEV_BUILD;"
         "NO_STRING_T;"
         "CLIENT_DLL;"
+        "GAMEUI_EXPORTS;"
         "VECTOR;"
         "VERSION_SAFE_STEAM_API_INTERFACES;"
         "PROTECTED_THINGS_ENABLE;"
         "strncpy=use_Q_strncpy_instead;"
         "_snprintf=use_Q_snprintf_instead;"
-        "fopen=dont_use_fopen;"
         "HL2MP;"
         "HL2_CLIENT_DLL;"
+        "GAMEUI_CEF;"
         "SOURCE1=1;"
         "_MBCS"
         )
@@ -1617,8 +1812,7 @@ endif ()
 ################################################################################
 set(GENERATED_PROTO_DIR "${MYROOTDIR}/game/client/generated_proto")
 
-TargetBuildAndAddProto( ${PROJECT_NAME} ${MYROOTDIR}/game/shared/base_gcmessages.proto "${GENERATED_PROTO_DIR}")
-
+TargetBuildAndAddProto(${PROJECT_NAME} ${MYROOTDIR}/game/shared/base_gcmessages.proto "${GENERATED_PROTO_DIR}")
 
 
 ################################################################################
@@ -1667,6 +1861,9 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         cryptlib
         libprotobuf
 
+        libcef
+        libcef_dll_wrapper
+
         "shell32;"
         "user32;"
         "advapi32;"
@@ -1684,35 +1881,6 @@ target_link_directories(${PROJECT_NAME} PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public"
         )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if (BUILD_TF)

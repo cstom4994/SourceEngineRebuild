@@ -27,7 +27,7 @@ class KeyValues;
 class CEntityPanel : public CBasePanel
 {
 public:
-	DECLARE_CLASS( CEntityPanel, CBasePanel );
+	DECLARE_CLASS(CEntityPanel, CBasePanel );
 
 	// constructor
 	CEntityPanel( vgui::Panel *pParent, const char *panelName );
