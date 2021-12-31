@@ -43,6 +43,7 @@ void MP3Player_Destroy();
 vgui::IInputInternal *g_InputInternal = NULL;
 
 #include <vgui_controls/Controls.h>
+#include "gameui/ui/IBrowserPanel.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -185,6 +186,7 @@ void VGui_CreateGlobalPanels(void) {
     internalCenterPrint->Create(gameToolParent);
     loadingdisc->Create(gameToolParent);
     messagechars->Create(gameToolParent);
+    BrowserPanel->Create(gameDLLPanel);
     //HTMLMainMenu->Create(gameDLLPanel);
 
     // Debugging or related tool
@@ -213,6 +215,7 @@ void VGui_Shutdown() {
 
     netgraphpanel->Destroy();
     debugoverlaypanel->Destroy();
+    BrowserPanel->Destroy();
     //HTMLMainMenu->Destroy();
 #if defined( TRACK_BLOCKING_IO )
     iopanel->Destroy();

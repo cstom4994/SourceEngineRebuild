@@ -1067,6 +1067,8 @@ set(Source_Files__HL2MP__UI
         "hl2mp/ui/hl2mpclientscoreboard.h"
         "hl2mp/ui/hl2mptextwindow.cpp"
         "hl2mp/ui/hl2mptextwindow.h"
+        "gameui/ui/BrowserPanel.cpp"
+        "gameui/ui/IBrowserPanel.h"
         )
 source_group("Source Files\\HL2MP\\UI" FILES ${Source_Files__HL2MP__UI})
 
@@ -1596,7 +1598,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_snprintf=use_Q_snprintf_instead;"
         "HL2MP;"
         "HL2_CLIENT_DLL;"
-        "GAMEUI_CEF;"
+        "ENABLE_CEF;"
         "SOURCE1=1;"
         "_MBCS"
         )
