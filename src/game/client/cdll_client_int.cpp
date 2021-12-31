@@ -154,6 +154,10 @@
 #include "fbxsystem/fbxsystem.h"
 #endif
 
+#include "imgui/imgui_impl_source.h"
+#include "imgui/imgui/imgui.h"
+#include "imgui/imgui/imgui_internal.h"
+
 #ifdef ENABLE_CEF
 
 #include "cef/src_cef.h"
@@ -1081,6 +1085,11 @@ int CHLClient::Init(CreateInterfaceFn appSystemFactory, CreateInterfaceFn physic
 
     view->Init();
     vieweffects->Init();
+
+    // Init Dear ImGui
+    ImGui::CreateContext();
+    ImGui_ImplSource_Init();
+    ImGui::StyleColorsDark();
 
     C_BaseTempEntity::PrecacheTempEnts();
 

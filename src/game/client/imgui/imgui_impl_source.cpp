@@ -3,7 +3,7 @@
 #include "materialsystem/imesh.h"
 #include "materialsystem/itexture.h"
 #include "keyvalues.h"
-#include <imgui/imgui.h>
+#include "imgui.h"
 
 static IVertexBuffer *g_pVB;
 static IIndexBuffer *g_pIB;

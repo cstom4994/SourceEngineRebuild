@@ -110,7 +110,6 @@ add_subdirectory(engine)
 add_subdirectory(game/client)
 add_subdirectory(game/gameui2)
 add_subdirectory(game/server)
-add_subdirectory(game/imgui)
 
 add_subdirectory(gcsdk)
 add_subdirectory(launcher)

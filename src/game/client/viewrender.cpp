@@ -55,6 +55,9 @@
 #include "client_virtualreality.h"
 #include "ShaderEditor/ShaderEditorSystem.h"
 #include "ShaderEditor/Grass/CGrassCluster.h"
+#include "imgui/imgui_impl_source.h"
+#include "imgui/imgui/imgui.h"
+#include "imgui/imgui/imgui_internal.h"
 
 #ifdef PORTAL
                                                                                                                         //#include "C_Portal_Player.h"
@@ -922,6 +925,7 @@ CViewRender::CViewRender()
     m_BaseDrawFlags = 0;
     m_pActiveRenderer = NULL;
     m_pCurrentlyDrawingEntity = NULL;
+
 }
 
 
@@ -2107,6 +2111,8 @@ void CViewRender::RenderView(const CViewSetup &viewRender, int nClearFlags, int 
         // paint the vgui screen
         VGui_PreRender();
 
+
+
         // Make sure the client .dll root panel is at the proper point before doing the "SolveTraverse" calls
         vgui::VPANEL root = enginevgui->GetPanel(PANEL_CLIENTDLL);
         if (root != 0) {
@@ -2190,8 +2196,6 @@ void CViewRender::Render2DEffectsPreHUD(const CViewSetup &viewRender) {
 //-----------------------------------------------------------------------------
 void CViewRender::Render2DEffectsPostHUD(const CViewSetup &viewRender) {
 }
-
-
 
 //-----------------------------------------------------------------------------
 //
