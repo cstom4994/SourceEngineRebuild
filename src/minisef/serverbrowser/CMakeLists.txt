@@ -282,7 +282,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         vtf
         zlib
 
-        steamemu
+        steam_api
 
         "shell32;"
         "user32;"

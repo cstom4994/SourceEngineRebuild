@@ -13,18 +13,21 @@
 
 // If bDebugMode is set, then it will remember all the VMPI events
 // in case you call VMPITracker_WriteDebugFile.
-void VMPITracker_Start( int nWorkUnits );
+void VMPITracker_Start(int nWorkUnits);
 
-void VMPITracker_WorkUnitSentToWorker( int iWorkUnit, int iWorker );
-void VMPITracker_WorkUnitStarted( int iWorkUnit, int iWorker );
-void VMPITracker_WorkUnitCompleted( int iWorkUnit, int iWorker );
+void VMPITracker_WorkUnitSentToWorker(int iWorkUnit, int iWorker);
+
+void VMPITracker_WorkUnitStarted(int iWorkUnit, int iWorker);
+
+void VMPITracker_WorkUnitCompleted(int iWorkUnit, int iWorker);
+
 void VMPITracker_End();
 
 // This will bring up a little menu they can use to 
 // write a debug file.
 void VMPITracker_HandleDebugKeypresses();
 
-bool VMPITracker_WriteDebugFile( const char *pFilename );
+bool VMPITracker_WriteDebugFile(const char *pFilename);
 
 
 #endif // VMPI_DISTRIBUTE_TRACKER_H

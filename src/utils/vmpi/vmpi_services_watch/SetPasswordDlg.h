@@ -19,33 +19,32 @@
 /////////////////////////////////////////////////////////////////////////////
 // CSetPasswordDlg dialog
 
-class CSetPasswordDlg : public CDialog
-{
+class CSetPasswordDlg : public CDialog {
 // Construction
 public:
-	CSetPasswordDlg(int dlgID, CWnd* pParent = NULL);   // standard constructor
+    CSetPasswordDlg(int dlgID, CWnd *pParent = NULL);   // standard constructor
 
 // Dialog Data
-	//{{AFX_DATA(CSetPasswordDlg)
-	CString	m_Password;
-	//}}AFX_DATA
+    //{{AFX_DATA(CSetPasswordDlg)
+    CString m_Password;
+    //}}AFX_DATA
 
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSetPasswordDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CSetPasswordDlg)
+protected:
+    virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
 // Implementation
 protected:
 
-	// Generated message map functions
-	//{{AFX_MSG(CSetPasswordDlg)
-		// NOTE: the ClassWizard will add member functions here
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CSetPasswordDlg)
+    // NOTE: the ClassWizard will add member functions here
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

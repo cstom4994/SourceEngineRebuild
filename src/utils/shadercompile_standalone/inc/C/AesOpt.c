@@ -163,22 +163,21 @@ void MY_FAST_CALL AesCtr_Code_Intel(__m128i *p, __m128i *data, size_t numBlocks)
 #else
 
 void MY_FAST_CALL AesCbc_Encode(UInt32 *ivAes, Byte *data, size_t numBlocks);
+
 void MY_FAST_CALL AesCbc_Decode(UInt32 *ivAes, Byte *data, size_t numBlocks);
+
 void MY_FAST_CALL AesCtr_Code(UInt32 *ivAes, Byte *data, size_t numBlocks);
 
-void MY_FAST_CALL AesCbc_Encode_Intel(UInt32 *p, Byte *data, size_t numBlocks)
-{
-  AesCbc_Encode(p, data, numBlocks);
+void MY_FAST_CALL AesCbc_Encode_Intel(UInt32 *p, Byte *data, size_t numBlocks) {
+    AesCbc_Encode(p, data, numBlocks);
 }
 
-void MY_FAST_CALL AesCbc_Decode_Intel(UInt32 *p, Byte *data, size_t numBlocks)
-{
-  AesCbc_Decode(p, data, numBlocks);
+void MY_FAST_CALL AesCbc_Decode_Intel(UInt32 *p, Byte *data, size_t numBlocks) {
+    AesCbc_Decode(p, data, numBlocks);
 }
 
-void MY_FAST_CALL AesCtr_Code_Intel(UInt32 *p, Byte *data, size_t numBlocks)
-{
-  AesCtr_Code(p, data, numBlocks);
+void MY_FAST_CALL AesCtr_Code_Intel(UInt32 *p, Byte *data, size_t numBlocks) {
+    AesCtr_Code(p, data, numBlocks);
 }
 
 #endif

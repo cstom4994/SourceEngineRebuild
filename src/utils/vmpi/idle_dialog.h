@@ -25,23 +25,25 @@
 // 4. Override OnIdle().
 //
 
-class CIdleDialog : public CDialog
-{
+class CIdleDialog : public CDialog {
 public:
-					
-					CIdleDialog( int id, CWnd *pParent );
-	
-	// Call this to start the idle processing.
-	void			StartIdleProcessing( DWORD msInterval );
-	
-	virtual void	OnIdle() = 0;
+
+    CIdleDialog(int id, CWnd *pParent);
+
+    // Call this to start the idle processing.
+    void StartIdleProcessing(DWORD msInterval);
+
+    virtual void OnIdle() = 0;
 
 
 private:
-	DECLARE_MESSAGE_MAP()
-	afx_msg LONG OnStartIdle(UINT, LONG);
+    DECLARE_MESSAGE_MAP()
 
-	CWinIdle m_cWinIdle;
+    afx_msg LONG
+    OnStartIdle(UINT, LONG
+    );
+
+    CWinIdle m_cWinIdle;
 };
 
 

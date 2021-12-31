@@ -12,54 +12,57 @@
 #endif
 
 
-class IShellIconMgrHelper
-{
+class IShellIconMgrHelper {
 public:
-	virtual HINSTANCE	GetHInstance() = 0;
-	virtual int			WindowProc( void *hWnd, int uMsg, long wParam, long lParam ) = 0;
+    virtual HINSTANCE GetHInstance() = 0;
+
+    virtual int WindowProc(void *hWnd, int uMsg, long wParam, long lParam) = 0;
 };
 
-class CShellIconMgr
-{
+class CShellIconMgr {
 public:
-	
-					CShellIconMgr();
-					~CShellIconMgr();
-	
-	bool			Init( 
-		IShellIconMgrHelper *pHelper, 
-		const char *pToolTip,			// This must be allocated by the caller and must be valid as
-										// long as the CShellIconMgr exists.
-		int iCallbackMessage,
-		int iIconResourceID );
 
-	void			Term();
+    CShellIconMgr();
 
-	void			ChangeIcon( int iIconResourceID );
+    ~CShellIconMgr();
+
+    bool Init(
+            IShellIconMgrHelper *pHelper,
+            const char *pToolTip,            // This must be allocated by the caller and must be valid as
+            // long as the CShellIconMgr exists.
+            int iCallbackMessage,
+            int iIconResourceID);
+
+    void Term();
+
+    void ChangeIcon(int iIconResourceID);
 
 
 private:
 
-	void			CreateTrayIcon();
+    void CreateTrayIcon();
 
-	LRESULT			WindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    LRESULT WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK StaticWindowProc(
-		  HWND hwnd,      // handle to window
-		  UINT uMsg,      // message identifier
-		  WPARAM wParam,  // first message parameter
-		  LPARAM lParam   // second message parameter
-		);
-	
-	HWND			m_hWnd;				// Invisible window to get timer and shell icon messages.
-	ATOM			m_hWndClass;
-	
-	UINT			m_uTaskbarRestart;	// This message is sent to us when the taskbar is created.
-	int				m_iCurIconResourceID;
-	int				m_iCallbackMessage;
-	const char		*m_pToolTip;
+    static LRESULT CALLBACK
+    StaticWindowProc(
+            HWND
+    hwnd,      // handle to window
+    UINT uMsg,      // message identifier
+    WPARAM
+    wParam,  // first message parameter
+    LPARAM lParam   // second message parameter
+    );
 
-	IShellIconMgrHelper	*m_pHelper;
+    HWND m_hWnd;                // Invisible window to get timer and shell icon messages.
+    ATOM m_hWndClass;
+
+    UINT m_uTaskbarRestart;    // This message is sent to us when the taskbar is created.
+    int m_iCurIconResourceID;
+    int m_iCallbackMessage;
+    const char *m_pToolTip;
+
+    IShellIconMgrHelper *m_pHelper;
 };
 
 

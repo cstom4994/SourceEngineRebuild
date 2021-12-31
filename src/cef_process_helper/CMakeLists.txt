@@ -168,7 +168,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         vtf
         zlib
         Jpeglib
-        steamemu
+        steam_api
         cryptlib
         libprotobuf
 

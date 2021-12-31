@@ -14,8 +14,9 @@
 #include "tcpsocket.h"
 
 
-bool TCPSocket_Connect( ITCPSocket *pSocket, const CIPAddr *pAddr, double flTimeout );
-ITCPSocket* TCPSocket_ListenForOneConnection( ITCPListenSocket *pSocket, CIPAddr *pAddr, double flTimeout );
+bool TCPSocket_Connect(ITCPSocket *pSocket, const CIPAddr *pAddr, double flTimeout);
+
+ITCPSocket *TCPSocket_ListenForOneConnection(ITCPListenSocket *pSocket, CIPAddr *pAddr, double flTimeout);
 
 
 #endif // TCPSOCKET_HELPERS_H

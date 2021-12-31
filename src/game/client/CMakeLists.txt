@@ -1286,7 +1286,7 @@ set(ALL_FILES
         ${Source_Files__Sixense}
         ${Source_Files__Temporary_Entities}
         ${Source_Files__game_controls}
-        ${Source_Files__cef}
+#        ${Source_Files__cef}
         ${Tool_Framework}
         ${game_controls_Header_Files}
         )
@@ -1402,7 +1402,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "fopen=dont_use_fopen;"
         "HL2MP;"
         "HL2_CLIENT_DLL;"
-        "ENABLE_CEF;"
         "SOURCE1=1;"
         "_MBCS"
         )
@@ -1664,12 +1663,9 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         vtf
         zlib
         Jpeglib
-        steamemu
+        steam_api
         cryptlib
         libprotobuf
-
-        libcef
-        libcef_dll_wrapper
 
         "shell32;"
         "user32;"
@@ -4278,7 +4274,7 @@ if (BUILD_TF)
             zlib
             Jpeglib
 
-            steamemu
+            steam_api
 
             cryptlib
 

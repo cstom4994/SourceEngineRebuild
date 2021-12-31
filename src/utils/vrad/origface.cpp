@@ -21,10 +21,8 @@ bool bOrigFacesTouched[MAX_MAP_FACES];
 //         face list allowing an original face to only be processed once in 
 //         pairing edges!
 //-----------------------------------------------------------------------------
-void ResetOrigFacesTouched( void )
-{
-    for( int i = 0; i < MAX_MAP_FACES; i++ )
-    {
+void ResetOrigFacesTouched(void) {
+    for (int i = 0; i < MAX_MAP_FACES; i++) {
         bOrigFacesTouched[i] = false;
     }
 }
@@ -34,8 +32,7 @@ void ResetOrigFacesTouched( void )
 // Purpose: mark an original faces as touched (dirty)
 //   Input: index - index of the original face touched
 //-----------------------------------------------------------------------------
-void SetOrigFaceTouched( int index )
-{
+void SetOrigFaceTouched(int index) {
     bOrigFacesTouched[index] = true;
 }
 
@@ -45,7 +42,6 @@ void SetOrigFaceTouched( int index )
 //   Input: index - index of the original face touched
 //  Output: true/false
 //-----------------------------------------------------------------------------
-bool IsOrigFaceTouched( int index )
-{
+bool IsOrigFaceTouched(int index) {
     return bOrigFacesTouched[index];
 }

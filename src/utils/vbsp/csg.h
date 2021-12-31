@@ -12,21 +12,24 @@
 
 
 // Print a CONTENTS_ mask to a string.
-void PrintBrushContentsToString( int contents, char *pOut, int nMaxChars );
+void PrintBrushContentsToString(int contents, char *pOut, int nMaxChars);
 
 // Print a CONTENTS_ mask with Msg().
-void PrintBrushContents( int contents );
+void PrintBrushContents(int contents);
 
-void FixupAreaportalWaterBrushes( bspbrush_t *pList );
+void FixupAreaportalWaterBrushes(bspbrush_t *pList);
 
-bspbrush_t *MakeBspBrushList (int startbrush, int endbrush,
-		const Vector& clipmins, const Vector& clipmaxs, int detailScreen);
-bspbrush_t *MakeBspBrushList (mapbrush_t **pBrushes, int nBrushCount, const Vector& clipmins, const Vector& clipmaxs);
+bspbrush_t *MakeBspBrushList(int startbrush, int endbrush,
+                             const Vector &clipmins, const Vector &clipmaxs, int detailScreen);
 
-void WriteBrushMap (char *name, bspbrush_t *list);
+bspbrush_t *MakeBspBrushList(mapbrush_t **pBrushes, int nBrushCount, const Vector &clipmins, const Vector &clipmaxs);
 
-bspbrush_t *ChopBrushes (bspbrush_t *head);
-bspbrush_t *IntersectBrush (bspbrush_t *a, bspbrush_t *b);
-qboolean BrushesDisjoint (bspbrush_t *a, bspbrush_t *b);
+void WriteBrushMap(char *name, bspbrush_t *list);
+
+bspbrush_t *ChopBrushes(bspbrush_t *head);
+
+bspbrush_t *IntersectBrush(bspbrush_t *a, bspbrush_t *b);
+
+qboolean BrushesDisjoint(bspbrush_t *a, bspbrush_t *b);
 
 #endif // CSG_H

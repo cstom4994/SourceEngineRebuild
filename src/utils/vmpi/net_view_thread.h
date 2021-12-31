@@ -14,31 +14,36 @@
 #include "utlvector.h"
 
 
-class CNetViewThread
-{
+class CNetViewThread {
 public:
-	CNetViewThread();
-	~CNetViewThread();
+    CNetViewThread();
 
-	// This creates the thread that periodically checks "net view" to get the current list of
-	// machines out on the network.
-	void Init();
-	void Term();
-	
-	void GetComputerNames( CUtlVector<char*> &computerNames );
+    ~CNetViewThread();
+
+    // This creates the thread that periodically checks "net view" to get the current list of
+    // machines out on the network.
+    void Init();
+
+    void Term();
+
+    void GetComputerNames(CUtlVector<char *> &computerNames);
 
 private:
 
-	void UpdateServicesFromNetView();
-	void ParseComputerNames( const char *pNetViewOutput );
-	
-	DWORD ThreadFn();
-	static DWORD WINAPI StaticThreadFn( LPVOID lpParameter );
+    void UpdateServicesFromNetView();
 
-	CUtlVector<char*> m_ComputerNames;
-	HANDLE m_hThread;
-	HANDLE m_hThreadExitEvent;
-	CRITICAL_SECTION m_ComputerNamesCS;
+    void ParseComputerNames(const char *pNetViewOutput);
+
+    DWORD ThreadFn();
+
+    static DWORD WINAPI
+    StaticThreadFn( LPVOID
+    lpParameter );
+
+    CUtlVector<char *> m_ComputerNames;
+    HANDLE m_hThread;
+    HANDLE m_hThreadExitEvent;
+    CRITICAL_SECTION m_ComputerNamesCS;
 };
 
 

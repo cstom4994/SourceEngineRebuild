@@ -318,7 +318,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         vpklib
         vstdlib
 
-        steamemu
+        steam_api
 
         cryptlib
 

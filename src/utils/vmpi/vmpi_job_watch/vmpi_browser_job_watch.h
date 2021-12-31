@@ -16,35 +16,34 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"		// main symbols
+#include "resource.h"        // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CVMPIBrowserJobWatchApp:
 // See vmpi_browser_job_watch.cpp for the implementation of this class
 //
 
-class CVMPIBrowserJobWatchApp : public CWinApp
-{
+class CVMPIBrowserJobWatchApp : public CWinApp {
 public:
-	CVMPIBrowserJobWatchApp();
+    CVMPIBrowserJobWatchApp();
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CVMPIBrowserJobWatchApp)
-	public:
-	virtual BOOL InitInstance();
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CVMPIBrowserJobWatchApp)
+public:
+    virtual BOOL InitInstance();
+    //}}AFX_VIRTUAL
 
 // Implementation
 
-	//{{AFX_MSG(CVMPIBrowserJobWatchApp)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CVMPIBrowserJobWatchApp)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 

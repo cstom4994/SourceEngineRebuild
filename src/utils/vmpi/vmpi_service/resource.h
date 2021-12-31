@@ -4,7 +4,7 @@
 // Used by Vmpi_service.rc
 //
 #define IDS_STRING102                   102
-#define IDS_VERSION_STRING              102	// *** If this changes, change the matching value in vmpi_defs.h!
+#define IDS_VERSION_STRING              102    // *** If this changes, change the matching value in vmpi_defs.h!
 
 // Next default values for new objects
 // 

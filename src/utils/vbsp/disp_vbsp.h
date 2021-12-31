@@ -15,11 +15,10 @@
 #include "vbsp.h"
 
 
-
 class CCoreDispInfo;
 
 
-extern CUtlVector<CCoreDispInfo*> g_CoreDispInfos;
+extern CUtlVector<CCoreDispInfo *> g_CoreDispInfos;
 
 
 // Setup initial entries in g_dispinfo with some of the vertex data from the mapdisps.
@@ -33,14 +32,15 @@ void EmitDispLMAlphaAndNeighbors();
 
 // Setup a CCoreDispInfo given a mapdispinfo_t.
 // If pFace is non-NULL, then lightmap texture coordinates will be generated.
-void DispMapToCoreDispInfo( mapdispinfo_t *pMapDisp,
-	CCoreDispInfo *pCoreDispInfo, dface_t *pFace, int *pSwappedTexInfos );
+void DispMapToCoreDispInfo(mapdispinfo_t *pMapDisp,
+                           CCoreDispInfo *pCoreDispInfo, dface_t *pFace, int *pSwappedTexInfos);
 
 
-void DispGetFaceInfo( mapbrush_t *pBrush );
-bool HasDispInfo( mapbrush_t *pBrush );
+void DispGetFaceInfo(mapbrush_t *pBrush);
+
+bool HasDispInfo(mapbrush_t *pBrush);
 
 // Computes the bounds for a disp info
-void ComputeDispInfoBounds( int dispinfo, Vector& mins, Vector& maxs );
+void ComputeDispInfoBounds(int dispinfo, Vector &mins, Vector &maxs);
 
 #endif // VBSP_DISPINFO_H

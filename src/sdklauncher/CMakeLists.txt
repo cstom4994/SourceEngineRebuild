@@ -229,7 +229,6 @@ add_dependencies(${PROJECT_NAME}
         matsys_controls
         vgui_controls
         Dmxloader
-        steamemu
         )
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
@@ -250,7 +249,8 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         matsys_controls
         vgui_controls
         Dmxloader
-        steamemu
+
+        steam_api
 
         "shell32;"
         "user32;"

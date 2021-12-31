@@ -7,5 +7,6 @@
 //
 //=============================================================================//
 
-void DebugOut( const char *pMsg, ... );
-void DebugSafeWaitPoint( bool bForceWait = false );
+void DebugOut(const char *pMsg, ...);
+
+void DebugSafeWaitPoint(bool bForceWait = false);

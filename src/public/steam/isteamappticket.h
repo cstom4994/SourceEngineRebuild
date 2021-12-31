@@ -1,4 +1,4 @@
-﻿//====== Copyright 1996-2008, Valve Corporation, All rights reserved. =======
+﻿//========= Copyright Valve Corporation, All rights reserved. ============//
 //
 // Purpose: a private, but well versioned, interface to get at critical bits
 // of a steam3 appticket - consumed by the simple drm wrapper to let it 
@@ -16,11 +16,10 @@
 // steamid are located.  the sizes of the appid and steamid are implicit in 
 // (each version of) the interface - currently uin32 appid and uint64 steamid
 //-----------------------------------------------------------------------------
-class ISteamAppTicket {
+class ISteamAppTicket
+{
 public:
-    virtual uint32
-    GetAppOwnershipTicketData(uint32 nAppID, void *pvBuffer, uint32 cbBufferLength, uint32 *piAppId, uint32 *piSteamId,
-                              uint32 *piSignature, uint32 *pcbSignature) = 0;
+    virtual uint32 GetAppOwnershipTicketData( uint32 nAppID, void *pvBuffer, uint32 cbBufferLength, uint32 *piAppId, uint32 *piSteamId, uint32 *piSignature, uint32 *pcbSignature ) = 0;
 };
 
 #define STEAMAPPTICKET_INTERFACE_VERSION "STEAMAPPTICKET_INTERFACE_VERSION001"

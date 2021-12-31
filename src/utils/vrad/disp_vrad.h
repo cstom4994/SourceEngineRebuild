@@ -16,7 +16,7 @@
 
 
 // Blend the normals of neighboring displacement surfaces so they match at edges and corners.
-void SmoothNeighboringDispSurfNormals( CCoreDispInfo **ppListBase, int listSize );
+void SmoothNeighboringDispSurfNormals(CCoreDispInfo **ppListBase, int listSize);
 
 
 #endif // DISP_VRAD_H

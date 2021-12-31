@@ -16,7 +16,7 @@
 
 
 // Loopback sockets receive the same data they send.
-IChannel* CreateLoopbackChannel();
+IChannel *CreateLoopbackChannel();
 
 
 #endif // LOOPBACK_CHANNEL_H

@@ -20,19 +20,17 @@ static constexpr size_t MIN_STRING_POOL_SIZE = 2048;
 // symbol table stuff
 //-----------------------------------------------------------------------------
 
-inline const char* CUtlSymbolTable::StringFromIndex(const CStringPoolIndex& index) const
-{
+inline const char *CUtlSymbolTable::StringFromIndex(const CStringPoolIndex &index) const {
     Assert(index.m_iPool < m_StringPools.size());
     Assert(index.m_iOffset < m_StringPools[index.m_iPool]->m_TotalLen);
 
     return &m_StringPools[index.m_iPool]->m_Data[index.m_iOffset];
 }
 
-bool CUtlSymbolTable::CLess::operator()(void* ctx, const CStringPoolIndex& i1, const CStringPoolIndex& i2) const
-{
-    CUtlSymbolTable* pTable = static_cast<CUtlSymbolTable*>(ctx);
-    const char* str1 = i1 == INVALID_STRING_INDEX ? pTable->m_pUserSearchString : pTable->StringFromIndex(i1);
-    const char* str2 = i2 == INVALID_STRING_INDEX ? pTable->m_pUserSearchString : pTable->StringFromIndex(i2);
+bool CUtlSymbolTable::CLess::operator()(void *ctx, const CStringPoolIndex &i1, const CStringPoolIndex &i2) const {
+    CUtlSymbolTable *pTable = static_cast<CUtlSymbolTable *>(ctx);
+    const char *str1 = i1 == INVALID_STRING_INDEX ? pTable->m_pUserSearchString : pTable->StringFromIndex(i1);
+    const char *str2 = i2 == INVALID_STRING_INDEX ? pTable->m_pUserSearchString : pTable->StringFromIndex(i2);
 
     if (!str1 && str2)
         return false;
@@ -50,36 +48,30 @@ bool CUtlSymbolTable::CLess::operator()(void* ctx, const CStringPoolIndex& i1, c
 // constructor, destructor
 //-----------------------------------------------------------------------------
 CUtlSymbolTable::CUtlSymbolTable(int growSize, int initSize, bool caseInsensitive)
-    : m_Lookup(growSize, initSize, 0, this)
-    , m_bInsensitive(caseInsensitive)
-{
+        : m_Lookup(growSize, initSize, 0, this), m_bInsensitive(caseInsensitive) {
 }
 
-CUtlSymbolTable::CUtlSymbolTable(const CUtlSymbolTable& other)
-{
+CUtlSymbolTable::CUtlSymbolTable(const CUtlSymbolTable &other) {
     m_Lookup.CopyFrom(other.m_Lookup);
     m_Lookup.SetContext(this);
     m_bInsensitive = other.m_bInsensitive;
     m_StringPools.reserve(other.m_StringPools.size());
-    for (size_t i = 0; i < other.m_StringPools.size(); ++i)
-    {
-        const auto& pool = other.m_StringPools[i];
-        auto& pool2 = m_StringPools[i];
-        pool2 = static_cast<StringPool_t*>(malloc(sizeof(StringPool_t) + pool->m_TotalLen - 1));
+    for (size_t i = 0; i < other.m_StringPools.size(); ++i) {
+        const auto &pool = other.m_StringPools[i];
+        auto &pool2 = m_StringPools[i];
+        pool2 = static_cast<StringPool_t *>(malloc(sizeof(StringPool_t) + pool->m_TotalLen - 1));
         pool2->m_TotalLen = pool->m_TotalLen;
         pool2->m_SpaceUsed = pool->m_SpaceUsed;
         memcpy(pool2->m_Data, pool->m_Data, pool->m_TotalLen);
     }
 }
 
-CUtlSymbolTable::~CUtlSymbolTable()
-{
+CUtlSymbolTable::~CUtlSymbolTable() {
     // Release the stringpool string data
     RemoveAll();
 }
 
-CUtlSymbol CUtlSymbolTable::Find(const char* pString) const
-{
+CUtlSymbol CUtlSymbolTable::Find(const char *pString) const {
     if (!pString)
         return CUtlSymbol();
 
@@ -97,11 +89,9 @@ CUtlSymbol CUtlSymbolTable::Find(const char* pString) const
     return CUtlSymbol(idx);
 }
 
-size_t CUtlSymbolTable::FindPoolWithSpace(unsigned short len) const
-{
-    for (size_t i = 0; i < m_StringPools.size(); i++)
-    {
-        StringPool_t* pPool = m_StringPools[i];
+size_t CUtlSymbolTable::FindPoolWithSpace(unsigned short len) const {
+    for (size_t i = 0; i < m_StringPools.size(); i++) {
+        StringPool_t *pPool = m_StringPools[i];
         if (pPool->m_TotalLen - pPool->m_SpaceUsed >= len)
             return i;
     }
@@ -113,8 +103,7 @@ size_t CUtlSymbolTable::FindPoolWithSpace(unsigned short len) const
 // Finds and/or creates a symbol based on the string
 //-----------------------------------------------------------------------------
 
-CUtlSymbol CUtlSymbolTable::AddString(const char* pString)
-{
+CUtlSymbol CUtlSymbolTable::AddString(const char *pString) {
     if (!pString)
         return CUtlSymbol(UTL_INVAL_SYMBOL);
 
@@ -127,11 +116,10 @@ CUtlSymbol CUtlSymbolTable::AddString(const char* pString)
 
     // Find a pool with space for this string, or allocate a new one.
     size_t iPool = FindPoolWithSpace(gsl::narrow<uint16_t>(len));
-    if (iPool == ~0ULL)
-    {
+    if (iPool == ~0ULL) {
         // Add a new pool.
         const size_t newPoolSize = std::max(len, MIN_STRING_POOL_SIZE);
-        StringPool_t* pPool = static_cast<StringPool_t*>(malloc(sizeof(StringPool_t) + newPoolSize - 1));
+        StringPool_t *pPool = static_cast<StringPool_t *>(malloc(sizeof(StringPool_t) + newPoolSize - 1));
         pPool->m_TotalLen = gsl::narrow<uint16_t>(newPoolSize);
         pPool->m_SpaceUsed = 0;
         iPool = m_StringPools.size();
@@ -139,9 +127,9 @@ CUtlSymbol CUtlSymbolTable::AddString(const char* pString)
     }
 
     // Copy the string in.
-    StringPool_t* pPool = m_StringPools[iPool];
+    StringPool_t *pPool = m_StringPools[iPool];
     Assert(pPool->m_SpaceUsed < 0xFFFF); // This should never happen, because if we had a string > 64k, it
-                                           // would have been given its entire own pool.
+    // would have been given its entire own pool.
 
     const unsigned short iStringOffset = pPool->m_SpaceUsed;
 
@@ -161,8 +149,7 @@ CUtlSymbol CUtlSymbolTable::AddString(const char* pString)
 // Look up the string associated with a particular symbol
 //-----------------------------------------------------------------------------
 
-const char* CUtlSymbolTable::String(CUtlSymbol id) const
-{
+const char *CUtlSymbolTable::String(CUtlSymbol id) const {
     if (!id.IsValid())
         return "";
 
@@ -174,8 +161,7 @@ const char* CUtlSymbolTable::String(CUtlSymbol id) const
 // Remove all symbols in the table.
 //-----------------------------------------------------------------------------
 
-void CUtlSymbolTable::RemoveAll()
-{
+void CUtlSymbolTable::RemoveAll() {
     m_Lookup.Purge();
 
     for (size_t i = 0; i < m_StringPools.size(); i++)

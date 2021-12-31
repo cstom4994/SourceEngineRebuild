@@ -13,27 +13,24 @@ EXTERN_C_BEGIN
 
 extern Byte k7zSignature[k7zSignatureSize];
 
-typedef struct
-{
-  const Byte *Data;
-  size_t Size;
+typedef struct {
+    const Byte *Data;
+    size_t Size;
 } CSzData;
 
 /* CSzCoderInfo & CSzFolder support only default methods */
 
-typedef struct
-{
-  size_t PropsOffset;
-  UInt32 MethodID;
-  Byte NumInStreams;
-  Byte NumOutStreams;
-  Byte PropsSize;
+typedef struct {
+    size_t PropsOffset;
+    UInt32 MethodID;
+    Byte NumInStreams;
+    Byte NumOutStreams;
+    Byte PropsSize;
 } CSzCoderInfo;
 
-typedef struct
-{
-  UInt32 InIndex;
-  UInt32 OutIndex;
+typedef struct {
+    UInt32 InIndex;
+    UInt32 OutIndex;
 } CSzBindPair;
 
 #define SZ_NUM_CODERS_IN_FOLDER_MAX 4
@@ -41,16 +38,15 @@ typedef struct
 #define SZ_NUM_PACK_STREAMS_IN_FOLDER_MAX 4
 #define SZ_NUM_CODERS_OUT_STREAMS_IN_FOLDER_MAX 4
 
-typedef struct
-{
-  UInt32 NumCoders;
-  UInt32 NumBindPairs;
-  UInt32 NumPackStreams;
-  UInt32 MainOutStream;
-  UInt32 PackStreams[SZ_NUM_PACK_STREAMS_IN_FOLDER_MAX];
-  CSzBindPair BindPairs[SZ_NUM_BINDS_IN_FOLDER_MAX];
-  CSzCoderInfo Coders[SZ_NUM_CODERS_IN_FOLDER_MAX];
-  UInt64 CodersUnpackSizes[SZ_NUM_CODERS_OUT_STREAMS_IN_FOLDER_MAX];
+typedef struct {
+    UInt32 NumCoders;
+    UInt32 NumBindPairs;
+    UInt32 NumPackStreams;
+    UInt32 MainOutStream;
+    UInt32 PackStreams[SZ_NUM_PACK_STREAMS_IN_FOLDER_MAX];
+    CSzBindPair BindPairs[SZ_NUM_BINDS_IN_FOLDER_MAX];
+    CSzCoderInfo Coders[SZ_NUM_CODERS_IN_FOLDER_MAX];
+    UInt64 CodersUnpackSizes[SZ_NUM_CODERS_OUT_STREAMS_IN_FOLDER_MAX];
 } CSzFolder;
 
 /*
@@ -66,54 +62,50 @@ typedef struct
 
 SRes SzGetNextFolderItem(CSzFolder *f, CSzData *sd, CSzData *sdSizes);
 
-typedef struct
-{
-  UInt32 Low;
-  UInt32 High;
+typedef struct {
+    UInt32 Low;
+    UInt32 High;
 } CNtfsFileTime;
 
-typedef struct
-{
-  Byte *Defs; /* MSB 0 bit numbering */
-  UInt32 *Vals;
+typedef struct {
+    Byte *Defs; /* MSB 0 bit numbering */
+    UInt32 *Vals;
 } CSzBitUi32s;
 
-typedef struct
-{
-  Byte *Defs; /* MSB 0 bit numbering */
-  // UInt64 *Vals;
-  CNtfsFileTime *Vals;
+typedef struct {
+    Byte *Defs; /* MSB 0 bit numbering */
+    // UInt64 *Vals;
+    CNtfsFileTime *Vals;
 } CSzBitUi64s;
 
 #define SzBitArray_Check(p, i) (((p)[(i) >> 3] & (0x80 >> ((i) & 7))) != 0)
 
 #define SzBitWithVals_Check(p, i) ((p)->Defs && ((p)->Defs[(i) >> 3] & (0x80 >> ((i) & 7))) != 0)
 
-typedef struct
-{
-  UInt32 NumPackStreams;
-  UInt32 NumFolders;
+typedef struct {
+    UInt32 NumPackStreams;
+    UInt32 NumFolders;
 
-  UInt64 *PackPositions; // NumPackStreams + 1
-  CSzBitUi32s FolderCRCs;
+    UInt64 *PackPositions; // NumPackStreams + 1
+    CSzBitUi32s FolderCRCs;
 
-  size_t *FoCodersOffsets;
-  size_t *FoSizesOffsets;
-  // UInt32 StartCoderUnpackSizesIndex;
-  UInt32 *FoStartPackStreamIndex;
+    size_t *FoCodersOffsets;
+    size_t *FoSizesOffsets;
+    // UInt32 StartCoderUnpackSizesIndex;
+    UInt32 *FoStartPackStreamIndex;
 
-  // CSzFolder2 *Folders;  // +1 item for sum values
-  Byte *CodersData;
-  Byte *UnpackSizesData;
-  size_t UnpackSizesDataSize;
-  // UInt64 *CoderUnpackSizes;
+    // CSzFolder2 *Folders;  // +1 item for sum values
+    Byte *CodersData;
+    Byte *UnpackSizesData;
+    size_t UnpackSizesDataSize;
+    // UInt64 *CoderUnpackSizes;
 } CSzAr;
 
 
 SRes SzAr_DecodeFolder(const CSzAr *p, UInt32 folderIndex,
-    ILookInStream *stream, UInt64 startPos,
-    Byte *outBuffer, size_t outSize,
-    ISzAlloc *allocMain);
+                       ILookInStream *stream, UInt64 startPos,
+                       Byte *outBuffer, size_t outSize,
+                       ISzAlloc *allocMain);
 
 /*
   SzExtract extracts file from archive
@@ -135,31 +127,30 @@ SRes SzAr_DecodeFolder(const CSzAr *p, UInt32 folderIndex,
     Free *outBuffer and set *outBuffer to 0, if you want to flush cache.
 */
 
-typedef struct
-{
-  CSzAr db;
+typedef struct {
+    CSzAr db;
 
-  UInt64 startPosAfterHeader;
-  UInt64 dataPos;
-  
-  UInt32 NumFiles;
+    UInt64 startPosAfterHeader;
+    UInt64 dataPos;
 
-  UInt64 *UnpackPositions;
-  // Byte *IsEmptyFiles;
-  Byte *IsDirs;
-  CSzBitUi32s CRCs;
+    UInt32 NumFiles;
 
-  CSzBitUi32s Attribs;
-  // CSzBitUi32s Parents;
-  CSzBitUi64s MTime;
-  CSzBitUi64s CTime;
+    UInt64 *UnpackPositions;
+    // Byte *IsEmptyFiles;
+    Byte *IsDirs;
+    CSzBitUi32s CRCs;
 
-  // UInt32 *FolderStartPackStreamIndex;
-  UInt32 *FolderStartFileIndex; // + 1
-  UInt32 *FileIndexToFolderIndexMap;
+    CSzBitUi32s Attribs;
+    // CSzBitUi32s Parents;
+    CSzBitUi64s MTime;
+    CSzBitUi64s CTime;
 
-  size_t *FileNameOffsets; /* in 2-byte steps */
-  Byte *FileNames;  /* UTF-16-LE */
+    // UInt32 *FolderStartPackStreamIndex;
+    UInt32 *FolderStartFileIndex; // + 1
+    UInt32 *FileIndexToFolderIndexMap;
+
+    size_t *FileNameOffsets; /* in 2-byte steps */
+    Byte *FileNames;  /* UTF-16-LE */
 } CSzArEx;
 
 #define SzArEx_IsDir(p, i) (SzBitArray_Check((p)->IsDirs, i))
@@ -185,16 +176,16 @@ UInt16 *SzArEx_GetFullNameUtf16_Back(const CSzArEx *p, size_t fileIndex, UInt16 
 */
 
 SRes SzArEx_Extract(
-    const CSzArEx *db,
-    ILookInStream *inStream,
-    UInt32 fileIndex,         /* index of file */
-    UInt32 *blockIndex,       /* index of solid block */
-    Byte **outBuffer,         /* pointer to pointer to output buffer (allocated with allocMain) */
-    size_t *outBufferSize,    /* buffer size for output buffer */
-    size_t *offset,           /* offset of stream for required file in *outBuffer */
-    size_t *outSizeProcessed, /* size of file in *outBuffer */
-    ISzAlloc *allocMain,
-    ISzAlloc *allocTemp);
+        const CSzArEx *db,
+        ILookInStream *inStream,
+        UInt32 fileIndex,         /* index of file */
+        UInt32 *blockIndex,       /* index of solid block */
+        Byte **outBuffer,         /* pointer to pointer to output buffer (allocated with allocMain) */
+        size_t *outBufferSize,    /* buffer size for output buffer */
+        size_t *offset,           /* offset of stream for required file in *outBuffer */
+        size_t *outSizeProcessed, /* size of file in *outBuffer */
+        ISzAlloc *allocMain,
+        ISzAlloc *allocTemp);
 
 
 /*
@@ -209,7 +200,7 @@ SZ_ERROR_FAIL
 */
 
 SRes SzArEx_Open(CSzArEx *p, ILookInStream *inStream,
-    ISzAlloc *allocMain, ISzAlloc *allocTemp);
+                 ISzAlloc *allocMain, ISzAlloc *allocTemp);
 
 EXTERN_C_END
 

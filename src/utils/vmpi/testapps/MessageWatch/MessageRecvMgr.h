@@ -12,10 +12,9 @@
 #endif
 
 
-class IMessageRecvMgr
-{
+class IMessageRecvMgr {
 public:
-	
+
 };
 
 

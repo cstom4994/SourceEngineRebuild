@@ -9,7 +9,7 @@
 #ifndef CFGPROCESSOR_H
 #define CFGPROCESSOR_H
 #ifdef _WIN32
-	#pragma once
+#pragma once
 #endif
 
 #include "basetypes.h"
@@ -34,44 +34,49 @@ GetNextCombo( 29, -1, 36 ) -> shader3.fxc : ( riCommandNumber = 31, rhCombo =  "
 
 */
 
-namespace CfgProcessor
-{
+namespace CfgProcessor {
 // Working with configuration
-void ReadConfiguration( const char* configFile );
+    void ReadConfiguration(const char *configFile);
 
-struct CfgEntryInfo
-{
-	const char*	m_szName;			// Name of the shader, e.g. "shader_ps20b"
-	const char*	m_szShaderFileName;	// Name of the src file, e.g. "shader_psxx.fxc"
-	const char*	m_szShaderVersion;	// Version of shader
-	uint64_t	m_numCombos;				// Total possible num of combos, e.g. 1024
-	uint64_t	m_numDynamicCombos;		// Num of dynamic combos, e.g. 4
-	uint64_t	m_numStaticCombos;		// Num of static combos, e.g. 256
-	uint64_t	m_iCommandStart;			// Start command, e.g. 0
-	uint64_t	m_iCommandEnd;			// End command, e.g. 1024
-	int			m_nCentroidMask;			// Mask of centroid samplers
-};
+    struct CfgEntryInfo {
+        const char *m_szName;            // Name of the shader, e.g. "shader_ps20b"
+        const char *m_szShaderFileName;    // Name of the src file, e.g. "shader_psxx.fxc"
+        const char *m_szShaderVersion;    // Version of shader
+        uint64_t m_numCombos;                // Total possible num of combos, e.g. 1024
+        uint64_t m_numDynamicCombos;        // Num of dynamic combos, e.g. 4
+        uint64_t m_numStaticCombos;        // Num of static combos, e.g. 256
+        uint64_t m_iCommandStart;            // Start command, e.g. 0
+        uint64_t m_iCommandEnd;            // End command, e.g. 1024
+        int m_nCentroidMask;            // Mask of centroid samplers
+    };
 
-void DescribeConfiguration( std::unique_ptr<CfgEntryInfo[]>& rarrEntries );
+    void DescribeConfiguration(std::unique_ptr<CfgEntryInfo[]> &rarrEntries);
 
 // Working with combos
-struct __ComboHandle
-{
-	int unused;
-};
-using ComboHandle = __ComboHandle*;
+    struct __ComboHandle {
+        int unused;
+    };
+    using ComboHandle = __ComboHandle *;
 
-ComboHandle Combo_GetCombo( uint64_t iCommandNumber );
-ComboHandle Combo_GetNext( uint64_t& riCommandNumber, ComboHandle& rhCombo, uint64_t iCommandEnd );
-void Combo_FormatCommand( ComboHandle hCombo, std::span<char> pchBuffer );
-void Combo_FormatCommandHumanReadable( ComboHandle hCombo, std::span<char> pchBuffer );
-uint64_t Combo_GetCommandNum( ComboHandle hCombo ) noexcept;
-uint64_t Combo_GetComboNum( ComboHandle hCombo ) noexcept;
-const CfgEntryInfo* Combo_GetEntryInfo( ComboHandle hCombo ) noexcept;
+    ComboHandle Combo_GetCombo(uint64_t iCommandNumber);
 
-ComboHandle Combo_Alloc( ComboHandle hComboCopyFrom ) noexcept;
-void Combo_Assign( ComboHandle hComboDst, ComboHandle hComboSrc );
-void Combo_Free( ComboHandle& rhComboFree ) noexcept;
+    ComboHandle Combo_GetNext(uint64_t &riCommandNumber, ComboHandle &rhCombo, uint64_t iCommandEnd);
+
+    void Combo_FormatCommand(ComboHandle hCombo, std::span<char> pchBuffer);
+
+    void Combo_FormatCommandHumanReadable(ComboHandle hCombo, std::span<char> pchBuffer);
+
+    uint64_t Combo_GetCommandNum(ComboHandle hCombo) noexcept;
+
+    uint64_t Combo_GetComboNum(ComboHandle hCombo) noexcept;
+
+    const CfgEntryInfo *Combo_GetEntryInfo(ComboHandle hCombo) noexcept;
+
+    ComboHandle Combo_Alloc(ComboHandle hComboCopyFrom) noexcept;
+
+    void Combo_Assign(ComboHandle hComboDst, ComboHandle hComboSrc);
+
+    void Combo_Free(ComboHandle &rhComboFree) noexcept;
 }; // namespace CfgProcessor
 
 #endif // #ifndef CFGPROCESSOR_H

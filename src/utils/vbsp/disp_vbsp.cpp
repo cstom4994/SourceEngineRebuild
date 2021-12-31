@@ -17,20 +17,19 @@
 #include "mathlib/vector.h"
 
 // map displacement info -- runs parallel to the dispinfos struct
-int              nummapdispinfo = 0;
-mapdispinfo_t    mapdispinfo[MAX_MAP_DISPINFO];
+int nummapdispinfo = 0;
+mapdispinfo_t mapdispinfo[MAX_MAP_DISPINFO];
 
-CUtlVector<CCoreDispInfo*> g_CoreDispInfos;
+CUtlVector<CCoreDispInfo *> g_CoreDispInfos;
 
 //-----------------------------------------------------------------------------
 // Computes the bounds for a disp info
 //-----------------------------------------------------------------------------
-void ComputeDispInfoBounds(int dispinfo, Vector& mins, Vector& maxs)
-{
+void ComputeDispInfoBounds(int dispinfo, Vector &mins, Vector &maxs) {
     CDispBox box;
 
     // Get a CCoreDispInfo. All we need is the triangles and lightmap texture coordinates.
-    mapdispinfo_t* pMapDisp = &mapdispinfo[dispinfo];
+    mapdispinfo_t *pMapDisp = &mapdispinfo[dispinfo];
 
     CCoreDispInfo coreDispInfo;
     DispMapToCoreDispInfo(pMapDisp, &coreDispInfo, NULL, NULL);
@@ -43,43 +42,38 @@ void ComputeDispInfoBounds(int dispinfo, Vector& mins, Vector& maxs)
 // Gets the barycentric coordinates of the position on the triangle where the lightmap
 // coordinates are equal to lmCoords. This always generates the coordinates but it
 // returns false if the point containing them does not lie inside the triangle.
-bool GetBarycentricCoordsFromLightmapCoords(Vector2D tri[3], Vector2D const& lmCoords, float bcCoords[3])
-{
+bool GetBarycentricCoordsFromLightmapCoords(Vector2D tri[3], Vector2D const &lmCoords, float bcCoords[3]) {
     GetBarycentricCoords2D(tri[0], tri[1], tri[2], lmCoords, bcCoords);
 
     return
-        (bcCoords[0] >= 0.0f && bcCoords[0] <= 1.0f) &&
-        (bcCoords[1] >= 0.0f && bcCoords[1] <= 1.0f) &&
-        (bcCoords[2] >= 0.0f && bcCoords[2] <= 1.0f);
+            (bcCoords[0] >= 0.0f && bcCoords[0] <= 1.0f) &&
+            (bcCoords[1] >= 0.0f && bcCoords[1] <= 1.0f) &&
+            (bcCoords[2] >= 0.0f && bcCoords[2] <= 1.0f);
 }
 
 
-bool FindTriIndexMapByUV(CCoreDispInfo* pCoreDisp, Vector2D const& lmCoords,
-    int& iTriangle, float flBarycentric[3])
-{
-    const CPowerInfo* pPowerInfo = GetPowerInfo(pCoreDisp->GetPower());
+bool FindTriIndexMapByUV(CCoreDispInfo *pCoreDisp, Vector2D const &lmCoords,
+                         int &iTriangle, float flBarycentric[3]) {
+    const CPowerInfo *pPowerInfo = GetPowerInfo(pCoreDisp->GetPower());
 
     // Search all the triangles..
     int nTriCount = pCoreDisp->GetTriCount();
-    for (int iTri = 0; iTri < nTriCount; ++iTri)
-    {
+    for (int iTri = 0; iTri < nTriCount; ++iTri) {
         unsigned short iVerts[3];
         //		pCoreDisp->GetTriIndices( iTri, iVerts[0], iVerts[1], iVerts[2] );
-        CTriInfo* pTri = &pPowerInfo->m_pTriInfos[iTri];
+        CTriInfo *pTri = &pPowerInfo->m_pTriInfos[iTri];
         iVerts[0] = pTri->m_Indices[0];
         iVerts[1] = pTri->m_Indices[1];
         iVerts[2] = pTri->m_Indices[2];
 
         // Get this triangle's UVs.
         Vector2D vecUV[3];
-        for (int iCoord = 0; iCoord < 3; ++iCoord)
-        {
+        for (int iCoord = 0; iCoord < 3; ++iCoord) {
             pCoreDisp->GetLuxelCoord(0, iVerts[iCoord], vecUV[iCoord]);
         }
 
         // See if the passed-in UVs are in this triangle's UVs.
-        if (GetBarycentricCoordsFromLightmapCoords(vecUV, lmCoords, flBarycentric))
-        {
+        if (GetBarycentricCoordsFromLightmapCoords(vecUV, lmCoords, flBarycentric)) {
             iTriangle = iTri;
             return true;
         }
@@ -89,42 +83,34 @@ bool FindTriIndexMapByUV(CCoreDispInfo* pCoreDisp, Vector2D const& lmCoords,
 }
 
 
-void CalculateLightmapSamplePositions(CCoreDispInfo* pCoreDispInfo, const dface_t* pFace, CUtlVector<unsigned char>& out)
-{
+void
+CalculateLightmapSamplePositions(CCoreDispInfo *pCoreDispInfo, const dface_t *pFace, CUtlVector<unsigned char> &out) {
     int width = pFace->m_LightmapTextureSizeInLuxels[0] + 1;
     int height = pFace->m_LightmapTextureSizeInLuxels[1] + 1;
 
     // For each lightmap sample, find the triangle it sits in.
     Vector2D lmCoords;
-    for (int y = 0; y < height; y++)
-    {
+    for (int y = 0; y < height; y++) {
         lmCoords.y = y + 0.5f;
 
-        for (int x = 0; x < width; x++)
-        {
+        for (int x = 0; x < width; x++) {
             lmCoords.x = x + 0.5f;
 
             float flBarycentric[3];
             int iTri;
 
-            if (FindTriIndexMapByUV(pCoreDispInfo, lmCoords, iTri, flBarycentric))
-            {
-                if (iTri < 255)
-                {
+            if (FindTriIndexMapByUV(pCoreDispInfo, lmCoords, iTri, flBarycentric)) {
+                if (iTri < 255) {
                     out.AddToTail(iTri);
-                }
-                else
-                {
+                } else {
                     out.AddToTail(255);
                     out.AddToTail(iTri - 255);
                 }
 
-                out.AddToTail((unsigned char)(flBarycentric[0] * 255.9f));
-                out.AddToTail((unsigned char)(flBarycentric[1] * 255.9f));
-                out.AddToTail((unsigned char)(flBarycentric[2] * 255.9f));
-            }
-            else
-            {
+                out.AddToTail((unsigned char) (flBarycentric[0] * 255.9f));
+                out.AddToTail((unsigned char) (flBarycentric[1] * 255.9f));
+                out.AddToTail((unsigned char) (flBarycentric[2] * 255.9f));
+            } else {
                 out.AddToTail(0);
                 out.AddToTail(0);
                 out.AddToTail(0);
@@ -136,61 +122,57 @@ void CalculateLightmapSamplePositions(CCoreDispInfo* pCoreDispInfo, const dface_
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-int GetDispInfoEntityNum(mapdispinfo_t* pDisp)
-{
+int GetDispInfoEntityNum(mapdispinfo_t *pDisp) {
     return pDisp->entitynum;
 }
 
 // Setup a CCoreDispInfo given a mapdispinfo_t.
 // If pFace is non-NULL, then lightmap texture coordinates will be generated.
-void DispMapToCoreDispInfo(mapdispinfo_t* pMapDisp, CCoreDispInfo* pCoreDispInfo, dface_t* pFace, int* pSwappedTexInfos)
-{
-    winding_t* pWinding = pMapDisp->face.originalface->winding;
+void
+DispMapToCoreDispInfo(mapdispinfo_t *pMapDisp, CCoreDispInfo *pCoreDispInfo, dface_t *pFace, int *pSwappedTexInfos) {
+    winding_t *pWinding = pMapDisp->face.originalface->winding;
 
     Assert(pWinding->numpoints == 4);
 
     //
     // set initial surface data
     //
-    CCoreDispSurface* pSurf = pCoreDispInfo->GetSurface();
+    CCoreDispSurface *pSurf = pCoreDispInfo->GetSurface();
 
-    texinfo_t* pTexInfo = &texinfo[pMapDisp->face.texinfo];
+    texinfo_t *pTexInfo = &texinfo[pMapDisp->face.texinfo];
     Assert(pTexInfo != NULL);
 
     // init material contents
     pMapDisp->contents = pMapDisp->face.contents;
-    if (!(pMapDisp->contents & (ALL_VISIBLE_CONTENTS | CONTENTS_PLAYERCLIP | CONTENTS_MONSTERCLIP)))
-    {
+    if (!(pMapDisp->contents & (ALL_VISIBLE_CONTENTS | CONTENTS_PLAYERCLIP | CONTENTS_MONSTERCLIP))) {
         pMapDisp->contents |= CONTENTS_SOLID;
     }
 
     pSurf->SetContents(pMapDisp->contents);
 
     // Calculate the lightmap coordinates.
-    Vector2D tCoords[4] = { Vector2D(0,0),Vector2D(0,1),Vector2D(1,0),Vector2D(1,1) };
-    if (pFace)
-    {
+    Vector2D tCoords[4] = {Vector2D(0, 0), Vector2D(0, 1), Vector2D(1, 0), Vector2D(1, 1)};
+    if (pFace) {
         Assert(pFace->numedges == 4);
 
         Vector pt[4];
         for (int i = 0; i < 4; i++)
             pt[i] = pWinding->p[i];
 
-        int zeroOffset[2] = { 0,0 };
+        int zeroOffset[2] = {0, 0};
         CalcTextureCoordsAtPoints(
-            pTexInfo->textureVecsTexelsPerWorldUnits,
-            zeroOffset,
-            pt,
-            4,
-            tCoords);
+                pTexInfo->textureVecsTexelsPerWorldUnits,
+                zeroOffset,
+                pt,
+                4,
+                tCoords);
     }
 
     //
     // set face point data ...
     //
     pSurf->SetPointCount(4);
-    for (int i = 0; i < 4; i++)
-    {
+    for (int i = 0; i < 4; i++) {
         // position
         pSurf->SetPoint(i, pWinding->p[i]);
         pSurf->SetTexCoord(i, tCoords[i]);
@@ -203,26 +185,23 @@ void DispMapToCoreDispInfo(mapdispinfo_t* pMapDisp, CCoreDispInfo* pCoreDispInfo
 
     // Set the luxel coordinates on the base displacement surface.
     Vector vecTmp(pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][0],
-        pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][1],
-        pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][2]);
+                  pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][1],
+                  pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][2]);
     int nLuxelsPerWorldUnit = static_cast<int>(1.0f / VectorLength(vecTmp));
     Vector vecU(pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][0],
-        pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][1],
-        pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][2]);
+                pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][1],
+                pTexInfo->lightmapVecsLuxelsPerWorldUnits[0][2]);
     Vector vecV(pTexInfo->lightmapVecsLuxelsPerWorldUnits[1][0],
-        pTexInfo->lightmapVecsLuxelsPerWorldUnits[1][1],
-        pTexInfo->lightmapVecsLuxelsPerWorldUnits[1][2]);
+                pTexInfo->lightmapVecsLuxelsPerWorldUnits[1][1],
+                pTexInfo->lightmapVecsLuxelsPerWorldUnits[1][2]);
     bool bSwap = pSurf->CalcLuxelCoords(nLuxelsPerWorldUnit, false, vecU, vecV);
 
     // Set the face m_LightmapExtents
-    if (pFace)
-    {
+    if (pFace) {
         pFace->m_LightmapTextureSizeInLuxels[0] = pSurf->GetLuxelU();
         pFace->m_LightmapTextureSizeInLuxels[1] = pSurf->GetLuxelV();
-        if (bSwap)
-        {
-            if (pSwappedTexInfos[pMapDisp->face.texinfo] < 0)
-            {
+        if (bSwap) {
+            if (pSwappedTexInfos[pMapDisp->face.texinfo] < 0) {
                 // Create a new texinfo to hold the swapped data.
                 // We must do this because other surfaces may want the non-swapped data
                 // This fixes a lighting bug in d2_prison_08 where many non-displacement surfaces
@@ -230,8 +209,10 @@ void DispMapToCoreDispInfo(mapdispinfo_t* pMapDisp, CCoreDispInfo* pCoreDispInfo
 
                 // NOTE: Copy here because adding a texinfo could realloc.
                 texinfo_t temp = *pTexInfo;
-                memcpy(temp.lightmapVecsLuxelsPerWorldUnits[0], pTexInfo->lightmapVecsLuxelsPerWorldUnits[1], 4 * sizeof(float));
-                memcpy(temp.lightmapVecsLuxelsPerWorldUnits[1], pTexInfo->lightmapVecsLuxelsPerWorldUnits[0], 4 * sizeof(float));
+                memcpy(temp.lightmapVecsLuxelsPerWorldUnits[0], pTexInfo->lightmapVecsLuxelsPerWorldUnits[1],
+                       4 * sizeof(float));
+                memcpy(temp.lightmapVecsLuxelsPerWorldUnits[1], pTexInfo->lightmapVecsLuxelsPerWorldUnits[0],
+                       4 * sizeof(float));
                 temp.lightmapVecsLuxelsPerWorldUnits[1][0] *= -1.0f;
                 temp.lightmapVecsLuxelsPerWorldUnits[1][1] *= -1.0f;
                 temp.lightmapVecsLuxelsPerWorldUnits[1][2] *= -1.0f;
@@ -253,8 +234,7 @@ void DispMapToCoreDispInfo(mapdispinfo_t* pMapDisp, CCoreDispInfo* pCoreDispInfo
     float dispDists[2048];
     Assert(size < sizeof(vectorDisps) / sizeof(vectorDisps[0]));
 
-    for (int j = 0; j < size; j++)
-    {
+    for (int j = 0; j < size; j++) {
         Vector v;
         float dist;
 
@@ -271,25 +251,23 @@ void DispMapToCoreDispInfo(mapdispinfo_t* pMapDisp, CCoreDispInfo* pCoreDispInfo
 
     // Use CCoreDispInfo to setup the actual vertex positions.
     pCoreDispInfo->InitDispInfo(pMapDisp->power, pMapDisp->minTess, pMapDisp->smoothingAngle,
-        pMapDisp->alphaValues, vectorDisps, dispDists);
+                                pMapDisp->alphaValues, vectorDisps, dispDists);
     pCoreDispInfo->Create();
 }
 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void EmitInitialDispInfos(void)
-{
-    int					i;
-    mapdispinfo_t* pMapDisp;
-    ddispinfo_t* pDisp;
-    Vector				v;
+void EmitInitialDispInfos(void) {
+    int i;
+    mapdispinfo_t *pMapDisp;
+    ddispinfo_t *pDisp;
+    Vector v;
 
     // Calculate the total number of verts.
     int nTotalVerts = 0;
     int nTotalTris = 0;
-    for (i = 0; i < nummapdispinfo; i++)
-    {
+    for (i = 0; i < nummapdispinfo; i++) {
         nTotalVerts += NUM_DISP_POWER_VERTS(mapdispinfo[i].power);
         nTotalTris += NUM_DISP_POWER_TRIS(mapdispinfo[i].power);
     }
@@ -302,13 +280,12 @@ void EmitInitialDispInfos(void)
 
     int iCurVert = 0;
     int iCurTri = 0;
-    for (i = 0; i < nummapdispinfo; i++)
-    {
+    for (i = 0; i < nummapdispinfo; i++) {
         pDisp = &g_dispinfo[i];
         pMapDisp = &mapdispinfo[i];
 
-        CDispVert* pOutVerts = &g_DispVerts[iCurVert];
-        CDispTri* pOutTris = &g_DispTris[iCurTri];
+        CDispVert *pOutVerts = &g_DispVerts[iCurVert];
+        CDispTri *pOutTris = &g_DispTris[iCurTri];
 
         // Setup the vert pointers.
         pDisp->m_iDispVertStart = iCurVert;
@@ -326,7 +303,7 @@ void EmitInitialDispInfos(void)
         pDisp->minTess |= 0x80000000;
         //		pDisp->minTess = pMapDisp->minTess;
         pDisp->smoothingAngle = pMapDisp->smoothingAngle;
-        pDisp->m_iMapFace = (unsigned short)-2;
+        pDisp->m_iMapFace = (unsigned short) -2;
 
         // get surface contents
         pDisp->contents = pMapDisp->face.contents;
@@ -336,8 +313,7 @@ void EmitInitialDispInfos(void)
         // add up the vectorOffsets and displacements, save alphas (per vertex)
         //
         int size = (((1 << pDisp->power) + 1) * ((1 << pDisp->power) + 1));
-        for (int j = 0; j < size; j++)
-        {
+        for (int j = 0; j < size; j++) {
             VectorScale(pMapDisp->vectorDisps[j], pMapDisp->dispDists[j], v);
             VectorAdd(v, pMapDisp->vectorOffsets[j], v);
 
@@ -351,8 +327,7 @@ void EmitInitialDispInfos(void)
         }
 
         int nTriCount = ((1 << (pDisp->power)) * (1 << (pDisp->power)) * 2);
-        for (int iTri = 0; iTri < nTriCount; ++iTri)
-        {
+        for (int iTri = 0; iTri < nTriCount; ++iTri) {
             pOutTris[iTri].m_uiTags = pMapDisp->triTags[iTri];
         }
         //===================================================================
@@ -364,68 +339,58 @@ void EmitInitialDispInfos(void)
 }
 
 
-void ExportCoreDispNeighborData(const CCoreDispInfo* pIn, ddispinfo_t* pOut)
-{
-    for (int i = 0; i < 4; i++)
-    {
+void ExportCoreDispNeighborData(const CCoreDispInfo *pIn, ddispinfo_t *pOut) {
+    for (int i = 0; i < 4; i++) {
         pOut->m_EdgeNeighbors[i] = *pIn->GetEdgeNeighbor(i);
         pOut->m_CornerNeighbors[i] = *pIn->GetCornerNeighbors(i);
     }
 }
 
-void ExportNeighborData(CCoreDispInfo** ppListBase, ddispinfo_t* pBSPDispInfos, int listSize)
-{
+void ExportNeighborData(CCoreDispInfo **ppListBase, ddispinfo_t *pBSPDispInfos, int listSize) {
     FindNeighboringDispSurfs(ppListBase, listSize);
 
     // Export the neighbor data.
-    for (int i = 0; i < nummapdispinfo; i++)
-    {
+    for (int i = 0; i < nummapdispinfo; i++) {
         ExportCoreDispNeighborData(g_CoreDispInfos[i], &pBSPDispInfos[i]);
     }
 }
 
 
-void ExportCoreDispAllowedVertList(const CCoreDispInfo* pIn, ddispinfo_t* pOut)
-{
+void ExportCoreDispAllowedVertList(const CCoreDispInfo *pIn, ddispinfo_t *pOut) {
     ErrorIfNot(
-        pIn->GetAllowedVerts().GetNumDWords() == sizeof(pOut->m_AllowedVerts) / 4,
-        ("ExportCoreDispAllowedVertList: size mismatch")
+            pIn->GetAllowedVerts().GetNumDWords() == sizeof(pOut->m_AllowedVerts) / 4,
+            ("ExportCoreDispAllowedVertList: size mismatch")
     );
     for (int i = 0; i < pIn->GetAllowedVerts().GetNumDWords(); i++)
         pOut->m_AllowedVerts[i] = pIn->GetAllowedVerts().GetDWord(i);
 }
 
 
-void ExportAllowedVertLists(CCoreDispInfo** ppListBase, ddispinfo_t* pBSPDispInfos, int listSize)
-{
+void ExportAllowedVertLists(CCoreDispInfo **ppListBase, ddispinfo_t *pBSPDispInfos, int listSize) {
     SetupAllowedVerts(ppListBase, listSize);
 
-    for (int i = 0; i < listSize; i++)
-    {
+    for (int i = 0; i < listSize; i++) {
         ExportCoreDispAllowedVertList(ppListBase[i], &pBSPDispInfos[i]);
     }
 }
 
 bool FindEnclosingTri(
-    const Vector2D& vert,
-    CUtlVector<Vector2D>& vertCoords,
-    CUtlVector<unsigned short>& indices,
-    int* pStartVert,
-    float bcCoords[3])
-{
-    for (int i = 0; i < indices.Count(); i += 3)
-    {
+        const Vector2D &vert,
+        CUtlVector<Vector2D> &vertCoords,
+        CUtlVector<unsigned short> &indices,
+        int *pStartVert,
+        float bcCoords[3]) {
+    for (int i = 0; i < indices.Count(); i += 3) {
         GetBarycentricCoords2D(
-            vertCoords[indices[i + 0]],
-            vertCoords[indices[i + 1]],
-            vertCoords[indices[i + 2]],
-            vert,
-            bcCoords);
+                vertCoords[indices[i + 0]],
+                vertCoords[indices[i + 1]],
+                vertCoords[indices[i + 2]],
+                vert,
+                bcCoords);
 
         if (bcCoords[0] >= 0 && bcCoords[0] <= 1 &&
             bcCoords[1] >= 0 && bcCoords[1] <= 1 &&
-            bcCoords[2] >= 0 && bcCoords[2] <= 1)
-        {
+            bcCoords[2] >= 0 && bcCoords[2] <= 1) {
             *pStartVert = i;
             return true;
         }
@@ -434,8 +399,7 @@ bool FindEnclosingTri(
     return false;
 }
 
-void SnapRemainingVertsToSurface(CCoreDispInfo* pCoreDisp, ddispinfo_t* pDispInfo)
-{
+void SnapRemainingVertsToSurface(CCoreDispInfo *pCoreDisp, ddispinfo_t *pDispInfo) {
     // First, tesselate the displacement.
     CUtlVector<unsigned short> indices;
     //CVBSPTesselateHelper helper;
@@ -456,27 +420,22 @@ void SnapRemainingVertsToSurface(CCoreDispInfo* pCoreDisp, ddispinfo_t* pDispInf
     // barycentric coordinates, and the scale doesn't matter.
     CUtlVector<Vector2D> vertCoords;
     vertCoords.SetSize(pCoreDisp->GetSize());
-    for (int y = 0; y < pCoreDisp->GetHeight(); y++)
-    {
+    for (int y = 0; y < pCoreDisp->GetHeight(); y++) {
         for (int x = 0; x < pCoreDisp->GetWidth(); x++)
             vertCoords[y * pCoreDisp->GetWidth() + x].Init(x, y);
     }
 
     // Now, for each vert not touched, snap its position to the main surface.
-    for (int y = 0; y < pCoreDisp->GetHeight(); y++)
-    {
-        for (int x = 0; x < pCoreDisp->GetWidth(); x++)
-        {
+    for (int y = 0; y < pCoreDisp->GetHeight(); y++) {
+        for (int x = 0; x < pCoreDisp->GetWidth(); x++) {
             int index = y * pCoreDisp->GetWidth() + x;
-            if (!(vertsTouched[index]))
-            {
+            if (!(vertsTouched[index])) {
                 float bcCoords[3];
                 int iStartVert = -1;
-                if (FindEnclosingTri(vertCoords[index], vertCoords, indices, &iStartVert, bcCoords))
-                {
-                    const Vector& A = pCoreDisp->GetVert(indices[iStartVert + 0]);
-                    const Vector& B = pCoreDisp->GetVert(indices[iStartVert + 1]);
-                    const Vector& C = pCoreDisp->GetVert(indices[iStartVert + 2]);
+                if (FindEnclosingTri(vertCoords[index], vertCoords, indices, &iStartVert, bcCoords)) {
+                    const Vector &A = pCoreDisp->GetVert(indices[iStartVert + 0]);
+                    const Vector &B = pCoreDisp->GetVert(indices[iStartVert + 1]);
+                    const Vector &C = pCoreDisp->GetVert(indices[iStartVert + 2]);
                     Vector vNewPos = A * bcCoords[0] + B * bcCoords[1] + C * bcCoords[2];
 
                     // This is kind of cheesy, but it gets the job done. Since the CDispVerts store the
@@ -485,15 +444,13 @@ void SnapRemainingVertsToSurface(CCoreDispInfo* pCoreDisp, ddispinfo_t* pDispInf
                     Vector vOffset = vNewPos - pCoreDisp->GetVert(index);
 
                     // Modify the mapfile vert.
-                    CDispVert* pVert = &g_DispVerts[pDispInfo->m_iDispVertStart + index];
+                    CDispVert *pVert = &g_DispVerts[pDispInfo->m_iDispVertStart + index];
                     pVert->m_vVector = (pVert->m_vVector * pVert->m_flDist) + vOffset;
                     pVert->m_flDist = 1;
 
                     // Modify the CCoreDispInfo vert (although it probably won't be used later).
                     pCoreDisp->SetVert(index, vNewPos);
-                }
-                else
-                {
+                } else {
                     // This shouldn't happen because it would mean that the triangulation that 
                     // disp_tesselation.h produced was missing a chunk of the space that the
                     // displacement covers. 
@@ -506,30 +463,25 @@ void SnapRemainingVertsToSurface(CCoreDispInfo* pCoreDisp, ddispinfo_t* pDispInf
     }
 }
 
-void SnapRemainingVertsToSurface(CCoreDispInfo** ppListBase, ddispinfo_t* pBSPDispInfos, int listSize)
-{
+void SnapRemainingVertsToSurface(CCoreDispInfo **ppListBase, ddispinfo_t *pBSPDispInfos, int listSize) {
     //g_pPad = ScratchPad3D_Create();
-    for (int i = 0; i < listSize; i++)
-    {
+    for (int i = 0; i < listSize; i++) {
         SnapRemainingVertsToSurface(ppListBase[i], &pBSPDispInfos[i]);
     }
 }
 
-void EmitDispLMAlphaAndNeighbors()
-{
+void EmitDispLMAlphaAndNeighbors() {
     int i;
 
     Msg("Finding displacement neighbors...\n");
 
     // Build the CCoreDispInfos.
-    CUtlVector<dface_t*> faces;
+    CUtlVector<dface_t *> faces;
 
     // Create the core dispinfos and init them for use as CDispUtilsHelpers.
-    for (int iDisp = 0; iDisp < nummapdispinfo; ++iDisp)
-    {
-        CCoreDispInfo* pDisp = new CCoreDispInfo;
-        if (!pDisp)
-        {
+    for (int iDisp = 0; iDisp < nummapdispinfo; ++iDisp) {
+        CCoreDispInfo *pDisp = new CCoreDispInfo;
+        if (!pDisp) {
             g_CoreDispInfos.Purge();
             return;
         }
@@ -539,31 +491,29 @@ void EmitDispLMAlphaAndNeighbors()
         g_CoreDispInfos[nIndex] = pDisp;
     }
 
-    for (i = 0; i < nummapdispinfo; i++)
-    {
+    for (i = 0; i < nummapdispinfo; i++) {
         g_CoreDispInfos[i]->SetDispUtilsHelperInfo(g_CoreDispInfos.Base(), nummapdispinfo);
     }
 
     faces.SetSize(nummapdispinfo);
 
     int nMemSize = texinfo.Count() * sizeof(int);
-    int* pSwappedTexInfos = (int*)stackalloc(nMemSize);
+    int *pSwappedTexInfos = (int *) stackalloc(nMemSize);
     memset(pSwappedTexInfos, 0xFF, nMemSize);
-    for (i = 0; i < numfaces; i++)
-    {
-        dface_t* pFace = &dfaces[i];
+    for (i = 0; i < numfaces; i++) {
+        dface_t *pFace = &dfaces[i];
 
         if (pFace->dispinfo == -1)
             continue;
 
-        mapdispinfo_t* pMapDisp = &mapdispinfo[pFace->dispinfo];
+        mapdispinfo_t *pMapDisp = &mapdispinfo[pFace->dispinfo];
 
         // Set the displacement's face index.
-        ddispinfo_t* pDisp = &g_dispinfo[pFace->dispinfo];
+        ddispinfo_t *pDisp = &g_dispinfo[pFace->dispinfo];
         pDisp->m_iMapFace = i;
 
         // Get a CCoreDispInfo. All we need is the triangles and lightmap texture coordinates.
-        CCoreDispInfo* pCoreDispInfo = g_CoreDispInfos[pFace->dispinfo];
+        CCoreDispInfo *pCoreDispInfo = g_CoreDispInfos[pFace->dispinfo];
         DispMapToCoreDispInfo(pMapDisp, pCoreDispInfo, pFace, pSwappedTexInfos);
 
         faces[pFace->dispinfo] = pFace;
@@ -583,11 +533,10 @@ void EmitDispLMAlphaAndNeighbors()
     SnapRemainingVertsToSurface(g_CoreDispInfos.Base(), g_dispinfo.Base(), nummapdispinfo);
 
     Msg("Finding lightmap sample positions...\n");
-    for (i = 0; i < nummapdispinfo; i++)
-    {
-        dface_t* pFace = faces[i];
-        ddispinfo_t* pDisp = &g_dispinfo[pFace->dispinfo];
-        CCoreDispInfo* pCoreDispInfo = g_CoreDispInfos[i];
+    for (i = 0; i < nummapdispinfo; i++) {
+        dface_t *pFace = faces[i];
+        ddispinfo_t *pDisp = &g_dispinfo[pFace->dispinfo];
+        CCoreDispInfo *pCoreDispInfo = g_CoreDispInfos[i];
 
         pDisp->m_iLightmapSamplePositionStart = g_DispLightmapSamplePositions.Count();
 
@@ -597,13 +546,12 @@ void EmitDispLMAlphaAndNeighbors()
     StartPacifier("Displacement Alpha : ");
 
     // Build lightmap alphas.
-    int dispCount = 0;	// How many we've processed.
-    for (i = 0; i < nummapdispinfo; i++)
-    {
-        dface_t* pFace = faces[i];
+    int dispCount = 0;    // How many we've processed.
+    for (i = 0; i < nummapdispinfo; i++) {
+        dface_t *pFace = faces[i];
 
         Assert(pFace->dispinfo == i);
-        ddispinfo_t* pDisp = &g_dispinfo[pFace->dispinfo];
+        ddispinfo_t *pDisp = &g_dispinfo[pFace->dispinfo];
 
         // Allocate space for the alpha values.
         pDisp->m_iLightmapAlphaStart = 0; // not used anymore
@@ -617,26 +565,24 @@ void EmitDispLMAlphaAndNeighbors()
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void DispGetFaceInfo(mapbrush_t* pBrush)
-{
-    int		i;
-    side_t* pSide;
+void DispGetFaceInfo(mapbrush_t *pBrush) {
+    int i;
+    side_t *pSide;
 
     // we don't support displacement on entities at the moment!!
-    if (pBrush->entitynum != 0)
-    {
-        char* pszEntityName = ValueForKey(&g_LoadingMap->entities[pBrush->entitynum], "classname");
-        Error("Error: displacement found on a(n) %s entity - not supported (entity %d, brush %d)\n", pszEntityName, pBrush->entitynum, pBrush->brushnum);
+    if (pBrush->entitynum != 0) {
+        char *pszEntityName = ValueForKey(&g_LoadingMap->entities[pBrush->entitynum], "classname");
+        Error("Error: displacement found on a(n) %s entity - not supported (entity %d, brush %d)\n", pszEntityName,
+              pBrush->entitynum, pBrush->brushnum);
     }
 
-    for (i = 0; i < pBrush->numsides; i++)
-    {
+    for (i = 0; i < pBrush->numsides; i++) {
         pSide = &pBrush->original_sides[i];
-        if (pSide->pMapDisp)
-        {
+        if (pSide->pMapDisp) {
             // error checking!!
             if (pSide->winding->numpoints != 4)
-                Error("Trying to create a non-quad displacement! (entity %d, brush %d)\n", pBrush->entitynum, pBrush->brushnum);
+                Error("Trying to create a non-quad displacement! (entity %d, brush %d)\n", pBrush->entitynum,
+                      pBrush->brushnum);
             pSide->pMapDisp->face.originalface = pSide;
             pSide->pMapDisp->face.texinfo = pSide->texinfo;
             pSide->pMapDisp->face.dispinfo = -1;
@@ -658,13 +604,11 @@ void DispGetFaceInfo(mapbrush_t* pBrush)
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool HasDispInfo(mapbrush_t* pBrush)
-{
-    int		i;
-    side_t* pSide;
+bool HasDispInfo(mapbrush_t *pBrush) {
+    int i;
+    side_t *pSide;
 
-    for (i = 0; i < pBrush->numsides; i++)
-    {
+    for (i = 0; i < pBrush->numsides; i++) {
         pSide = &pBrush->original_sides[i];
         if (pSide->pMapDisp)
             return true;

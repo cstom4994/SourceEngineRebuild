@@ -90,6 +90,7 @@ license you like.
 
 #ifndef JSON_CONFIG_H_INCLUDED
 #define JSON_CONFIG_H_INCLUDED
+
 #include <cstddef>
 #include <cstdint>
 #include <istream>
@@ -184,7 +185,7 @@ extern JSON_API int msvc_pre1900_c99_snprintf(char* outBuf, size_t size,
 #define JSONCPP_DEPRECATED(message) __attribute__((__deprecated__))
 #endif                  // GNUC version
 #elif defined(_MSC_VER) // MSVC (after clang because clang on Windows emulates
-                        // MSVC)
+// MSVC)
 #define JSONCPP_DEPRECATED(message) __declspec(deprecated(message))
 #endif // __clang__ || __GNUC__ || _MSC_VER
 
@@ -204,39 +205,40 @@ extern JSON_API int msvc_pre1900_c99_snprintf(char* outBuf, size_t size,
 #endif // if !defined(JSON_IS_AMALGAMATION)
 
 namespace Json {
-using Int = int;
-using UInt = unsigned int;
+    using Int = int;
+    using UInt = unsigned int;
 #if defined(JSON_NO_INT64)
-using LargestInt = int;
-using LargestUInt = unsigned int;
+    using LargestInt = int;
+    using LargestUInt = unsigned int;
 #undef JSON_HAS_INT64
 #else                 // if defined(JSON_NO_INT64)
 // For Microsoft Visual use specific types as long long is not supported
 #if defined(_MSC_VER) // Microsoft Visual Studio
-using Int64 = __int64;
-using UInt64 = unsigned __int64;
+    using Int64 = __int64;
+    using UInt64 = unsigned __int64;
 #else                 // if defined(_MSC_VER) // Other platforms, use long long
-using Int64 = int64_t;
-using UInt64 = uint64_t;
+    using Int64 = int64_t;
+    using UInt64 = uint64_t;
 #endif                // if defined(_MSC_VER)
-using LargestInt = Int64;
-using LargestUInt = UInt64;
+    using LargestInt = Int64;
+    using LargestUInt = UInt64;
 #define JSON_HAS_INT64
 #endif // if defined(JSON_NO_INT64)
 
-template <typename T>
-using Allocator =
-    typename std::conditional<JSONCPP_USING_SECURE_MEMORY, SecureAllocator<T>,
-                              std::allocator<T>>::type;
-using String = std::basic_string<char, std::char_traits<char>, Allocator<char>>;
-using IStringStream =
+    template<typename T>
+    using Allocator =
+    typename std::conditional<JSONCPP_USING_SECURE_MEMORY, SecureAllocator < T>,
+    std::allocator<T>>
+    ::type;
+    using String = std::basic_string<char, std::char_traits<char>, Allocator<char>>;
+    using IStringStream =
     std::basic_istringstream<String::value_type, String::traits_type,
-                             String::allocator_type>;
-using OStringStream =
+            String::allocator_type>;
+    using OStringStream =
     std::basic_ostringstream<String::value_type, String::traits_type,
-                             String::allocator_type>;
-using IStream = std::istream;
-using OStream = std::ostream;
+            String::allocator_type>;
+    using IStream = std::istream;
+    using OStream = std::ostream;
 } // namespace Json
 
 // Legacy names (formerly macros).
@@ -276,30 +278,44 @@ using JSONCPP_OSTREAM = Json::OStream;
 namespace Json {
 
 // writer.h
-class StreamWriter;
-class StreamWriterBuilder;
-class Writer;
-class FastWriter;
-class StyledWriter;
-class StyledStreamWriter;
+    class StreamWriter;
+
+    class StreamWriterBuilder;
+
+    class Writer;
+
+    class FastWriter;
+
+    class StyledWriter;
+
+    class StyledStreamWriter;
 
 // reader.h
-class Reader;
-class CharReader;
-class CharReaderBuilder;
+    class Reader;
+
+    class CharReader;
+
+    class CharReaderBuilder;
 
 // json_features.h
-class Features;
+    class Features;
 
 // value.h
-using ArrayIndex = unsigned int;
-class StaticString;
-class Path;
-class PathArgument;
-class Value;
-class ValueIteratorBase;
-class ValueIterator;
-class ValueConstIterator;
+    using ArrayIndex = unsigned int;
+
+    class StaticString;
+
+    class Path;
+
+    class PathArgument;
+
+    class Value;
+
+    class ValueIteratorBase;
+
+    class ValueIterator;
+
+    class ValueConstIterator;
 
 } // namespace Json
 

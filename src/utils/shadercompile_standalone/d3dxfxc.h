@@ -9,7 +9,7 @@
 #ifndef D3DXFXC_H
 #define D3DXFXC_H
 #ifdef _WIN32
-	#pragma once
+#pragma once
 #endif
 
 #include "basetypes.h"
@@ -17,39 +17,40 @@
 
 #include "robin_hood.h"
 
-class CSharedFile final : private std::vector<char>
-{
+class CSharedFile final : private std::vector<char> {
 public:
-	CSharedFile( std::vector<char>&& data ) noexcept;
-	using std::vector<char>::vector;
-	~CSharedFile() = default;
+    CSharedFile(std::vector<char> &&data) noexcept;
 
-	[[nodiscard]] const void* Data() const noexcept { return data(); }
-	[[nodiscard]] size_t Size() const noexcept { return size(); }
+    using std::vector<char>::vector;
+
+    ~CSharedFile() = default;
+
+    [[nodiscard]] const void *Data() const noexcept { return data(); }
+
+    [[nodiscard]] size_t Size() const noexcept { return size(); }
 };
 
-class FileCache final
-{
+class FileCache final {
 public:
-	FileCache() = default;
-	~FileCache() { Clear(); }
+    FileCache() = default;
 
-	void Add( const std::string& fileName, std::vector<char>&& data );
+    ~FileCache() { Clear(); }
 
-	[[nodiscard]] const CSharedFile* Get( const std::string& filename );
+    void Add(const std::string &fileName, std::vector<char> &&data);
 
-	void Clear();
+    [[nodiscard]] const CSharedFile *Get(const std::string &filename);
+
+    void Clear();
 
 protected:
-	typedef robin_hood::unordered_node_map<std::string, CSharedFile> Mapping;
-	Mapping m_map;
+    typedef robin_hood::unordered_node_map<std::string, CSharedFile> Mapping;
+    Mapping m_map;
 };
 
 extern FileCache fileCache;
 
-namespace InterceptFxc
-{
-	void ExecuteCommand( const char* pCommand, CmdSink::IResponse** ppResponse, unsigned long flags );
+namespace InterceptFxc {
+    void ExecuteCommand(const char *pCommand, CmdSink::IResponse **ppResponse, unsigned long flags);
 }; // namespace InterceptFxc
 
 #endif // #ifndef D3DXFXC_H

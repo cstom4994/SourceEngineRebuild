@@ -1409,7 +1409,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         Jpeglib
         lzma
 
-        steamemu
+        steam_api
 
         dsound
         dxguid

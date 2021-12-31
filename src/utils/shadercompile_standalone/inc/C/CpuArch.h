@@ -48,11 +48,11 @@ If MY_CPU_LE_UNALIGN is not defined, we don't know about these properties of pla
 #define MY_CPU_LE_UNALIGN
 #endif
 
-#if defined(MY_CPU_X86_OR_AMD64) || defined(MY_CPU_ARM_LE)  || defined(MY_CPU_IA64_LE) || defined(__ARMEL__) || defined(__MIPSEL__) || defined(__LITTLE_ENDIAN__)
+#if defined(MY_CPU_X86_OR_AMD64) || defined(MY_CPU_ARM_LE) || defined(MY_CPU_IA64_LE) || defined(__ARMEL__) || defined(__MIPSEL__) || defined(__LITTLE_ENDIAN__)
 #define MY_CPU_LE
 #endif
 
-#if defined(__BIG_ENDIAN__) || defined(__m68k__) ||  defined(__ARMEB__) || defined(__MIPSEB__)
+#if defined(__BIG_ENDIAN__) || defined(__m68k__) || defined(__ARMEB__) || defined(__MIPSEB__)
 #define MY_CPU_BE
 #endif
 
@@ -123,21 +123,19 @@ Stop_Compiling_Bad_Endian
 
 #ifdef MY_CPU_X86_OR_AMD64
 
-typedef struct
-{
-  UInt32 maxFunc;
-  UInt32 vendor[3];
-  UInt32 ver;
-  UInt32 b;
-  UInt32 c;
-  UInt32 d;
+typedef struct {
+    UInt32 maxFunc;
+    UInt32 vendor[3];
+    UInt32 ver;
+    UInt32 b;
+    UInt32 c;
+    UInt32 d;
 } Cx86cpuid;
 
-enum
-{
-  CPU_FIRM_INTEL,
-  CPU_FIRM_AMD,
-  CPU_FIRM_VIA
+enum {
+    CPU_FIRM_INTEL,
+    CPU_FIRM_AMD,
+    CPU_FIRM_VIA
 };
 
 Bool x86cpuid_CheckAndRead(Cx86cpuid *p);

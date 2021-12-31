@@ -14,10 +14,9 @@
 
 #include "cmdsink.h"
 
-namespace InterceptFxc
-{
+namespace InterceptFxc {
 
-	bool TryExecuteCommand( const char *pCommand, CmdSink::IResponse **ppResponse );
+    bool TryExecuteCommand(const char *pCommand, CmdSink::IResponse **ppResponse);
 
 }; // namespace InterceptFxc
 

@@ -18,7 +18,7 @@
 #if defined(USE_ASM) && !defined(MY_CPU_AMD64)
 static UInt32 CheckFlag(UInt32 flag)
 {
-  #ifdef _MSC_VER
+#ifdef _MSC_VER
   __asm pushfd;
   __asm pop EAX;
   __asm mov EDX, EAX;
@@ -31,7 +31,7 @@ static UInt32 CheckFlag(UInt32 flag)
   __asm push EDX;
   __asm popfd;
   __asm and flag, EAX;
-  #else
+#else
   __asm__ __volatile__ (
     "pushf\n\t"
     "pop  %%EAX\n\t"
@@ -46,7 +46,7 @@ static UInt32 CheckFlag(UInt32 flag)
     "popf\n\t"
     "andl %%EAX, %0\n\t":
     "=c" (flag) : "c" (flag));
-  #endif
+#endif
   return flag;
 }
 #define CHECK_CPUID_IS_SUPPORTED if (CheckFlag(1 << 18) == 0 || CheckFlag(1 << 21) == 0) return False;
@@ -56,9 +56,9 @@ static UInt32 CheckFlag(UInt32 flag)
 
 static void MyCPUID(UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d)
 {
-  #ifdef USE_ASM
+#ifdef USE_ASM
 
-  #ifdef _MSC_VER
+#ifdef _MSC_VER
 
   UInt32 a2, b2, c2, d2;
   __asm xor EBX, EBX;
@@ -76,27 +76,27 @@ static void MyCPUID(UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d)
   *c = c2;
   *d = d2;
 
-  #else
+#else
 
   __asm__ __volatile__ (
-  #if defined(MY_CPU_X86) && defined(__PIC__)
+#if defined(MY_CPU_X86) && defined(__PIC__)
     "mov %%ebx, %%edi;"
     "cpuid;"
     "xchgl %%ebx, %%edi;"
     : "=a" (*a) ,
       "=D" (*b) ,
-  #else
+#else
     "cpuid"
     : "=a" (*a) ,
       "=b" (*b) ,
-  #endif
+#endif
       "=c" (*c) ,
       "=d" (*d)
     : "0" (function)) ;
 
-  #endif
-  
-  #else
+#endif
+
+#else
 
   int CPUInfo[4];
   __cpuid(CPUInfo, function);
@@ -105,7 +105,7 @@ static void MyCPUID(UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d)
   *c = CPUInfo[2];
   *d = CPUInfo[3];
 
-  #endif
+#endif
 }
 
 Bool x86cpuid_CheckAndRead(Cx86cpuid *p)

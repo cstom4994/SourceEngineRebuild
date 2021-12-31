@@ -10,11 +10,10 @@ EXTERN_C_BEGIN
 
 #define SHA256_DIGEST_SIZE 32
 
-typedef struct
-{
-  UInt32 state[8];
-  UInt64 count;
-  Byte buffer[64];
+typedef struct {
+    UInt32 state[8];
+    UInt64 count;
+    Byte buffer[64];
 } CSha256;
 
 void Sha256_Init(CSha256 *p);

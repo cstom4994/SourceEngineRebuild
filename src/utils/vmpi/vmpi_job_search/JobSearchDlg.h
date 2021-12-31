@@ -22,62 +22,72 @@
 /////////////////////////////////////////////////////////////////////////////
 // CJobSearchDlg dialog
 
-class CJobSearchDlg : public CDialog
-{
+class CJobSearchDlg : public CDialog {
 // Construction
 public:
-	CJobSearchDlg(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CJobSearchDlg();
+    CJobSearchDlg(CWnd *pParent = NULL);   // standard constructor
+    virtual ~CJobSearchDlg();
 
 // Dialog Data
-	//{{AFX_DATA(CJobSearchDlg)
-	enum { IDD = IDD_VMPI_JOB_SEARCH };
-	CListBox	m_WorkerList;
-	CListBox	m_UserList;
-	CListCtrl	m_JobsList;
-	//}}AFX_DATA
+    //{{AFX_DATA(CJobSearchDlg)
+    enum {
+        IDD = IDD_VMPI_JOB_SEARCH
+    };
+    CListBox m_WorkerList;
+    CListBox m_UserList;
+    CListCtrl m_JobsList;
+    //}}AFX_DATA
 
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CJobSearchDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CJobSearchDlg)
+protected:
+    virtual void DoDataExchange(CDataExchange *pDX);    // DDX/DDV support
+    //}}AFX_VIRTUAL
 
 // Implementation
 protected:
 
-	void ClearJobsList();
-	void RepopulateJobsList();
+    void ClearJobsList();
 
-	void PopulateWorkerList( CUtlVector<char*> &computerNames );
-	void PopulateUserList( CUtlVector<char*> &computerNames );
+    void RepopulateJobsList();
 
-	int GetSelectedJobIndex();
+    void PopulateWorkerList(CUtlVector<char *> &computerNames);
 
-	
-	// Info on how we connected to the database so we can pass it to apps we launch.
-	CString	m_DBName, m_HostName, m_UserName;
-	
-	
-	IMySQL*	GetMySQL()	{ return m_pSQL; }
-	IMySQL	*m_pSQL;
-	CSysModule *m_hMySQLDLL;
+    void PopulateUserList(CUtlVector<char *> &computerNames);
 
-	CWindowAnchorMgr	m_AnchorMgr;
+    int GetSelectedJobIndex();
 
 
-	// Generated message map functions
-	//{{AFX_MSG(CJobSearchDlg)
-	afx_msg void OnDblclkJobsList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkUserList();
-	afx_msg void OnDblclkWorkerList();
-	virtual BOOL OnInitDialog();
-	afx_msg void OnQuit();
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Info on how we connected to the database so we can pass it to apps we launch.
+    CString m_DBName, m_HostName, m_UserName;
+
+
+    IMySQL *GetMySQL() { return m_pSQL; }
+
+    IMySQL *m_pSQL;
+    CSysModule *m_hMySQLDLL;
+
+    CWindowAnchorMgr m_AnchorMgr;
+
+
+    // Generated message map functions
+    //{{AFX_MSG(CJobSearchDlg)
+    afx_msg void OnDblclkJobsList(NMHDR *pNMHDR, LRESULT *pResult);
+
+    afx_msg void OnDblclkUserList();
+
+    afx_msg void OnDblclkWorkerList();
+
+    virtual BOOL OnInitDialog();
+
+    afx_msg void OnQuit();
+
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

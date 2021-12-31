@@ -9,7 +9,9 @@
 #endif
 
 #ifdef USE_WINDOWS_FILE
+
 #include <windows.h>
+
 #else
 #include <stdio.h>
 #endif
@@ -20,13 +22,12 @@ EXTERN_C_BEGIN
 
 /* ---------- File ---------- */
 
-typedef struct
-{
-  #ifdef USE_WINDOWS_FILE
-  HANDLE handle;
-  #else
-  FILE *file;
-  #endif
+typedef struct {
+#ifdef USE_WINDOWS_FILE
+    HANDLE handle;
+#else
+    FILE *file;
+#endif
 } CSzFile;
 
 void File_Construct(CSzFile *p);
@@ -52,28 +53,25 @@ WRes File_GetLength(CSzFile *p, UInt64 *length);
 
 /* ---------- FileInStream ---------- */
 
-typedef struct
-{
-  ISeqInStream s;
-  CSzFile file;
+typedef struct {
+    ISeqInStream s;
+    CSzFile file;
 } CFileSeqInStream;
 
 void FileSeqInStream_CreateVTable(CFileSeqInStream *p);
 
 
-typedef struct
-{
-  ISeekInStream s;
-  CSzFile file;
+typedef struct {
+    ISeekInStream s;
+    CSzFile file;
 } CFileInStream;
 
 void FileInStream_CreateVTable(CFileInStream *p);
 
 
-typedef struct
-{
-  ISeqOutStream s;
-  CSzFile file;
+typedef struct {
+    ISeqOutStream s;
+    CSzFile file;
 } CFileOutStream;
 
 void FileOutStream_CreateVTable(CFileOutStream *p);

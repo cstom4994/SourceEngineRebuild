@@ -17,30 +17,27 @@
 #include "utlvector.h"
 
 
-class CGraphEntry
-{
+class CGraphEntry {
 public:
-	CGraphEntry() :
-	  m_msTime( 0 ),
-	  m_nBytesSent( 0 ),
-	  m_nBytesReceived( 0 )
-	{
-	}
+    CGraphEntry() :
+            m_msTime(0),
+            m_nBytesSent(0),
+            m_nBytesReceived(0) {
+    }
 
-	int	m_msTime;
-	int	m_nBytesSent;
-	int	m_nBytesReceived;
+    int m_msTime;
+    int m_nBytesSent;
+    int m_nBytesReceived;
 };
 
 
 /////////////////////////////////////////////////////////////////////////////
 // CGraphControl window
 
-class CGraphControl : public CWnd
-{
+class CGraphControl : public CWnd {
 // Construction
 public:
-	CGraphControl();
+    CGraphControl();
 
 // Attributes
 public:
@@ -48,34 +45,35 @@ public:
 // Operations
 public:
 
-	void		Clear();
+    void Clear();
 
-	// This function assumes you've already run the query and the graph_entry's are selected in.
-	void		Fill( CUtlVector<CGraphEntry> &entries );
+    // This function assumes you've already run the query and the graph_entry's are selected in.
+    void Fill(CUtlVector<CGraphEntry> &entries);
 
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CGraphControl)
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CGraphControl)
+    //}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~CGraphControl();
+    virtual ~CGraphControl();
 
 
 protected:
 
-	void	Render( CDC *pDC );
+    void Render(CDC *pDC);
 
-	CUtlVector<CGraphEntry>	m_Entries;
+    CUtlVector<CGraphEntry> m_Entries;
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CGraphControl)
-	afx_msg void OnPaint();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CGraphControl)
+    afx_msg void OnPaint();
+
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,9 @@
 #define __7Z_THREADS_H
 
 #ifdef _WIN32
+
 #include <windows.h>
+
 #endif
 
 #include "7zTypes.h"
@@ -23,15 +25,15 @@ typedef HANDLE CThread;
 
 typedef
 #ifdef UNDER_CE
-  DWORD
+DWORD
 #else
-  unsigned
+unsigned
 #endif
-  THREAD_FUNC_RET_TYPE;
+        THREAD_FUNC_RET_TYPE;
 
 #define THREAD_FUNC_CALL_TYPE MY_STD_CALL
 #define THREAD_FUNC_DECL THREAD_FUNC_RET_TYPE THREAD_FUNC_CALL_TYPE
-typedef THREAD_FUNC_RET_TYPE (THREAD_FUNC_CALL_TYPE * THREAD_FUNC_TYPE)(void *);
+typedef THREAD_FUNC_RET_TYPE (THREAD_FUNC_CALL_TYPE *THREAD_FUNC_TYPE)(void *);
 WRes Thread_Create(CThread *p, THREAD_FUNC_TYPE func, LPVOID param);
 
 typedef HANDLE CEvent;

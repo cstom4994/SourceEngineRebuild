@@ -646,7 +646,7 @@ static int __cdecl CompareDupComboIndices(const StaticComboAliasRecord_t *pA, co
     return 0;
 }
 
-static void FlushCombos(size_t * pnTotalFlushedSize, CUtlBuffer * pDynamicComboBuffer, MessageBuffer * pBuf) {
+static void FlushCombos(size_t *pnTotalFlushedSize, CUtlBuffer *pDynamicComboBuffer, MessageBuffer *pBuf) {
     if (!pDynamicComboBuffer->TellPut())
         // Nothing to do here
         return;
@@ -677,58 +677,54 @@ static void FlushCombos(size_t * pnTotalFlushedSize, CUtlBuffer * pDynamicComboB
     pDynamicComboBuffer->Clear();                            // start over
 }
 
-static void OutputDynamicCombo(size_t * pnTotalFlushedSize, CUtlBuffer * pDynamicComboBuffer,
-                               MessageBuffer * pBuf, uint64
-nComboID,
-int nComboSize,
-        uint8
-* pComboCode)
-{
-if (pDynamicComboBuffer->
+static void OutputDynamicCombo(size_t *pnTotalFlushedSize, CUtlBuffer *pDynamicComboBuffer,
+                               MessageBuffer *pBuf, uint64
+                               nComboID,
+                               int nComboSize,
+                               uint8
+                               *pComboCode) {
+    if (pDynamicComboBuffer->
 
-TellPut()
+            TellPut()
 
-+ nComboSize + 16 >= MAX_SHADER_UNPACKED_BLOCK_SIZE)
-{
-FlushCombos(pnTotalFlushedSize, pDynamicComboBuffer, pBuf
-);
-}
+        + nComboSize + 16 >= MAX_SHADER_UNPACKED_BLOCK_SIZE) {
+        FlushCombos(pnTotalFlushedSize, pDynamicComboBuffer, pBuf
+        );
+    }
 
-pDynamicComboBuffer->
+    pDynamicComboBuffer->
 
-PutInt (uint64_as_uint32(nComboID));
+            PutInt(uint64_as_uint32(nComboID));
 
-pDynamicComboBuffer->
-PutInt(nComboSize);
+    pDynamicComboBuffer->
+            PutInt(nComboSize);
 //	pDynamicComboBuffer->PutInt( CRC32_ProcessSingleBuffer( pComboCode, nComboSize ) );
-pDynamicComboBuffer->
-Put(pComboCode, nComboSize
-);
+    pDynamicComboBuffer->
+            Put(pComboCode, nComboSize
+    );
 }
 
-static void OutputDynamicComboDup(size_t * pnTotalFlushedSize, CUtlBuffer * pDynamicComboBuffer,
-                                  MessageBuffer * pBuf, uint64
-nComboID,
-uint64 nBaseCombo
-)
-{
-if (pDynamicComboBuffer->
+static void OutputDynamicComboDup(size_t *pnTotalFlushedSize, CUtlBuffer *pDynamicComboBuffer,
+                                  MessageBuffer *pBuf, uint64
+                                  nComboID,
+                                  uint64 nBaseCombo
+) {
+    if (pDynamicComboBuffer->
 
-TellPut()
+            TellPut()
 
-+ 8 >= MAX_SHADER_UNPACKED_BLOCK_SIZE)
-{
-FlushCombos(pnTotalFlushedSize, pDynamicComboBuffer, pBuf
-);
-}
-pDynamicComboBuffer->
+        + 8 >= MAX_SHADER_UNPACKED_BLOCK_SIZE) {
+        FlushCombos(pnTotalFlushedSize, pDynamicComboBuffer, pBuf
+        );
+    }
+    pDynamicComboBuffer->
 
-PutInt (uint64_as_uint32(nComboID)
+            PutInt(uint64_as_uint32(nComboID)
 
-| 0x80000000);
-pDynamicComboBuffer->
-PutInt(uint64_as_uint32(nBaseCombo)
-);
+                   | 0x80000000);
+    pDynamicComboBuffer->
+            PutInt(uint64_as_uint32(nBaseCombo)
+    );
 }
 
 void GetVCSFilenames(char *pszMainOutFileName, ShaderInfo_t const &si) {
@@ -1071,7 +1067,7 @@ void Master_ReceiveWorkUnitFn(uint64 iWorkUnit, MessageBuffer *pBuf, int iWorker
         }
 
         // Read buffer
-        uint8 * pCodeBuffer = StaticComboFromDictAdd(chShaderName, nComboOfTheEntry)->AllocPackedCodeBlock(len);
+        uint8 *pCodeBuffer = StaticComboFromDictAdd(chShaderName, nComboOfTheEntry)->AllocPackedCodeBlock(len);
 
         if (pCodeBuffer)
             pBuf->read(pCodeBuffer, len);
@@ -1606,8 +1602,8 @@ void CWorkerAccumState<TMutexType>::TryToPackageData(uint64 iCommandNumber) {
         if (nPackedLength) {
             // Packed buffer
             GLOBAL_DATA_MTX_LOCK();
-            uint8 * pCodeBuffer = StaticComboFromDictAdd(pInfoBegin->m_szName,
-                                                         nComboBegin)->AllocPackedCodeBlock(nPackedLength);
+            uint8 *pCodeBuffer = StaticComboFromDictAdd(pInfoBegin->m_szName,
+                                                        nComboBegin)->AllocPackedCodeBlock(nPackedLength);
             GLOBAL_DATA_MTX_UNLOCK();
 
             if (pCodeBuffer)

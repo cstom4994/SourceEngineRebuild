@@ -415,7 +415,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 
         cryptlib
 
-        steamemu
+        steam_api
 
 
         "shell32;"

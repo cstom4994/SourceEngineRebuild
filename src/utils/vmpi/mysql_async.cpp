@@ -10,266 +10,237 @@
 #include "utllinkedlist.h"
 
 
-static char* CopyString( const char *pStr )
-{
-	char *pRet = new char[ strlen( pStr ) + 1 ];
-	strcpy( pRet, pStr );
-	return pRet;
+static char *CopyString(const char *pStr) {
+    char *pRet = new char[strlen(pStr) + 1];
+    strcpy(pRet, pStr);
+    return pRet;
 }
 
 
-class CMySQLAsync : public IMySQLAsync
-{
+class CMySQLAsync : public IMySQLAsync {
 public:
-	
-	CMySQLAsync()
-	{
-		m_hThread = NULL;
-		m_pSQL = NULL;
 
-		m_hExitEvent = CreateEvent( NULL, true, false, NULL );	// Use manual reset because we want it to cascade out without
-																// resetting the event if it gets set.
-		m_hPendingQueryEvent = CreateEvent( NULL, false, false, NULL );
-		m_hQueryResultsEvent = CreateEvent( NULL, false, false, NULL );
-		
-		InitializeCriticalSection( &m_ExecuteQueryCS );
-		InitializeCriticalSection( &m_PendingQueryCS );
-	}
+    CMySQLAsync() {
+        m_hThread = NULL;
+        m_pSQL = NULL;
 
-	~CMySQLAsync()
-	{
-		Term();
-		
-		CloseHandle( m_hExitEvent );
-		CloseHandle( m_hPendingQueryEvent );
-		CloseHandle( m_hQueryResultsEvent );
+        m_hExitEvent = CreateEvent(NULL, true, false,
+                                   NULL);    // Use manual reset because we want it to cascade out without
+        // resetting the event if it gets set.
+        m_hPendingQueryEvent = CreateEvent(NULL, false, false, NULL);
+        m_hQueryResultsEvent = CreateEvent(NULL, false, false, NULL);
 
-		DeleteCriticalSection( &m_ExecuteQueryCS );
-		DeleteCriticalSection( &m_PendingQueryCS );
-	}
+        InitializeCriticalSection(&m_ExecuteQueryCS);
+        InitializeCriticalSection(&m_PendingQueryCS);
+    }
 
-	virtual void Release()
-	{
-		delete this;
-	}
+    ~CMySQLAsync() {
+        Term();
 
-	virtual IMySQLRowSet* ExecuteBlocking( const char *pStr )
-	{
-		IMySQLRowSet *pRet;
-		
-		EnterCriticalSection( &m_ExecuteQueryCS );
-			m_pSQL->Execute( pStr );
-			pRet = m_pSQL->DuplicateRowSet();
-		LeaveCriticalSection( &m_ExecuteQueryCS );
+        CloseHandle(m_hExitEvent);
+        CloseHandle(m_hPendingQueryEvent);
+        CloseHandle(m_hQueryResultsEvent);
 
-		return pRet;
-	}
+        DeleteCriticalSection(&m_ExecuteQueryCS);
+        DeleteCriticalSection(&m_PendingQueryCS);
+    }
 
-	virtual void Execute( const char *pStr, void *pUserData )
-	{
-		EnterCriticalSection( &m_PendingQueryCS );
+    virtual void Release() {
+        delete this;
+    }
 
-			CPendingQuery query;
-			query.m_pStr = CopyString( pStr );
-			query.m_pUserData = pUserData;
-			query.m_Timer.Start();
+    virtual IMySQLRowSet *ExecuteBlocking(const char *pStr) {
+        IMySQLRowSet *pRet;
 
-			m_PendingQueries.AddToTail( query );
-			SetEvent( m_hPendingQueryEvent );
+        EnterCriticalSection(&m_ExecuteQueryCS);
+        m_pSQL->Execute(pStr);
+        pRet = m_pSQL->DuplicateRowSet();
+        LeaveCriticalSection(&m_ExecuteQueryCS);
 
-		LeaveCriticalSection( &m_PendingQueryCS );
-	}
-	
-	virtual bool GetNextResults( CQueryResults &results )
-	{
-		results.m_pResults = NULL;
+        return pRet;
+    }
 
-		if ( WaitForSingleObject( m_hQueryResultsEvent, 0 ) == WAIT_OBJECT_0 )
-		{
-			EnterCriticalSection( &m_PendingQueryCS );
-			
-				Assert( m_QueryResults.Count() > 0 );
-				int iHead = m_QueryResults.Head();
-				results = m_QueryResults[iHead];
-				m_QueryResults.Remove( iHead );
+    virtual void Execute(const char *pStr, void *pUserData) {
+        EnterCriticalSection(&m_PendingQueryCS);
 
-				if ( m_QueryResults.Count() > 0 )
-					SetEvent( m_hQueryResultsEvent );
-			
-			LeaveCriticalSection( &m_PendingQueryCS );
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+        CPendingQuery query;
+        query.m_pStr = CopyString(pStr);
+        query.m_pUserData = pUserData;
+        query.m_Timer.Start();
 
-	bool Init( IMySQL *pSQL )
-	{
-		Term();
+        m_PendingQueries.AddToTail(query);
+        SetEvent(m_hPendingQueryEvent);
 
-		DWORD dwThreadID;
-		m_hThread = CreateThread( NULL, 0, &CMySQLAsync::StaticThreadFn, this, 0, &dwThreadID );
-		if ( m_hThread )
-		{										
-			m_pSQL = pSQL;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+        LeaveCriticalSection(&m_PendingQueryCS);
+    }
 
-	void Term()
-	{
-		// Stop the thread.
-		if ( m_hThread )
-		{
-			// Delete all our queries.
-			SetEvent( m_hExitEvent );
-			WaitForSingleObject( m_hThread, INFINITE );
-			CloseHandle( m_hThread );
-			m_hThread = NULL;
-		}
+    virtual bool GetNextResults(CQueryResults &results) {
+        results.m_pResults = NULL;
 
-		// Delete leftover queries.
-		FOR_EACH_LL( m_PendingQueries, iPendingQuery )
-		{
-			delete [] m_PendingQueries[iPendingQuery].m_pStr;
-		}
-		m_PendingQueries.Purge();
-		
-		FOR_EACH_LL( m_QueryResults, i )
-		{
-			m_QueryResults[i].m_pResults->Release();
-		}
-		m_QueryResults.Purge();
+        if (WaitForSingleObject(m_hQueryResultsEvent, 0) == WAIT_OBJECT_0) {
+            EnterCriticalSection(&m_PendingQueryCS);
 
-		if ( m_pSQL )
-		{
-			m_pSQL->Release();
-			m_pSQL = NULL;
-		}
-	}
+            Assert(m_QueryResults.Count() > 0);
+            int iHead = m_QueryResults.Head();
+            results = m_QueryResults[iHead];
+            m_QueryResults.Remove(iHead);
+
+            if (m_QueryResults.Count() > 0)
+                SetEvent(m_hQueryResultsEvent);
+
+            LeaveCriticalSection(&m_PendingQueryCS);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    bool Init(IMySQL *pSQL) {
+        Term();
+
+        DWORD dwThreadID;
+        m_hThread = CreateThread(NULL, 0, &CMySQLAsync::StaticThreadFn, this, 0, &dwThreadID);
+        if (m_hThread) {
+            m_pSQL = pSQL;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    void Term() {
+        // Stop the thread.
+        if (m_hThread) {
+            // Delete all our queries.
+            SetEvent(m_hExitEvent);
+            WaitForSingleObject(m_hThread, INFINITE);
+            CloseHandle(m_hThread);
+            m_hThread = NULL;
+        }
+
+        // Delete leftover queries.
+        FOR_EACH_LL(m_PendingQueries, iPendingQuery) {
+            delete[] m_PendingQueries[iPendingQuery].m_pStr;
+        }
+        m_PendingQueries.Purge();
+
+        FOR_EACH_LL(m_QueryResults, i) {
+            m_QueryResults[i].m_pResults->Release();
+        }
+        m_QueryResults.Purge();
+
+        if (m_pSQL) {
+            m_pSQL->Release();
+            m_pSQL = NULL;
+        }
+    }
 
 
 private:
 
-	DWORD ThreadFn()
-	{
-		HANDLE hEvents[2] = { m_hExitEvent, m_hPendingQueryEvent };
+    DWORD ThreadFn() {
+        HANDLE hEvents[2] = {m_hExitEvent, m_hPendingQueryEvent};
 
-		// 
-		while ( 1 )
-		{
-			int ret = WaitForMultipleObjects( ARRAYSIZE( hEvents ), hEvents, false, INFINITE );
-			if ( ret == WAIT_OBJECT_0 )
-				break;
+        //
+        while (1) {
+            int ret = WaitForMultipleObjects(ARRAYSIZE(hEvents), hEvents, false, INFINITE);
+            if (ret == WAIT_OBJECT_0)
+                break;
 
-			if ( ret == WAIT_OBJECT_0+1 )
-			{
-				// A new string has been queued up for us to execute.
-				EnterCriticalSection( &m_PendingQueryCS );
-					
-					Assert( m_PendingQueries.Count() > 0 );
-					int iHead = m_PendingQueries.Head();
-					
-					CPendingQuery pending = m_PendingQueries[iHead];
-					m_PendingQueries.Remove( iHead );
+            if (ret == WAIT_OBJECT_0 + 1) {
+                // A new string has been queued up for us to execute.
+                EnterCriticalSection(&m_PendingQueryCS);
 
-					// Set the pending query event if there are more queries waiting to run.
-					if ( m_PendingQueries.Count() > 0 )
-						SetEvent( m_hPendingQueryEvent );
-					
-				LeaveCriticalSection( &m_PendingQueryCS );
+                Assert(m_PendingQueries.Count() > 0);
+                int iHead = m_PendingQueries.Head();
 
-							
-				// Run the query.
-				EnterCriticalSection( &m_ExecuteQueryCS );
+                CPendingQuery pending = m_PendingQueries[iHead];
+                m_PendingQueries.Remove(iHead);
 
-					CQueryResults results;
-					results.m_pResults = NULL;
-					results.m_pUserData = pending.m_pUserData;
-					results.m_ExecuteTime.Init();
-					pending.m_Timer.End();
-					results.m_QueueTime = pending.m_Timer.GetDuration();
-					
-					CFastTimer executeTimer;
-					executeTimer.Start();
+                // Set the pending query event if there are more queries waiting to run.
+                if (m_PendingQueries.Count() > 0)
+                    SetEvent(m_hPendingQueryEvent);
 
-					if ( m_pSQL->Execute( pending.m_pStr ) == 0 )
-					{			
-						executeTimer.End();
-						results.m_ExecuteTime = executeTimer.GetDuration();
-						results.m_pResults = m_pSQL->DuplicateRowSet();
-					}
-
-					delete pending.m_pStr;
-
-				LeaveCriticalSection( &m_ExecuteQueryCS );
+                LeaveCriticalSection(&m_PendingQueryCS);
 
 
-				// Store the results.
-				EnterCriticalSection( &m_PendingQueryCS );
+                // Run the query.
+                EnterCriticalSection(&m_ExecuteQueryCS);
 
-					m_QueryResults.AddToTail( results );
-					SetEvent( m_hQueryResultsEvent );
+                CQueryResults results;
+                results.m_pResults = NULL;
+                results.m_pUserData = pending.m_pUserData;
+                results.m_ExecuteTime.Init();
+                pending.m_Timer.End();
+                results.m_QueueTime = pending.m_Timer.GetDuration();
 
-				LeaveCriticalSection( &m_PendingQueryCS );
-			}
-		}
-		
-		return 0;
-	}
+                CFastTimer executeTimer;
+                executeTimer.Start();
 
-	static DWORD WINAPI StaticThreadFn( LPVOID lpParameter )
-	{
-		return ((CMySQLAsync*)lpParameter)->ThreadFn();
-	}
+                if (m_pSQL->Execute(pending.m_pStr) == 0) {
+                    executeTimer.End();
+                    results.m_ExecuteTime = executeTimer.GetDuration();
+                    results.m_pResults = m_pSQL->DuplicateRowSet();
+                }
+
+                delete pending.m_pStr;
+
+                LeaveCriticalSection(&m_ExecuteQueryCS);
+
+
+                // Store the results.
+                EnterCriticalSection(&m_PendingQueryCS);
+
+                m_QueryResults.AddToTail(results);
+                SetEvent(m_hQueryResultsEvent);
+
+                LeaveCriticalSection(&m_PendingQueryCS);
+            }
+        }
+
+        return 0;
+    }
+
+    static DWORD WINAPI StaticThreadFn(LPVOID lpParameter) {
+        return ((CMySQLAsync *) lpParameter)->ThreadFn();
+    }
 
 private:
-	
-	HANDLE m_hThread;
-	HANDLE m_hExitEvent;
-	HANDLE m_hPendingQueryEvent;	// Signaled when a new query is added.
-	HANDLE m_hQueryResultsEvent;
 
-	IMySQL *m_pSQL;
+    HANDLE m_hThread;
+    HANDLE m_hExitEvent;
+    HANDLE m_hPendingQueryEvent;    // Signaled when a new query is added.
+    HANDLE m_hQueryResultsEvent;
 
-	CRITICAL_SECTION m_PendingQueryCS;
-	CRITICAL_SECTION m_ExecuteQueryCS;
+    IMySQL *m_pSQL;
 
-	
-	// Outgoing query results. New ones are added to the tail.
-	CUtlLinkedList<CQueryResults, int> m_QueryResults;
+    CRITICAL_SECTION m_PendingQueryCS;
+    CRITICAL_SECTION m_ExecuteQueryCS;
 
-	
-	// New ones added to the tail.
-	class CPendingQuery
-	{
-	public:
-		char *m_pStr;
-		void *m_pUserData;
-		CFastTimer m_Timer;	// Times how long this query is in the queue.
-	};
 
-	CUtlLinkedList<CPendingQuery,int> m_PendingQueries;
+    // Outgoing query results. New ones are added to the tail.
+    CUtlLinkedList<CQueryResults, int> m_QueryResults;
+
+
+    // New ones added to the tail.
+    class CPendingQuery {
+    public:
+        char *m_pStr;
+        void *m_pUserData;
+        CFastTimer m_Timer;    // Times how long this query is in the queue.
+    };
+
+    CUtlLinkedList<CPendingQuery, int> m_PendingQueries;
 };
 
 
-IMySQLAsync* CreateMySQLAsync( IMySQL *pSQL )
-{
-	CMySQLAsync *pRet = new CMySQLAsync;
-	if ( pRet->Init( pSQL ) )
-	{
-		return pRet;
-	}
-	else
-	{
-		delete pRet;
-		return NULL;
-	}
+IMySQLAsync *CreateMySQLAsync(IMySQL *pSQL) {
+    CMySQLAsync *pRet = new CMySQLAsync;
+    if (pRet->Init(pSQL)) {
+        return pRet;
+    } else {
+        delete pRet;
+        return NULL;
+    }
 }
 

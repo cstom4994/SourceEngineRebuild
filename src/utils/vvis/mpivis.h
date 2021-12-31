@@ -11,10 +11,11 @@
 #endif
 
 
-void VVIS_SetupMPI( int &argc, char **&argv );
+void VVIS_SetupMPI(int &argc, char **&argv);
 
 
 void RunMPIBasePortalVis();
+
 void RunMPIPortalFlow();
 
 

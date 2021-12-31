@@ -271,60 +271,60 @@ namespace Threading {
 
     template<class T>
     concept Mutex = requires(T
-    a) {{
-    a.
+                             a) {
+        {
+        a.
 
-    lock()
-}
-->
-std::convertible_to<void>;
-{
-a.
+                lock()
+        }
+        ->
+        std::convertible_to<void>;
+        {
+        a.
 
-unlock()
+                unlock()
 
-} ->
-std::convertible_to<void>;
-};
+        } ->
+        std::convertible_to<void>;
+    };
 
-enum Mode {
-    eSingleThreaded = 0,
-    eMultiThreaded = 1
-};
+    enum Mode {
+        eSingleThreaded = 0,
+        eMultiThreaded = 1
+    };
 
 // A special object that makes single-threaded code incur no penalties
 // and multithreaded code to be synchronized properly.
-template<auto &mtx>
-requires Mutex<std::decay_t<decltype(mtx)>>
+    template<auto &mtx> requires Mutex<std::decay_t<decltype(mtx)>>
 
-class CSwitchableMutex {
-    using mtx_type = std::decay_t<decltype(mtx)>;
-public:
-    FORCEINLINE explicit CSwitchableMutex() noexcept: m_pUseMtx(nullptr) {}
+    class CSwitchableMutex {
+        using mtx_type = std::decay_t<decltype(mtx)>;
+    public:
+        FORCEINLINE explicit CSwitchableMutex() noexcept: m_pUseMtx(nullptr) {}
 
-    FORCEINLINE void SetThreadedMode(Mode eMode) noexcept { m_pUseMtx = eMode ? &mtx : nullptr; }
+        FORCEINLINE void SetThreadedMode(Mode eMode) noexcept { m_pUseMtx = eMode ? &mtx : nullptr; }
 
-    FORCEINLINE void Lock() {
-        if (mtx_type *pUseMtx = m_pUseMtx)
-            pUseMtx->lock();
-    }
+        FORCEINLINE void Lock() {
+            if (mtx_type *pUseMtx = m_pUseMtx)
+                pUseMtx->lock();
+        }
 
-    FORCEINLINE void Unlock() {
-        if (mtx_type *pUseMtx = m_pUseMtx)
-            pUseMtx->unlock();
-    }
+        FORCEINLINE void Unlock() {
+            if (mtx_type *pUseMtx = m_pUseMtx)
+                pUseMtx->unlock();
+        }
 
-private:
-    std::atomic<mtx_type *> m_pUseMtx;
-};
+    private:
+        std::atomic<mtx_type *> m_pUseMtx;
+    };
 
-namespace Private {
-    static std::mutex g_mtxSyncObjMT;
-    static std::mutex g_mtxSyncObjMT2;
-}; // namespace Private
+    namespace Private {
+        static std::mutex g_mtxSyncObjMT;
+        static std::mutex g_mtxSyncObjMT2;
+    }; // namespace Private
 
-static CSwitchableMutex<Private::g_mtxSyncObjMT> g_mtxGlobal;
-static CSwitchableMutex<Private::g_mtxSyncObjMT2> g_mtxMsgReport;
+    static CSwitchableMutex<Private::g_mtxSyncObjMT> g_mtxGlobal;
+    static CSwitchableMutex<Private::g_mtxSyncObjMT2> g_mtxMsgReport;
 }; // namespace Threading
 
 // Access to global data should be synchronized by these global locks

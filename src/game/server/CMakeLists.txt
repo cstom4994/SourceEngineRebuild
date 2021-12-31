@@ -1551,7 +1551,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         zlib
         Jpeglib
 
-        steamemu
+        steam_api
 
         cryptlib
 
@@ -3871,7 +3871,7 @@ if (BUILD_TF)
             zlib
             Jpeglib
 
-            steamemu
+            steam_api
 
             cryptlib
 

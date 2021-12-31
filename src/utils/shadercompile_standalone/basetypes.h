@@ -4,14 +4,15 @@
 #pragma once
 
 #include <cstdint>
+
 #ifdef _DEBUG
-	#include <cassert>
+#include <cassert>
 #endif
 
 #ifdef _DEBUG
-	#define Assert assert
+#define Assert assert
 #else
-	#define Assert __noop
+#define Assert __noop
 #endif
 
 #endif // BASETYPES_H

@@ -98,7 +98,6 @@ add_subdirectory(minisef)
 
 add_subdirectory(engine/ivp)
 
-
 add_subdirectory(minisef/choreoobjects)
 add_subdirectory(datacache)
 add_subdirectory(datamodel)
@@ -116,7 +115,6 @@ add_subdirectory(game/gameui2)
 add_subdirectory(game/server)
 add_subdirectory(game/imgui)
 
-add_subdirectory(cef_process_helper)
 add_subdirectory(gameui)
 add_subdirectory(gcsdk)
 add_subdirectory(launcher)
@@ -137,14 +135,8 @@ add_subdirectory(minisef/scenefilecache)
 add_subdirectory(soundemittersystem)
 add_subdirectory(soundsystem)
 add_subdirectory(sourcevr)
-add_subdirectory(steamemu)
 
-add_subdirectory(utils/remoteshadercompile)
-add_subdirectory(utils/shadercompile)
-add_subdirectory(utils/shadercompile_launcher)
-add_subdirectory(utils/shadercompile_standalone)
-add_subdirectory(utils/vmpi)
-
+add_subdirectory(vgui2/dme_controls)
 add_subdirectory(vgui2/matsys_controls)
 add_subdirectory(vgui2/vgui_controls)
 add_subdirectory(vgui2/vgui_surfacelib)
@@ -152,15 +144,15 @@ add_subdirectory(vgui2/vgui_surfacelib)
 add_subdirectory(minisef/serverbrowser)
 add_subdirectory(studiorender)
 
-add_subdirectory(tracker/AdminServer)
-
-add_subdirectory(vgui2/dme_controls)
-
 add_subdirectory(SDKLauncher)
 add_subdirectory(hammer)
 add_subdirectory(hammer_launcher)
 add_subdirectory(utils/vbsp)
 
+add_subdirectory(utils/shadercompile)
+add_subdirectory(utils/shadercompile_launcher)
+add_subdirectory(utils/shadercompile_standalone)
+add_subdirectory(utils/vmpi)
 add_subdirectory(utils/vrad)
 add_subdirectory(utils/vrad_launcher)
 add_subdirectory(utils/vvis)

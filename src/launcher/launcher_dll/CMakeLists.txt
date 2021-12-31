@@ -229,7 +229,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         tier3
         vstdlib
 
-        steamemu
+        steam_api
 
         dinput8
         ddraw

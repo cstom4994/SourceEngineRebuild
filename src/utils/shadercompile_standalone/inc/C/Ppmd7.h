@@ -22,41 +22,39 @@ EXTERN_C_BEGIN
 struct CPpmd7_Context_;
 
 typedef
-  #ifdef PPMD_32BIT
-    struct CPpmd7_Context_ *
-  #else
-    UInt32
-  #endif
-  CPpmd7_Context_Ref;
+#ifdef PPMD_32BIT
+struct CPpmd7_Context_ *
+#else
+        UInt32
+#endif
+        CPpmd7_Context_Ref;
 
-typedef struct CPpmd7_Context_
-{
-  UInt16 NumStats;
-  UInt16 SummFreq;
-  CPpmd_State_Ref Stats;
-  CPpmd7_Context_Ref Suffix;
+typedef struct CPpmd7_Context_ {
+    UInt16 NumStats;
+    UInt16 SummFreq;
+    CPpmd_State_Ref Stats;
+    CPpmd7_Context_Ref Suffix;
 } CPpmd7_Context;
 
 #define Ppmd7Context_OneState(p) ((CPpmd_State *)&(p)->SummFreq)
 
-typedef struct
-{
-  CPpmd7_Context *MinContext, *MaxContext;
-  CPpmd_State *FoundState;
-  unsigned OrderFall, InitEsc, PrevSuccess, MaxOrder, HiBitsFlag;
-  Int32 RunLength, InitRL; /* must be 32-bit at least */
+typedef struct {
+    CPpmd7_Context *MinContext, *MaxContext;
+    CPpmd_State *FoundState;
+    unsigned OrderFall, InitEsc, PrevSuccess, MaxOrder, HiBitsFlag;
+    Int32 RunLength, InitRL; /* must be 32-bit at least */
 
-  UInt32 Size;
-  UInt32 GlueCount;
-  Byte *Base, *LoUnit, *HiUnit, *Text, *UnitsStart;
-  UInt32 AlignOffset;
+    UInt32 Size;
+    UInt32 GlueCount;
+    Byte *Base, *LoUnit, *HiUnit, *Text, *UnitsStart;
+    UInt32 AlignOffset;
 
-  Byte Indx2Units[PPMD_NUM_INDEXES];
-  Byte Units2Indx[128];
-  CPpmd_Void_Ref FreeList[PPMD_NUM_INDEXES];
-  Byte NS2Indx[256], NS2BSIndx[256], HB2Flag[256];
-  CPpmd_See DummySee, See[25][16];
-  UInt16 BinSumm[128][64];
+    Byte Indx2Units[PPMD_NUM_INDEXES];
+    Byte Units2Indx[128];
+    CPpmd_Void_Ref FreeList[PPMD_NUM_INDEXES];
+    Byte NS2Indx[256], NS2BSIndx[256], HB2Flag[256];
+    CPpmd_See DummySee, See[25][16];
+    UInt16 BinSumm[128][64];
 } CPpmd7;
 
 void Ppmd7_Construct(CPpmd7 *p);
@@ -71,13 +69,13 @@ void Ppmd7_Init(CPpmd7 *p, unsigned maxOrder);
 extern const Byte PPMD7_kExpEscape[16];
 
 #ifdef PPMD_32BIT
-  #define Ppmd7_GetPtr(p, ptr) (ptr)
-  #define Ppmd7_GetContext(p, ptr) (ptr)
-  #define Ppmd7_GetStats(p, ctx) ((ctx)->Stats)
+#define Ppmd7_GetPtr(p, ptr) (ptr)
+#define Ppmd7_GetContext(p, ptr) (ptr)
+#define Ppmd7_GetStats(p, ctx) ((ctx)->Stats)
 #else
-  #define Ppmd7_GetPtr(p, offs) ((void *)((p)->Base + (offs)))
-  #define Ppmd7_GetContext(p, offs) ((CPpmd7_Context *)Ppmd7_GetPtr((p), (offs)))
-  #define Ppmd7_GetStats(p, ctx) ((CPpmd_State *)Ppmd7_GetPtr((p), ((ctx)->Stats)))
+#define Ppmd7_GetPtr(p, offs) ((void *)((p)->Base + (offs)))
+#define Ppmd7_GetContext(p, offs) ((CPpmd7_Context *)Ppmd7_GetPtr((p), (offs)))
+#define Ppmd7_GetStats(p, ctx) ((CPpmd_State *)Ppmd7_GetPtr((p), ((ctx)->Stats)))
 #endif
 
 void Ppmd7_Update1(CPpmd7 *p);
@@ -97,19 +95,19 @@ CPpmd_See *Ppmd7_MakeEscFreq(CPpmd7 *p, unsigned numMasked, UInt32 *scale);
 
 /* ---------- Decode ---------- */
 
-typedef struct
-{
-  UInt32 (*GetThreshold)(void *p, UInt32 total);
-  void (*Decode)(void *p, UInt32 start, UInt32 size);
-  UInt32 (*DecodeBit)(void *p, UInt32 size0);
+typedef struct {
+    UInt32 (*GetThreshold)(void *p, UInt32 total);
+
+    void (*Decode)(void *p, UInt32 start, UInt32 size);
+
+    UInt32 (*DecodeBit)(void *p, UInt32 size0);
 } IPpmd7_RangeDec;
 
-typedef struct
-{
-  IPpmd7_RangeDec p;
-  UInt32 Range;
-  UInt32 Code;
-  IByteIn *Stream;
+typedef struct {
+    IPpmd7_RangeDec p;
+    UInt32 Range;
+    UInt32 Code;
+    IByteIn *Stream;
 } CPpmd7z_RangeDec;
 
 void Ppmd7z_RangeDec_CreateVTable(CPpmd7z_RangeDec *p);
@@ -121,13 +119,12 @@ int Ppmd7_DecodeSymbol(CPpmd7 *p, IPpmd7_RangeDec *rc);
 
 /* ---------- Encode ---------- */
 
-typedef struct
-{
-  UInt64 Low;
-  UInt32 Range;
-  Byte Cache;
-  UInt64 CacheSize;
-  IByteOut *Stream;
+typedef struct {
+    UInt64 Low;
+    UInt32 Range;
+    Byte Cache;
+    UInt64 CacheSize;
+    IByteOut *Stream;
 } CPpmd7z_RangeEnc;
 
 void Ppmd7z_RangeEnc_Init(CPpmd7z_RangeEnc *p);
@@ -136,5 +133,5 @@ void Ppmd7z_RangeEnc_FlushData(CPpmd7z_RangeEnc *p);
 void Ppmd7_EncodeSymbol(CPpmd7 *p, CPpmd7z_RangeEnc *rc, int symbol);
 
 EXTERN_C_END
- 
+
 #endif

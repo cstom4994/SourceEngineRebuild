@@ -1247,7 +1247,7 @@ void Host_WriteConfiguration(const char *filename, bool bAllVars) {
                     SteamAPI_GetHSteamUser(), SteamAPI_GetHSteamPipe(), STEAMREMOTESTORAGE_INTERFACE_VERSION) : NULL;
 
     if (pRemoteStorage) {
-        uint64 availableBytes, totalBytes = 0;
+        int32 availableBytes, totalBytes = 0;
         if (pRemoteStorage->GetQuota(&totalBytes, &availableBytes)) {
             if (totalBytes > 0) {
                 if (cl_cloud_settings.GetInt() == STEAMREMOTESTORAGE_CLOUD_ON) {

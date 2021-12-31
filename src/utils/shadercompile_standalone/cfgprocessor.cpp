@@ -39,13 +39,11 @@
 // Type conversions should be controlled by programmer explicitly - shadercompile makes use of 64-bit integer arithmetics
 #pragma warning( error : 4244 )
 
-namespace clr
-{
+namespace clr {
     static constexpr auto grey = _internal::ansi_color(color(200, 200, 200));
 }
 
-namespace PreprocessorDbg
-{
+namespace PreprocessorDbg {
     bool s_bNoOutput = true;
 }; // namespace
 
@@ -55,18 +53,19 @@ namespace PreprocessorDbg
 //
 //////////////////////////////////////////////////////////////////////////
 
-class Define
-{
+class Define {
 public:
-    explicit Define(char const* szName, int min, int max, bool bStatic)
-        : m_sName(szName), m_min(min), m_max(max), m_bStatic(bStatic)
-    {
+    explicit Define(char const *szName, int min, int max, bool bStatic)
+            : m_sName(szName), m_min(min), m_max(max), m_bStatic(bStatic) {
     }
 
 public:
-    [[nodiscard]] const char* Name() const noexcept { return m_sName.c_str(); }
+    [[nodiscard]] const char *Name() const noexcept { return m_sName.c_str(); }
+
     [[nodiscard]] int Min() const noexcept { return m_min; }
+
     [[nodiscard]] int Max() const noexcept { return m_max; }
+
     [[nodiscard]] bool IsStatic() const noexcept { return m_bStatic; }
 
 protected:
@@ -81,33 +80,36 @@ protected:
 //
 //////////////////////////////////////////////////////////////////////////
 
-class IEvaluationContext
-{
+class IEvaluationContext {
 public:
     virtual ~IEvaluationContext() = default;
+
     virtual int GetVariableValue(int nSlot) const noexcept = 0;
-    virtual char const* GetVariableName(int nSlot) const noexcept = 0;
-    virtual int GetVariableSlot(char const* szVariableName) const noexcept = 0;
+
+    virtual char const *GetVariableName(int nSlot) const noexcept = 0;
+
+    virtual int GetVariableSlot(char const *szVariableName) const noexcept = 0;
 };
 
-class IExpression
-{
+class IExpression {
 public:
     virtual ~IExpression() = default;
-    virtual int Evaluate(const IEvaluationContext* pCtx) const noexcept = 0;
-    virtual void Print(const IEvaluationContext* pCtx) const = 0;
+
+    virtual int Evaluate(const IEvaluationContext *pCtx) const noexcept = 0;
+
+    virtual void Print(const IEvaluationContext *pCtx) const = 0;
 };
 
 #define EVAL int Evaluate( [[maybe_unused]] const IEvaluationContext* pCtx ) const noexcept override
 #define PRNT void Print( [[maybe_unused]] const IEvaluationContext* pCtx ) const override
 
-class CExprConstant : public IExpression
-{
+class CExprConstant : public IExpression {
 public:
-    CExprConstant(int value) noexcept : m_value(value) {}
-    EVAL{ return m_value; }
-        PRNT
-    {
+    CExprConstant(int value) noexcept: m_value(value) {}
+
+    EVAL { return m_value; }
+
+    PRNT {
         std::cout << clr::green << m_value << clr::reset;
     }
 
@@ -115,13 +117,13 @@ private:
     int m_value;
 };
 
-class CExprVariable : public IExpression
-{
+class CExprVariable : public IExpression {
 public:
-    CExprVariable(int nSlot) noexcept : m_nSlot(nSlot) {}
-    EVAL{ return m_nSlot >= 0 ? pCtx->GetVariableValue(m_nSlot) : 0; };
-    PRNT
-    {
+    CExprVariable(int nSlot) noexcept: m_nSlot(nSlot) {}
+
+    EVAL { return m_nSlot >= 0 ? pCtx->GetVariableValue(m_nSlot) : 0; };
+
+    PRNT {
         if (m_nSlot >= 0)
             std::cout << clr::blue << pCtx->GetVariableName(m_nSlot) << clr::reset;
         else
@@ -132,204 +134,212 @@ private:
     int m_nSlot;
 };
 
-class CExprUnary : public IExpression
-{
+class CExprUnary : public IExpression {
 public:
-    CExprUnary(IExpression* x) : m_x(x) {}
+    CExprUnary(IExpression *x) : m_x(x) {}
 
 protected:
-    IExpression* m_x;
+    IExpression *m_x;
 };
 
-#define BEGIN_EXPR_UNARY( className )   \
-	class className : public CExprUnary \
-	{                                   \
-	public:                             \
-		using CExprUnary::CExprUnary;
+#define BEGIN_EXPR_UNARY(className)   \
+    class className : public CExprUnary \
+    {                                   \
+    public:                             \
+        using CExprUnary::CExprUnary;
 
 #define END_EXPR_UNARY() };
 
 BEGIN_EXPR_UNARY(CExprUnary_Negate)
-EVAL
-{
-    return !m_x->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "!";
-    m_x->Print(pCtx);
-}
+
+    EVAL {
+        return !m_x->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "!";
+        m_x->Print(pCtx);
+    }
 END_EXPR_UNARY()
 
-class CExprBinary : public IExpression
-{
+class CExprBinary : public IExpression {
 public:
-    CExprBinary(IExpression* x = nullptr, IExpression* y = nullptr) noexcept : m_x(x), m_y(y) {}
+    CExprBinary(IExpression *x = nullptr, IExpression *y = nullptr) noexcept: m_x(x), m_y(y) {}
+
     [[nodiscard]] virtual int Priority() const noexcept = 0;
 
-    void SetX(IExpression* x) noexcept { m_x = x; }
-    void SetY(IExpression* y) noexcept { m_y = y; }
-    IExpression* GetY() const noexcept { return m_y; }
+    void SetX(IExpression *x) noexcept { m_x = x; }
+
+    void SetY(IExpression *y) noexcept { m_y = y; }
+
+    IExpression *GetY() const noexcept { return m_y; }
 
 protected:
-    IExpression* m_x;
-    IExpression* m_y;
+    IExpression *m_x;
+    IExpression *m_y;
 };
 
-#define BEGIN_EXPR_BINARY( className )              \
-	class className : public CExprBinary            \
-	{                                               \
-	public:                                         \
-		using CExprBinary::CExprBinary;
+#define BEGIN_EXPR_BINARY(className)              \
+    class className : public CExprBinary            \
+    {                                               \
+    public:                                         \
+        using CExprBinary::CExprBinary;
 
-#define EXPR_BINARY_PRIORITY( nPriority ) int Priority() const noexcept override { return nPriority; }
+#define EXPR_BINARY_PRIORITY(nPriority) int Priority() const noexcept override { return nPriority; }
 #define END_EXPR_BINARY() };
 
 BEGIN_EXPR_BINARY(CExprBinary_And)
-EVAL
-{
-    return m_x->Evaluate(pCtx) && m_y->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "( ";
-    m_x->Print(pCtx);
-    std::cout << clr::grey << " && ";
-    m_y->Print(pCtx);
-    std::cout << clr::grey << " )" << clr::reset;
-}
-EXPR_BINARY_PRIORITY(1);
+
+    EVAL {
+        return m_x->Evaluate(pCtx) && m_y->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "( ";
+        m_x->Print(pCtx);
+        std::cout << clr::grey << " && ";
+        m_y->Print(pCtx);
+        std::cout << clr::grey << " )" << clr::reset;
+    }
+
+    EXPR_BINARY_PRIORITY(1);
 END_EXPR_BINARY()
 
 BEGIN_EXPR_BINARY(CExprBinary_Or)
-EVAL
-{
-    return m_x->Evaluate(pCtx) || m_y->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "( ";
-    m_x->Print(pCtx);
-    std::cout << clr::grey << " || ";
-    m_y->Print(pCtx);
-    std::cout << clr::grey << " )" << clr::reset;
-}
-EXPR_BINARY_PRIORITY(2);
+
+    EVAL {
+        return m_x->Evaluate(pCtx) || m_y->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "( ";
+        m_x->Print(pCtx);
+        std::cout << clr::grey << " || ";
+        m_y->Print(pCtx);
+        std::cout << clr::grey << " )" << clr::reset;
+    }
+
+    EXPR_BINARY_PRIORITY(2);
 END_EXPR_BINARY()
 
 BEGIN_EXPR_BINARY(CExprBinary_Eq)
-EVAL
-{
-    return m_x->Evaluate(pCtx) == m_y->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "( ";
-    m_x->Print(pCtx);
-    std::cout << clr::grey << " == ";
-    m_y->Print(pCtx);
-    std::cout << clr::grey << " )" << clr::reset;
-}
-EXPR_BINARY_PRIORITY(0);
+
+    EVAL {
+        return m_x->Evaluate(pCtx) == m_y->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "( ";
+        m_x->Print(pCtx);
+        std::cout << clr::grey << " == ";
+        m_y->Print(pCtx);
+        std::cout << clr::grey << " )" << clr::reset;
+    }
+
+    EXPR_BINARY_PRIORITY(0);
 END_EXPR_BINARY()
 
 BEGIN_EXPR_BINARY(CExprBinary_Neq)
-EVAL
-{
-    return m_x->Evaluate(pCtx) != m_y->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "( ";
-    m_x->Print(pCtx);
-    std::cout << clr::grey << " != ";
-    m_y->Print(pCtx);
-    std::cout << clr::grey << " )" << clr::reset;
-}
-EXPR_BINARY_PRIORITY(0);
+
+    EVAL {
+        return m_x->Evaluate(pCtx) != m_y->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "( ";
+        m_x->Print(pCtx);
+        std::cout << clr::grey << " != ";
+        m_y->Print(pCtx);
+        std::cout << clr::grey << " )" << clr::reset;
+    }
+
+    EXPR_BINARY_PRIORITY(0);
 END_EXPR_BINARY()
 
 BEGIN_EXPR_BINARY(CExprBinary_G)
-EVAL
-{
-    return m_x->Evaluate(pCtx) > m_y->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "( ";
-    m_x->Print(pCtx);
-    std::cout << clr::grey << " > ";
-    m_y->Print(pCtx);
-    std::cout << clr::grey << " )" << clr::reset;
-}
-EXPR_BINARY_PRIORITY(0);
+
+    EVAL {
+        return m_x->Evaluate(pCtx) > m_y->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "( ";
+        m_x->Print(pCtx);
+        std::cout << clr::grey << " > ";
+        m_y->Print(pCtx);
+        std::cout << clr::grey << " )" << clr::reset;
+    }
+
+    EXPR_BINARY_PRIORITY(0);
 END_EXPR_BINARY()
 
 BEGIN_EXPR_BINARY(CExprBinary_Ge)
-EVAL
-{
-    return m_x->Evaluate(pCtx) >= m_y->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "( ";
-    m_x->Print(pCtx);
-    std::cout << clr::grey << " >= ";
-    m_y->Print(pCtx);
-    std::cout << clr::grey << " )" << clr::reset;
-}
-EXPR_BINARY_PRIORITY(0);
+
+    EVAL {
+        return m_x->Evaluate(pCtx) >= m_y->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "( ";
+        m_x->Print(pCtx);
+        std::cout << clr::grey << " >= ";
+        m_y->Print(pCtx);
+        std::cout << clr::grey << " )" << clr::reset;
+    }
+
+    EXPR_BINARY_PRIORITY(0);
 END_EXPR_BINARY()
 
 BEGIN_EXPR_BINARY(CExprBinary_L)
-EVAL
-{
-    return m_x->Evaluate(pCtx) < m_y->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "( ";
-    m_x->Print(pCtx);
-    std::cout << clr::grey << " < ";
-    m_y->Print(pCtx);
-    std::cout << clr::grey << " )" << clr::reset;
-}
-EXPR_BINARY_PRIORITY(0);
+
+    EVAL {
+        return m_x->Evaluate(pCtx) < m_y->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "( ";
+        m_x->Print(pCtx);
+        std::cout << clr::grey << " < ";
+        m_y->Print(pCtx);
+        std::cout << clr::grey << " )" << clr::reset;
+    }
+
+    EXPR_BINARY_PRIORITY(0);
 END_EXPR_BINARY()
 
 BEGIN_EXPR_BINARY(CExprBinary_Le)
-EVAL
-{
-    return m_x->Evaluate(pCtx) <= m_y->Evaluate(pCtx);
-}
-PRNT
-{
-    std::cout << clr::grey << "( ";
-    m_x->Print(pCtx);
-    std::cout << clr::grey << " <= ";
-    m_y->Print(pCtx);
-    std::cout << clr::grey << " )" << clr::reset;
-}
-EXPR_BINARY_PRIORITY(0);
+
+    EVAL {
+        return m_x->Evaluate(pCtx) <= m_y->Evaluate(pCtx);
+    }
+
+    PRNT {
+        std::cout << clr::grey << "( ";
+        m_x->Print(pCtx);
+        std::cout << clr::grey << " <= ";
+        m_y->Print(pCtx);
+        std::cout << clr::grey << " )" << clr::reset;
+    }
+
+    EXPR_BINARY_PRIORITY(0);
 END_EXPR_BINARY()
 
-class CComplexExpression : public IExpression
-{
+class CComplexExpression : public IExpression {
 public:
-    CComplexExpression(IEvaluationContext* pCtx) noexcept
-        : m_pRoot(nullptr), m_pContext(pCtx)
-        , m_pDefTrue(nullptr), m_pDefFalse(nullptr)
-    {
+    CComplexExpression(IEvaluationContext *pCtx) noexcept
+            : m_pRoot(nullptr), m_pContext(pCtx), m_pDefTrue(nullptr), m_pDefFalse(nullptr) {
     }
+
     ~CComplexExpression() override { Clear(); }
 
-    void Parse(char const* szExpression);
+    void Parse(char const *szExpression);
+
     void Clear() noexcept;
 
 public:
-    EVAL{ return m_pRoot ? m_pRoot->Evaluate(pCtx ? pCtx : m_pContext) : 0; }
-        PRNT
-    {
+    EVAL { return m_pRoot ? m_pRoot->Evaluate(pCtx ? pCtx : m_pContext) : 0; }
+
+    PRNT {
         std::cout << clr::grey << "[ ";
         if (m_pRoot)
             m_pRoot->Print(pCtx ? pCtx : m_pContext);
@@ -339,24 +349,26 @@ public:
     }
 
 protected:
-    IExpression* ParseTopLevel(char*& szExpression);
-    IExpression* ParseInternal(char*& szExpression);
-    template <typename T, typename... Args, typename = std::void_t<decltype(T(std::declval<Args>()...))>>
+    IExpression *ParseTopLevel(char *&szExpression);
+
+    IExpression *ParseInternal(char *&szExpression);
+
+    template<typename T, typename... Args, typename = std::void_t<decltype(T(std::declval<Args>()...))>>
     requires std::derived_from<T, IExpression>
-        T* Expression(Args&&... args);
-    IExpression* AbortedParse(char*& szExpression) const noexcept
-    {
+    T *Expression(Args &&... args);
+
+    IExpression *AbortedParse(char *&szExpression) const noexcept {
         *szExpression = 0;
         return m_pDefFalse;
     }
 
 protected:
     std::vector<std::unique_ptr<IExpression>> m_arrAllExpressions;
-    IExpression* m_pRoot;
-    IEvaluationContext* m_pContext;
+    IExpression *m_pRoot;
+    IEvaluationContext *m_pContext;
 
-    IExpression* m_pDefTrue;
-    IExpression* m_pDefFalse;
+    IExpression *m_pDefTrue;
+    IExpression *m_pDefFalse;
 };
 
 #undef BEGIN_EXPR_UNARY
@@ -368,8 +380,7 @@ protected:
 #undef EVAL
 #undef PRNT
 
-void CComplexExpression::Parse(char const* szExpression)
-{
+void CComplexExpression::Parse(char const *szExpression) {
     Clear();
 
     m_pDefTrue = Expression<CExprConstant>(1);
@@ -377,12 +388,11 @@ void CComplexExpression::Parse(char const* szExpression)
 
     m_pRoot = m_pDefFalse;
 
-    if (szExpression)
-    {
+    if (szExpression) {
         std::string qs(szExpression);
-        char* expression = qs.data();
-        char* const szExpectEnd = expression + qs.length();
-        char* szParse = expression;
+        char *expression = qs.data();
+        char *const szExpectEnd = expression + qs.length();
+        char *szParse = expression;
         m_pRoot = ParseTopLevel(szParse);
 
         if (szParse != szExpectEnd)
@@ -390,13 +400,11 @@ void CComplexExpression::Parse(char const* szExpression)
     }
 }
 
-IExpression* CComplexExpression::ParseTopLevel(char*& szExpression)
-{
-    std::vector<CExprBinary*> exprStack;
-    IExpression* pFirstToken = ParseInternal(szExpression);
+IExpression *CComplexExpression::ParseTopLevel(char *&szExpression) {
+    std::vector<CExprBinary *> exprStack;
+    IExpression *pFirstToken = ParseInternal(szExpression);
 
-    for (;; )
-    {
+    for (;;) {
         // Skip whitespace
         while (*szExpression && isspace(*szExpression))
             ++szExpression;
@@ -406,59 +414,42 @@ IExpression* CComplexExpression::ParseTopLevel(char*& szExpression)
             break;
 
         // Determine the binary expression type
-        CExprBinary* pBinaryExpression = nullptr;
+        CExprBinary *pBinaryExpression = nullptr;
 
-        if (!strncmp(szExpression, "&&", 2))
-        {
+        if (!strncmp(szExpression, "&&", 2)) {
             pBinaryExpression = Expression<CExprBinary_And>();
             szExpression += 2;
-        }
-        else if (!strncmp(szExpression, "||", 2))
-        {
+        } else if (!strncmp(szExpression, "||", 2)) {
             pBinaryExpression = Expression<CExprBinary_Or>();
             szExpression += 2;
-        }
-        else if (!strncmp(szExpression, ">=", 2))
-        {
+        } else if (!strncmp(szExpression, ">=", 2)) {
             pBinaryExpression = Expression<CExprBinary_Ge>();
             szExpression += 2;
-        }
-        else if (!strncmp(szExpression, "<=", 2))
-        {
+        } else if (!strncmp(szExpression, "<=", 2)) {
             pBinaryExpression = Expression<CExprBinary_Le>();
             szExpression += 2;
-        }
-        else if (!strncmp(szExpression, "==", 2))
-        {
+        } else if (!strncmp(szExpression, "==", 2)) {
             pBinaryExpression = Expression<CExprBinary_Eq>();
             szExpression += 2;
-        }
-        else if (!strncmp(szExpression, "!=", 2))
-        {
+        } else if (!strncmp(szExpression, "!=", 2)) {
             pBinaryExpression = Expression<CExprBinary_Neq>();
             szExpression += 2;
-        }
-        else if (*szExpression == '>')
-        {
+        } else if (*szExpression == '>') {
             pBinaryExpression = Expression<CExprBinary_G>();
             ++szExpression;
-        }
-        else if (*szExpression == '<')
-        {
+        } else if (*szExpression == '<') {
             pBinaryExpression = Expression<CExprBinary_L>();
             ++szExpression;
-        }
-        else
+        } else
             return AbortedParse(szExpression);
 
         pBinaryExpression->SetY(ParseInternal(szExpression));
 
         // Figure out the expression priority
         const int nPriority = pBinaryExpression->Priority();
-        IExpression* pLastExpr = pFirstToken;
-        while (!exprStack.empty())
-        {
-            CExprBinary* pStickTo = exprStack.back();
+        IExpression *pLastExpr = pFirstToken;
+        while (!exprStack.empty()) {
+            CExprBinary *pStickTo = exprStack.back();
             pLastExpr = pStickTo;
 
             if (nPriority > pStickTo->Priority())
@@ -467,13 +458,11 @@ IExpression* CComplexExpression::ParseTopLevel(char*& szExpression)
                 break;
         }
 
-        if (!exprStack.empty())
-        {
-            CExprBinary* pStickTo = exprStack.back();
+        if (!exprStack.empty()) {
+            CExprBinary *pStickTo = exprStack.back();
             pBinaryExpression->SetX(pStickTo->GetY());
             pStickTo->SetY(pBinaryExpression);
-        }
-        else
+        } else
             pBinaryExpression->SetX(pLastExpr);
 
         exprStack.push_back(pBinaryExpression);
@@ -481,9 +470,8 @@ IExpression* CComplexExpression::ParseTopLevel(char*& szExpression)
 
     // Tip-of-the-tree retrieval
     {
-        IExpression* pLastExpr = pFirstToken;
-        while (!exprStack.empty())
-        {
+        IExpression *pLastExpr = pFirstToken;
+        while (!exprStack.empty()) {
             pLastExpr = exprStack.back();
             exprStack.pop_back();
         }
@@ -492,8 +480,7 @@ IExpression* CComplexExpression::ParseTopLevel(char*& szExpression)
     }
 }
 
-IExpression* CComplexExpression::ParseInternal(char*& szExpression)
-{
+IExpression *CComplexExpression::ParseInternal(char *&szExpression) {
     // Skip whitespace
     while (*szExpression && isspace(*szExpression))
         ++szExpression;
@@ -501,72 +488,57 @@ IExpression* CComplexExpression::ParseInternal(char*& szExpression)
     if (!*szExpression)
         return AbortedParse(szExpression);
 
-    if (isdigit(*szExpression))
-    {
+    if (isdigit(*szExpression)) {
         const int lValue = strtol(szExpression, &szExpression, 10);
         return Expression<CExprConstant>(lValue);
-    }
-    else if (!strncmp(szExpression, "defined", 7))
-    {
+    } else if (!strncmp(szExpression, "defined", 7)) {
         szExpression += 7;
-        IExpression* pNext = ParseInternal(szExpression);
+        IExpression *pNext = ParseInternal(szExpression);
         return Expression<CExprConstant>(pNext->Evaluate(m_pContext));
-    }
-    else if (*szExpression == '(')
-    {
+    } else if (*szExpression == '(') {
         ++szExpression;
-        IExpression* pBracketed = ParseTopLevel(szExpression);
-        if (')' == *szExpression)
-        {
+        IExpression *pBracketed = ParseTopLevel(szExpression);
+        if (')' == *szExpression) {
             ++szExpression;
             return pBracketed;
         }
 
         return AbortedParse(szExpression);
-    }
-    else if (*szExpression == '$')
-    {
+    } else if (*szExpression == '$') {
         size_t lenVariable = 0;
-        for (char* szEndVar = szExpression + 1; *szEndVar; ++szEndVar, ++lenVariable)
-        {
-            if (!isalnum(*szEndVar))
-            {
-                switch (*szEndVar)
-                {
-                case '_':
-                    break;
-                default:
-                    goto parsed_variable_name;
+        for (char *szEndVar = szExpression + 1; *szEndVar; ++szEndVar, ++lenVariable) {
+            if (!isalnum(*szEndVar)) {
+                switch (*szEndVar) {
+                    case '_':
+                        break;
+                    default:
+                        goto parsed_variable_name;
                 }
             }
         }
 
-    parsed_variable_name:
+        parsed_variable_name:
         const int nSlot = m_pContext->GetVariableSlot(std::string(szExpression + 1, lenVariable).c_str());
         szExpression += lenVariable + 1;
 
         return Expression<CExprVariable>(nSlot);
-    }
-    else if (*szExpression == '!')
-    {
+    } else if (*szExpression == '!') {
         ++szExpression;
-        IExpression* pNext = ParseInternal(szExpression);
+        IExpression *pNext = ParseInternal(szExpression);
         return Expression<CExprUnary_Negate>(pNext);
     }
 
     return AbortedParse(szExpression);
 }
 
-template <typename T, typename... Args, typename>
+template<typename T, typename... Args, typename>
 requires std::derived_from<T, IExpression>
-T* CComplexExpression::Expression(Args&&... args)
-{
+T *CComplexExpression::Expression(Args &&... args) {
     m_arrAllExpressions.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
-    return static_cast<T*>(m_arrAllExpressions.back().get());
+    return static_cast<T *>(m_arrAllExpressions.back().get());
 }
 
-void CComplexExpression::Clear() noexcept
-{
+void CComplexExpression::Clear() noexcept {
     m_arrAllExpressions.clear();
     m_pRoot = nullptr;
 }
@@ -577,27 +549,34 @@ void CComplexExpression::Clear() noexcept
 //
 //////////////////////////////////////////////////////////////////////////
 
-class ComboGenerator : public IEvaluationContext
-{
+class ComboGenerator : public IEvaluationContext {
 public:
     ComboGenerator() = default;
-    ComboGenerator(const ComboGenerator&) = default;
-    ComboGenerator(ComboGenerator&& old) noexcept : m_arrDefines(std::move(old.m_arrDefines)), m_mapDefines(std::move(old.m_mapDefines)), m_arrVarSlots(std::move(old.m_arrVarSlots)) {}
 
-    void AddDefine(Define const& df);
-    [[nodiscard]] Define const* GetDefinesBase() const noexcept { return m_arrDefines.data(); }
-    [[nodiscard]] Define const* GetDefinesEnd() const noexcept { return m_arrDefines.data() + m_arrDefines.size(); }
+    ComboGenerator(const ComboGenerator &) = default;
+
+    ComboGenerator(ComboGenerator &&old) noexcept: m_arrDefines(std::move(old.m_arrDefines)),
+                                                   m_mapDefines(std::move(old.m_mapDefines)),
+                                                   m_arrVarSlots(std::move(old.m_arrVarSlots)) {}
+
+    void AddDefine(Define const &df);
+
+    [[nodiscard]] Define const *GetDefinesBase() const noexcept { return m_arrDefines.data(); }
+
+    [[nodiscard]] Define const *GetDefinesEnd() const noexcept { return m_arrDefines.data() + m_arrDefines.size(); }
 
     [[nodiscard]] uint64_t NumCombos() const noexcept;
+
     [[nodiscard]] uint64_t NumCombos(bool bStaticCombos) const noexcept;
 
     // IEvaluationContext
 public:
     [[nodiscard]] int GetVariableValue(int nSlot) const noexcept override { return m_arrVarSlots[nSlot]; }
-    [[nodiscard]] char const* GetVariableName(int nSlot) const noexcept override { return m_arrDefines[nSlot].Name(); }
-    [[nodiscard]] int GetVariableSlot(char const* szVariableName) const noexcept override
-    {
-        const auto& find = m_mapDefines.find(szVariableName);
+
+    [[nodiscard]] char const *GetVariableName(int nSlot) const noexcept override { return m_arrDefines[nSlot].Name(); }
+
+    [[nodiscard]] int GetVariableSlot(char const *szVariableName) const noexcept override {
+        const auto &find = m_mapDefines.find(szVariableName);
         if (m_mapDefines.end() != find)
             return find->second;
         return -1;
@@ -609,53 +588,51 @@ protected:
     std::vector<int> m_arrVarSlots;
 };
 
-void ComboGenerator::AddDefine(Define const& df)
-{
+void ComboGenerator::AddDefine(Define const &df) {
     m_mapDefines.emplace(df.Name(), gsl::narrow<int>(m_arrDefines.size()));
     m_arrDefines.emplace_back(df);
     m_arrVarSlots.emplace_back(1);
 }
 
-uint64_t ComboGenerator::NumCombos() const noexcept
-{
+uint64_t ComboGenerator::NumCombos() const noexcept {
     return std::transform_reduce(m_arrDefines.cbegin(), m_arrDefines.cend(), 1ULL,
-        [](const uint64_t& a, const uint64_t& b) noexcept { return a * b; },
-        [](const Define& d) noexcept { return static_cast<uint64_t>(d.Max()) - d.Min() + 1ULL; });
+                                 [](const uint64_t &a, const uint64_t &b) noexcept { return a * b; },
+                                 [](const Define &d) noexcept {
+                                     return static_cast<uint64_t>(d.Max()) - d.Min() + 1ULL;
+                                 });
 }
 
-uint64_t ComboGenerator::NumCombos(bool bStaticCombos) const noexcept
-{
+uint64_t ComboGenerator::NumCombos(bool bStaticCombos) const noexcept {
     return std::transform_reduce(m_arrDefines.cbegin(), m_arrDefines.cend(), 1ULL,
-        [](const uint64_t& a, const uint64_t& b) noexcept { return a * b; },
-        [bStaticCombos](const Define& d) noexcept { return d.IsStatic() == bStaticCombos ? static_cast<uint64_t>(d.Max()) - d.Min() + 1ULL : 1ULL; });
+                                 [](const uint64_t &a, const uint64_t &b) noexcept { return a * b; },
+                                 [bStaticCombos](const Define &d) noexcept {
+                                     return d.IsStatic() == bStaticCombos ? static_cast<uint64_t>(d.Max()) - d.Min() +
+                                                                            1ULL : 1ULL;
+                                 });
 }
 
 extern std::string g_pShaderPath;
 extern bool g_bVerbose;
-namespace ConfigurationProcessing
-{
-    class CfgEntry
-    {
+namespace ConfigurationProcessing {
+    class CfgEntry {
     public:
-        CfgEntry() noexcept : m_szName(""), m_szShaderSrc(""), m_pCg(nullptr), m_pExpr(nullptr)
-        {
+        CfgEntry() noexcept: m_szName(""), m_szShaderSrc(""), m_pCg(nullptr), m_pExpr(nullptr) {
             memset(&m_eiInfo, 0, sizeof(m_eiInfo));
         }
 
-        static void Destroy(CfgEntry const& x) noexcept
-        {
+        static void Destroy(CfgEntry const &x) noexcept {
             delete x.m_pCg;
             delete x.m_pExpr;
         }
 
     public:
-        bool operator<(const CfgEntry& x) const noexcept { return m_pCg->NumCombos() < x.m_pCg->NumCombos(); }
+        bool operator<(const CfgEntry &x) const noexcept { return m_pCg->NumCombos() < x.m_pCg->NumCombos(); }
 
     public:
-        char const* m_szName;
-        char const* m_szShaderSrc;
-        ComboGenerator* m_pCg;
-        CComplexExpression* m_pExpr;
+        char const *m_szName;
+        char const *m_szShaderSrc;
+        ComboGenerator *m_pCg;
+        CComplexExpression *m_pExpr;
 
         CfgProcessor::CfgEntryInfo m_eiInfo;
     };
@@ -663,17 +640,17 @@ namespace ConfigurationProcessing
     static std::set<std::string> s_strPool;
     static std::multiset<CfgEntry> s_setEntries;
 
-    class ComboHandleImpl : public IEvaluationContext
-    {
+    class ComboHandleImpl : public IEvaluationContext {
     public:
         uint64_t m_iTotalCommand;
         uint64_t m_iComboNumber;
         uint64_t m_numCombos;
-        const CfgEntry* m_pEntry;
+        const CfgEntry *m_pEntry;
 
     public:
-        ComboHandleImpl() noexcept : m_iTotalCommand(0), m_iComboNumber(0), m_numCombos(0), m_pEntry(nullptr) {}
-        ComboHandleImpl(const ComboHandleImpl&) = default;
+        ComboHandleImpl() noexcept: m_iTotalCommand(0), m_iComboNumber(0), m_numCombos(0), m_pEntry(nullptr) {}
+
+        ComboHandleImpl(const ComboHandleImpl &) = default;
 
         // IEvaluationContext
     private:
@@ -681,55 +658,63 @@ namespace ConfigurationProcessing
 
     public:
         int GetVariableValue(int nSlot) const noexcept override { return m_arrVarSlots[nSlot]; }
-        char const* GetVariableName(int nSlot) const noexcept override { return m_pEntry->m_pCg->GetVariableName(nSlot); }
-        int GetVariableSlot(char const* szVariableName) const noexcept override { return m_pEntry->m_pCg->GetVariableSlot(szVariableName); }
+
+        char const *GetVariableName(int nSlot) const noexcept override {
+            return m_pEntry->m_pCg->GetVariableName(nSlot);
+        }
+
+        int GetVariableSlot(char const *szVariableName) const noexcept override {
+            return m_pEntry->m_pCg->GetVariableSlot(szVariableName);
+        }
 
         // External implementation
     public:
-        bool Initialize(uint64_t iTotalCommand, const CfgEntry* pEntry);
-        bool AdvanceCommands(uint64_t& riAdvanceMore) noexcept;
+        bool Initialize(uint64_t iTotalCommand, const CfgEntry *pEntry);
+
+        bool AdvanceCommands(uint64_t &riAdvanceMore) noexcept;
+
         bool NextNotSkipped(uint64_t iTotalCommand) noexcept;
+
         bool IsSkipped() const noexcept { return m_pEntry->m_pExpr->Evaluate(this) != 0; }
+
         void FormatCommand(std::span<char> pchBuffer) const;
+
         void FormatCommandHumanReadable(std::span<char> pchBuffer) const;
     };
 
     static std::map<uint64_t, ComboHandleImpl> s_mapComboCommands;
 
-    bool ComboHandleImpl::Initialize(uint64_t iTotalCommand, const CfgEntry* pEntry)
-    {
+    bool ComboHandleImpl::Initialize(uint64_t iTotalCommand, const CfgEntry *pEntry) {
         m_iTotalCommand = iTotalCommand;
         m_pEntry = pEntry;
         m_numCombos = m_pEntry->m_pCg->NumCombos();
 
         // Defines
-        Define const* const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
-        Define const* const pDefVarsEnd = m_pEntry->m_pCg->GetDefinesEnd();
+        Define const *const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
+        Define const *const pDefVarsEnd = m_pEntry->m_pCg->GetDefinesEnd();
 
         // Set all the variables to max values
-        for (const Define* pSetDef = pDefVars; pSetDef < pDefVarsEnd; ++pSetDef)
+        for (const Define *pSetDef = pDefVars; pSetDef < pDefVarsEnd; ++pSetDef)
             m_arrVarSlots.emplace_back(pSetDef->Max());
 
         m_iComboNumber = m_numCombos - 1;
         return true;
     }
 
-    bool ComboHandleImpl::AdvanceCommands(uint64_t& riAdvanceMore) noexcept
-    {
+    bool ComboHandleImpl::AdvanceCommands(uint64_t &riAdvanceMore) noexcept {
         if (!riAdvanceMore)
             return true;
 
         // Get the pointers
-        int* const pnValues = m_arrVarSlots.data();
-        int* const pnValuesEnd = pnValues + m_arrVarSlots.size();
-        int* pSetValues;
+        int *const pnValues = m_arrVarSlots.data();
+        int *const pnValuesEnd = pnValues + m_arrVarSlots.size();
+        int *pSetValues;
 
         // Defines
-        Define const* const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
-        Define const* pSetDef;
+        Define const *const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
+        Define const *pSetDef;
 
-        if (m_iComboNumber < riAdvanceMore)
-        {
+        if (m_iComboNumber < riAdvanceMore) {
             riAdvanceMore -= m_iComboNumber;
             return false;
         }
@@ -737,8 +722,8 @@ namespace ConfigurationProcessing
         // Do the advance
         m_iTotalCommand += riAdvanceMore;
         m_iComboNumber -= riAdvanceMore;
-        for (pSetValues = pnValues, pSetDef = pDefVars; (pSetValues < pnValuesEnd) && (riAdvanceMore > 0); ++pSetValues, ++pSetDef)
-        {
+        for (pSetValues = pnValues, pSetDef = pDefVars;
+             (pSetValues < pnValuesEnd) && (riAdvanceMore > 0); ++pSetValues, ++pSetDef) {
             riAdvanceMore += (static_cast<uint64_t>(pSetDef->Max()) - *pSetValues);
             *pSetValues = pSetDef->Max();
 
@@ -750,19 +735,18 @@ namespace ConfigurationProcessing
         return true;
     }
 
-    bool ComboHandleImpl::NextNotSkipped(uint64_t iTotalCommand) noexcept
-    {
+    bool ComboHandleImpl::NextNotSkipped(uint64_t iTotalCommand) noexcept {
         // Get the pointers
-        int* const pnValues = m_arrVarSlots.data();
-        int* const pnValuesEnd = pnValues + m_arrVarSlots.size();
-        int* pSetValues;
+        int *const pnValues = m_arrVarSlots.data();
+        int *const pnValuesEnd = pnValues + m_arrVarSlots.size();
+        int *pSetValues;
 
         // Defines
-        const Define* const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
-        const Define* pSetDef;
+        const Define *const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
+        const Define *pSetDef;
 
         // Go ahead and run the iterations
-    next_combo_iteration:
+        next_combo_iteration:
         if (m_iTotalCommand + 1 >= iTotalCommand || !m_iComboNumber)
             return false;
 
@@ -770,9 +754,8 @@ namespace ConfigurationProcessing
         ++m_iTotalCommand;
 
         // Do a next iteration
-        for (pSetValues = pnValues, pSetDef = pDefVars; pSetValues < pnValuesEnd; ++pSetValues, ++pSetDef)
-        {
-            if (-- * pSetValues >= pSetDef->Min())
+        for (pSetValues = pnValues, pSetDef = pDefVars; pSetValues < pnValuesEnd; ++pSetValues, ++pSetDef) {
+            if (--*pSetValues >= pSetDef->Min())
                 goto have_combo_iteration;
 
             *pSetValues = pSetDef->Max();
@@ -780,24 +763,23 @@ namespace ConfigurationProcessing
 
         return false;
 
-    have_combo_iteration:
+        have_combo_iteration:
         if (m_pEntry->m_pExpr->Evaluate(this))
             goto next_combo_iteration;
 
         return true;
     }
 
-    void ComboHandleImpl::FormatCommand(std::span<char> pchBuffer) const
-    {
+    void ComboHandleImpl::FormatCommand(std::span<char> pchBuffer) const {
         // Get the pointers
-        const int* const pnValues = m_arrVarSlots.data();
-        const int* const pnValuesEnd = pnValues + m_arrVarSlots.size();
-        const int* pSetValues;
+        const int *const pnValues = m_arrVarSlots.data();
+        const int *const pnValuesEnd = pnValues + m_arrVarSlots.size();
+        const int *pSetValues;
 
         // Defines
-        const Define* const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
-        const Define* const pDefVarsEnd = m_pEntry->m_pCg->GetDefinesEnd();
-        const Define* pSetDef;
+        const Define *const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
+        const Define *const pDefVarsEnd = m_pEntry->m_pCg->GetDefinesEnd();
+        const Define *pSetDef;
 
         // ------- OnCombo( nCurrentCombo ); ----------
         int o = sprintf_s(pchBuffer.data(), pchBuffer.size(), "command") + 1;
@@ -813,8 +795,8 @@ namespace ConfigurationProcessing
         o += sprintf_s(&pchBuffer[o], pchBuffer.size() - o, "SHADER_MODEL_%s", version) + 1;
         o += sprintf_s(&pchBuffer[o], pchBuffer.size() - o, "1") + 1;
 
-        for (pSetValues = pnValues, pSetDef = pDefVars; pSetValues < pnValuesEnd && pDefVars < pDefVarsEnd; ++pSetValues, ++pSetDef)
-        {
+        for (pSetValues = pnValues, pSetDef = pDefVars;
+             pSetValues < pnValuesEnd && pDefVars < pDefVarsEnd; ++pSetValues, ++pSetDef) {
             o += sprintf_s(&pchBuffer[o], pchBuffer.size() - o, "%s", pSetDef->Name()) + 1;
             o += sprintf_s(&pchBuffer[o], pchBuffer.size() - o, "%d", *pSetValues) + 1;
         }
@@ -824,27 +806,28 @@ namespace ConfigurationProcessing
         // ------- end of OnCombo ---------------------
     }
 
-    void ComboHandleImpl::FormatCommandHumanReadable(std::span<char> pchBuffer) const
-    {
+    void ComboHandleImpl::FormatCommandHumanReadable(std::span<char> pchBuffer) const {
         // Get the pointers
-        const int* const pnValues = m_arrVarSlots.data();
-        const int* const pnValuesEnd = pnValues + m_arrVarSlots.size();
-        const int* pSetValues;
+        const int *const pnValues = m_arrVarSlots.data();
+        const int *const pnValuesEnd = pnValues + m_arrVarSlots.size();
+        const int *pSetValues;
 
         // Defines
-        const Define* const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
-        const Define* const pDefVarsEnd = m_pEntry->m_pCg->GetDefinesEnd();
-        const Define* pSetDef;
+        const Define *const pDefVars = m_pEntry->m_pCg->GetDefinesBase();
+        const Define *const pDefVarsEnd = m_pEntry->m_pCg->GetDefinesEnd();
+        const Define *pSetDef;
 
         // ------- OnCombo( nCurrentCombo ); ----------
         char version[20];
         strcpy_s(version, m_pEntry->m_eiInfo.m_szShaderVersion);
         _strupr_s(version);
         int o = sprintf_s(pchBuffer.data(), pchBuffer.size(),
-            "fxc.exe /DCENTROIDMASK=%d /DSHADERCOMBO=%llx /DSHADER_MODEL_%s=1 /T%s /Emain",
-            m_pEntry->m_eiInfo.m_nCentroidMask, m_iComboNumber, version, m_pEntry->m_eiInfo.m_szShaderVersion);
+                          "fxc.exe /DCENTROIDMASK=%d /DSHADERCOMBO=%llx /DSHADER_MODEL_%s=1 /T%s /Emain",
+                          m_pEntry->m_eiInfo.m_nCentroidMask, m_iComboNumber, version,
+                          m_pEntry->m_eiInfo.m_szShaderVersion);
 
-        for (pSetValues = pnValues, pSetDef = pDefVars; pSetValues < pnValuesEnd && pDefVars < pDefVarsEnd; ++pSetValues, ++pSetDef)
+        for (pSetValues = pnValues, pSetDef = pDefVars;
+             pSetValues < pnValuesEnd && pDefVars < pDefVarsEnd; ++pSetValues, ++pSetDef)
             o += sprintf_s(&pchBuffer[o], pchBuffer.size() - o, " /D%s=%d", pSetDef->Name(), *pSetValues);
 
         o += sprintf_s(&pchBuffer[o], pchBuffer.size() - o, " %s", m_pEntry->m_szShaderSrc);
@@ -853,27 +836,24 @@ namespace ConfigurationProcessing
         pchBuffer[o] = '\0';
     }
 
-    static struct CAutoDestroyEntries
-    {
-        ~CAutoDestroyEntries()
-        {
+    static struct CAutoDestroyEntries {
+        ~CAutoDestroyEntries() {
             std::for_each(s_setEntries.begin(), s_setEntries.end(), CfgEntry::Destroy);
         }
     } s_autoDestroyEntries;
 
 
     static robin_hood::unordered_flat_map<std::string, std::array<std::string, 2>> shaderVersionMapping =
-    {
-        { "20b", { "ps_2_b", "vs_2_0" } },
-        { "30", { "ps_3_0", "vs_3_0" } },
-        { "40", { "ps_4_0", "vs_4_0" } },
-        { "41", { "ps_4_1", "vs_4_1" } },
-        { "50", { "ps_5_0", "vs_5_0" } },
-        { "51", { "ps_5_1", "vs_5_1" } }
-    };
+            {
+                    {"20b", {"ps_2_b", "vs_2_0"}},
+                    {"30",  {"ps_3_0", "vs_3_0"}},
+                    {"40",  {"ps_4_0", "vs_4_0"}},
+                    {"41",  {"ps_4_1", "vs_4_1"}},
+                    {"50",  {"ps_5_0", "vs_5_0"}},
+                    {"51",  {"ps_5_1", "vs_5_1"}}
+            };
 
-    static int FastToLower(char c)
-    {
+    static int FastToLower(char c) {
         int i = gsl::narrow_cast<unsigned char>(c);
         if (i < 0x80)
             // Brutally fast branchless ASCII tolower():
@@ -883,29 +863,27 @@ namespace ConfigurationProcessing
         return i;
     }
 
-    static char const* V_stristr(char const* pStr, char const* pSearch)
-    {
+    static char const *V_stristr(char const *pStr, char const *pSearch) {
         if (!pStr || !pSearch)
             return nullptr;
 
-        char const* pLetter = pStr;
+        char const *pLetter = pStr;
 
         // Check the entire string
-        while (*pLetter != 0)
-        {
+        while (*pLetter != 0) {
             // Skip over non-matches
-            if (FastToLower(gsl::narrow_cast<unsigned char>(*pLetter)) == FastToLower(gsl::narrow_cast<unsigned char>(*pSearch)))
-            {
+            if (FastToLower(gsl::narrow_cast<unsigned char>(*pLetter)) ==
+                FastToLower(gsl::narrow_cast<unsigned char>(*pSearch))) {
                 // Check for match
-                char const* pMatch = pLetter + 1;
-                char const* pTest = pSearch + 1;
-                while (*pTest != 0)
-                {
+                char const *pMatch = pLetter + 1;
+                char const *pTest = pSearch + 1;
+                while (*pTest != 0) {
                     // We've run off the end; don't bother.
                     if (*pMatch == 0)
                         return nullptr;
 
-                    if (FastToLower(gsl::narrow_cast<unsigned char>(*pMatch)) != FastToLower(gsl::narrow_cast<unsigned char>(*pTest)))
+                    if (FastToLower(gsl::narrow_cast<unsigned char>(*pMatch)) !=
+                        FastToLower(gsl::narrow_cast<unsigned char>(*pTest)))
                         break;
 
                     ++pMatch;
@@ -923,15 +901,14 @@ namespace ConfigurationProcessing
         return nullptr;
     }
 
-    void SetupConfigurationDirect(const std::string& name, const std::string& version, uint32_t centroidMask,
-        const std::vector<Parser::Combo>& static_c, const std::vector<Parser::Combo>& dynamic_c,
-        const std::vector<std::string>& skip, const std::vector<std::string>& includes)
-    {
+    void SetupConfigurationDirect(const std::string &name, const std::string &version, uint32_t centroidMask,
+                                  const std::vector<Parser::Combo> &static_c,
+                                  const std::vector<Parser::Combo> &dynamic_c,
+                                  const std::vector<std::string> &skip, const std::vector<std::string> &includes) {
         using namespace std::literals;
 
-        const auto& AddCombos = [](ComboGenerator& cg, const std::vector<Parser::Combo>& combos, bool staticC)
-        {
-            for (const Parser::Combo& combo : combos)
+        const auto &AddCombos = [](ComboGenerator &cg, const std::vector<Parser::Combo> &combos, bool staticC) {
+            for (const Parser::Combo &combo: combos)
                 cg.AddDefine(Define(combo.name.c_str(), combo.minVal, combo.maxVal, staticC));
         };
 
@@ -939,17 +916,20 @@ namespace ConfigurationProcessing
         cfg.m_szName = s_strPool.emplace(name).first->c_str();
         cfg.m_szShaderSrc = s_strPool.emplace(includes[0]).first->c_str();
         // Combo generator
-        ComboGenerator& cg = *(cfg.m_pCg = new ComboGenerator);
-        CComplexExpression& exprSkip = *(cfg.m_pExpr = new CComplexExpression(&cg));
+        ComboGenerator &cg = *(cfg.m_pCg = new ComboGenerator);
+        CComplexExpression &exprSkip = *(cfg.m_pExpr = new CComplexExpression(&cg));
 
         AddCombos(cg, dynamic_c, false);
         AddCombos(cg, static_c, true);
-        exprSkip.Parse((std::accumulate(skip.begin(), skip.end(), "("s, [](const std::string& s, const std::string& sk) { return s + sk + ")||("; }) + "0)").c_str());
+        exprSkip.Parse((std::accumulate(skip.begin(), skip.end(), "("s,
+                                        [](const std::string &s, const std::string &sk) { return s + sk + ")||("; }) +
+                        "0)").c_str());
 
-        CfgProcessor::CfgEntryInfo& info = cfg.m_eiInfo;
+        CfgProcessor::CfgEntryInfo &info = cfg.m_eiInfo;
         info.m_szName = cfg.m_szName;
         info.m_szShaderFileName = cfg.m_szShaderSrc;
-        info.m_szShaderVersion = s_strPool.emplace(shaderVersionMapping[version][V_stristr(cfg.m_szName, "_vs") != nullptr]).first->c_str();
+        info.m_szShaderVersion = s_strPool.emplace(
+                shaderVersionMapping[version][V_stristr(cfg.m_szName, "_vs") != nullptr]).first->c_str();
         info.m_numCombos = cg.NumCombos();
         info.m_numDynamicCombos = cg.NumCombos(false);
         info.m_numStaticCombos = cg.NumCombos(true);
@@ -958,29 +938,29 @@ namespace ConfigurationProcessing
         s_setEntries.insert(std::move(cfg));
 
         char filename[1024];
-        for (const std::string& file : includes)
-        {
+        for (const std::string &file: includes) {
             if (V_IsAbsolutePath(file.c_str()))
                 strcpy_s(filename, file.c_str());
             else
                 sprintf_s(filename, "%s\\%s", g_pShaderPath.c_str(), file.c_str());
 
             std::ifstream src(filename, std::ios::binary | std::ios::ate);
-            if (!src)
-            {
-                std::cout << clr::pinkish << "Can't find \"" << clr::red << filename << clr::pinkish << "\"" << std::endl;
+            if (!src) {
+                std::cout << clr::pinkish << "Can't find \"" << clr::red << filename << clr::pinkish << "\""
+                          << std::endl;
                 continue;
             }
 
             char justFilename[MAX_PATH];
-            const char* pLastSlash = std::max(strrchr(file.c_str(), '/'), strrchr(file.c_str(), '\\'));
+            const char *pLastSlash = std::max(strrchr(file.c_str(), '/'), strrchr(file.c_str(), '\\'));
             if (pLastSlash)
                 strcpy_s(justFilename, pLastSlash + 1);
             else
                 strcpy_s(justFilename, file.c_str());
 
             if (g_bVerbose)
-                std::cout << "adding file to cache: \"" << clr::green << justFilename << clr::reset << "\"" << std::endl;
+                std::cout << "adding file to cache: \"" << clr::green << justFilename << clr::reset << "\""
+                          << std::endl;
 
             std::vector<char> data(gsl::narrow<size_t>(src.tellg()));
             src.clear();
@@ -991,8 +971,7 @@ namespace ConfigurationProcessing
         }
 
         uint64_t nCurrentCommand = 0;
-        for (auto it = s_setEntries.rbegin(), itEnd = s_setEntries.rend(); it != itEnd; ++it)
-        {
+        for (auto it = s_setEntries.rbegin(), itEnd = s_setEntries.rend(); it != itEnd; ++it) {
             // We establish a command mapping for the beginning of the entry
             ComboHandleImpl chi;
             chi.Initialize(nCurrentCommand, &*it);
@@ -1001,8 +980,8 @@ namespace ConfigurationProcessing
             // We also establish mapping by either splitting the
             // combos into 500 intervals or stepping by every 1000 combos.
             const uint64_t iPartStep = std::max<uint64_t>(1000, chi.m_numCombos / 500);
-            for (uint64_t iRecord = nCurrentCommand + iPartStep; iRecord < nCurrentCommand + chi.m_numCombos; iRecord += iPartStep)
-            {
+            for (uint64_t iRecord = nCurrentCommand + iPartStep;
+                 iRecord < nCurrentCommand + chi.m_numCombos; iRecord += iPartStep) {
                 uint64_t iAdvance = iPartStep;
                 chi.AdvanceCommands(iAdvance);
                 s_mapComboCommands.emplace(iRecord, chi);
@@ -1024,8 +1003,7 @@ namespace ConfigurationProcessing
         }
     }
 
-    static void ProcessConfiguration(const char* pConfigFile)
-    {
+    static void ProcessConfiguration(const char *pConfigFile) {
         {
             std::set<std::string> usedFiles;
             Json::Value configFile;
@@ -1036,32 +1014,31 @@ namespace ConfigurationProcessing
                 parseFromStream(builder, file, &configFile, &errors);
             }
 
-            const auto& AddCombos = [](ComboGenerator& cg, const Json::Value& combos, bool staticC)
-            {
-                for (const Json::Value& combo : combos)
-                    cg.AddDefine(Define(combo["name"].asCString(), combo["minVal"].asInt(), combo["maxVal"].asInt(), staticC));
+            const auto &AddCombos = [](ComboGenerator &cg, const Json::Value &combos, bool staticC) {
+                for (const Json::Value &combo: combos)
+                    cg.AddDefine(Define(combo["name"].asCString(), combo["minVal"].asInt(), combo["maxVal"].asInt(),
+                                        staticC));
             };
 
-            const Json::Value::Members& shaders = configFile.getMemberNames();
-            for (const auto& shader : shaders)
-            {
-                const Json::Value& curShader = configFile[shader];
-                const Json::Value& sourceFiles = curShader["files"]; // first file is shader
-                const Json::Value& staticCombos = curShader["static"];
-                const Json::Value& dynamicCombos = curShader["dynamic"];
+            const Json::Value::Members &shaders = configFile.getMemberNames();
+            for (const auto &shader: shaders) {
+                const Json::Value &curShader = configFile[shader];
+                const Json::Value &sourceFiles = curShader["files"]; // first file is shader
+                const Json::Value &staticCombos = curShader["static"];
+                const Json::Value &dynamicCombos = curShader["dynamic"];
 
                 CfgEntry cfg;
                 cfg.m_szName = s_strPool.emplace(shader).first->c_str();
                 cfg.m_szShaderSrc = s_strPool.emplace(sourceFiles[0].asString()).first->c_str();
                 // Combo generator
-                ComboGenerator& cg = *(cfg.m_pCg = new ComboGenerator);
-                CComplexExpression& exprSkip = *(cfg.m_pExpr = new CComplexExpression(&cg));
+                ComboGenerator &cg = *(cfg.m_pCg = new ComboGenerator);
+                CComplexExpression &exprSkip = *(cfg.m_pExpr = new CComplexExpression(&cg));
 
                 AddCombos(cg, dynamicCombos, false);
                 AddCombos(cg, staticCombos, true);
                 exprSkip.Parse(curShader["skip"].asCString());
 
-                CfgProcessor::CfgEntryInfo& info = cfg.m_eiInfo;
+                CfgProcessor::CfgEntryInfo &info = cfg.m_eiInfo;
                 info.m_szName = cfg.m_szName;
                 info.m_szShaderFileName = cfg.m_szShaderSrc;
                 info.m_szShaderVersion = s_strPool.emplace(curShader["version"].asString()).first->c_str();
@@ -1072,34 +1049,34 @@ namespace ConfigurationProcessing
 
                 s_setEntries.insert(std::move(cfg));
 
-                for (const Json::Value& f : sourceFiles)
+                for (const Json::Value &f: sourceFiles)
                     usedFiles.emplace(f.asString());
             }
 
             char filename[1024];
-            for (const std::string& file : usedFiles)
-            {
+            for (const std::string &file: usedFiles) {
                 if (V_IsAbsolutePath(file.c_str()))
                     strcpy_s(filename, file.c_str());
                 else
                     sprintf_s(filename, "%s\\%s", g_pShaderPath.c_str(), file.c_str());
 
                 std::ifstream src(filename, std::ios::binary | std::ios::ate);
-                if (!src)
-                {
-                    std::cout << clr::pinkish << "Can't find \"" << clr::red << filename << clr::pinkish << "\"" << std::endl;
+                if (!src) {
+                    std::cout << clr::pinkish << "Can't find \"" << clr::red << filename << clr::pinkish << "\""
+                              << std::endl;
                     continue;
                 }
 
                 char justFilename[MAX_PATH];
-                const char* pLastSlash = std::max(strrchr(file.c_str(), '/'), strrchr(file.c_str(), '\\'));
+                const char *pLastSlash = std::max(strrchr(file.c_str(), '/'), strrchr(file.c_str(), '\\'));
                 if (pLastSlash)
                     strcpy_s(justFilename, pLastSlash + 1);
                 else
                     strcpy_s(justFilename, file.c_str());
 
                 if (g_bVerbose)
-                    std::cout << "adding file to cache: \"" << clr::green << justFilename << clr::reset << "\"" << std::endl;
+                    std::cout << "adding file to cache: \"" << clr::green << justFilename << clr::reset << "\""
+                              << std::endl;
 
                 std::vector<char> data(gsl::narrow<size_t>(src.tellg()));
                 src.clear();
@@ -1111,8 +1088,7 @@ namespace ConfigurationProcessing
         }
 
         uint64_t nCurrentCommand = 0;
-        for (auto it = s_setEntries.rbegin(), itEnd = s_setEntries.rend(); it != itEnd; ++it)
-        {
+        for (auto it = s_setEntries.rbegin(), itEnd = s_setEntries.rend(); it != itEnd; ++it) {
             // We establish a command mapping for the beginning of the entry
             ComboHandleImpl chi;
             chi.Initialize(nCurrentCommand, &*it);
@@ -1121,8 +1097,8 @@ namespace ConfigurationProcessing
             // We also establish mapping by either splitting the
             // combos into 500 intervals or stepping by every 1000 combos.
             const uint64_t iPartStep = std::max<uint64_t>(1000, chi.m_numCombos / 500);
-            for (uint64_t iRecord = nCurrentCommand + iPartStep; iRecord < nCurrentCommand + chi.m_numCombos; iRecord += iPartStep)
-            {
+            for (uint64_t iRecord = nCurrentCommand + iPartStep;
+                 iRecord < nCurrentCommand + chi.m_numCombos; iRecord += iPartStep) {
                 uint64_t iAdvance = iPartStep;
                 chi.AdvanceCommands(iAdvance);
                 s_mapComboCommands.emplace(iRecord, chi);
@@ -1146,39 +1122,36 @@ namespace ConfigurationProcessing
 
 }; // namespace ConfigurationProcessing
 
-namespace CfgProcessor
-{
+namespace CfgProcessor {
     using CPCHI_t = ConfigurationProcessing::ComboHandleImpl;
-    static CPCHI_t* FromHandle(ComboHandle hCombo) noexcept
-    {
-        return reinterpret_cast<CPCHI_t*>(hCombo);
+
+    static CPCHI_t *FromHandle(ComboHandle hCombo) noexcept {
+        return reinterpret_cast<CPCHI_t *>(hCombo);
     }
-    static ComboHandle AsHandle(CPCHI_t* pImpl) noexcept
-    {
+
+    static ComboHandle AsHandle(CPCHI_t *pImpl) noexcept {
         return reinterpret_cast<ComboHandle>(pImpl);
     }
 
-    void ReadConfiguration(const char* configFile)
-    {
+    void ReadConfiguration(const char *configFile) {
         ConfigurationProcessing::ProcessConfiguration(configFile);
     }
 
-    void DescribeConfiguration(std::unique_ptr<CfgEntryInfo[]>& rarrEntries)
-    {
+    void DescribeConfiguration(std::unique_ptr<CfgEntryInfo[]> &rarrEntries) {
         rarrEntries = std::make_unique<CfgEntryInfo[]>(ConfigurationProcessing::s_setEntries.size() + 1);
 
-        CfgEntryInfo* pInfo = rarrEntries.get();
+        CfgEntryInfo *pInfo = rarrEntries.get();
         uint64_t nCurrentCommand = 0;
 
-        for (auto it = ConfigurationProcessing::s_setEntries.rbegin(), itEnd = ConfigurationProcessing::s_setEntries.rend(); it != itEnd; ++it, ++pInfo)
-        {
-            const ConfigurationProcessing::CfgEntry& e = *it;
+        for (auto it = ConfigurationProcessing::s_setEntries.rbegin(), itEnd = ConfigurationProcessing::s_setEntries.rend();
+             it != itEnd; ++it, ++pInfo) {
+            const ConfigurationProcessing::CfgEntry &e = *it;
             *pInfo = e.m_eiInfo;
 
             pInfo->m_iCommandStart = nCurrentCommand;
             pInfo->m_iCommandEnd = pInfo->m_iCommandStart + pInfo->m_numCombos;
 
-            const_cast<CfgEntryInfo&>(e.m_eiInfo) = *pInfo;
+            const_cast<CfgEntryInfo &>(e.m_eiInfo) = *pInfo;
 
             if (!PreprocessorDbg::s_bNoOutput)
                 e.m_pExpr->Print(nullptr);
@@ -1192,18 +1165,15 @@ namespace CfgProcessor
         pInfo->m_iCommandEnd = nCurrentCommand;
     }
 
-    static const CPCHI_t& GetLessOrEq(uint64_t& k, const CPCHI_t& v)
-    {
+    static const CPCHI_t &GetLessOrEq(uint64_t &k, const CPCHI_t &v) {
         auto it = ConfigurationProcessing::s_mapComboCommands.lower_bound(k);
-        if (ConfigurationProcessing::s_mapComboCommands.end() == it)
-        {
+        if (ConfigurationProcessing::s_mapComboCommands.end() == it) {
             if (ConfigurationProcessing::s_mapComboCommands.empty())
                 return v;
             --it;
         }
 
-        if (k < it->first)
-        {
+        if (k < it->first) {
             if (ConfigurationProcessing::s_mapComboCommands.begin() == it)
                 return v;
             --it;
@@ -1213,18 +1183,17 @@ namespace CfgProcessor
         return it->second;
     }
 
-    ComboHandle Combo_GetCombo(uint64_t iCommandNumber)
-    {
+    ComboHandle Combo_GetCombo(uint64_t iCommandNumber) {
         // Find earlier command
         uint64_t iCommandFound = iCommandNumber;
         const CPCHI_t emptyCPCHI;
-        CPCHI_t const& chiFound = GetLessOrEq(iCommandFound, emptyCPCHI);
+        CPCHI_t const &chiFound = GetLessOrEq(iCommandFound, emptyCPCHI);
 
         if (chiFound.m_iTotalCommand < 0 || chiFound.m_iTotalCommand > iCommandNumber)
             return nullptr;
 
         // Advance the handle as needed
-        CPCHI_t* pImpl = new CPCHI_t(chiFound);
+        CPCHI_t *pImpl = new CPCHI_t(chiFound);
 
         uint64_t iCommandFoundAdvance = iCommandNumber - iCommandFound;
         pImpl->AdvanceCommands(iCommandFoundAdvance);
@@ -1232,21 +1201,20 @@ namespace CfgProcessor
         return AsHandle(pImpl);
     }
 
-    ComboHandle Combo_GetNext(uint64_t& riCommandNumber, ComboHandle& rhCombo, uint64_t iCommandEnd)
-    {
+    ComboHandle Combo_GetNext(uint64_t &riCommandNumber, ComboHandle &rhCombo, uint64_t iCommandEnd) {
         // Combo handle implementation
-        CPCHI_t* pImpl = FromHandle(rhCombo);
+        CPCHI_t *pImpl = FromHandle(rhCombo);
 
-        if (!rhCombo)
-        {
+        if (!rhCombo) {
             // We don't have a combo handle that corresponds to the command
 
             // Find earlier command
             uint64_t iCommandFound = riCommandNumber;
             const CPCHI_t emptyCPCHI;
-            const CPCHI_t& chiFound = GetLessOrEq(iCommandFound, emptyCPCHI);
+            const CPCHI_t &chiFound = GetLessOrEq(iCommandFound, emptyCPCHI);
 
-            if (!chiFound.m_pEntry || !chiFound.m_pEntry->m_pCg || !chiFound.m_pEntry->m_pExpr || chiFound.m_iTotalCommand < 0 || chiFound.m_iTotalCommand > riCommandNumber)
+            if (!chiFound.m_pEntry || !chiFound.m_pEntry->m_pCg || !chiFound.m_pEntry->m_pExpr ||
+                chiFound.m_iTotalCommand < 0 || chiFound.m_iTotalCommand > riCommandNumber)
                 return nullptr;
 
             // Advance the handle as needed
@@ -1260,18 +1228,15 @@ namespace CfgProcessor
                 return rhCombo;
         }
 
-        for (;; )
-        {
+        for (;;) {
             // We have the combo handle now
-            if (pImpl->NextNotSkipped(iCommandEnd))
-            {
+            if (pImpl->NextNotSkipped(iCommandEnd)) {
                 riCommandNumber = pImpl->m_iTotalCommand;
                 return rhCombo;
             }
 
             // We failed to get the next combo command (out of range)
-            if (pImpl->m_iTotalCommand + 1 >= iCommandEnd)
-            {
+            if (pImpl->m_iTotalCommand + 1 >= iCommandEnd) {
                 delete pImpl;
                 rhCombo = nullptr;
                 riCommandNumber = iCommandEnd;
@@ -1288,7 +1253,7 @@ namespace CfgProcessor
             // Retrieve the next combo handle data
             uint64_t iCommandLookup = riCommandNumber;
             CPCHI_t emptyCPCHI;
-            const CPCHI_t& chiNext = GetLessOrEq(iCommandLookup, emptyCPCHI);
+            const CPCHI_t &chiNext = GetLessOrEq(iCommandLookup, emptyCPCHI);
             Assert(iCommandLookup == riCommandNumber && (chiNext.m_pEntry));
 
             // Set up the new combo handle
@@ -1300,54 +1265,46 @@ namespace CfgProcessor
         }
     }
 
-    void Combo_FormatCommand(ComboHandle hCombo, std::span<char> pchBuffer)
-    {
+    void Combo_FormatCommand(ComboHandle hCombo, std::span<char> pchBuffer) {
         const auto pImpl = FromHandle(hCombo);
         pImpl->FormatCommand(pchBuffer);
     }
 
-    void Combo_FormatCommandHumanReadable(ComboHandle hCombo, std::span<char> pchBuffer)
-    {
+    void Combo_FormatCommandHumanReadable(ComboHandle hCombo, std::span<char> pchBuffer) {
         const auto pImpl = FromHandle(hCombo);
         pImpl->FormatCommandHumanReadable(pchBuffer);
     }
 
-    uint64_t Combo_GetCommandNum(ComboHandle hCombo) noexcept
-    {
+    uint64_t Combo_GetCommandNum(ComboHandle hCombo) noexcept {
         if (const auto pImpl = FromHandle(hCombo))
             return pImpl->m_iTotalCommand;
         return ~0ULL;
     }
 
-    uint64_t Combo_GetComboNum(ComboHandle hCombo) noexcept
-    {
+    uint64_t Combo_GetComboNum(ComboHandle hCombo) noexcept {
         if (const auto pImpl = FromHandle(hCombo))
             return pImpl->m_iComboNumber;
         return ~0ULL;
     }
 
-    const CfgEntryInfo* Combo_GetEntryInfo(ComboHandle hCombo) noexcept
-    {
+    const CfgEntryInfo *Combo_GetEntryInfo(ComboHandle hCombo) noexcept {
         if (const auto pImpl = FromHandle(hCombo))
             return &pImpl->m_pEntry->m_eiInfo;
         return nullptr;
     }
 
-    ComboHandle Combo_Alloc(ComboHandle hComboCopyFrom) noexcept
-    {
+    ComboHandle Combo_Alloc(ComboHandle hComboCopyFrom) noexcept {
         if (hComboCopyFrom)
             return AsHandle(new CPCHI_t(*FromHandle(hComboCopyFrom)));
         return AsHandle(new(std::nothrow) CPCHI_t);
     }
 
-    void Combo_Assign(ComboHandle hComboDst, ComboHandle hComboSrc)
-    {
+    void Combo_Assign(ComboHandle hComboDst, ComboHandle hComboSrc) {
         Assert(hComboDst);
         *FromHandle(hComboDst) = *FromHandle(hComboSrc);
     }
 
-    void Combo_Free(ComboHandle& rhComboFree) noexcept
-    {
+    void Combo_Free(ComboHandle &rhComboFree) noexcept {
         delete FromHandle(rhComboFree);
         rhComboFree = nullptr;
     }

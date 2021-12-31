@@ -10,6 +10,6 @@
 #pragma once
 #endif
 
-void WorldVertexTransitionFixup( void );
+void WorldVertexTransitionFixup(void);
 
 #endif // WORLDVERTEXTRANSITIONFIXUP_H

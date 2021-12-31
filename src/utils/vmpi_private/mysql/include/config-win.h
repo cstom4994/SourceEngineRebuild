@@ -19,7 +19,7 @@
 
 #include <sys/locking.h>
 #include <windows.h>
-#include <math.h>			/* Because of rint() */
+#include <math.h>            /* Because of rint() */
 #include <fcntl.h>
 #include <io.h>
 #include <malloc.h>
@@ -29,13 +29,13 @@
 #elif defined(__WIN2000__)
 #define	SYSTEM_TYPE	"WIN2000"
 #else
-#define	SYSTEM_TYPE	"Win95/Win98"
+#define    SYSTEM_TYPE    "Win95/Win98"
 #endif
 
 #ifdef _WIN64
 #define MACHINE_TYPE	"ia64"		/* Define to machine type name */
 #else
-#define MACHINE_TYPE	"i32"		/* Define to machine type name */
+#define MACHINE_TYPE    "i32"        /* Define to machine type name */
 #ifndef _WIN32
 #define _WIN32				/* Compatible with old source */
 #endif
@@ -48,22 +48,22 @@
 #endif
 
 /* File and lock constants */
-#define O_SHARE         0x1000 		/* Open file in sharing mode */
+#define O_SHARE         0x1000        /* Open file in sharing mode */
 #ifdef __BORLANDC__
 #define	F_RDLCK		LK_NBLCK	/* read lock */
 #define	F_WRLCK		LK_NBRLCK	/* write lock */
 #define	F_UNLCK		LK_UNLCK	/* remove lock(s) */
 #else
-#define	F_RDLCK		_LK_NBLCK	/* read lock */
-#define	F_WRLCK		_LK_NBRLCK	/* write lock */
-#define	F_UNLCK		_LK_UNLCK	/* remove lock(s) */
+#define    F_RDLCK        _LK_NBLCK    /* read lock */
+#define    F_WRLCK        _LK_NBRLCK    /* write lock */
+#define    F_UNLCK        _LK_UNLCK    /* remove lock(s) */
 #endif
 
-#define F_EXCLUSIVE     1		/* We have only exclusive locking */
+#define F_EXCLUSIVE     1        /* We have only exclusive locking */
 #define F_TO_EOF        (INT_MAX32/2)   /* size for lock of all file */
-#define F_OK		0		/* parameter to access() */
+#define F_OK        0        /* parameter to access() */
 
-#define S_IROTH		S_IREAD		/* for my_lib */
+#define S_IROTH        S_IREAD        /* for my_lib */
 
 #ifdef __BORLANDC__
 #define FILE_BINARY	O_BINARY	/* my_fopen in binary mode */
@@ -77,28 +77,28 @@
 #define O_SHORT_LIVED   _O_SHORT_LIVED
 #define SH_DENYNO       _SH_DENYNO
 #endif
-#define NO_OPEN_3			/* For my_create() */
+#define NO_OPEN_3            /* For my_create() */
 
-#define	SIGQUIT		SIGTERM		/* No SIGQUIT */
+#define    SIGQUIT        SIGTERM        /* No SIGQUIT */
 
-#undef _REENTRANT			/* Crashes something for win32 */
-#undef SAFE_MUTEX			/* Can't be used on windows */
+#undef _REENTRANT            /* Crashes something for win32 */
+#undef SAFE_MUTEX            /* Can't be used on windows */
 
-#define LONGLONG_MIN	((__int64) 0x8000000000000000)
-#define LONGLONG_MAX	((__int64) 0x7FFFFFFFFFFFFFFF)
-#define LL(A)		((__int64) A)
+#define LONGLONG_MIN    ((__int64) 0x8000000000000000)
+#define LONGLONG_MAX    ((__int64) 0x7FFFFFFFFFFFFFFF)
+#define LL(A)        ((__int64) A)
 
 /* Type information */
 
-typedef unsigned short  ushort;
-typedef unsigned int    uint;
-typedef unsigned __int64 ulonglong;	/* Microsofts 64 bit types */
-typedef __int64	longlong;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef unsigned __int64 ulonglong;    /* Microsofts 64 bit types */
+typedef __int64 longlong;
 typedef int sigset_t;
 #define longlong_defined
 /* off_t should not be __int64 because of conflicts in header files;
    Use my_off_t or os_off_t instead */
-typedef	long off_t;
+typedef long off_t;
 typedef __int64 os_off_t;
 #ifdef _WIN64
 typedef UINT_PTR rf_SetTimer;
@@ -110,7 +110,7 @@ typedef uint rf_SetTimer;
 #define Socket_defined
 #define my_socket SOCKET
 #define bool BOOL
-#define SIGPIPE	SIGINT
+#define SIGPIPE    SIGINT
 #define RETQSORTTYPE void
 #define QSORT_TYPE_IS_VOID
 #define RETSIGTYPE void
@@ -125,10 +125,10 @@ typedef uint rf_SetTimer;
 #define THREAD
 #endif
 #define VOID_SIGHANDLER
-#define SIZEOF_CHAR		1
-#define SIZEOF_LONG		4
-#define SIZEOF_LONG_LONG	8
-#define SIZEOF_OFF_T		8
+#define SIZEOF_CHAR        1
+#define SIZEOF_LONG        4
+#define SIZEOF_LONG_LONG    8
+#define SIZEOF_OFF_T        8
 #define HAVE_BROKEN_NETINET_INCLUDES
 #ifdef __NT__
 #define HAVE_NAMED_PIPE			/* We can only create pipes on NT */
@@ -138,24 +138,23 @@ typedef uint rf_SetTimer;
 #define USE_MB 1
 #define USE_MB_IDENT 1
 #define USE_STRCOLL 1
- 
+
 /* Convert some simple functions to Posix */
 
-#define sigset(A,B) signal((A),(B))
+#define sigset(A, B) signal((A),(B))
 #define finite(A) _finite(A)
 #define sleep(A)  Sleep((A)*1000)
 
 #ifndef __BORLANDC__
-#define access(A,B) _access(A,B)
+#define access(A, B) _access(A,B)
 #endif
 
 #if defined(__cplusplus)
 
-inline double rint(double nr)
-{
-  double f = floor(nr);
-  double c = ceil(nr);
-  return (((c-nr) >= (nr-f)) ? f :c);
+inline double rint(double nr) {
+    double f = floor(nr);
+    double c = ceil(nr);
+    return (((c - nr) >= (nr - f)) ? f : c);
 }
 
 #ifdef _WIN64
@@ -163,13 +162,14 @@ inline double rint(double nr)
 #define my_off_t2double(A)  ((double) (A))
 
 #else
-inline double ulonglong2double(ulonglong value)
-{
-  longlong nr=(longlong) value;
-  if (nr >= 0)
-    return (double) nr;
-  return (18446744073709551616.0 + (double) nr);
+
+inline double ulonglong2double(ulonglong value) {
+    longlong nr = (longlong) value;
+    if (nr >= 0)
+        return (double) nr;
+    return (18446744073709551616.0 + (double) nr);
 }
+
 #define my_off_t2double(A) ulonglong2double(A)
 #endif /* _WIN64 */
 #else
@@ -177,7 +177,7 @@ inline double ulonglong2double(ulonglong value)
 #endif /* __cplusplus */
 
 #if SIZEOF_OFF_T > 4
-#define lseek(A,B,C) _lseeki64((A),(longlong) (B),(C))
+#define lseek(A, B, C) _lseeki64((A),(longlong) (B),(C))
 #define tell(A) _telli64(A)
 #endif
 
@@ -185,57 +185,57 @@ inline double ulonglong2double(ulonglong value)
 
 /* Optimized store functions for Intel x86 */
 
-#define sint2korr(A)	(*((int16 *) (A)))
-#define sint3korr(A)	((int32) ((((uchar) (A)[2]) & 128) ? \
-				  (((uint32) 255L << 24) | \
-				   (((uint32) (uchar) (A)[2]) << 16) |\
-				   (((uint32) (uchar) (A)[1]) << 8) | \
-				   ((uint32) (uchar) (A)[0])) : \
-				  (((uint32) (uchar) (A)[2]) << 16) |\
-				  (((uint32) (uchar) (A)[1]) << 8) | \
-				  ((uint32) (uchar) (A)[0])))
-#define sint4korr(A)	(*((long *) (A)))
-#define uint2korr(A)	(*((uint16 *) (A)))
-#define uint3korr(A)	(long) (*((unsigned long *) (A)) & 0xFFFFFF)
-#define uint4korr(A)	(*((unsigned long *) (A)))
-#define uint5korr(A)	((ulonglong)(((uint32) ((uchar) (A)[0])) +\
-				    (((uint32) ((uchar) (A)[1])) << 8) +\
-				    (((uint32) ((uchar) (A)[2])) << 16) +\
-				    (((uint32) ((uchar) (A)[3])) << 24)) +\
-			 	    (((ulonglong) ((uchar) (A)[4])) << 32))
-#define uint8korr(A)	(*((ulonglong *) (A)))
-#define sint8korr(A)	(*((longlong *) (A)))
-#define int2store(T,A)	*((uint16*) (T))= (uint16) (A)
-#define int3store(T,A)		{ *(T)=  (uchar) ((A));\
-				  *(T+1)=(uchar) (((uint) (A) >> 8));\
-				  *(T+2)=(uchar) (((A) >> 16)); }
-#define int4store(T,A)	*((long *) (T))= (long) (A)
-#define int5store(T,A)	{ *(T)= (uchar)((A));\
-			  *((T)+1)=(uchar) (((A) >> 8));\
-			  *((T)+2)=(uchar) (((A) >> 16));\
-			  *((T)+3)=(uchar) (((A) >> 24)); \
-			  *((T)+4)=(uchar) (((A) >> 32)); }
-#define int8store(T,A)	*((ulonglong *) (T))= (ulonglong) (A)
+#define sint2korr(A)    (*((int16 *) (A)))
+#define sint3korr(A)    ((int32) ((((uchar) (A)[2]) & 128) ? \
+                  (((uint32) 255L << 24) | \
+                   (((uint32) (uchar) (A)[2]) << 16) |\
+                   (((uint32) (uchar) (A)[1]) << 8) | \
+                   ((uint32) (uchar) (A)[0])) : \
+                  (((uint32) (uchar) (A)[2]) << 16) |\
+                  (((uint32) (uchar) (A)[1]) << 8) | \
+                  ((uint32) (uchar) (A)[0])))
+#define sint4korr(A)    (*((long *) (A)))
+#define uint2korr(A)    (*((uint16 *) (A)))
+#define uint3korr(A)    (long) (*((unsigned long *) (A)) & 0xFFFFFF)
+#define uint4korr(A)    (*((unsigned long *) (A)))
+#define uint5korr(A)    ((ulonglong)(((uint32) ((uchar) (A)[0])) +\
+                    (((uint32) ((uchar) (A)[1])) << 8) +\
+                    (((uint32) ((uchar) (A)[2])) << 16) +\
+                    (((uint32) ((uchar) (A)[3])) << 24)) +\
+                    (((ulonglong) ((uchar) (A)[4])) << 32))
+#define uint8korr(A)    (*((ulonglong *) (A)))
+#define sint8korr(A)    (*((longlong *) (A)))
+#define int2store(T, A)    *((uint16*) (T))= (uint16) (A)
+#define int3store(T, A)        { *(T)=  (uchar) ((A));\
+                  *(T+1)=(uchar) (((uint) (A) >> 8));\
+                  *(T+2)=(uchar) (((A) >> 16)); }
+#define int4store(T, A)    *((long *) (T))= (long) (A)
+#define int5store(T, A)    { *(T)= (uchar)((A));\
+              *((T)+1)=(uchar) (((A) >> 8));\
+              *((T)+2)=(uchar) (((A) >> 16));\
+              *((T)+3)=(uchar) (((A) >> 24)); \
+              *((T)+4)=(uchar) (((A) >> 32)); }
+#define int8store(T, A)    *((ulonglong *) (T))= (ulonglong) (A)
 
-#define doubleget(V,M)	{ *((long *) &V) = *((long*) M); \
-			  *(((long *) &V)+1) = *(((long*) M)+1); }
-#define doublestore(T,V) { *((long *) T) = *((long*) &V); \
-			   *(((long *) T)+1) = *(((long*) &V)+1); }
-#define float4get(V,M) { *((long *) &(V)) = *((long*) (M)); }
-#define float8get(V,M) doubleget((V),(M))
-#define float4store(V,M) memcpy((byte*) V,(byte*) (&M),sizeof(float))
-#define float8store(V,M) doublestore((V),(M))
+#define doubleget(V, M)    { *((long *) &V) = *((long*) M); \
+              *(((long *) &V)+1) = *(((long*) M)+1); }
+#define doublestore(T, V) { *((long *) T) = *((long*) &V); \
+               *(((long *) T)+1) = *(((long*) &V)+1); }
+#define float4get(V, M) { *((long *) &(V)) = *((long*) (M)); }
+#define float8get(V, M) doubleget((V),(M))
+#define float4store(V, M) memcpy((byte*) V,(byte*) (&M),sizeof(float))
+#define float8store(V, M) doublestore((V),(M))
 
 
 #define HAVE_PERROR
 #define HAVE_VFPRINT
-#define HAVE_CHSIZE		/* System has chsize() function */
-#define HAVE_RENAME		/* Have rename() as function */
-#define HAVE_BINARY_STREAMS	/* Have "b" flag in streams */
-#define HAVE_LONG_JMP		/* Have long jump function */
-#define HAVE_LOCKING		/* have locking() call */
-#define HAVE_ERRNO_AS_DEFINE	/* errno is a define */
-#define HAVE_STDLIB		/* everything is include in this file */
+#define HAVE_CHSIZE        /* System has chsize() function */
+#define HAVE_RENAME        /* Have rename() as function */
+#define HAVE_BINARY_STREAMS    /* Have "b" flag in streams */
+#define HAVE_LONG_JMP        /* Have long jump function */
+#define HAVE_LOCKING        /* have locking() call */
+#define HAVE_ERRNO_AS_DEFINE    /* errno is a define */
+#define HAVE_STDLIB        /* everything is include in this file */
 #define HAVE_MEMCPY
 #define HAVE_MEMMOVE
 #define HAVE_GETCWD
@@ -244,7 +244,7 @@ inline double ulonglong2double(ulonglong value)
 #define HAVE_PUTENV
 #define HAVE_SELECT
 #define HAVE_SETLOCALE
-#define HAVE_SOCKET		/* Giangi */
+#define HAVE_SOCKET        /* Giangi */
 #define HAVE_FLOAT_H
 #define HAVE_LIMITS_H
 #define HAVE_STDDEF_H
@@ -261,7 +261,7 @@ inline double ulonglong2double(ulonglong value)
 #endif
 
 #ifdef _MSC_VER
-#define HAVE_LDIV		/* The optimizer breaks in zortech for ldiv */
+#define HAVE_LDIV        /* The optimizer breaks in zortech for ldiv */
 #define HAVE_ANSI_INCLUDE
 #define HAVE_SYS_UTIME_H
 #define HAVE_STRTOUL
@@ -274,33 +274,33 @@ inline double ulonglong2double(ulonglong value)
 #ifdef _CUSTOMCONFIG_
 #include <custom_conf.h>
 #else
-#define	DEFAULT_MYSQL_HOME	"c:\\mysql"
-#define PACKAGE		 	"mysql"
-#define DEFAULT_BASEDIR		"C:\\"
-#define SHAREDIR		"share"
-#define DEFAULT_CHARSET_HOME	"C:/mysql/"
+#define    DEFAULT_MYSQL_HOME    "c:\\mysql"
+#define PACKAGE            "mysql"
+#define DEFAULT_BASEDIR        "C:\\"
+#define SHAREDIR        "share"
+#define DEFAULT_CHARSET_HOME    "C:/mysql/"
 #endif
 
 /* File name handling */
 
-#define FN_LIBCHAR	'\\'
-#define FN_ROOTDIR	"\\"
-#define FN_NETWORK_DRIVES	/* Uses \\ to indicate network drives */
-#define FN_NO_CASE_SENCE	/* Files are not case-sensitive */
-#define MY_NFILE	1024
+#define FN_LIBCHAR    '\\'
+#define FN_ROOTDIR    "\\"
+#define FN_NETWORK_DRIVES    /* Uses \\ to indicate network drives */
+#define FN_NO_CASE_SENCE    /* Files are not case-sensitive */
+#define MY_NFILE    1024
 
 #define DO_NOT_REMOVE_THREAD_WRAPPERS
-#define thread_safe_increment(V,L) InterlockedIncrement((long*) &(V))
+#define thread_safe_increment(V, L) InterlockedIncrement((long*) &(V))
 /* The following is only used for statistics, so it should be good enough */
 #ifdef __NT__  /* This should also work on Win98 but .. */
 #define thread_safe_add(V,C,L) InterlockedExchangeAdd((long*) &(V),(C))
 #define thread_safe_sub(V,C,L) InterlockedExchangeAdd((long*) &(V),-(long) (C))
 #define statistic_add(V,C,L) thread_safe_add((V),(C),(L))
 #else
-#define thread_safe_add(V,C,L) \
-	pthread_mutex_lock((L)); (V)+=(C); pthread_mutex_unlock((L));
-#define thread_safe_sub(V,C,L) \
-	pthread_mutex_lock((L)); (V)-=(C); pthread_mutex_unlock((L));
-#define statistic_add(V,C,L)     (V)+=(C)
+#define thread_safe_add(V, C, L) \
+    pthread_mutex_lock((L)); (V)+=(C); pthread_mutex_unlock((L));
+#define thread_safe_sub(V, C, L) \
+    pthread_mutex_lock((L)); (V)-=(C); pthread_mutex_unlock((L));
+#define statistic_add(V, C, L)     (V)+=(C)
 #endif
-#define statistic_increment(V,L) thread_safe_increment((V),(L))
+#define statistic_increment(V, L) thread_safe_increment((V),(L))

@@ -261,7 +261,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         zlib
         Jpeglib
 
-        steamemu
+        steam_api
 
         "shell32;"
         "user32;"

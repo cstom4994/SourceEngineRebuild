@@ -45,7 +45,7 @@
 #if defined(__clang__)
 #define GSL_SUPPRESS(x) [[gsl::suppress("x")]]
 #else
-#if defined(_MSC_VER) && ! defined(__INTEL_COMPILER)
+#if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
 #define GSL_SUPPRESS(x) [[gsl::suppress(x)]]
 #else
 #define GSL_SUPPRESS(x)
@@ -83,41 +83,38 @@
 // GSL.assert: assertions
 //
 
-namespace gsl
-{
+namespace gsl {
 
-namespace details
-{
+    namespace details {
 #if defined(GSL_MSVC_USE_STL_NOEXCEPTION_WORKAROUND)
 
-    typedef void(__cdecl* terminate_handler)();
+        typedef void(__cdecl* terminate_handler)();
 
-    // clang-format off
-    GSL_SUPPRESS(f.6) // NO-FORMAT: attribute
-    // clang-format on
-    [[noreturn]] inline void __cdecl default_terminate_handler()
-    {
-        __fastfail(RANGE_CHECKS_FAILURE);
-    }
+        // clang-format off
+        GSL_SUPPRESS(f.6) // NO-FORMAT: attribute
+        // clang-format on
+        [[noreturn]] inline void __cdecl default_terminate_handler()
+        {
+            __fastfail(RANGE_CHECKS_FAILURE);
+        }
 
-    inline gsl::details::terminate_handler& get_terminate_handler() noexcept
-    {
-        static terminate_handler handler = &default_terminate_handler;
-        return handler;
-    }
+        inline gsl::details::terminate_handler& get_terminate_handler() noexcept
+        {
+            static terminate_handler handler = &default_terminate_handler;
+            return handler;
+        }
 
 #endif // defined(GSL_MSVC_USE_STL_NOEXCEPTION_WORKAROUND)
 
-    [[noreturn]] inline void terminate() noexcept
-    {
+        [[noreturn]] inline void terminate() noexcept {
 #if defined(GSL_MSVC_USE_STL_NOEXCEPTION_WORKAROUND)
-        (*gsl::details::get_terminate_handler())();
+            (*gsl::details::get_terminate_handler())();
 #else
-        std::terminate();
+            std::terminate();
 #endif // defined(GSL_MSVC_USE_STL_NOEXCEPTION_WORKAROUND)
-    }
+        }
 
-} // namespace details
+    } // namespace details
 } // namespace gsl
 
 #define GSL_CONTRACT_CHECK(type, cond)                                                             \

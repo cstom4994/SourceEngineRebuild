@@ -18,15 +18,15 @@
 #include "ThreadedTCPSocketEmu.h"
 
 
-class CServiceConn
-{
+class CServiceConn {
 public:
-				CServiceConn();
-				~CServiceConn();
+    CServiceConn();
 
-	int			m_ID;
-	ITCPSocket	*m_pSocket;
-	DWORD		m_LastRecvTime;
+    ~CServiceConn();
+
+    int m_ID;
+    ITCPSocket *m_pSocket;
+    DWORD m_LastRecvTime;
 };
 
 
@@ -36,56 +36,58 @@ public:
 // simultaneously).
 // ------------------------------------------------------------------------------------------ // 
 
-class CServiceConnMgr
-{
+class CServiceConnMgr {
 public:
-	
-			CServiceConnMgr();
-			~CServiceConnMgr();
-	
-	bool	InitServer();	// Registers as a systemwide server.
-	bool	InitClient();	// Connects to the server.
-	void	Term();
 
-	// Returns true if there are any connections. If you used InitClient() and there are 
-	// no connections, it will continuously try to connect with a server.
-	bool	IsConnected();
-	
-	// This should be called as often as possible. It checks for dead connections and it 
-	// handles incoming packets from UIs.
-	void	Update();
+    CServiceConnMgr();
 
-	// This sends out a message. If id is -1, then it sends to all connections.
-	void	SendPacket( int id, const void *pData, int len );
+    ~CServiceConnMgr();
+
+    bool InitServer();    // Registers as a systemwide server.
+    bool InitClient();    // Connects to the server.
+    void Term();
+
+    // Returns true if there are any connections. If you used InitClient() and there are
+    // no connections, it will continuously try to connect with a server.
+    bool IsConnected();
+
+    // This should be called as often as possible. It checks for dead connections and it
+    // handles incoming packets from UIs.
+    void Update();
+
+    // This sends out a message. If id is -1, then it sends to all connections.
+    void SendPacket(int id, const void *pData, int len);
 
 
 // Overridables.
 public:
-	
-	virtual void	OnNewConnection( int id );
-	virtual void	OnTerminateConnection( int id );
-	virtual void	HandlePacket( const char *pData, int len );
+
+    virtual void OnNewConnection(int id);
+
+    virtual void OnTerminateConnection(int id);
+
+    virtual void HandlePacket(const char *pData, int len);
 
 
 private:
 
-	void			AttemptConnect();
+    void AttemptConnect();
 
 
 private:
-	
-	CUtlLinkedList<CServiceConn*, int>	m_Connections;
 
-	bool	m_bShuttingDown;
+    CUtlLinkedList<CServiceConn *, int> m_Connections;
 
-	// This tells if we're running as a client or server.
-	bool	m_bServer;
+    bool m_bShuttingDown;
 
-	// If we're a client, this is the last time we tried to connect.
-	DWORD	m_LastConnectAttemptTime;
+    // This tells if we're running as a client or server.
+    bool m_bServer;
 
-	// If we're the server, this is the socket we listen on.
-	ITCPListenSocket	*m_pListenSocket;
+    // If we're a client, this is the last time we tried to connect.
+    DWORD m_LastConnectAttemptTime;
+
+    // If we're the server, this is the socket we listen on.
+    ITCPListenSocket *m_pListenSocket;
 };
 
 

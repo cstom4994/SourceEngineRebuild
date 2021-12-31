@@ -33,24 +33,23 @@
 
 #endif // _MSC_VER
 
-namespace gsl
-{
+namespace gsl {
 // Note: this will generate faster code than std::copy using span iterator in older msvc+stl
 // not necessary for msvc since VS2017 15.8 (_MSC_VER >= 1915)
-template <class SrcElementType, std::size_t SrcExtent, class DestElementType,
-          std::size_t DestExtent>
-void copy(span<SrcElementType, SrcExtent> src, span<DestElementType, DestExtent> dest)
-{
-    static_assert(std::is_assignable<decltype(*dest.data()), decltype(*src.data())>::value,
-                  "Elements of source span can not be assigned to elements of destination span");
-    static_assert(SrcExtent == dynamic_extent || DestExtent == dynamic_extent ||
+    template<class SrcElementType, std::size_t SrcExtent, class DestElementType,
+            std::size_t DestExtent>
+    void copy(span <SrcElementType, SrcExtent> src, span <DestElementType, DestExtent> dest) {
+        static_assert(std::is_assignable<decltype(*dest.data()), decltype(*src.data())>::value,
+                      "Elements of source span can not be assigned to elements of destination span");
+        static_assert(SrcExtent == dynamic_extent || DestExtent == dynamic_extent ||
                       (SrcExtent <= DestExtent),
-                  "Source range is longer than target range");
+                      "Source range is longer than target range");
 
-    Expects(dest.size() >= src.size());
-    GSL_SUPPRESS(stl.1) // NO-FORMAT: attribute
-    std::copy_n(src.data(), src.size(), dest.data());
-}
+        Expects(dest.size() >= src.size());
+        GSL_SUPPRESS(stl
+        .1) // NO-FORMAT: attribute
+        std::copy_n(src.data(), src.size(), dest.data());
+    }
 
 } // namespace gsl
 
