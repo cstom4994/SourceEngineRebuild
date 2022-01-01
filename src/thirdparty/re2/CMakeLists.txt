@@ -115,6 +115,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../src;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
+        "${MYROOTDIR}/thirdparty/SDL2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier2;"

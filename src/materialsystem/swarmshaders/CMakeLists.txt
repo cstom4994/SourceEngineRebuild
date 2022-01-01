@@ -224,16 +224,10 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "$<$<CONFIG:Release>:"
         "NDEBUG"
     ">"
-    "WIN32;"
-    "_WIN32;"
-    "_WINDOWS;"
-    "_USRDLL;"
     "_CRT_SECURE_NO_DEPRECATE;"
     "_CRT_NONSTDC_NO_DEPRECATE;"
     "STDSHADER_DX9_DLL_EXPORT;"
     "FAST_MATERIALVAR_ACCESS;"
-    "COMPILER_MSVC;"
-    "COMPILER_MSVC32;"
     "_MBCS"
 )
 

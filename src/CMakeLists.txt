@@ -60,6 +60,16 @@ endif ()
 
 set(CMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE "x86")
 
+ADD_DEFINITIONS(
+        -DWIN32
+        -D_WIN32
+        -D_WINDOWS
+        -D_USRDLL
+        -D_CRT_SECURE_NO_DEPRECATE
+        -D_CRT_NONSTDC_NO_DEPRECATE
+        -DCOMPILER_MSVC32
+        -DCOMPILER_MSVC
+)
 
 ################################################################################
 # Nuget packages function stub.
@@ -108,6 +118,8 @@ add_subdirectory(filesystem)
 add_subdirectory(engine)
 
 add_subdirectory(game/client)
+add_subdirectory(game/interfaces)
+add_subdirectory(game/rocketui)
 add_subdirectory(game/gameui2)
 add_subdirectory(game/server)
 
@@ -161,6 +173,7 @@ add_subdirectory(thirdparty/libspeex)
 add_subdirectory(thirdparty/zlib-1.2.5)
 add_subdirectory(thirdparty/cryptopp860)
 add_subdirectory(thirdparty/re2)
+add_subdirectory(thirdparty/RmlUi)
 add_subdirectory(thirdparty/bzip2)
 add_subdirectory(thirdparty/jpeglib)
 add_subdirectory(thirdparty/lzma)

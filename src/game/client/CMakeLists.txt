@@ -1232,7 +1232,8 @@ set(CONTENTS_Files
         "contents/c_gameinstructor.h"
         "contents/hud_locator_target.cpp"
         "contents/hud_locator_target.h"
-        fx_cs_weaponfx.cpp)
+        "fx_cs_weaponfx.cpp"
+        )
 source_group("ReSource Files" FILES ${CONTENTS_Files})
 
 set(SEE_Files
@@ -1550,11 +1551,14 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/.;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
+        "${MYROOTDIR}/thirdparty/SDL2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
         "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_hl2mp;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.6.1/src;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/cef;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/RmlUi/Include;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/freetype;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/include;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/controls;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../common/GameUI;"
@@ -1592,14 +1596,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         ">"
         "VPC;"
         "RAD_TELEMETRY_DISABLED;"
-        "WIN32;"
-        "_WIN32;"
-        "_WINDOWS;"
-        "_USRDLL;"
-        "_CRT_SECURE_NO_DEPRECATE;"
-        "_CRT_NONSTDC_NO_DEPRECATE;"
-        "COMPILER_MSVC32;"
-        "COMPILER_MSVC;"
         "DLLNAME=client;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -1615,7 +1611,9 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_snprintf=use_Q_snprintf_instead;"
         "HL2MP;"
         "HL2_CLIENT_DLL;"
+        "RMLUI_STATIC_LIB;"
         "ENABLE_CEF;"
+        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )
@@ -1876,10 +1874,11 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         vtf
         zlib
         Jpeglib
-        steam_api
         cryptlib
         libprotobuf
 
+        steam_api
+        freetype
         libcef
         libcef_dll_wrapper
 
