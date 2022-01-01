@@ -87,14 +87,7 @@
 #include "ihudlcd.h"
 #include "toolframework_client.h"
 #include "hltvcamera.h"
-
 #include "shaderapi/ishaderapi.h"
-#include "imgui.h"
-#include "imgui_internal.h"
-#include "backends/imgui_impl_dx9.h"
-#include "backends/imgui_impl_win32.h"
-
-#include <d3d9.h>
 
 #if defined( REPLAY_ENABLED )
 #include "replay/replaycamera.h"
@@ -163,10 +156,11 @@
 #endif
 
 #ifdef ENABLE_CEF
-
 #include "cef/src_cef.h"
-
 #endif // ENABLE_CEF
+
+#include "../gameui2/igameui2.h"
+#include "rccpp_invoke.h"
 
 extern vgui::IInputInternal *g_InputInternal;
 
@@ -241,6 +235,9 @@ IReplaySystem *g_pReplay = NULL;
 
 IShaderSystem *g_pSLShaderSystem;
 IShaderAPI *g_pShaderAPI;
+
+IGameUI2 *GameUI2 = nullptr;
+IRCCPP *RCCPP = nullptr;
 
 IHaptics *haptics = NULL;// NVNT haptics system interface singleton
 
@@ -1194,21 +1191,65 @@ void CHLClient::PostInit() {
 #endif
 
 
-    // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void) io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    // GAMEUI2
+    if (CommandLine()->FindParm("-nogameui2") == 0) {
+        char GameUI2Path[2048];
+        Q_snprintf(GameUI2Path, sizeof(GameUI2Path), "%s\\bin\\gameui2.dll", engine->GetGameDirectory());
 
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsClassic();
+        CSysModule *GameUI2Module = Sys_LoadModule(GameUI2Path);
+        if (GameUI2Module != nullptr) {
+            ConColorMsg(Color(0, 148, 255, 255), "Loaded gameui2.dll\n");
 
-    // Setup Platform/Renderer backends
-    ImGui_ImplWin32_Init(NULL);
-    ImGui_ImplDX9_Init((IDirect3DDevice9 *) g_pShaderAPI->GetD3DDevice());
+            CreateInterfaceFn GameUI2Factory = Sys_GetFactory(GameUI2Module);
+            if (GameUI2Factory) {
+                GameUI2 = (IGameUI2 *) GameUI2Factory(GAMEUI2_DLL_INTERFACE_VERSION, NULL);
+                if (GameUI2 != nullptr) {
+                    ConColorMsg(Color(0, 148, 255, 255), "Initializing IGameUI2 interface...\n");
+
+                    factorylist_t Factories;
+                    FactoryList_Retrieve(Factories);
+                    GameUI2->Initialize(Factories.appSystemFactory);
+                    GameUI2->OnInitialize();
+                } else {
+                    ConColorMsg(Color(0, 148, 255, 255), "Unable to pull IGameUI2 interface.\n");
+                }
+            } else {
+                ConColorMsg(Color(0, 148, 255, 255), "Unable to get gameui2 factory.\n");
+            }
+        } else {
+            ConColorMsg(Color(0, 148, 255, 255), "Unable to load gameui2.dll from:\n%s\n", GameUI2Path);
+        }
+    }
+
+
+    if (CommandLine()->FindParm("-norccpp") == 0) {
+        char RCCPPPath[2048];
+        Q_snprintf(RCCPPPath, sizeof(RCCPPPath), "%s\\bin\\rccpp.dll", engine->GetGameDirectory());
+
+        CSysModule *RCCPPModule = Sys_LoadModule(RCCPPPath);
+        if (RCCPPModule != nullptr) {
+            ConColorMsg(Color(0, 148, 255, 255), "Loaded rccpp.dll\n");
+
+            CreateInterfaceFn RCCPPFactory = Sys_GetFactory(RCCPPModule);
+            if (RCCPPFactory) {
+                RCCPP = (IRCCPP *) RCCPPFactory(RCCPP_DLL_INTERFACE_VERSION, NULL);
+                if (RCCPP != nullptr) {
+                    ConColorMsg(Color(0, 148, 255, 255), "Initializing IRCCPP interface...\n");
+
+                    factorylist_t Factories;
+                    FactoryList_Retrieve(Factories);
+                    RCCPP->Initialize(Factories.appSystemFactory);
+                    RCCPP->OnInitialize();
+                } else {
+                    ConColorMsg(Color(0, 148, 255, 255), "Unable to pull IRCCPP interface.\n");
+                }
+            } else {
+                ConColorMsg(Color(0, 148, 255, 255), "Unable to get RCCPP factory.\n");
+            }
+        } else {
+            ConColorMsg(Color(0, 148, 255, 255), "Unable to load rccpp.dll from:\n%s\n", RCCPPPath);
+        }
+    }
 
 }
 
@@ -1219,10 +1260,6 @@ void CHLClient::Shutdown(void) {
     if (g_pAchievementsAndStatsInterface) {
         g_pAchievementsAndStatsInterface->ReleasePanel();
     }
-
-    ImGui_ImplDX9_Shutdown();
-    ImGui_ImplWin32_Shutdown();
-    ImGui::DestroyContext();
 
 #ifdef SIXENSE
     g_pSixenseInput->Shutdown();
@@ -1252,6 +1289,17 @@ void CHLClient::Shutdown(void) {
     UncacheAllMaterials();
 
     IGameSystem::ShutdownAllSystems();
+
+    // GAMEUI2
+    if (GameUI2 != nullptr) {
+        GameUI2->OnShutdown();
+        GameUI2->Shutdown();
+    }
+
+    if (RCCPP != nullptr) {
+        RCCPP->OnShutdown();
+        RCCPP->Shutdown();
+    }
 
     gHUD.Shutdown();
     VGui_Shutdown();
@@ -1346,7 +1394,12 @@ void CHLClient::HudUpdate(bool bActive) {
     }
 #endif
 
+    // GAMEUI2
+    if (GameUI2 != nullptr)
+        GameUI2->OnUpdate();
 
+    if (RCCPP != nullptr)
+        RCCPP->OnUpdate();
 }
 
 //-----------------------------------------------------------------------------
@@ -1660,6 +1713,13 @@ void CHLClient::LevelInitPreEntity(char const *pMapName) {
         CReplayRagdollRecorder::Instance().Init();
     }
 #endif
+
+    // GAMEUI2
+    if (GameUI2 != nullptr)
+        GameUI2->OnLevelInitializePreEntity();
+
+    if (RCCPP != nullptr)
+        RCCPP->OnLevelInitializePreEntity();
 }
 
 
@@ -1670,6 +1730,13 @@ void CHLClient::LevelInitPostEntity() {
     IGameSystem::LevelInitPostEntityAllSystems();
     C_PhysPropClientside::RecreateAll();
     internalCenterPrint->Clear();
+
+    // GAMEUI2
+    if (GameUI2 != nullptr)
+        GameUI2->OnLevelInitializePostEntity();
+
+    if (RCCPP != nullptr)
+        RCCPP->OnLevelInitializePostEntity();
 }
 
 //-----------------------------------------------------------------------------
@@ -1732,6 +1799,13 @@ void CHLClient::LevelShutdown(void) {
     ParticleMgr()->RemoveAllEffects();
 
     StopAllRumbleEffects();
+
+    // GAMEUI2
+    if (GameUI2 != nullptr)
+        GameUI2->OnLevelShutdown();
+
+    if (RCCPP != nullptr)
+        RCCPP->OnLevelShutdown();
 
     gHUD.LevelShutdown();
 
@@ -1965,11 +2039,6 @@ void SimulateEntities() {
             pEnt->Simulate();
         }
     }
-}
-
-void ResetDevice() {
-    ImGui_ImplDX9_InvalidateDeviceObjects();
-    ImGui_ImplDX9_CreateDeviceObjects();
 }
 
 bool AddDataChangeEvent(IClientNetworkable *ent, DataUpdateType_t updateType, int *pStoredEvent) {
@@ -2436,23 +2505,6 @@ bool show_demo_window = true;
 // See RenderViewInfo_t
 void CHLClient::RenderView(const CViewSetup &setup, int nClearFlags, int whatToDraw) {
     VPROF("RenderView");
-
-    // Start the Dear ImGui frame
-    ImGui_ImplDX9_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
-
-    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-    if (show_demo_window)
-        ImGui::ShowDemoWindow(&show_demo_window);
-
-    view->RenderView(setup, nClearFlags, whatToDraw);
-
-    // Rendering
-    ImGui::EndFrame();
-
-    ImGui::Render();
-    ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
 
 void ReloadSoundEntriesInList(IFileList *pFilesToReload);

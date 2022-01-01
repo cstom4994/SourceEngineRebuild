@@ -100,6 +100,10 @@ class IReplayScreenshotManager;
 
 class CSteamID;
 
+class IGameUI2;
+
+class IRCCPP;
+
 //=============================================================================
 // HPE_BEGIN
 // [dwenger] Necessary for stats display
@@ -158,6 +162,10 @@ extern IShaderSystem *g_pSLShaderSystem;
 class IShaderAPI;
 
 extern IShaderAPI *g_pShaderAPI;
+
+// Lambda Mod
+extern IGameUI2* GameUI2;
+extern IRCCPP* RCCPP;
 
 //=============================================================================
 // HPE_BEGIN

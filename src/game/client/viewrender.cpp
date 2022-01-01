@@ -55,12 +55,9 @@
 #include "client_virtualreality.h"
 #include "ShaderEditor/ShaderEditorSystem.h"
 #include "ShaderEditor/Grass/CGrassCluster.h"
-#include "imgui/imgui_impl_source.h"
-#include "imgui/imgui/imgui.h"
-#include "imgui/imgui/imgui_internal.h"
 
 #ifdef PORTAL
-                                                                                                                        //#include "C_Portal_Player.h"
+#include "C_Portal_Player.h"
 #include "portal_render_targets.h"
 #include "PortalRender.h"
 #endif

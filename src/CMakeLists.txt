@@ -120,6 +120,7 @@ add_subdirectory(engine)
 
 add_subdirectory(game/client)
 add_subdirectory(game/interfaces)
+add_subdirectory(game/rccpp)
 #add_subdirectory(game/rocketui)
 add_subdirectory(game/gameui2)
 add_subdirectory(game/server)
