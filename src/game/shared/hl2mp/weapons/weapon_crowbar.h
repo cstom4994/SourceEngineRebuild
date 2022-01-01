@@ -28,41 +28,47 @@
 // CWeaponCrowbar
 //-----------------------------------------------------------------------------
 
-class CWeaponCrowbar : public CBaseHL2MPBludgeonWeapon
-{
+class CWeaponCrowbar : public CBaseHL2MPBludgeonWeapon {
 public:
-	DECLARE_CLASS( CWeaponCrowbar, CBaseHL2MPBludgeonWeapon );
+    DECLARE_CLASS(CWeaponCrowbar, CBaseHL2MPBludgeonWeapon);
 
-	DECLARE_NETWORKCLASS(); 
-	DECLARE_PREDICTABLE();
+DECLARE_NETWORKCLASS();
+    DECLARE_PREDICTABLE();
 
 #ifndef CLIENT_DLL
-	DECLARE_ACTTABLE();
+    DECLARE_ACTTABLE();
 #endif
 
-	CWeaponCrowbar();
+    CWeaponCrowbar();
 
-	float		GetRange( void );
-	float		GetFireRate( void );
+    float GetRange(void);
 
-	void		AddViewKick( void );
-	float		GetDamageForActivity( Activity hitActivity );
-	void		SecondaryAttack( void )	{	return;	}
+    float GetFireRate(void);
 
-	void		Drop( const Vector &vecVelocity );
+    void AddViewKick(void);
+
+    float GetDamageForActivity(Activity hitActivity);
+
+    void SecondaryAttack(void) { return; }
+
+    void Drop(const Vector &vecVelocity);
 
 
-	// Animation event
+    // Animation event
 #ifndef CLIENT_DLL
-	virtual void Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatCharacter *pOperator );
-	void HandleAnimEventMeleeHit( animevent_t *pEvent, CBaseCombatCharacter *pOperator );
-	int WeaponMeleeAttack1Condition( float flDot, float flDist );
+
+    virtual void Operator_HandleAnimEvent(animevent_t *pEvent, CBaseCombatCharacter *pOperator);
+
+    void HandleAnimEventMeleeHit(animevent_t *pEvent, CBaseCombatCharacter *pOperator);
+
+    int WeaponMeleeAttack1Condition(float flDot, float flDist);
+
 #endif
 
-	CWeaponCrowbar( const CWeaponCrowbar & );
+    CWeaponCrowbar(const CWeaponCrowbar &);
 
 private:
-		
+
 };
 
 

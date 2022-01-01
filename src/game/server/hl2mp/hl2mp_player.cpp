@@ -5,7 +5,7 @@
 //=============================================================================//
 
 #include "cbase.h"
-#include "weapon_hl2mpbasehlmpcombatweapon.h"
+#include "hl2mp/weapons/weapon_hl2mpbasehlmpcombatweapon.h"
 #include "hl2mp_player.h"
 #include "globalstate.h"
 #include "game.h"
@@ -16,7 +16,7 @@
 #include "hl2mp_gamerules.h"
 #include "KeyValues.h"
 #include "team.h"
-#include "weapon_hl2mpbase.h"
+#include "hl2mp/weapons/weapon_hl2mpbase.h"
 #include "grenade_satchel.h"
 #include "eventqueue.h"
 #include "gamestats.h"
@@ -157,6 +157,7 @@ void CHL2MP_Player::GiveAllItems(void) {
 
     CBasePlayer::GiveAmmo(255, "Pistol");
     CBasePlayer::GiveAmmo(255, "AR2");
+    CBasePlayer::GiveAmmo(255, "762MM");
     CBasePlayer::GiveAmmo(5, "AR2AltFire");
     CBasePlayer::GiveAmmo(255, "SMG1");
     CBasePlayer::GiveAmmo(1, "smg1_grenade");
@@ -186,6 +187,8 @@ void CHL2MP_Player::GiveAllItems(void) {
 
     GiveNamedItem("weapon_physcannon");
 
+    GiveNamedItem("weapon_ak47");
+
 }
 
 void CHL2MP_Player::GiveDefaultItems(void) {
@@ -193,6 +196,7 @@ void CHL2MP_Player::GiveDefaultItems(void) {
 
     CBasePlayer::GiveAmmo(255, "Pistol");
     CBasePlayer::GiveAmmo(45, "SMG1");
+    CBasePlayer::GiveAmmo(30, "762MM");
     CBasePlayer::GiveAmmo(1, "grenade");
     CBasePlayer::GiveAmmo(6, "Buckshot");
     CBasePlayer::GiveAmmo(6, "357");

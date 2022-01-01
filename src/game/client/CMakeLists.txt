@@ -1074,30 +1074,31 @@ set(Source_Files__HL2MP__UI
 source_group("Source Files\\HL2MP\\UI" FILES ${Source_Files__HL2MP__UI})
 
 set(Source_Files__HL2MP__Weapons
-        "../shared/hl2mp/weapon_357.cpp"
-        "../shared/hl2mp/weapon_ar2.cpp"
-        "../shared/hl2mp/weapon_ar2.h"
-        "../shared/hl2mp/weapon_crossbow.cpp"
-        "../shared/hl2mp/weapon_crowbar.cpp"
-        "../shared/hl2mp/weapon_frag.cpp"
-        "../shared/hl2mp/weapon_hl2mpbase.cpp"
-        "../shared/hl2mp/weapon_hl2mpbase.h"
-        "../shared/hl2mp/weapon_hl2mpbase_machinegun.cpp"
-        "../shared/hl2mp/weapon_hl2mpbase_machinegun.h"
-        "../shared/hl2mp/weapon_hl2mpbasebasebludgeon.cpp"
-        "../shared/hl2mp/weapon_hl2mpbasehlmpcombatweapon.cpp"
-        "../shared/hl2mp/weapon_hl2mpbasehlmpcombatweapon.h"
-        "../shared/hl2mp/weapon_physcannon.cpp"
-        "../shared/hl2mp/weapon_physcannon.h"
-        "../shared/hl2mp/weapon_pistol.cpp"
-        "../shared/hl2mp/weapon_rpg.cpp"
-        "../shared/hl2mp/weapon_rpg.h"
-        "../shared/hl2mp/weapon_shotgun.cpp"
-        "../shared/hl2mp/weapon_slam.cpp"
-        "../shared/hl2mp/weapon_slam.h"
-        "../shared/hl2mp/weapon_smg1.cpp"
-        "../shared/hl2mp/weapon_stunstick.cpp"
-        )
+        "../shared/hl2mp/weapons/weapon_357.cpp"
+        "../shared/hl2mp/weapons/weapon_ar2.cpp"
+        "../shared/hl2mp/weapons/weapon_ar2.h"
+        "../shared/hl2mp/weapons/weapon_crossbow.cpp"
+        "../shared/hl2mp/weapons/weapon_crowbar.cpp"
+        "../shared/hl2mp/weapons/weapon_frag.cpp"
+        "../shared/hl2mp/weapons/weapon_hl2mpbase.cpp"
+        "../shared/hl2mp/weapons/weapon_hl2mpbase.h"
+        "../shared/hl2mp/weapons/weapon_hl2mpbase_machinegun.cpp"
+        "../shared/hl2mp/weapons/weapon_hl2mpbase_machinegun.h"
+        "../shared/hl2mp/weapons/weapon_hl2mpbasebasebludgeon.cpp"
+        "../shared/hl2mp/weapons/weapon_hl2mpbasehlmpcombatweapon.cpp"
+        "../shared/hl2mp/weapons/weapon_hl2mpbasehlmpcombatweapon.h"
+        "../shared/hl2mp/weapons/weapon_physcannon.cpp"
+        "../shared/hl2mp/weapons/weapon_physcannon.h"
+        "../shared/hl2mp/weapons/weapon_pistol.cpp"
+        "../shared/hl2mp/weapons/weapon_rpg.cpp"
+        "../shared/hl2mp/weapons/weapon_rpg.h"
+        "../shared/hl2mp/weapons/weapon_shotgun.cpp"
+        "../shared/hl2mp/weapons/weapon_slam.cpp"
+        "../shared/hl2mp/weapons/weapon_slam.h"
+        "../shared/hl2mp/weapons/weapon_smg1.cpp"
+        "../shared/hl2mp/weapons/weapon_stunstick.cpp"
+        "../shared/hl2mp/weapons/weapon_ak47.cpp"
+        ../shared/hl2mp/weapons/weapon_ak47.h)
 source_group("Source Files\\HL2MP\\Weapons" FILES ${Source_Files__HL2MP__Weapons})
 
 set(Source_Files__Precompiled_Header
@@ -1233,7 +1234,7 @@ set(CONTENTS_Files
         "contents/hud_locator_target.cpp"
         "contents/hud_locator_target.h"
         "fx_cs_weaponfx.cpp"
-        ../shared/handviewmodel_shared.cpp)
+        )
 source_group("ReSource Files" FILES ${CONTENTS_Files})
 
 set(SEE_Files
@@ -1571,6 +1572,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp/ui;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp;"
         "${CMAKE_CURRENT_SOURCE_DIR}/cef;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2mp/weapons;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2mp;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2/elements;"
