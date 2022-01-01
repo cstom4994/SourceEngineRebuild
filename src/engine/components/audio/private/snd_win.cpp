@@ -7,7 +7,9 @@
 #include "../audio_pch.h"
 
 #if defined( USE_SDL )
+
 #include "snd_dev_sdl.h"
+
 #endif
 #ifdef OSX
 #include "snd_dev_openal.h"
@@ -63,6 +65,20 @@ Returns a CAudioNULLDevice if nothing is found.
 IAudioDevice *IAudioDevice::AutoDetectInit(bool waveOnly) {
     IAudioDevice *pDevice = NULL;
 
+    // However, we use direct sound system for now
+    if (waveOnly) {
+        pDevice = Audio_CreateWaveDevice();
+    }
+    if (!pDevice) {
+        if (snd_firsttime) {
+            pDevice = Audio_CreateDirectSoundDevice();
+        }
+    }
+    if (!pDevice) {
+        pDevice = Audio_CreateWaveDevice();
+    }
+
+    /*
     if (IsPC()) {
 #if defined( WIN32 ) && !defined( USE_SDL )
         if (waveOnly) {
@@ -97,7 +113,7 @@ IAudioDevice *IAudioDevice::AutoDetectInit(bool waveOnly) {
             pDevice = Audio_CreateOpenALDevice(); // fall back to openAL if the audio queue fails
         }
 #elif defined( USE_SDL )
-        DevMsg( "Trying SDL Audio Interface\n" );
+        DevMsg("Trying SDL Audio Interface\n");
         pDevice = Audio_CreateSDLAudioDevice();
 #ifdef NEVER
         // Jul 2012. mikesart. E-mail exchange with Ryan Gordon after figuring out that
@@ -124,17 +140,7 @@ IAudioDevice *IAudioDevice::AutoDetectInit(bool waveOnly) {
 #error
 #endif
     }
-#if defined( _X360 )
-    else
-    {
-        pDevice = Audio_CreateXAudioDevice( true );
-        if ( pDevice )
-        {
-            // xaudio requires threaded mixing
-            S_EnableThreadedMixing( true );
-        }
-    }
-#endif
+    */
 
 #if defined( WIN32 ) && !defined( USE_SDL )
     NULLDEVICE:
@@ -147,7 +153,6 @@ IAudioDevice *IAudioDevice::AutoDetectInit(bool waveOnly) {
 
         return Audio_GetNullDevice();
     }
-
     return pDevice;
 }
 
