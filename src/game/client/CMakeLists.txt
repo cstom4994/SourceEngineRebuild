@@ -585,6 +585,7 @@ set(Replay
 source_group("Replay" FILES ${Replay})
 
 set(Source_Files
+        "magicbloom_rendertargets.cpp"
         "../../common/compiledcaptionswap.cpp"
         "../../common/debug_dll_check.cpp"
         "../../common/language.cpp"

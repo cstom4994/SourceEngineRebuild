@@ -38,7 +38,7 @@ bool g_bFlashlightIsOn = false;
 
 // hdr parameters
 ConVar mat_bloomscale("mat_bloomscale", "1");
-ConVar mat_hdr_level("mat_hdr_level", "2", FCVAR_ARCHIVE);
+ConVar mat_hdr_level("mat_hdr_level", "3", FCVAR_ARCHIVE);
 
 ConVar mat_bloomamount_rate("mat_bloomamount_rate", "0.05f", FCVAR_CHEAT);
 static ConVar debug_postproc("mat_debug_postprocessing_effects", "0", FCVAR_NONE,
