@@ -18,7 +18,7 @@ set(Source_Files
         "../../common/debug_lib_check.cpp"
         "../../public/filesystem_init.cpp"
         "AppSystemGroup.cpp"
-#        "sdlmgr.cpp"
+        "sdlmgr.cpp"
         "VguiMatSysApp.cpp"
         "WinApp.cpp"
         )

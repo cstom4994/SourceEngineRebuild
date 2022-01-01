@@ -5,6 +5,7 @@
 //===========================================================================//
 #if defined( USE_SDL )
 #undef PROTECTED_THINGS_ENABLE
+
 #include "SDL.h"
 #include "SDL_syswm.h"
 
@@ -32,7 +33,9 @@
 #elif defined(LINUX)
 #include "tier0/dynfunction.h"
 #elif defined(_WIN32)
+
 #include "tier0/dynfunction.h"
+
 #else
 #error
 #endif
@@ -177,7 +180,9 @@ public:
 
 public:
 #ifdef USE_SDL
-    void			SetMainWindow(SDL_Window* window);
+
+    void SetMainWindow(SDL_Window *window);
+
 #else
 #ifdef WIN32
 
@@ -241,7 +246,7 @@ private:
 #endif
 
 #if defined( USE_SDL )
-    SDL_Window* m_pSDLWindow;
+    SDL_Window *m_pSDLWindow;
 #endif
 
     int m_x;
@@ -1012,20 +1017,18 @@ bool CGame::CreateGameWindow(void) {
     modinfo->deleteThis();
     modinfo = NULL;
 
-    if (!g_pLauncherMgr->CreateGameWindow(windowName, windowed, 0, 0))
-    {
+    if (!g_pLauncherMgr->CreateGameWindow(windowName, windowed, 0, 0)) {
         Error("Fatal Error:  Unable to create game window!");
         return false;
     }
 
     char localPath[MAX_PATH];
-    if (g_pFileSystem->GetLocalPath("resource/game-icon.bmp", localPath, sizeof(localPath)))
-    {
+    if (g_pFileSystem->GetLocalPath("resource/game-icon.bmp", localPath, sizeof(localPath))) {
         g_pFileSystem->GetLocalCopy(localPath);
         g_pLauncherMgr->SetApplicationIcon(localPath);
     }
 
-    SetMainWindow((SDL_Window*)g_pLauncherMgr->GetWindowRef());
+    SetMainWindow((SDL_Window *) g_pLauncherMgr->GetWindowRef());
 
     AttachToWindow();
     return true;
@@ -1073,7 +1076,7 @@ void CGame::DestroyGameWindow() {
 void CGame::SetGameWindow(void *hWnd) {
     m_bExternallySuppliedWindow = true;
 #if defined( USE_SDL )
-    SDL_RaiseWindow((SDL_Window*)hWnd);
+    SDL_RaiseWindow((SDL_Window *) hWnd);
 #else
     SetMainWindow((HWND) hWnd);
 #endif
@@ -1177,11 +1180,11 @@ void CGame::InputDetachFromGameWindow() {
         return;
 
 #if defined( WIN32 ) && !defined( USE_SDL )
-    if (!m_ChainedWindowProc)
-        return;
+        if (!m_ChainedWindowProc)
+            return;
 
-    // Release + show the mouse
-    ReleaseCapture();
+        // Release + show the mouse
+        ReleaseCapture();
 #elif defined( USE_SDL )
     Assert(!"Impl me");
 #else
@@ -1456,7 +1459,7 @@ void CGame::UnloadUnicode() {
 
 void *CGame::GetMainWindow(void) {
 #ifdef USE_SDL
-    return (void*)m_pSDLWindow;
+    return (void *) m_pSDLWindow;
 #else
     return GetMainWindowPlatformSpecificHandle();
 #endif
@@ -1512,14 +1515,11 @@ void CGame::GetDesktopInfo(int &width, int &height, int &refreshrate) {
     refreshrate = 0;
 
     // Go through all the displays and return the size of the largest.
-    for (int i = 0; i < SDL_GetNumVideoDisplays(); i++)
-    {
+    for (int i = 0; i < SDL_GetNumVideoDisplays(); i++) {
         SDL_Rect rect;
 
-        if (!SDL_GetDisplayBounds(i, &rect))
-        {
-            if ((rect.w > width) || ((rect.w == width) && (rect.h > height)))
-            {
+        if (!SDL_GetDisplayBounds(i, &rect)) {
+            if ((rect.w > width) || ((rect.w == width) && (rect.h > height))) {
                 width = rect.w;
                 height = rect.h;
             }
@@ -1585,16 +1585,15 @@ void CGame::SetMainWindow(HWND window) {
 }
 
 #else
-void CGame::SetMainWindow(SDL_Window* window)
-{
+
+void CGame::SetMainWindow(SDL_Window *window) {
 #if defined( WIN32 )
     // For D3D, we need to access the underlying HWND of the SDL_Window.
     // We also can't do this in GetMainDeviceWindow and just use that, because for some reason
     // people use GetMainWindowAddress and store that pointer to our member.
     SDL_SysWMinfo pInfo;
     SDL_VERSION(&pInfo.version);
-    if (!SDL_GetWindowWMInfo((SDL_Window*)g_pLauncherMgr->GetWindowRef(), &pInfo))
-    {
+    if (!SDL_GetWindowWMInfo((SDL_Window *) g_pLauncherMgr->GetWindowRef(), &pInfo)) {
         Error("Fatal Error: Unable to get window info from SDL.");
         return;
     }
@@ -1605,11 +1604,11 @@ void CGame::SetMainWindow(SDL_Window* window)
     m_pSDLWindow = window;
 
     // update our desktop info (since the results will change if we are going to fullscreen mode)
-    if (!m_iDesktopWidth || !m_iDesktopHeight)
-    {
+    if (!m_iDesktopWidth || !m_iDesktopHeight) {
         UpdateDesktopInformation();
     }
 }
+
 #endif
 
 void CGame::SetWindowXY(int x, int y) {

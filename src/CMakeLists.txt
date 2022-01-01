@@ -61,6 +61,7 @@ endif ()
 set(CMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE "x86")
 
 ADD_DEFINITIONS(
+        -DUSE_SDL
         -DWIN32
         -D_WIN32
         -D_WINDOWS
@@ -152,10 +153,13 @@ add_subdirectory(minisef/serverbrowser)
 add_subdirectory(studiorender)
 add_subdirectory(utils/vmpi)
 
-add_subdirectory(SDKLauncher)
-add_subdirectory(hammer)
-add_subdirectory(hammer_launcher)
-add_subdirectory(utils/vbsp)
+
+if (BUILD_HAMMER)
+    add_subdirectory(SDKLauncher)
+    add_subdirectory(hammer)
+    add_subdirectory(hammer_launcher)
+    add_subdirectory(utils/vbsp)
+endif ()
 
 if (BUILD_SHADER)
     add_subdirectory(utils/shadercompile)

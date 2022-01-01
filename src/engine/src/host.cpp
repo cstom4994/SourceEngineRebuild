@@ -13,7 +13,9 @@
 #include "vstdlib/jobthread.h"
 
 #ifdef USE_SDL
+
 #include "appframework/ilaunchermgr.h"
+
 extern ILauncherMgr *g_pLauncherMgr;
 #endif
 
@@ -2609,10 +2611,9 @@ void _Host_RunFrame_Render() {
     saverestore->OnFrameRendered();
 
 #ifdef USE_SDL
-                                                                                                                            if ( g_pLauncherMgr )
-	{
-		g_pLauncherMgr->OnFrameRendered();
-	}
+    if (g_pLauncherMgr) {
+        g_pLauncherMgr->OnFrameRendered();
+    }
 #endif
 
     mat_norendering.SetValue(nOrgNoRendering);

@@ -18,6 +18,11 @@
 #include "tier1/utllinkedlist.h"
 #include "tier1/convar.h"
 
+#include "imgui/backends/imgui_impl_sdl.h"
+#include "imgui/backends/imgui_impl_sdlrenderer.h.h"
+#include "imgui.h"
+#include "imgui_internal.h"
+
 // NOTE: This has to be the last file included! (turned off below, since this is included like a header)
 #include "tier0/memdbgon.h"
 
@@ -222,7 +227,7 @@ public:
     // Get the next N events. The function returns the number of events that were filled into your array.
     virtual int GetEvents(CCocoaEvent *pEvents, int nMaxEventsToReturn, bool debugEvents = false);
 
-#ifdef LINUX
+#ifdef LINUXi
     virtual int PeekAndRemoveKeyboardEvents( bool *pbEsc, bool *pbReturn, bool *pbSpace, bool debugEvent = false );
 #endif
 
@@ -692,28 +697,6 @@ bool CSDLMgr::CreateHiddenGameWindow(const char *pTitle, int width, int height) 
         Error("Failed to create SDL window: %s", SDL_GetError());
     SetAssertDialogParent(m_Window);
 
-#ifdef OSX
-
-    GLMRendererInfoFields rendererInfo;
-    GetDisplayDB()->GetRendererInfo( 0, &rendererInfo );
-    //-----------------------------------------------------------------------------------------
-    //- enforce minimum system requirements for multiplayer branch (CSS / DOD / TF2) : no GMA950, X3100, or NV G7x.
-    if (!CommandLine()->FindParm("-glmnosystemcheck"))	// escape hatch
-    {
-        if ( rendererInfo.m_osComboVersion < 0x0A0607 )
-        {
-            Error( "This game requires OS X version 10.6.7 or higher" );
-            exit(1);
-        }
-        // forbidden chipsets
-        if ( rendererInfo.m_atiR5xx || rendererInfo.m_intel95x || rendererInfo.m_intel3100 || rendererInfo.m_nvG7x )
-        {
-            Error( "This game does not support this type of graphics processor" );
-            exit(1);
-        }
-    }
-#endif
-
 #if defined( DX_TO_GL_ABSTRACTION )
     m_GLContext = SDL_GL_CreateContext(m_Window);
     if (m_GLContext == NULL)
@@ -976,20 +959,7 @@ void CSDLMgr::OnFrameRendered() {
     }
 
     if (m_bSetMouseVisibleCalled) {
-
-
         ConVarRef rawinput("m_rawinput");
-
-
-#ifdef OSX
-        // We default raw input to on on Mac and set it one time for all users since
-        // it didn't used to be the default.
-        if ( !osx_rawinput_set_one_time.GetBool() )
-        {
-            osx_rawinput_set_one_time.SetValue( 1 );
-            rawinput.SetValue( 1 );
-        }
-#endif
 
         m_bRawInput = !m_bCursorVisible && rawinput.IsValid() && rawinput.GetBool();
 
@@ -1617,7 +1587,7 @@ void CSDLMgr::PumpWindowsMessageLoop() {
                 }
 
                 const bool bPressed = (event.type == SDL_MOUSEBUTTONDOWN);
-                const CocoaMouseButton_t cocoaButton = (CocoaMouseButton_t)(1 << (button - 1));
+                const CocoaMouseButton_t cocoaButton = (CocoaMouseButton_t) (1 << (button - 1));
 
                 if (bPressed)
                     m_mouseButtons |= cocoaButton;

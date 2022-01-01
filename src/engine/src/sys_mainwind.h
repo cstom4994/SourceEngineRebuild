@@ -11,7 +11,7 @@
 #endif
 
 
-int MapEngineKeyToVirtualKey( int keyCode );
+int MapEngineKeyToVirtualKey(int keyCode);
 
 
 // Pause VCR playback.
