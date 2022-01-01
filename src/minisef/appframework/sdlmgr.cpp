@@ -18,11 +18,6 @@
 #include "tier1/utllinkedlist.h"
 #include "tier1/convar.h"
 
-#include "imgui/backends/imgui_impl_sdl.h"
-#include "imgui/backends/imgui_impl_sdlrenderer.h.h"
-#include "imgui.h"
-#include "imgui_internal.h"
-
 // NOTE: This has to be the last file included! (turned off below, since this is included like a header)
 #include "tier0/memdbgon.h"
 

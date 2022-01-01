@@ -496,6 +496,8 @@ public:
 
     virtual void MarkUnusedVertexFields(unsigned int nFlags, int nTexCoordCount, bool *pUnusedTexCoords) {}
 
+    virtual void *GetD3DDevice() { return NULL; };
+
     virtual bool OwnGPUResources(bool bEnable) { return false; }
 
     virtual bool DoRenderTargetsNeedSeparateDepthBuffer() const;

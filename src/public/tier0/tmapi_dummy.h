@@ -15,7 +15,7 @@
 
 #define tmCheckVersion(...) 0
 #define tmGetCallStack(...) 0
-#define tmSendCallStack( ... ) TMPRINTF_TOKEN_NONE
+#define tmSendCallStack(...) TMPRINTF_TOKEN_NONE
 #define tmGetCallStackR(...) 0
 #define tmSendCallStackR(...) TMPRINTF_TOKEN_NONE
 #define tmSendCallStackWithSkipR(...) TMPRINTF_TOKEN_NONE
@@ -28,7 +28,7 @@
 
 #define tmEnter(...)
 #define tmEnterEx(...)
-#define tmZone(...) 
+#define tmZone(...)
 #define tmZoneFiltered(...)
 #define tmLeave(...)
 #define tmLeaveEx(...)
@@ -58,7 +58,7 @@
 
 #define tmTryLock(...)
 #define tmTryLockEx(...)
-    
+
 #define tmPlot(...)
 #define tmPlotF32(...)
 #define tmPlotF64(...)
@@ -71,7 +71,7 @@
 
 #define tmPPUGetListener(...) TMERR_DISABLED
 #define tmPPURegisterSPUProgram(...) TMERR_DISABLED
-#define tmSPUBindContextToListener(...) 
+#define tmSPUBindContextToListener(...)
 #define tmSPUUpdateTime(...)
 #define tmSPUFlushImage(...)
 

@@ -56,5 +56,4 @@ DBG_INTERFACE void TestThread_Yield();
 #define YIELD_TWO_FRAMES() { TestThread_Yield(); TestThread_Yield(); }
 
 
-
 #endif // TESTTHREAD_H

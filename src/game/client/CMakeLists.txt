@@ -1463,7 +1463,21 @@ set(Source_Files__cef
         )
 source_group("Source Files\\cef" FILES ${Source_Files__cef})
 
-
+set(Source_Files__ImGui
+        "imgui/imgui/imgui_demo.cpp"
+        "imgui/imgui/imgui_tables.cpp"
+        "imgui/imgui/imgui_widgets.cpp"
+        "imgui/imgui/imgui_internal.h"
+        "imgui/imgui/imgui_draw.cpp"
+        "imgui/imgui/imgui.cpp"
+        "imgui/imgui/imgui.h"
+        "imgui/imgui/imconfig.h"
+        "imgui/imgui/backends/imgui_impl_dx9.cpp"
+        "imgui/imgui/backends/imgui_impl_dx9.h"
+        "imgui/imgui/backends/imgui_impl_win32.cpp"
+        "imgui/imgui/backends/imgui_impl_win32.h"
+        )
+source_group("ImGui Source" FILES ${Source_Files__ImGui})
 
 set(ALL_FILES
         ${Game_Shared_Header_Files}
@@ -1483,6 +1497,7 @@ set(ALL_FILES
         ${Source_Files__Temporary_Entities}
         ${Source_Files__game_controls}
         ${Source_Files__GAMEUI}
+        ${Source_Files__ImGui}
         ${Source_Files__cef}
         ${Tool_Framework}
         ${game_controls_Header_Files}

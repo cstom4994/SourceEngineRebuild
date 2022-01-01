@@ -12,42 +12,42 @@
 #endif
 
 #ifndef _X360
-#error This file must only be compiled for XBOX360! 
+#error This file must only be compiled for XBOX360!
 #endif
 
 
 // Warning: 
 // As written, this class only supports profiling thread 0, processor 0.
 
-class CPMCData
-{
+class CPMCData {
 public:
 
-	CPMCData();
-	~CPMCData() {};
+    CPMCData();
 
-	void Start( void );
-	void End( void );
+    ~CPMCData() {};
 
-	/// This function should be called exactly once during the lifespan of the program;
-	/// it will set up the counters to record the information we are interested in. 
-	/// This will stomp on whoever else might have set the performance counters elsewhere
-	/// in the game.
-	static void InitializeOnceProgramWide( void );
-	static bool IsInitialized();
+    void Start(void);
 
-	//-------------------------------------------------------------------------
-	// GetL2CacheMisses
-	//-------------------------------------------------------------------------
-	uint64 GetL2CacheMisses( void ) const
-	{
-		return m_Delta.L2CacheMiss;
-	}
+    void End(void);
 
-	uint64 GetLHS( void ) const
-	{
-		return m_Delta.LHS;
-	}
+    /// This function should be called exactly once during the lifespan of the program;
+    /// it will set up the counters to record the information we are interested in.
+    /// This will stomp on whoever else might have set the performance counters elsewhere
+    /// in the game.
+    static void InitializeOnceProgramWide(void);
+
+    static bool IsInitialized();
+
+    //-------------------------------------------------------------------------
+    // GetL2CacheMisses
+    //-------------------------------------------------------------------------
+    uint64 GetL2CacheMisses(void) const {
+        return m_Delta.L2CacheMiss;
+    }
+
+    uint64 GetLHS(void) const {
+        return m_Delta.LHS;
+    }
 
 /*
 #ifdef DBGFLAG_VALIDATE
@@ -56,18 +56,18 @@ public:
 */
 
 private:
-	/// represents saved numbers from the counters we are interested in
-	struct PMCounters
-	{
-		uint64 L2CacheMiss;
-		uint64 LHS; ///< load hit store
+    /// represents saved numbers from the counters we are interested in
+    struct PMCounters {
+        uint64 L2CacheMiss;
+        uint64 LHS; ///< load hit store
 
-		PMCounters(int64 _l2cm, int64 _lhs ) : L2CacheMiss(_l2cm), LHS(_lhs) {};
-		PMCounters() : L2CacheMiss(0), LHS(0) {};
-	};
-	
-	PMCounters m_OnStart; ///< values when we began the timer
-	PMCounters m_Delta ; ///< computed total delta between start/stop
+        PMCounters(int64 _l2cm, int64 _lhs) : L2CacheMiss(_l2cm), LHS(_lhs) {};
+
+        PMCounters() : L2CacheMiss(0), LHS(0) {};
+    };
+
+    PMCounters m_OnStart; ///< values when we began the timer
+    PMCounters m_Delta; ///< computed total delta between start/stop
 };
 
 #endif   // CPMCDATA_H

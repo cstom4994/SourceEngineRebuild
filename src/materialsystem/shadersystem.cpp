@@ -18,7 +18,6 @@
 #include "shaderlib/cshader.h"
 #include "tier1/convar.h"
 #include "tier1/KeyValues.h"
-#include "shader_dll_verify.h"
 #include "tier0/vprof.h"
 
 // NOTE: This must be the last file included!
@@ -447,45 +446,7 @@ extern void *__stdcall GetProcAddress(void *hModule, const char *pszProcName);
 #endif
 
 void CShaderSystem::VerifyBaseShaderDLL(CSysModule *pModule) {
-#if defined( _WIN32 ) && !defined( _X360 )
-    const char *pErrorStr = "Corrupt save data settings.";
 
-    unsigned char *testData1 = new unsigned char[SHADER_DLL_VERIFY_DATA_LEN1];
-
-    ShaderDLLVerifyFn fn = (ShaderDLLVerifyFn) GetProcAddress((void *) pModule, SHADER_DLL_FNNAME_1);
-    if (!fn)
-        Error(pErrorStr);
-
-    IShaderDLLVerification *pVerify;
-    char *pPtr = (char *) (void *) &pVerify;
-    pPtr -= SHADER_DLL_VERIFY_DATA_PTR_OFFSET;
-    fn(pPtr);
-
-    // Test the first CRC.
-    CRC32_t testCRC;
-    CRC32_Init(&testCRC);
-    CRC32_ProcessBuffer(&testCRC, testData1, SHADER_DLL_VERIFY_DATA_LEN1);
-    CRC32_ProcessBuffer(&testCRC, &pModule, 4);
-    CRC32_ProcessBuffer(&testCRC, &pVerify, 4);
-    CRC32_Final(&testCRC);
-    if (testCRC != pVerify->Function1(testData1 - SHADER_DLL_VERIFY_DATA_PTR_OFFSET))
-        Error(pErrorStr);
-
-    // Test the next one.
-    unsigned char digest[MD5_DIGEST_LENGTH];
-    MD5Context_t md5Context;
-    MD5Init(&md5Context);
-    MD5Update(&md5Context, testData1 + SHADER_DLL_VERIFY_DATA_PTR_OFFSET,
-              SHADER_DLL_VERIFY_DATA_LEN1 - SHADER_DLL_VERIFY_DATA_PTR_OFFSET);
-    MD5Final(digest, &md5Context);
-    pVerify->Function2(2, 3, 3); // fn2 is supposed to place the result in testData1.
-    if (memcmp(digest, testData1, MD5_DIGEST_LENGTH) != 0)
-        Error(pErrorStr);
-
-    pVerify->Function5();
-
-    delete[] testData1;
-#endif
 }
 
 //-----------------------------------------------------------------------------

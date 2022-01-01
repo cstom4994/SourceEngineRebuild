@@ -141,28 +141,28 @@
 //-----------------------------------------------------------------------------
 // Portable data types
 //-----------------------------------------------------------------------------
-typedef unsigned char				uint8;
-typedef signed char					int8;
+typedef unsigned char uint8;
+typedef signed char int8;
 
 #if defined( COMPILER_MSVC )
 
-typedef __int16					int16;
-typedef unsigned __int16		uint16;
-typedef __int32					int32;
-typedef unsigned __int32		uint32;
-typedef __int64					int64;
-typedef unsigned __int64		uint64;
+typedef __int16 int16;
+typedef unsigned __int16 uint16;
+typedef __int32 int32;
+typedef unsigned __int32 uint32;
+typedef __int64 int64;
+typedef unsigned __int64 uint64;
 
 // intp is an integer that can accomodate a pointer
 // (ie, sizeof(intp) >= sizeof(int) && sizeof(intp) >= sizeof(void *)
-typedef intptr_t				intp;
-typedef uintptr_t				uintp;
+typedef intptr_t intp;
+typedef uintptr_t uintp;
 
 #if defined( COMPILER_MSVCX360 )
 #ifdef __m128
-			#undef __m128
-		#endif
-		#define __m128				__vector4
+#undef __m128
+#endif
+#define __m128				__vector4
 #endif
 
 // Use this to specify that a function is an override of a virtual function.
@@ -175,19 +175,19 @@ typedef uintptr_t				uintp;
 #else // !COMPILER_MSVC
 
 typedef short					int16;
-	typedef unsigned short			uint16;
-	typedef int						int32;
-	typedef unsigned int			uint32;
-	typedef long long				int64;
-	typedef unsigned long long		uint64;
-	#ifdef PLATFORM_64BITS
-		typedef long long			intp;
-		typedef unsigned long long	uintp;
-	#else
-		typedef int					intp;
-		typedef unsigned int		uintp;
-	#endif
-	typedef void *HWND;
+    typedef unsigned short			uint16;
+    typedef int						int32;
+    typedef unsigned int			uint32;
+    typedef long long				int64;
+    typedef unsigned long long		uint64;
+#ifdef PLATFORM_64BITS
+        typedef long long			intp;
+        typedef unsigned long long	uintp;
+#else
+        typedef int					intp;
+        typedef unsigned int		uintp;
+#endif
+    typedef void *HWND;
 
     // [u]int64 are actually defined as 'long long' and gcc 64-bit
     // doesn't automatically consider them the same as 'long int'.
@@ -198,9 +198,9 @@ typedef short					int16;
     typedef long int lint64;
     typedef unsigned long int ulint64;
 
-	#ifndef OVERRIDE // suppress redifinition warning (because we don't have CROSS_PLATFORM_VERSION defined)
-		#define OVERRIDE
-	#endif
+#ifndef OVERRIDE // suppress redifinition warning (because we don't have CROSS_PLATFORM_VERSION defined)
+#define OVERRIDE
+#endif
 #endif // else COMPILER_MSVC
 
 //-----------------------------------------------------------------------------
@@ -220,7 +220,7 @@ typedef short					int16;
 #ifdef PLATFORM_64BITS
 #define IsPlatform64Bits()    true
 #else
-#define IsPlatform64Bits()	false
+#define IsPlatform64Bits()    false
 #endif
 
 // From steam/steamtypes.h
@@ -352,7 +352,7 @@ FIXME: Enable this when we no longer fear change =)
 #if defined(_WIN32) && !defined(WINDED)
 
 #if defined(_M_IX86)
-#define __i386__	1
+#define __i386__    1
 #endif
 
 #elif POSIX
@@ -435,7 +435,7 @@ typedef void* HINSTANCE;
 #endif
 
 #if defined __i386__ && !defined __linux__
-#define id386	1
+#define id386    1
 #else
 #define id386    0
 #endif  // __i386__
@@ -695,9 +695,9 @@ typedef void* HINSTANCE;
 
 // When we port to 64 bit, we'll have to resolve the int, ptr vs size_t 32/64 bit problems...
 #if !defined( _WIN64 )
-#pragma warning( disable : 4267 )	// conversion from 'size_t' to 'int', possible loss of data
-#pragma warning( disable : 4311 )	// pointer truncation from 'char *' to 'int'
-#pragma warning( disable : 4312 )	// conversion from 'unsigned int' to 'memhandle_t' of greater size
+#pragma warning( disable : 4267 )    // conversion from 'size_t' to 'int', possible loss of data
+#pragma warning( disable : 4311 )    // pointer truncation from 'char *' to 'int'
+#pragma warning( disable : 4312 )    // conversion from 'unsigned int' to 'memhandle_t' of greater size
 #endif
 
 
@@ -768,17 +768,17 @@ inline void SetupFPUControlWord() {
 }
 
 #else
-inline void SetupFPUControlWordForceExceptions()
-{
+
+inline void SetupFPUControlWordForceExceptions() {
     // use local to get and store control word
     uint16 tmpCtrlW;
     __asm
     {
-        fnclex						/* clear all current exceptions */
-        fnstcw word ptr[tmpCtrlW]	/* get current control word */
-        and [tmpCtrlW], 0FCC0h		/* Keep infinity control + rounding control */
-        or [tmpCtrlW], 0230h		/* set to 53-bit, mask only inexact, underflow */
-        fldcw word ptr[tmpCtrlW]	/* put new control word in FPU */
+    fnclex                        /* clear all current exceptions */
+    fnstcw word ptr[tmpCtrlW]    /* get current control word */
+    and[tmpCtrlW], 0FCC0h        /* Keep infinity control + rounding control */
+    or[tmpCtrlW], 0230h        /* set to 53-bit, mask only inexact, underflow */
+    fldcw word ptr[tmpCtrlW]    /* put new control word in FPU */
     }
 }
 
@@ -791,16 +791,15 @@ inline void SetupFPUControlWord()
 
 #else
 
-inline void SetupFPUControlWord()
-{
+inline void SetupFPUControlWord() {
     // use local to get and store control word
     uint16 tmpCtrlW;
     __asm
     {
-        fnstcw word ptr[tmpCtrlW]	/* get current control word */
-        and [tmpCtrlW], 0FCC0h		/* Keep infinity control + rounding control */
-        or [tmpCtrlW], 023Fh		/* set to 53-bit, mask only inexact, underflow */
-        fldcw word ptr[tmpCtrlW]	/* put new control word in FPU */
+    fnstcw word ptr[tmpCtrlW]    /* get current control word */
+    and[tmpCtrlW], 0FCC0h        /* Keep infinity control + rounding control */
+    or[tmpCtrlW], 023Fh        /* set to 53-bit, mask only inexact, underflow */
+    fldcw word ptr[tmpCtrlW]    /* put new control word in FPU */
     }
 }
 
@@ -938,23 +937,21 @@ inline T DWordSwap360Intr(T dw)
 #pragma warning(push)
 #pragma warning (disable:4035) // no return value
 
-template <typename T>
-inline T WordSwapAsm(T w)
-{
+template<typename T>
+inline T WordSwapAsm(T w) {
     __asm
     {
-        mov ax, w
-        xchg al, ah
+    mov ax, w
+    xchg al, ah
     }
 }
 
-template <typename T>
-inline T DWordSwapAsm(T dw)
-{
+template<typename T>
+inline T DWordSwapAsm(T dw) {
     __asm
     {
-        mov eax, dw
-        bswap eax
+    mov eax, dw
+    bswap eax
     }
 }
 
@@ -988,24 +985,24 @@ inline T DWordSwapAsm(T dw)
 
 #if defined(VALVE_LITTLE_ENDIAN)
 
-#define BigShort( val )				WordSwap( val )
-#define BigWord( val )				WordSwap( val )
-#define BigLong( val )				DWordSwap( val )
-#define BigDWord( val )				DWordSwap( val )
-#define LittleShort( val )			( val )
-#define LittleWord( val )			( val )
-#define LittleLong( val )			( val )
-#define LittleDWord( val )			( val )
-#define LittleQWord( val )			( val )
-#define SwapShort( val )			BigShort( val )
-#define SwapWord( val )				BigWord( val )
-#define SwapLong( val )				BigLong( val )
-#define SwapDWord( val )			BigDWord( val )
+#define BigShort(val)                WordSwap( val )
+#define BigWord(val)                WordSwap( val )
+#define BigLong(val)                DWordSwap( val )
+#define BigDWord(val)                DWordSwap( val )
+#define LittleShort(val)            ( val )
+#define LittleWord(val)            ( val )
+#define LittleLong(val)            ( val )
+#define LittleDWord(val)            ( val )
+#define LittleQWord(val)            ( val )
+#define SwapShort(val)            BigShort( val )
+#define SwapWord(val)                BigWord( val )
+#define SwapLong(val)                BigLong( val )
+#define SwapDWord(val)            BigDWord( val )
 
 // Pass floats by pointer for swapping to avoid truncation in the fpu
-#define BigFloat( pOut, pIn )		SafeSwapFloat( pOut, pIn )
-#define LittleFloat( pOut, pIn )	( *pOut = *pIn )
-#define SwapFloat( pOut, pIn )		BigFloat( pOut, pIn )
+#define BigFloat(pOut, pIn)        SafeSwapFloat( pOut, pIn )
+#define LittleFloat(pOut, pIn)    ( *pOut = *pIn )
+#define SwapFloat(pOut, pIn)        BigFloat( pOut, pIn )
 
 #elif defined(VALVE_BIG_ENDIAN)
 
@@ -1190,8 +1187,8 @@ inline uint64 Plat_Rdtsc() {
 #elif defined( _WIN64 )
     return (uint64) __rdtsc();
 #elif defined( _WIN32 )
-#if defined( _MSC_VER ) && ( _MSC_VER >= 1400 )
-    return (uint64)__rdtsc();
+#if defined( _MSC_VER ) && (_MSC_VER >= 1400)
+    return (uint64) __rdtsc();
 #else
     __asm rdtsc;
     __asm ret;

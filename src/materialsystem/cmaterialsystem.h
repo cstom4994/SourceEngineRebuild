@@ -565,11 +565,12 @@ public:
 	bool									GetTrueTypeGlyphs( HXUIFONT hFont, int numChars, wchar_t *pWch, int *pOffsetX, int *pOffsetY, int *pWidth, int *pHeight, unsigned char *pRGBA, int *pOffset );
 	void									ReadBackBuffer( Rect_t *pSrcRect, Rect_t *pDstRect, unsigned char *pData, ImageFormat dstFormat, int nDstStride );
 	void									PersistDisplay();
-	void									*GetD3DDevice();
 	bool									OwnGPUResources( bool bEnable );
 #endif
 
-	MaterialLock_t							Lock();
+    void									*GetD3DDevice();
+
+    MaterialLock_t							Lock();
 	void									Unlock( MaterialLock_t );
 	CMatCallQueue *							GetRenderCallQueue();
 	uint									GetRenderThreadId() const { return m_nRenderThreadID; }

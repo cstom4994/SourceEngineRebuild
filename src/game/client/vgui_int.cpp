@@ -24,7 +24,6 @@
 #include "filesystem.h"
 #include "matsys_controls/matsyscontrols.h"
 
-
 #ifdef SIXENSE
 #include "sixense/in_sixense.h"
 #endif
@@ -180,6 +179,7 @@ void VGui_CreateGlobalPanels(void) {
     VPANEL gameToolParent = enginevgui->GetPanel(PANEL_CLIENTDLL_TOOLS);
     VPANEL toolParent = enginevgui->GetPanel(PANEL_TOOLS);
     VPANEL gameDLLPanel = enginevgui->GetPanel(PANEL_GAMEDLL);
+
 #if defined( TRACK_BLOCKING_IO )
     VPANEL gameDLLPanel = enginevgui->GetPanel( PANEL_GAMEDLL );
 #endif
@@ -258,9 +258,13 @@ void VGui_PreRender() {
         loadingdisc->SetPausedVisible( bShowPausedImage, engine->GetPausedExpireTime() );
 #endif
     }
+
 }
 
+
+
 void VGui_PostRender() {
+
 }
 
 //-----------------------------------------------------------------------------

@@ -226,8 +226,8 @@ DBG_INTERFACE void CallAssertFailedNotifyFunc(const char *pchFile, int nLine, co
 DBG_INTERFACE bool HushAsserts();
 
 #if defined( USE_SDL )
-DBG_INTERFACE void SetAssertDialogParent( struct SDL_Window *window );
-DBG_INTERFACE struct SDL_Window * GetAssertDialogParent();
+DBG_INTERFACE void SetAssertDialogParent(struct SDL_Window *window);
+DBG_INTERFACE struct SDL_Window *GetAssertDialogParent();
 #endif
 
 /* Used to define macros, never use these directly. */
@@ -586,7 +586,7 @@ public:
 
 #define SCOPE_MSG(msg) CScopeMsg scopeMsg( msg )
 #else
-#define SCOPE_MSG( msg )
+#define SCOPE_MSG(msg)
 #endif
 
 

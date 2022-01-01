@@ -49,8 +49,8 @@
 #ifndef MEMDBGON_H
 inline void *MemAlloc_InlineCallocMemset( void *pMem, size_t nCount, size_t nElementSize)
 {
-	memset(pMem, 0, nElementSize * nCount);
-	return pMem;
+    memset(pMem, 0, nElementSize * nCount);
+    return pMem;
 }
 #endif
 
@@ -75,11 +75,11 @@ inline void *MemAlloc_InlineCallocMemset( void *pMem, size_t nCount, size_t nEle
 
 #if !defined( POSIX )
 #if defined(__AFX_H__) && defined(DEBUG_NEW)
-	#define new DEBUG_NEW
+#define new DEBUG_NEW
 #else
-	#undef new
-	#define MEMALL_DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
-	#define new MEMALL_DEBUG_NEW
+#undef new
+#define MEMALL_DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new MEMALL_DEBUG_NEW
 #endif
 #endif
 
@@ -98,34 +98,34 @@ inline void *MemAlloc_InlineCallocMemset( void *pMem, size_t nCount, size_t nEle
 
 inline char *MemAlloc_StrDup(const char *pString, const char *pFileName, unsigned nLine)
 {
-	char *pMemory;
-	
-	if (!pString)
-		return NULL;
-	
-	size_t len = strlen(pString) + 1;
-	if ((pMemory = (char *)g_pMemAlloc->Alloc(len, pFileName, nLine)) != NULL)
-	{
-		return strcpy( pMemory, pString );
-	}
-	
-	return NULL;
+    char *pMemory;
+
+    if (!pString)
+        return NULL;
+
+    size_t len = strlen(pString) + 1;
+    if ((pMemory = (char *)g_pMemAlloc->Alloc(len, pFileName, nLine)) != NULL)
+    {
+        return strcpy( pMemory, pString );
+    }
+
+    return NULL;
 }
 
 inline wchar_t *MemAlloc_WcStrDup(const wchar_t *pString, const char *pFileName, unsigned nLine)
 {
-	wchar_t *pMemory;
-	
-	if (!pString)
-		return NULL;
-	
-	size_t len = (wcslen(pString) + 1);
-	if ((pMemory = (wchar_t *)g_pMemAlloc->Alloc(len * sizeof(wchar_t), pFileName, nLine)) != NULL)
-	{
-		return wcscpy( pMemory, pString );
-	}
-	
-	return NULL;
+    wchar_t *pMemory;
+
+    if (!pString)
+        return NULL;
+
+    size_t len = (wcslen(pString) + 1);
+    if ((pMemory = (wchar_t *)g_pMemAlloc->Alloc(len * sizeof(wchar_t), pFileName, nLine)) != NULL)
+    {
+        return wcscpy( pMemory, pString );
+    }
+
+    return NULL;
 }
 
 #endif // DBMEM_DEFINED_STRDUP
@@ -160,34 +160,34 @@ inline wchar_t *MemAlloc_WcStrDup(const wchar_t *pString, const char *pFileName,
 
 inline char *MemAlloc_StrDup(const char *pString)
 {
-	char *pMemory;
+    char *pMemory;
 
-	if (!pString)
-		return NULL;
+    if (!pString)
+        return NULL;
 
-	size_t len = strlen(pString) + 1;
-	if ((pMemory = (char *)g_pMemAlloc->Alloc(len)) != NULL)
-	{
-		return strcpy( pMemory, pString );
-	}
+    size_t len = strlen(pString) + 1;
+    if ((pMemory = (char *)g_pMemAlloc->Alloc(len)) != NULL)
+    {
+        return strcpy( pMemory, pString );
+    }
 
-	return NULL;
+    return NULL;
 }
 
 inline wchar_t *MemAlloc_WcStrDup(const wchar_t *pString)
 {
-	wchar_t *pMemory;
+    wchar_t *pMemory;
 
-	if (!pString)
-		return NULL;
+    if (!pString)
+        return NULL;
 
-	size_t len = (wcslen(pString) + 1);
-	if ((pMemory = (wchar_t *)g_pMemAlloc->Alloc(len * sizeof(wchar_t))) != NULL)
-	{
-		return wcscpy( pMemory, pString );
-	}
+    size_t len = (wcslen(pString) + 1);
+    if ((pMemory = (wchar_t *)g_pMemAlloc->Alloc(len * sizeof(wchar_t))) != NULL)
+    {
+        return wcscpy( pMemory, pString );
+    }
 
-	return NULL;
+    return NULL;
 }
 
 #endif // DBMEM_DEFINED_STRDUP
@@ -220,42 +220,42 @@ inline wchar_t *MemAlloc_WcStrDup(const wchar_t *pString)
 
 inline void *valve_malloc_check_oom( size_t size )
 {
-	void *ptr = malloc( size );
-	if ( !ptr )
-		MemAllocOOMError( size );
-	return ptr;
+    void *ptr = malloc( size );
+    if ( !ptr )
+        MemAllocOOMError( size );
+    return ptr;
 }
 
 inline void *valve_realloc_check_oom( void *ptr, size_t size )
 {
-	void *ret = realloc( ptr, size );
-	if ( !ret )
-		MemAllocOOMError( size );
-	return ret;
+    void *ret = realloc( ptr, size );
+    if ( !ret )
+        MemAllocOOMError( size );
+    return ret;
 }
 
 inline void *valve_calloc_check_oom( size_t num, size_t size )
 {
-	void *ptr = calloc( num, size );
-	if (!ptr)
-		MemAllocOOMError( num * size );
-	return ptr;
+    void *ptr = calloc( num, size );
+    if (!ptr)
+        MemAllocOOMError( num * size );
+    return ptr;
 }
 
 inline void *valve_memalign_check_oom( size_t alignment, size_t size )
 {
-	void *ptr = memalign( alignment, size );
-	if (!ptr)
-		MemAllocOOMError(size);
-	return ptr;
+    void *ptr = memalign( alignment, size );
+    if (!ptr)
+        MemAllocOOMError(size);
+    return ptr;
 }
 
 inline void *valve_aligned_malloc_check_oom( size_t size, size_t alignment )
 {
-	void *ptr = _aligned_malloc( size, alignment );
-	if (!ptr)
-		MemAllocOOMError( size );
-	return ptr;
+    void *ptr = _aligned_malloc( size, alignment );
+    if (!ptr)
+        MemAllocOOMError( size );
+    return ptr;
 }
 
 

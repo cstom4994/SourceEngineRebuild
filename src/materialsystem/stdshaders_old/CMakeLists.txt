@@ -460,26 +460,6 @@ set(Source_Files
         )
 source_group("Source Files" FILES ${Source_Files})
 
-set(Source_Files__Remove_me_when_VAC2_is_out
-        "../shader_dll_verify.cpp"
-        "../shader_dll_verify.h"
-        )
-source_group("Source Files\\Remove me when VAC2 is out" FILES ${Source_Files__Remove_me_when_VAC2_is_out})
-
-set(VPC_Scripts
-        "../../vpc_scripts/loadaddress.vpc"
-        "../../vpc_scripts/platform_dirs.vpc"
-        "../../vpc_scripts/source_base.vpc"
-        "../../vpc_scripts/source_dll_base.vpc"
-        "../../vpc_scripts/source_dll_win32_base.vpc"
-        "../../vpc_scripts/source_dll_win32_debug.vpc"
-        "../../vpc_scripts/source_dll_win32_release.vpc"
-        "../../vpc_scripts/source_video_base.vpc"
-        "../../vpc_scripts/source_win32_base.vpc"
-        "../../vpc_scripts/version.vpc"
-        )
-source_group("VPC Scripts" FILES ${VPC_Scripts})
-
 set(ALL_FILES
         ${______}
         ${Header_Files}
@@ -488,8 +468,6 @@ set(ALL_FILES
         ${Shader_Source__psh}
         ${Shader_Source__vsh}
         ${Source_Files}
-        ${Source_Files__Remove_me_when_VAC2_is_out}
-        ${VPC_Scripts}
         )
 
 ################################################################################
@@ -835,8 +813,6 @@ source_group("Source Files" FILES ${Source_Files})
 set(Source_Files__Remove_me_when_VAC2_is_out
         "../../minisef/tier1/checksum_crc.cpp"
         "../../minisef/tier1/checksum_md5.cpp"
-        "../shader_dll_verify.cpp"
-        "../shader_dll_verify.h"
         )
 source_group("Source Files\\Remove me when VAC2 is out" FILES ${Source_Files__Remove_me_when_VAC2_is_out})
 
@@ -1127,33 +1103,10 @@ set(Source_Files
         )
 source_group("Source Files" FILES ${Source_Files})
 
-set(Source_Files__Remove_me_when_VAC2_is_out
-        "../shader_dll_verify.cpp"
-        "../shader_dll_verify.h"
-        )
-source_group("Source Files\\Remove me when VAC2 is out" FILES ${Source_Files__Remove_me_when_VAC2_is_out})
-
-set(VPC_Scripts
-        "../../vpc_scripts/loadaddress.vpc"
-        "../../vpc_scripts/platform_dirs.vpc"
-        "../../vpc_scripts/source_base.vpc"
-        "../../vpc_scripts/source_dll_base.vpc"
-        "../../vpc_scripts/source_dll_win32_base.vpc"
-        "../../vpc_scripts/source_dll_win32_debug.vpc"
-        "../../vpc_scripts/source_dll_win32_release.vpc"
-        "../../vpc_scripts/source_video_base.vpc"
-        "../../vpc_scripts/source_win32_base.vpc"
-        "../../vpc_scripts/version.vpc"
-        "stdshader_dx8.vpc"
-        )
-source_group("VPC Scripts" FILES ${VPC_Scripts})
-
 set(ALL_FILES
         ${______}
         ${Header_Files}
         ${Source_Files}
-        ${Source_Files__Remove_me_when_VAC2_is_out}
-        ${VPC_Scripts}
         )
 
 ################################################################################
@@ -1376,8 +1329,6 @@ source_group("Source Files" FILES ${Source_Files})
 set(Source_Files__remove_me_when_VAC2_is_out
         "../../minisef/tier1/checksum_crc.cpp"
         "../../minisef/tier1/checksum_md5.cpp"
-        "../shader_dll_verify.cpp"
-        "../shader_dll_verify.h"
         )
 source_group("Source Files\\remove me when VAC2 is out" FILES ${Source_Files__remove_me_when_VAC2_is_out})
 
@@ -1638,8 +1589,6 @@ source_group("Source Files" FILES ${Source_Files})
 set(Source_Files__remove_me_when_VAC2_is_out
         "../../minisef/tier1/checksum_crc.cpp"
         "../../minisef/tier1/checksum_md5.cpp"
-        "../shader_dll_verify.cpp"
-        "../shader_dll_verify.h"
         )
 source_group("Source Files\\remove me when VAC2 is out" FILES ${Source_Files__remove_me_when_VAC2_is_out})
 

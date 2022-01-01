@@ -2111,8 +2111,6 @@ void CViewRender::RenderView(const CViewSetup &viewRender, int nClearFlags, int 
         // paint the vgui screen
         VGui_PreRender();
 
-
-
         // Make sure the client .dll root panel is at the proper point before doing the "SolveTraverse" calls
         vgui::VPANEL root = enginevgui->GetPanel(PANEL_CLIENTDLL);
         if (root != 0) {

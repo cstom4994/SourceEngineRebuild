@@ -2214,13 +2214,14 @@ public:
 	}
 
 	virtual void				PersistDisplay() {}
-	virtual void				*GetD3DDevice() { return NULL; }
 
 	virtual void				PushVertexShaderGPRAllocation( int iVertexShaderCount = 64 ) { };
 	virtual void				PopVertexShaderGPRAllocation( void ) { };
 
 	virtual bool				OwnGPUResources( bool bEnable ) { return false; }
 #endif
+
+    virtual void				*GetD3DDevice() { return NULL; }
 
     virtual void CompactMemory() {}
 

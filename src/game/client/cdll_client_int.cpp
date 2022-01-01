@@ -88,6 +88,14 @@
 #include "toolframework_client.h"
 #include "hltvcamera.h"
 
+#include "shaderapi/ishaderapi.h"
+#include "imgui.h"
+#include "imgui_internal.h"
+#include "backends/imgui_impl_dx9.h"
+#include "backends/imgui_impl_win32.h"
+
+#include <d3d9.h>
+
 #if defined( REPLAY_ENABLED )
 #include "replay/replaycamera.h"
 #include "replay/replay_ragdoll.h"
@@ -1184,6 +1192,24 @@ void CHLClient::PostInit() {
         }
     }
 #endif
+
+
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    (void) io;
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsClassic();
+
+    // Setup Platform/Renderer backends
+    ImGui_ImplWin32_Init(NULL);
+    ImGui_ImplDX9_Init((IDirect3DDevice9 *) g_pShaderAPI->GetD3DDevice());
+
 }
 
 //-----------------------------------------------------------------------------
@@ -1193,6 +1219,10 @@ void CHLClient::Shutdown(void) {
     if (g_pAchievementsAndStatsInterface) {
         g_pAchievementsAndStatsInterface->ReleasePanel();
     }
+
+    ImGui_ImplDX9_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
 
 #ifdef SIXENSE
     g_pSixenseInput->Shutdown();
@@ -1315,6 +1345,8 @@ void CHLClient::HudUpdate(bool bActive) {
         g_pSixenseInput->SixenseFrame( 0, NULL );
     }
 #endif
+
+
 }
 
 //-----------------------------------------------------------------------------
@@ -1935,6 +1967,10 @@ void SimulateEntities() {
     }
 }
 
+void ResetDevice() {
+    ImGui_ImplDX9_InvalidateDeviceObjects();
+    ImGui_ImplDX9_CreateDeviceObjects();
+}
 
 bool AddDataChangeEvent(IClientNetworkable *ent, DataUpdateType_t updateType, int *pStoredEvent) {
     VPROF("AddDataChangeEvent");
@@ -2394,10 +2430,29 @@ void CHLClient::WriteSaveGameScreenshotOfSize(const char *pFilename, int width, 
     view->WriteSaveGameScreenshotOfSize(pFilename, width, height, bCreatePowerOf2Padded, bWriteVTF);
 }
 
+
+bool show_demo_window = true;
+
 // See RenderViewInfo_t
 void CHLClient::RenderView(const CViewSetup &setup, int nClearFlags, int whatToDraw) {
     VPROF("RenderView");
+
+    // Start the Dear ImGui frame
+    ImGui_ImplDX9_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
+    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+    if (show_demo_window)
+        ImGui::ShowDemoWindow(&show_demo_window);
+
     view->RenderView(setup, nClearFlags, whatToDraw);
+
+    // Rendering
+    ImGui::EndFrame();
+
+    ImGui::Render();
+    ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
 
 void ReloadSoundEntriesInList(IFileList *pFilesToReload);

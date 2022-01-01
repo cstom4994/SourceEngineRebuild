@@ -502,13 +502,14 @@ public:
 	virtual ShaderAPITextureHandle_t CreateRenderTargetSurface( int width, int height, ImageFormat format, const char *pDebugName, const char *pTextureGroupName ) = 0;
 	virtual void PersistDisplay() = 0;
 	virtual bool PostQueuedTexture( const void *pData, int nSize, ShaderAPITextureHandle_t *pHandles, int nHandles, int nWidth, int nHeight, int nDepth, int nMips, int *pRefCount ) = 0;
-	virtual void *GetD3DDevice() = 0;
 
 	virtual void PushVertexShaderGPRAllocation( int iVertexShaderCount = 64 ) = 0;
 	virtual void PopVertexShaderGPRAllocation( void ) = 0;
 
 	virtual void EnableVSync_360( bool bEnable ) = 0; //360 allows us to bypass vsync blocking up to 60 fps without creating a new device
 #endif
+
+    virtual void *GetD3DDevice() = 0;
 	
 	virtual bool OwnGPUResources( bool bEnable ) = 0;
 

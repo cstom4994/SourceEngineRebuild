@@ -5,7 +5,6 @@
 //=============================================================================
 
 #include <windows.h>
-#include "shader_dll_verify.h"
 
 
 static unsigned char *g_pLastInputData = 0;

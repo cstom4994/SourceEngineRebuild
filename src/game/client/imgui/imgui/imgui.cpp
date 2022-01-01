@@ -1359,7 +1359,7 @@ void ImStrncpy(char* dst, const char* src, size_t count)
     if (count < 1)
         return;
     if (count > 1)
-        strncpy(dst, src, count - 1);
+        Q_strncpy(dst, src, count - 1);
     dst[count - 1] = 0;
 }
 

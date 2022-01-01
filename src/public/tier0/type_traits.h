@@ -6,27 +6,23 @@
 //=============================================================================
 #pragma once
 
-template <class T>
-struct V_remove_const
-{
-	typedef T type;
+template<class T>
+struct V_remove_const {
+    typedef T type;
 };
 
-template <class T>
-struct V_remove_const<const T>
-{
-	typedef T type;
+template<class T>
+struct V_remove_const<const T> {
+    typedef T type;
 };
 
-template <class T>
-struct V_remove_const<const T[]>
-{
-	typedef T type;
+template<class T>
+struct V_remove_const<const T[]> {
+    typedef T type;
 };
 
-template <class T, unsigned int N>
-struct V_remove_const<const T[N]>
-{
-	typedef T type;
+template<class T, unsigned int N>
+struct V_remove_const<const T[N]> {
+    typedef T type;
 };
 
