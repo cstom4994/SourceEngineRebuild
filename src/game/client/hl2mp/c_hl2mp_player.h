@@ -10,6 +10,7 @@
 #pragma once
 
 class C_HL2MP_Player;
+
 #include "c_basehlplayer.h"
 #include "hl2mp_player_shared.h"
 #include "beamdraw.h"
@@ -17,157 +18,201 @@ class C_HL2MP_Player;
 //=============================================================================
 // >> HL2MP_Player
 //=============================================================================
-class C_HL2MP_Player : public C_BaseHLPlayer
-{
+class C_HL2MP_Player : public C_BaseHLPlayer {
 public:
-	DECLARE_CLASS( C_HL2MP_Player, C_BaseHLPlayer );
+    DECLARE_CLASS(C_HL2MP_Player, C_BaseHLPlayer);
 
-	DECLARE_CLIENTCLASS();
-	DECLARE_PREDICTABLE();
-	DECLARE_INTERPOLATION();
+    DECLARE_CLIENTCLASS();
+DECLARE_PREDICTABLE();
 
-
-	C_HL2MP_Player();
-	~C_HL2MP_Player( void );
-
-	void ClientThink( void );
-
-	static C_HL2MP_Player* GetLocalHL2MPPlayer();
-	
-	virtual int DrawModel( int flags );
-	virtual void AddEntity( void );
-
-	QAngle GetAnimEyeAngles( void ) { return m_angEyeAngles; }
-	Vector GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget = NULL );
+    DECLARE_INTERPOLATION();
 
 
-	// Should this object cast shadows?
-	virtual ShadowType_t		ShadowCastType( void );
-	virtual C_BaseAnimating *BecomeRagdollOnClient();
-	virtual const QAngle& GetRenderAngles();
-	virtual bool ShouldDraw( void );
-	virtual void OnDataChanged( DataUpdateType_t type );
-	virtual float GetFOV( void );
-	virtual CStudioHdr *OnNewModel( void );
-	virtual void TraceAttack( const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator );
-	virtual void ItemPreFrame( void );
-	virtual void ItemPostFrame( void );
-	virtual float GetMinFOV()	const { return 5.0f; }
-	virtual Vector GetAutoaimVector( float flDelta );
-	virtual void NotifyShouldTransmit( ShouldTransmitState_t state );
-	virtual void CreateLightEffects( void ) {}
-	virtual bool ShouldReceiveProjectedTextures( int flags );
-	virtual void PostDataUpdate( DataUpdateType_t updateType );
-	virtual void PlayStepSound( Vector &vecOrigin, surfacedata_t *psurface, float fvol, bool force );
-	virtual void PreThink( void );
-	virtual void DoImpactEffect( trace_t &tr, int nDamageType );
-	IRagdoll* GetRepresentativeRagdoll() const;
-	virtual void CalcView( Vector &eyeOrigin, QAngle &eyeAngles, float &zNear, float &zFar, float &fov );
-	virtual const QAngle& EyeAngles( void );
+    C_HL2MP_Player();
 
-	
-	bool	CanSprint( void );
-	void	StartSprinting( void );
-	void	StopSprinting( void );
-	void	HandleSpeedChanges( void );
-	void	UpdateLookAt( void );
-	void	Initialize( void );
-	int		GetIDTarget() const;
-	void	UpdateIDTarget( void );
-	void	PrecacheFootStepSounds( void );
-	const char	*GetPlayerModelSoundPrefix( void );
+    ~C_HL2MP_Player(void);
 
-	HL2MPPlayerState State_Get() const;
+    void ClientThink(void);
 
-	// Walking
-	void StartWalking( void );
-	void StopWalking( void );
-	bool IsWalking( void ) { return m_fIsWalking; }
+    static C_HL2MP_Player *GetLocalHL2MPPlayer();
 
-	virtual void PostThink( void );
+    virtual int DrawModel(int flags);
+
+    virtual void AddEntity(void);
+
+    QAngle GetAnimEyeAngles(void) { return m_angEyeAngles; }
+
+    Vector GetAttackSpread(CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget = NULL);
+
+
+    // Should this object cast shadows?
+    virtual ShadowType_t ShadowCastType(void);
+
+    virtual C_BaseAnimating *BecomeRagdollOnClient();
+
+    virtual const QAngle &GetRenderAngles();
+
+    virtual bool ShouldDraw(void);
+
+    virtual void OnDataChanged(DataUpdateType_t type);
+
+    virtual float GetFOV(void);
+
+    virtual CStudioHdr *OnNewModel(void);
+
+    virtual void
+    TraceAttack(const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator);
+
+    virtual void ItemPreFrame(void);
+
+    virtual void ItemPostFrame(void);
+
+    virtual float GetMinFOV() const { return 5.0f; }
+
+    virtual Vector GetAutoaimVector(float flDelta);
+
+    virtual void NotifyShouldTransmit(ShouldTransmitState_t state);
+
+    virtual void CreateLightEffects(void) {}
+
+    virtual bool ShouldReceiveProjectedTextures(int flags);
+
+    virtual void PostDataUpdate(DataUpdateType_t updateType);
+
+    virtual void PlayStepSound(Vector &vecOrigin, surfacedata_t *psurface, float fvol, bool force);
+
+    virtual void PreThink(void);
+
+    virtual void DoImpactEffect(trace_t &tr, int nDamageType);
+
+    IRagdoll *GetRepresentativeRagdoll() const;
+
+    virtual void CalcView(Vector &eyeOrigin, QAngle &eyeAngles, float &zNear, float &zFar, float &fov);
+
+    virtual const QAngle &EyeAngles(void);
+
+
+    bool CanSprint(void);
+
+    void StartSprinting(void);
+
+    void StopSprinting(void);
+
+    void HandleSpeedChanges(void);
+
+    void UpdateLookAt(void);
+
+    void Initialize(void);
+
+    int GetIDTarget() const;
+
+    void UpdateIDTarget(void);
+
+    void PrecacheFootStepSounds(void);
+
+    const char *GetPlayerModelSoundPrefix(void);
+
+    HL2MPPlayerState State_Get() const;
+
+    // Walking
+    void StartWalking(void);
+
+    void StopWalking(void);
+
+    bool IsWalking(void) { return m_fIsWalking; }
+
+    virtual void PostThink(void);
 
 private:
-	
-	C_HL2MP_Player( const C_HL2MP_Player & );
 
-	CPlayerAnimState m_PlayerAnimState;
+    C_HL2MP_Player(const C_HL2MP_Player &);
 
-	QAngle	m_angEyeAngles;
+    CPlayerAnimState m_PlayerAnimState;
 
-	CInterpolatedVar< QAngle >	m_iv_angEyeAngles;
+    QAngle m_angEyeAngles;
 
-	EHANDLE	m_hRagdoll;
+    CInterpolatedVar<QAngle> m_iv_angEyeAngles;
 
-	int	m_headYawPoseParam;
-	int	m_headPitchPoseParam;
-	float m_headYawMin;
-	float m_headYawMax;
-	float m_headPitchMin;
-	float m_headPitchMax;
+    EHANDLE m_hRagdoll;
 
-	bool m_isInit;
-	Vector m_vLookAtTarget;
+    int m_headYawPoseParam;
+    int m_headPitchPoseParam;
+    float m_headYawMin;
+    float m_headYawMax;
+    float m_headPitchMin;
+    float m_headPitchMax;
 
-	float m_flLastBodyYaw;
-	float m_flCurrentHeadYaw;
-	float m_flCurrentHeadPitch;
+    bool m_isInit;
+    Vector m_vLookAtTarget;
 
-	int	  m_iIDEntIndex;
+    float m_flLastBodyYaw;
+    float m_flCurrentHeadYaw;
+    float m_flCurrentHeadPitch;
 
-	CountdownTimer m_blinkTimer;
+    int m_iIDEntIndex;
 
-	int	  m_iSpawnInterpCounter;
-	int	  m_iSpawnInterpCounterCache;
+    CountdownTimer m_blinkTimer;
 
-	int	  m_iPlayerSoundType;
+    int m_iSpawnInterpCounter;
+    int m_iSpawnInterpCounterCache;
 
-	void ReleaseFlashlight( void );
-	Beam_t	*m_pFlashlightBeam;
+    int m_iPlayerSoundType;
 
-	CNetworkVar( HL2MPPlayerState, m_iPlayerState );	
+    void ReleaseFlashlight(void);
 
-	bool m_fIsWalking;
+    Beam_t *m_pFlashlightBeam;
+
+    CNetworkVar(HL2MPPlayerState, m_iPlayerState);
+
+    bool m_fIsWalking;
 };
 
-inline C_HL2MP_Player *ToHL2MPPlayer( CBaseEntity *pEntity )
-{
-	if ( !pEntity || !pEntity->IsPlayer() )
-		return NULL;
+inline C_HL2MP_Player *ToHL2MPPlayer(CBaseEntity *pEntity) {
+    if (!pEntity || !pEntity->IsPlayer())
+        return NULL;
 
-	return dynamic_cast<C_HL2MP_Player*>( pEntity );
+    return dynamic_cast<C_HL2MP_Player *>( pEntity );
 }
 
 
-class C_HL2MPRagdoll : public C_BaseAnimatingOverlay
-{
+class C_HL2MPRagdoll : public C_BaseAnimatingOverlay {
 public:
-	DECLARE_CLASS( C_HL2MPRagdoll, C_BaseAnimatingOverlay );
-	DECLARE_CLIENTCLASS();
-	
-	C_HL2MPRagdoll();
-	~C_HL2MPRagdoll();
+    DECLARE_CLASS(C_HL2MPRagdoll, C_BaseAnimatingOverlay);
 
-	virtual void OnDataChanged( DataUpdateType_t type );
+    DECLARE_CLIENTCLASS();
 
-	int GetPlayerEntIndex() const;
-	IRagdoll* GetIRagdoll() const;
+    C_HL2MPRagdoll();
 
-	void ImpactTrace( trace_t *pTrace, int iDamageType, const char *pCustomImpactName );
-	void UpdateOnRemove( void );
-	virtual void SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights );
-	
+    ~C_HL2MPRagdoll();
+
+    virtual void OnDataChanged(DataUpdateType_t type);
+
+    int GetPlayerEntIndex() const;
+
+    IRagdoll *GetIRagdoll() const;
+
+    void ImpactTrace(trace_t *pTrace, int iDamageType, const char *pCustomImpactName);
+
+    void UpdateOnRemove(void);
+
+    virtual void SetupWeights(const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights,
+                              float *pFlexDelayedWeights);
+
 private:
-	
-	C_HL2MPRagdoll( const C_HL2MPRagdoll & ) {}
 
-	void Interp_Copy( C_BaseAnimatingOverlay *pDestinationEntity );
-	void CreateHL2MPRagdoll( void );
+    C_HL2MPRagdoll(const C_HL2MPRagdoll &) {}
+
+    void Interp_Copy(C_BaseAnimatingOverlay *pDestinationEntity);
+
+    void CreateHL2MPRagdoll(void);
 
 private:
 
-	EHANDLE	m_hPlayer;
-	CNetworkVector( m_vecRagdollVelocity );
-	CNetworkVector( m_vecRagdollOrigin );
+    EHANDLE m_hPlayer;
+
+    CNetworkVector(m_vecRagdollVelocity);
+
+    CNetworkVector(m_vecRagdollOrigin);
 };
 
 #endif //HL2MP_PLAYER_H
