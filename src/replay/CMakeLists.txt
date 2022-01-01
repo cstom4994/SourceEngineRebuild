@@ -254,7 +254,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "REPLAY_DLL;"
         "REPLAY_ENABLED;"
         "CURL_STATICLIB;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

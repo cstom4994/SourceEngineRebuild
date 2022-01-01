@@ -151,7 +151,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "SOUNDEMITTERSYSTEM_EXPORTS;"
         "PROTECTED_THINGS_ENABLE;"
         "fopen=dont_use_fopen;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

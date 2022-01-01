@@ -199,7 +199,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEDICATED;"
         "LAUNCHERONLY;"
         "SUPPORT_PACKED_STORE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

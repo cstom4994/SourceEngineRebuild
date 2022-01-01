@@ -118,7 +118,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "VSTDLIB_DLL_EXPORT;"
         "VPCGAMECAPS=VANCE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

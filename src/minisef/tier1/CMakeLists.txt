@@ -213,7 +213,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "TIER1_STATIC_LIB;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

@@ -1541,12 +1541,10 @@ CGamestatsData *CEngineClient::GetGamestatsData() {
 //-----------------------------------------------------------------------------
 
 #if defined( USE_SDL )
-
 void CEngineClient::GetMouseDelta( int &x, int &y, bool bIgnoreNextMouseDelta )
 {
     g_pLauncherMgr->GetMouseDelta( x, y, bIgnoreNextMouseDelta );
 }
-
 #endif
 
 

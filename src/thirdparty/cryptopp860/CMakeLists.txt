@@ -443,7 +443,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "RAD_TELEMETRY_DISABLED;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "VPCGAMECAPS=VANCE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

@@ -179,7 +179,7 @@ void *VoidFnPtrLookup_GlMgr(const char *fn, bool &okay, const bool bRequired, vo
         retval = fallback;
     }
 #else
-#error Unimplemented
+#pragma message("With no SDL")
 #endif
 
     // Note that a non-NULL response doesn't mean it's safe to call the function!
@@ -1617,7 +1617,7 @@ void CSDLMgr::PumpWindowsMessageLoop() {
                 }
 
                 const bool bPressed = (event.type == SDL_MOUSEBUTTONDOWN);
-                const CocoaMouseButton_t cocoaButton = (CocoaMouseButton_t) (1 << (button - 1));
+                const CocoaMouseButton_t cocoaButton = (CocoaMouseButton_t)(1 << (button - 1));
 
                 if (bPressed)
                     m_mouseButtons |= cocoaButton;

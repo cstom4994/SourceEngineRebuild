@@ -1308,7 +1308,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "fopen=dont_use_fopen;"
         "HL2MP;"
         "HL2_DLL;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )

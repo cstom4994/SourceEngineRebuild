@@ -124,7 +124,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "SOURCEVR_DLL;"
         "VERSION_SAFE_STEAM_API_INTERFACES;"
         "VPCGAMECAPS=VANCE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

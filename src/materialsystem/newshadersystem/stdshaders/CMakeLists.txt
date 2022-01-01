@@ -213,7 +213,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "USE_ACTUAL_DX;"
         "VANCE;"
         "VPCGAMECAPS=VANCE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )

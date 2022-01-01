@@ -96,7 +96,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "fopen=dont_use_fopen;"
         "UNITLIB_DLL_EXPORT;"
         "VPCGAMECAPS=VANCE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

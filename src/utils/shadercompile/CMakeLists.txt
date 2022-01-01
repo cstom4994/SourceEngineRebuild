@@ -130,7 +130,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "SHADERCOMPILE_EXPORTS;"
         "MPI;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

@@ -130,7 +130,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "COMPILER_MSVC;"
         "EXENAME=SDKLauncher;"
         "VERSION_SAFE_STEAM_API_INTERFACES;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )

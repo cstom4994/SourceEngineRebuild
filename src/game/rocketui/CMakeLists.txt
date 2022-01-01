@@ -105,7 +105,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "WMV_VIDEO;"
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
-        "USE_SDL;"
         "RMLUI_STATIC_LIB;"
         "VERSION_SAFE_STEAM_API_INTERFACES;"
         "strncpy=use_Q_strncpy_instead;"

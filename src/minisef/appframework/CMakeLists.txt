@@ -18,9 +18,7 @@ set(Source_Files
         "../../common/debug_lib_check.cpp"
         "../../public/filesystem_init.cpp"
         "AppSystemGroup.cpp"
-        #    "glmrendererinfo_osx.mm"
-        #    "posixapp.cpp"
-        "sdlmgr.cpp"
+#        "sdlmgr.cpp"
         "VguiMatSysApp.cpp"
         "WinApp.cpp"
         )
@@ -102,7 +100,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "VPCGAMECAPS=VANCE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

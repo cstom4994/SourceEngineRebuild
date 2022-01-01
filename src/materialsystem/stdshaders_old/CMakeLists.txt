@@ -570,7 +570,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "STDSHADER_DBG_DLL_EXPORT;"
         "FAST_MATERIALVAR_ACCESS;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"
@@ -926,7 +925,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "STDSHADER_DX9_DLL_EXPORT;"
         "FAST_MATERIALVAR_ACCESS;"
         "USE_ACTUAL_DX;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"
@@ -1236,7 +1234,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "STDSHADER_DX8_DLL_EXPORT;"
         "FAST_MATERIALVAR_ACCESS;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )
@@ -1465,7 +1462,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "STDSHADER_DX7_DLL_EXPORT;"
         "FAST_MATERIALVAR_ACCESS;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )
@@ -1729,7 +1725,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "STDSHADER_DX6_DLL_EXPORT;"
         "FAST_MATERIALVAR_ACCESS;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )

@@ -296,7 +296,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "MPI;"
         "PROTECTED_THINGS_DISABLE;"
         "VRAD;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )

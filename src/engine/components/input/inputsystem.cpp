@@ -14,8 +14,11 @@
 
 #if defined( USE_SDL )
 #undef M_PI
+
 #include "SDL.h"
+
 static void initKeymap(void);
+
 #endif
 
 #ifdef _X360
@@ -211,7 +214,7 @@ bool CInputSystem::Connect(CreateInterfaceFn factory) {
         return false;
 
 #if defined( USE_SDL )
-    m_pLauncherMgr = (ILauncherMgr *)factory( SDLMGR_INTERFACE_VERSION, NULL );
+    m_pLauncherMgr = (ILauncherMgr *) factory(SDLMGR_INTERFACE_VERSION, NULL);
 #endif
 
     return true;
@@ -248,7 +251,7 @@ void CInputSystem::SleepUntilInput(int nMaxSleepTimeMS) {
 
     MsgWaitForMultipleObjects(1, &m_hEvent, FALSE, nMaxSleepTimeMS, QS_ALLEVENTS);
 #elif defined( USE_SDL )
-    m_pLauncherMgr->WaitUntilUserInput( nMaxSleepTimeMS );
+    m_pLauncherMgr->WaitUntilUserInput(nMaxSleepTimeMS);
 #else
 #warning "need a SleepUntilInput impl"
 #endif
@@ -344,7 +347,7 @@ void CInputSystem::DetachFromWindow() {
     m_hAttachedHWnd = 0;
 }
 
-void* CInputSystem::GetAttachedWindow() {
+void *CInputSystem::GetAttachedWindow() {
     return m_hAttachedHWnd;
 }
 
@@ -570,11 +573,10 @@ void CInputSystem::PollInputState_Windows() {
 
 #if defined( USE_SDL )
 
-static BYTE        scantokey[SDL_NUM_SCANCODES];
+static BYTE scantokey[SDL_NUM_SCANCODES];
 
-static void initKeymap(void)
-{
-    memset(scantokey, '\0', sizeof (scantokey));
+static void initKeymap(void) {
+    memset(scantokey, '\0', sizeof(scantokey));
 
     for (int i = SDL_SCANCODE_A; i <= SDL_SCANCODE_Z; i++)
         scantokey[i] = KEY_A + (i - SDL_SCANCODE_A);
@@ -634,107 +636,92 @@ static void initKeymap(void)
     scantokey[SDL_SCANCODE_RGUI] = KEY_RWIN;
 }
 
-bool MapCocoaVirtualKeyToButtonCode( int nCocoaVirtualKeyCode, ButtonCode_t *pOut )
-{
-    if ( nCocoaVirtualKeyCode < 0 )
-        *pOut = (ButtonCode_t)(-1 * nCocoaVirtualKeyCode);
-    else
-    {
+bool MapCocoaVirtualKeyToButtonCode(int nCocoaVirtualKeyCode, ButtonCode_t *pOut) {
+    if (nCocoaVirtualKeyCode < 0)
+        *pOut = (ButtonCode_t) (-1 * nCocoaVirtualKeyCode);
+    else {
         nCocoaVirtualKeyCode &= 0x000000ff;
 
-        *pOut = (ButtonCode_t)scantokey[nCocoaVirtualKeyCode];
+        *pOut = (ButtonCode_t) scantokey[nCocoaVirtualKeyCode];
     }
 
     return true;
 }
 
-void CInputSystem::PollInputState_Platform()
-{
-    InputState_t &state = m_InputState[ m_bIsPolling ];
+void CInputSystem::PollInputState_Platform() {
+    InputState_t &state = m_InputState[m_bIsPolling];
 
-    if (  m_bPumpEnabled )
+    if (m_bPumpEnabled)
         m_pLauncherMgr->PumpWindowsMessageLoop();
     // These are Carbon virtual key codes. AFAIK they don't have a header that defines these, but they are supposed to map
     // to the same letters across international keyboards, so our mapping here should work.
     CCocoaEvent events[32];
-    while ( 1 )
-    {
-        int nEvents = m_pLauncherMgr->GetEvents( events, ARRAYSIZE( events ) );
-        if ( nEvents == 0 )
+    while (1) {
+        int nEvents = m_pLauncherMgr->GetEvents(events, ARRAYSIZE(events));
+        if (nEvents == 0)
             break;
 
-        for ( int iEvent=0; iEvent < nEvents; iEvent++ )
-        {
+        for (int iEvent = 0; iEvent < nEvents; iEvent++) {
             CCocoaEvent *pEvent = &events[iEvent];
 
-            switch( pEvent->m_EventType )
-            {
+            switch (pEvent->m_EventType) {
                 case CocoaEvent_Deleted:
                     break;
 
-                case CocoaEvent_KeyDown:
-                {
+                case CocoaEvent_KeyDown: {
                     ButtonCode_t virtualCode;
-                    if ( MapCocoaVirtualKeyToButtonCode( pEvent->m_VirtualKeyCode, &virtualCode ) )
-                    {
+                    if (MapCocoaVirtualKeyToButtonCode(pEvent->m_VirtualKeyCode, &virtualCode)) {
                         ButtonCode_t scanCode = virtualCode;
 
-                        if( ( scanCode != BUTTON_CODE_NONE ) )
-                        {
+                        if ((scanCode != BUTTON_CODE_NONE)) {
                             // For SDL, hitting spacebar causes a SDL_KEYDOWN event, then SDL_TEXTINPUT with
                             //	event.text.text[0] = ' ', and then we get here and wind up sending two events
                             //	to PostButtonPressedEvent. The first is virtualCode = ' ', the 2nd has virtualCode = 0.
                             // This will confuse Button::OnKeyCodePressed(), which is checking for space keydown
                             //	followed by space keyup. So we ignore all BUTTON_CODE_NONE events here.
-                            PostButtonPressedEvent( IE_ButtonPressed, m_nLastSampleTick, scanCode, virtualCode );
+                            PostButtonPressedEvent(IE_ButtonPressed, m_nLastSampleTick, scanCode, virtualCode);
                         }
 
                         InputEvent_t event;
-                        memset( &event, 0, sizeof(event) );
+                        memset(&event, 0, sizeof(event));
                         event.m_nTick = GetPollTick();
                         // IE_KeyCodeTyped
                         event.m_nType = IE_FirstVguiEvent + 4;
                         event.m_nData = scanCode;
-                        g_pInputSystem->PostUserEvent( event );
+                        g_pInputSystem->PostUserEvent(event);
 
                     }
 
-                    if ( !(pEvent->m_ModifierKeyMask & (1<<eCommandKey) ) && pEvent->m_VirtualKeyCode >= 0 && pEvent->m_UnicodeKey > 0 )
-                    {
+                    if (!(pEvent->m_ModifierKeyMask & (1 << eCommandKey)) && pEvent->m_VirtualKeyCode >= 0 &&
+                        pEvent->m_UnicodeKey > 0) {
                         InputEvent_t event;
-                        memset( &event, 0, sizeof(event) );
+                        memset(&event, 0, sizeof(event));
                         event.m_nTick = GetPollTick();
                         // IE_KeyTyped
                         event.m_nType = IE_FirstVguiEvent + 3;
-                        event.m_nData = (int)pEvent->m_UnicodeKey;
-                        g_pInputSystem->PostUserEvent( event );
+                        event.m_nData = (int) pEvent->m_UnicodeKey;
+                        g_pInputSystem->PostUserEvent(event);
                     }
 
                 }
-                break;
+                    break;
 
-                case CocoaEvent_KeyUp:
-                {
+                case CocoaEvent_KeyUp: {
                     ButtonCode_t virtualCode;
-                    if ( MapCocoaVirtualKeyToButtonCode( pEvent->m_VirtualKeyCode, &virtualCode ) )
-                    {
-                        if( virtualCode != BUTTON_CODE_NONE )
-                        {
+                    if (MapCocoaVirtualKeyToButtonCode(pEvent->m_VirtualKeyCode, &virtualCode)) {
+                        if (virtualCode != BUTTON_CODE_NONE) {
                             ButtonCode_t scanCode = virtualCode;
-                            PostButtonReleasedEvent( IE_ButtonReleased, m_nLastSampleTick, scanCode, virtualCode );
+                            PostButtonReleasedEvent(IE_ButtonReleased, m_nLastSampleTick, scanCode, virtualCode);
                         }
                     }
                 }
-                break;
+                    break;
 
-                case CocoaEvent_MouseButtonDown:
-                {
+                case CocoaEvent_MouseButtonDown: {
                     int nButtonMask = pEvent->m_MouseButtonFlags;
                     ButtonCode_t dblClickCode = BUTTON_CODE_INVALID;
-                    if ( pEvent->m_nMouseClickCount > 1 )
-                    {
-                        switch( pEvent->m_MouseButton )
-                        {
+                    if (pEvent->m_nMouseClickCount > 1) {
+                        switch (pEvent->m_MouseButton) {
                             default:
                             case COCOABUTTON_LEFT:
                                 dblClickCode = MOUSE_LEFT;
@@ -753,74 +740,70 @@ void CInputSystem::PollInputState_Platform()
                                 break;
                         }
                     }
-                    UpdateMouseButtonState( nButtonMask, dblClickCode );
+                    UpdateMouseButtonState(nButtonMask, dblClickCode);
                 }
-                break;
+                    break;
 
-                case CocoaEvent_MouseButtonUp:
-                {
+                case CocoaEvent_MouseButtonUp: {
                     int nButtonMask = pEvent->m_MouseButtonFlags;
-                    UpdateMouseButtonState( nButtonMask );
+                    UpdateMouseButtonState(nButtonMask);
                 }
-                break;
+                    break;
 
-                case CocoaEvent_MouseMove:
-                {
-                    UpdateMousePositionState( state, (short)pEvent->m_MousePos[0], (short)pEvent->m_MousePos[1] );
+                case CocoaEvent_MouseMove: {
+                    UpdateMousePositionState(state, (short) pEvent->m_MousePos[0], (short) pEvent->m_MousePos[1]);
 
                     InputEvent_t event;
-                    memset( &event, 0, sizeof(event) );
+                    memset(&event, 0, sizeof(event));
                     event.m_nTick = GetPollTick();
                     // IE_LocateMouseClick
                     event.m_nType = IE_FirstVguiEvent + 1;
-                    event.m_nData = (short)pEvent->m_MousePos[0];
-                    event.m_nData2 = (short)pEvent->m_MousePos[1];
-                    g_pInputSystem->PostUserEvent( event );
+                    event.m_nData = (short) pEvent->m_MousePos[0];
+                    event.m_nData2 = (short) pEvent->m_MousePos[1];
+                    g_pInputSystem->PostUserEvent(event);
                 }
-                break;
+                    break;
 
-                case CocoaEvent_MouseScroll:
-                {
-                    ButtonCode_t code = (short)pEvent->m_MousePos[1] > 0 ? MOUSE_WHEEL_UP : MOUSE_WHEEL_DOWN;
-                    state.m_ButtonPressedTick[ code ] = state.m_ButtonReleasedTick[ code ] = m_nLastSampleTick;
-                    PostEvent( IE_ButtonPressed, m_nLastSampleTick, code, code );
-                    PostEvent( IE_ButtonReleased, m_nLastSampleTick, code, code );
+                case CocoaEvent_MouseScroll: {
+                    ButtonCode_t code = (short) pEvent->m_MousePos[1] > 0 ? MOUSE_WHEEL_UP : MOUSE_WHEEL_DOWN;
+                    state.m_ButtonPressedTick[code] = state.m_ButtonReleasedTick[code] = m_nLastSampleTick;
+                    PostEvent(IE_ButtonPressed, m_nLastSampleTick, code, code);
+                    PostEvent(IE_ButtonReleased, m_nLastSampleTick, code, code);
 
-                    state.m_pAnalogDelta[ MOUSE_WHEEL ] = pEvent->m_MousePos[1];
-                    state.m_pAnalogValue[ MOUSE_WHEEL ] += state.m_pAnalogDelta[ MOUSE_WHEEL ];
-                    PostEvent( IE_AnalogValueChanged, m_nLastSampleTick, MOUSE_WHEEL, state.m_pAnalogValue[ MOUSE_WHEEL ], state.m_pAnalogDelta[ MOUSE_WHEEL ] );
+                    state.m_pAnalogDelta[MOUSE_WHEEL] = pEvent->m_MousePos[1];
+                    state.m_pAnalogValue[MOUSE_WHEEL] += state.m_pAnalogDelta[MOUSE_WHEEL];
+                    PostEvent(IE_AnalogValueChanged, m_nLastSampleTick, MOUSE_WHEEL, state.m_pAnalogValue[MOUSE_WHEEL],
+                              state.m_pAnalogDelta[MOUSE_WHEEL]);
                 }
-                break;
+                    break;
 
-                case CocoaEvent_AppActivate:
-                {
+                case CocoaEvent_AppActivate: {
                     InputEvent_t event;
-                    memset( &event, 0, sizeof(event) );
+                    memset(&event, 0, sizeof(event));
                     event.m_nType = IE_FirstAppEvent + 2; // IE_AppActivated (defined in sys_mainwind.cpp).
-                    event.m_nData = (bool)(pEvent->m_ModifierKeyMask != 0);
+                    event.m_nData = (bool) (pEvent->m_ModifierKeyMask != 0);
 
-                    g_pInputSystem->PostUserEvent( event );
+                    g_pInputSystem->PostUserEvent(event);
 
-                    if( pEvent->m_ModifierKeyMask == 0 )
-                    {
+                    if (pEvent->m_ModifierKeyMask == 0) {
                         // App just lost focus. Handle like WM_ACTIVATEAPP in CInputSystem::WindowProc().
                         // Otherwise alt+tab will bring focus away from our app, vgui will still think that
                         //	the alt key is down, and when we regain focus, fun ensues.
                         g_pInputSystem->ResetInputState();
                     }
                 }
-                break;
-                case CocoaEvent_AppQuit:
-                {
-                    PostEvent( IE_Quit, m_nLastSampleTick );
+                    break;
+                case CocoaEvent_AppQuit: {
+                    PostEvent(IE_Quit, m_nLastSampleTick);
 
                 }
-                break;
-                break;
+                    break;
+                    break;
             }
         }
     }
 }
+
 #endif // USE_SDL
 
 
@@ -1418,9 +1401,8 @@ LRESULT CInputSystem::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 bool CInputSystem::GetRawMouseAccumulators(int &accumX, int &accumY) {
 #if defined( USE_SDL )
 
-    if ( m_pLauncherMgr )
-    {
-        m_pLauncherMgr->GetMouseDelta( accumX, accumY, false );
+    if (m_pLauncherMgr) {
+        m_pLauncherMgr->GetMouseDelta(accumX, accumY, false);
         return true;
     }
     return false;

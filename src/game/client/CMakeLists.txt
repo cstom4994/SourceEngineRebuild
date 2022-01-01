@@ -1613,7 +1613,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "HL2_CLIENT_DLL;"
         "RMLUI_STATIC_LIB;"
         "ENABLE_CEF;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )

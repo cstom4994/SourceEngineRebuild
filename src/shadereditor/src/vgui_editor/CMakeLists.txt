@@ -259,7 +259,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "SHADER_EDITOR_DLL_SER;"
         "VPCGAMECAPS=VALVE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )

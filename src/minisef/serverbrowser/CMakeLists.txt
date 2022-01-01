@@ -157,7 +157,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "VERSION_SAFE_STEAM_API_INTERFACES;"
         "SERVERBROWSER_EXPORTS;"
         "GAME_SRC;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

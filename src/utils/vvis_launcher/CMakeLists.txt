@@ -113,7 +113,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "EXENAME=vvis;"
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )

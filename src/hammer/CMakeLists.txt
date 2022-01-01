@@ -677,7 +677,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "VALVE;"
         "PROTECTED_THINGS_DISABLE;"
         "VPCGAMECAPS=VALVE;"
-        "USE_SDL;"
         "SOURCE1=1;"
         "_MBCS"
         )
