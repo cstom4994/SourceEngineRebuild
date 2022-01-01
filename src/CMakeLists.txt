@@ -173,12 +173,4 @@ endif ()
 
 #add_subdirectory(engine/voice_codecs/celt)
 
-add_subdirectory(thirdparty/libspeex)
-add_subdirectory(thirdparty/zlib-1.2.5)
-add_subdirectory(thirdparty/cryptopp860)
-add_subdirectory(thirdparty/re2)
-add_subdirectory(thirdparty/RmlUi)
-add_subdirectory(thirdparty/bzip2)
-add_subdirectory(thirdparty/jpeglib)
-add_subdirectory(thirdparty/lzma)
-add_subdirectory(thirdparty/protobuf-2.6.1/vsprojects)
+add_subdirectory(thirdparty)

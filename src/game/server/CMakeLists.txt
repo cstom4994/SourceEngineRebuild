@@ -1191,7 +1191,7 @@ source_group("Tools Framework" FILES ${Tools_Framework})
 
 set(CONTENTS_Files
         "contents/env_instructor_hint.cpp"
-        )
+        contents/lua_manager.cpp contents/lua_manager.h)
 source_group("ReSource Files" FILES ${CONTENTS_Files})
 
 
@@ -1261,6 +1261,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
         "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_hl2mp;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/lua;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.6.1/src;"
         "${CMAKE_CURRENT_SOURCE_DIR}/.;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared;"
@@ -1523,6 +1524,8 @@ add_dependencies(${PROJECT_NAME}
         vstdlib
         vtf
         zlib
+        libutilities
+        Jpeglib
         )
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
@@ -1543,6 +1546,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         vstdlib
         vtf
         zlib
+        libutilities
         Jpeglib
 
         steam_api
