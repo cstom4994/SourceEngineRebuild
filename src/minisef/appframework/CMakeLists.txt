@@ -20,7 +20,7 @@ set(Source_Files
         "AppSystemGroup.cpp"
         #    "glmrendererinfo_osx.mm"
         #    "posixapp.cpp"
-        #    "sdlmgr.cpp"
+        "sdlmgr.cpp"
         "VguiMatSysApp.cpp"
         "WinApp.cpp"
         )

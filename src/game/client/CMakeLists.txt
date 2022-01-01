@@ -1878,6 +1878,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         libprotobuf
 
         steam_api
+        SDL2
         freetype
         libcef
         libcef_dll_wrapper
