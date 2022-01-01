@@ -20,58 +20,63 @@
 #include "particles_simple.h"
 #include "particlemgr.h"
 
-#define	MAX_COLLISION_PLANES	6
+#define    MAX_COLLISION_PLANES    6
 
 //
 // CBaseSimpleCollision
 //
 
-class CBaseSimpleCollision
-{
+class CBaseSimpleCollision {
 public:
 
-	CBaseSimpleCollision( void );
+    CBaseSimpleCollision(void);
 
-	static	CBaseSimpleCollision *Create( void )	{	return	new CBaseSimpleCollision;	}
+    static CBaseSimpleCollision *Create(void) { return new CBaseSimpleCollision; }
 
-	virtual void	Setup( const Vector &origin, float speed, float gravity );
-	virtual void	TraceLine( const Vector &start, const Vector &end, trace_t *pTrace, bool coarse = true );
+    virtual void Setup(const Vector &origin, float speed, float gravity);
 
-	void	ClearActivePlanes( void	);
+    virtual void TraceLine(const Vector &start, const Vector &end, trace_t *pTrace, bool coarse = true);
+
+    void ClearActivePlanes(void);
 
 protected:
 
-	virtual	void	TestForPlane( const Vector &start, const Vector &dir, float speed, float gravity );
-	virtual	void	ConsiderPlane( cplane_t *plane );
+    virtual void TestForPlane(const Vector &start, const Vector &dir, float speed, float gravity);
 
-	VPlane	m_collisionPlanes[MAX_COLLISION_PLANES];
-	int		m_nActivePlanes;
+    virtual void ConsiderPlane(cplane_t *plane);
+
+    VPlane m_collisionPlanes[MAX_COLLISION_PLANES];
+    int m_nActivePlanes;
 };
 
 //
 // CParticleCollision
 //
 
-class CParticleCollision : public CBaseSimpleCollision
-{
+class CParticleCollision : public CBaseSimpleCollision {
 public:
 
-	CParticleCollision( void );
+    CParticleCollision(void);
 
-	static	CParticleCollision *Create( void )	{	return	new CParticleCollision;	}
+    static CParticleCollision *Create(void) { return new CParticleCollision; }
 
-	virtual void	Setup( const Vector &origin, const Vector *dir, float angularSpread, float minSpeed, float maxSpeed, float gravity, float dampen );
-	virtual bool	MoveParticle( Vector &origin, Vector &velocity, float *rollDelta, float timeDelta, trace_t *pTrace );
+    virtual void
+    Setup(const Vector &origin, const Vector *dir, float angularSpread, float minSpeed, float maxSpeed, float gravity,
+          float dampen);
 
-	void	SetGravity( float gravity )					{	m_flGravity = gravity;			}
-	void	SetCollisionDampen( float dampen )			{	m_flCollisionDampen = dampen;	}
-	void	SetAngularCollisionDampen( float dampen )	{	m_flAngularCollisionDampen = dampen;}
+    virtual bool MoveParticle(Vector &origin, Vector &velocity, float *rollDelta, float timeDelta, trace_t *pTrace);
+
+    void SetGravity(float gravity) { m_flGravity = gravity; }
+
+    void SetCollisionDampen(float dampen) { m_flCollisionDampen = dampen; }
+
+    void SetAngularCollisionDampen(float dampen) { m_flAngularCollisionDampen = dampen; }
 
 protected:
 
-	float	m_flGravity;
-	float	m_flCollisionDampen;
-	float	m_flAngularCollisionDampen;
+    float m_flGravity;
+    float m_flCollisionDampen;
+    float m_flAngularCollisionDampen;
 };
 
 #endif //PARTICLE_COLLISION_H

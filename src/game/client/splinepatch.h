@@ -21,68 +21,69 @@
 // Spline patch: 
 //-----------------------------------------------------------------------------
 
-class CSplinePatch
-{
+class CSplinePatch {
 public:
-	// The last argument represents the number of float channels in addition to position
-	CSplinePatch( );
-	~CSplinePatch();
+    // The last argument represents the number of float channels in addition to position
+    CSplinePatch();
 
-	// Call this to initialize the patch
-	void Init( int w, int h, int extraChannels );
+    ~CSplinePatch();
 
-	// 0 = linear, 1 = spliney!
-	void SetLinearBlend( float factor );
+    // Call this to initialize the patch
+    void Init(int w, int h, int extraChannels);
 
-	// Hooks the patch up to externally controlled data...
-	void SetControlPositions( Vector const** pPositions );
-	void SetChannelData( int channel, float* pChannel );
+    // 0 = linear, 1 = spliney!
+    void SetLinearBlend(float factor);
 
-	// This interface isn't wonderful; it's limited by optimization issues...
+    // Hooks the patch up to externally controlled data...
+    void SetControlPositions(Vector const **pPositions);
 
-	// Call this before querying the patch for data at (i,j)
-	void SetupPatchQuery( float i, float j );
+    void SetChannelData(int channel, float *pChannel);
 
-	// Gets the point and normal at (i,j) specified above
-	void GetPointAndNormal( Vector& position, Vector& normal ) const;
+    // This interface isn't wonderful; it's limited by optimization issues...
 
-	// Gets at other channels
-	float GetChannel( int channel ) const;
+    // Call this before querying the patch for data at (i,j)
+    void SetupPatchQuery(float i, float j);
 
-	// Gets at the dimensions
-	int	Width() const { return m_Width; }
-	int Height() const { return m_Height; }
+    // Gets the point and normal at (i,j) specified above
+    void GetPointAndNormal(Vector &position, Vector &normal) const;
+
+    // Gets at other channels
+    float GetChannel(int channel) const;
+
+    // Gets at the dimensions
+    int Width() const { return m_Width; }
+
+    int Height() const { return m_Height; }
 
 public:
-	// The integer + float values for the patch query
-	int		m_is, m_it;
-	float	m_fs, m_ft;
+    // The integer + float values for the patch query
+    int m_is, m_it;
+    float m_fs, m_ft;
 
 private:
-	enum
-	{
-		MAX_CHANNELS = 4
-	};
+    enum {
+        MAX_CHANNELS = 4
+    };
 
-	// no copy constructor
-	CSplinePatch( const CSplinePatch& );
+    // no copy constructor
+    CSplinePatch(const CSplinePatch &);
 
-	// Computes indices of the samples to read for this interpolation
-	void ComputeIndices( );
+    // Computes indices of the samples to read for this interpolation
+    void ComputeIndices();
 
-	// input data
-	int m_Width;
-	int m_Height;
-	int m_ChannelCount;
-	Vector const** m_ppPositions;
-	float const* m_pChannel[MAX_CHANNELS];
+    // input data
+    int m_Width;
+    int m_Height;
+    int m_ChannelCount;
+    Vector const **m_ppPositions;
+    float const *m_pChannel[MAX_CHANNELS];
 
-	// temporary data used for a single patch query
-	int		m_SampleIndices[4][4];
-	Vector4D m_SVec;
-	Vector4D m_TVec;
+    // temporary data used for a single patch query
+    int m_SampleIndices[4][4];
+    Vector4D m_SVec;
+    Vector4D m_TVec;
 
-	float m_LinearFactor;
+    float m_LinearFactor;
 };
 
 #endif // SPLINEPATCH_H

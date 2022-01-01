@@ -22,28 +22,27 @@ CFXStaticLine
 ==================================================
 */
 
-CFXStaticLine::CFXStaticLine( const char *name, const Vector& start, const Vector& end, float scale, float life, const char *shader, unsigned int flags )
-: CClientSideEffect( name )
-{
-	assert( materials );
-	if ( materials == NULL )
-		return;
+CFXStaticLine::CFXStaticLine(const char *name, const Vector &start, const Vector &end, float scale, float life,
+                             const char *shader, unsigned int flags)
+        : CClientSideEffect(name) {
+    assert(materials);
+    if (materials == NULL)
+        return;
 
-	// Create a material...
-	m_pMaterial = materials->FindMaterial( shader, TEXTURE_GROUP_CLIENT_EFFECTS );
-	m_pMaterial->IncrementReferenceCount();
+    // Create a material...
+    m_pMaterial = materials->FindMaterial(shader, TEXTURE_GROUP_CLIENT_EFFECTS);
+    m_pMaterial->IncrementReferenceCount();
 
-	//Fill in the rest of the fields
-	m_vecStart	= start;
-	m_vecEnd	= end;
-	m_uiFlags	= flags;
-	m_fLife		= life;
-	m_fScale	= scale * 0.5f;
+    //Fill in the rest of the fields
+    m_vecStart = start;
+    m_vecEnd = end;
+    m_uiFlags = flags;
+    m_fLife = life;
+    m_fScale = scale * 0.5f;
 }
 
-CFXStaticLine::~CFXStaticLine( void )
-{
-	Destroy();
+CFXStaticLine::~CFXStaticLine(void) {
+    Destroy();
 }
 
 //==================================================
@@ -51,84 +50,83 @@ CFXStaticLine::~CFXStaticLine( void )
 // Input:	frametime - the time, this frame
 //==================================================
 
-void CFXStaticLine::Draw( double frametime )
-{
-	Vector lineDir, viewDir, cross;
-	Vector tmp;
+void CFXStaticLine::Draw(double frametime) {
+    Vector lineDir, viewDir, cross;
+    Vector tmp;
 
-	// Update the effect
-	Update( frametime );
+    // Update the effect
+    Update(frametime);
 
-	// Get the proper orientation for the line
-	VectorSubtract( m_vecEnd, m_vecStart, lineDir );
-	VectorSubtract( m_vecEnd, CurrentViewOrigin(), viewDir );
-	
-	cross = lineDir.Cross( viewDir );
+    // Get the proper orientation for the line
+    VectorSubtract(m_vecEnd, m_vecStart, lineDir);
+    VectorSubtract(m_vecEnd, CurrentViewOrigin(), viewDir);
 
-	VectorNormalize( cross );
+    cross = lineDir.Cross(viewDir);
 
-	CMatRenderContextPtr pRenderContext( materials );
+    VectorNormalize(cross);
 
-	//Bind the material
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_pMaterial );
-	CMeshBuilder meshBuilder;
+    CMatRenderContextPtr pRenderContext(materials);
 
-	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 1 );
+    //Bind the material
+    IMesh *pMesh = pRenderContext->GetDynamicMesh(true, NULL, NULL, m_pMaterial);
+    CMeshBuilder meshBuilder;
 
-	bool flipVertical = (m_uiFlags & FXSTATICLINE_FLIP_VERTICAL) != 0;
-	bool flipHorizontal = (m_uiFlags & FXSTATICLINE_FLIP_HORIZONTAL ) != 0;
+    meshBuilder.Begin(pMesh, MATERIAL_QUADS, 1);
 
-	//Setup our points
-	VectorMA( m_vecStart, -m_fScale, cross, tmp );
-	meshBuilder.Position3fv( tmp.Base() );
-	meshBuilder.Normal3fv( cross.Base() );
-	if (flipHorizontal)
-		meshBuilder.TexCoord2f( 0, 0.0f, 1.0f );
-	else if (flipVertical)
-		meshBuilder.TexCoord2f( 0, 0.0f, 0.0f );
-	else 
-		meshBuilder.TexCoord2f( 0, 1.0f, 1.0f );
-	meshBuilder.Color4ub( 255, 255, 255, 255 );
-	meshBuilder.AdvanceVertex();
+    bool flipVertical = (m_uiFlags & FXSTATICLINE_FLIP_VERTICAL) != 0;
+    bool flipHorizontal = (m_uiFlags & FXSTATICLINE_FLIP_HORIZONTAL) != 0;
 
-	VectorMA( m_vecStart, m_fScale, cross, tmp );
-	meshBuilder.Position3fv( tmp.Base() );
-	meshBuilder.Normal3fv( cross.Base() );
-	if (flipHorizontal)
-		meshBuilder.TexCoord2f( 0, 1.0f, 1.0f );
-	else if (flipVertical)
-		meshBuilder.TexCoord2f( 0, 1.0f, 0.0f );
-	else 
-		meshBuilder.TexCoord2f( 0, 0.0f, 1.0f );
-	meshBuilder.Color4ub( 255, 255, 255, 255 );
-	meshBuilder.AdvanceVertex();
+    //Setup our points
+    VectorMA(m_vecStart, -m_fScale, cross, tmp);
+    meshBuilder.Position3fv(tmp.Base());
+    meshBuilder.Normal3fv(cross.Base());
+    if (flipHorizontal)
+        meshBuilder.TexCoord2f(0, 0.0f, 1.0f);
+    else if (flipVertical)
+        meshBuilder.TexCoord2f(0, 0.0f, 0.0f);
+    else
+        meshBuilder.TexCoord2f(0, 1.0f, 1.0f);
+    meshBuilder.Color4ub(255, 255, 255, 255);
+    meshBuilder.AdvanceVertex();
 
-	VectorMA( m_vecEnd, m_fScale, cross, tmp );
-	meshBuilder.Position3fv( tmp.Base() );
-	meshBuilder.Normal3fv( cross.Base() );
-	if (flipHorizontal)
-		meshBuilder.TexCoord2f( 0, 1.0f, 0.0f );
-	else if (flipVertical)
-		meshBuilder.TexCoord2f( 0, 1.0f, 1.0f );
-	else 
-		meshBuilder.TexCoord2f( 0, 0.0f, 0.0f );
-	meshBuilder.Color4ub( 255, 255, 255, 255 );
-	meshBuilder.AdvanceVertex();
+    VectorMA(m_vecStart, m_fScale, cross, tmp);
+    meshBuilder.Position3fv(tmp.Base());
+    meshBuilder.Normal3fv(cross.Base());
+    if (flipHorizontal)
+        meshBuilder.TexCoord2f(0, 1.0f, 1.0f);
+    else if (flipVertical)
+        meshBuilder.TexCoord2f(0, 1.0f, 0.0f);
+    else
+        meshBuilder.TexCoord2f(0, 0.0f, 1.0f);
+    meshBuilder.Color4ub(255, 255, 255, 255);
+    meshBuilder.AdvanceVertex();
 
-	VectorMA( m_vecEnd, -m_fScale, cross, tmp );
-	meshBuilder.Position3fv( tmp.Base() );
-	meshBuilder.Normal3fv( cross.Base() );
-	if (flipHorizontal)
-		meshBuilder.TexCoord2f( 0, 0.0f, 0.0f );
-	else if (flipVertical)
-		meshBuilder.TexCoord2f( 0, 0.0f, 1.0f );
-	else 
-		meshBuilder.TexCoord2f( 0, 1.0f, 0.0f );
-	meshBuilder.Color4ub( 255, 255, 255, 255 );
-	meshBuilder.AdvanceVertex();
+    VectorMA(m_vecEnd, m_fScale, cross, tmp);
+    meshBuilder.Position3fv(tmp.Base());
+    meshBuilder.Normal3fv(cross.Base());
+    if (flipHorizontal)
+        meshBuilder.TexCoord2f(0, 1.0f, 0.0f);
+    else if (flipVertical)
+        meshBuilder.TexCoord2f(0, 1.0f, 1.0f);
+    else
+        meshBuilder.TexCoord2f(0, 0.0f, 0.0f);
+    meshBuilder.Color4ub(255, 255, 255, 255);
+    meshBuilder.AdvanceVertex();
 
-	meshBuilder.End();
-	pMesh->Draw();
+    VectorMA(m_vecEnd, -m_fScale, cross, tmp);
+    meshBuilder.Position3fv(tmp.Base());
+    meshBuilder.Normal3fv(cross.Base());
+    if (flipHorizontal)
+        meshBuilder.TexCoord2f(0, 0.0f, 0.0f);
+    else if (flipVertical)
+        meshBuilder.TexCoord2f(0, 0.0f, 1.0f);
+    else
+        meshBuilder.TexCoord2f(0, 1.0f, 0.0f);
+    meshBuilder.Color4ub(255, 255, 255, 255);
+    meshBuilder.AdvanceVertex();
+
+    meshBuilder.End();
+    pMesh->Draw();
 }
 
 //==================================================
@@ -136,23 +134,20 @@ void CFXStaticLine::Draw( double frametime )
 // Output:	true if active
 //==================================================
 
-bool CFXStaticLine::IsActive( void )
-{
-	return ( m_fLife > 0.0 ) ? true : false;
+bool CFXStaticLine::IsActive(void) {
+    return (m_fLife > 0.0) ? true : false;
 }
 
 //==================================================
 // Purpose:	Destroy the effect and its local resources
 //==================================================
 
-void CFXStaticLine::Destroy( void )
-{
-	//Release the material
-	if ( m_pMaterial != NULL )
-	{
-		m_pMaterial->DecrementReferenceCount();
-		m_pMaterial = NULL;
-	}
+void CFXStaticLine::Destroy(void) {
+    //Release the material
+    if (m_pMaterial != NULL) {
+        m_pMaterial->DecrementReferenceCount();
+        m_pMaterial = NULL;
+    }
 }
 
 //==================================================
@@ -160,7 +155,6 @@ void CFXStaticLine::Destroy( void )
 // Input:	frametime - the time, this frame
 //==================================================
 
-void CFXStaticLine::Update( double frametime )
-{
-	m_fLife -= frametime;
+void CFXStaticLine::Update(double frametime) {
+    m_fLife -= frametime;
 }

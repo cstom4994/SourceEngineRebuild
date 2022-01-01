@@ -31,31 +31,28 @@ static IMaterial *g_pBeamWireframeMaterial;
 //			rendermode - 
 // Output : CEngineSprite
 //-----------------------------------------------------------------------------
-CEngineSprite *Draw_SetSpriteTexture( const model_t *pSpriteModel, int frame, int rendermode )
-{
-	CEngineSprite			*psprite;
-	IMaterial		*material;
+CEngineSprite *Draw_SetSpriteTexture(const model_t *pSpriteModel, int frame, int rendermode) {
+    CEngineSprite *psprite;
+    IMaterial *material;
 
-	psprite = ( CEngineSprite * )modelinfo->GetModelExtraData( pSpriteModel );
-	Assert( psprite );
+    psprite = (CEngineSprite *) modelinfo->GetModelExtraData(pSpriteModel);
+    Assert(psprite);
 
-	material = psprite->GetMaterial( (RenderMode_t)rendermode, frame );
-	if( !material )
-		return NULL;
-	
-	CMatRenderContextPtr pRenderContext( materials );
-	if ( ShouldDrawInWireFrameMode() || r_DrawBeams.GetInt() == 2 )
-	{
-		if ( !g_pBeamWireframeMaterial )
-			g_pBeamWireframeMaterial = materials->FindMaterial( "shadertest/wireframevertexcolor", TEXTURE_GROUP_OTHER );
-		pRenderContext->Bind( g_pBeamWireframeMaterial, NULL );
-		return psprite;
-	}
-	
-	pRenderContext->Bind( material );
-	return psprite;
+    material = psprite->GetMaterial((RenderMode_t) rendermode, frame);
+    if (!material)
+        return NULL;
+
+    CMatRenderContextPtr pRenderContext(materials);
+    if (ShouldDrawInWireFrameMode() || r_DrawBeams.GetInt() == 2) {
+        if (!g_pBeamWireframeMaterial)
+            g_pBeamWireframeMaterial = materials->FindMaterial("shadertest/wireframevertexcolor", TEXTURE_GROUP_OTHER);
+        pRenderContext->Bind(g_pBeamWireframeMaterial, NULL);
+        return psprite;
+    }
+
+    pRenderContext->Bind(material);
+    return psprite;
 }
-
 
 
 //-----------------------------------------------------------------------------
@@ -64,147 +61,137 @@ CEngineSprite *Draw_SetSpriteTexture( const model_t *pSpriteModel, int frame, in
 //			source - 
 //			color - 
 //-----------------------------------------------------------------------------
-void DrawHalo(IMaterial* pMaterial, const Vector& source, float scale, float const* color, float flHDRColorScale )
-{
-	static unsigned int nHDRColorScaleCache = 0;
-	Vector		point, screen;
-	
-	if( pMaterial )
-	{
-		IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast( "$hdrcolorscale", &nHDRColorScaleCache );
-		if( pHDRColorScaleVar )
-		{
-			pHDRColorScaleVar->SetFloatValue( flHDRColorScale );
-		}
-	}
+void DrawHalo(IMaterial *pMaterial, const Vector &source, float scale, float const *color, float flHDRColorScale) {
+    static unsigned int nHDRColorScaleCache = 0;
+    Vector point, screen;
 
-	CMatRenderContextPtr pRenderContext( materials );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( );
+    if (pMaterial) {
+        IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast("$hdrcolorscale", &nHDRColorScaleCache);
+        if (pHDRColorScaleVar) {
+            pHDRColorScaleVar->SetFloatValue(flHDRColorScale);
+        }
+    }
 
-	CMeshBuilder meshBuilder;
-	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 1 );
+    CMatRenderContextPtr pRenderContext(materials);
+    IMesh *pMesh = pRenderContext->GetDynamicMesh();
 
-	// Transform source into screen space
-	ScreenTransform( source, screen );
+    CMeshBuilder meshBuilder;
+    meshBuilder.Begin(pMesh, MATERIAL_QUADS, 1);
 
-	meshBuilder.Color3fv (color);
-	meshBuilder.TexCoord2f (0, 0, 1);
-	VectorMA (source, -scale, CurrentViewUp(), point);
-	VectorMA (point, -scale, CurrentViewRight(), point);
-	meshBuilder.Position3fv (point.Base());
-	meshBuilder.AdvanceVertex();
+    // Transform source into screen space
+    ScreenTransform(source, screen);
 
-	meshBuilder.Color3fv (color);
-	meshBuilder.TexCoord2f (0, 0, 0);
-	VectorMA (source, scale, CurrentViewUp(), point);
-	VectorMA (point, -scale, CurrentViewRight(), point);
-	meshBuilder.Position3fv (point.Base());
-	meshBuilder.AdvanceVertex();
+    meshBuilder.Color3fv(color);
+    meshBuilder.TexCoord2f(0, 0, 1);
+    VectorMA(source, -scale, CurrentViewUp(), point);
+    VectorMA(point, -scale, CurrentViewRight(), point);
+    meshBuilder.Position3fv(point.Base());
+    meshBuilder.AdvanceVertex();
 
-	meshBuilder.Color3fv (color);
-	meshBuilder.TexCoord2f (0, 1, 0);
-	VectorMA (source, scale, CurrentViewUp(), point);
-	VectorMA (point, scale, CurrentViewRight(), point);
-	meshBuilder.Position3fv (point.Base());
-	meshBuilder.AdvanceVertex();
+    meshBuilder.Color3fv(color);
+    meshBuilder.TexCoord2f(0, 0, 0);
+    VectorMA(source, scale, CurrentViewUp(), point);
+    VectorMA(point, -scale, CurrentViewRight(), point);
+    meshBuilder.Position3fv(point.Base());
+    meshBuilder.AdvanceVertex();
 
-	meshBuilder.Color3fv (color);
-	meshBuilder.TexCoord2f (0, 1, 1);
-	VectorMA (source, -scale, CurrentViewUp(), point);
-	VectorMA (point, scale, CurrentViewRight(), point);
-	meshBuilder.Position3fv (point.Base());
-	meshBuilder.AdvanceVertex();
-	
-	meshBuilder.End();
-	pMesh->Draw();
+    meshBuilder.Color3fv(color);
+    meshBuilder.TexCoord2f(0, 1, 0);
+    VectorMA(source, scale, CurrentViewUp(), point);
+    VectorMA(point, scale, CurrentViewRight(), point);
+    meshBuilder.Position3fv(point.Base());
+    meshBuilder.AdvanceVertex();
+
+    meshBuilder.Color3fv(color);
+    meshBuilder.TexCoord2f(0, 1, 1);
+    VectorMA(source, -scale, CurrentViewUp(), point);
+    VectorMA(point, scale, CurrentViewRight(), point);
+    meshBuilder.Position3fv(point.Base());
+    meshBuilder.AdvanceVertex();
+
+    meshBuilder.End();
+    pMesh->Draw();
 }
 
 //-----------------------------------------------------------------------------
 // Assumes the material has already been bound
 //-----------------------------------------------------------------------------
-void DrawSprite( const Vector &vecOrigin, float flWidth, float flHeight, color32 color )
-{
-	unsigned char pColor[4] = { color.r, color.g, color.b, color.a };
+void DrawSprite(const Vector &vecOrigin, float flWidth, float flHeight, color32 color) {
+    unsigned char pColor[4] = {color.r, color.g, color.b, color.a};
 
-	// Generate half-widths
-	flWidth *= 0.5f;
-	flHeight *= 0.5f;
+    // Generate half-widths
+    flWidth *= 0.5f;
+    flHeight *= 0.5f;
 
-	// Compute direction vectors for the sprite
-	Vector fwd, right( 1, 0, 0 ), up( 0, 1, 0 );
-	VectorSubtract( CurrentViewOrigin(), vecOrigin, fwd );
-	float flDist = VectorNormalize( fwd );
-	if (flDist >= 1e-3)
-	{
-		CrossProduct( CurrentViewUp(), fwd, right );
-		flDist = VectorNormalize( right );
-		if (flDist >= 1e-3)
-		{
-			CrossProduct( fwd, right, up );
-		}
-		else
-		{
-			// In this case, fwd == g_vecVUp, it's right above or 
-			// below us in screen space
-			CrossProduct( fwd, CurrentViewRight(), up );
-			VectorNormalize( up );
-			CrossProduct( up, fwd, right );
-		}
-	}
+    // Compute direction vectors for the sprite
+    Vector fwd, right(1, 0, 0), up(0, 1, 0);
+    VectorSubtract(CurrentViewOrigin(), vecOrigin, fwd);
+    float flDist = VectorNormalize(fwd);
+    if (flDist >= 1e-3) {
+        CrossProduct(CurrentViewUp(), fwd, right);
+        flDist = VectorNormalize(right);
+        if (flDist >= 1e-3) {
+            CrossProduct(fwd, right, up);
+        } else {
+            // In this case, fwd == g_vecVUp, it's right above or
+            // below us in screen space
+            CrossProduct(fwd, CurrentViewRight(), up);
+            VectorNormalize(up);
+            CrossProduct(up, fwd, right);
+        }
+    }
 
-	CMeshBuilder meshBuilder;
-	Vector point;
-	CMatRenderContextPtr pRenderContext( materials );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( );
+    CMeshBuilder meshBuilder;
+    Vector point;
+    CMatRenderContextPtr pRenderContext(materials);
+    IMesh *pMesh = pRenderContext->GetDynamicMesh();
 
-	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 1 );
+    meshBuilder.Begin(pMesh, MATERIAL_QUADS, 1);
 
-	meshBuilder.Color4ubv (pColor);
-	meshBuilder.TexCoord2f (0, 0, 1);
-	VectorMA (vecOrigin, -flHeight, up, point);
-	VectorMA (point, -flWidth, right, point);
-	meshBuilder.Position3fv (point.Base());
-	meshBuilder.AdvanceVertex();
+    meshBuilder.Color4ubv(pColor);
+    meshBuilder.TexCoord2f(0, 0, 1);
+    VectorMA(vecOrigin, -flHeight, up, point);
+    VectorMA(point, -flWidth, right, point);
+    meshBuilder.Position3fv(point.Base());
+    meshBuilder.AdvanceVertex();
 
-	meshBuilder.Color4ubv (pColor);
-	meshBuilder.TexCoord2f (0, 0, 0);
-	VectorMA (vecOrigin, flHeight, up, point);
-	VectorMA (point, -flWidth, right, point);
-	meshBuilder.Position3fv (point.Base());
-	meshBuilder.AdvanceVertex();
+    meshBuilder.Color4ubv(pColor);
+    meshBuilder.TexCoord2f(0, 0, 0);
+    VectorMA(vecOrigin, flHeight, up, point);
+    VectorMA(point, -flWidth, right, point);
+    meshBuilder.Position3fv(point.Base());
+    meshBuilder.AdvanceVertex();
 
-	meshBuilder.Color4ubv (pColor);
-	meshBuilder.TexCoord2f (0, 1, 0);
-	VectorMA (vecOrigin, flHeight, up, point);
-	VectorMA (point, flWidth, right, point);
-	meshBuilder.Position3fv (point.Base());
-	meshBuilder.AdvanceVertex();
+    meshBuilder.Color4ubv(pColor);
+    meshBuilder.TexCoord2f(0, 1, 0);
+    VectorMA(vecOrigin, flHeight, up, point);
+    VectorMA(point, flWidth, right, point);
+    meshBuilder.Position3fv(point.Base());
+    meshBuilder.AdvanceVertex();
 
-	meshBuilder.Color4ubv (pColor);
-	meshBuilder.TexCoord2f (0, 1, 1);
-	VectorMA (vecOrigin, -flHeight, up, point);
-	VectorMA (point, flWidth, right, point);
-	meshBuilder.Position3fv (point.Base());
-	meshBuilder.AdvanceVertex();
-	
-	meshBuilder.End();
-	pMesh->Draw();
+    meshBuilder.Color4ubv(pColor);
+    meshBuilder.TexCoord2f(0, 1, 1);
+    VectorMA(vecOrigin, -flHeight, up, point);
+    VectorMA(point, flWidth, right, point);
+    meshBuilder.Position3fv(point.Base());
+    meshBuilder.AdvanceVertex();
+
+    meshBuilder.End();
+    pMesh->Draw();
 }
 
 
 //-----------------------------------------------------------------------------
 // Compute vectors perpendicular to the beam
 //-----------------------------------------------------------------------------
-static void ComputeBeamPerpendicular( const Vector &vecBeamDelta, Vector *pPerp )
-{
-	// Direction in worldspace of the center of the beam
-	Vector vecBeamCenter = vecBeamDelta;
-	VectorNormalize( vecBeamCenter );
+static void ComputeBeamPerpendicular(const Vector &vecBeamDelta, Vector *pPerp) {
+    // Direction in worldspace of the center of the beam
+    Vector vecBeamCenter = vecBeamDelta;
+    VectorNormalize(vecBeamCenter);
 
-	CrossProduct( CurrentViewForward(), vecBeamCenter, *pPerp );
-	VectorNormalize( *pPerp );
+    CrossProduct(CurrentViewForward(), vecBeamCenter, *pPerp);
+    VectorNormalize(*pPerp);
 }
-
 
 
 //-----------------------------------------------------------------------------
@@ -220,245 +207,207 @@ static void ComputeBeamPerpendicular( const Vector &vecBeamDelta, Vector *pPerp 
 //			*color - 
 //			fadescale - 
 //-----------------------------------------------------------------------------
-void DrawSegs( int noise_divisions, float *prgNoise, const model_t* spritemodel,
-				float frame, int rendermode, const Vector& source, const Vector& delta, 
-				float startWidth, float endWidth, float scale, float freq, float speed, int segments,
-				int flags, float* color, float fadeLength, float flHDRColorScale )
-{
-	int				i, noiseIndex, noiseStep;
-	float			div, length, fraction, factor, vLast, vStep, brightness;
-	
-	Assert( fadeLength >= 0.0f );
-	CEngineSprite *pSprite = Draw_SetSpriteTexture( spritemodel, frame, rendermode );
-	if ( !pSprite )
-		return;
+void DrawSegs(int noise_divisions, float *prgNoise, const model_t *spritemodel,
+              float frame, int rendermode, const Vector &source, const Vector &delta,
+              float startWidth, float endWidth, float scale, float freq, float speed, int segments,
+              int flags, float *color, float fadeLength, float flHDRColorScale) {
+    int i, noiseIndex, noiseStep;
+    float div, length, fraction, factor, vLast, vStep, brightness;
 
-	if ( segments < 2 )
-		return;
+    Assert(fadeLength >= 0.0f);
+    CEngineSprite *pSprite = Draw_SetSpriteTexture(spritemodel, frame, rendermode);
+    if (!pSprite)
+        return;
 
-	IMaterial *pMaterial = pSprite->GetMaterial( (RenderMode_t)rendermode );
-	if( pMaterial )
-	{
-		static unsigned int nHDRColorScaleCache = 0;
-		IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast( "$hdrcolorscale", &nHDRColorScaleCache );
-		if( pHDRColorScaleVar )
-		{
-			pHDRColorScaleVar->SetFloatValue( flHDRColorScale );
-		}
-	}
-	
-	length = VectorLength( delta );
-	float flMaxWidth = MAX(startWidth, endWidth) * 0.5f;
-	div = 1.0 / (segments-1);
+    if (segments < 2)
+        return;
 
-	if ( length*div < flMaxWidth * 1.414 )
-	{
-		// Here, we have too many segments; we could get overlap... so lets have less segments
-		segments = (int)(length / (flMaxWidth * 1.414)) + 1;
-		if ( segments < 2 )
-		{
-			segments = 2;
-		}
-	}
+    IMaterial *pMaterial = pSprite->GetMaterial((RenderMode_t) rendermode);
+    if (pMaterial) {
+        static unsigned int nHDRColorScaleCache = 0;
+        IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast("$hdrcolorscale", &nHDRColorScaleCache);
+        if (pHDRColorScaleVar) {
+            pHDRColorScaleVar->SetFloatValue(flHDRColorScale);
+        }
+    }
 
-	if ( segments > noise_divisions )		// UNDONE: Allow more segments?
-	{
-		segments = noise_divisions;
-	}
+    length = VectorLength(delta);
+    float flMaxWidth = MAX(startWidth, endWidth) * 0.5f;
+    div = 1.0 / (segments - 1);
 
-	div = 1.0 / (segments-1);
-	length *= 0.01;
+    if (length * div < flMaxWidth * 1.414) {
+        // Here, we have too many segments; we could get overlap... so lets have less segments
+        segments = (int) (length / (flMaxWidth * 1.414)) + 1;
+        if (segments < 2) {
+            segments = 2;
+        }
+    }
 
-	// UNDONE: Expose texture length scale factor to control "fuzziness"
+    if (segments > noise_divisions)        // UNDONE: Allow more segments?
+    {
+        segments = noise_divisions;
+    }
 
-	if ( flags & FBEAM_NOTILE )
-	{
-		// Don't tile
-		vStep = div;
-	}
-	else
-	{
-		// Texture length texels per space pixel
-		vStep = length*div;	
-	}
-	
-	// UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
-	vLast = fmod(freq*speed,1);	// Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
+    div = 1.0 / (segments - 1);
+    length *= 0.01;
 
-	if ( flags & FBEAM_SINENOISE )
-	{
-		if ( segments < 16 )
-		{
-			segments = 16;
-			div = 1.0 / (segments-1);
-		}
-		scale *= 100;
-		length = segments * (1.0/10);
-	}
-	else
-	{
-		scale *= length;
-	}
+    // UNDONE: Expose texture length scale factor to control "fuzziness"
 
-	// Iterator to resample noise waveform (it needs to be generated in powers of 2)
-	noiseStep = (int)((float)(noise_divisions-1) * div * 65536.0f);
-	noiseIndex = 0;
-	
-	if ( flags & FBEAM_SINENOISE )
-	{
-		noiseIndex = 0;
-	}
+    if (flags & FBEAM_NOTILE) {
+        // Don't tile
+        vStep = div;
+    } else {
+        // Texture length texels per space pixel
+        vStep = length * div;
+    }
 
-	brightness = 1.0;
-	if ( flags & FBEAM_SHADEIN )
-	{
-		brightness = 0;
-	}
+    // UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
+    vLast = fmod(freq * speed,
+                 1);    // Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
 
-	// What fraction of beam should be faded
-	Assert( fadeLength >= 0.0f );
-	float fadeFraction = fadeLength/ delta.Length();
-	
-	// BUGBUG: This code generates NANs when fadeFraction is zero! REVIST!
-	fadeFraction = clamp(fadeFraction,1.e-6f,1.f);
+    if (flags & FBEAM_SINENOISE) {
+        if (segments < 16) {
+            segments = 16;
+            div = 1.0 / (segments - 1);
+        }
+        scale *= 100;
+        length = segments * (1.0 / 10);
+    } else {
+        scale *= length;
+    }
 
-	// Choose two vectors that are perpendicular to the beam
-	Vector perp1;
-	ComputeBeamPerpendicular( delta, &perp1 );
+    // Iterator to resample noise waveform (it needs to be generated in powers of 2)
+    noiseStep = (int) ((float) (noise_divisions - 1) * div * 65536.0f);
+    noiseIndex = 0;
 
-	// Specify all the segments.
-	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	CBeamSegDraw segDraw;
-	segDraw.Start( pRenderContext, segments, NULL );
+    if (flags & FBEAM_SINENOISE) {
+        noiseIndex = 0;
+    }
 
-	for ( i = 0; i < segments; i++ )
-	{
-		Assert( noiseIndex < (noise_divisions<<16) );
-		BeamSeg_t curSeg;
-		curSeg.m_flAlpha = 1;
+    brightness = 1.0;
+    if (flags & FBEAM_SHADEIN) {
+        brightness = 0;
+    }
 
-		fraction = i * div;
+    // What fraction of beam should be faded
+    Assert(fadeLength >= 0.0f);
+    float fadeFraction = fadeLength / delta.Length();
 
-		// Fade in our out beam to fadeLength
+    // BUGBUG: This code generates NANs when fadeFraction is zero! REVIST!
+    fadeFraction = clamp(fadeFraction, 1.e-6f, 1.f);
 
-		if ( (flags & FBEAM_SHADEIN) && (flags & FBEAM_SHADEOUT) )
-		{
-			if (fraction < 0.5)
-			{
-				brightness = 2*(fraction/fadeFraction);
-			}
-			else
-			{
-				brightness = 2*(1.0 - (fraction/fadeFraction));
-			}
-		}
-		else if ( flags & FBEAM_SHADEIN )
-		{
-			brightness = fraction/fadeFraction;
-		}
-		else if ( flags & FBEAM_SHADEOUT )
-		{
-			brightness = 1.0 - (fraction/fadeFraction);
-		}
+    // Choose two vectors that are perpendicular to the beam
+    Vector perp1;
+    ComputeBeamPerpendicular(delta, &perp1);
 
-		// clamps
-		if (brightness < 0 )		
-		{
-			brightness = 0;
-		}
-		else if (brightness > 1)		
-		{
-			brightness = 1;
-		}
+    // Specify all the segments.
+    CMatRenderContextPtr pRenderContext(g_pMaterialSystem);
+    CBeamSegDraw segDraw;
+    segDraw.Start(pRenderContext, segments, NULL);
 
-		VectorScale( *((Vector*)color), brightness, curSeg.m_vColor );
+    for (i = 0; i < segments; i++) {
+        Assert(noiseIndex < (noise_divisions << 16));
+        BeamSeg_t curSeg;
+        curSeg.m_flAlpha = 1;
 
-		// UNDONE: Make this a spline instead of just a line?
-		VectorMA( source, fraction, delta, curSeg.m_vPos );
- 
-		// Distort using noise
-		if ( scale != 0 )
-		{
-			factor = prgNoise[noiseIndex>>16] * scale;
-			if ( flags & FBEAM_SINENOISE )
-			{
-				float	s, c;
-				SinCos( fraction*M_PI*length + freq, &s, &c );
-				VectorMA( curSeg.m_vPos, factor * s, CurrentViewUp(), curSeg.m_vPos );
-				// Rotate the noise along the perpendicluar axis a bit to keep the bolt from looking diagonal
-				VectorMA( curSeg.m_vPos, factor * c, CurrentViewRight(), curSeg.m_vPos );
-			}
-			else
-			{
-				VectorMA( curSeg.m_vPos, factor, perp1, curSeg.m_vPos );
-			}
-		}
+        fraction = i * div;
 
-		// Specify the next segment.
-		if( endWidth == startWidth )
-		{
-			curSeg.m_flWidth = startWidth * 2;
-		}
-		else
-		{
-			curSeg.m_flWidth = ((fraction*(endWidth-startWidth))+startWidth) * 2;
-		}
-		
-		curSeg.m_flTexCoord = vLast;
-		segDraw.NextSeg( &curSeg );
+        // Fade in our out beam to fadeLength
+
+        if ((flags & FBEAM_SHADEIN) && (flags & FBEAM_SHADEOUT)) {
+            if (fraction < 0.5) {
+                brightness = 2 * (fraction / fadeFraction);
+            } else {
+                brightness = 2 * (1.0 - (fraction / fadeFraction));
+            }
+        } else if (flags & FBEAM_SHADEIN) {
+            brightness = fraction / fadeFraction;
+        } else if (flags & FBEAM_SHADEOUT) {
+            brightness = 1.0 - (fraction / fadeFraction);
+        }
+
+        // clamps
+        if (brightness < 0) {
+            brightness = 0;
+        } else if (brightness > 1) {
+            brightness = 1;
+        }
+
+        VectorScale(*((Vector *) color), brightness, curSeg.m_vColor);
+
+        // UNDONE: Make this a spline instead of just a line?
+        VectorMA(source, fraction, delta, curSeg.m_vPos);
+
+        // Distort using noise
+        if (scale != 0) {
+            factor = prgNoise[noiseIndex >> 16] * scale;
+            if (flags & FBEAM_SINENOISE) {
+                float s, c;
+                SinCos(fraction * M_PI * length + freq, &s, &c);
+                VectorMA(curSeg.m_vPos, factor * s, CurrentViewUp(), curSeg.m_vPos);
+                // Rotate the noise along the perpendicluar axis a bit to keep the bolt from looking diagonal
+                VectorMA(curSeg.m_vPos, factor * c, CurrentViewRight(), curSeg.m_vPos);
+            } else {
+                VectorMA(curSeg.m_vPos, factor, perp1, curSeg.m_vPos);
+            }
+        }
+
+        // Specify the next segment.
+        if (endWidth == startWidth) {
+            curSeg.m_flWidth = startWidth * 2;
+        } else {
+            curSeg.m_flWidth = ((fraction * (endWidth - startWidth)) + startWidth) * 2;
+        }
+
+        curSeg.m_flTexCoord = vLast;
+        segDraw.NextSeg(&curSeg);
 
 
-		vLast += vStep;	// Advance texture scroll (v axis only)
-		noiseIndex += noiseStep;
-	}
+        vLast += vStep;    // Advance texture scroll (v axis only)
+        noiseIndex += noiseStep;
+    }
 
-	segDraw.End();
+    segDraw.End();
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CalcSegOrigin( Vector *vecOut, int iPoint, int noise_divisions, float *prgNoise, 
-	const Vector &source, const Vector& delta, const Vector &perp, int segments, 
-	float freq, float scale, float fraction, int flags )
-{
-	Assert( segments > 1 );
+void CalcSegOrigin(Vector *vecOut, int iPoint, int noise_divisions, float *prgNoise,
+                   const Vector &source, const Vector &delta, const Vector &perp, int segments,
+                   float freq, float scale, float fraction, int flags) {
+    Assert(segments > 1);
 
-	float factor;
-	float length = VectorLength( delta ) * 0.01;
-	float div = 1.0 / (segments-1);
+    float factor;
+    float length = VectorLength(delta) * 0.01;
+    float div = 1.0 / (segments - 1);
 
-	// Iterator to resample noise waveform (it needs to be generated in powers of 2)
-	int noiseStep = (int)((float)(noise_divisions-1) * div * 65536.0f);
-	int noiseIndex = (iPoint) * noiseStep;
+    // Iterator to resample noise waveform (it needs to be generated in powers of 2)
+    int noiseStep = (int) ((float) (noise_divisions - 1) * div * 65536.0f);
+    int noiseIndex = (iPoint) * noiseStep;
 
-	// Sine noise beams have different length calculations
-	if ( flags & FBEAM_SINENOISE )
-	{
-		length = segments * (1.0/10);
-		noiseIndex = 0;
-	}
+    // Sine noise beams have different length calculations
+    if (flags & FBEAM_SINENOISE) {
+        length = segments * (1.0 / 10);
+        noiseIndex = 0;
+    }
 
-	// UNDONE: Make this a spline instead of just a line?
-	VectorMA( source, fraction, delta, *vecOut );
+    // UNDONE: Make this a spline instead of just a line?
+    VectorMA(source, fraction, delta, *vecOut);
 
-	// Distort using noise
-	if ( scale != 0 )
-	{
-		factor = prgNoise[noiseIndex>>16] * scale;
-		if ( flags & FBEAM_SINENOISE )
-		{
-			float	s, c;
-			SinCos( fraction*M_PI*length + freq, &s, &c );
-			VectorMA( *vecOut, factor * s, MainViewUp(), *vecOut );
-			// Rotate the noise along the perpendicular axis a bit to keep the bolt from looking diagonal
-			VectorMA( *vecOut, factor * c, MainViewRight(), *vecOut );
-		}
-		else
-		{
-			VectorMA( *vecOut, factor, perp, *vecOut );
-		}
-	}
+    // Distort using noise
+    if (scale != 0) {
+        factor = prgNoise[noiseIndex >> 16] * scale;
+        if (flags & FBEAM_SINENOISE) {
+            float s, c;
+            SinCos(fraction * M_PI * length + freq, &s, &c);
+            VectorMA(*vecOut, factor * s, MainViewUp(), *vecOut);
+            // Rotate the noise along the perpendicular axis a bit to keep the bolt from looking diagonal
+            VectorMA(*vecOut, factor * c, MainViewRight(), *vecOut);
+        } else {
+            VectorMA(*vecOut, factor, perp, *vecOut);
+        }
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -474,168 +423,150 @@ void CalcSegOrigin( Vector *vecOut, int iPoint, int noise_divisions, float *prgN
 //			*color - 
 //			fadescale - 
 //-----------------------------------------------------------------------------
-void DrawTeslaSegs( int noise_divisions, float *prgNoise, const model_t* spritemodel,
-				float frame, int rendermode, const Vector&  source, const Vector&  delta, 
-				float startWidth, float endWidth, float scale, float freq, float speed, int segments,
-				int flags, float* color, float fadeLength, float flHDRColorScale )
-{
-	int				i;
-	float			div, length, fraction, vLast, vStep, brightness;
-	
-	Assert( fadeLength >= 0.0f );
-	CEngineSprite *pSprite = Draw_SetSpriteTexture( spritemodel, frame, rendermode );
-	if ( !pSprite )
-		return;
+void DrawTeslaSegs(int noise_divisions, float *prgNoise, const model_t *spritemodel,
+                   float frame, int rendermode, const Vector &source, const Vector &delta,
+                   float startWidth, float endWidth, float scale, float freq, float speed, int segments,
+                   int flags, float *color, float fadeLength, float flHDRColorScale) {
+    int i;
+    float div, length, fraction, vLast, vStep, brightness;
 
-	if ( segments < 2 )
-		return;
-	
-	IMaterial *pMaterial = pSprite->GetMaterial( (RenderMode_t)rendermode );
-	if( pMaterial )
-	{
-		static unsigned int nHDRColorScaleCache = 0;
-		IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast( "$hdrcolorscale", &nHDRColorScaleCache );
-		if( pHDRColorScaleVar )
-		{
-			pHDRColorScaleVar->SetFloatValue( flHDRColorScale );
-		}
-	}
+    Assert(fadeLength >= 0.0f);
+    CEngineSprite *pSprite = Draw_SetSpriteTexture(spritemodel, frame, rendermode);
+    if (!pSprite)
+        return;
 
-	if ( segments > noise_divisions )		// UNDONE: Allow more segments?
-		segments = noise_divisions;
+    if (segments < 2)
+        return;
 
-	length = VectorLength( delta ) * 0.01;
-	div = 1.0 / (segments-1);
+    IMaterial *pMaterial = pSprite->GetMaterial((RenderMode_t) rendermode);
+    if (pMaterial) {
+        static unsigned int nHDRColorScaleCache = 0;
+        IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast("$hdrcolorscale", &nHDRColorScaleCache);
+        if (pHDRColorScaleVar) {
+            pHDRColorScaleVar->SetFloatValue(flHDRColorScale);
+        }
+    }
 
-	// UNDONE: Expose texture length scale factor to control "fuzziness"
-	vStep = length*div;	// Texture length texels per space pixel
+    if (segments > noise_divisions)        // UNDONE: Allow more segments?
+        segments = noise_divisions;
 
-	// UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
-	vLast = fmod(freq*speed,1);	// Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
+    length = VectorLength(delta) * 0.01;
+    div = 1.0 / (segments - 1);
 
-	brightness = 1.0;
-	if ( flags & FBEAM_SHADEIN )
-		brightness = 0;
+    // UNDONE: Expose texture length scale factor to control "fuzziness"
+    vStep = length * div;    // Texture length texels per space pixel
 
-	// What fraction of beam should be faded
-	Assert( fadeLength >= 0.0f );
-	float fadeFraction = fadeLength/ delta.Length();
-	
-	// BUGBUG: This code generates NANs when fadeFraction is zero! REVIST!
-	fadeFraction = clamp(fadeFraction,1.e-6f,1.f);
+    // UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
+    vLast = fmod(freq * speed,
+                 1);    // Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
 
-	Vector perp;
-	ComputeBeamPerpendicular( delta, &perp );
+    brightness = 1.0;
+    if (flags & FBEAM_SHADEIN)
+        brightness = 0;
 
-	// Specify all the segments.
-	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	CBeamSegDraw segDraw;
-	segDraw.Start( pRenderContext, segments, NULL );
+    // What fraction of beam should be faded
+    Assert(fadeLength >= 0.0f);
+    float fadeFraction = fadeLength / delta.Length();
 
-	// Keep track of how many times we've branched
-	int iBranches = 0;
+    // BUGBUG: This code generates NANs when fadeFraction is zero! REVIST!
+    fadeFraction = clamp(fadeFraction, 1.e-6f, 1.f);
 
-	Vector vecStart, vecEnd;
-	float flWidth = 0;
-	float flEndWidth = 0;
+    Vector perp;
+    ComputeBeamPerpendicular(delta, &perp);
 
-	for ( i = 0; i < segments; i++ )
-	{
-		BeamSeg_t curSeg;
-		curSeg.m_flAlpha = 1;
+    // Specify all the segments.
+    CMatRenderContextPtr pRenderContext(g_pMaterialSystem);
+    CBeamSegDraw segDraw;
+    segDraw.Start(pRenderContext, segments, NULL);
 
-		fraction = i * div;
+    // Keep track of how many times we've branched
+    int iBranches = 0;
 
-		// Fade in our out beam to fadeLength
+    Vector vecStart, vecEnd;
+    float flWidth = 0;
+    float flEndWidth = 0;
 
-		if ( (flags & FBEAM_SHADEIN) && (flags & FBEAM_SHADEOUT) )
-		{
-			if (fraction < 0.5)
-			{
-				brightness = 2*(fraction/fadeFraction);
-			}
-			else
-			{
-				brightness = 2*(1.0 - (fraction/fadeFraction));
-			}
-		}
-		else if ( flags & FBEAM_SHADEIN )
-		{
-			brightness = fraction/fadeFraction;
-		}
-		else if ( flags & FBEAM_SHADEOUT )
-		{
-			brightness = 1.0 - (fraction/fadeFraction);
-		}
+    for (i = 0; i < segments; i++) {
+        BeamSeg_t curSeg;
+        curSeg.m_flAlpha = 1;
 
-		// clamps
-		if (brightness < 0 )		
-		{
-			brightness = 0;
-		}
-		else if (brightness > 1)		
-		{
-			brightness = 1;
-		}
+        fraction = i * div;
 
-		VectorScale( *((Vector*)color), brightness, curSeg.m_vColor );
+        // Fade in our out beam to fadeLength
 
-		CalcSegOrigin( &curSeg.m_vPos, i, noise_divisions, prgNoise, source, delta, perp, segments, freq, scale, fraction, flags );
+        if ((flags & FBEAM_SHADEIN) && (flags & FBEAM_SHADEOUT)) {
+            if (fraction < 0.5) {
+                brightness = 2 * (fraction / fadeFraction);
+            } else {
+                brightness = 2 * (1.0 - (fraction / fadeFraction));
+            }
+        } else if (flags & FBEAM_SHADEIN) {
+            brightness = fraction / fadeFraction;
+        } else if (flags & FBEAM_SHADEOUT) {
+            brightness = 1.0 - (fraction / fadeFraction);
+        }
 
-		// Specify the next segment.
-		if( endWidth == startWidth )
-			curSeg.m_flWidth = startWidth * 2;
-		else
-			curSeg.m_flWidth = ((fraction*(endWidth-startWidth))+startWidth) * 2;
+        // clamps
+        if (brightness < 0) {
+            brightness = 0;
+        } else if (brightness > 1) {
+            brightness = 1;
+        }
 
-		// Reduce the width by the current number of branches we've had
-		for ( int j = 0; j < iBranches; j++ )
-		{
-			curSeg.m_flWidth *= 0.5;
-		}
-		
-		curSeg.m_flTexCoord = vLast;
+        VectorScale(*((Vector *) color), brightness, curSeg.m_vColor);
 
-		segDraw.NextSeg( &curSeg );
+        CalcSegOrigin(&curSeg.m_vPos, i, noise_divisions, prgNoise, source, delta, perp, segments, freq, scale,
+                      fraction, flags);
 
-		vLast += vStep;	// Advance texture scroll (v axis only)
+        // Specify the next segment.
+        if (endWidth == startWidth)
+            curSeg.m_flWidth = startWidth * 2;
+        else
+            curSeg.m_flWidth = ((fraction * (endWidth - startWidth)) + startWidth) * 2;
 
-		// Now see if we'd like to branch here
-		// For now, always branch at the midpoint.
-		// We could branch randomly, and multiple times per beam
-		if ( i == (segments * 0.5) )
-		{
-			// Figure out what the new width would be
-			// Halve the width because the beam is breaking in two, and halve it again because width is doubled above
-			flWidth = curSeg.m_flWidth * 0.25;
-			if ( flWidth > 1 )
-			{
-				iBranches++;
+        // Reduce the width by the current number of branches we've had
+        for (int j = 0; j < iBranches; j++) {
+            curSeg.m_flWidth *= 0.5;
+        }
 
-				// Get an endpoint for the new branch
-				vecStart = curSeg.m_vPos;
-				vecEnd = source + delta + (MainViewUp() * 32) + (MainViewRight() * 32);
-				vecEnd -= vecStart;
+        curSeg.m_flTexCoord = vLast;
 
-				// Reduce the end width by the current number of branches we've had
-				flEndWidth = endWidth;
-				for ( int j = 0; j < iBranches; j++ )
-				{
-					flEndWidth *= 0.5;
-				}
-			}
-		}
-	}
+        segDraw.NextSeg(&curSeg);
 
-	segDraw.End();
+        vLast += vStep;    // Advance texture scroll (v axis only)
 
-	// If we branched, draw the new beam too
-	if ( iBranches )
-	{
-		DrawTeslaSegs( noise_divisions, prgNoise, spritemodel, frame, rendermode, 
-			vecStart, vecEnd, flWidth, flEndWidth, scale, freq, speed, segments,
-			flags, color, fadeLength, flHDRColorScale );
-	}
+        // Now see if we'd like to branch here
+        // For now, always branch at the midpoint.
+        // We could branch randomly, and multiple times per beam
+        if (i == (segments * 0.5)) {
+            // Figure out what the new width would be
+            // Halve the width because the beam is breaking in two, and halve it again because width is doubled above
+            flWidth = curSeg.m_flWidth * 0.25;
+            if (flWidth > 1) {
+                iBranches++;
+
+                // Get an endpoint for the new branch
+                vecStart = curSeg.m_vPos;
+                vecEnd = source + delta + (MainViewUp() * 32) + (MainViewRight() * 32);
+                vecEnd -= vecStart;
+
+                // Reduce the end width by the current number of branches we've had
+                flEndWidth = endWidth;
+                for (int j = 0; j < iBranches; j++) {
+                    flEndWidth *= 0.5;
+                }
+            }
+        }
+    }
+
+    segDraw.End();
+
+    // If we branched, draw the new beam too
+    if (iBranches) {
+        DrawTeslaSegs(noise_divisions, prgNoise, spritemodel, frame, rendermode,
+                      vecStart, vecEnd, flWidth, flEndWidth, scale, freq, speed, segments,
+                      flags, color, fadeLength, flHDRColorScale);
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -654,316 +585,280 @@ void DrawTeslaSegs( int noise_divisions, float *prgNoise, const model_t* spritem
 //			* - 
 //-----------------------------------------------------------------------------
 
-void DrawSplineSegs( int noise_divisions, float *prgNoise, 
-				const model_t* beammodel, const model_t* halomodel, float flHaloScale,
-				float frame, int rendermode, int numAttachments, Vector* attachment, 
-				float startWidth, float endWidth, float scale, float freq, float speed, int segments,
-				int flags, float* color, float fadeLength, float flHDRColorScale )
-{
-	int				noiseIndex, noiseStep;
-	float			div, length, fraction, factor, vLast, vStep, brightness;
-	float			scaledColor[3];
+void DrawSplineSegs(int noise_divisions, float *prgNoise,
+                    const model_t *beammodel, const model_t *halomodel, float flHaloScale,
+                    float frame, int rendermode, int numAttachments, Vector *attachment,
+                    float startWidth, float endWidth, float scale, float freq, float speed, int segments,
+                    int flags, float *color, float fadeLength, float flHDRColorScale) {
+    int noiseIndex, noiseStep;
+    float div, length, fraction, factor, vLast, vStep, brightness;
+    float scaledColor[3];
 
-	model_t *beamsprite = ( model_t *)beammodel;
-	model_t *halosprite = ( model_t *)halomodel;
+    model_t *beamsprite = (model_t *) beammodel;
+    model_t *halosprite = (model_t *) halomodel;
 
-	CEngineSprite *pBeamSprite = Draw_SetSpriteTexture( beamsprite, frame, rendermode );
-	if ( !pBeamSprite )
-		return;
+    CEngineSprite *pBeamSprite = Draw_SetSpriteTexture(beamsprite, frame, rendermode);
+    if (!pBeamSprite)
+        return;
 
-	// Figure out the number of segments.
-	if ( segments < 2 )
-		return;
-	
-	IMaterial *pMaterial = pBeamSprite->GetMaterial( (RenderMode_t)rendermode );
-	if( pMaterial )
-	{
-		static unsigned int		nHDRColorScaleCache = 0;
-		IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast( "$hdrcolorscale", &nHDRColorScaleCache );
-		if( pHDRColorScaleVar )
-		{
-			pHDRColorScaleVar->SetFloatValue( flHDRColorScale );
-		}
-	}
+    // Figure out the number of segments.
+    if (segments < 2)
+        return;
 
-	if ( segments > noise_divisions )		// UNDONE: Allow more segments?
-		segments = noise_divisions;
+    IMaterial *pMaterial = pBeamSprite->GetMaterial((RenderMode_t) rendermode);
+    if (pMaterial) {
+        static unsigned int nHDRColorScaleCache = 0;
+        IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast("$hdrcolorscale", &nHDRColorScaleCache);
+        if (pHDRColorScaleVar) {
+            pHDRColorScaleVar->SetFloatValue(flHDRColorScale);
+        }
+    }
 
-	if ( flags & FBEAM_SINENOISE )
-	{
-		if ( segments < 16 )
-			segments = 16;
-	}
-	
+    if (segments > noise_divisions)        // UNDONE: Allow more segments?
+        segments = noise_divisions;
 
-	IMaterial *pBeamMaterial = pBeamSprite->GetMaterial( (RenderMode_t)rendermode );
-	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	CBeamSegDraw segDraw;
-	segDraw.Start( pRenderContext, (segments-1)*(numAttachments-1), pBeamMaterial );
-
-	CEngineSprite *pHaloSprite = (CEngineSprite *)modelinfo->GetModelExtraData( halosprite );
-	IMaterial *pHaloMaterial = NULL;
-	if ( pHaloSprite )
-	{
-		pHaloMaterial = pHaloSprite->GetMaterial( kRenderGlow );
-	}
-	
-	//-----------------------------------------------------------
-	//  Calculate widthStep if start and end width are different
-	//-----------------------------------------------------------
-	float widthStep;
-	if (startWidth != endWidth)
-	{
-		widthStep		= (endWidth - startWidth)/numAttachments;
-	}
-	else
-	{
-		widthStep		= 0;
-	}
-	
-	// Calculate total length of beam 
-	float flBeamLength = (attachment[0]-attachment[numAttachments-1]).Length();
-
-	// What fraction of beam should be faded
-	float fadeFraction = fadeLength/flBeamLength;
-	if (fadeFraction > 1) 
-	{
-		fadeFraction = 1;
-	}
-	//---------------------------------------------------------------
-	// Go through each attachment drawing spline beams between them
-	//---------------------------------------------------------------
-	Vector vLastPoint(0,0,0);
-	Vector pPre;	// attachment point before the current beam
-	Vector pStart;	// start of current beam
-	Vector pEnd;	// end of current beam
-	Vector pNext;	// attachment point after the current beam
-
-	for (int j=0;j<numAttachments-1;j++)
-	{
-		if (j==0)
-		{
-			VectorCopy(attachment[0],pPre);
-			VectorCopy(pPre,vLastPoint);
-		}
-		else
-		{
-			VectorCopy(attachment[j-1],pPre);
-		}
-
-		VectorCopy(attachment[j],	pStart);
-		VectorCopy(attachment[j+1],	pEnd);
-
-		if (j+2 >= numAttachments-1)
-		{
-			VectorCopy(attachment[j+1],pNext);
-		}
-		else
-		{
-			VectorCopy(attachment[j+2],pNext);
-		}
-
-		Vector vDelta;
-		VectorSubtract(pEnd,pStart,vDelta);
-		length = VectorLength( vDelta ) * 0.01;
-		if ( length < 0.5 )	// Don't lose all of the noise/texture on short beams
-			length = 0.5;
-		div = 1.0 / (segments-1);
-
-		// UNDONE: Expose texture length scale factor to control "fuzziness"
-		vStep = length*div;	// Texture length texels per space pixel
-
-		// UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
-		vLast = fmod(freq*speed,1);	// Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
-
-		if ( flags & FBEAM_SINENOISE )
-		{
-			scale = scale * 100;
-			length = segments * (1.0/10);
-		}
-		else
-			scale = scale * length;
-		
-		// -----------------------------------------------------------------------------
-		// Iterator to resample noise waveform (it needs to be generated in powers of 2)
-		// -----------------------------------------------------------------------------
-		noiseStep = (int)((float)(noise_divisions-1) * div * 65536.0f);
-		noiseIndex = noiseStep;
-		
-		if ( flags & FBEAM_SINENOISE )
-			noiseIndex = 0;
-
-		brightness = 1.0;
-		if ( flags & FBEAM_SHADEIN )
-			brightness = 0;
-
-		BeamSeg_t seg;
-		seg.m_flAlpha = 1;
-
-		VectorScale( color, brightness, scaledColor );
-		seg.m_vColor.Init( scaledColor[0], scaledColor[1], scaledColor[2] );
-		
-
-		// -------------------------------------------------
-		//  Calc start and end widths for this segment
-		// -------------------------------------------------
-		float startSegWidth = startWidth + (widthStep*j);
-		float endSegWidth	= startWidth + (widthStep*(j+1));
-
-		// -------------------------------------------------
-		//  Now draw each segment
-		// -------------------------------------------------
-		float	fBestFraction	= -1;
-		float	bestDot			= 0;
-		for (int i = 1; i < segments; i++ )
-		{
-			fraction = i * div;
-
-			// Fade in our out beam to fadeLength
-			// BUG BUG: should be based on total lengh of beam not this particular fraction
-			if ( flags & FBEAM_SHADEIN )
-			{
-				brightness = fraction/fadeFraction;
-				if (brightness > 1)
-				{
-					brightness = 1;
-				}
-			}
-			else if ( flags & FBEAM_SHADEOUT )
-			{
-				float fadeFractionOut = fadeLength/length;
-				brightness = 1.0 - (fraction/ fadeFractionOut);
-				if (brightness < 0)
-				{
-					brightness = 0;
-				}
-			}
-
-			// -----------------------------------------------------------
-			//  Calculate spline position
-			// -----------------------------------------------------------
-			Vector vTarget(0,0,0);
-			
-			Catmull_Rom_Spline(pPre, pStart, pEnd, pNext, fraction, vTarget );
-			
-			seg.m_vPos[0] = vTarget.x;
-			seg.m_vPos[1] = vTarget.y;
-			seg.m_vPos[2] = vTarget.z;
-
-			// --------------------------------------------------------------
-			//  Keep track of segment most facing the player for halo effect
-			// --------------------------------------------------------------
-			if (pHaloMaterial)
-			{
-				Vector vBeamDir1;
-				VectorSubtract(seg.m_vPos,vLastPoint,vBeamDir1);
-				VectorNormalize(vBeamDir1);
-
-				Vector vLookDir;
-				VectorSubtract(CurrentViewOrigin(),seg.m_vPos,vLookDir);
-				VectorNormalize(vLookDir);
-
-				float	dotpr		= fabs(DotProduct(vBeamDir1,vLookDir));
-				static float thresh = 0.85;
-				if (dotpr > thresh && dotpr > bestDot)
-				{
-					bestDot		  = dotpr;
-					fBestFraction = fraction;
-				}	
-				VectorCopy(seg.m_vPos,vLastPoint);
-			}
+    if (flags & FBEAM_SINENOISE) {
+        if (segments < 16)
+            segments = 16;
+    }
 
 
-			// ----------------------
-			// Distort using noise
-			// ----------------------
-			if ( scale != 0 )
-			{
-				factor = prgNoise[noiseIndex>>16] * scale;
-				if ( flags & FBEAM_SINENOISE )
-				{
-					float	s, c;
-					SinCos( fraction*M_PI*length + freq, &s, &c );
-					VectorMA( seg.m_vPos, factor * s, CurrentViewUp(), seg.m_vPos );
-					// Rotate the noise along the perpendicluar axis a bit to keep the bolt from looking diagonal
-					VectorMA( seg.m_vPos, factor * c, CurrentViewRight(), seg.m_vPos );
-				}
-				else
-				{
-					VectorMA( seg.m_vPos, factor, CurrentViewUp(), seg.m_vPos );
-					// Rotate the noise along the perpendicluar axis a bit to keep the bolt from looking diagonal
-					factor = prgNoise[noiseIndex>>16] * scale * cos(fraction*M_PI*3+freq);
-					VectorMA( seg.m_vPos, factor, CurrentViewRight(), seg.m_vPos );
-				}
-			}
+    IMaterial *pBeamMaterial = pBeamSprite->GetMaterial((RenderMode_t) rendermode);
+    CMatRenderContextPtr pRenderContext(g_pMaterialSystem);
+    CBeamSegDraw segDraw;
+    segDraw.Start(pRenderContext, (segments - 1) * (numAttachments - 1), pBeamMaterial);
+
+    CEngineSprite *pHaloSprite = (CEngineSprite *) modelinfo->GetModelExtraData(halosprite);
+    IMaterial *pHaloMaterial = NULL;
+    if (pHaloSprite) {
+        pHaloMaterial = pHaloSprite->GetMaterial(kRenderGlow);
+    }
+
+    //-----------------------------------------------------------
+    //  Calculate widthStep if start and end width are different
+    //-----------------------------------------------------------
+    float widthStep;
+    if (startWidth != endWidth) {
+        widthStep = (endWidth - startWidth) / numAttachments;
+    } else {
+        widthStep = 0;
+    }
+
+    // Calculate total length of beam
+    float flBeamLength = (attachment[0] - attachment[numAttachments - 1]).Length();
+
+    // What fraction of beam should be faded
+    float fadeFraction = fadeLength / flBeamLength;
+    if (fadeFraction > 1) {
+        fadeFraction = 1;
+    }
+    //---------------------------------------------------------------
+    // Go through each attachment drawing spline beams between them
+    //---------------------------------------------------------------
+    Vector vLastPoint(0, 0, 0);
+    Vector pPre;    // attachment point before the current beam
+    Vector pStart;    // start of current beam
+    Vector pEnd;    // end of current beam
+    Vector pNext;    // attachment point after the current beam
+
+    for (int j = 0; j < numAttachments - 1; j++) {
+        if (j == 0) {
+            VectorCopy(attachment[0], pPre);
+            VectorCopy(pPre, vLastPoint);
+        } else {
+            VectorCopy(attachment[j - 1], pPre);
+        }
+
+        VectorCopy(attachment[j], pStart);
+        VectorCopy(attachment[j + 1], pEnd);
+
+        if (j + 2 >= numAttachments - 1) {
+            VectorCopy(attachment[j + 1], pNext);
+        } else {
+            VectorCopy(attachment[j + 2], pNext);
+        }
+
+        Vector vDelta;
+        VectorSubtract(pEnd, pStart, vDelta);
+        length = VectorLength(vDelta) * 0.01;
+        if (length < 0.5)    // Don't lose all of the noise/texture on short beams
+            length = 0.5;
+        div = 1.0 / (segments - 1);
+
+        // UNDONE: Expose texture length scale factor to control "fuzziness"
+        vStep = length * div;    // Texture length texels per space pixel
+
+        // UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
+        vLast = fmod(freq * speed,
+                     1);    // Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
+
+        if (flags & FBEAM_SINENOISE) {
+            scale = scale * 100;
+            length = segments * (1.0 / 10);
+        } else
+            scale = scale * length;
+
+        // -----------------------------------------------------------------------------
+        // Iterator to resample noise waveform (it needs to be generated in powers of 2)
+        // -----------------------------------------------------------------------------
+        noiseStep = (int) ((float) (noise_divisions - 1) * div * 65536.0f);
+        noiseIndex = noiseStep;
+
+        if (flags & FBEAM_SINENOISE)
+            noiseIndex = 0;
+
+        brightness = 1.0;
+        if (flags & FBEAM_SHADEIN)
+            brightness = 0;
+
+        BeamSeg_t seg;
+        seg.m_flAlpha = 1;
+
+        VectorScale(color, brightness, scaledColor);
+        seg.m_vColor.Init(scaledColor[0], scaledColor[1], scaledColor[2]);
 
 
-			// Scale width if non-zero spread
-			if (startWidth != endWidth)
-				seg.m_flWidth = ((fraction*(endSegWidth-startSegWidth))+startSegWidth)*2;
-			else
-				seg.m_flWidth = startWidth*2;
+        // -------------------------------------------------
+        //  Calc start and end widths for this segment
+        // -------------------------------------------------
+        float startSegWidth = startWidth + (widthStep * j);
+        float endSegWidth = startWidth + (widthStep * (j + 1));
 
-			seg.m_flTexCoord = vLast;
-			segDraw.NextSeg( &seg );
+        // -------------------------------------------------
+        //  Now draw each segment
+        // -------------------------------------------------
+        float fBestFraction = -1;
+        float bestDot = 0;
+        for (int i = 1; i < segments; i++) {
+            fraction = i * div;
 
-			vLast += vStep;	// Advance texture scroll (v axis only)
-			noiseIndex += noiseStep;
-		}
+            // Fade in our out beam to fadeLength
+            // BUG BUG: should be based on total lengh of beam not this particular fraction
+            if (flags & FBEAM_SHADEIN) {
+                brightness = fraction / fadeFraction;
+                if (brightness > 1) {
+                    brightness = 1;
+                }
+            } else if (flags & FBEAM_SHADEOUT) {
+                float fadeFractionOut = fadeLength / length;
+                brightness = 1.0 - (fraction / fadeFractionOut);
+                if (brightness < 0) {
+                    brightness = 0;
+                }
+            }
+
+            // -----------------------------------------------------------
+            //  Calculate spline position
+            // -----------------------------------------------------------
+            Vector vTarget(0, 0, 0);
+
+            Catmull_Rom_Spline(pPre, pStart, pEnd, pNext, fraction, vTarget);
+
+            seg.m_vPos[0] = vTarget.x;
+            seg.m_vPos[1] = vTarget.y;
+            seg.m_vPos[2] = vTarget.z;
+
+            // --------------------------------------------------------------
+            //  Keep track of segment most facing the player for halo effect
+            // --------------------------------------------------------------
+            if (pHaloMaterial) {
+                Vector vBeamDir1;
+                VectorSubtract(seg.m_vPos, vLastPoint, vBeamDir1);
+                VectorNormalize(vBeamDir1);
+
+                Vector vLookDir;
+                VectorSubtract(CurrentViewOrigin(), seg.m_vPos, vLookDir);
+                VectorNormalize(vLookDir);
+
+                float dotpr = fabs(DotProduct(vBeamDir1, vLookDir));
+                static float thresh = 0.85;
+                if (dotpr > thresh && dotpr > bestDot) {
+                    bestDot = dotpr;
+                    fBestFraction = fraction;
+                }
+                VectorCopy(seg.m_vPos, vLastPoint);
+            }
 
 
-		// --------------------------------------------------------------
-		//  Draw halo on segment most facing the player 
-		// --------------------------------------------------------------
-		if (false&&pHaloMaterial)
-		{
-			Vector vHaloPos(0,0,0);
-			if (bestDot != 0)
-			{
-				Catmull_Rom_Spline(pPre, pStart, pEnd, pNext, fBestFraction, vHaloPos);
-			}
-			else 
-			{
-				Vector vBeamDir1;
-				VectorSubtract(pStart,pEnd,vBeamDir1);
-				VectorNormalize(vBeamDir1);
+            // ----------------------
+            // Distort using noise
+            // ----------------------
+            if (scale != 0) {
+                factor = prgNoise[noiseIndex >> 16] * scale;
+                if (flags & FBEAM_SINENOISE) {
+                    float s, c;
+                    SinCos(fraction * M_PI * length + freq, &s, &c);
+                    VectorMA(seg.m_vPos, factor * s, CurrentViewUp(), seg.m_vPos);
+                    // Rotate the noise along the perpendicluar axis a bit to keep the bolt from looking diagonal
+                    VectorMA(seg.m_vPos, factor * c, CurrentViewRight(), seg.m_vPos);
+                } else {
+                    VectorMA(seg.m_vPos, factor, CurrentViewUp(), seg.m_vPos);
+                    // Rotate the noise along the perpendicluar axis a bit to keep the bolt from looking diagonal
+                    factor = prgNoise[noiseIndex >> 16] * scale * cos(fraction * M_PI * 3 + freq);
+                    VectorMA(seg.m_vPos, factor, CurrentViewRight(), seg.m_vPos);
+                }
+            }
 
-				Vector vLookDir;
-				VectorSubtract(CurrentViewOrigin(),pStart,vLookDir);
-				VectorNormalize(vLookDir);
 
-				bestDot		= fabs(DotProduct(vBeamDir1,vLookDir));
-				static float thresh = 0.85;
-				if (bestDot > thresh)
-				{
-					fBestFraction = 0.5;
-					VectorAdd(pStart,pEnd,vHaloPos);
-					VectorScale(vHaloPos,0.5,vHaloPos);
-				}	
-			}
-			if (fBestFraction > 0)
-			{
-				float	fade	= pow(bestDot,60);
-				if (fade > 1.0) fade = 1.0;
-				float haloColor[3];
-				VectorScale( color, fade, haloColor );
-				pRenderContext->Bind(pHaloMaterial);
-				float curWidth = (fBestFraction*(endSegWidth-startSegWidth))+startSegWidth;
-				DrawHalo(pHaloMaterial,vHaloPos,flHaloScale*curWidth/endWidth,haloColor, flHDRColorScale);
-			}
-		}
-	}
-	
-	segDraw.End();
+            // Scale width if non-zero spread
+            if (startWidth != endWidth)
+                seg.m_flWidth = ((fraction * (endSegWidth - startSegWidth)) + startSegWidth) * 2;
+            else
+                seg.m_flWidth = startWidth * 2;
 
-	// ------------------------
-	// Draw halo at end of beam
-	// ------------------------
-	if (pHaloMaterial)
-	{
-		pRenderContext->Bind(pHaloMaterial);
-		DrawHalo(pHaloMaterial,pEnd,flHaloScale,scaledColor, flHDRColorScale);
-	}
+            seg.m_flTexCoord = vLast;
+            segDraw.NextSeg(&seg);
+
+            vLast += vStep;    // Advance texture scroll (v axis only)
+            noiseIndex += noiseStep;
+        }
+
+
+        // --------------------------------------------------------------
+        //  Draw halo on segment most facing the player
+        // --------------------------------------------------------------
+        if (false && pHaloMaterial) {
+            Vector vHaloPos(0, 0, 0);
+            if (bestDot != 0) {
+                Catmull_Rom_Spline(pPre, pStart, pEnd, pNext, fBestFraction, vHaloPos);
+            } else {
+                Vector vBeamDir1;
+                VectorSubtract(pStart, pEnd, vBeamDir1);
+                VectorNormalize(vBeamDir1);
+
+                Vector vLookDir;
+                VectorSubtract(CurrentViewOrigin(), pStart, vLookDir);
+                VectorNormalize(vLookDir);
+
+                bestDot = fabs(DotProduct(vBeamDir1, vLookDir));
+                static float thresh = 0.85;
+                if (bestDot > thresh) {
+                    fBestFraction = 0.5;
+                    VectorAdd(pStart, pEnd, vHaloPos);
+                    VectorScale(vHaloPos, 0.5, vHaloPos);
+                }
+            }
+            if (fBestFraction > 0) {
+                float fade = pow(bestDot, 60);
+                if (fade > 1.0) fade = 1.0;
+                float haloColor[3];
+                VectorScale(color, fade, haloColor);
+                pRenderContext->Bind(pHaloMaterial);
+                float curWidth = (fBestFraction * (endSegWidth - startSegWidth)) + startSegWidth;
+                DrawHalo(pHaloMaterial, vHaloPos, flHaloScale * curWidth / endWidth, haloColor, flHDRColorScale);
+            }
+        }
+    }
+
+    segDraw.End();
+
+    // ------------------------
+    // Draw halo at end of beam
+    // ------------------------
+    if (pHaloMaterial) {
+        pRenderContext->Bind(pHaloMaterial);
+        DrawHalo(pHaloMaterial, pEnd, flHaloScale, scaledColor, flHDRColorScale);
+    }
 }
 
 
@@ -976,14 +871,13 @@ void DrawSplineSegs( int noise_divisions, float *prgNoise,
 //			scale - 
 //			*color - 
 //-----------------------------------------------------------------------------
-void BeamDrawHalo( const model_t* spritemodel, float frame, int rendermode, 
-				  const Vector& source, float scale, float* color, float flHDRColorScale )
-{
-	CEngineSprite *pSprite = Draw_SetSpriteTexture( spritemodel, frame, rendermode );
-	if ( !pSprite )
-		return;
+void BeamDrawHalo(const model_t *spritemodel, float frame, int rendermode,
+                  const Vector &source, float scale, float *color, float flHDRColorScale) {
+    CEngineSprite *pSprite = Draw_SetSpriteTexture(spritemodel, frame, rendermode);
+    if (!pSprite)
+        return;
 
-	DrawHalo( pSprite->GetMaterial( (RenderMode_t)rendermode ), source, scale, color, flHDRColorScale );
+    DrawHalo(pSprite->GetMaterial((RenderMode_t) rendermode), source, scale, color, flHDRColorScale);
 }
 
 //-----------------------------------------------------------------------------
@@ -1002,86 +896,83 @@ void BeamDrawHalo( const model_t* spritemodel, float frame, int rendermode,
 //			segments - 
 //			*color - 
 //-----------------------------------------------------------------------------
-void DrawDisk( int noise_divisions, float *prgNoise, const model_t* spritemodel, 
-			  float frame, int rendermode, const Vector&  source, const Vector& delta, 
-			  float width, float scale, float freq, float speed, int segments, float* color, float flHDRColorScale )
-{
-	int				i;
-	float			div, length, fraction, vLast, vStep;
-	Vector			point;
-	float			w;
-	static unsigned int		nHDRColorScaleCache = 0;
+void DrawDisk(int noise_divisions, float *prgNoise, const model_t *spritemodel,
+              float frame, int rendermode, const Vector &source, const Vector &delta,
+              float width, float scale, float freq, float speed, int segments, float *color, float flHDRColorScale) {
+    int i;
+    float div, length, fraction, vLast, vStep;
+    Vector point;
+    float w;
+    static unsigned int nHDRColorScaleCache = 0;
 
-	CEngineSprite *pSprite = Draw_SetSpriteTexture( spritemodel, frame, rendermode );
-	if ( !pSprite )
-		return;
+    CEngineSprite *pSprite = Draw_SetSpriteTexture(spritemodel, frame, rendermode);
+    if (!pSprite)
+        return;
 
-	if ( segments < 2 )
-		return;
-	
-	IMaterial *pMaterial = pSprite->GetMaterial( (RenderMode_t)rendermode );
-	if( pMaterial )
-	{
-		IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast( "$hdrcolorscale", &nHDRColorScaleCache );
-		if( pHDRColorScaleVar )
-		{
-			pHDRColorScaleVar->SetFloatValue( flHDRColorScale );
-		}
-	}
+    if (segments < 2)
+        return;
 
-	if ( segments > noise_divisions )		// UNDONE: Allow more segments?
-		segments = noise_divisions;
+    IMaterial *pMaterial = pSprite->GetMaterial((RenderMode_t) rendermode);
+    if (pMaterial) {
+        IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast("$hdrcolorscale", &nHDRColorScaleCache);
+        if (pHDRColorScaleVar) {
+            pHDRColorScaleVar->SetFloatValue(flHDRColorScale);
+        }
+    }
 
-	length = VectorLength( delta ) * 0.01;
-	if ( length < 0.5 )	// Don't lose all of the noise/texture on short beams
-		length = 0.5;
-	div = 1.0 / (segments-1);
+    if (segments > noise_divisions)        // UNDONE: Allow more segments?
+        segments = noise_divisions;
 
-	// UNDONE: Expose texture length scale factor to control "fuzziness"
-	vStep = length*div;	// Texture length texels per space pixel
-	
-	// UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
-	vLast = fmod(freq*speed,1);	// Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
-	scale = scale * length;
+    length = VectorLength(delta) * 0.01;
+    if (length < 0.5)    // Don't lose all of the noise/texture on short beams
+        length = 0.5;
+    div = 1.0 / (segments - 1);
 
-	w = freq * delta[2];
+    // UNDONE: Expose texture length scale factor to control "fuzziness"
+    vStep = length * div;    // Texture length texels per space pixel
 
-	CMatRenderContextPtr pRenderContext( materials );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( );
+    // UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
+    vLast = fmod(freq * speed,
+                 1);    // Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
+    scale = scale * length;
 
-	CMeshBuilder meshBuilder;
-	meshBuilder.Begin( pMesh, MATERIAL_TRIANGLE_STRIP, (segments - 1) * 2 );
+    w = freq * delta[2];
 
-	// NOTE: We must force the degenerate triangles to be on the edge
-	for ( i = 0; i < segments; i++ )
-	{
-		float	s, c;
-		fraction = i * div;
+    CMatRenderContextPtr pRenderContext(materials);
+    IMesh *pMesh = pRenderContext->GetDynamicMesh();
 
-		point[0] = source[0];
-		point[1] = source[1];
-		point[2] = source[2];
+    CMeshBuilder meshBuilder;
+    meshBuilder.Begin(pMesh, MATERIAL_TRIANGLE_STRIP, (segments - 1) * 2);
 
-		meshBuilder.Color3fv( color );
-		meshBuilder.TexCoord2f( 0, 1.0, vLast );
-		meshBuilder.Position3fv( point.Base() );
-		meshBuilder.AdvanceVertex();
+    // NOTE: We must force the degenerate triangles to be on the edge
+    for (i = 0; i < segments; i++) {
+        float s, c;
+        fraction = i * div;
 
-		SinCos( fraction * 2 * M_PI, &s, &c );
-		point[0] = s * w + source[0];
-		point[1] = c * w + source[1];
-		point[2] = source[2];
+        point[0] = source[0];
+        point[1] = source[1];
+        point[2] = source[2];
 
-		meshBuilder.Color3fv( color );
-		meshBuilder.TexCoord2f( 0, 0.0, vLast );
-		meshBuilder.Position3fv( point.Base() );
-		meshBuilder.AdvanceVertex();
+        meshBuilder.Color3fv(color);
+        meshBuilder.TexCoord2f(0, 1.0, vLast);
+        meshBuilder.Position3fv(point.Base());
+        meshBuilder.AdvanceVertex();
 
-		vLast += vStep;	// Advance texture scroll (v axis only)
-	}
+        SinCos(fraction * 2 * M_PI, &s, &c);
+        point[0] = s * w + source[0];
+        point[1] = c * w + source[1];
+        point[2] = source[2];
 
-	meshBuilder.End( );
-	pMesh->Draw();
+        meshBuilder.Color3fv(color);
+        meshBuilder.TexCoord2f(0, 0.0, vLast);
+        meshBuilder.Position3fv(point.Base());
+        meshBuilder.AdvanceVertex();
+
+        vLast += vStep;    // Advance texture scroll (v axis only)
+    }
+
+    meshBuilder.End();
+    pMesh->Draw();
 }
 
 //-----------------------------------------------------------------------------
@@ -1100,84 +991,81 @@ void DrawDisk( int noise_divisions, float *prgNoise, const model_t* spritemodel,
 //			segments - 
 //			*color - 
 //-----------------------------------------------------------------------------
-void DrawCylinder( int noise_divisions, float *prgNoise, const model_t* spritemodel,
-				  float frame, int rendermode, const Vector&  source, const Vector& delta, 
-				  float width, float scale, float freq, float speed, int segments, 
-				  float* color, float flHDRColorScale )
-{
-	int				i;
-	float			div, length, fraction, vLast, vStep;
-	Vector			point;
+void DrawCylinder(int noise_divisions, float *prgNoise, const model_t *spritemodel,
+                  float frame, int rendermode, const Vector &source, const Vector &delta,
+                  float width, float scale, float freq, float speed, int segments,
+                  float *color, float flHDRColorScale) {
+    int i;
+    float div, length, fraction, vLast, vStep;
+    Vector point;
 
-	CEngineSprite *pSprite = Draw_SetSpriteTexture( spritemodel, frame, rendermode );
-	if ( !pSprite )
-		return;
+    CEngineSprite *pSprite = Draw_SetSpriteTexture(spritemodel, frame, rendermode);
+    if (!pSprite)
+        return;
 
-	if ( segments < 2 )
-		return;
-	
-	IMaterial *pMaterial = pSprite->GetMaterial( (RenderMode_t)rendermode );
-	if( pMaterial )
-	{
-		static unsigned int		nHDRColorScaleCache = 0;
-		IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast( "$hdrcolorscale", &nHDRColorScaleCache );
-		if( pHDRColorScaleVar )
-		{
-			pHDRColorScaleVar->SetFloatValue( flHDRColorScale );
-		}
-	}
+    if (segments < 2)
+        return;
 
-	if ( segments > noise_divisions )		// UNDONE: Allow more segments?
-		segments = noise_divisions;
+    IMaterial *pMaterial = pSprite->GetMaterial((RenderMode_t) rendermode);
+    if (pMaterial) {
+        static unsigned int nHDRColorScaleCache = 0;
+        IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast("$hdrcolorscale", &nHDRColorScaleCache);
+        if (pHDRColorScaleVar) {
+            pHDRColorScaleVar->SetFloatValue(flHDRColorScale);
+        }
+    }
 
-	length = VectorLength( delta ) * 0.01;
-	if ( length < 0.5 )	// Don't lose all of the noise/texture on short beams
-		length = 0.5;
-	div = 1.0 / (segments-1);
+    if (segments > noise_divisions)        // UNDONE: Allow more segments?
+        segments = noise_divisions;
 
-	// UNDONE: Expose texture length scale factor to control "fuzziness"
-	vStep = length*div;	// Texture length texels per space pixel
-	
-	// UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
-	vLast = fmod(freq*speed,1);	// Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
-	scale = scale * length;
-	
-	CMatRenderContextPtr pRenderContext( materials );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( );
+    length = VectorLength(delta) * 0.01;
+    if (length < 0.5)    // Don't lose all of the noise/texture on short beams
+        length = 0.5;
+    div = 1.0 / (segments - 1);
 
-	CMeshBuilder meshBuilder;
-	meshBuilder.Begin( pMesh, MATERIAL_TRIANGLE_STRIP, (segments - 1) * 2 );
+    // UNDONE: Expose texture length scale factor to control "fuzziness"
+    vStep = length * div;    // Texture length texels per space pixel
 
-	float radius = delta[2];
-	for ( i = 0; i < segments; i++ )
-	{
-		float	s, c;
-		fraction = i * div;
-		SinCos( fraction * 2 * M_PI, &s, &c );
+    // UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
+    vLast = fmod(freq * speed,
+                 1);    // Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
+    scale = scale * length;
 
-		point[0] = s * freq * radius + source[0];
-		point[1] = c * freq * radius + source[1];
-		point[2] = source[2] + width;
+    CMatRenderContextPtr pRenderContext(materials);
+    IMesh *pMesh = pRenderContext->GetDynamicMesh();
 
-		meshBuilder.Color3f( 0.0f, 0.0f, 0.0f );
-		meshBuilder.TexCoord2f( 0, 1.0f, vLast );
-		meshBuilder.Position3fv( point.Base() );
-		meshBuilder.AdvanceVertex();
+    CMeshBuilder meshBuilder;
+    meshBuilder.Begin(pMesh, MATERIAL_TRIANGLE_STRIP, (segments - 1) * 2);
 
-		point[0] = s * freq * (radius + width) + source[0];
-		point[1] = c * freq * (radius + width) + source[1];
-		point[2] = source[2] - width;
+    float radius = delta[2];
+    for (i = 0; i < segments; i++) {
+        float s, c;
+        fraction = i * div;
+        SinCos(fraction * 2 * M_PI, &s, &c);
 
-		meshBuilder.Color3fv( color );
-		meshBuilder.TexCoord2f( 0, 0.0f, vLast );
-		meshBuilder.Position3fv( point.Base() );
-		meshBuilder.AdvanceVertex();
+        point[0] = s * freq * radius + source[0];
+        point[1] = c * freq * radius + source[1];
+        point[2] = source[2] + width;
 
-		vLast += vStep;	// Advance texture scroll (v axis only)
-	}
-	
-	meshBuilder.End();
-	pMesh->Draw();
+        meshBuilder.Color3f(0.0f, 0.0f, 0.0f);
+        meshBuilder.TexCoord2f(0, 1.0f, vLast);
+        meshBuilder.Position3fv(point.Base());
+        meshBuilder.AdvanceVertex();
+
+        point[0] = s * freq * (radius + width) + source[0];
+        point[1] = c * freq * (radius + width) + source[1];
+        point[2] = source[2] - width;
+
+        meshBuilder.Color3fv(color);
+        meshBuilder.TexCoord2f(0, 0.0f, vLast);
+        meshBuilder.Position3fv(point.Base());
+        meshBuilder.AdvanceVertex();
+
+        vLast += vStep;    // Advance texture scroll (v axis only)
+    }
+
+    meshBuilder.End();
+    pMesh->Draw();
 }
 
 //-----------------------------------------------------------------------------
@@ -1186,154 +1074,151 @@ void DrawCylinder( int noise_divisions, float *prgNoise, const model_t* spritemo
 //			*prgNoise - 
 //			(*pfnNoise - 
 //-----------------------------------------------------------------------------
-void DrawRing( int noise_divisions, float *prgNoise, void (*pfnNoise)( float *noise, int divs, float scale ), 
-			  const model_t* spritemodel, float frame, int rendermode,
-			  const Vector& source, const Vector& delta, float width, 
-			  float amplitude, float freq, float speed, int segments, float *color, float flHDRColorScale )
-{
-	int				i, j, noiseIndex, noiseStep;
-	float			div, length, fraction, factor, vLast, vStep;
-	Vector			last1, last2, point, screen, screenLast(0,0,0), tmp, normal;
-	Vector			center, xaxis, yaxis, zaxis;
-	float			radius, x, y, scale;
-	Vector			d;
+void DrawRing(int noise_divisions, float *prgNoise, void (*pfnNoise)(float *noise, int divs, float scale),
+              const model_t *spritemodel, float frame, int rendermode,
+              const Vector &source, const Vector &delta, float width,
+              float amplitude, float freq, float speed, int segments, float *color, float flHDRColorScale) {
+    int i, j, noiseIndex, noiseStep;
+    float div, length, fraction, factor, vLast, vStep;
+    Vector last1, last2, point, screen, screenLast(0, 0, 0), tmp, normal;
+    Vector center, xaxis, yaxis, zaxis;
+    float radius, x, y, scale;
+    Vector d;
 
-	CEngineSprite *pSprite = Draw_SetSpriteTexture( spritemodel, frame, rendermode );
-	if ( !pSprite )
-		return;
+    CEngineSprite *pSprite = Draw_SetSpriteTexture(spritemodel, frame, rendermode);
+    if (!pSprite)
+        return;
 
-	IMaterial *pMaterial = pSprite->GetMaterial( (RenderMode_t)rendermode );
-	if( pMaterial )
-	{
-		static unsigned int		nHDRColorScaleCache = 0;
-		IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast( "$hdrcolorscale", &nHDRColorScaleCache );
-		if( pHDRColorScaleVar )
-		{
-			pHDRColorScaleVar->SetFloatValue( flHDRColorScale );
-		}
-	}
+    IMaterial *pMaterial = pSprite->GetMaterial((RenderMode_t) rendermode);
+    if (pMaterial) {
+        static unsigned int nHDRColorScaleCache = 0;
+        IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast("$hdrcolorscale", &nHDRColorScaleCache);
+        if (pHDRColorScaleVar) {
+            pHDRColorScaleVar->SetFloatValue(flHDRColorScale);
+        }
+    }
 
-	VectorCopy( delta, d );
+    VectorCopy(delta, d);
 
-	if ( segments < 2 )
-		return;
+    if (segments < 2)
+        return;
 
-	segments = segments * M_PI;
-	
-	if ( segments > noise_divisions * 8 )		// UNDONE: Allow more segments?
-		segments = noise_divisions * 8;
+    segments = segments * M_PI;
 
-	length = VectorLength( d ) * 0.01 * M_PI;
-	if ( length < 0.5 )	// Don't lose all of the noise/texture on short beams
-		length = 0.5;
-	div = 1.0 / (segments-1);
+    if (segments > noise_divisions * 8)        // UNDONE: Allow more segments?
+        segments = noise_divisions * 8;
 
-	// UNDONE: Expose texture length scale factor to control "fuzziness"
-	vStep = length*div/8.0;	// Texture length texels per space pixel
-	
-	// UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
-	vLast = fmod(freq*speed,1);	// Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
-	scale = amplitude * length / 8.0;
+    length = VectorLength(d) * 0.01 * M_PI;
+    if (length < 0.5)    // Don't lose all of the noise/texture on short beams
+        length = 0.5;
+    div = 1.0 / (segments - 1);
 
-	// Iterator to resample noise waveform (it needs to be generated in powers of 2)
-	noiseStep = (int)((noise_divisions-1) * div * 65536.0) * 8;
-	noiseIndex = 0;
+    // UNDONE: Expose texture length scale factor to control "fuzziness"
+    vStep = length * div / 8.0;    // Texture length texels per space pixel
 
-	VectorScale( d, 0.5, d );
-	VectorAdd( source, d, center );
-	zaxis[0] = 0; zaxis[1] = 0; zaxis[2] = 1;
+    // UNDONE: Expose this paramter as well(3.5)?  Texture scroll rate along beam
+    vLast = fmod(freq * speed,
+                 1);    // Scroll speed 3.5 -- initial texture position, scrolls 3.5/sec (1.0 is entire texture)
+    scale = amplitude * length / 8.0;
 
-	VectorCopy( d, xaxis );
-	radius = VectorLength( xaxis );
-	
-	// cull beamring
-	// --------------------------------
-	// Compute box center +/- radius
-	last1[0] = radius;
-	last1[1] = radius;
-	last1[2] = scale;
-	VectorAdd( center, last1, tmp );	// maxs
-	VectorSubtract( center, last1, screen ); // mins
+    // Iterator to resample noise waveform (it needs to be generated in powers of 2)
+    noiseStep = (int) ((noise_divisions - 1) * div * 65536.0) * 8;
+    noiseIndex = 0;
 
-	// Is that box in PVS && frustum?
-	if ( !engine->IsBoxVisible( screen, tmp ) || engine->CullBox( screen, tmp ) )	
-	{
-		return;
-	}
+    VectorScale(d, 0.5, d);
+    VectorAdd(source, d, center);
+    zaxis[0] = 0;
+    zaxis[1] = 0;
+    zaxis[2] = 1;
 
-	yaxis[0] = xaxis[1]; yaxis[1] = -xaxis[0]; yaxis[2] = 0;
-	VectorNormalize( yaxis );
-	VectorScale( yaxis, radius, yaxis );
+    VectorCopy(d, xaxis);
+    radius = VectorLength(xaxis);
 
-	j = segments / 8;
+    // cull beamring
+    // --------------------------------
+    // Compute box center +/- radius
+    last1[0] = radius;
+    last1[1] = radius;
+    last1[2] = scale;
+    VectorAdd(center, last1, tmp);    // maxs
+    VectorSubtract(center, last1, screen); // mins
 
-	CMatRenderContextPtr pRenderContext( materials );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( );
+    // Is that box in PVS && frustum?
+    if (!engine->IsBoxVisible(screen, tmp) || engine->CullBox(screen, tmp)) {
+        return;
+    }
 
-	CMeshBuilder meshBuilder;
-	meshBuilder.Begin( pMesh, MATERIAL_TRIANGLE_STRIP, (segments) * 2 );
+    yaxis[0] = xaxis[1];
+    yaxis[1] = -xaxis[0];
+    yaxis[2] = 0;
+    VectorNormalize(yaxis);
+    VectorScale(yaxis, radius, yaxis);
 
-	for ( i = 0; i < segments + 1; i++ )
-	{
-		fraction = i * div;
-		SinCos( fraction * 2 * M_PI, &x, &y );
+    j = segments / 8;
 
-		point[0] = xaxis[0] * x + yaxis[0] * y + center[0];
-		point[1] = xaxis[1] * x + yaxis[1] * y + center[1];
-		point[2] = xaxis[2] * x + yaxis[2] * y + center[2];
+    CMatRenderContextPtr pRenderContext(materials);
+    IMesh *pMesh = pRenderContext->GetDynamicMesh();
 
-		// Distort using noise
-		if ( scale != 0.0f )
-		{
-			factor = prgNoise[(noiseIndex>>16) & 0x7F] * scale;
-			VectorMA( point, factor, CurrentViewUp(), point );
+    CMeshBuilder meshBuilder;
+    meshBuilder.Begin(pMesh, MATERIAL_TRIANGLE_STRIP, (segments) * 2);
 
-			// Rotate the noise along the perpendicluar axis a bit to keep the bolt from looking diagonal
-			factor = prgNoise[(noiseIndex>>16) & 0x7F] * scale * cos(fraction*M_PI*3*8+freq);
-			VectorMA( point, factor, CurrentViewRight(), point );
-		}
-		
-		// Transform point into screen space
-		ScreenTransform( point, screen );
+    for (i = 0; i < segments + 1; i++) {
+        fraction = i * div;
+        SinCos(fraction * 2 * M_PI, &x, &y);
 
-		if (i != 0)
-		{
-			// Build world-space normal to screen-space direction vector
-			VectorSubtract( screen, screenLast, tmp );
-			// We don't need Z, we're in screen space
-			tmp[2] = 0;
-			VectorNormalize( tmp );
-			VectorScale( CurrentViewUp(), tmp[0], normal );	// Build point along noraml line (normal is -y, x)
-			VectorMA( normal, -tmp[1], CurrentViewRight(), normal );
-			
-			// Make a wide line
-			VectorMA( point, width, normal, last1 );
-			VectorMA( point, -width, normal, last2 );
+        point[0] = xaxis[0] * x + yaxis[0] * y + center[0];
+        point[1] = xaxis[1] * x + yaxis[1] * y + center[1];
+        point[2] = xaxis[2] * x + yaxis[2] * y + center[2];
 
-			vLast += vStep;	// Advance texture scroll (v axis only)
-			meshBuilder.Color3fv( color );
-			meshBuilder.TexCoord2f( 0, 1.0f, vLast );
-			meshBuilder.Position3fv( last2.Base() );
-			meshBuilder.AdvanceVertex();
+        // Distort using noise
+        if (scale != 0.0f) {
+            factor = prgNoise[(noiseIndex >> 16) & 0x7F] * scale;
+            VectorMA(point, factor, CurrentViewUp(), point);
 
-			meshBuilder.Color3fv( color );
-			meshBuilder.TexCoord2f( 0, 0.0f, vLast );
-			meshBuilder.Position3fv( last1.Base() );
-			meshBuilder.AdvanceVertex();
-		}
-		VectorCopy( screen, screenLast );
-		noiseIndex += noiseStep;
+            // Rotate the noise along the perpendicluar axis a bit to keep the bolt from looking diagonal
+            factor = prgNoise[(noiseIndex >> 16) & 0x7F] * scale * cos(fraction * M_PI * 3 * 8 + freq);
+            VectorMA(point, factor, CurrentViewRight(), point);
+        }
 
-		j--;
-		if (j == 0 && amplitude != 0 )
-		{
-			j = segments / 8;
-			(*pfnNoise)( prgNoise, noise_divisions, 1.0f );
-		}
-	}
+        // Transform point into screen space
+        ScreenTransform(point, screen);
 
-	meshBuilder.End();
-	pMesh->Draw();
+        if (i != 0) {
+            // Build world-space normal to screen-space direction vector
+            VectorSubtract(screen, screenLast, tmp);
+            // We don't need Z, we're in screen space
+            tmp[2] = 0;
+            VectorNormalize(tmp);
+            VectorScale(CurrentViewUp(), tmp[0], normal);    // Build point along noraml line (normal is -y, x)
+            VectorMA(normal, -tmp[1], CurrentViewRight(), normal);
+
+            // Make a wide line
+            VectorMA(point, width, normal, last1);
+            VectorMA(point, -width, normal, last2);
+
+            vLast += vStep;    // Advance texture scroll (v axis only)
+            meshBuilder.Color3fv(color);
+            meshBuilder.TexCoord2f(0, 1.0f, vLast);
+            meshBuilder.Position3fv(last2.Base());
+            meshBuilder.AdvanceVertex();
+
+            meshBuilder.Color3fv(color);
+            meshBuilder.TexCoord2f(0, 0.0f, vLast);
+            meshBuilder.Position3fv(last1.Base());
+            meshBuilder.AdvanceVertex();
+        }
+        VectorCopy(screen, screenLast);
+        noiseIndex += noiseStep;
+
+        j--;
+        if (j == 0 && amplitude != 0) {
+            j = segments / 8;
+            (*pfnNoise)(prgNoise, noise_divisions, 1.0f);
+        }
+    }
+
+    meshBuilder.End();
+    pMesh->Draw();
 }
 
 //-----------------------------------------------------------------------------
@@ -1351,132 +1236,124 @@ void DrawRing( int noise_divisions, float *prgNoise, void (*pfnNoise)( float *no
 //			freq - 
 //			*color - 
 //-----------------------------------------------------------------------------
-void DrawBeamFollow( const model_t* spritemodel, BeamTrail_t* pHead, int frame, int rendermode, 
-					Vector& delta, Vector& screen, Vector& screenLast, float die,
-					const Vector& source, int flags, float width, float amplitude, 
-					float freq, float* color, float flHDRColorScale )
-{
-	float			fraction;
-	float			div;
-	float			vLast = 0.0;
-	float			vStep = 1.0;
-	Vector			last1, last2, tmp, normal;
-	float			scaledColor[3];
+void DrawBeamFollow(const model_t *spritemodel, BeamTrail_t *pHead, int frame, int rendermode,
+                    Vector &delta, Vector &screen, Vector &screenLast, float die,
+                    const Vector &source, int flags, float width, float amplitude,
+                    float freq, float *color, float flHDRColorScale) {
+    float fraction;
+    float div;
+    float vLast = 0.0;
+    float vStep = 1.0;
+    Vector last1, last2, tmp, normal;
+    float scaledColor[3];
 
-	CEngineSprite *pSprite = Draw_SetSpriteTexture( spritemodel, frame, rendermode );
-	if ( !pSprite )
-		return;
+    CEngineSprite *pSprite = Draw_SetSpriteTexture(spritemodel, frame, rendermode);
+    if (!pSprite)
+        return;
 
-	IMaterial *pMaterial = pSprite->GetMaterial( (RenderMode_t)rendermode );
-	if( pMaterial )
-	{
-		static unsigned int		nHDRColorScaleCache = 0;
-		IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast( "$hdrcolorscale", &nHDRColorScaleCache );
-		if( pHDRColorScaleVar )
-		{
-			pHDRColorScaleVar->SetFloatValue( flHDRColorScale );
-		}
-	}
+    IMaterial *pMaterial = pSprite->GetMaterial((RenderMode_t) rendermode);
+    if (pMaterial) {
+        static unsigned int nHDRColorScaleCache = 0;
+        IMaterialVar *pHDRColorScaleVar = pMaterial->FindVarFast("$hdrcolorscale", &nHDRColorScaleCache);
+        if (pHDRColorScaleVar) {
+            pHDRColorScaleVar->SetFloatValue(flHDRColorScale);
+        }
+    }
 
-	// UNDONE: This won't work, screen and screenLast must be extrapolated here to fix the
-	// first beam segment for this trail
+    // UNDONE: This won't work, screen and screenLast must be extrapolated here to fix the
+    // first beam segment for this trail
 
-	// Build world-space normal to screen-space direction vector
-	VectorSubtract( screen, screenLast, tmp );
-	// We don't need Z, we're in screen space
-	tmp[2] = 0;
-	VectorNormalize( tmp );
-	VectorScale( CurrentViewUp(), tmp[0], normal );	// Build point along noraml line (normal is -y, x)
-	VectorMA( normal, -tmp[1], CurrentViewRight(), normal );
-	
-	// Make a wide line
-	VectorMA( delta, width, normal, last1 );
-	VectorMA( delta, -width, normal, last2 );
+    // Build world-space normal to screen-space direction vector
+    VectorSubtract(screen, screenLast, tmp);
+    // We don't need Z, we're in screen space
+    tmp[2] = 0;
+    VectorNormalize(tmp);
+    VectorScale(CurrentViewUp(), tmp[0], normal);    // Build point along noraml line (normal is -y, x)
+    VectorMA(normal, -tmp[1], CurrentViewRight(), normal);
 
-	div = 1.0 / amplitude;
-	fraction = ( die - gpGlobals->curtime ) * div;
-	unsigned char nColor[3];
+    // Make a wide line
+    VectorMA(delta, width, normal, last1);
+    VectorMA(delta, -width, normal, last2);
 
-	VectorScale( color, fraction, scaledColor );
-	nColor[0] = (unsigned char)clamp( (int)(scaledColor[0] * 255.0f), 0, 255 );
-	nColor[1] = (unsigned char)clamp( (int)(scaledColor[1] * 255.0f), 0, 255 );
-	nColor[2] = (unsigned char)clamp( (int)(scaledColor[2] * 255.0f), 0, 255 );
-	
-	// need to count the segments
-	int count = 0;
-	BeamTrail_t* pTraverse = pHead;
-	while ( pTraverse )
-	{
-		++count;
-		pTraverse = pTraverse->next;
-	}
+    div = 1.0 / amplitude;
+    fraction = (die - gpGlobals->curtime) * div;
+    unsigned char nColor[3];
 
-	CMatRenderContextPtr pRenderContext( materials );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( );
+    VectorScale(color, fraction, scaledColor);
+    nColor[0] = (unsigned char) clamp((int) (scaledColor[0] * 255.0f), 0, 255);
+    nColor[1] = (unsigned char) clamp((int) (scaledColor[1] * 255.0f), 0, 255);
+    nColor[2] = (unsigned char) clamp((int) (scaledColor[2] * 255.0f), 0, 255);
 
-	CMeshBuilder meshBuilder;
-	meshBuilder.Begin( pMesh, MATERIAL_QUADS, count );
+    // need to count the segments
+    int count = 0;
+    BeamTrail_t *pTraverse = pHead;
+    while (pTraverse) {
+        ++count;
+        pTraverse = pTraverse->next;
+    }
 
-	while (pHead)
-	{
-		// Msg("%.2f ", fraction );
-		meshBuilder.Position3fv( last1.Base() );
-		meshBuilder.Color3ubv( nColor );
-		meshBuilder.TexCoord2f( 0, 0.0f, 0.0f );
-		meshBuilder.AdvanceVertex();
+    CMatRenderContextPtr pRenderContext(materials);
+    IMesh *pMesh = pRenderContext->GetDynamicMesh();
 
-		meshBuilder.Position3fv( last2.Base() );
-		meshBuilder.Color3ubv( nColor );
-		meshBuilder.TexCoord2f( 0, 1.0f, 0.0f );
-		meshBuilder.AdvanceVertex();
+    CMeshBuilder meshBuilder;
+    meshBuilder.Begin(pMesh, MATERIAL_QUADS, count);
 
-		// Transform point into screen space
-		ScreenTransform( pHead->org, screen );
-		// Build world-space normal to screen-space direction vector
-		VectorSubtract( screen, screenLast, tmp );
-		// We don't need Z, we're in screen space
-		tmp[2] = 0;
-		VectorNormalize( tmp );
-		VectorScale( CurrentViewUp(), tmp[0], normal );	// Build point along noraml line (normal is -y, x)
-		VectorMA( normal, -tmp[1], CurrentViewRight(), normal );
-		
-		// Make a wide line
-		VectorMA( pHead->org, width, normal, last1 );
-		VectorMA( pHead->org, -width, normal, last2 );
+    while (pHead) {
+        // Msg("%.2f ", fraction );
+        meshBuilder.Position3fv(last1.Base());
+        meshBuilder.Color3ubv(nColor);
+        meshBuilder.TexCoord2f(0, 0.0f, 0.0f);
+        meshBuilder.AdvanceVertex();
 
-		vLast += vStep;	// Advance texture scroll (v axis only)
+        meshBuilder.Position3fv(last2.Base());
+        meshBuilder.Color3ubv(nColor);
+        meshBuilder.TexCoord2f(0, 1.0f, 0.0f);
+        meshBuilder.AdvanceVertex();
 
-		if (pHead->next != NULL)
-		{
-			fraction = (pHead->die - gpGlobals->curtime) * div;
-			VectorScale( color, fraction, scaledColor );
-			nColor[0] = (unsigned char)clamp( (int)(scaledColor[0] * 255.0f), 0, 255 );
-			nColor[1] = (unsigned char)clamp( (int)(scaledColor[1] * 255.0f), 0, 255 );
-			nColor[2] = (unsigned char)clamp( (int)(scaledColor[2] * 255.0f), 0, 255 );
-		}
-		else
-		{
-			fraction = 0.0;
-			nColor[0] = nColor[1] = nColor[2] = 0;
-		}
+        // Transform point into screen space
+        ScreenTransform(pHead->org, screen);
+        // Build world-space normal to screen-space direction vector
+        VectorSubtract(screen, screenLast, tmp);
+        // We don't need Z, we're in screen space
+        tmp[2] = 0;
+        VectorNormalize(tmp);
+        VectorScale(CurrentViewUp(), tmp[0], normal);    // Build point along noraml line (normal is -y, x)
+        VectorMA(normal, -tmp[1], CurrentViewRight(), normal);
 
-		meshBuilder.Position3fv( last2.Base() );
-		meshBuilder.Color3ubv( nColor );
-		meshBuilder.TexCoord2f( 0, 1.0f, 1.0f );
-		meshBuilder.AdvanceVertex();
+        // Make a wide line
+        VectorMA(pHead->org, width, normal, last1);
+        VectorMA(pHead->org, -width, normal, last2);
 
-		meshBuilder.Position3fv( last1.Base() );
-		meshBuilder.Color3ubv( nColor );
-		meshBuilder.TexCoord2f( 0, 0.0f, 1.0f );
-		meshBuilder.AdvanceVertex();
+        vLast += vStep;    // Advance texture scroll (v axis only)
 
-		VectorCopy( screen, screenLast );
+        if (pHead->next != NULL) {
+            fraction = (pHead->die - gpGlobals->curtime) * div;
+            VectorScale(color, fraction, scaledColor);
+            nColor[0] = (unsigned char) clamp((int) (scaledColor[0] * 255.0f), 0, 255);
+            nColor[1] = (unsigned char) clamp((int) (scaledColor[1] * 255.0f), 0, 255);
+            nColor[2] = (unsigned char) clamp((int) (scaledColor[2] * 255.0f), 0, 255);
+        } else {
+            fraction = 0.0;
+            nColor[0] = nColor[1] = nColor[2] = 0;
+        }
 
-		pHead = pHead->next;
-	}
+        meshBuilder.Position3fv(last2.Base());
+        meshBuilder.Color3ubv(nColor);
+        meshBuilder.TexCoord2f(0, 1.0f, 1.0f);
+        meshBuilder.AdvanceVertex();
 
-	meshBuilder.End();
-	pMesh->Draw();
+        meshBuilder.Position3fv(last1.Base());
+        meshBuilder.Color3ubv(nColor);
+        meshBuilder.TexCoord2f(0, 0.0f, 1.0f);
+        meshBuilder.AdvanceVertex();
+
+        VectorCopy(screen, screenLast);
+
+        pHead = pHead->next;
+    }
+
+    meshBuilder.End();
+    pMesh->Draw();
 }
 
 
@@ -1486,41 +1363,37 @@ P1 = control
 P2 = end
 P(t) = (1-t)^2 * P0 + 2t(1-t)*P1 + t^2 * P2
 */
-void DrawBeamQuadratic( const Vector &start, const Vector &control, const Vector &end, float width, const Vector &color, float scrollOffset, float flHDRColorScale )
-{
-	int subdivisions = 16;
+void DrawBeamQuadratic(const Vector &start, const Vector &control, const Vector &end, float width, const Vector &color,
+                       float scrollOffset, float flHDRColorScale) {
+    int subdivisions = 16;
 
-	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	CBeamSegDraw beamDraw;
-	beamDraw.Start( pRenderContext, subdivisions+1, NULL );
+    CMatRenderContextPtr pRenderContext(g_pMaterialSystem);
+    CBeamSegDraw beamDraw;
+    beamDraw.Start(pRenderContext, subdivisions + 1, NULL);
 
-	BeamSeg_t seg;
-	seg.m_flAlpha = 1.0;
-	seg.m_flWidth = width;
-	
-	float t = 0;
-	float u = fmod( scrollOffset, 1 );
-	float dt = 1.0 / (float)subdivisions;
-	for( int i = 0; i <= subdivisions; i++, t += dt )
-	{
-		float omt = (1-t);
-		float p0 = omt*omt;
-		float p1 = 2*t*omt;
-		float p2 = t*t;
+    BeamSeg_t seg;
+    seg.m_flAlpha = 1.0;
+    seg.m_flWidth = width;
 
-		seg.m_vPos = p0 * start + p1 * control + p2 * end;
-		seg.m_flTexCoord = u - t;
-		if ( i == 0 || i == subdivisions )
-		{
-			// HACK: fade out the ends a bit
-			seg.m_vColor = vec3_origin;
-		}
-		else
-		{
-			seg.m_vColor = color;
-		}
-		beamDraw.NextSeg( &seg );
-	}
+    float t = 0;
+    float u = fmod(scrollOffset, 1);
+    float dt = 1.0 / (float) subdivisions;
+    for (int i = 0; i <= subdivisions; i++, t += dt) {
+        float omt = (1 - t);
+        float p0 = omt * omt;
+        float p1 = 2 * t * omt;
+        float p2 = t * t;
 
-	beamDraw.End();
+        seg.m_vPos = p0 * start + p1 * control + p2 * end;
+        seg.m_flTexCoord = u - t;
+        if (i == 0 || i == subdivisions) {
+            // HACK: fade out the ends a bit
+            seg.m_vColor = vec3_origin;
+        } else {
+            seg.m_vColor = color;
+        }
+        beamDraw.NextSeg(&seg);
+    }
+
+    beamDraw.End();
 }

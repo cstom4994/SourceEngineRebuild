@@ -18,18 +18,20 @@
 #include "c_baseentity.h"
 
 
-class C_PhysBox : public C_BaseEntity
-{
+class C_PhysBox : public C_BaseEntity {
 public:
-	DECLARE_CLASS( C_PhysBox, C_BaseEntity );
-	DECLARE_CLIENTCLASS();
+    DECLARE_CLASS(C_PhysBox, C_BaseEntity);
 
-					C_PhysBox();
-	virtual			~C_PhysBox();
-	virtual ShadowType_t ShadowCastType();
-	
+    DECLARE_CLIENTCLASS();
+
+    C_PhysBox();
+
+    virtual            ~C_PhysBox();
+
+    virtual ShadowType_t ShadowCastType();
+
 public:
-	float			m_mass;	// TEST..
+    float m_mass;    // TEST..
 };
 
 

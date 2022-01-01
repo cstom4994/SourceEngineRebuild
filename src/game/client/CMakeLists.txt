@@ -1232,7 +1232,7 @@ set(CONTENTS_Files
         "contents/c_gameinstructor.h"
         "contents/hud_locator_target.cpp"
         "contents/hud_locator_target.h"
-        )
+        fx_cs_weaponfx.cpp)
 source_group("ReSource Files" FILES ${CONTENTS_Files})
 
 set(SEE_Files

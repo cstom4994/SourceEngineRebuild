@@ -12,56 +12,48 @@
 #include "cdll_client_int.h"
 #include "proto_version.h"
 
-void RecvProxy_IntToColor32( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	color32 *pOutColor = (color32*)pOut;
-	unsigned int inColor = *((unsigned int*)&pData->m_Value.m_Int);
+void RecvProxy_IntToColor32(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    color32 *pOutColor = (color32 *) pOut;
+    unsigned int inColor = *((unsigned int *) &pData->m_Value.m_Int);
 
-	pOutColor->r = (unsigned char)(inColor >> 24);
-	pOutColor->g = (unsigned char)((inColor >> 16) & 0xFF);
-	pOutColor->b = (unsigned char)((inColor >> 8) & 0xFF);
-	pOutColor->a = (unsigned char)(inColor & 0xFF);
+    pOutColor->r = (unsigned char) (inColor >> 24);
+    pOutColor->g = (unsigned char) ((inColor >> 16) & 0xFF);
+    pOutColor->b = (unsigned char) ((inColor >> 8) & 0xFF);
+    pOutColor->a = (unsigned char) (inColor & 0xFF);
 }
 
-void RecvProxy_IntSubOne( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	int *pInt = (int *)pOut;
-	
-	*pInt = pData->m_Value.m_Int - 1;
+void RecvProxy_IntSubOne(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    int *pInt = (int *) pOut;
+
+    *pInt = pData->m_Value.m_Int - 1;
 }
 
-void RecvProxy_ShortSubOne( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	short *pInt = (short *)pOut;
-	
-	*pInt = pData->m_Value.m_Int - 1;
+void RecvProxy_ShortSubOne(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    short *pInt = (short *) pOut;
+
+    *pInt = pData->m_Value.m_Int - 1;
 }
 
-RecvProp RecvPropIntWithMinusOneFlag( const char *pVarName, int offset, int sizeofVar, RecvVarProxyFn proxyFn )
-{
-	return RecvPropInt( pVarName, offset, sizeofVar, 0, proxyFn );
+RecvProp RecvPropIntWithMinusOneFlag(const char *pVarName, int offset, int sizeofVar, RecvVarProxyFn proxyFn) {
+    return RecvPropInt(pVarName, offset, sizeofVar, 0, proxyFn);
 }
 
-void RecvProxy_IntToModelIndex16_BackCompatible( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	int modelIndex = pData->m_Value.m_Int;
-	if ( modelIndex < -1 && engine->GetProtocolVersion() <= PROTOCOL_VERSION_20 )
-	{
-		Assert( modelIndex > -20000 );
-		modelIndex = -2 - ( ( -2 - modelIndex ) << 1 );
-	}
-	*(int16*)pOut = modelIndex;
+void RecvProxy_IntToModelIndex16_BackCompatible(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    int modelIndex = pData->m_Value.m_Int;
+    if (modelIndex < -1 && engine->GetProtocolVersion() <= PROTOCOL_VERSION_20) {
+        Assert(modelIndex > -20000);
+        modelIndex = -2 - ((-2 - modelIndex) << 1);
+    }
+    *(int16 *) pOut = modelIndex;
 }
 
-void RecvProxy_IntToModelIndex32_BackCompatible( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	int modelIndex = pData->m_Value.m_Int;
-	if ( modelIndex < -1 && engine->GetProtocolVersion() <= PROTOCOL_VERSION_20 )
-	{
-		Assert( modelIndex > -20000 );
-		modelIndex = -2 - ( ( -2 - modelIndex ) << 1 );
-	}
-	*(int32*)pOut = modelIndex;
+void RecvProxy_IntToModelIndex32_BackCompatible(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    int modelIndex = pData->m_Value.m_Int;
+    if (modelIndex < -1 && engine->GetProtocolVersion() <= PROTOCOL_VERSION_20) {
+        Assert(modelIndex > -20000);
+        modelIndex = -2 - ((-2 - modelIndex) << 1);
+    }
+    *(int32 *) pOut = modelIndex;
 }
 
 //-----------------------------------------------------------------------------
@@ -77,76 +69,66 @@ void RecvProxy_IntToModelIndex32_BackCompatible( const CRecvProxyData *pData, vo
 //			*pOut - 
 //-----------------------------------------------------------------------------
 
-void RecvProxy_IntToEHandle( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	CBaseHandle *pEHandle = (CBaseHandle*)pOut;
-	
-	if ( pData->m_Value.m_Int == INVALID_NETWORKED_EHANDLE_VALUE )
-	{
-		*pEHandle = INVALID_EHANDLE_INDEX;
-	}
-	else
-	{
-		int iEntity = pData->m_Value.m_Int & ((1 << MAX_EDICT_BITS) - 1);
-		int iSerialNum = pData->m_Value.m_Int >> MAX_EDICT_BITS;
-		
-		pEHandle->Init( iEntity, iSerialNum );
-	}
+void RecvProxy_IntToEHandle(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    CBaseHandle *pEHandle = (CBaseHandle *) pOut;
+
+    if (pData->m_Value.m_Int == INVALID_NETWORKED_EHANDLE_VALUE) {
+        *pEHandle = INVALID_EHANDLE_INDEX;
+    } else {
+        int iEntity = pData->m_Value.m_Int & ((1 << MAX_EDICT_BITS) - 1);
+        int iSerialNum = pData->m_Value.m_Int >> MAX_EDICT_BITS;
+
+        pEHandle->Init(iEntity, iSerialNum);
+    }
 }
 
 RecvProp RecvPropEHandle(
-	const char *pVarName, 
-	int offset, 
-	int sizeofVar,
-	RecvVarProxyFn proxyFn )
-{
-	return RecvPropInt( pVarName, offset, sizeofVar, 0, proxyFn );
+        const char *pVarName,
+        int offset,
+        int sizeofVar,
+        RecvVarProxyFn proxyFn) {
+    return RecvPropInt(pVarName, offset, sizeofVar, 0, proxyFn);
 }
 
 
 RecvProp RecvPropBool(
-	const char *pVarName, 
-	int offset, 
-	int sizeofVar )
-{
-	Assert( sizeofVar == sizeof( bool ) );
-	return RecvPropInt( pVarName, offset, sizeofVar );
+        const char *pVarName,
+        int offset,
+        int sizeofVar) {
+    Assert(sizeofVar == sizeof(bool));
+    return RecvPropInt(pVarName, offset, sizeofVar);
 }
 
 RecvProp RecvPropBool(
-	const char *pVarName,
-	int offset,
-	int sizeofVar,
-	int flags,
-	RecvVarProxyFn varProxy
-	)
-{
-	Assert( sizeofVar == sizeof( bool ) );
-	return RecvPropInt( pVarName, offset, sizeofVar, flags, varProxy );
+        const char *pVarName,
+        int offset,
+        int sizeofVar,
+        int flags,
+        RecvVarProxyFn varProxy
+) {
+    Assert(sizeofVar == sizeof(bool));
+    return RecvPropInt(pVarName, offset, sizeofVar, flags, varProxy);
 }
 
 
 //-----------------------------------------------------------------------------
 // Moveparent receive proxies
 //-----------------------------------------------------------------------------
-void RecvProxy_IntToMoveParent( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	CHandle<C_BaseEntity> *pHandle = (CHandle<C_BaseEntity>*)pOut;
-	RecvProxy_IntToEHandle( pData, pStruct, (CBaseHandle*)pHandle );
+void RecvProxy_IntToMoveParent(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    CHandle<C_BaseEntity> *pHandle = (CHandle<C_BaseEntity> *) pOut;
+    RecvProxy_IntToEHandle(pData, pStruct, (CBaseHandle *) pHandle);
 }
 
 
-void RecvProxy_InterpolationAmountChanged( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	// m_bSimulatedEveryTick & m_bAnimatedEveryTick are boolean
-	if ( *((bool*)pOut) != (pData->m_Value.m_Int != 0) )
-	{
-		// Have the regular proxy store the data.
-		RecvProxy_Int32ToInt8( pData, pStruct, pOut );
+void RecvProxy_InterpolationAmountChanged(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    // m_bSimulatedEveryTick & m_bAnimatedEveryTick are boolean
+    if (*((bool *) pOut) != (pData->m_Value.m_Int != 0)) {
+        // Have the regular proxy store the data.
+        RecvProxy_Int32ToInt8(pData, pStruct, pOut);
 
-		C_BaseEntity *pEntity = (C_BaseEntity *) pStruct;
-		pEntity->Interp_UpdateInterpolationAmounts( pEntity->GetVarMapping() );
-	}
+        C_BaseEntity *pEntity = (C_BaseEntity *) pStruct;
+        pEntity->Interp_UpdateInterpolationAmounts(pEntity->GetVarMapping());
+    }
 }
 
 
@@ -157,23 +139,22 @@ void RecvProxy_InterpolationAmountChanged( const CRecvProxyData *pData, void *pS
 //			*pIn - 
 //			objectID - 
 //-----------------------------------------------------------------------------
-static void RecvProxy_Time( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	float	t;
-	float	clock_base;
-	float	offset;
+static void RecvProxy_Time(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    float t;
+    float clock_base;
+    float offset;
 
-	// Get msec offset
-	offset	= ( float )pData->m_Value.m_Int / 1000.0f;
+    // Get msec offset
+    offset = (float) pData->m_Value.m_Int / 1000.0f;
 
-	// Get base
-	clock_base = floor( engine->GetLastTimeStamp() );
+    // Get base
+    clock_base = floor(engine->GetLastTimeStamp());
 
-	// Add together and clamp to msec precision
-	t = ClampToMsec( clock_base + offset );
+    // Add together and clamp to msec precision
+    t = ClampToMsec(clock_base + offset);
 
-	// Store decoded value
-	*( float * )pOut = t;
+    // Store decoded value
+    *(float *) pOut = t;
 }
 
 //-----------------------------------------------------------------------------
@@ -183,12 +164,11 @@ static void RecvProxy_Time( const CRecvProxyData *pData, void *pStruct, void *pO
 // Output : RecvProp
 //-----------------------------------------------------------------------------
 RecvProp RecvPropTime(
-	const char *pVarName, 
-	int offset, 
-	int sizeofVar/*=SIZEOF_IGNORE*/ )
-{
+        const char *pVarName,
+        int offset,
+        int sizeofVar/*=SIZEOF_IGNORE*/ ) {
 //	return RecvPropInt( pVarName, offset, sizeofVar, 0, RecvProxy_Time );
-	return RecvPropFloat( pVarName, offset, sizeofVar );
+    return RecvPropFloat(pVarName, offset, sizeofVar);
 };
 
 //-----------------------------------------------------------------------------
@@ -204,11 +184,11 @@ RecvProp RecvPropTime(
 //			*pOut - 
 //-----------------------------------------------------------------------------
 #if !defined( NO_ENTITY_PREDICTION )
-static void RecvProxy_IntToPredictableId( const CRecvProxyData *pData, void *pStruct, void *pOut )
-{
-	CPredictableId *pId = (CPredictableId*)pOut;
-	Assert( pId );
-	pId->SetRaw( pData->m_Value.m_Int );
+
+static void RecvProxy_IntToPredictableId(const CRecvProxyData *pData, void *pStruct, void *pOut) {
+    CPredictableId *pId = (CPredictableId *) pOut;
+    Assert(pId);
+    pId->SetRaw(pData->m_Value.m_Int);
 }
 
 //-----------------------------------------------------------------------------
@@ -218,10 +198,10 @@ static void RecvProxy_IntToPredictableId( const CRecvProxyData *pData, void *pSt
 // Output : RecvProp
 //-----------------------------------------------------------------------------
 RecvProp RecvPropPredictableId(
-	const char *pVarName, 
-	int offset, 
-	int sizeofVar/*=SIZEOF_IGNORE*/ )
-{
-	return RecvPropInt( pVarName, offset, sizeofVar, 0, RecvProxy_IntToPredictableId );
+        const char *pVarName,
+        int offset,
+        int sizeofVar/*=SIZEOF_IGNORE*/ ) {
+    return RecvPropInt(pVarName, offset, sizeofVar, 0, RecvProxy_IntToPredictableId);
 }
+
 #endif

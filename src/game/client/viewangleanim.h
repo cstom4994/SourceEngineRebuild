@@ -6,70 +6,71 @@
 
 #include "utlvector.h"
 
-#define VIEWANIM_RELATIVE (1<<0)	// angles in keyframe are relative, add anim to current angles
-#define VIEWANIM_IGNORE_X (1<<1)	// ignore the x component of this animation
-#define VIEWANIM_IGNORE_Y (1<<2)	// ditto for y
-#define VIEWANIM_IGNORE_Z (1<<3)	// ditto for z
+#define VIEWANIM_RELATIVE (1<<0)    // angles in keyframe are relative, add anim to current angles
+#define VIEWANIM_IGNORE_X (1<<1)    // ignore the x component of this animation
+#define VIEWANIM_IGNORE_Y (1<<2)    // ditto for y
+#define VIEWANIM_IGNORE_Z (1<<3)    // ditto for z
 
-#define QAngleToVector(a,v) { v[0] = a[0]; v[1] = a[1]; v[2] = a[2]; }
+#define QAngleToVector(a, v) { v[0] = a[0]; v[1] = a[1]; v[2] = a[2]; }
 
-class CViewAngleKeyFrame
-{	
+class CViewAngleKeyFrame {
 public:
-	CViewAngleKeyFrame( QAngle vecAngles, float flTime, int iFlags )
-	{
-		m_vecAngles = vecAngles;
-		m_flTime = flTime;
-		m_iFlags = iFlags;
-	}
+    CViewAngleKeyFrame(QAngle vecAngles, float flTime, int iFlags) {
+        m_vecAngles = vecAngles;
+        m_flTime = flTime;
+        m_iFlags = iFlags;
+    }
 
-	// the target angles for this keyframe in the view angle animation
-	QAngle m_vecAngles;
+    // the target angles for this keyframe in the view angle animation
+    QAngle m_vecAngles;
 
-	// time position of this keyframe
-	float m_flTime;	
+    // time position of this keyframe
+    float m_flTime;
 
-	int m_iFlags;
+    int m_iFlags;
 };
 
 
-typedef void (*ViewAnimCompleteCallback)( void );
+typedef void (*ViewAnimCompleteCallback)(void);
 
-class CViewAngleAnimation : public C_BaseEntity
-{
+class CViewAngleAnimation : public C_BaseEntity {
 public:
-	CViewAngleAnimation();
-	~CViewAngleAnimation();
+    CViewAngleAnimation();
 
-	virtual void Spawn();
+    ~CViewAngleAnimation();
 
-	void DeleteKeyFrames();
+    virtual void Spawn();
+
+    void DeleteKeyFrames();
 
 
-	void LoadViewAnimFile( const char *pKeyFrameFileName );
-	void SaveAsAnimFile( const char *pKeyFrameFileName );
+    void LoadViewAnimFile(const char *pKeyFrameFileName);
 
-	void AddKeyFrame( CViewAngleKeyFrame *pKeyFrame );
-	bool IsFinished( void );
-	void RunAnimation( QAngle angles );
-	void ClientThink();
+    void SaveAsAnimFile(const char *pKeyFrameFileName);
 
-	void SetAnimCompleteCallback( ViewAnimCompleteCallback pFunc )
-	{
-		m_pAnimCompleteCallback = pFunc;
-	}
+    void AddKeyFrame(CViewAngleKeyFrame *pKeyFrame);
+
+    bool IsFinished(void);
+
+    void RunAnimation(QAngle angles);
+
+    void ClientThink();
+
+    void SetAnimCompleteCallback(ViewAnimCompleteCallback pFunc) {
+        m_pAnimCompleteCallback = pFunc;
+    }
 
 private:
-	void SetAngles( QAngle vecCalculatedAngles );
+    void SetAngles(QAngle vecCalculatedAngles);
 
-	float m_flAnimStartTime;	// time this animation started
-	bool m_bFinished;
+    float m_flAnimStartTime;    // time this animation started
+    bool m_bFinished;
 
-	CUtlVector<CViewAngleKeyFrame *> m_KeyFrames;
+    CUtlVector<CViewAngleKeyFrame *> m_KeyFrames;
 
-	QAngle m_vecBaseAngles;
+    QAngle m_vecBaseAngles;
 
-	int m_iFlags;
+    int m_iFlags;
 
-	ViewAnimCompleteCallback m_pAnimCompleteCallback;
+    ViewAnimCompleteCallback m_pAnimCompleteCallback;
 };

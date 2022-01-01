@@ -17,53 +17,50 @@
 //-----------------------------------------------------------------------------
 // Purpose: Kills Player Attachments
 //-----------------------------------------------------------------------------
-class C_TEKillPlayerAttachments : public C_BaseTempEntity
-{
+class C_TEKillPlayerAttachments : public C_BaseTempEntity {
 public:
-	DECLARE_CLASS( C_TEKillPlayerAttachments, C_BaseTempEntity );
-	DECLARE_CLIENTCLASS();
+    DECLARE_CLASS(C_TEKillPlayerAttachments, C_BaseTempEntity);
 
-					C_TEKillPlayerAttachments( void );
-	virtual			~C_TEKillPlayerAttachments( void );
+    DECLARE_CLIENTCLASS();
 
-	virtual void	PostDataUpdate( DataUpdateType_t updateType );
+    C_TEKillPlayerAttachments(void);
+
+    virtual            ~C_TEKillPlayerAttachments(void);
+
+    virtual void PostDataUpdate(DataUpdateType_t updateType);
 
 public:
-	int				m_nPlayer;
+    int m_nPlayer;
 };
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-C_TEKillPlayerAttachments::C_TEKillPlayerAttachments( void )
-{
-	m_nPlayer = 0;
+C_TEKillPlayerAttachments::C_TEKillPlayerAttachments(void) {
+    m_nPlayer = 0;
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-C_TEKillPlayerAttachments::~C_TEKillPlayerAttachments( void )
-{
+C_TEKillPlayerAttachments::~C_TEKillPlayerAttachments(void) {
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : bool - 
 //-----------------------------------------------------------------------------
-void C_TEKillPlayerAttachments::PostDataUpdate( DataUpdateType_t updateType )
-{
-	VPROF( "C_TEKillPlayerAttachments::PostDataUpdate" );
+void C_TEKillPlayerAttachments::PostDataUpdate(DataUpdateType_t updateType) {
+    VPROF("C_TEKillPlayerAttachments::PostDataUpdate");
 
-	tempents->KillAttachedTents( m_nPlayer );
+    tempents->KillAttachedTents(m_nPlayer);
 }
 
-void TE_KillPlayerAttachments( IRecipientFilter& filter, float delay,
-	int player )
-{
-	tempents->KillAttachedTents( player );
+void TE_KillPlayerAttachments(IRecipientFilter &filter, float delay,
+                              int player) {
+    tempents->KillAttachedTents(player);
 }
 
 IMPLEMENT_CLIENTCLASS_EVENT_DT(C_TEKillPlayerAttachments, DT_TEKillPlayerAttachments, CTEKillPlayerAttachments)
-	RecvPropInt( RECVINFO(m_nPlayer)),
+                    RecvPropInt(RECVINFO(m_nPlayer)),
 END_RECV_TABLE()

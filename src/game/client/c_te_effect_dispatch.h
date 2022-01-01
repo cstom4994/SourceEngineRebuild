@@ -15,20 +15,19 @@
 #include "effect_dispatch_data.h"
 
 
-typedef void (*ClientEffectCallback)( const CEffectData &data );
+typedef void (*ClientEffectCallback)(const CEffectData &data);
 
 
-class CClientEffectRegistration
-{
+class CClientEffectRegistration {
 public:
-	CClientEffectRegistration( const char *pEffectName, ClientEffectCallback fn );
+    CClientEffectRegistration(const char *pEffectName, ClientEffectCallback fn);
 
 public:
-	const char *m_pEffectName;
-	ClientEffectCallback m_pFunction;
-	CClientEffectRegistration *m_pNext;
+    const char *m_pEffectName;
+    ClientEffectCallback m_pFunction;
+    CClientEffectRegistration *m_pNext;
 
-	static CClientEffectRegistration *s_pHead;
+    static CClientEffectRegistration *s_pHead;
 };
 
 
@@ -37,10 +36,11 @@ public:
 // If you do DECLARE_CLIENT_EFFECT( "MyEffectName", MyCallback ), then MyCallback will be 
 // called when the server does DispatchEffect( "MyEffect", data )
 //
-#define DECLARE_CLIENT_EFFECT( effectName, callbackFunction ) \
-	static CClientEffectRegistration ClientEffectReg_##callbackFunction( effectName, callbackFunction );
+#define DECLARE_CLIENT_EFFECT(effectName, callbackFunction) \
+    static CClientEffectRegistration ClientEffectReg_##callbackFunction( effectName, callbackFunction );
 
-void DispatchEffectToCallback( const char *pEffectName, const CEffectData &m_EffectData );
-void DispatchEffect( const char *pName, const CEffectData &data );
+void DispatchEffectToCallback(const char *pEffectName, const CEffectData &m_EffectData);
+
+void DispatchEffect(const char *pName, const CEffectData &data);
 
 #endif // C_TE_EFFECT_DISPATCH_H

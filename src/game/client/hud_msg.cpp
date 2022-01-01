@@ -21,26 +21,23 @@
 
 /// USER-DEFINED SERVER MESSAGE HANDLERS
 
-void CHud::MsgFunc_ResetHUD( bf_read &msg )
-{
-	ResetHUD();
+void CHud::MsgFunc_ResetHUD(bf_read &msg) {
+    ResetHUD();
 }
 
-void CHud::ResetHUD()
-{
-	// clear all hud data
-	g_pClientMode->GetViewportAnimationController()->CancelAllAnimations();
+void CHud::ResetHUD() {
+    // clear all hud data
+    g_pClientMode->GetViewportAnimationController()->CancelAllAnimations();
 
-	for ( int i = 0; i < m_HudList.Size(); i++ )
-	{
-		m_HudList[i]->Reset();
-	}
+    for (int i = 0; i < m_HudList.Size(); i++) {
+        m_HudList[i]->Reset();
+    }
 
-	g_pClientMode->GetViewportAnimationController()->RunAllAnimationsToCompletion();
+    g_pClientMode->GetViewportAnimationController()->RunAllAnimationsToCompletion();
 #ifndef _XBOX
-	// reset sensitivity
-	m_flMouseSensitivity = 0;
-	m_flMouseSensitivityFactor = 0;
+    // reset sensitivity
+    m_flMouseSensitivity = 0;
+    m_flMouseSensitivityFactor = 0;
 #endif
 }
 
@@ -48,11 +45,10 @@ void CHud::ResetHUD()
 // Purpose: 
 //-----------------------------------------------------------------------------
 
-void CHud::MsgFunc_SendAudio( bf_read &msg )
-{
-	char szString[2048];
-	msg.ReadString( szString, sizeof(szString) );
-	
-	CLocalPlayerFilter filter;
-	C_BaseEntity::EmitSound( filter, SOUND_FROM_LOCAL_PLAYER, szString );
+void CHud::MsgFunc_SendAudio(bf_read &msg) {
+    char szString[2048];
+    msg.ReadString(szString, sizeof(szString));
+
+    CLocalPlayerFilter filter;
+    C_BaseEntity::EmitSound(filter, SOUND_FROM_LOCAL_PLAYER, szString);
 }

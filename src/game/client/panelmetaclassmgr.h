@@ -22,22 +22,22 @@
 // forward declarations
 //-----------------------------------------------------------------------------
 class KeyValues;
+
 class Color;
 
-namespace vgui
-{
-	class Panel;
+namespace vgui {
+    class Panel;
 }
 
 
 //-----------------------------------------------------------------------------
 // Class factory interface for metaclasses
 //-----------------------------------------------------------------------------
-abstract_class IPanelFactory
-{
+abstract_class IPanelFactory {
 public:
-	// Creation, destruction methods
-	virtual vgui::Panel *Create( const char *pMetaClassName, KeyValues* pKeyValues, void *pInitData, vgui::Panel *pParent ) = 0;
+    // Creation, destruction methods
+    virtual vgui::Panel *
+    Create(const char *pMetaClassName, KeyValues *pKeyValues, void *pInitData, vgui::Panel *pParent) = 0;
 };
 
 
@@ -46,30 +46,30 @@ public:
 // A metaclass is simply an association of panel implementation class with
 // various initialization data
 //-----------------------------------------------------------------------------
-abstract_class IPanelMetaClassMgr
-{
+abstract_class IPanelMetaClassMgr {
 public:
-	// Call this to load up a file containing metaclass definitions
-	virtual void LoadMetaClassDefinitionFile( const char *pFileName ) = 0;
+    // Call this to load up a file containing metaclass definitions
+    virtual void LoadMetaClassDefinitionFile(const char *pFileName) = 0;
 
-	// Call this to install a new panel type
-	// MetaClasses will refer to the panel type to create along with
-	// various initialization data
-	virtual void InstallPanelType( const char *pPanelName, IPanelFactory *pFactory ) = 0;
+    // Call this to install a new panel type
+    // MetaClasses will refer to the panel type to create along with
+    // various initialization data
+    virtual void InstallPanelType(const char *pPanelName, IPanelFactory *pFactory) = 0;
 
-	// Creates a metaclass panel with the specified parent panel.
-	// Chain name is used as a filter of the metaclass data; if specified,
-	// it recursively iterates through the keyvalue sections and calls
-	// chainKeyValue on sections whose name matches the chain name
-	virtual vgui::Panel *CreatePanelMetaClass( const char *pMetaClassType, 
-		int sortorder, void *pInitData, vgui::Panel *pParent, const char *pChainName = NULL ) = 0;
+    // Creates a metaclass panel with the specified parent panel.
+    // Chain name is used as a filter of the metaclass data; if specified,
+    // it recursively iterates through the keyvalue sections and calls
+    // chainKeyValue on sections whose name matches the chain name
+    virtual vgui::Panel *CreatePanelMetaClass(const char *pMetaClassType,
+                                              int sortorder, void *pInitData, vgui::Panel *pParent,
+                                              const char *pChainName = NULL) = 0;
 
-	// removes a particular panel meta class
-	virtual void DestroyPanelMetaClass( vgui::Panel *pPanel ) = 0;
+    // removes a particular panel meta class
+    virtual void DestroyPanelMetaClass(vgui::Panel *pPanel) = 0;
 
 protected:
-	// Don't delete me!
-	virtual ~IPanelMetaClassMgr() {}
+    // Don't delete me!
+    virtual ~IPanelMetaClassMgr() {}
 };
 
 
@@ -91,35 +91,31 @@ IPanelMetaClassMgr *PanelMetaClassMgr();
 
 #include "tier0/memdbgon.h"
 
-template< class CPanel, class CInitData >
-class CPanelFactory : public IPanelFactory
-{
+template<class CPanel, class CInitData>
+class CPanelFactory : public IPanelFactory {
 public:
-	CPanelFactory( const char *pTypeName )
-	{
-		// Hook us up baby
-		Assert( pTypeName );
-		PanelMetaClassMgr()->InstallPanelType( pTypeName, this );
-	}
+    CPanelFactory(const char *pTypeName) {
+        // Hook us up baby
+        Assert(pTypeName);
+        PanelMetaClassMgr()->InstallPanelType(pTypeName, this);
+    }
 
-	// Creation, destruction methods
-	virtual vgui::Panel *Create( const char *pMetaClassName, KeyValues* pKeyValues, void *pVoidInitData, vgui::Panel *pParent )
-	{
-		// NOTE: make sure this matches the panel allocation pattern;
-		// it will break if panels are deleted differently
-		CPanel* pPanel = new CPanel( pParent, pMetaClassName ); 
-		if (pPanel)
-		{
-			// Set parent before Init; it may be needed there...
-			CInitData* pInitData = (CInitData*)(pVoidInitData); 
-			if (!pPanel->Init( pKeyValues, pInitData ))
-			{
-				delete pPanel;
-				pPanel = NULL;
-			}
-		}
-		return pPanel;
-	}
+    // Creation, destruction methods
+    virtual vgui::Panel *
+    Create(const char *pMetaClassName, KeyValues *pKeyValues, void *pVoidInitData, vgui::Panel *pParent) {
+        // NOTE: make sure this matches the panel allocation pattern;
+        // it will break if panels are deleted differently
+        CPanel *pPanel = new CPanel(pParent, pMetaClassName);
+        if (pPanel) {
+            // Set parent before Init; it may be needed there...
+            CInitData *pInitData = (CInitData *) (pVoidInitData);
+            if (!pPanel->Init(pKeyValues, pInitData)) {
+                delete pPanel;
+                pPanel = NULL;
+            }
+        }
+        return pPanel;
+    }
 };
 
 #include "tier0/memdbgoff.h"
@@ -130,25 +126,27 @@ public:
 // The type string is used in a panel script file to specify the type.
 // CInitData is the type of the data to pass to the init function
 //-----------------------------------------------------------------------------
-#define DECLARE_PANEL_FACTORY( _PanelClass, _InitData, _nameString )	\
-	CPanelFactory< _PanelClass, _InitData > g_ ## _PanelClass ## Factory( _nameString )
-
+#define DECLARE_PANEL_FACTORY(_PanelClass, _InitData, _nameString)    \
+    CPanelFactory< _PanelClass, _InitData > g_ ## _PanelClass ## Factory( _nameString )
 
 
 //-----------------------------------------------------------------------------
 // Helper class to make meta class panels
 //-----------------------------------------------------------------------------
-class CPanelWrapper
-{
+class CPanelWrapper {
 public:
-	CPanelWrapper();
-	~CPanelWrapper();
-	void Activate( char const* pMetaClassName, vgui::Panel *pParent, int sortorder, void *pVoidInitData );
-	void Deactivate( void );
-	vgui::Panel *GetPanel( );
+    CPanelWrapper();
+
+    ~CPanelWrapper();
+
+    void Activate(char const *pMetaClassName, vgui::Panel *pParent, int sortorder, void *pVoidInitData);
+
+    void Deactivate(void);
+
+    vgui::Panel *GetPanel();
 
 private:
-	vgui::Panel *m_pPanel;
+    vgui::Panel *m_pPanel;
 };
 
 
@@ -157,20 +155,23 @@ private:
 // Put DECLARE_METACLASS_PANEL() in your class definition
 // and CONSTRUCT_METACLASS_PANEL() in your class constructor
 //-----------------------------------------------------------------------------
-#define DECLARE_METACLASS_PANEL( _memberName )	CPanelWrapper _memberName
-#define CONSTRUCT_METACLASS_PANEL( _memberName, _metaClassName, _parentPanel, _sortorder, _initData )	\
-	_memberName.Activate( _metaClassName, _parentPanel, _sortorder, _initData )
-#define DESTRUCT_METACLASS_PANEL( _memberName ) \
-	_memberName.Deactivate()
+#define DECLARE_METACLASS_PANEL(_memberName)    CPanelWrapper _memberName
+#define CONSTRUCT_METACLASS_PANEL(_memberName, _metaClassName, _parentPanel, _sortorder, _initData)    \
+    _memberName.Activate( _metaClassName, _parentPanel, _sortorder, _initData )
+#define DESTRUCT_METACLASS_PANEL(_memberName) \
+    _memberName.Deactivate()
 
 
 //-----------------------------------------------------------------------------
 // Helper KeyValues parsing methods
 //-----------------------------------------------------------------------------
-bool ParseRGBA( KeyValues* pValues, const char* pFieldName, int& r, int& g, int& b, int& a );
-bool ParseRGBA( KeyValues* pValues, const char* pFieldName, Color& c );
-bool ParseCoord( KeyValues* pValues, const char* pFieldName, int& x, int& y );
-bool ParseRect( KeyValues* pValues, const char* pFieldName, int& x, int& y, int& w, int& h );
+bool ParseRGBA(KeyValues *pValues, const char *pFieldName, int &r, int &g, int &b, int &a);
+
+bool ParseRGBA(KeyValues *pValues, const char *pFieldName, Color &c);
+
+bool ParseCoord(KeyValues *pValues, const char *pFieldName, int &x, int &y);
+
+bool ParseRect(KeyValues *pValues, const char *pFieldName, int &x, int &y, int &w, int &h);
 
 
 /* FIXME: Why do we have KeyValues too!?!??! Bleah

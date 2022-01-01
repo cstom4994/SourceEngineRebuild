@@ -12,75 +12,89 @@
 #define VGUI_VIDEO_PLAYER
 
 #ifdef _WIN32
-	#pragma once
+#pragma once
 #endif
 
 #include <vgui_controls/Panel.h>
 #include "video/ivideoservices.h"
 
 
-class VideoPlayerPanel : public vgui::Panel		// Should this be EditablePanel ?
+class VideoPlayerPanel : public vgui::Panel        // Should this be EditablePanel ?
 {
-	public:
+public:
 
-		DECLARE_CLASS_SIMPLE( VideoPlayerPanel, vgui::Panel );
-	
-							VideoPlayerPanel( vgui::Panel *parent, const char *panelName, int nXpos, int nYpos, int nWidth, int nHeight, const char *pVideoFile = NULL );
-	
-		virtual			   ~VideoPlayerPanel();
+    DECLARE_CLASS_SIMPLE(VideoPlayerPanel, vgui::Panel);
 
-		virtual void 		Activate( void );
-		virtual void 		Paint( void );
-		virtual void 		OnClose( void );
-		
-		bool				SetVideo( const char *pVideoFile );
-		void				ClearVideo();
-		bool				IsReady()			{ return m_VideoLoaded; }
-		
-		bool				StartVideo();
-		bool				StopVideo();
-		bool				PauseVideo();
-		bool				UnpauseVideo();
-		bool				IsPlaying()			{ return m_VideoPlaying; }
-		bool				IsPaused()			{ return m_VideoPaused; }
-		
-		float				GetCurrentPlaybackTime();
-		bool				SetCurrentPlaybackTime( float newTime );
+    VideoPlayerPanel(vgui::Panel *parent, const char *panelName, int nXpos, int nYpos, int nWidth, int nHeight,
+                     const char *pVideoFile = NULL);
 
-		float				GetVideoDuration()	{ return m_VideoDuration; }
-		bool				HasAudio();
-		
-		bool				IsMuted();
-		bool				SetMute( bool muted );
-		
-		float				GetVolume();
-		bool				SetVolume( float newVolume );
-	
+    virtual               ~VideoPlayerPanel();
 
-	protected:
+    virtual void Activate(void);
 
-		virtual void		OnTick( void ) { BaseClass::OnTick(); }
-		virtual void		OnCommand( const char *pcCommand ) { BaseClass::OnCommand( pcCommand ); }
+    virtual void Paint(void);
 
-	private:
+    virtual void OnClose(void);
 
-		IVideoMaterial		*m_VideoMaterial;
-		IMaterial			*m_pMaterial;
-	
-		bool				m_VideoLoaded;
-		bool				m_VideoPlaying;
-		bool				m_VideoPaused;
-	
-		int					m_nPlaybackHeight;			// Calculated to address ratio changes
-		int					m_nPlaybackWidth;
-		int					m_letterBox;
-		
-		float				m_flU, m_flV;
+    bool SetVideo(const char *pVideoFile);
 
-		char			   *m_VideoFileName;
-		float				m_VideoDuration;
-		
-	
+    void ClearVideo();
+
+    bool IsReady() { return m_VideoLoaded; }
+
+    bool StartVideo();
+
+    bool StopVideo();
+
+    bool PauseVideo();
+
+    bool UnpauseVideo();
+
+    bool IsPlaying() { return m_VideoPlaying; }
+
+    bool IsPaused() { return m_VideoPaused; }
+
+    float GetCurrentPlaybackTime();
+
+    bool SetCurrentPlaybackTime(float newTime);
+
+    float GetVideoDuration() { return m_VideoDuration; }
+
+    bool HasAudio();
+
+    bool IsMuted();
+
+    bool SetMute(bool muted);
+
+    float GetVolume();
+
+    bool SetVolume(float newVolume);
+
+
+protected:
+
+    virtual void OnTick(void) { BaseClass::OnTick(); }
+
+    virtual void OnCommand(const char *pcCommand) { BaseClass::OnCommand(pcCommand); }
+
+private:
+
+    IVideoMaterial *m_VideoMaterial;
+    IMaterial *m_pMaterial;
+
+    bool m_VideoLoaded;
+    bool m_VideoPlaying;
+    bool m_VideoPaused;
+
+    int m_nPlaybackHeight;            // Calculated to address ratio changes
+    int m_nPlaybackWidth;
+    int m_letterBox;
+
+    float m_flU, m_flV;
+
+    char *m_VideoFileName;
+    float m_VideoDuration;
+
 
 };
 

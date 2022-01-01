@@ -15,34 +15,27 @@
 //-----------------------------------------------------------------------------
 // Cleanup
 //-----------------------------------------------------------------------------
-void CEntityMaterialProxy::Release( void )
-{ 
-	delete this; 
+void CEntityMaterialProxy::Release(void) {
+    delete this;
 }
 
 //-----------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------
-void CEntityMaterialProxy::OnBind( void *pRenderable )
-{
-	if( !pRenderable )
-	{
-		OnBindNotEntity( pRenderable );
-		return;
-	}
+void CEntityMaterialProxy::OnBind(void *pRenderable) {
+    if (!pRenderable) {
+        OnBindNotEntity(pRenderable);
+        return;
+    }
 
-	IClientRenderable *pRend = ( IClientRenderable* )pRenderable;
-	C_BaseEntity *pEnt = pRend->GetIClientUnknown()->GetBaseEntity();
-	if ( pEnt )
-	{
-		OnBind( pEnt );
-		if ( ToolsEnabled() )
-		{
-			ToolFramework_RecordMaterialParams( GetMaterial() );
-		}
-	}
-	else
-	{
-		OnBindNotEntity( pRenderable );
-	}
+    IClientRenderable *pRend = (IClientRenderable *) pRenderable;
+    C_BaseEntity *pEnt = pRend->GetIClientUnknown()->GetBaseEntity();
+    if (pEnt) {
+        OnBind(pEnt);
+        if (ToolsEnabled()) {
+            ToolFramework_RecordMaterialParams(GetMaterial());
+        }
+    } else {
+        OnBindNotEntity(pRenderable);
+    }
 }

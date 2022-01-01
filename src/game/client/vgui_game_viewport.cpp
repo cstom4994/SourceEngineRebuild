@@ -15,38 +15,43 @@
 // Global startup and shutdown functions for game code in the DLL.
 //================================================================
 
-class CViewportClientSystem : public IGameSystem
-{
+class CViewportClientSystem : public IGameSystem {
 public:
-	CViewportClientSystem()
-	{
-	}
+    CViewportClientSystem() {
+    }
 
-	virtual char const *Name() { return "CViewportClientSystem"; }
-	virtual bool IsPerFrame() { return false; }
+    virtual char const *Name() { return "CViewportClientSystem"; }
 
-	// Init, shutdown
-	virtual bool Init()
-	{
-		g_pClientMode->Layout();
-		return true;
-	}
-	virtual void PostInit() {}
-	virtual void Shutdown() {}
-	virtual void LevelInitPreEntity() {}
-	virtual void LevelInitPostEntity() {}
-	virtual void LevelShutdownPreEntity() {}
-	virtual void LevelShutdownPostEntity() {}
-	virtual void SafeRemoveIfDesired() {}
+    virtual bool IsPerFrame() { return false; }
 
-	virtual void OnSave() {}
-	virtual void OnRestore() {}
+    // Init, shutdown
+    virtual bool Init() {
+        g_pClientMode->Layout();
+        return true;
+    }
+
+    virtual void PostInit() {}
+
+    virtual void Shutdown() {}
+
+    virtual void LevelInitPreEntity() {}
+
+    virtual void LevelInitPostEntity() {}
+
+    virtual void LevelShutdownPreEntity() {}
+
+    virtual void LevelShutdownPostEntity() {}
+
+    virtual void SafeRemoveIfDesired() {}
+
+    virtual void OnSave() {}
+
+    virtual void OnRestore() {}
 
 };
 
 static CViewportClientSystem g_ViewportClientSystem;
 
-IGameSystem *ViewportClientSystem()
-{
-	return &g_ViewportClientSystem;
+IGameSystem *ViewportClientSystem() {
+    return &g_ViewportClientSystem;
 }

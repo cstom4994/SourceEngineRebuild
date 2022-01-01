@@ -19,34 +19,33 @@
 //-----------------------------------------------------------------------------
 // Purpose: Show Line TE
 //-----------------------------------------------------------------------------
-class C_TEShowLine : public C_TEParticleSystem
-{
+class C_TEShowLine : public C_TEParticleSystem {
 public:
-	DECLARE_CLASS( C_TEShowLine, C_TEParticleSystem );
-	DECLARE_CLIENTCLASS();
+    DECLARE_CLASS(C_TEShowLine, C_TEParticleSystem);
 
-					C_TEShowLine( void );
-	virtual			~C_TEShowLine( void );
+    DECLARE_CLIENTCLASS();
 
-	virtual void	PostDataUpdate( DataUpdateType_t updateType );
+    C_TEShowLine(void);
+
+    virtual            ~C_TEShowLine(void);
+
+    virtual void PostDataUpdate(DataUpdateType_t updateType);
 
 public:
-	Vector			m_vecEnd;
+    Vector m_vecEnd;
 };
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-C_TEShowLine::C_TEShowLine( void )
-{
-	m_vecEnd.Init();
+C_TEShowLine::C_TEShowLine(void) {
+    m_vecEnd.Init();
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-C_TEShowLine::~C_TEShowLine( void )
-{
+C_TEShowLine::~C_TEShowLine(void) {
 }
 
 
@@ -54,57 +53,53 @@ C_TEShowLine::~C_TEShowLine( void )
 // Purpose: 
 // Input  : bool - 
 //-----------------------------------------------------------------------------
-void C_TEShowLine::PostDataUpdate( DataUpdateType_t updateType )
-{
-	Vector		vec;
-	float		len;
-	StandardParticle_t	*p;
-	int			dec;
-	static int	tracercount;
+void C_TEShowLine::PostDataUpdate(DataUpdateType_t updateType) {
+    Vector vec;
+    float len;
+    StandardParticle_t *p;
+    int dec;
+    static int tracercount;
 
-	VectorSubtract (m_vecEnd, m_vecOrigin, vec);
-	len = VectorNormalize (vec);
+    VectorSubtract(m_vecEnd, m_vecOrigin, vec);
+    len = VectorNormalize(vec);
 
-	dec = 3;
+    dec = 3;
 
-	VectorScale(vec, dec, vec);
+    VectorScale(vec, dec, vec);
 
-	CSmartPtr<CTEParticleRenderer> pRen = CTEParticleRenderer::Create( "TEShowLine", m_vecOrigin );
-	if( !pRen )
-		return;
-	
-	while (len > 0)
-	{
-		len -= dec;
+    CSmartPtr<CTEParticleRenderer> pRen = CTEParticleRenderer::Create("TEShowLine", m_vecOrigin);
+    if (!pRen)
+        return;
 
-		p = pRen->AddParticle();
-		if ( p )
-		{
-			p->m_Velocity.Init();
+    while (len > 0) {
+        len -= dec;
 
-			pRen->SetParticleLifetime(p, 30);
-			
-			p->SetColor(0, 1, 1);
-			p->SetAlpha(1);
-			pRen->SetParticleType(p, pt_static);
+        p = pRen->AddParticle();
+        if (p) {
+            p->m_Velocity.Init();
 
-			p->m_Pos = m_vecOrigin;
-			
-			m_vecOrigin += vec;
-		}
-	}
+            pRen->SetParticleLifetime(p, 30);
+
+            p->SetColor(0, 1, 1);
+            p->SetAlpha(1);
+            pRen->SetParticleType(p, pt_static);
+
+            p->m_Pos = m_vecOrigin;
+
+            m_vecOrigin += vec;
+        }
+    }
 }
 
 IMPLEMENT_CLIENTCLASS_EVENT_DT(C_TEShowLine, DT_TEShowLine, CTEShowLine)
-	RecvPropVector( RECVINFO(m_vecEnd)),
+                    RecvPropVector(RECVINFO(m_vecEnd)),
 END_RECV_TABLE()
 
-void TE_ShowLine( IRecipientFilter& filter, float delay,
-	const Vector* start, const Vector* end )
-{
-	// Major hack to simulate receiving network message
-	__g_C_TEShowLine.m_vecOrigin = *start;
-	__g_C_TEShowLine.m_vecEnd = *end;
+void TE_ShowLine(IRecipientFilter &filter, float delay,
+                 const Vector *start, const Vector *end) {
+    // Major hack to simulate receiving network message
+    __g_C_TEShowLine.m_vecOrigin = *start;
+    __g_C_TEShowLine.m_vecEnd = *end;
 
-	__g_C_TEShowLine.PostDataUpdate( DATA_UPDATE_CREATED );
+    __g_C_TEShowLine.PostDataUpdate(DATA_UPDATE_CREATED);
 }

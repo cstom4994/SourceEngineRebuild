@@ -19,62 +19,63 @@
 //-----------------------------------------------------------------------------
 // Purpose: Player specific data ( sent only to local player, too )
 //-----------------------------------------------------------------------------
-class CPlayerLocalData
-{
+class CPlayerLocalData {
 public:
-	DECLARE_PREDICTABLE();
-	DECLARE_CLASS_NOBASE( CPlayerLocalData );
-	DECLARE_EMBEDDED_NETWORKVAR();
+DECLARE_PREDICTABLE();
 
-	CPlayerLocalData() :
-		m_iv_vecPunchAngle( "CPlayerLocalData::m_iv_vecPunchAngle" ),
-		m_iv_vecPunchAngleVel( "CPlayerLocalData::m_iv_vecPunchAngleVel" )
-	{
-		m_iv_vecPunchAngle.Setup( &m_vecPunchAngle.m_Value, LATCH_SIMULATION_VAR );
-		m_iv_vecPunchAngleVel.Setup( &m_vecPunchAngleVel.m_Value, LATCH_SIMULATION_VAR );
-		m_flFOVRate = 0;
-	}
+    DECLARE_CLASS_NOBASE(CPlayerLocalData);
 
-	unsigned char			m_chAreaBits[MAX_AREA_STATE_BYTES];				// Area visibility flags.
-	unsigned char			m_chAreaPortalBits[MAX_AREA_PORTAL_STATE_BYTES];// Area portal visibility flags.
+    DECLARE_EMBEDDED_NETWORKVAR();
 
-	int						m_iHideHUD;			// bitfields containing sections of the HUD to hide
-	
-	float					m_flFOVRate;		// rate at which the FOV changes
-	
+    CPlayerLocalData() :
+            m_iv_vecPunchAngle("CPlayerLocalData::m_iv_vecPunchAngle"),
+            m_iv_vecPunchAngleVel("CPlayerLocalData::m_iv_vecPunchAngleVel") {
+        m_iv_vecPunchAngle.Setup(&m_vecPunchAngle.m_Value, LATCH_SIMULATION_VAR);
+        m_iv_vecPunchAngleVel.Setup(&m_vecPunchAngleVel.m_Value, LATCH_SIMULATION_VAR);
+        m_flFOVRate = 0;
+    }
 
-	bool					m_bDucked;
-	bool					m_bDucking;
-	bool					m_bInDuckJump;
-	float					m_flDucktime;
-	float					m_flDuckJumpTime;
-	float					m_flJumpTime;
-	int						m_nStepside;
-	float					m_flFallVelocity;
-	int						m_nOldButtons;
-	float					m_flOldForwardMove;
-	// Base velocity that was passed in to server physics so 
-	//  client can predict conveyors correctly.  Server zeroes it, so we need to store here, too.
-	Vector					m_vecClientBaseVelocity;  
-	CNetworkQAngle( m_vecPunchAngle );		// auto-decaying view angle adjustment
-	CInterpolatedVar< QAngle >	m_iv_vecPunchAngle;
+    unsigned char m_chAreaBits[MAX_AREA_STATE_BYTES];                // Area visibility flags.
+    unsigned char m_chAreaPortalBits[MAX_AREA_PORTAL_STATE_BYTES];// Area portal visibility flags.
 
-	CNetworkQAngle( m_vecPunchAngleVel );		// velocity of auto-decaying view angle adjustment
-	CInterpolatedVar< QAngle >	m_iv_vecPunchAngleVel;
-	bool					m_bDrawViewmodel;
-	bool					m_bWearingSuit;
-	bool					m_bPoisoned;
-	float					m_flStepSize;
-	bool					m_bAllowAutoMovement;
+    int m_iHideHUD;            // bitfields containing sections of the HUD to hide
 
-	// 3d skybox
-	sky3dparams_t			m_skybox3d;
-	// fog params
-	fogplayerparams_t		m_PlayerFog;
-	// audio environment
-	audioparams_t			m_audio;
+    float m_flFOVRate;        // rate at which the FOV changes
 
-	bool					m_bSlowMovement;
+
+    bool m_bDucked;
+    bool m_bDucking;
+    bool m_bInDuckJump;
+    float m_flDucktime;
+    float m_flDuckJumpTime;
+    float m_flJumpTime;
+    int m_nStepside;
+    float m_flFallVelocity;
+    int m_nOldButtons;
+    float m_flOldForwardMove;
+    // Base velocity that was passed in to server physics so
+    //  client can predict conveyors correctly.  Server zeroes it, so we need to store here, too.
+    Vector m_vecClientBaseVelocity;
+
+    CNetworkQAngle(m_vecPunchAngle);        // auto-decaying view angle adjustment
+    CInterpolatedVar<QAngle> m_iv_vecPunchAngle;
+
+    CNetworkQAngle(m_vecPunchAngleVel);        // velocity of auto-decaying view angle adjustment
+    CInterpolatedVar<QAngle> m_iv_vecPunchAngleVel;
+    bool m_bDrawViewmodel;
+    bool m_bWearingSuit;
+    bool m_bPoisoned;
+    float m_flStepSize;
+    bool m_bAllowAutoMovement;
+
+    // 3d skybox
+    sky3dparams_t m_skybox3d;
+    // fog params
+    fogplayerparams_t m_PlayerFog;
+    // audio environment
+    audioparams_t m_audio;
+
+    bool m_bSlowMovement;
 
 };
 

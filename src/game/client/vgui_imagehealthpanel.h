@@ -19,35 +19,39 @@
 //-----------------------------------------------------------------------------
 
 class C_BaseEntity;
+
 class KeyValues;
+
 class BitmapImage;
 
 //-----------------------------------------------------------------------------
 // This is a base class for a panel which always is rendered on top of an entity
 //-----------------------------------------------------------------------------
 
-class CEntityImageHealthPanel : public CEntityPanel
-{
+class CEntityImageHealthPanel : public CEntityPanel {
 public:
-	DECLARE_CLASS( CEntityImageHealthPanel, CEntityPanel );
+    DECLARE_CLASS(CEntityImageHealthPanel, CEntityPanel);
 
-	// constructor
-	CEntityImageHealthPanel( vgui::Panel *parent, const char *panelName );
-	~CEntityImageHealthPanel();
+    // constructor
+    CEntityImageHealthPanel(vgui::Panel *parent, const char *panelName);
 
-	// initialization
-	bool Init( KeyValues* pInitData, C_BaseEntity* pEntity );
+    ~CEntityImageHealthPanel();
 
-	// called when we're ticked...
-	virtual void OnTick();
-	virtual bool ShouldDraw( void );
-	virtual void ComputeAndSetSize( void );
+    // initialization
+    bool Init(KeyValues *pInitData, C_BaseEntity *pEntity);
+
+    // called when we're ticked...
+    virtual void OnTick();
+
+    virtual bool ShouldDraw(void);
+
+    virtual void ComputeAndSetSize(void);
 
 private:
-	CHealthBarPanel			*m_CommanderHealthBar;
-	CHealthBarPanel			*m_NormalHealthBar;
-	CHealthBarPanel			*m_ResourceLevelBar;
-	CEntityTeamImagePanel	*m_pImagePanel;
+    CHealthBarPanel *m_CommanderHealthBar;
+    CHealthBarPanel *m_NormalHealthBar;
+    CHealthBarPanel *m_ResourceLevelBar;
+    CEntityTeamImagePanel *m_pImagePanel;
 };
 
 #endif //  VGUI_IMAGEHEALTHPANEL_H

@@ -18,16 +18,15 @@
 
 #include <vgui/VGUI.h>
 
-namespace vgui
-{
-	class Panel;
+namespace vgui {
+    class Panel;
 }
 
-abstract_class IDebugOverlayPanel
-{
+abstract_class IDebugOverlayPanel {
 public:
-	virtual void		Create( vgui::VPANEL parent ) = 0;
-	virtual void		Destroy( void ) = 0;
+    virtual void Create(vgui::VPANEL parent) = 0;
+
+    virtual void Destroy(void) = 0;
 };
 
 extern IDebugOverlayPanel *debugoverlaypanel;

@@ -23,24 +23,21 @@ END_RECV_TABLE()
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-C_BreakableProp::C_BreakableProp( void )
-{
-	m_takedamage = DAMAGE_YES;
+C_BreakableProp::C_BreakableProp(void) {
+    m_takedamage = DAMAGE_YES;
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void C_BreakableProp::SetFadeMinMax( float fademin, float fademax )
-{
-	m_fadeMinDist = fademin;
-	m_fadeMaxDist = fademax;
+void C_BreakableProp::SetFadeMinMax(float fademin, float fademax) {
+    m_fadeMinDist = fademin;
+    m_fadeMaxDist = fademax;
 }
 
 //-----------------------------------------------------------------------------
 // Copy fade from another breakable prop
 //-----------------------------------------------------------------------------
-void C_BreakableProp::CopyFadeFrom( C_BreakableProp *pSource )
-{
-	m_flFadeScale = pSource->m_flFadeScale;
+void C_BreakableProp::CopyFadeFrom(C_BreakableProp *pSource) {
+    m_flFadeScale = pSource->m_flFadeScale;
 }

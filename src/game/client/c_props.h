@@ -18,28 +18,31 @@
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class C_DynamicProp : public C_BreakableProp
-{
-	DECLARE_CLASS( C_DynamicProp, C_BreakableProp );
+class C_DynamicProp : public C_BreakableProp {
+    DECLARE_CLASS(C_DynamicProp, C_BreakableProp);
 public:
-	DECLARE_NETWORKCLASS();
+    DECLARE_NETWORKCLASS();
 
-	// constructor, destructor
-	C_DynamicProp( void );
-	~C_DynamicProp( void );
+    // constructor, destructor
+    C_DynamicProp(void);
 
-	void GetRenderBounds( Vector& theMins, Vector& theMaxs );
-	unsigned int ComputeClientSideAnimationFlags();
-	bool TestBoneFollowers( const Ray_t &ray, unsigned int fContentsMask, trace_t& tr );
-	bool TestCollision( const Ray_t &ray, unsigned int fContentsMask, trace_t& tr );
+    ~C_DynamicProp(void);
+
+    void GetRenderBounds(Vector &theMins, Vector &theMaxs);
+
+    unsigned int ComputeClientSideAnimationFlags();
+
+    bool TestBoneFollowers(const Ray_t &ray, unsigned int fContentsMask, trace_t &tr);
+
+    bool TestCollision(const Ray_t &ray, unsigned int fContentsMask, trace_t &tr);
 
 private:
-	C_DynamicProp( const C_DynamicProp & );
+    C_DynamicProp(const C_DynamicProp &);
 
-	bool	m_bUseHitboxesForRenderBox;
-	int		m_iCachedFrameCount;
-	Vector	m_vecCachedRenderMins;
-	Vector	m_vecCachedRenderMaxs;
+    bool m_bUseHitboxesForRenderBox;
+    int m_iCachedFrameCount;
+    Vector m_vecCachedRenderMins;
+    Vector m_vecCachedRenderMaxs;
 };
 
 #endif // C_PROPS_H

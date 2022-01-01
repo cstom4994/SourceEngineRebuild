@@ -17,70 +17,64 @@
 #include "tier0/memdbgon.h"
 
 // Enumator class for ragdolls being affected by explosive forces
-CPlayerAndObjectEnumerator::CPlayerAndObjectEnumerator( float radius )
-{
-	m_flRadiusSquared		= radius * radius;
-	m_Objects.RemoveAll();
-	m_pLocal = C_BasePlayer::GetLocalPlayer();
+CPlayerAndObjectEnumerator::CPlayerAndObjectEnumerator(float radius) {
+    m_flRadiusSquared = radius * radius;
+    m_Objects.RemoveAll();
+    m_pLocal = C_BasePlayer::GetLocalPlayer();
 }
 
-int	CPlayerAndObjectEnumerator::GetObjectCount()
-{
-	return m_Objects.Size();
+int CPlayerAndObjectEnumerator::GetObjectCount() {
+    return m_Objects.Size();
 }
 
-C_BaseEntity *CPlayerAndObjectEnumerator::GetObject( int index )
-{
-	if ( index < 0 || index >= GetObjectCount() )
-		return NULL;
+C_BaseEntity *CPlayerAndObjectEnumerator::GetObject(int index) {
+    if (index < 0 || index >= GetObjectCount())
+        return NULL;
 
-	return m_Objects[ index ];
+    return m_Objects[index];
 }
 
 // Actual work code
-IterationRetval_t CPlayerAndObjectEnumerator::EnumElement( IHandleEntity *pHandleEntity )
-{
-	if ( !m_pLocal )
-		return ITERATION_STOP;
+IterationRetval_t CPlayerAndObjectEnumerator::EnumElement(IHandleEntity *pHandleEntity) {
+    if (!m_pLocal)
+        return ITERATION_STOP;
 
-	C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle( pHandleEntity->GetRefEHandle() );
-	if ( pEnt == NULL )
-		return ITERATION_CONTINUE;
+    C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle(pHandleEntity->GetRefEHandle());
+    if (pEnt == NULL)
+        return ITERATION_CONTINUE;
 
-	if ( pEnt == m_pLocal )
-		return ITERATION_CONTINUE;
+    if (pEnt == m_pLocal)
+        return ITERATION_CONTINUE;
 
-	if ( !pEnt->IsPlayer() &&
-		 !pEnt->IsNPC() )
-	{
-		return ITERATION_CONTINUE;
-	}
+    if (!pEnt->IsPlayer() &&
+        !pEnt->IsNPC()) {
+        return ITERATION_CONTINUE;
+    }
 
-	if ( pEnt->IsNPC() )
-	{
-		C_AI_BaseNPC *pNPC = (C_AI_BaseNPC *)pEnt;
+    if (pEnt->IsNPC()) {
+        C_AI_BaseNPC *pNPC = (C_AI_BaseNPC *) pEnt;
 
-		if ( !pNPC->ShouldAvoidObstacle() )
-			 return ITERATION_CONTINUE;
-	}
+        if (!pNPC->ShouldAvoidObstacle())
+            return ITERATION_CONTINUE;
+    }
 
-	// Ignore vehicles, since they have vcollide collisions that's push me away
-	if ( pEnt->GetCollisionGroup() == COLLISION_GROUP_VEHICLE )
-		return ITERATION_CONTINUE;
+    // Ignore vehicles, since they have vcollide collisions that's push me away
+    if (pEnt->GetCollisionGroup() == COLLISION_GROUP_VEHICLE)
+        return ITERATION_CONTINUE;
 
 #ifdef INVASION_CLIENT_DLL
-	// If it's solid to player movement, don't steer around it since we'll just bump into it
-	if ( pEnt->GetCollisionGroup() == TFCOLLISION_GROUP_OBJECT_SOLIDTOPLAYERMOVEMENT )
-		return ITERATION_CONTINUE;
+    // If it's solid to player movement, don't steer around it since we'll just bump into it
+    if ( pEnt->GetCollisionGroup() == TFCOLLISION_GROUP_OBJECT_SOLIDTOPLAYERMOVEMENT )
+        return ITERATION_CONTINUE;
 #endif
 
-	Vector	deltaPos = pEnt->GetAbsOrigin() - m_pLocal->GetAbsOrigin();
-	if ( deltaPos.LengthSqr() > m_flRadiusSquared )
-		return ITERATION_CONTINUE;
+    Vector deltaPos = pEnt->GetAbsOrigin() - m_pLocal->GetAbsOrigin();
+    if (deltaPos.LengthSqr() > m_flRadiusSquared)
+        return ITERATION_CONTINUE;
 
-	CHandle< C_BaseEntity > h;
-	h = pEnt;
-	m_Objects.AddToTail( h );
+    CHandle<C_BaseEntity> h;
+    h = pEnt;
+    m_Objects.AddToTail(h);
 
-	return ITERATION_CONTINUE;
+    return ITERATION_CONTINUE;
 }

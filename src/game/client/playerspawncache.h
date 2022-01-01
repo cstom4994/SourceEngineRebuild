@@ -41,24 +41,22 @@
 // It's possible that PreReset()/PostReset() or the like will be necessary for this
 // class to reach its full potential.
 //
-class CPlayerSpawnCache : public CGameEventListener
-{
+class CPlayerSpawnCache : public CGameEventListener {
 public:
-	static CPlayerSpawnCache &Instance();
+    static CPlayerSpawnCache &Instance();
 
-	// Counters
-	struct Data_t
-	{
-		int m_nDisplayedConnectedRecording;
-		int	m_nDisplaySaveReplay;	// Don't display the "Press [f6] to save this life" the first time the spectator GUI is shown
-	} m_Data;
+    // Counters
+    struct Data_t {
+        int m_nDisplayedConnectedRecording;
+        int m_nDisplaySaveReplay;    // Don't display the "Press [f6] to save this life" the first time the spectator GUI is shown
+    } m_Data;
 
 private:
-	CPlayerSpawnCache();
+    CPlayerSpawnCache();
 
-	virtual void FireGameEvent( IGameEvent *pEvent );
+    virtual void FireGameEvent(IGameEvent *pEvent);
 
-	void Reset();
+    void Reset();
 };
 
 //--------------------------------------------------------------------------------

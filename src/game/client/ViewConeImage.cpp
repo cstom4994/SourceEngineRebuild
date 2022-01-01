@@ -17,40 +17,37 @@
 //-----------------------------------------------------------------------------
 // initialization
 //-----------------------------------------------------------------------------
-bool CViewConeImage::Init( vgui::Panel *pParent, KeyValues* pInitData )
-{
-	Assert( pParent );
+bool CViewConeImage::Init(vgui::Panel *pParent, KeyValues *pInitData) {
+    Assert(pParent);
 
-	// Load viewcone material
-	if (!m_Image.Init( pParent->GetVPanel(), pInitData ))
-		return false;
+    // Load viewcone material
+    if (!m_Image.Init(pParent->GetVPanel(), pInitData))
+        return false;
 
-	// Position the view cone...
-	int viewconesize = pInitData->GetInt( "size", 32 );
-	m_Image.SetRenderSize( viewconesize, viewconesize );
+    // Position the view cone...
+    int viewconesize = pInitData->GetInt("size", 32);
+    m_Image.SetRenderSize(viewconesize, viewconesize);
 
-	int cx, cy;
-	pParent->GetSize( cx, cy );
-	m_Image.SetPos( (cx - viewconesize) / 2, (cy - viewconesize) / 2 );
+    int cx, cy;
+    pParent->GetSize(cx, cy);
+    m_Image.SetPos((cx - viewconesize) / 2, (cy - viewconesize) / 2);
 
-	return true;
+    return true;
 }
 
 //-----------------------------------------------------------------------------
 // Paint the sucka
 //-----------------------------------------------------------------------------
-void CViewConeImage::Paint( float yaw )
-{
-	g_pMatSystemSurface->DisableClipping( true );
+void CViewConeImage::Paint(float yaw) {
+    g_pMatSystemSurface->DisableClipping(true);
 
-	m_Image.DoPaint( NULL, yaw );
+    m_Image.DoPaint(NULL, yaw);
 
-	g_pMatSystemSurface->DisableClipping( false );
+    g_pMatSystemSurface->DisableClipping(false);
 }
 
-void CViewConeImage::SetColor( int r, int g, int b )
-{
-	m_Image.SetColor( Color( r, g, b, 255 ) );
+void CViewConeImage::SetColor(int r, int g, int b) {
+    m_Image.SetColor(Color(r, g, b, 255));
 }
 
 //-----------------------------------------------------------------------------
@@ -63,21 +60,17 @@ void CViewConeImage::SetColor( int r, int g, int b )
 // NOTE: This function looks for the key values 'material' and 'color'
 // and uses them to set up the material + modulation color of the image
 //-----------------------------------------------------------------------------
-bool InitializeViewConeImage( KeyValues *pInitData, const char* pSectionName, 
-	vgui::Panel *pParent, CViewConeImage* pViewConeImage )
-{
-	KeyValues *pViewConeImageSection;
-	if (pSectionName)
-	{
-		pViewConeImageSection = pInitData->FindKey( pSectionName );
-		if ( !pViewConeImageSection )
-			return false;
-	}
-	else
-	{
-		pViewConeImageSection = pInitData;
-	}
+bool InitializeViewConeImage(KeyValues *pInitData, const char *pSectionName,
+                             vgui::Panel *pParent, CViewConeImage *pViewConeImage) {
+    KeyValues *pViewConeImageSection;
+    if (pSectionName) {
+        pViewConeImageSection = pInitData->FindKey(pSectionName);
+        if (!pViewConeImageSection)
+            return false;
+    } else {
+        pViewConeImageSection = pInitData;
+    }
 
-	return pViewConeImage->Init( pParent, pViewConeImageSection );
+    return pViewConeImage->Init(pParent, pViewConeImageSection);
 }
 

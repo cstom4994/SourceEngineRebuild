@@ -28,18 +28,23 @@
 // Needs a hook to the particle effect's constructor/destructor and factory method
 // The factory needs to support optionally merging the new particles into a previously built particle effect
 // this cuts down on lots of scene management overhead as well as rendering/batch overhead
-template< class PARTICLE_EFFECT, class PARTICLE_MERGE >
-class CParticleMergeList
-{
+template<class PARTICLE_EFFECT, class PARTICLE_MERGE>
+class CParticleMergeList {
 public:
-	CParticleMergeList() : m_pHead(NULL) {}
-	void AddParticleSystem( PARTICLE_EFFECT *pSystem );
-	void RemoveParticleSystem( PARTICLE_EFFECT *pRemove );
-	PARTICLE_EFFECT *FindAndMergeParticleSystem( const char *pEffectName, const Vector &center, const Vector &extents );
-	bool MergeParticleSystems( PARTICLE_EFFECT *pSystem, const char *pEffectName, const Vector &center, const Vector &extents );
+    CParticleMergeList() : m_pHead(NULL) {}
+
+    void AddParticleSystem(PARTICLE_EFFECT *pSystem);
+
+    void RemoveParticleSystem(PARTICLE_EFFECT *pRemove);
+
+    PARTICLE_EFFECT *FindAndMergeParticleSystem(const char *pEffectName, const Vector &center, const Vector &extents);
+
+    bool MergeParticleSystems(PARTICLE_EFFECT *pSystem, const char *pEffectName, const Vector &center,
+                              const Vector &extents);
+
 private:
-	PARTICLE_EFFECT *m_pHead;
-	PARTICLE_MERGE m_merge;
+    PARTICLE_EFFECT *m_pHead;
+    PARTICLE_MERGE m_merge;
 };
 
 #if REPORT_MERGED_FLECKS
@@ -47,114 +52,105 @@ ConVar fleck_merge("fleck_merge","1");
 int g_PCount = 0;
 #endif
 
-template< class PARTICLE_EFFECT, class PARTICLE_MERGE >
-void CParticleMergeList<PARTICLE_EFFECT,PARTICLE_MERGE>::AddParticleSystem( PARTICLE_EFFECT *pSystem )
-{
+template<class PARTICLE_EFFECT, class PARTICLE_MERGE>
+void CParticleMergeList<PARTICLE_EFFECT, PARTICLE_MERGE>::AddParticleSystem(PARTICLE_EFFECT *pSystem) {
 #if REPORT_MERGED_FLECKS
-	g_PCount++;
-	Msg("PS: %d\n", g_PCount);
+    g_PCount++;
+    Msg("PS: %d\n", g_PCount);
 #endif
-	pSystem->m_pNextParticleSystem = m_pHead;
-	m_pHead = pSystem;
+    pSystem->m_pNextParticleSystem = m_pHead;
+    m_pHead = pSystem;
 }
 
-template< class PARTICLE_EFFECT, class PARTICLE_MERGE >
-void CParticleMergeList<PARTICLE_EFFECT,PARTICLE_MERGE>::RemoveParticleSystem( PARTICLE_EFFECT *pRemove )
-{
+template<class PARTICLE_EFFECT, class PARTICLE_MERGE>
+void CParticleMergeList<PARTICLE_EFFECT, PARTICLE_MERGE>::RemoveParticleSystem(PARTICLE_EFFECT *pRemove) {
 #if REPORT_MERGED_FLECKS
-	g_PCount--;
-	Msg("PS: %d\n", g_PCount);
+    g_PCount--;
+    Msg("PS: %d\n", g_PCount);
 #endif
-	PARTICLE_EFFECT **pPrev = &m_pHead;
-	PARTICLE_EFFECT *pCur = *pPrev;
-	while ( pCur )
-	{
-		if ( pCur == pRemove )
-		{
-			*pPrev = pCur->m_pNextParticleSystem;
-			return;
-		}
-		pPrev = &pCur->m_pNextParticleSystem;
-		pCur = *pPrev;
-	}
+    PARTICLE_EFFECT **pPrev = &m_pHead;
+    PARTICLE_EFFECT *pCur = *pPrev;
+    while (pCur) {
+        if (pCur == pRemove) {
+            *pPrev = pCur->m_pNextParticleSystem;
+            return;
+        }
+        pPrev = &pCur->m_pNextParticleSystem;
+        pCur = *pPrev;
+    }
 }
 
-template< class PARTICLE_EFFECT, class PARTICLE_MERGE >
-PARTICLE_EFFECT *CParticleMergeList<PARTICLE_EFFECT,PARTICLE_MERGE>::FindAndMergeParticleSystem( const char *pEffectName, const Vector &center, const Vector &extents )
-{
+template<class PARTICLE_EFFECT, class PARTICLE_MERGE>
+PARTICLE_EFFECT *
+CParticleMergeList<PARTICLE_EFFECT, PARTICLE_MERGE>::FindAndMergeParticleSystem(const char *pEffectName,
+                                                                                const Vector &center,
+                                                                                const Vector &extents) {
 #if REPORT_MERGED_FLECKS
-	if ( !fleck_merge.GetBool() )
-		return NULL;
+    if ( !fleck_merge.GetBool() )
+        return NULL;
 #endif
 
-	for ( PARTICLE_EFFECT *pMerge = m_pHead; pMerge != NULL; pMerge = pMerge->m_pNextParticleSystem )
-	{
-		if ( m_merge.MergeParticleSystems( pMerge, pEffectName, center, extents ) )
-			return pMerge;
-	}
-	return NULL;
+    for (PARTICLE_EFFECT *pMerge = m_pHead; pMerge != NULL; pMerge = pMerge->m_pNextParticleSystem) {
+        if (m_merge.MergeParticleSystems(pMerge, pEffectName, center, extents))
+            return pMerge;
+    }
+    return NULL;
 }
 
 // merge anything within 10 feet
 const float MAX_RADIUS_BBOX_MERGE = 120.0f;
 
-template< class PARTICLE_EFFECT >
-class CMergeSameNameBbox
-{
+template<class PARTICLE_EFFECT>
+class CMergeSameNameBbox {
 public:
-	bool MergeParticleSystems( PARTICLE_EFFECT *pSystem, const char *pEffectName, const Vector &center, const Vector &extents )
-	{
-		// by default, match names
-		if ( !Q_stricmp(pSystem->GetEffectName(), pEffectName) )
-		{
-			Vector mins, maxs;
-			pSystem->GetBinding().GetWorldspaceBounds( &mins, &maxs );
-			AddPointToBounds( center - extents, mins, maxs );
-			AddPointToBounds( center + extents, mins, maxs );
-			Vector size = maxs - mins;
-			float radius = size.LengthSqr();
-			if ( radius < MAX_RADIUS_BBOX_MERGE * MAX_RADIUS_BBOX_MERGE)
-			{
-				pSystem->GetBinding().SetBBox( mins, maxs );
-				// put sort origin at center of the new box
-				Vector sortOrigin = 0.5f * (mins+maxs);
-				pSystem->SetSortOrigin(sortOrigin);
-				return true;
-			}
-		}
-		return false;
-	}
+    bool MergeParticleSystems(PARTICLE_EFFECT *pSystem, const char *pEffectName, const Vector &center,
+                              const Vector &extents) {
+        // by default, match names
+        if (!Q_stricmp(pSystem->GetEffectName(), pEffectName)) {
+            Vector mins, maxs;
+            pSystem->GetBinding().GetWorldspaceBounds(&mins, &maxs);
+            AddPointToBounds(center - extents, mins, maxs);
+            AddPointToBounds(center + extents, mins, maxs);
+            Vector size = maxs - mins;
+            float radius = size.LengthSqr();
+            if (radius < MAX_RADIUS_BBOX_MERGE * MAX_RADIUS_BBOX_MERGE) {
+                pSystem->GetBinding().SetBBox(mins, maxs);
+                // put sort origin at center of the new box
+                Vector sortOrigin = 0.5f * (mins + maxs);
+                pSystem->SetSortOrigin(sortOrigin);
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
-CParticleMergeList< CFleckParticles, CMergeSameNameBbox<CFleckParticles> > g_FleckMergeList;
+CParticleMergeList<CFleckParticles, CMergeSameNameBbox<CFleckParticles> > g_FleckMergeList;
 
 //
 // CFleckParticles
 //
-CSmartPtr<CFleckParticles> CFleckParticles::Create( const char *pDebugName, const Vector &vCenter, const Vector &extents )
-{
-	CFleckParticles *pMerge = g_FleckMergeList.FindAndMergeParticleSystem( pDebugName, vCenter, extents );
-	if ( pMerge )
-		return pMerge;
+CSmartPtr<CFleckParticles>
+CFleckParticles::Create(const char *pDebugName, const Vector &vCenter, const Vector &extents) {
+    CFleckParticles *pMerge = g_FleckMergeList.FindAndMergeParticleSystem(pDebugName, vCenter, extents);
+    if (pMerge)
+        return pMerge;
 
-	CFleckParticles *pRet = new CFleckParticles( pDebugName );
-	if ( pRet )
-	{
-		pRet->GetBinding().SetBBox( vCenter - extents, vCenter + extents );
-		pRet->SetSortOrigin(vCenter);
-	}
-	return pRet;
+    CFleckParticles *pRet = new CFleckParticles(pDebugName);
+    if (pRet) {
+        pRet->GetBinding().SetBBox(vCenter - extents, vCenter + extents);
+        pRet->SetSortOrigin(vCenter);
+    }
+    return pRet;
 }
 
 
-CFleckParticles::CFleckParticles( const char *pDebugName ) : CSimpleEmitter( pDebugName ), m_pNextParticleSystem(NULL)
-{
-	g_FleckMergeList.AddParticleSystem(this);
+CFleckParticles::CFleckParticles(const char *pDebugName) : CSimpleEmitter(pDebugName), m_pNextParticleSystem(NULL) {
+    g_FleckMergeList.AddParticleSystem(this);
 }
 
-CFleckParticles::~CFleckParticles()
-{
-	g_FleckMergeList.RemoveParticleSystem(this);
+CFleckParticles::~CFleckParticles() {
+    g_FleckMergeList.RemoveParticleSystem(this);
 }
 
 //-----------------------------------------------------------------------------
@@ -168,72 +164,65 @@ CFleckParticles::~CFleckParticles()
 //			dampen - dampening amount on collisions
 //			flags - extra information
 //-----------------------------------------------------------------------------
-void CFleckParticles::Setup( const Vector &origin, const Vector *direction, float angularSpread, float minSpeed, float maxSpeed, float gravity, float dampen, int flags )
-{
-	//See if we've specified a direction
-	m_ParticleCollision.Setup( origin, direction, angularSpread, minSpeed, maxSpeed, gravity, dampen );
+void CFleckParticles::Setup(const Vector &origin, const Vector *direction, float angularSpread, float minSpeed,
+                            float maxSpeed, float gravity, float dampen, int flags) {
+    //See if we've specified a direction
+    m_ParticleCollision.Setup(origin, direction, angularSpread, minSpeed, maxSpeed, gravity, dampen);
 }
 
 
-void CFleckParticles::RenderParticles( CParticleRenderIterator *pIterator )
-{
-	const FleckParticle *pParticle = (const FleckParticle*)pIterator->GetFirst();
-	while ( pParticle )
-	{
-		Vector	tPos;
-		TransformParticle( ParticleMgr()->GetModelView(), pParticle->m_Pos, tPos );
-		float sortKey = (int) tPos.z;
-		
-		Vector	color;
-		color[0] = pParticle->m_uchColor[0] / 255.0f;
-		color[1] = pParticle->m_uchColor[1] / 255.0f;
-		color[2] = pParticle->m_uchColor[2] / 255.0f;
-		//Render it
-		RenderParticle_ColorSizeAngle(
-			pIterator->GetParticleDraw(),
-			tPos,
-			color,
-			1.0f - (pParticle->m_flLifetime / pParticle->m_flDieTime),
-			pParticle->m_uchSize,
-			pParticle->m_flRoll );
+void CFleckParticles::RenderParticles(CParticleRenderIterator *pIterator) {
+    const FleckParticle *pParticle = (const FleckParticle *) pIterator->GetFirst();
+    while (pParticle) {
+        Vector tPos;
+        TransformParticle(ParticleMgr()->GetModelView(), pParticle->m_Pos, tPos);
+        float sortKey = (int) tPos.z;
 
-		pParticle = (const FleckParticle*)pIterator->GetNext( sortKey );
-	}
+        Vector color;
+        color[0] = pParticle->m_uchColor[0] / 255.0f;
+        color[1] = pParticle->m_uchColor[1] / 255.0f;
+        color[2] = pParticle->m_uchColor[2] / 255.0f;
+        //Render it
+        RenderParticle_ColorSizeAngle(
+                pIterator->GetParticleDraw(),
+                tPos,
+                color,
+                1.0f - (pParticle->m_flLifetime / pParticle->m_flDieTime),
+                pParticle->m_uchSize,
+                pParticle->m_flRoll);
+
+        pParticle = (const FleckParticle *) pIterator->GetNext(sortKey);
+    }
 }
 
 
-void CFleckParticles::SimulateParticles( CParticleSimulateIterator *pIterator )
-{
-	FleckParticle *pParticle = (FleckParticle*)pIterator->GetFirst();
-	while ( pParticle )
-	{
-		const float	timeDelta = pIterator->GetTimeDelta();
+void CFleckParticles::SimulateParticles(CParticleSimulateIterator *pIterator) {
+    FleckParticle *pParticle = (FleckParticle *) pIterator->GetFirst();
+    while (pParticle) {
+        const float timeDelta = pIterator->GetTimeDelta();
 
-		//Should this particle die?
-		pParticle->m_flLifetime += timeDelta;
+        //Should this particle die?
+        pParticle->m_flLifetime += timeDelta;
 
-		if ( pParticle->m_flLifetime >= pParticle->m_flDieTime )
-		{
-			pIterator->RemoveParticle( pParticle );
-		}
-		else
-		{
-			pParticle->m_flRoll += pParticle->m_flRollDelta * timeDelta;
+        if (pParticle->m_flLifetime >= pParticle->m_flDieTime) {
+            pIterator->RemoveParticle(pParticle);
+        } else {
+            pParticle->m_flRoll += pParticle->m_flRollDelta * timeDelta;
 
-			//Simulate the movement with collision
-			trace_t trace;
-			m_ParticleCollision.MoveParticle( pParticle->m_Pos, pParticle->m_vecVelocity, &pParticle->m_flRollDelta, timeDelta, &trace );
+            //Simulate the movement with collision
+            trace_t trace;
+            m_ParticleCollision.MoveParticle(pParticle->m_Pos, pParticle->m_vecVelocity, &pParticle->m_flRollDelta,
+                                             timeDelta, &trace);
 
-			// If we're in solid, then stop moving
-			if ( trace.allsolid )
-			{
-				pParticle->m_vecVelocity = vec3_origin;
-				pParticle->m_flRollDelta = 0.0f;
-			}
-		}
+            // If we're in solid, then stop moving
+            if (trace.allsolid) {
+                pParticle->m_vecVelocity = vec3_origin;
+                pParticle->m_flRollDelta = 0.0f;
+            }
+        }
 
-		pParticle = (FleckParticle*)pIterator->GetNext();
-	}
+        pParticle = (FleckParticle *) pIterator->GetNext();
+    }
 }
 
 

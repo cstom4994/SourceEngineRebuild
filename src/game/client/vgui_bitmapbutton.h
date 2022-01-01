@@ -24,41 +24,42 @@ class KeyValues;
 //-----------------------------------------------------------------------------
 // A button that renders images instead of standard vgui stuff...
 //-----------------------------------------------------------------------------
-class CBitmapButton : public vgui::Button
-{
-	typedef vgui::Button BaseClass;
+class CBitmapButton : public vgui::Button {
+    typedef vgui::Button BaseClass;
 
 public:
-	enum ButtonImageType_t
-	{
-		BUTTON_ENABLED = 0,
-		BUTTON_ENABLED_MOUSE_OVER,
-		BUTTON_PRESSED,
-		BUTTON_DISABLED,
+    enum ButtonImageType_t {
+        BUTTON_ENABLED = 0,
+        BUTTON_ENABLED_MOUSE_OVER,
+        BUTTON_PRESSED,
+        BUTTON_DISABLED,
 
-		BUTTON_STATE_COUNT
-	};
+        BUTTON_STATE_COUNT
+    };
 
-	// constructor
-	CBitmapButton( vgui::Panel *pParent, const char *pName, const char *pText );
-	~CBitmapButton();
+    // constructor
+    CBitmapButton(vgui::Panel *pParent, const char *pName, const char *pText);
 
-	// initialization
-	bool Init( KeyValues* pInitData );
+    ~CBitmapButton();
 
-	void SetImage( ButtonImageType_t type, const char *pMaterialName, color32 color );
-	bool IsImageLoaded( ButtonImageType_t type ) const;
+    // initialization
+    bool Init(KeyValues *pInitData);
 
-	// initialization from build-mode dialog style .res files
-	virtual void ApplySettings(KeyValues *inResourceData);
+    void SetImage(ButtonImageType_t type, const char *pMaterialName, color32 color);
 
-	virtual void Paint( void );
-	virtual void PaintBackground( void ) {}
+    bool IsImageLoaded(ButtonImageType_t type) const;
+
+    // initialization from build-mode dialog style .res files
+    virtual void ApplySettings(KeyValues *inResourceData);
+
+    virtual void Paint(void);
+
+    virtual void PaintBackground(void) {}
 
 private:
 
-	BitmapImage	m_pImage[BUTTON_STATE_COUNT];
-	bool m_bImageLoaded[BUTTON_STATE_COUNT];
+    BitmapImage m_pImage[BUTTON_STATE_COUNT];
+    bool m_bImageLoaded[BUTTON_STATE_COUNT];
 };
 
 

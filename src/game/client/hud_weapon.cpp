@@ -21,87 +21,80 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class CHudWeapon : public CHudElement, public vgui::Panel
-{
-	DECLARE_CLASS_SIMPLE( CHudWeapon, vgui::Panel );
+class CHudWeapon : public CHudElement, public vgui::Panel {
+    DECLARE_CLASS_SIMPLE(CHudWeapon, vgui::Panel);
 public:
-	CHudWeapon( const char *pElementName );
+    CHudWeapon(const char *pElementName);
 
-	virtual void	ApplySchemeSettings( vgui::IScheme *scheme );
-	virtual void	Paint( void );
-	virtual void	PerformLayout();
+    virtual void ApplySchemeSettings(vgui::IScheme *scheme);
+
+    virtual void Paint(void);
+
+    virtual void PerformLayout();
 
 private:
-	CHudCrosshair *m_pCrosshair;
+    CHudCrosshair *m_pCrosshair;
 };
 
-DECLARE_HUDELEMENT( CHudWeapon );
+DECLARE_HUDELEMENT(CHudWeapon);
 
-CHudWeapon::CHudWeapon( const char *pElementName ) :
-  CHudElement( pElementName ), BaseClass( NULL, "HudWeapon" )
-{
-	vgui::Panel *pParent = g_pClientMode->GetViewport();
-	SetParent( pParent );
+CHudWeapon::CHudWeapon(const char *pElementName) :
+        CHudElement(pElementName), BaseClass(NULL, "HudWeapon") {
+    vgui::Panel * pParent = g_pClientMode->GetViewport();
+    SetParent(pParent);
 
-	m_pCrosshair = NULL;
+    m_pCrosshair = NULL;
 
-	SetHiddenBits( HIDEHUD_WEAPONSELECTION );
+    SetHiddenBits(HIDEHUD_WEAPONSELECTION);
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : *scheme - 
 //-----------------------------------------------------------------------------
-void CHudWeapon::ApplySchemeSettings( IScheme *scheme )
-{
-	BaseClass::ApplySchemeSettings( scheme );
+void CHudWeapon::ApplySchemeSettings(IScheme *scheme) {
+    BaseClass::ApplySchemeSettings(scheme);
 
-	SetPaintBackgroundEnabled( false );
+    SetPaintBackgroundEnabled(false);
 
-	m_pCrosshair = GET_HUDELEMENT( CHudCrosshair );
-	//Assert( m_pCrosshair );
+    m_pCrosshair = GET_HUDELEMENT(CHudCrosshair);
+    //Assert( m_pCrosshair );
 }
 
 
 //-----------------------------------------------------------------------------
 // Performs layout
 //-----------------------------------------------------------------------------
-void CHudWeapon::PerformLayout()
-{
-	BaseClass::PerformLayout();
+void CHudWeapon::PerformLayout() {
+    BaseClass::PerformLayout();
 
-	vgui::Panel *pParent = GetParent();
+    vgui::Panel * pParent = GetParent();
 
-	int w, h;
-	pParent->GetSize( w, h );
-	SetPos( 0, 0 );
-	SetSize( w, h );
+    int w, h;
+    pParent->GetSize(w, h);
+    SetPos(0, 0);
+    SetSize(w, h);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CHudWeapon::Paint( void )
-{
-	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
+void CHudWeapon::Paint(void) {
+    C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 
-	if ( !player )
-		return;
+    if (!player)
+        return;
 
-	MDLCACHE_CRITICAL_SECTION();
+    MDLCACHE_CRITICAL_SECTION();
 
-	C_BaseCombatWeapon *pWeapon = player->GetActiveWeapon();
-	
-	if ( pWeapon )
-	{
-		pWeapon->Redraw();
-	}
-	else
-	{
-		if ( m_pCrosshair )
-		{
-			m_pCrosshair->ResetCrosshair();
-		}
-	}
+    C_BaseCombatWeapon *pWeapon = player->GetActiveWeapon();
+
+    if (pWeapon) {
+        pWeapon->Redraw();
+    } else {
+        if (m_pCrosshair) {
+            m_pCrosshair->ResetCrosshair();
+        }
+    }
 }

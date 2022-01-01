@@ -21,154 +21,141 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Control screen 
 //-----------------------------------------------------------------------------
-class CSlideshowDisplayScreen : public CVGuiScreenPanel
-{
-	DECLARE_CLASS( CSlideshowDisplayScreen, CVGuiScreenPanel );
+class CSlideshowDisplayScreen : public CVGuiScreenPanel {
+    DECLARE_CLASS(CSlideshowDisplayScreen, CVGuiScreenPanel);
 
 public:
-	CSlideshowDisplayScreen( vgui::Panel *parent, const char *panelName );
+    CSlideshowDisplayScreen(vgui::Panel *parent, const char *panelName);
 
-	virtual void ApplySchemeSettings( IScheme *pScheme );
+    virtual void ApplySchemeSettings(IScheme *pScheme);
 
-	virtual bool Init( KeyValues* pKeyValues, VGuiScreenInitData_t* pInitData );
-	virtual void OnTick();
+    virtual bool Init(KeyValues *pKeyValues, VGuiScreenInitData_t *pInitData);
 
-private:
-	void Update( C_SlideshowDisplay *pSlideshowDisplay );
+    virtual void OnTick();
 
 private:
-	vgui::Label *m_pDisplayTextLabel;
-	CUtlVector<ImagePanel*> m_pSlideshowImages;
+    void Update(C_SlideshowDisplay *pSlideshowDisplay);
 
-	int iLastSlideIndex;
+private:
+    vgui::Label *m_pDisplayTextLabel;
+    CUtlVector<ImagePanel *> m_pSlideshowImages;
 
-	Color m_cDefault;
-	Color m_cInvisible;
+    int iLastSlideIndex;
 
-	bool bIsAlreadyVisible;
+    Color m_cDefault;
+    Color m_cInvisible;
+
+    bool bIsAlreadyVisible;
 };
 
 
-DECLARE_VGUI_SCREEN_FACTORY( CSlideshowDisplayScreen, "slideshow_display_screen" );
+DECLARE_VGUI_SCREEN_FACTORY(CSlideshowDisplayScreen, "slideshow_display_screen");
 
 //-----------------------------------------------------------------------------
 // Constructor: 
 //-----------------------------------------------------------------------------
-CSlideshowDisplayScreen::CSlideshowDisplayScreen( vgui::Panel *parent, const char *panelName )
-	: BaseClass( parent, "CSlideshowDisplayScreen", vgui::scheme()->LoadSchemeFromFileEx( enginevgui->GetPanel( PANEL_CLIENTDLL ), "resource/SlideshowDisplayScreen.res", "SlideshowDisplayScreen" ) ) 
-{
-	m_pDisplayTextLabel = new vgui::Label( this, "NumberDisplay", "x" );
-	iLastSlideIndex = 0;
+CSlideshowDisplayScreen::CSlideshowDisplayScreen(vgui::Panel *parent, const char *panelName)
+        : BaseClass(parent, "CSlideshowDisplayScreen",
+                    vgui::scheme()->LoadSchemeFromFileEx(enginevgui->GetPanel(PANEL_CLIENTDLL),
+                                                         "resource/SlideshowDisplayScreen.res",
+                                                         "SlideshowDisplayScreen")) {
+    m_pDisplayTextLabel = new vgui::Label(this, "NumberDisplay", "x");
+    iLastSlideIndex = 0;
 }
 
-void CSlideshowDisplayScreen::ApplySchemeSettings( IScheme *pScheme )
-{
-	assert( pScheme );
+void CSlideshowDisplayScreen::ApplySchemeSettings(IScheme *pScheme) {
+    assert(pScheme);
 
-	m_cDefault = pScheme->GetColor( "CSlideshowDisplayScreen_Default", GetFgColor() );
-	m_cInvisible = Color( 0, 0, 0, 0 );	
+    m_cDefault = pScheme->GetColor("CSlideshowDisplayScreen_Default", GetFgColor());
+    m_cInvisible = Color(0, 0, 0, 0);
 
-	m_pDisplayTextLabel->SetFgColor( m_cDefault );
+    m_pDisplayTextLabel->SetFgColor(m_cDefault);
 }
 
 //-----------------------------------------------------------------------------
 // Initialization 
 //-----------------------------------------------------------------------------
-bool CSlideshowDisplayScreen::Init( KeyValues* pKeyValues, VGuiScreenInitData_t* pInitData )
-{
-	// Make sure we get ticked...
-	vgui::ivgui()->AddTickSignal( GetVPanel() );
+bool CSlideshowDisplayScreen::Init(KeyValues *pKeyValues, VGuiScreenInitData_t *pInitData) {
+    // Make sure we get ticked...
+    vgui::ivgui()->AddTickSignal(GetVPanel());
 
-	if (!BaseClass::Init(pKeyValues, pInitData))
-		return false;
+    if (!BaseClass::Init(pKeyValues, pInitData))
+        return false;
 
-	return true;
+    return true;
 }
 
 //-----------------------------------------------------------------------------
 // Update the display string
 //-----------------------------------------------------------------------------
-void CSlideshowDisplayScreen::OnTick()
-{
-	BaseClass::OnTick();
+void CSlideshowDisplayScreen::OnTick() {
+    BaseClass::OnTick();
 
-	if ( g_SlideshowDisplays.Count() <= 0 )
-		return;
+    if (g_SlideshowDisplays.Count() <= 0)
+        return;
 
-	C_SlideshowDisplay *pSlideshowDisplay = NULL;
+    C_SlideshowDisplay *pSlideshowDisplay = NULL;
 
-	for ( int iDisplayScreens = 0; iDisplayScreens < g_SlideshowDisplays.Count(); ++iDisplayScreens  )
-	{
-		C_SlideshowDisplay *pSlideshowDisplayTemp = g_SlideshowDisplays[ iDisplayScreens ];
-		if ( pSlideshowDisplayTemp && pSlideshowDisplayTemp->IsEnabled() )
-		{
-			pSlideshowDisplay = pSlideshowDisplayTemp;
-			break;
-		}
-	}
+    for (int iDisplayScreens = 0; iDisplayScreens < g_SlideshowDisplays.Count(); ++iDisplayScreens) {
+        C_SlideshowDisplay *pSlideshowDisplayTemp = g_SlideshowDisplays[iDisplayScreens];
+        if (pSlideshowDisplayTemp && pSlideshowDisplayTemp->IsEnabled()) {
+            pSlideshowDisplay = pSlideshowDisplayTemp;
+            break;
+        }
+    }
 
-	if( !pSlideshowDisplay )
-	{
-		// All display screens are disabled
-		if ( bIsAlreadyVisible )
-		{
-			SetVisible( false );
-			bIsAlreadyVisible = false;
-		}
-		return;
-	}
+    if (!pSlideshowDisplay) {
+        // All display screens are disabled
+        if (bIsAlreadyVisible) {
+            SetVisible(false);
+            bIsAlreadyVisible = false;
+        }
+        return;
+    }
 
-	if ( !bIsAlreadyVisible )
-	{
-		SetVisible( true );
-		bIsAlreadyVisible = true;
-	}
+    if (!bIsAlreadyVisible) {
+        SetVisible(true);
+        bIsAlreadyVisible = true;
+    }
 
-	Update( pSlideshowDisplay );
+    Update(pSlideshowDisplay);
 }
 
-void CSlideshowDisplayScreen::Update( C_SlideshowDisplay *pSlideshowDisplay )
-{
-	char szBuff[ 256 ];
-	pSlideshowDisplay->GetDisplayText( szBuff );
-	m_pDisplayTextLabel->SetText( szBuff );
+void CSlideshowDisplayScreen::Update(C_SlideshowDisplay *pSlideshowDisplay) {
+    char szBuff[256];
+    pSlideshowDisplay->GetDisplayText(szBuff);
+    m_pDisplayTextLabel->SetText(szBuff);
 
-	if ( m_pSlideshowImages.Count() == 0 )
-	{
-		// Build the list of image panels!
-		for ( int iSlide = 0; iSlide < pSlideshowDisplay->NumMaterials(); ++iSlide )
-		{
-			m_pSlideshowImages.AddToTail( SETUP_PANEL( new ImagePanel( this, "SlideshowImage" ) ) );
+    if (m_pSlideshowImages.Count() == 0) {
+        // Build the list of image panels!
+        for (int iSlide = 0; iSlide < pSlideshowDisplay->NumMaterials(); ++iSlide) {
+            m_pSlideshowImages.AddToTail(SETUP_PANEL(new ImagePanel(this, "SlideshowImage")));
 
-			int iMatIndex = pSlideshowDisplay->GetMaterialIndex( iSlide );
+            int iMatIndex = pSlideshowDisplay->GetMaterialIndex(iSlide);
 
-			if ( iMatIndex > 0 )
-			{
-				const char *pMaterialName = GetMaterialNameFromIndex( iMatIndex );
-				if ( pMaterialName )
-				{
-					pMaterialName = Q_strnchr( pMaterialName, '/', Q_strlen( pMaterialName ) );
+            if (iMatIndex > 0) {
+                const char *pMaterialName = GetMaterialNameFromIndex(iMatIndex);
+                if (pMaterialName) {
+                    pMaterialName = Q_strnchr(pMaterialName, '/', Q_strlen(pMaterialName));
 
-					if ( pMaterialName )
-					{
-						pMaterialName = pMaterialName + 1;
-						m_pSlideshowImages[ iSlide ]->SetImage( pMaterialName );
-						m_pSlideshowImages[ iSlide ]->SetVisible( false );
-						m_pSlideshowImages[ iSlide ]->SetZPos( -3 );
-						m_pSlideshowImages[ iSlide ]->SetWide( GetWide() );
-						m_pSlideshowImages[ iSlide ]->SetTall( GetTall() );
-					}
-				}
-			}
-		}
-	}
+                    if (pMaterialName) {
+                        pMaterialName = pMaterialName + 1;
+                        m_pSlideshowImages[iSlide]->SetImage(pMaterialName);
+                        m_pSlideshowImages[iSlide]->SetVisible(false);
+                        m_pSlideshowImages[iSlide]->SetZPos(-3);
+                        m_pSlideshowImages[iSlide]->SetWide(GetWide());
+                        m_pSlideshowImages[iSlide]->SetTall(GetTall());
+                    }
+                }
+            }
+        }
+    }
 
-	int iCurrentSlideIndex = pSlideshowDisplay->CurrentSlideIndex();
+    int iCurrentSlideIndex = pSlideshowDisplay->CurrentSlideIndex();
 
-	if ( iCurrentSlideIndex != iLastSlideIndex )
-	{
-		m_pSlideshowImages[ iLastSlideIndex ]->SetVisible( false );
-		m_pSlideshowImages[ iCurrentSlideIndex ]->SetVisible( true );
-		iLastSlideIndex = iCurrentSlideIndex;
-	}
+    if (iCurrentSlideIndex != iLastSlideIndex) {
+        m_pSlideshowImages[iLastSlideIndex]->SetVisible(false);
+        m_pSlideshowImages[iCurrentSlideIndex]->SetVisible(true);
+        iLastSlideIndex = iCurrentSlideIndex;
+    }
 }

@@ -122,7 +122,8 @@ static ConVar v_centerspeed("v_centerspeed", "500");
 ConVar v_viewmodel_fov("viewmodel_fov", "54", FCVAR_ARCHIVE, "Sets the field-of-view for the viewmodel.", true, 0.1,
                        true, 179.9, true, 54, true, 70, NULL);
 #else
-ConVar v_viewmodel_fov( "viewmodel_fov", "54", FCVAR_CHEAT, "Sets the field-of-view for the viewmodel.", true, 0.1, true, 179.9 );
+ConVar v_viewmodel_fov("viewmodel_fov", "54", FCVAR_CHEAT, "Sets the field-of-view for the viewmodel.", true, 0.1, true,
+                       179.9);
 #endif
 ConVar mat_viewportscale("mat_viewportscale", "1.0", FCVAR_ARCHIVE,
                          "Scale down the main viewport (to reduce GPU impact on CPU profiling)", true, (1.0f / 640.0f),
@@ -406,7 +407,7 @@ void CViewRender::DriftPitch(void) {
     if (engine->IsHLTV() || g_pEngineClientReplay->IsPlayingReplayDemo() || (player->GetGroundEntity() == NULL) ||
         engine->IsPlayingDemo())
 #else
-        if ( engine->IsHLTV() || ( player->GetGroundEntity() == NULL ) || engine->IsPlayingDemo() )
+    if (engine->IsHLTV() || (player->GetGroundEntity() == NULL) || engine->IsPlayingDemo())
 #endif
     {
         m_PitchDrift.driftmove = 0;
@@ -621,9 +622,9 @@ void CViewRender::SetUpViews() {
         HLTVCamera()->CalcView(viewEye.origin, viewEye.angles, viewEye.fov);
     }
 #if defined( REPLAY_ENABLED )
-    else if (g_pEngineClientReplay->IsPlayingReplayDemo()) {
-        ReplayCamera()->CalcView(viewEye.origin, viewEye.angles, viewEye.fov);
-    }
+        else if (g_pEngineClientReplay->IsPlayingReplayDemo()) {
+            ReplayCamera()->CalcView(viewEye.origin, viewEye.angles, viewEye.fov);
+        }
 #endif
     else {
         // FIXME: Are there multiple views? If so, then what?

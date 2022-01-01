@@ -17,61 +17,54 @@
 // ParticleSphereProxy
 // ------------------------------------------------------------------------ //
 
-class ParticleSphereProxy : public IMaterialProxy
-{
+class ParticleSphereProxy : public IMaterialProxy {
 // IMaterialProxy overrides.
 public:
-	ParticleSphereProxy()
-	{
-	}
+    ParticleSphereProxy() {
+    }
 
-	virtual		~ParticleSphereProxy() 
-	{
-	}
-	
-	virtual bool Init( IMaterial *pMaterial, KeyValues *pKeyValues )
-	{
-		m_pLightPosition = pMaterial->FindVar( "$light_position", NULL, false );
-		m_pLightColor = pMaterial->FindVar( "$light_color", NULL, false );
-		return true;
-	}
+    virtual        ~ParticleSphereProxy() {
+    }
 
-	virtual void OnBind( void *pvParticleMgr )
-	{
-		if( !pvParticleMgr )
-			return;
+    virtual bool Init(IMaterial *pMaterial, KeyValues *pKeyValues) {
+        m_pLightPosition = pMaterial->FindVar("$light_position", NULL, false);
+        m_pLightColor = pMaterial->FindVar("$light_color", NULL, false);
+        return true;
+    }
 
-		CParticleMgr *pMgr = (CParticleMgr*)pvParticleMgr;
-		CParticleLightInfo info;
-		pMgr->GetDirectionalLightInfo( info );
+    virtual void OnBind(void *pvParticleMgr) {
+        if (!pvParticleMgr)
+            return;
 
-		// Transform the light into camera space.
-		Vector vTransformedPos = pMgr->GetModelView() * info.m_vPos;
-		if ( m_pLightPosition )
-			m_pLightPosition->SetVecValue( vTransformedPos.Base(), 3 );
+        CParticleMgr *pMgr = (CParticleMgr *) pvParticleMgr;
+        CParticleLightInfo info;
+        pMgr->GetDirectionalLightInfo(info);
 
-		if ( m_pLightColor )
-		{
-			Vector vTotalColor = info.m_vColor * info.m_flIntensity;
-			m_pLightColor->SetVecValue( vTotalColor.Base(), 3 );
-		}
-	}
+        // Transform the light into camera space.
+        Vector vTransformedPos = pMgr->GetModelView() * info.m_vPos;
+        if (m_pLightPosition)
+            m_pLightPosition->SetVecValue(vTransformedPos.Base(), 3);
 
-	virtual void	Release( void ) { delete this; }
+        if (m_pLightColor) {
+            Vector vTotalColor = info.m_vColor * info.m_flIntensity;
+            m_pLightColor->SetVecValue(vTotalColor.Base(), 3);
+        }
+    }
 
-	virtual IMaterial *GetMaterial()
-	{
-		IMaterialVar *pVar = m_pLightPosition ? m_pLightPosition : m_pLightColor;
-		if ( !pVar )
-			return NULL;
-		return pVar->GetOwningMaterial();
-	}
+    virtual void Release(void) { delete this; }
+
+    virtual IMaterial *GetMaterial() {
+        IMaterialVar *pVar = m_pLightPosition ? m_pLightPosition : m_pLightColor;
+        if (!pVar)
+            return NULL;
+        return pVar->GetOwningMaterial();
+    }
 
 private:
 
-	IMaterialVar	*m_pLightPosition;
-	IMaterialVar	*m_pLightColor;
+    IMaterialVar *m_pLightPosition;
+    IMaterialVar *m_pLightColor;
 };
 
-EXPOSE_INTERFACE( ParticleSphereProxy, IMaterialProxy, "ParticleSphereProxy" IMATERIAL_PROXY_INTERFACE_VERSION );
+EXPOSE_INTERFACE(ParticleSphereProxy, IMaterialProxy, "ParticleSphereProxy" IMATERIAL_PROXY_INTERFACE_VERSION);
 

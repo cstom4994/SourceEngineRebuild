@@ -11,24 +11,25 @@
 #endif
 
 #include "c_breakableprop.h"
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-class C_PhysicsProp : public C_BreakableProp
-{
-	typedef C_BreakableProp BaseClass;
+class C_PhysicsProp : public C_BreakableProp {
+    typedef C_BreakableProp BaseClass;
 public:
-	DECLARE_CLIENTCLASS();
+    DECLARE_CLIENTCLASS();
 
-	C_PhysicsProp();
-	~C_PhysicsProp();
+    C_PhysicsProp();
 
-	virtual bool OnInternalDrawModel( ClientModelRenderInfo_t *pInfo );
+    ~C_PhysicsProp();
+
+    virtual bool OnInternalDrawModel(ClientModelRenderInfo_t *pInfo);
 
 protected:
-	// Networked vars.
-	bool m_bAwake;
-	bool m_bAwakeLastTime;
+    // Networked vars.
+    bool m_bAwake;
+    bool m_bAwakeLastTime;
 };
 
 #endif // C_PHYSICSPROP_H 

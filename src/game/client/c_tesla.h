@@ -16,24 +16,25 @@
 #include "utllinkedlist.h"
 
 
-class C_Tesla : public C_BaseEntity
-{
-public:
-	
-	DECLARE_CLASS( C_Tesla, C_BaseEntity );
-	DECLARE_CLIENTCLASS();
-
-	C_Tesla();
-
-	virtual void ReceiveMessage( int classID, bf_read &msg );
-	virtual void ClientThink();
-
-
+class C_Tesla : public C_BaseEntity {
 public:
 
-	CUtlLinkedList<CTeslaInfo,int> m_QueuedCommands;
-	char m_SoundName[64];
-	char m_iszSpriteName[256];
+    DECLARE_CLASS(C_Tesla, C_BaseEntity);
+
+    DECLARE_CLIENTCLASS();
+
+    C_Tesla();
+
+    virtual void ReceiveMessage(int classID, bf_read &msg);
+
+    virtual void ClientThink();
+
+
+public:
+
+    CUtlLinkedList<CTeslaInfo, int> m_QueuedCommands;
+    char m_SoundName[64];
+    char m_iszSpriteName[256];
 };
 
 

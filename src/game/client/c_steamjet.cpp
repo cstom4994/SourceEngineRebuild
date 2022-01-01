@@ -15,97 +15,99 @@
 #include "tier0/memdbgon.h"
 
 //NOTENOTE: Mirrored in dlls\steamjet.h
-#define	STEAM_NORMAL	0
-#define	STEAM_HEATWAVE	1
+#define    STEAM_NORMAL    0
+#define    STEAM_HEATWAVE    1
 
-#define STEAMJET_NUMRAMPS			5
-#define SF_EMISSIVE					0x00000001
+#define STEAMJET_NUMRAMPS            5
+#define SF_EMISSIVE                    0x00000001
 
 
 //==================================================
 // C_SteamJet
 //==================================================
 
-class C_SteamJet : public C_BaseParticleEntity, public IPrototypeAppEffect
-{
+class C_SteamJet : public C_BaseParticleEntity, public IPrototypeAppEffect {
 public:
-	DECLARE_CLIENTCLASS();
-	DECLARE_CLASS( C_SteamJet, C_BaseParticleEntity );
+    DECLARE_CLIENTCLASS();
+    DECLARE_CLASS(C_SteamJet, C_BaseParticleEntity);
 
-	C_SteamJet();
-	~C_SteamJet();
+    C_SteamJet();
 
-	class SteamJetParticle : public Particle
-	{
-	public:
-		Vector			m_Velocity;
-		float			m_flRoll;
-		float			m_flRollDelta;
-		float			m_Lifetime;
-		float			m_DieTime;
-		unsigned char	m_uchStartSize;
-		unsigned char	m_uchEndSize;
-	};
+    ~C_SteamJet();
 
-	int IsEmissive( void ) { return ( m_spawnflags & SF_EMISSIVE ); }
+    class SteamJetParticle : public Particle {
+    public:
+        Vector m_Velocity;
+        float m_flRoll;
+        float m_flRollDelta;
+        float m_Lifetime;
+        float m_DieTime;
+        unsigned char m_uchStartSize;
+        unsigned char m_uchEndSize;
+    };
+
+    int IsEmissive(void) { return (m_spawnflags & SF_EMISSIVE); }
 
 //C_BaseEntity
 public:
 
-	virtual void	OnDataChanged( DataUpdateType_t updateType );
+    virtual void OnDataChanged(DataUpdateType_t updateType);
 
 
 //IPrototypeAppEffect
 public:
-	virtual void		Start(CParticleMgr *pParticleMgr, IPrototypeArgAccess *pArgs);
-	virtual bool		GetPropEditInfo(RecvTable **ppTable, void **ppObj);
+    virtual void Start(CParticleMgr *pParticleMgr, IPrototypeArgAccess *pArgs);
+
+    virtual bool GetPropEditInfo(RecvTable **ppTable, void **ppObj);
 
 
 //IParticleEffect
 public:
-	virtual void	Update(float fTimeDelta);
-	virtual void RenderParticles( CParticleRenderIterator *pIterator );
-	virtual void SimulateParticles( CParticleSimulateIterator *pIterator );
+    virtual void Update(float fTimeDelta);
+
+    virtual void RenderParticles(CParticleRenderIterator *pIterator);
+
+    virtual void SimulateParticles(CParticleSimulateIterator *pIterator);
 
 
 //Stuff from the datatable
 public:
 
-	float			m_SpreadSpeed;
-	float			m_Speed;
-	float			m_StartSize;
-	float			m_EndSize;
-	float			m_Rate;
-	float			m_JetLength;	// Length of the jet. Lifetime is derived from this.
+    float m_SpreadSpeed;
+    float m_Speed;
+    float m_StartSize;
+    float m_EndSize;
+    float m_Rate;
+    float m_JetLength;    // Length of the jet. Lifetime is derived from this.
 
-	int				m_bEmit;		// Emit particles?
-	int				m_nType;		// Type of particles to emit
-	bool			m_bFaceLeft;	// For support of legacy env_steamjet entity, which faced left instead of forward.
+    int m_bEmit;        // Emit particles?
+    int m_nType;        // Type of particles to emit
+    bool m_bFaceLeft;    // For support of legacy env_steamjet entity, which faced left instead of forward.
 
-	int				m_spawnflags;
-	float			m_flRollSpeed;
-
-private:
-
-	void			UpdateLightingRamp();
+    int m_spawnflags;
+    float m_flRollSpeed;
 
 private:
 
-	// Stored the last time it updates the lighting ramp, so it can cache the values.
-	Vector			m_vLastRampUpdatePos;
-	QAngle			m_vLastRampUpdateAngles;
-
-	float			m_Lifetime;		// Calculated from m_JetLength / m_Speed;
-
-	// We sample the world to get these colors and ramp the particles.
-	Vector			m_Ramps[STEAMJET_NUMRAMPS];
-
-	CParticleMgr		*m_pParticleMgr;
-	PMaterialHandle	m_MaterialHandle;
-	TimedEvent		m_ParticleSpawn;
+    void UpdateLightingRamp();
 
 private:
-					C_SteamJet( const C_SteamJet & );
+
+    // Stored the last time it updates the lighting ramp, so it can cache the values.
+    Vector m_vLastRampUpdatePos;
+    QAngle m_vLastRampUpdateAngles;
+
+    float m_Lifetime;        // Calculated from m_JetLength / m_Speed;
+
+    // We sample the world to get these colors and ramp the particles.
+    Vector m_Ramps[STEAMJET_NUMRAMPS];
+
+    CParticleMgr *m_pParticleMgr;
+    PMaterialHandle m_MaterialHandle;
+    TimedEvent m_ParticleSpawn;
+
+private:
+    C_SteamJet(const C_SteamJet &);
 };
 
 
@@ -119,46 +121,44 @@ EXPOSE_PROTOTYPE_EFFECT(SteamJet, C_SteamJet);
 
 // Datatable..
 IMPLEMENT_CLIENTCLASS_DT(C_SteamJet, DT_SteamJet, CSteamJet)
-	RecvPropFloat(RECVINFO(m_SpreadSpeed), 0),
-	RecvPropFloat(RECVINFO(m_Speed), 0),
-	RecvPropFloat(RECVINFO(m_StartSize), 0),
-	RecvPropFloat(RECVINFO(m_EndSize), 0),
-	RecvPropFloat(RECVINFO(m_Rate), 0),
-	RecvPropFloat(RECVINFO(m_JetLength), 0),
-	RecvPropInt(RECVINFO(m_bEmit), 0),
-	RecvPropInt(RECVINFO(m_bFaceLeft), 0),
-	RecvPropInt(RECVINFO(m_nType), 0),
-	RecvPropInt( RECVINFO( m_spawnflags ) ),
-	RecvPropFloat(RECVINFO(m_flRollSpeed), 0 ),
+                    RecvPropFloat(RECVINFO(m_SpreadSpeed), 0),
+                    RecvPropFloat(RECVINFO(m_Speed), 0),
+                    RecvPropFloat(RECVINFO(m_StartSize), 0),
+                    RecvPropFloat(RECVINFO(m_EndSize), 0),
+                    RecvPropFloat(RECVINFO(m_Rate), 0),
+                    RecvPropFloat(RECVINFO(m_JetLength), 0),
+                    RecvPropInt(RECVINFO(m_bEmit), 0),
+                    RecvPropInt(RECVINFO(m_bFaceLeft), 0),
+                    RecvPropInt(RECVINFO(m_nType), 0),
+                    RecvPropInt(RECVINFO(m_spawnflags)),
+                    RecvPropFloat(RECVINFO(m_flRollSpeed), 0),
 END_RECV_TABLE()
 
 // ------------------------------------------------------------------------- //
 // C_SteamJet implementation.
 // ------------------------------------------------------------------------- //
-C_SteamJet::C_SteamJet()
-{
-	m_pParticleMgr = NULL;
-	m_MaterialHandle = INVALID_MATERIAL_HANDLE;
-	
-	m_SpreadSpeed = 15;
-	m_Speed = 120;
-	m_StartSize = 10;
-	m_EndSize = 25;
-	m_Rate = 26;
-	m_JetLength = 80;
-	m_bEmit = true;
-	m_bFaceLeft = false;
-	m_ParticleEffect.SetAlwaysSimulate( false ); // Don't simulate outside the PVS or frustum.
+C_SteamJet::C_SteamJet() {
+    m_pParticleMgr = NULL;
+    m_MaterialHandle = INVALID_MATERIAL_HANDLE;
 
-	m_vLastRampUpdatePos.Init( 1e24, 1e24, 1e24 );
-	m_vLastRampUpdateAngles.Init( 1e24, 1e24, 1e24 );
+    m_SpreadSpeed = 15;
+    m_Speed = 120;
+    m_StartSize = 10;
+    m_EndSize = 25;
+    m_Rate = 26;
+    m_JetLength = 80;
+    m_bEmit = true;
+    m_bFaceLeft = false;
+    m_ParticleEffect.SetAlwaysSimulate(false); // Don't simulate outside the PVS or frustum.
+
+    m_vLastRampUpdatePos.Init(1e24, 1e24, 1e24);
+    m_vLastRampUpdateAngles.Init(1e24, 1e24, 1e24);
 }
 
 
-C_SteamJet::~C_SteamJet()
-{
-	if(m_pParticleMgr)
-		m_pParticleMgr->RemoveEffect( &m_ParticleEffect );
+C_SteamJet::~C_SteamJet() {
+    if (m_pParticleMgr)
+        m_pParticleMgr->RemoveEffect(&m_ParticleEffect);
 }
 
 
@@ -166,18 +166,16 @@ C_SteamJet::~C_SteamJet()
 // Purpose: Called after a data update has occured
 // Input  : bnewentity - 
 //-----------------------------------------------------------------------------
-void C_SteamJet::OnDataChanged(DataUpdateType_t updateType)
-{
-	C_BaseEntity::OnDataChanged(updateType);
+void C_SteamJet::OnDataChanged(DataUpdateType_t updateType) {
+    C_BaseEntity::OnDataChanged(updateType);
 
-	if(updateType == DATA_UPDATE_CREATED)
-	{
-		Start(ParticleMgr(), NULL);
-	}
+    if (updateType == DATA_UPDATE_CREATED) {
+        Start(ParticleMgr(), NULL);
+    }
 
-	// Recalulate lifetime in case length or speed changed.
-	m_Lifetime = m_JetLength / m_Speed;
-	m_ParticleEffect.SetParticleCullRadius( MAX(m_StartSize, m_EndSize) );
+    // Recalulate lifetime in case length or speed changed.
+    m_Lifetime = m_JetLength / m_Speed;
+    m_ParticleEffect.SetParticleCullRadius(MAX(m_StartSize, m_EndSize));
 }
 
 
@@ -186,27 +184,25 @@ void C_SteamJet::OnDataChanged(DataUpdateType_t updateType)
 // Input  : *pParticleMgr - 
 //			*pArgs - 
 //-----------------------------------------------------------------------------
-void C_SteamJet::Start(CParticleMgr *pParticleMgr, IPrototypeArgAccess *pArgs)
-{
-	pParticleMgr->AddEffect( &m_ParticleEffect, this );
-	
-	switch(m_nType)
-	{
-	case STEAM_NORMAL:
-	default:
-		m_MaterialHandle = g_Mat_DustPuff[0];
-		break;
+void C_SteamJet::Start(CParticleMgr *pParticleMgr, IPrototypeArgAccess *pArgs) {
+    pParticleMgr->AddEffect(&m_ParticleEffect, this);
 
-	case STEAM_HEATWAVE:
-		m_MaterialHandle = m_ParticleEffect.FindOrAddMaterial("sprites/heatwave");
-		break;
-	}
+    switch (m_nType) {
+        case STEAM_NORMAL:
+        default:
+            m_MaterialHandle = g_Mat_DustPuff[0];
+            break;
 
-	m_ParticleSpawn.Init(m_Rate);
-	m_Lifetime = m_JetLength / m_Speed;
-	m_pParticleMgr = pParticleMgr;
+        case STEAM_HEATWAVE:
+            m_MaterialHandle = m_ParticleEffect.FindOrAddMaterial("sprites/heatwave");
+            break;
+    }
 
-	UpdateLightingRamp();
+    m_ParticleSpawn.Init(m_Rate);
+    m_Lifetime = m_JetLength / m_Speed;
+    m_pParticleMgr = pParticleMgr;
+
+    UpdateLightingRamp();
 }
 
 
@@ -216,11 +212,10 @@ void C_SteamJet::Start(CParticleMgr *pParticleMgr, IPrototypeArgAccess *pArgs)
 //			**ppObj - 
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
-bool C_SteamJet::GetPropEditInfo( RecvTable **ppTable, void **ppObj )
-{
-	*ppTable = &REFERENCE_RECV_TABLE(DT_SteamJet);
-	*ppObj = this;
-	return true;
+bool C_SteamJet::GetPropEditInfo(RecvTable **ppTable, void **ppObj) {
+    *ppTable = &REFERENCE_RECV_TABLE(DT_SteamJet);
+    *ppObj = this;
+    return true;
 }
 
 
@@ -262,264 +257,238 @@ void CalcFastApproximateRenderBoundsAABB( C_BaseEntity *pEnt, float flBloatSize,
 // Input  : fTimeDelta - 
 //-----------------------------------------------------------------------------
 
-void C_SteamJet::Update(float fTimeDelta)
-{
-	if(!m_pParticleMgr)
-	{
-		assert(false);
-		return;
-	}
+void C_SteamJet::Update(float fTimeDelta) {
+    if (!m_pParticleMgr) {
+        assert(false);
+        return;
+    }
 
-	if( m_bEmit )
-	{
-		// Add new particles.
-		int nToEmit = 0;
-		float tempDelta = fTimeDelta;
-		while( m_ParticleSpawn.NextEvent(tempDelta) )
-			++nToEmit;
+    if (m_bEmit) {
+        // Add new particles.
+        int nToEmit = 0;
+        float tempDelta = fTimeDelta;
+        while (m_ParticleSpawn.NextEvent(tempDelta))
+            ++nToEmit;
 
-		if ( nToEmit > 0 )
-		{
-			Vector forward, right, up;
-			AngleVectors(GetAbsAngles(), &forward, &right, &up);			
+        if (nToEmit > 0) {
+            Vector forward, right, up;
+            AngleVectors(GetAbsAngles(), &forward, &right, &up);
 
-			// Legacy env_steamjet entities faced left instead of forward.
-			if (m_bFaceLeft)
-			{
-				Vector temp = forward;
-				forward = -right;
-				right = temp;
-			}
+            // Legacy env_steamjet entities faced left instead of forward.
+            if (m_bFaceLeft) {
+                Vector temp = forward;
+                forward = -right;
+                right = temp;
+            }
 
-			// EVIL: Ideally, we could tell the renderer our OBB, and let it build a big box that encloses
-			// the entity with its parent so it doesn't have to setup its parent's bones here.
-			Vector vEndPoint = GetAbsOrigin() + forward * m_Speed;
-			Vector vMin, vMax;
-			VectorMin( GetAbsOrigin(), vEndPoint, vMin );
-			VectorMax( GetAbsOrigin(), vEndPoint, vMax );
-			m_ParticleEffect.SetBBox( vMin, vMax );
+            // EVIL: Ideally, we could tell the renderer our OBB, and let it build a big box that encloses
+            // the entity with its parent so it doesn't have to setup its parent's bones here.
+            Vector vEndPoint = GetAbsOrigin() + forward * m_Speed;
+            Vector vMin, vMax;
+            VectorMin(GetAbsOrigin(), vEndPoint, vMin);
+            VectorMax(GetAbsOrigin(), vEndPoint, vMax);
+            m_ParticleEffect.SetBBox(vMin, vMax);
 
-			if ( m_ParticleEffect.WasDrawnPrevFrame() )
-			{
-				while ( nToEmit-- )
-				{
-					// Make a new particle.
-					if( SteamJetParticle *pParticle = (SteamJetParticle*) m_ParticleEffect.AddParticle( sizeof(SteamJetParticle), m_MaterialHandle ) )
-					{
-						pParticle->m_Pos = GetAbsOrigin();
-						
-						pParticle->m_Velocity = 
-							FRand(-m_SpreadSpeed,m_SpreadSpeed) * right +
-							FRand(-m_SpreadSpeed,m_SpreadSpeed) * up +
-							m_Speed * forward;
-						
-						pParticle->m_Lifetime	= 0;
-						pParticle->m_DieTime	= m_Lifetime;
+            if (m_ParticleEffect.WasDrawnPrevFrame()) {
+                while (nToEmit--) {
+                    // Make a new particle.
+                    if (SteamJetParticle *pParticle = (SteamJetParticle *) m_ParticleEffect.AddParticle(
+                            sizeof(SteamJetParticle), m_MaterialHandle)) {
+                        pParticle->m_Pos = GetAbsOrigin();
 
-						pParticle->m_uchStartSize	= m_StartSize;
-						pParticle->m_uchEndSize		= m_EndSize;
+                        pParticle->m_Velocity =
+                                FRand(-m_SpreadSpeed, m_SpreadSpeed) * right +
+                                FRand(-m_SpreadSpeed, m_SpreadSpeed) * up +
+                                m_Speed * forward;
 
-						pParticle->m_flRoll = random->RandomFloat( 0, 360 );
-						pParticle->m_flRollDelta = random->RandomFloat( -m_flRollSpeed, m_flRollSpeed );
-					}
-				}
-			}
+                        pParticle->m_Lifetime = 0;
+                        pParticle->m_DieTime = m_Lifetime;
 
-			UpdateLightingRamp();
-		}	
-	}
+                        pParticle->m_uchStartSize = m_StartSize;
+                        pParticle->m_uchEndSize = m_EndSize;
+
+                        pParticle->m_flRoll = random->RandomFloat(0, 360);
+                        pParticle->m_flRollDelta = random->RandomFloat(-m_flRollSpeed, m_flRollSpeed);
+                    }
+                }
+            }
+
+            UpdateLightingRamp();
+        }
+    }
 }
 
 
 // Render a quad on the screen where you pass in color and size.
 // Normal is random and "flutters"
 inline void RenderParticle_ColorSizePerturbNormal(
-	ParticleDraw* pDraw,									
-	const Vector &pos,
-	const Vector &color,
-	const float alpha,
-	const float size
-	)
-{
-	// Don't render totally transparent particles.
-	if( alpha < 0.001f )
-		return;
+        ParticleDraw *pDraw,
+        const Vector &pos,
+        const Vector &color,
+        const float alpha,
+        const float size
+) {
+    // Don't render totally transparent particles.
+    if (alpha < 0.001f)
+        return;
 
-	CMeshBuilder *pBuilder = pDraw->GetMeshBuilder();
-	if( !pBuilder )
-		return;
+    CMeshBuilder *pBuilder = pDraw->GetMeshBuilder();
+    if (!pBuilder)
+        return;
 
-	unsigned char ubColor[4];
-	ubColor[0] = (unsigned char)RoundFloatToInt( color.x * 254.9f );
-	ubColor[1] = (unsigned char)RoundFloatToInt( color.y * 254.9f );
-	ubColor[2] = (unsigned char)RoundFloatToInt( color.z * 254.9f );
-	ubColor[3] = (unsigned char)RoundFloatToInt( alpha * 254.9f );
+    unsigned char ubColor[4];
+    ubColor[0] = (unsigned char) RoundFloatToInt(color.x * 254.9f);
+    ubColor[1] = (unsigned char) RoundFloatToInt(color.y * 254.9f);
+    ubColor[2] = (unsigned char) RoundFloatToInt(color.z * 254.9f);
+    ubColor[3] = (unsigned char) RoundFloatToInt(alpha * 254.9f);
 
-	Vector vNorm;
-	
-	vNorm.Random( -1.0f, 1.0f );
-	
-	// Add the 4 corner vertices.
-	pBuilder->Position3f( pos.x-size, pos.y-size, pos.z );
-	pBuilder->Color4ubv( ubColor );
-	pBuilder->Normal3fv( vNorm.Base() );
-	pBuilder->TexCoord2f( 0, 0, 1.0f );
- 	pBuilder->AdvanceVertex();
+    Vector vNorm;
 
-	pBuilder->Position3f( pos.x-size, pos.y+size, pos.z );
-	pBuilder->Color4ubv( ubColor );
-	pBuilder->Normal3fv( vNorm.Base() );
-	pBuilder->TexCoord2f( 0, 0, 0 );
- 	pBuilder->AdvanceVertex();
+    vNorm.Random(-1.0f, 1.0f);
 
-	pBuilder->Position3f( pos.x+size, pos.y+size, pos.z );
-	pBuilder->Color4ubv( ubColor );
-	pBuilder->Normal3fv( vNorm.Base() );
-	pBuilder->TexCoord2f( 0, 1.0f, 0 );
- 	pBuilder->AdvanceVertex();
+    // Add the 4 corner vertices.
+    pBuilder->Position3f(pos.x - size, pos.y - size, pos.z);
+    pBuilder->Color4ubv(ubColor);
+    pBuilder->Normal3fv(vNorm.Base());
+    pBuilder->TexCoord2f(0, 0, 1.0f);
+    pBuilder->AdvanceVertex();
 
-	pBuilder->Position3f( pos.x+size, pos.y-size, pos.z );
-	pBuilder->Color4ubv( ubColor );
-	pBuilder->Normal3fv( vNorm.Base() );
-	pBuilder->TexCoord2f( 0, 1.0f, 1.0f );
- 	pBuilder->AdvanceVertex();
+    pBuilder->Position3f(pos.x - size, pos.y + size, pos.z);
+    pBuilder->Color4ubv(ubColor);
+    pBuilder->Normal3fv(vNorm.Base());
+    pBuilder->TexCoord2f(0, 0, 0);
+    pBuilder->AdvanceVertex();
+
+    pBuilder->Position3f(pos.x + size, pos.y + size, pos.z);
+    pBuilder->Color4ubv(ubColor);
+    pBuilder->Normal3fv(vNorm.Base());
+    pBuilder->TexCoord2f(0, 1.0f, 0);
+    pBuilder->AdvanceVertex();
+
+    pBuilder->Position3f(pos.x + size, pos.y - size, pos.z);
+    pBuilder->Color4ubv(ubColor);
+    pBuilder->Normal3fv(vNorm.Base());
+    pBuilder->TexCoord2f(0, 1.0f, 1.0f);
+    pBuilder->AdvanceVertex();
 }
 
 
-void C_SteamJet::RenderParticles( CParticleRenderIterator *pIterator )
-{
-	const SteamJetParticle *pParticle = (const SteamJetParticle*)pIterator->GetFirst();
-	while ( pParticle )
-	{
-		// Render.
-		Vector tPos;
-		TransformParticle(m_pParticleMgr->GetModelView(), pParticle->m_Pos, tPos);
-		float sortKey = tPos.z;
+void C_SteamJet::RenderParticles(CParticleRenderIterator *pIterator) {
+    const SteamJetParticle *pParticle = (const SteamJetParticle *) pIterator->GetFirst();
+    while (pParticle) {
+        // Render.
+        Vector tPos;
+        TransformParticle(m_pParticleMgr->GetModelView(), pParticle->m_Pos, tPos);
+        float sortKey = tPos.z;
 
-		float lifetimeT = pParticle->m_Lifetime / (pParticle->m_DieTime + 0.001);
-		float fRamp = lifetimeT * (STEAMJET_NUMRAMPS-1);
-		int iRamp = (int)fRamp;
-		float fraction = fRamp - iRamp;
-		
-		Vector vRampColor = m_Ramps[iRamp] + (m_Ramps[iRamp+1] - m_Ramps[iRamp]) * fraction;
+        float lifetimeT = pParticle->m_Lifetime / (pParticle->m_DieTime + 0.001);
+        float fRamp = lifetimeT * (STEAMJET_NUMRAMPS - 1);
+        int iRamp = (int) fRamp;
+        float fraction = fRamp - iRamp;
 
-		vRampColor[0] = MIN( 1.0f, vRampColor[0] );
-		vRampColor[1] = MIN( 1.0f, vRampColor[1] );
-		vRampColor[2] = MIN( 1.0f, vRampColor[2] );
+        Vector vRampColor = m_Ramps[iRamp] + (m_Ramps[iRamp + 1] - m_Ramps[iRamp]) * fraction;
 
-		float sinLifetime = sin(pParticle->m_Lifetime * 3.14159f / pParticle->m_DieTime);
+        vRampColor[0] = MIN(1.0f, vRampColor[0]);
+        vRampColor[1] = MIN(1.0f, vRampColor[1]);
+        vRampColor[2] = MIN(1.0f, vRampColor[2]);
 
-		if ( m_nType == STEAM_HEATWAVE )
-		{
-			RenderParticle_ColorSizePerturbNormal(
-				pIterator->GetParticleDraw(),
-				tPos,
-				vRampColor,
-				sinLifetime * (m_clrRender->a/255.0f),
-				FLerp(m_StartSize, m_EndSize, pParticle->m_Lifetime));
-		}
-		else
-		{
-			RenderParticle_ColorSizeAngle(
-				pIterator->GetParticleDraw(),
-				tPos,
-				vRampColor,
-				sinLifetime * (m_clrRender->a/255.0f),
-				FLerp(pParticle->m_uchStartSize, pParticle->m_uchEndSize, pParticle->m_Lifetime),
-				pParticle->m_flRoll );
-		}
+        float sinLifetime = sin(pParticle->m_Lifetime * 3.14159f / pParticle->m_DieTime);
 
-		pParticle = (const SteamJetParticle*)pIterator->GetNext( sortKey );
-	}
+        if (m_nType == STEAM_HEATWAVE) {
+            RenderParticle_ColorSizePerturbNormal(
+                    pIterator->GetParticleDraw(),
+                    tPos,
+                    vRampColor,
+                    sinLifetime * (m_clrRender->a / 255.0f),
+                    FLerp(m_StartSize, m_EndSize, pParticle->m_Lifetime));
+        } else {
+            RenderParticle_ColorSizeAngle(
+                    pIterator->GetParticleDraw(),
+                    tPos,
+                    vRampColor,
+                    sinLifetime * (m_clrRender->a / 255.0f),
+                    FLerp(pParticle->m_uchStartSize, pParticle->m_uchEndSize, pParticle->m_Lifetime),
+                    pParticle->m_flRoll);
+        }
+
+        pParticle = (const SteamJetParticle *) pIterator->GetNext(sortKey);
+    }
 }
 
 
-void C_SteamJet::SimulateParticles( CParticleSimulateIterator *pIterator )
-{
-	//Don't simulate if we're emiting particles...
-	//This fixes the cases where looking away from a steam jet and then looking back would cause a break on the stream.
-	if ( m_ParticleEffect.WasDrawnPrevFrame() == false && m_bEmit )
-		return;
+void C_SteamJet::SimulateParticles(CParticleSimulateIterator *pIterator) {
+    //Don't simulate if we're emiting particles...
+    //This fixes the cases where looking away from a steam jet and then looking back would cause a break on the stream.
+    if (m_ParticleEffect.WasDrawnPrevFrame() == false && m_bEmit)
+        return;
 
-	SteamJetParticle *pParticle = (SteamJetParticle*)pIterator->GetFirst();
-	while ( pParticle )
-	{
-		// Should this particle die?
-		pParticle->m_Lifetime += pIterator->GetTimeDelta();
-		
-		if( pParticle->m_Lifetime > pParticle->m_DieTime )
-		{
-			pIterator->RemoveParticle( pParticle );
-		}
-		else
-		{
-			pParticle->m_flRoll += pParticle->m_flRollDelta * pIterator->GetTimeDelta();
-			pParticle->m_Pos = pParticle->m_Pos + pParticle->m_Velocity * pIterator->GetTimeDelta();
-		}
+    SteamJetParticle *pParticle = (SteamJetParticle *) pIterator->GetFirst();
+    while (pParticle) {
+        // Should this particle die?
+        pParticle->m_Lifetime += pIterator->GetTimeDelta();
 
-		pParticle = (SteamJetParticle*)pIterator->GetNext();
-	}
+        if (pParticle->m_Lifetime > pParticle->m_DieTime) {
+            pIterator->RemoveParticle(pParticle);
+        } else {
+            pParticle->m_flRoll += pParticle->m_flRollDelta * pIterator->GetTimeDelta();
+            pParticle->m_Pos = pParticle->m_Pos + pParticle->m_Velocity * pIterator->GetTimeDelta();
+        }
+
+        pParticle = (SteamJetParticle *) pIterator->GetNext();
+    }
 }
 
 
-void C_SteamJet::UpdateLightingRamp()
-{
-	if( VectorsAreEqual( m_vLastRampUpdatePos, GetAbsOrigin(), 0.1 ) && 
-		QAnglesAreEqual( m_vLastRampUpdateAngles, GetAbsAngles(), 0.1 ) )
-	{
-		return;
-	}
+void C_SteamJet::UpdateLightingRamp() {
+    if (VectorsAreEqual(m_vLastRampUpdatePos, GetAbsOrigin(), 0.1) &&
+        QAnglesAreEqual(m_vLastRampUpdateAngles, GetAbsAngles(), 0.1)) {
+        return;
+    }
 
-	m_vLastRampUpdatePos = GetAbsOrigin();
-	m_vLastRampUpdateAngles = GetAbsAngles();
+    m_vLastRampUpdatePos = GetAbsOrigin();
+    m_vLastRampUpdateAngles = GetAbsAngles();
 
-	// Sample the world lighting where we think the particles will be.
-	Vector forward, right, up;
-	AngleVectors(GetAbsAngles(), &forward, &right, &up);
+    // Sample the world lighting where we think the particles will be.
+    Vector forward, right, up;
+    AngleVectors(GetAbsAngles(), &forward, &right, &up);
 
-	// Legacy env_steamjet entities faced left instead of forward.
-	if (m_bFaceLeft)
-	{
-		Vector temp = forward;
-		forward = -right;
-		right = temp;
-	}
+    // Legacy env_steamjet entities faced left instead of forward.
+    if (m_bFaceLeft) {
+        Vector temp = forward;
+        forward = -right;
+        right = temp;
+    }
 
-	Vector startPos = GetAbsOrigin();
-	Vector endPos = GetAbsOrigin() + forward * (m_Speed * m_Lifetime);
+    Vector startPos = GetAbsOrigin();
+    Vector endPos = GetAbsOrigin() + forward * (m_Speed * m_Lifetime);
 
-	for(int iRamp=0; iRamp < STEAMJET_NUMRAMPS; iRamp++)
-	{
-		float t = (float)iRamp / (STEAMJET_NUMRAMPS-1);
-		Vector vTestPos = startPos + (endPos - startPos) * t;
-		
-		Vector *pRamp = &m_Ramps[iRamp];
-		*pRamp = WorldGetLightForPoint(vTestPos, false);
-		
-		if ( IsEmissive() )
-		{
-			pRamp->x += (m_clrRender->r/255.0f);
-			pRamp->y += (m_clrRender->g/255.0f);
-			pRamp->z += (m_clrRender->b/255.0f);
+    for (int iRamp = 0; iRamp < STEAMJET_NUMRAMPS; iRamp++) {
+        float t = (float) iRamp / (STEAMJET_NUMRAMPS - 1);
+        Vector vTestPos = startPos + (endPos - startPos) * t;
 
-			pRamp->x = clamp( pRamp->x, 0.0f, 1.0f );
-			pRamp->y = clamp( pRamp->y, 0.0f, 1.0f );
-			pRamp->z = clamp( pRamp->z, 0.0f, 1.0f );
-		}
-		else
-		{
-			pRamp->x *= (m_clrRender->r/255.0f);
-			pRamp->y *= (m_clrRender->g/255.0f);
-			pRamp->z *= (m_clrRender->b/255.0f);
-		}
+        Vector *pRamp = &m_Ramps[iRamp];
+        *pRamp = WorldGetLightForPoint(vTestPos, false);
 
-		// Renormalize?
-		float maxVal = MAX(pRamp->x, MAX(pRamp->y, pRamp->z));
-		if(maxVal > 1)
-		{
-			*pRamp = *pRamp / maxVal;
-		}
-	}
+        if (IsEmissive()) {
+            pRamp->x += (m_clrRender->r / 255.0f);
+            pRamp->y += (m_clrRender->g / 255.0f);
+            pRamp->z += (m_clrRender->b / 255.0f);
+
+            pRamp->x = clamp(pRamp->x, 0.0f, 1.0f);
+            pRamp->y = clamp(pRamp->y, 0.0f, 1.0f);
+            pRamp->z = clamp(pRamp->z, 0.0f, 1.0f);
+        } else {
+            pRamp->x *= (m_clrRender->r / 255.0f);
+            pRamp->y *= (m_clrRender->g / 255.0f);
+            pRamp->z *= (m_clrRender->b / 255.0f);
+        }
+
+        // Renormalize?
+        float maxVal = MAX(pRamp->x, MAX(pRamp->y, pRamp->z));
+        if (maxVal > 1) {
+            *pRamp = *pRamp / maxVal;
+        }
+    }
 }
 
 

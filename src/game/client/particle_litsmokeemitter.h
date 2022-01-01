@@ -19,57 +19,57 @@
 // CLitSmokeEmitter
 //==================================================
 
-class CLitSmokeEmitter : public CSimpleEmitter
-{
+class CLitSmokeEmitter : public CSimpleEmitter {
 public:
-	CLitSmokeEmitter( const char *pDebugName );
+    CLitSmokeEmitter(const char *pDebugName);
 
-	virtual void	Update( float flTimeDelta );
-	virtual void	StartRender( VMatrix &effectMatrix );
-	virtual void RenderParticles( CParticleRenderIterator *pIterator );
-	virtual void SimulateParticles( CParticleSimulateIterator *pIterator );
+    virtual void Update(float flTimeDelta);
 
-	virtual	void	Init( const char *materialName, Vector sortOrigin );
-	
-	// Get the material we were initialized with.
-	PMaterialHandle	GetSmokeMaterial() const;
-	
-	// Color values are 0-1.
-	virtual	void	SetDirectionalLight( Vector position, Vector color, float intensity );
-	virtual	void	SetLight( Vector position, Vector color, float intensity );
+    virtual void StartRender(VMatrix &effectMatrix);
 
-	static CSmartPtr<CLitSmokeEmitter> Create( const char *pDebugName )
-	{
-		return new CLitSmokeEmitter( pDebugName );
-	}
+    virtual void RenderParticles(CParticleRenderIterator *pIterator);
 
-	CParticleSphereRenderer	m_Renderer;
+    virtual void SimulateParticles(CParticleSimulateIterator *pIterator);
 
-	class LitSmokeParticle : public Particle
-	{
-	public:
-		Vector		m_vecVelocity;
-		byte		m_uchColor[4];
-		float		m_flLifetime;
-		float		m_flDieTime;
-		byte		m_uchStartSize;
-		byte		m_uchEndSize;
-	};
+    virtual void Init(const char *materialName, Vector sortOrigin);
+
+    // Get the material we were initialized with.
+    PMaterialHandle GetSmokeMaterial() const;
+
+    // Color values are 0-1.
+    virtual void SetDirectionalLight(Vector position, Vector color, float intensity);
+
+    virtual void SetLight(Vector position, Vector color, float intensity);
+
+    static CSmartPtr<CLitSmokeEmitter> Create(const char *pDebugName) {
+        return new CLitSmokeEmitter(pDebugName);
+    }
+
+    CParticleSphereRenderer m_Renderer;
+
+    class LitSmokeParticle : public Particle {
+    public:
+        Vector m_vecVelocity;
+        byte m_uchColor[4];
+        float m_flLifetime;
+        float m_flDieTime;
+        byte m_uchStartSize;
+        byte m_uchEndSize;
+    };
 
 private:
 
-	CLitSmokeEmitter( const CLitSmokeEmitter & ); // not defined, not accessible
-	
+    CLitSmokeEmitter(const CLitSmokeEmitter &); // not defined, not accessible
+
 private:
-	
-	bool m_bInitted;
-	PMaterialHandle m_hSmokeMaterial;
+
+    bool m_bInitted;
+    PMaterialHandle m_hSmokeMaterial;
 };
 
 
-inline PMaterialHandle	CLitSmokeEmitter::GetSmokeMaterial() const
-{
-	return m_hSmokeMaterial;
+inline PMaterialHandle CLitSmokeEmitter::GetSmokeMaterial() const {
+    return m_hSmokeMaterial;
 }
 
 #include "tier0/memdbgoff.h"

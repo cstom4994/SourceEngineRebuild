@@ -12,16 +12,15 @@
 
 #include "interface.h"
 
-struct factorylist_t
-{
-	CreateInterfaceFn appSystemFactory;
-	CreateInterfaceFn physicsFactory;
+struct factorylist_t {
+    CreateInterfaceFn appSystemFactory;
+    CreateInterfaceFn physicsFactory;
 };
 
 // Store off the factories
-void FactoryList_Store( const factorylist_t &sourceData );
+void FactoryList_Store(const factorylist_t &sourceData);
 
 // retrieve the stored factories
-void FactoryList_Retrieve( factorylist_t &destData );
+void FactoryList_Retrieve(factorylist_t &destData);
 
 #endif // CLIENT_FACTORYLIST_H

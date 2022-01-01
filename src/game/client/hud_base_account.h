@@ -16,62 +16,76 @@
 
 using namespace vgui;
 
-class CHudBaseAccount : public CHudElement, public CHudNumericDisplay
-{
+class CHudBaseAccount : public CHudElement, public CHudNumericDisplay {
 public:
-	DECLARE_CLASS_SIMPLE( CHudBaseAccount, CHudNumericDisplay );
+    DECLARE_CLASS_SIMPLE(CHudBaseAccount, CHudNumericDisplay);
 
-	CHudBaseAccount( const char *name );
+    CHudBaseAccount(const char *name);
 
-	virtual bool ShouldDraw();	
-	virtual void Paint();
-	virtual void LevelInit( void );
-	virtual void Reset( void );
+    virtual bool ShouldDraw();
 
-	virtual void ApplySchemeSettings(vgui::IScheme *pScheme);
+    virtual void Paint();
 
-	int GetNumberWidth(HFont font, int number);
+    virtual void LevelInit(void);
 
-	// How much money does the player have
-	virtual int	GetPlayerAccount( void ) { return 0; }
+    virtual void Reset(void);
 
-	// Requires game-specific g_pClientMode call, push to derived class
-	virtual vgui::AnimationController *GetAnimationController( void ) { Assert( 0 ); return NULL; }
+    virtual void ApplySchemeSettings(vgui::IScheme *pScheme);
+
+    int GetNumberWidth(HFont font, int number);
+
+    // How much money does the player have
+    virtual int GetPlayerAccount(void) { return 0; }
+
+    // Requires game-specific g_pClientMode call, push to derived class
+    virtual vgui::AnimationController *GetAnimationController(void) {
+        Assert(0);
+        return NULL;
+    }
 
 private:
-	int m_iPreviousAccount;
-	int m_iPreviousDelta;
-	CHudTexture *m_pAccountIcon;
-	CHudTexture *m_pMinusIcon;
-	CHudTexture *m_pPlusIcon;
+    int m_iPreviousAccount;
+    int m_iPreviousDelta;
+    CHudTexture *m_pAccountIcon;
+    CHudTexture *m_pMinusIcon;
+    CHudTexture *m_pPlusIcon;
 
-	Color m_clrRed;
-	Color m_clrGreen;
-	Color m_clrDeltaColor;
+    Color m_clrRed;
+    Color m_clrGreen;
+    Color m_clrDeltaColor;
 
-	CPanelAnimationVarAliasType( float, icon_xpos, "icon_xpos", "0", "proportional_float" );
-	CPanelAnimationVarAliasType( float, icon_ypos, "icon_ypos", "0", "proportional_float" );
-	CPanelAnimationVarAliasType( float, icon2_xpos, "icon2_xpos", "0", "proportional_float" );
-	CPanelAnimationVarAliasType( float, icon2_ypos, "icon2_ypos", "0", "proportional_float" );
-	CPanelAnimationVarAliasType( float, digit_xpos, "digit_xpos", "50", "proportional_float" );
-	CPanelAnimationVarAliasType( float, digit_ypos, "digit_ypos", "2", "proportional_float" );
-	CPanelAnimationVarAliasType( float, digit2_xpos, "digit2_xpos", "0", "proportional_float" );
-	CPanelAnimationVarAliasType( float, digit2_ypos, "digit2_ypos", "0", "proportional_float" );
-	CPanelAnimationVar( Color, m_Ammo2Color, "Ammo2Color", "0 0 0 0" );
+    CPanelAnimationVarAliasType(float, icon_xpos, "icon_xpos", "0", "proportional_float");
 
-	CPanelAnimationVar( Color, m_TextColor, "TextColor", "FgColor" );
-	CPanelAnimationVar( vgui::HFont, m_hNumberFont, "NumberFont", "HudNumbers" );
+    CPanelAnimationVarAliasType(float, icon_ypos, "icon_ypos", "0", "proportional_float");
 
-	float m_flLastAnimationEnd;
-	const char *m_pszLastAnimationName;
-	const char *m_pszQueuedAnimationName;
+    CPanelAnimationVarAliasType(float, icon2_xpos, "icon2_xpos", "0", "proportional_float");
 
-	float icon_tall;
-	float icon_wide;
+    CPanelAnimationVarAliasType(float, icon2_ypos, "icon2_ypos", "0", "proportional_float");
+
+    CPanelAnimationVarAliasType(float, digit_xpos, "digit_xpos", "50", "proportional_float");
+
+    CPanelAnimationVarAliasType(float, digit_ypos, "digit_ypos", "2", "proportional_float");
+
+    CPanelAnimationVarAliasType(float, digit2_xpos, "digit2_xpos", "0", "proportional_float");
+
+    CPanelAnimationVarAliasType(float, digit2_ypos, "digit2_ypos", "0", "proportional_float");
+
+    CPanelAnimationVar(Color, m_Ammo2Color, "Ammo2Color", "0 0 0 0");
+
+    CPanelAnimationVar(Color, m_TextColor, "TextColor", "FgColor");
+
+    CPanelAnimationVar(vgui::HFont, m_hNumberFont, "NumberFont", "HudNumbers");
+
+    float m_flLastAnimationEnd;
+    const char *m_pszLastAnimationName;
+    const char *m_pszQueuedAnimationName;
+
+    float icon_tall;
+    float icon_wide;
 };
 
 
-#endif	// HUD_BASE_ACCOUNT_H
+#endif    // HUD_BASE_ACCOUNT_H
 
 
 

@@ -11,10 +11,9 @@
 
 #include "iclientmode.h"
 
-typedef struct
-{
-	char *name;
-	bool draw;
+typedef struct {
+    char *name;
+    bool draw;
 } ModeElements;
 
 #endif 

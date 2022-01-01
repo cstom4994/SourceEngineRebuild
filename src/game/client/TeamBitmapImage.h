@@ -17,49 +17,49 @@
 
 #include <vgui/VGUI.h>
 
-namespace vgui
-{
-	class Panel;
+namespace vgui {
+    class Panel;
 }
 
 class BitmapImage;
+
 class C_BaseEntity;
+
 class KeyValues;
 
 //-----------------------------------------------------------------------------
 // A multiplexer bitmap that chooses a bitmap based on team
 //-----------------------------------------------------------------------------
-class CTeamBitmapImage
-{
+class CTeamBitmapImage {
 public:
-	// construction, destruction
-	CTeamBitmapImage();
-	~CTeamBitmapImage();
+    // construction, destruction
+    CTeamBitmapImage();
 
-	// initialization
-	bool Init( vgui::Panel *pParent, KeyValues* pInitData, C_BaseEntity* pEntity );
+    ~CTeamBitmapImage();
 
-	// Alpha override...
-	void SetAlpha( float alpha );
+    // initialization
+    bool Init(vgui::Panel *pParent, KeyValues *pInitData, C_BaseEntity *pEntity);
 
-	// Paint the sucka. Paint it the size of the parent panel
-	void Paint( float yaw = 0.0f );
+    // Alpha override...
+    void SetAlpha(float alpha);
+
+    // Paint the sucka. Paint it the size of the parent panel
+    void Paint(float yaw = 0.0f);
 
 protected:
-	// Wrapper so we can implement this with EHANDLES some day
-	C_BaseEntity *GetEntity() { return m_pEntity; }
+    // Wrapper so we can implement this with EHANDLES some day
+    C_BaseEntity *GetEntity() { return m_pEntity; }
 
 private:
-	enum
-	{
-		// NOTE: Was MAX_TF_TEAMS not 4, but I don't like the dependency here.
-		BITMAP_COUNT = 4 + 1
-	};
+    enum {
+        // NOTE: Was MAX_TF_TEAMS not 4, but I don't like the dependency here.
+        BITMAP_COUNT = 4 + 1
+    };
 
-	BitmapImage *m_ppImage[ BITMAP_COUNT ];
-	C_BaseEntity *m_pEntity;
-	float m_Alpha;
-	bool m_bRelativeTeams;
+    BitmapImage *m_ppImage[BITMAP_COUNT];
+    C_BaseEntity *m_pEntity;
+    float m_Alpha;
+    bool m_bRelativeTeams;
 };
 
 
@@ -73,8 +73,8 @@ private:
 // NOTE: This function looks for the key values 'material' and 'color'
 // and uses them to set up the material + modulation color of the image
 //-----------------------------------------------------------------------------
-bool InitializeTeamImage( KeyValues *pInitData, const char* pSectionName, 
-	vgui::Panel *pParent, C_BaseEntity *pEntity, CTeamBitmapImage* pBitmapImage );
+bool InitializeTeamImage(KeyValues *pInitData, const char *pSectionName,
+                         vgui::Panel *pParent, C_BaseEntity *pEntity, CTeamBitmapImage *pBitmapImage);
 
 
 #endif //  TEAMBITMAPIMAGE_H

@@ -28,5 +28,4 @@ typedef CBaseHandle ClientEntityHandle_t;
 typedef unsigned short SpatialPartitionHandle_t;
 
 
-
 #endif // ICLIENTENTITYINTERNAL_H

@@ -21,43 +21,48 @@
 #pragma once
 #endif
 
-#include "game/client/iclientrendertargets.h"		// base class with interfaces called by the engine
-#include "materialsystem/imaterialsystem.h"		// for material system classes and interfaces
+#include "game/client/iclientrendertargets.h"        // base class with interfaces called by the engine
+#include "materialsystem/imaterialsystem.h"        // for material system classes and interfaces
 
 
 // Externs
 class IMaterialSystem;
+
 class IMaterialSystemHardwareConfig;
 
-class CBaseClientRenderTargets : public IClientRenderTargets
-{
-	// no networked vars
-	DECLARE_CLASS_GAMEROOT( CBaseClientRenderTargets, IClientRenderTargets );
+class CBaseClientRenderTargets : public IClientRenderTargets {
+    // no networked vars
+    DECLARE_CLASS_GAMEROOT(CBaseClientRenderTargets, IClientRenderTargets);
 public:
-	// Interface called by engine during material system startup.
-	virtual void InitClientRenderTargets ( IMaterialSystem* pMaterialSystem, IMaterialSystemHardwareConfig* pHardwareConfig, int iWaterTextureSize = 1024, int iCameraTextureSize = 256 );
-	// Shutdown all custom render targets here.
-	virtual void ShutdownClientRenderTargets ( void );
+    // Interface called by engine during material system startup.
+    virtual void
+    InitClientRenderTargets(IMaterialSystem *pMaterialSystem, IMaterialSystemHardwareConfig *pHardwareConfig,
+                            int iWaterTextureSize = 1024, int iCameraTextureSize = 256);
+
+    // Shutdown all custom render targets here.
+    virtual void ShutdownClientRenderTargets(void);
 
 protected:
-	
-	// Standard render textures used by most mods-- Classes inheriting from
-	// this can choose to init these or not depending on their needs.
 
-	// For reflective and refracting water
-	CTextureReference		m_WaterReflectionTexture;
-	CTextureReference		m_WaterRefractionTexture;
+    // Standard render textures used by most mods-- Classes inheriting from
+    // this can choose to init these or not depending on their needs.
 
-	// Used for monitors
-	CTextureReference		m_CameraTexture;
+    // For reflective and refracting water
+    CTextureReference m_WaterReflectionTexture;
+    CTextureReference m_WaterRefractionTexture;
 
-	// Used for the HUD in stereo and head tracking mode
-	CTextureReference		m_UITexture;
+    // Used for monitors
+    CTextureReference m_CameraTexture;
 
-	// Init functions for the common render targets
-	ITexture* CreateWaterReflectionTexture( IMaterialSystem* pMaterialSystem, int iSize = 1024 );
-	ITexture* CreateWaterRefractionTexture( IMaterialSystem* pMaterialSystem, int iSize = 1024 );
-	ITexture* CreateCameraTexture( IMaterialSystem* pMaterialSystem, int iSize = 256 );
+    // Used for the HUD in stereo and head tracking mode
+    CTextureReference m_UITexture;
+
+    // Init functions for the common render targets
+    ITexture *CreateWaterReflectionTexture(IMaterialSystem *pMaterialSystem, int iSize = 1024);
+
+    ITexture *CreateWaterRefractionTexture(IMaterialSystem *pMaterialSystem, int iSize = 1024);
+
+    ITexture *CreateCameraTexture(IMaterialSystem *pMaterialSystem, int iSize = 256);
 
 };
 

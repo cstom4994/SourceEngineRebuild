@@ -32,145 +32,132 @@
 #include "tier0/memdbgon.h"
 
 extern IPhysicsSurfaceProps *physprops;
-IPhysicsObject *GetWorldPhysObject( void );
 
-extern ITempEnts* tempents;
+IPhysicsObject *GetWorldPhysObject(void);
 
-class CRagdollBoltEnumerator : public IPartitionEnumerator
-{
+extern ITempEnts *tempents;
+
+class CRagdollBoltEnumerator : public IPartitionEnumerator {
 public:
-	//Forced constructor   
-	CRagdollBoltEnumerator( Ray_t& shot, Vector vOrigin )
-	{
-		m_rayShot = shot;
-		m_vWorld = vOrigin;
-	}
+    //Forced constructor
+    CRagdollBoltEnumerator(Ray_t &shot, Vector vOrigin) {
+        m_rayShot = shot;
+        m_vWorld = vOrigin;
+    }
 
-	//Actual work code
-	IterationRetval_t EnumElement( IHandleEntity *pHandleEntity )
-	{
-		C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle( pHandleEntity->GetRefEHandle() );
-		if ( pEnt == NULL )
-			return ITERATION_CONTINUE;
+    //Actual work code
+    IterationRetval_t EnumElement(IHandleEntity *pHandleEntity) {
+        C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle(pHandleEntity->GetRefEHandle());
+        if (pEnt == NULL)
+            return ITERATION_CONTINUE;
 
-		C_BaseAnimating *pModel = static_cast< C_BaseAnimating * >( pEnt );
+        C_BaseAnimating *pModel = static_cast< C_BaseAnimating * >( pEnt );
 
-		if ( pModel == NULL )
-			return ITERATION_CONTINUE;
+        if (pModel == NULL)
+            return ITERATION_CONTINUE;
 
-		trace_t tr;
-		enginetrace->ClipRayToEntity( m_rayShot, MASK_SHOT, pModel, &tr );
+        trace_t tr;
+        enginetrace->ClipRayToEntity(m_rayShot, MASK_SHOT, pModel, &tr);
 
-		IPhysicsObject	*pPhysicsObject = NULL;
-		
-		//Find the real object we hit.
-		if( tr.physicsbone >= 0 )
-		{
-			if ( pModel->m_pRagdoll )
-			{
-				CRagdoll *pCRagdoll = dynamic_cast < CRagdoll * > ( pModel->m_pRagdoll );
+        IPhysicsObject *pPhysicsObject = NULL;
 
-				if ( pCRagdoll )
-				{
-					ragdoll_t *pRagdollT = pCRagdoll->GetRagdoll();
+        //Find the real object we hit.
+        if (tr.physicsbone >= 0) {
+            if (pModel->m_pRagdoll) {
+                CRagdoll *pCRagdoll = dynamic_cast < CRagdoll * > ( pModel->m_pRagdoll );
 
-					if ( tr.physicsbone < pRagdollT->listCount )
-					{
-						pPhysicsObject = pRagdollT->list[tr.physicsbone].pObject;
-					}
-				}
-			}
-		}
+                if (pCRagdoll) {
+                    ragdoll_t *pRagdollT = pCRagdoll->GetRagdoll();
 
-		if ( pPhysicsObject == NULL )
-			return ITERATION_CONTINUE;
+                    if (tr.physicsbone < pRagdollT->listCount) {
+                        pPhysicsObject = pRagdollT->list[tr.physicsbone].pObject;
+                    }
+                }
+            }
+        }
 
-		if ( tr.fraction < 1.0 )
-		{
-			IPhysicsObject *pReference = GetWorldPhysObject();
+        if (pPhysicsObject == NULL)
+            return ITERATION_CONTINUE;
 
-			if ( pReference == NULL || pPhysicsObject == NULL )
-				 return ITERATION_CONTINUE;
-			
-			float flMass = pPhysicsObject->GetMass();
-			pPhysicsObject->SetMass( flMass * 2 );
+        if (tr.fraction < 1.0) {
+            IPhysicsObject *pReference = GetWorldPhysObject();
 
-			constraint_ballsocketparams_t ballsocket;
-			ballsocket.Defaults();
-		
-			pReference->WorldToLocal( &ballsocket.constraintPosition[0], m_vWorld );
-			pPhysicsObject->WorldToLocal( &ballsocket.constraintPosition[1], tr.endpos );
-	
-			physenv->CreateBallsocketConstraint( pReference, pPhysicsObject, NULL, ballsocket );
+            if (pReference == NULL || pPhysicsObject == NULL)
+                return ITERATION_CONTINUE;
 
-			//Play a sound
-			CPASAttenuationFilter filter( pEnt );
+            float flMass = pPhysicsObject->GetMass();
+            pPhysicsObject->SetMass(flMass * 2);
 
-			EmitSound_t ep;
-			ep.m_nChannel = CHAN_VOICE;
-			ep.m_pSoundName =  "Weapon_Crossbow.BoltSkewer";
-			ep.m_flVolume = 1.0f;
-			ep.m_SoundLevel = SNDLVL_NORM;
-			ep.m_pOrigin = &pEnt->GetAbsOrigin();
+            constraint_ballsocketparams_t ballsocket;
+            ballsocket.Defaults();
 
-			C_BaseEntity::EmitSound( filter, SOUND_FROM_WORLD, ep );
-	
-			return ITERATION_STOP;
-		}
+            pReference->WorldToLocal(&ballsocket.constraintPosition[0], m_vWorld);
+            pPhysicsObject->WorldToLocal(&ballsocket.constraintPosition[1], tr.endpos);
 
-		return ITERATION_CONTINUE;
-	}
+            physenv->CreateBallsocketConstraint(pReference, pPhysicsObject, NULL, ballsocket);
+
+            //Play a sound
+            CPASAttenuationFilter filter(pEnt);
+
+            EmitSound_t ep;
+            ep.m_nChannel = CHAN_VOICE;
+            ep.m_pSoundName = "Weapon_Crossbow.BoltSkewer";
+            ep.m_flVolume = 1.0f;
+            ep.m_SoundLevel = SNDLVL_NORM;
+            ep.m_pOrigin = &pEnt->GetAbsOrigin();
+
+            C_BaseEntity::EmitSound(filter, SOUND_FROM_WORLD, ep);
+
+            return ITERATION_STOP;
+        }
+
+        return ITERATION_CONTINUE;
+    }
 
 private:
-	Ray_t	m_rayShot;
-	Vector  m_vWorld;
+    Ray_t m_rayShot;
+    Vector m_vWorld;
 };
 
-void CreateCrossbowBolt( const Vector &vecOrigin, const Vector &vecDirection )
-{
-	model_t *pModel = (model_t *)engine->LoadModel( "models/crossbow_bolt.mdl" );
+void CreateCrossbowBolt(const Vector &vecOrigin, const Vector &vecDirection) {
+    model_t *pModel = (model_t *) engine->LoadModel("models/crossbow_bolt.mdl");
 
-	QAngle vAngles;
+    QAngle vAngles;
 
-	VectorAngles( vecDirection, vAngles );
-	
-	if ( gpGlobals->maxClients > 1 )
-	{
-		tempents->SpawnTempModel( pModel, vecOrigin - vecDirection * 8, vAngles, Vector(0, 0, 0 ), 30.0f, FTENT_NONE );
-	}
-	else
-	{
-		tempents->SpawnTempModel( pModel, vecOrigin - vecDirection * 8, vAngles, Vector(0, 0, 0 ), 1, FTENT_NEVERDIE );
-	}
+    VectorAngles(vecDirection, vAngles);
+
+    if (gpGlobals->maxClients > 1) {
+        tempents->SpawnTempModel(pModel, vecOrigin - vecDirection * 8, vAngles, Vector(0, 0, 0), 30.0f, FTENT_NONE);
+    } else {
+        tempents->SpawnTempModel(pModel, vecOrigin - vecDirection * 8, vAngles, Vector(0, 0, 0), 1, FTENT_NEVERDIE);
+    }
 }
 
-void StickRagdollNow( const Vector &vecOrigin, const Vector &vecDirection )
-{
-	Ray_t	shotRay;
-	trace_t tr;
-	
-	UTIL_TraceLine( vecOrigin, vecOrigin + vecDirection * 16, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &tr );
+void StickRagdollNow(const Vector &vecOrigin, const Vector &vecDirection) {
+    Ray_t shotRay;
+    trace_t tr;
 
-	if ( tr.surface.flags & SURF_SKY )
-		return;
+    UTIL_TraceLine(vecOrigin, vecOrigin + vecDirection * 16, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &tr);
 
-	Vector vecEnd = vecOrigin - vecDirection * 128;
+    if (tr.surface.flags & SURF_SKY)
+        return;
 
-	shotRay.Init( vecOrigin, vecEnd );
+    Vector vecEnd = vecOrigin - vecDirection * 128;
 
-	CRagdollBoltEnumerator	ragdollEnum( shotRay, vecOrigin );
-	::partition->EnumerateElementsAlongRay( PARTITION_CLIENT_RESPONSIVE_EDICTS, shotRay, false, &ragdollEnum );
-	
-	CreateCrossbowBolt( vecOrigin, vecDirection );
+    shotRay.Init(vecOrigin, vecEnd);
+
+    CRagdollBoltEnumerator ragdollEnum(shotRay, vecOrigin);
+    ::partition->EnumerateElementsAlongRay(PARTITION_CLIENT_RESPONSIVE_EDICTS, shotRay, false, &ragdollEnum);
+
+    CreateCrossbowBolt(vecOrigin, vecDirection);
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : &data - 
 //-----------------------------------------------------------------------------
-void StickyBoltCallback( const CEffectData &data )
-{
-	 StickRagdollNow( data.m_vOrigin, data.m_vNormal );
+void StickyBoltCallback(const CEffectData &data) {
+    StickRagdollNow(data.m_vOrigin, data.m_vNormal);
 }
 
-DECLARE_CLIENT_EFFECT( "BoltImpact", StickyBoltCallback );
+DECLARE_CLIENT_EFFECT("BoltImpact", StickyBoltCallback);

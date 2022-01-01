@@ -20,46 +20,40 @@ CHudElementHelper *CHudElementHelper::m_sHelpers = NULL;
 //					0 is nearest, default is 50
 //
 //-----------------------------------------------------------------------------
-CHudElementHelper::CHudElementHelper( CHudElement *( *pfnCreate )( void ), int depth )
-{
-	//Insert into the list based on depth
+CHudElementHelper::CHudElementHelper(CHudElement *( *pfnCreate )(void), int depth) {
+    //Insert into the list based on depth
 
-	//List is empty, or element belongs at front, insert here
-	if( m_sHelpers == NULL || depth >= m_sHelpers->m_iDepth )
-	{
-		m_pNext			= m_sHelpers;
-		m_sHelpers		= this;
-	}
-	else
-	{
-		//Scan to insert in decreasing depth order
-		CHudElementHelper *pPrev = m_sHelpers;
-		CHudElementHelper *pCurrent = m_sHelpers->m_pNext;
+    //List is empty, or element belongs at front, insert here
+    if (m_sHelpers == NULL || depth >= m_sHelpers->m_iDepth) {
+        m_pNext = m_sHelpers;
+        m_sHelpers = this;
+    } else {
+        //Scan to insert in decreasing depth order
+        CHudElementHelper *pPrev = m_sHelpers;
+        CHudElementHelper *pCurrent = m_sHelpers->m_pNext;
 
-		while( pCurrent != NULL && depth < pCurrent->m_iDepth )
-		{
-			pPrev = pCurrent;
-			pCurrent = pCurrent->m_pNext;
-		}
+        while (pCurrent != NULL && depth < pCurrent->m_iDepth) {
+            pPrev = pCurrent;
+            pCurrent = pCurrent->m_pNext;
+        }
 
-		pPrev->m_pNext = this;
-		m_pNext = pCurrent;
-	}
+        pPrev->m_pNext = this;
+        m_pNext = pCurrent;
+    }
 
-	m_iDepth		= depth;
+    m_iDepth = depth;
 
-	// Set attributes
-	assert( pfnCreate );
-	m_pfnCreate		= pfnCreate;
+    // Set attributes
+    assert(pfnCreate);
+    m_pfnCreate = pfnCreate;
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns next object in list
 // Output : CHudElementHelper
 //-----------------------------------------------------------------------------
-CHudElementHelper *CHudElementHelper::GetNext( void )
-{ 
-	return m_pNext;
+CHudElementHelper *CHudElementHelper::GetNext(void) {
+    return m_pNext;
 }
 
 //-----------------------------------------------------------------------------
@@ -69,21 +63,18 @@ CHudElementHelper *CHudElementHelper::GetNext( void )
 // Input  : *name - 
 // Output : CBaseTFTechnology
 //-----------------------------------------------------------------------------
-void CHudElementHelper::CreateAllElements( void )
-{
-	// Start of list
-	CHudElementHelper *p = m_sHelpers;
-	while ( p )
-	{
-		// Dispatch creation function directly
-		CHudElement *( *fCreate )( void ) = p->m_pfnCreate;
-		CHudElement *newElement = (fCreate)();
-		if ( newElement )
-		{
-			gHUD.AddHudElement( newElement );
-		}
+void CHudElementHelper::CreateAllElements(void) {
+    // Start of list
+    CHudElementHelper *p = m_sHelpers;
+    while (p) {
+        // Dispatch creation function directly
+        CHudElement *( *fCreate )(void) = p->m_pfnCreate;
+        CHudElement *newElement = (fCreate)();
+        if (newElement) {
+            gHUD.AddHudElement(newElement);
+        }
 
-		p = p->GetNext();
-	}
+        p = p->GetNext();
+    }
 }
 

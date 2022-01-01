@@ -17,36 +17,39 @@
 //-----------------------------------------------------------------------------
 
 class C_BaseEntity;
+
 class KeyValues;
+
 class BitmapImage;
 
 //-----------------------------------------------------------------------------
 // This is a base class for a panel which always is rendered on top of an entity
 //-----------------------------------------------------------------------------
 
-class CEntityImagePanel : public CEntityPanel
-{
-	DECLARE_CLASS( CEntityImagePanel, CEntityPanel );
+class CEntityImagePanel : public CEntityPanel {
+    DECLARE_CLASS(CEntityImagePanel, CEntityPanel);
 
 public:
-	// constructor
-	CEntityImagePanel( vgui::Panel* pParent, const char *panelName );
-	~CEntityImagePanel();
+    // constructor
+    CEntityImagePanel(vgui::Panel *pParent, const char *panelName);
 
-	// initialization
-	virtual bool Init( KeyValues* pInitData, C_BaseEntity* pEntity );
+    ~CEntityImagePanel();
 
-	bool ShouldDraw();
+    // initialization
+    virtual bool Init(KeyValues *pInitData, C_BaseEntity *pEntity);
 
-	virtual void Paint( void );
-	virtual void PaintBackground( void ) {}
+    bool ShouldDraw();
+
+    virtual void Paint(void);
+
+    virtual void PaintBackground(void) {}
 
 private:
-	// The bitmap to render
-	BitmapImage *m_pImage;
+    // The bitmap to render
+    BitmapImage *m_pImage;
 
 protected:
-	int m_r, m_g, m_b, m_a;
+    int m_r, m_g, m_b, m_a;
 };
 
 
@@ -54,26 +57,26 @@ protected:
 // Purpose: Same as above, but understands how to parse color/material out of
 //  Team1/Team2 sections
 //-----------------------------------------------------------------------------
-class CEntityTeamImagePanel : public CEntityImagePanel
-{
-	DECLARE_CLASS( CEntityTeamImagePanel, CEntityImagePanel );
+class CEntityTeamImagePanel : public CEntityImagePanel {
+    DECLARE_CLASS(CEntityTeamImagePanel, CEntityImagePanel);
 
 public:
-	CEntityTeamImagePanel( vgui::Panel* pParent, const char *panelName );
-	~CEntityTeamImagePanel( void );
-	// initialization
-	virtual bool Init( KeyValues* pInitData, C_BaseEntity* pEntity );
+    CEntityTeamImagePanel(vgui::Panel *pParent, const char *panelName);
 
-	virtual void Paint( void );
+    ~CEntityTeamImagePanel(void);
+
+    // initialization
+    virtual bool Init(KeyValues *pInitData, C_BaseEntity *pEntity);
+
+    virtual void Paint(void);
 
 private:
-	struct TEAMIMAGE
-	{
-		BitmapImage *m_pImage;
-		int m_r, m_g, m_b, m_a;
-	};
+    struct TEAMIMAGE {
+        BitmapImage *m_pImage;
+        int m_r, m_g, m_b, m_a;
+    };
 
-	TEAMIMAGE m_Images[ MAX_TEAMS ];
+    TEAMIMAGE m_Images[MAX_TEAMS];
 };
 
 #endif //  VGUI_ENTITYIMAGEPANEL_H

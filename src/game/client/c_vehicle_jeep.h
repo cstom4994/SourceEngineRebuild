@@ -22,45 +22,50 @@
 //
 // Client-side Jeep Class
 //
-class C_PropJeep : public C_PropVehicleDriveable
-{
+class C_PropJeep : public C_PropVehicleDriveable {
 
-	DECLARE_CLASS( C_PropJeep, C_PropVehicleDriveable );
-
-public:
-
-	DECLARE_CLIENTCLASS();
-	DECLARE_INTERPOLATION();
-
-	C_PropJeep();
-	~C_PropJeep();
+    DECLARE_CLASS(C_PropJeep, C_PropVehicleDriveable);
 
 public:
 
-	void UpdateViewAngles( C_BasePlayer *pLocalPlayer, CUserCmd *pCmd );
-	void DampenEyePosition( Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles );
+    DECLARE_CLIENTCLASS();
+    DECLARE_INTERPOLATION();
 
-	void OnEnteredVehicle( C_BasePlayer *pPlayer );
-	void Simulate( void );
+    C_PropJeep();
+
+    ~C_PropJeep();
+
+public:
+
+    void UpdateViewAngles(C_BasePlayer *pLocalPlayer, CUserCmd *pCmd);
+
+    void DampenEyePosition(Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles);
+
+    void OnEnteredVehicle(C_BasePlayer *pPlayer);
+
+    void Simulate(void);
 
 private:
 
-	void DampenForwardMotion( Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles, float flFrameTime );
-	void DampenUpMotion( Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles, float flFrameTime );
-	void ComputePDControllerCoefficients( float *pCoefficientsOut, float flFrequency, float flDampening, float flDeltaTime );
+    void DampenForwardMotion(Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles, float flFrameTime);
+
+    void DampenUpMotion(Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles, float flFrameTime);
+
+    void
+    ComputePDControllerCoefficients(float *pCoefficientsOut, float flFrequency, float flDampening, float flDeltaTime);
 
 private:
 
-	Vector		m_vecLastEyePos;
-	Vector		m_vecLastEyeTarget;
-	Vector		m_vecEyeSpeed;
-	Vector		m_vecTargetSpeed;
+    Vector m_vecLastEyePos;
+    Vector m_vecLastEyeTarget;
+    Vector m_vecEyeSpeed;
+    Vector m_vecTargetSpeed;
 
-	float		m_flViewAngleDeltaTime;
+    float m_flViewAngleDeltaTime;
 
-	float		m_flJeepFOV;
-	CHeadlightEffect *m_pHeadlight;
-	bool		m_bHeadlightIsOn;
+    float m_flJeepFOV;
+    CHeadlightEffect *m_pHeadlight;
+    bool m_bHeadlightIsOn;
 };
 
 #endif // C_VEHICLE_JEEP_H

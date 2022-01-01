@@ -2,7 +2,7 @@
 //
 // Purpose: Color correction entity.
 //
- // $NoKeywords: $
+// $NoKeywords: $
 //===========================================================================//
 #include "cbase.h"
 
@@ -22,50 +22,49 @@
 //------------------------------------------------------------------------------
 // Purpose : Shadow control entity
 //------------------------------------------------------------------------------
-class C_ColorCorrectionVolume : public C_BaseEntity
-{
+class C_ColorCorrectionVolume : public C_BaseEntity {
 public:
-	DECLARE_CLASS( C_ColorCorrectionVolume, C_BaseEntity );
+    DECLARE_CLASS(C_ColorCorrectionVolume, C_BaseEntity);
 
-	DECLARE_CLIENTCLASS();
-	DECLARE_PREDICTABLE();
+    DECLARE_CLIENTCLASS();
+DECLARE_PREDICTABLE();
 
-	C_ColorCorrectionVolume();
-	virtual ~C_ColorCorrectionVolume();
+    C_ColorCorrectionVolume();
 
-	void OnDataChanged(DataUpdateType_t updateType);
-	bool ShouldDraw();
+    virtual ~C_ColorCorrectionVolume();
 
-	void ClientThink();
+    void OnDataChanged(DataUpdateType_t updateType);
+
+    bool ShouldDraw();
+
+    void ClientThink();
 
 private:
-	float	m_Weight;
-	char	m_lookupFilename[MAX_PATH];
+    float m_Weight;
+    char m_lookupFilename[MAX_PATH];
 
-	ClientCCHandle_t m_CCHandle;
+    ClientCCHandle_t m_CCHandle;
 };
 
 IMPLEMENT_CLIENTCLASS_DT(C_ColorCorrectionVolume, DT_ColorCorrectionVolume, CColorCorrectionVolume)
-	RecvPropFloat( RECVINFO(m_Weight) ),
-	RecvPropString( RECVINFO(m_lookupFilename) ),
+                    RecvPropFloat(RECVINFO(m_Weight)),
+                    RecvPropString(RECVINFO(m_lookupFilename)),
 END_RECV_TABLE()
 
-BEGIN_PREDICTION_DATA( C_ColorCorrectionVolume )
-	DEFINE_PRED_FIELD( m_Weight, FIELD_FLOAT, FTYPEDESC_INSENDTABLE ),
+BEGIN_PREDICTION_DATA(C_ColorCorrectionVolume)
+                    DEFINE_PRED_FIELD(m_Weight, FIELD_FLOAT, FTYPEDESC_INSENDTABLE),
 END_PREDICTION_DATA()
 
 
 //------------------------------------------------------------------------------
 // Constructor, destructor
 //------------------------------------------------------------------------------
-C_ColorCorrectionVolume::C_ColorCorrectionVolume()
-{
-	m_CCHandle = INVALID_CLIENT_CCHANDLE;
+C_ColorCorrectionVolume::C_ColorCorrectionVolume() {
+    m_CCHandle = INVALID_CLIENT_CCHANDLE;
 }
 
-C_ColorCorrectionVolume::~C_ColorCorrectionVolume()
-{
-	g_pColorCorrectionMgr->RemoveColorCorrection( m_CCHandle );
+C_ColorCorrectionVolume::~C_ColorCorrectionVolume() {
+    g_pColorCorrectionMgr->RemoveColorCorrection(m_CCHandle);
 }
 
 
@@ -74,35 +73,30 @@ C_ColorCorrectionVolume::~C_ColorCorrectionVolume()
 // Input   :
 // Output  :
 //------------------------------------------------------------------------------
-void C_ColorCorrectionVolume::OnDataChanged(DataUpdateType_t updateType)
-{
-	BaseClass::OnDataChanged( updateType );
+void C_ColorCorrectionVolume::OnDataChanged(DataUpdateType_t updateType) {
+    BaseClass::OnDataChanged(updateType);
 
-	if ( updateType == DATA_UPDATE_CREATED )
-	{
-		if ( m_CCHandle == INVALID_CLIENT_CCHANDLE )
-		{
-			char filename[MAX_PATH];
-			Q_strncpy( filename, m_lookupFilename, MAX_PATH );
+    if (updateType == DATA_UPDATE_CREATED) {
+        if (m_CCHandle == INVALID_CLIENT_CCHANDLE) {
+            char filename[MAX_PATH];
+            Q_strncpy(filename, m_lookupFilename, MAX_PATH);
 
-			m_CCHandle = g_pColorCorrectionMgr->AddColorCorrection( filename );
-			SetNextClientThink( ( m_CCHandle != INVALID_CLIENT_CCHANDLE ) ? CLIENT_THINK_ALWAYS : CLIENT_THINK_NEVER );
-		}
-	}
+            m_CCHandle = g_pColorCorrectionMgr->AddColorCorrection(filename);
+            SetNextClientThink((m_CCHandle != INVALID_CLIENT_CCHANDLE) ? CLIENT_THINK_ALWAYS : CLIENT_THINK_NEVER);
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
 // We don't draw...
 //------------------------------------------------------------------------------
-bool C_ColorCorrectionVolume::ShouldDraw()
-{
-	return false;
+bool C_ColorCorrectionVolume::ShouldDraw() {
+    return false;
 }
 
-void C_ColorCorrectionVolume::ClientThink()
-{
-	Vector entityPosition = GetAbsOrigin();
-	g_pColorCorrectionMgr->SetColorCorrectionWeight( m_CCHandle, m_Weight );
+void C_ColorCorrectionVolume::ClientThink() {
+    Vector entityPosition = GetAbsOrigin();
+    g_pColorCorrectionMgr->SetColorCorrectionWeight(m_CCHandle, m_Weight);
 }
 
 

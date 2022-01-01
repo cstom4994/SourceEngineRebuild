@@ -19,53 +19,57 @@
 // forward declarations
 //-----------------------------------------------------------------------------
 class KeyValues;
+
 class BitmapImage;
+
 struct Bitmap_t;
 
 //-----------------------------------------------------------------------------
 // This is a base class for a panel which always is rendered on top of an entity
 //-----------------------------------------------------------------------------
-class CBitmapPanel : public vgui::Panel
-{
-	typedef vgui::Panel BaseClass;
+class CBitmapPanel : public vgui::Panel {
+    typedef vgui::Panel BaseClass;
 
 public:
-	// constructor
-	CBitmapPanel( );
-	CBitmapPanel( vgui::Panel *pParent, const char *pName );
-	~CBitmapPanel();
+    // constructor
+    CBitmapPanel();
 
-	// initialization
-	bool Init( KeyValues* pInitData );
+    CBitmapPanel(vgui::Panel *pParent, const char *pName);
 
-	// initialization from build-mode dialog style .res files
-	virtual void ApplySettings(KeyValues *inResourceData);
+    ~CBitmapPanel();
 
-	virtual void Paint( void );
-	virtual void PaintBackground( void ) {}
+    // initialization
+    bool Init(KeyValues *pInitData);
 
-	virtual void OnCursorEntered();
-	virtual void OnCursorExited();
+    // initialization from build-mode dialog style .res files
+    virtual void ApplySettings(KeyValues *inResourceData);
 
-	// Setup for panels that aren't created by the commander overlay factory (i.e. aren't parsed from a keyvalues file)
-	virtual void SetImage( BitmapImage *pImage );
+    virtual void Paint(void);
 
-	/// Set bitmap data directly
-	virtual void SetBitmap( const Bitmap_t &bitmap );
+    virtual void PaintBackground(void) {}
 
-	const char *GetMouseOverText( void );
+    virtual void OnCursorEntered();
+
+    virtual void OnCursorExited();
+
+    // Setup for panels that aren't created by the commander overlay factory (i.e. aren't parsed from a keyvalues file)
+    virtual void SetImage(BitmapImage *pImage);
+
+    /// Set bitmap data directly
+    virtual void SetBitmap(const Bitmap_t &bitmap);
+
+    const char *GetMouseOverText(void);
 
 private:
-	enum
-	{
-		MAX_ENTITY_MOUSEOVER = 256
-	};
-	// The bitmap to render
-	BitmapImage *m_pImage;
-	int m_r, m_g, m_b, m_a;
-	bool m_bOwnsImage;
+    enum {
+        MAX_ENTITY_MOUSEOVER = 256
+    };
+    // The bitmap to render
+    BitmapImage *m_pImage;
+    int m_r, m_g, m_b, m_a;
+    bool m_bOwnsImage;
 
-	char			m_szMouseOverText[ MAX_ENTITY_MOUSEOVER ];
+    char m_szMouseOverText[MAX_ENTITY_MOUSEOVER];
 
 };
 
