@@ -13,93 +13,93 @@
 #include "weapon_ifmbasecamera.h"
 
 #if defined( CLIENT_DLL )
-	#define CWeaponIFMSteadyCam C_WeaponIFMSteadyCam
+#define CWeaponIFMSteadyCam C_WeaponIFMSteadyCam
 #endif
 
-class CWeaponIFMSteadyCam : public CWeaponIFMBaseCamera
-{
+class CWeaponIFMSteadyCam : public CWeaponIFMBaseCamera {
 public:
-	DECLARE_CLASS( CWeaponIFMSteadyCam, CWeaponIFMBaseCamera );
-	DECLARE_NETWORKCLASS(); 
-	DECLARE_PREDICTABLE();
+    DECLARE_CLASS(CWeaponIFMSteadyCam, CWeaponIFMBaseCamera);
+DECLARE_NETWORKCLASS();
+    DECLARE_PREDICTABLE();
 
 #ifdef GAME_DLL
-	DECLARE_DATADESC();
+    DECLARE_DATADESC();
 #endif
 
 public:
-	// Shared code
-	CWeaponIFMSteadyCam();
-	virtual ~CWeaponIFMSteadyCam();
+    // Shared code
+    CWeaponIFMSteadyCam();
 
- 	virtual void ItemPostFrame();
+    virtual ~CWeaponIFMSteadyCam();
+
+    virtual void ItemPostFrame();
 
 private:
 
 #ifdef CLIENT_DLL
 
-public:
-	// Client code
-	virtual void CreateMove( float flInputSampleTime, CUserCmd *pCmd, const QAngle &vecOldViewAngles );
-	virtual void DrawCrosshair( void );
-	virtual void GetToolRecordingState( KeyValues *msg );
+    public:
+        // Client code
+        virtual void CreateMove( float flInputSampleTime, CUserCmd *pCmd, const QAngle &vecOldViewAngles );
+        virtual void DrawCrosshair( void );
+        virtual void GetToolRecordingState( KeyValues *msg );
 
-private:
-	// Purpose: Draw the weapon's crosshair
-	void DrawArmLength( int x, int y, int w, int h, Color clr );
-	void DrawFOV( int x, int y, int w, int h, Color clrEdges, Color clrTriangle );
+    private:
+        // Purpose: Draw the weapon's crosshair
+        void DrawArmLength( int x, int y, int w, int h, Color clr );
+        void DrawFOV( int x, int y, int w, int h, Color clrEdges, Color clrTriangle );
 
-	// Transmits the lock target
-	void TransmitLockTarget();
+        // Transmits the lock target
+        void TransmitLockTarget();
 
-	// Updates the relative orientation of the camera
-	void UpdateRelativeOrientation();
-	void UpdateLockedRelativeOrientation();
-	void UpdateDirectRelativeOrientation();
-	
-	// Computes a matrix given a forward direction
-	void MatrixFromForwardDirection( const Vector &vecForward, matrix3x4_t &mat );
+        // Updates the relative orientation of the camera
+        void UpdateRelativeOrientation();
+        void UpdateLockedRelativeOrientation();
+        void UpdateDirectRelativeOrientation();
 
-	// Targets the camera to always look at a point
-	void LockCamera();
+        // Computes a matrix given a forward direction
+        void MatrixFromForwardDirection( const Vector &vecForward, matrix3x4_t &mat );
 
-	// Toggles to springy camera
-	void ToggleSpringCamera();
-	void ToggleDirectMode();
+        // Targets the camera to always look at a point
+        void LockCamera();
 
-	// Compute the location of the camera for rendering
-	virtual void ComputeAbsCameraTransform( Vector &origin, QAngle &angles );
+        // Toggles to springy camera
+        void ToggleSpringCamera();
+        void ToggleDirectMode();
 
-	// Updates the relative orientation of the camera, spring mode
-	void ComputeMouseRay( const VMatrix &steadyCamToPlayer, Vector &vecForward );
+        // Compute the location of the camera for rendering
+        virtual void ComputeAbsCameraTransform( Vector &origin, QAngle &angles );
 
-	// Updates the 2d spring
-	void ComputeViewOffset();
+        // Updates the relative orientation of the camera, spring mode
+        void ComputeMouseRay( const VMatrix &steadyCamToPlayer, Vector &vecForward );
 
-	bool m_bIsLocked;
-	bool m_bInDirectMode;
-	bool m_bInSpringMode;
-	Vector m_vecOffset;
+        // Updates the 2d spring
+        void ComputeViewOffset();
 
-	Vector m_vec2DVelocity;
-	Vector m_vecActualViewOffset;
-	Vector m_vecViewOffset;
-	float m_flFOVOffsetY;
+        bool m_bIsLocked;
+        bool m_bInDirectMode;
+        bool m_bInSpringMode;
+        Vector m_vecOffset;
 
-	vgui::HFont	 m_hFont;
-	int m_nTextureId;
+        Vector m_vec2DVelocity;
+        Vector m_vecActualViewOffset;
+        Vector m_vecViewOffset;
+        float m_flFOVOffsetY;
+
+        vgui::HFont	 m_hFont;
+        int m_nTextureId;
 #endif // CLIENT_DLL
 
 #ifdef GAME_DLL
 public:
-	// Server code
+    // Server code
 #endif // GAME_DLL
 
 private:
-	EHANDLE m_hLockTarget;
-	
+    EHANDLE m_hLockTarget;
+
 private:
-	CWeaponIFMSteadyCam( const CWeaponIFMSteadyCam & );
+    CWeaponIFMSteadyCam(const CWeaponIFMSteadyCam &);
 };
 
 

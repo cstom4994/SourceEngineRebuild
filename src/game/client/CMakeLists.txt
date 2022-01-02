@@ -2226,15 +2226,6 @@ if (BUILD_TF)
             ">"
             "VPC;"
             "RAD_TELEMETRY_DISABLED;"
-            "WIN32;"
-            "_WIN32;"
-            "_WINDOWS;"
-            "_USRDLL;"
-            "_CRT_SECURE_NO_DEPRECATE;"
-            "_CRT_NONSTDC_NO_DEPRECATE;"
-            "PLATFORM_32BITS;"
-            "COMPILER_MSVC32;"
-            "COMPILER_MSVC;"
             "DLLNAME=client;"
             "BINK_VIDEO;"
             "AVI_VIDEO;"
@@ -3969,6 +3960,14 @@ set(Source_Files__GAMEUI
         )
 source_group("GameUI Sources" FILES ${Source_Files__GAMEUI})
 
+set(Source_Files__IFM
+        "../shared/weapon_ifmbase.cpp"
+        "../shared/weapon_ifmbase.h"
+        "../shared/weapon_ifmbasecamera.cpp"
+        "../shared/weapon_ifmbasecamera.h"
+        "../shared/weapon_ifmsteadycam.cpp"
+        )
+source_group("Source Files\\IFM" FILES ${Source_Files__IFM})
 
 set(Source_Files__cef
         "cef/src_cef.cpp"
@@ -3993,6 +3992,11 @@ set(Source_Files__cef
         )
 source_group("Source Files\\cef" FILES ${Source_Files__cef})
 
+set(Source_Files__Lambda__NextBot
+        "NextBot/C_NextBot.cpp"
+        "NextBot/C_NextBot.h"
+        )
+source_group("NextBot" FILES ${Source_Files__Lambda__NextBot})
 
 set(ALL_FILES
         ${Game_Shared_Header_Files}
@@ -4008,6 +4012,8 @@ set(ALL_FILES
         ${Source_Files__game_controls}
         ${Source_Files__GAMEUI}
         ${Source_Files__cef}
+        ${Source_Files__Lambda__NextBot}
+        ${Source_Files__IFM}
         ${SEE_Files}
         ${CONTENTS_Files}
         ${Tool_Framework}
@@ -4109,14 +4115,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         ">"
         "VPC;"
         "RAD_TELEMETRY_DISABLED;"
-        "WIN32;"
-        "_WIN32;"
-        "_WINDOWS;"
-        "_USRDLL;"
-        "_CRT_SECURE_NO_DEPRECATE;"
-        "_CRT_NONSTDC_NO_DEPRECATE;"
-        "COMPILER_MSVC32;"
-        "COMPILER_MSVC;"
         "_DLL_EXT=.dll;"
         "DLLNAME=client;"
         "BINK_VIDEO;"
@@ -4131,6 +4129,13 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "strncpy=use_Q_strncpy_instead;"
         "_snprintf=use_Q_snprintf_instead;"
         "HL2_CLIENT_DLL;"
+#        "USES_ECON_ITEMS;"
+#        "PONDER_CLIENT_DLL;"
+#        "ENABLE_GC_MATCHMAKING;"
+        "GLOWS_ENABLE;"
+#        "USE_DYNAMIC_ASSET_LOADING;"
+        "VOTING_ENABLED;"
+        "NEXT_BOT;"
         "GAMEUI_EXPORTS;"
         "RMLUI_STATIC_LIB;"
         "ENABLE_CEF;"

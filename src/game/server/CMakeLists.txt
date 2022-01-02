@@ -2002,15 +2002,6 @@ if (BUILD_TF)
             ">"
             "VPC;"
             "RAD_TELEMETRY_DISABLED;"
-            "WIN32;"
-            "_WIN32;"
-            "_WINDOWS;"
-            "_USRDLL;"
-            "_CRT_SECURE_NO_DEPRECATE;"
-            "_CRT_NONSTDC_NO_DEPRECATE;"
-            "PLATFORM_32BITS;"
-            "COMPILER_MSVC32;"
-            "COMPILER_MSVC;"
             "DLLNAME=server;"
             "BINK_VIDEO;"
             "AVI_VIDEO;"
@@ -2028,7 +2019,6 @@ if (BUILD_TF)
             "fopen=dont_use_fopen;"
             "USES_ECON_ITEMS;"
             "USE_NAV_MESH;"
-            "TF_DLL;"
             "ENABLE_GC_MATCHMAKING;"
             "GLOWS_ENABLE;"
             "USE_DYNAMIC_ASSET_LOADING;"
@@ -3489,6 +3479,109 @@ set(CONTENTS_Files
         contents/lua_manager.cpp contents/lua_manager.h hl2/weapons/weapon_ak47.cpp)
 source_group("ReSource Files" FILES ${CONTENTS_Files})
 
+
+set(Source_Files__IFM
+        "../shared/weapon_ifmbase.cpp"
+        "../shared/weapon_ifmbase.h"
+        "../shared/weapon_ifmbasecamera.cpp"
+        "../shared/weapon_ifmbasecamera.h"
+        "../shared/weapon_ifmsteadycam.cpp"
+        "../shared/weapon_ifmsteadycam.h"
+        )
+source_group("Source Files\\IFM" FILES ${Source_Files__IFM})
+
+set(Source_Files__Navigation_Mesh
+        "nav.h"
+        "nav_area.cpp"
+        "nav_area.h"
+        "nav_colors.cpp"
+        "nav_colors.h"
+        "nav_edit.cpp"
+        "nav_entities.cpp"
+        "nav_entities.h"
+        "nav_file.cpp"
+        "nav_generate.cpp"
+        "nav_ladder.cpp"
+        "nav_ladder.h"
+        "nav_merge.cpp"
+        "nav_mesh.cpp"
+        "nav_mesh.h"
+        "nav_mesh_factory.cpp"
+        "nav_node.cpp"
+        "nav_node.h"
+        "nav_pathfind.h"
+        "nav_simplify.cpp"
+        )
+source_group("Source Files\\Navigation Mesh" FILES ${Source_Files__Navigation_Mesh})
+
+set(Source_Files__NextBot
+        "NextBot/NextBot.cpp"
+        "NextBot/NextBot.h"
+        "NextBot/NextBotBehavior.h"
+        "NextBot/NextBotGroundLocomotion.cpp"
+        "NextBot/NextBotGroundLocomotion.h"
+        "NextBot/NextBotKnownEntity.h"
+        "NextBot/NextBotManager.cpp"
+        "NextBot/NextBotManager.h"
+        "NextBot/NextBotUtil.h"
+        "NextBot/simple_bot.cpp"
+        "NextBot/simple_bot.h"
+        )
+source_group("Source Files\\NextBot" FILES ${Source_Files__NextBot})
+
+set(Source_Files__NextBot__NextBotCommonBehaviors
+        "NextBot/Behavior/BehaviorBackUp.h"
+        "NextBot/Behavior/BehaviorMoveTo.h"
+        )
+source_group("Source Files\\NextBot\\NextBotCommonBehaviors" FILES ${Source_Files__NextBot__NextBotCommonBehaviors})
+
+set(Source_Files__NextBot__NextBotInterfaces
+        "NextBot/NextBotBodyInterface.cpp"
+        "NextBot/NextBotBodyInterface.h"
+        "NextBot/NextBotComponentInterface.cpp"
+        "NextBot/NextBotComponentInterface.h"
+        "NextBot/NextBotContextualQueryInterface.h"
+        "NextBot/NextBotEventResponderInterface.h"
+        "NextBot/NextBotHearingInterface.h"
+        "NextBot/NextBotIntentionInterface.cpp"
+        "NextBot/NextBotIntentionInterface.h"
+        "NextBot/NextBotInterface.cpp"
+        "NextBot/NextBotInterface.h"
+        "NextBot/NextBotLocomotionInterface.cpp"
+        "NextBot/NextBotLocomotionInterface.h"
+        "NextBot/NextBotVisionInterface.cpp"
+        "NextBot/NextBotVisionInterface.h"
+        )
+source_group("Source Files\\NextBot\\NextBotInterfaces" FILES ${Source_Files__NextBot__NextBotInterfaces})
+
+set(Source_Files__NextBot__NextBotNavMeshEntities
+        "NextBot/NavMeshEntities/func_nav_prerequisite.cpp"
+        "NextBot/NavMeshEntities/func_nav_prerequisite.h"
+        )
+source_group("Source Files\\NextBot\\NextBotNavMeshEntities" FILES ${Source_Files__NextBot__NextBotNavMeshEntities})
+
+set(Source_Files__NextBot__NextBotPath
+        "NextBot/Path/NextBotChasePath.cpp"
+        "NextBot/Path/NextBotChasePath.h"
+        "NextBot/Path/NextBotPath.cpp"
+        "NextBot/Path/NextBotPath.h"
+        "NextBot/Path/NextBotPathFollow.cpp"
+        "NextBot/Path/NextBotPathFollow.h"
+        "NextBot/Path/NextBotRetreatPath.h"
+        )
+source_group("Source Files\\NextBot\\NextBotPath" FILES ${Source_Files__NextBot__NextBotPath})
+
+set(Source_Files__NextBot__NextBotPlayer
+        "NextBot/Player/NextBotPlayer.cpp"
+        "NextBot/Player/NextBotPlayer.h"
+        "NextBot/Player/NextBotPlayerBody.cpp"
+        "NextBot/Player/NextBotPlayerBody.h"
+        "NextBot/Player/NextBotPlayerLocomotion.cpp"
+        "NextBot/Player/NextBotPlayerLocomotion.h"
+        )
+source_group("Source Files\\NextBot\\NextBotPlayer" FILES ${Source_Files__NextBot__NextBotPlayer})
+
+
 set(ALL_FILES
         ${Header_Files}
         ${Replay}
@@ -3497,6 +3590,14 @@ set(ALL_FILES
         ${Source_Files__HL2_DLL__Unused}
         ${Source_Files__Precompiled_Header}
         ${Source_Files__temporary_entities}
+        ${Source_Files__IFM}
+        ${Source_Files__Navigation_Mesh}
+        ${Source_Files__NextBot}
+        ${Source_Files__NextBot__NextBotCommonBehaviors}
+        ${Source_Files__NextBot__NextBotInterfaces}
+        ${Source_Files__NextBot__NextBotNavMeshEntities}
+        ${Source_Files__NextBot__NextBotPath}
+        ${Source_Files__NextBot__NextBotPlayer}
         ${CONTENTS_Files}
         ${Tools_Framework}
         )
@@ -3552,7 +3653,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${MYROOTDIR}/thirdparty/SDL2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_hl2mp;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_hl2;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_tf;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/lua;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.6.1/src;"
         "${CMAKE_CURRENT_SOURCE_DIR}/.;"
@@ -3560,6 +3662,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../utils/common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/econ;"
         "${CMAKE_CURRENT_SOURCE_DIR}/NextBot;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../gcsdk/steamextra;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp;"
@@ -3603,6 +3706,12 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_snprintf=use_Q_snprintf_instead;"
         "HL2_DLL;"
         "USES_SAVERESTORE;"
+#        "USES_ECON_ITEMS;"
+        "USE_NAV_MESH;"
+#        "ENABLE_GC_MATCHMAKING;"
+        "GLOWS_ENABLE;"
+        "USE_DYNAMIC_ASSET_LOADING;"
+        "NEXT_BOT;"
         "_EXTERNAL_DLL_EXT=.dll;"
         "VPCGAMECAPS=HL2;"
         "PROJECTDIR=E:\\Projects\\SourceEngineWorks\\SourceEngineRebuild\\src\\game\\server;"
