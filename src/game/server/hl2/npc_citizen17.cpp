@@ -12,7 +12,7 @@
 #include "globalstate.h"
 #include "soundent.h"
 #include "BasePropDoor.h"
-#include "weapon_rpg.h"
+#include "hl2/weapons/weapon_rpg.h"
 #include "hl2_player.h"
 #include "items.h"
 
@@ -20,7 +20,7 @@
 #ifdef HL2MP
 #include "hl2mp/weapons/weapon_crowbar.h"
 #else
-#include "weapon_crowbar.h"
+#include "hl2/weapons/weapon_crowbar.h"
 #endif
 
 #include "eventqueue.h"

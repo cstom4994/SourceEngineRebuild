@@ -12,7 +12,7 @@
 
 #include "cbase.h"
 #include "player_pickup.h"
-#include "weapon_physcannon.h"
+#include "hl2/weapons/weapon_physcannon.h"
 #include "hl2_player.h"
 #include "smoke_trail.h"
 #include "ai_basenpc_physicsflyer.h"

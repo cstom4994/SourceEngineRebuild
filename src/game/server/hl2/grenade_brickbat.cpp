@@ -9,7 +9,7 @@
 #include "ammodef.h"
 #include "gamerules.h"
 #include "grenade_brickbat.h"
-#include "weapon_brickbat.h"
+#include "weapons/weapon_brickbat.h"
 #include "soundent.h"
 #include "decals.h"
 #include "IEffects.h"

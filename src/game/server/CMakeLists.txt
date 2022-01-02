@@ -3365,28 +3365,28 @@ set(Source_Files__HL2_DLL
         "hl2/vehicle_jeep.cpp"
         "hl2/vehicle_prisoner_pod.cpp"
         "hl2/vehicle_viewcontroller.cpp"
-        "hl2/weapon_357.cpp"
-        "hl2/weapon_alyxgun.cpp"
-        "hl2/weapon_alyxgun.h"
-        "hl2/weapon_annabelle.cpp"
-        "hl2/weapon_ar2.cpp"
-        "hl2/weapon_ar2.h"
-        "hl2/weapon_bugbait.cpp"
-        "hl2/weapon_citizenpackage.cpp"
-        "hl2/weapon_citizenpackage.h"
-        "hl2/weapon_crossbow.cpp"
-        "hl2/weapon_crowbar.cpp"
-        "hl2/weapon_crowbar.h"
-        "hl2/weapon_frag.cpp"
-        "hl2/weapon_physcannon.cpp"
-        "hl2/weapon_physcannon.h"
-        "hl2/weapon_pistol.cpp"
-        "hl2/weapon_rpg.cpp"
-        "hl2/weapon_rpg.h"
-        "hl2/weapon_shotgun.cpp"
-        "hl2/weapon_smg1.cpp"
-        "hl2/weapon_stunstick.cpp"
-        "hl2/weapon_stunstick.h"
+        "hl2/weapons/weapon_357.cpp"
+        "hl2/weapons/weapon_alyxgun.cpp"
+        "hl2/weapons/weapon_alyxgun.h"
+        "hl2/weapons/weapon_annabelle.cpp"
+        "hl2/weapons/weapon_ar2.cpp"
+        "hl2/weapons/weapon_ar2.h"
+        "hl2/weapons/weapon_bugbait.cpp"
+        "hl2/weapons/weapon_citizenpackage.cpp"
+        "hl2/weapons/weapon_citizenpackage.h"
+        "hl2/weapons/weapon_crossbow.cpp"
+        "hl2/weapons/weapon_crowbar.cpp"
+        "hl2/weapons/weapon_crowbar.h"
+        "hl2/weapons/weapon_frag.cpp"
+        "hl2/weapons/weapon_physcannon.cpp"
+        "hl2/weapons/weapon_physcannon.h"
+        "hl2/weapons/weapon_pistol.cpp"
+        "hl2/weapons/weapon_rpg.cpp"
+        "hl2/weapons/weapon_rpg.h"
+        "hl2/weapons/weapon_shotgun.cpp"
+        "hl2/weapons/weapon_smg1.cpp"
+        "hl2/weapons/weapon_stunstick.cpp"
+        "hl2/weapons/weapon_stunstick.h"
         "npc_talker.cpp"
         "npc_talker.h"
         "weapon_cubemap.cpp"
@@ -3402,9 +3402,9 @@ set(Source_Files__HL2_DLL__Unused
         "hl2/grenade_pathfollower.h"
         "hl2/npc_missiledefense.cpp"
         "hl2/vehicle_apc.cpp"
-        "hl2/weapon_cguard.cpp"
-        "hl2/weapon_flaregun.cpp"
-        "hl2/weapon_flaregun.h"
+        "hl2/weapons/weapon_cguard.cpp"
+        "hl2/weapons/weapon_flaregun.cpp"
+        "hl2/weapons/weapon_flaregun.h"
         )
 source_group("Source Files\\HL2 DLL\\Unused" FILES ${Source_Files__HL2_DLL__Unused})
 
@@ -3486,7 +3486,7 @@ source_group("Tools Framework" FILES ${Tools_Framework})
 
 set(CONTENTS_Files
         "contents/env_instructor_hint.cpp"
-        contents/lua_manager.cpp contents/lua_manager.h)
+        contents/lua_manager.cpp contents/lua_manager.h hl2/weapons/weapon_ak47.cpp)
 source_group("ReSource Files" FILES ${CONTENTS_Files})
 
 set(ALL_FILES
@@ -3563,8 +3563,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2mp/weapons;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2mp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2/weapons;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2"
         )
 
 

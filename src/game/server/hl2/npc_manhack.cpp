@@ -34,7 +34,7 @@
 #include "smoke_trail.h"
 #include "func_break.h"
 #include "physics_impact_damage.h"
-#include "weapon_physcannon.h"
+#include "hl2/weapons/weapon_physcannon.h"
 #include "physics_prop_ragdoll.h"
 #include "soundent.h"
 #include "ammodef.h"

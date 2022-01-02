@@ -24,7 +24,7 @@
 #include "gib.h"
 #include "ndebugoverlay.h"
 #include "smoke_trail.h"
-#include "weapon_rpg.h"
+#include "hl2/weapons/weapon_rpg.h"
 #include "player.h"
 #include "mathlib/mathlib.h"
 #include "vstdlib/random.h"

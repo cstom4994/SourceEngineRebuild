@@ -7,7 +7,7 @@
 
 #include "cbase.h"
 #include "grenade_homer.h"
-#include "weapon_ar2.h"
+#include "hl2/weapons/weapon_ar2.h"
 #include "soundent.h"
 #include "decals.h"
 #include "shake.h"

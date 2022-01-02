@@ -16,265 +16,313 @@
 #include "player_pickup.h"
 
 // Start with the engine off and folded up.
-#define SF_MANHACK_PACKED_UP			(1 << 16)
-#define SF_MANHACK_NO_DAMAGE_EFFECTS	(1 << 17)
-#define SF_MANHACK_USE_AIR_NODES		(1 << 18)
-#define SF_MANHACK_CARRIED				(1 << 19)	// Being carried by a metrocop
-#define SF_MANHACK_NO_DANGER_SOUNDS		(1 << 20)
+#define SF_MANHACK_PACKED_UP            (1 << 16)
+#define SF_MANHACK_NO_DAMAGE_EFFECTS    (1 << 17)
+#define SF_MANHACK_USE_AIR_NODES        (1 << 18)
+#define SF_MANHACK_CARRIED                (1 << 19)    // Being carried by a metrocop
+#define SF_MANHACK_NO_DANGER_SOUNDS        (1 << 20)
 
-enum
-{
-	MANHACK_EYE_STATE_IDLE,
-	MANHACK_EYE_STATE_CHASE,
-	MANHACK_EYE_STATE_CHARGE,
-	MANHACK_EYE_STATE_STUNNED,
+enum {
+    MANHACK_EYE_STATE_IDLE,
+    MANHACK_EYE_STATE_CHASE,
+    MANHACK_EYE_STATE_CHARGE,
+    MANHACK_EYE_STATE_STUNNED,
 };
 
 //-----------------------------------------------------------------------------
 // Attachment points.
 //-----------------------------------------------------------------------------
-#define	MANHACK_GIB_HEALTH				30
-#define	MANHACK_INACTIVE_HEALTH			25
-#define	MANHACK_MAX_SPEED				500
-#define MANHACK_BURST_SPEED				650
-#define MANHACK_NPC_BURST_SPEED			800
+#define    MANHACK_GIB_HEALTH                30
+#define    MANHACK_INACTIVE_HEALTH            25
+#define    MANHACK_MAX_SPEED                500
+#define MANHACK_BURST_SPEED                650
+#define MANHACK_NPC_BURST_SPEED            800
 
 //-----------------------------------------------------------------------------
 // Movement parameters.
 //-----------------------------------------------------------------------------
-#define MANHACK_WAYPOINT_DISTANCE		25	// Distance from waypoint that counts as arrival.
+#define MANHACK_WAYPOINT_DISTANCE        25    // Distance from waypoint that counts as arrival.
 
 class CSprite;
+
 class SmokeTrail;
+
 class CSoundPatch;
 
 //-----------------------------------------------------------------------------
 // Manhack 
 //-----------------------------------------------------------------------------
-class CNPC_Manhack : public CNPCBaseInteractive<CAI_BasePhysicsFlyingBot>, public CDefaultPlayerPickupVPhysics
-{
-DECLARE_CLASS( CNPC_Manhack, CNPCBaseInteractive<CAI_BasePhysicsFlyingBot> );
+class CNPC_Manhack : public CNPCBaseInteractive<CAI_BasePhysicsFlyingBot>, public CDefaultPlayerPickupVPhysics {
+    DECLARE_CLASS(CNPC_Manhack, CNPCBaseInteractive<CAI_BasePhysicsFlyingBot>);
 DECLARE_SERVERCLASS();
 
 public:
-	CNPC_Manhack();
-	~CNPC_Manhack();
+    CNPC_Manhack();
 
-	Class_T			Classify(void);
+    ~CNPC_Manhack();
 
-	bool			CorpseGib( const CTakeDamageInfo &info );
-	void			Event_Dying(void);
-	void			Event_Killed( const CTakeDamageInfo &info );
-	int				OnTakeDamage_Alive( const CTakeDamageInfo &info );
-	int				OnTakeDamage_Dying( const CTakeDamageInfo &info );
-	void			TraceAttack( const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator );
-	void			TranslateNavGoal( CBaseEntity *pEnemy, Vector &chasePosition );
-	float			GetDefaultNavGoalTolerance();
+    Class_T Classify(void);
 
-	void			UpdateOnRemove( void );
-	void			KillSprites( float flDelay );
+    bool CorpseGib(const CTakeDamageInfo &info);
 
-	void			OnStateChange( NPC_STATE OldState, NPC_STATE NewState );
+    void Event_Dying(void);
 
-	virtual bool	CreateVPhysics( void );
+    void Event_Killed(const CTakeDamageInfo &info);
 
-	virtual void	DeathSound( const CTakeDamageInfo &info );
-	virtual bool	ShouldGib( const CTakeDamageInfo &info );
+    int OnTakeDamage_Alive(const CTakeDamageInfo &info);
 
-	Activity		NPC_TranslateActivity( Activity baseAct );
-	virtual int		TranslateSchedule( int scheduleType );
-	int				MeleeAttack1Conditions ( float flDot, float flDist );
-	void			HandleAnimEvent( animevent_t *pEvent );
+    int OnTakeDamage_Dying(const CTakeDamageInfo &info);
 
-	bool			OverrideMove(float flInterval);
-	void			MoveToTarget(float flInterval, const Vector &MoveTarget);
-	void			MoveExecute_Alive(float flInterval);
-	void			MoveExecute_Dead(float flInterval);
-	int				MoveCollisionMask(void);
+    void TraceAttack(const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator);
 
-	void			TurnHeadRandomly( float flInterval );
+    void TranslateNavGoal(CBaseEntity *pEnemy, Vector &chasePosition);
 
-	void			CrashTouch( CBaseEntity *pOther );
+    float GetDefaultNavGoalTolerance();
 
-	void			StartEngine( bool fStartSound );
+    void UpdateOnRemove(void);
 
-	virtual Vector	BodyTarget( const Vector &posSrc, bool bNoisy = true ) { return WorldSpaceCenter(); }
+    void KillSprites(float flDelay);
 
-	virtual float	GetHeadTurnRate( void ) { return 45.0f; } // Degrees per second
+    void OnStateChange(NPC_STATE OldState, NPC_STATE NewState);
 
-	void			CheckCollisions(float flInterval);
-	virtual void	GatherEnemyConditions( CBaseEntity *pEnemy );
-	void			PlayFlySound(void);
-	virtual void	StopLoopingSounds(void);
+    virtual bool CreateVPhysics(void);
 
-	void			Precache(void);
-	void			RunTask( const Task_t *pTask );
-	void			Spawn(void);
-	void			Activate();
-	void			StartTask( const Task_t *pTask );
+    virtual void DeathSound(const CTakeDamageInfo &info);
 
-	void			BladesInit();
-	void			SoundInit( void );
-	void			StartEye( void );
-	
-	bool			HandleInteraction(int interactionType, void* data, CBaseCombatCharacter* sourceEnt);
+    virtual bool ShouldGib(const CTakeDamageInfo &info);
 
-	void			PostNPCInit( void );
+    Activity NPC_TranslateActivity(Activity baseAct);
 
-	void			GatherConditions();
-	void			PrescheduleThink( void );
+    virtual int TranslateSchedule(int scheduleType);
 
-	void			SpinBlades(float flInterval);
+    int MeleeAttack1Conditions(float flDot, float flDist);
 
-	void			Slice( CBaseEntity *pHitEntity, float flInterval, trace_t &tr );
-	void			Bump( CBaseEntity *pHitEntity, float flInterval, trace_t &tr );
-	void			Splash( const Vector &vecSplashPos );
+    void HandleAnimEvent(animevent_t *pEvent);
 
-	float			ManhackMaxSpeed( void );
-	virtual void	VPhysicsShadowCollision( int index, gamevcollisionevent_t *pEvent );
-	void			VPhysicsCollision( int index, gamevcollisionevent_t *pEvent );
-	void			HitPhysicsObject( CBaseEntity *pOther );
-	virtual void	ClampMotorForces( Vector &linear, AngularImpulse &angular );
-	unsigned int	PhysicsSolidMaskForEntity( void ) const;
+    bool OverrideMove(float flInterval);
 
-	// Create smoke trail!
-	void CreateSmokeTrail();
-	void DestroySmokeTrail();
-		
-	void Ignite( float flFlameLifetime, bool bNPCOnly, float flSize, bool bCalledByLevelDesigner ) { return; }
+    void MoveToTarget(float flInterval, const Vector &MoveTarget);
 
-	void			InputDisableSwarm( inputdata_t &inputdata );
-	void			InputUnpack( inputdata_t &inputdata );
+    void MoveExecute_Alive(float flInterval);
 
-	// 	CDefaultPlayerPickupVPhysics
-	virtual void	OnPhysGunPickup( CBasePlayer *pPhysGunUser, PhysGunPickup_t reason );
-	virtual void	OnPhysGunDrop( CBasePlayer *pPhysGunUser, PhysGunDrop_t Reason );
+    void MoveExecute_Dead(float flInterval);
 
-	CBasePlayer *HasPhysicsAttacker( float dt );
+    int MoveCollisionMask(void);
 
-	float GetMaxEnginePower();
+    void TurnHeadRandomly(float flInterval);
 
-	// INPCInteractive Functions
-	virtual bool	CanInteractWith( CAI_BaseNPC *pUser ) { return false; } // Disabled for now (sjb)
-	virtual	bool	HasBeenInteractedWith()	{ return m_bHackedByAlyx; }
-	virtual void	NotifyInteraction( CAI_BaseNPC *pUser )
-	{
-		// Turn the sprites off and on again so their colors will change.
-		KillSprites(0.0f);
-		m_bHackedByAlyx = true; 
-		StartEye();
-	}
+    void CrashTouch(CBaseEntity *pOther);
 
-	virtual void	InputPowerdown( inputdata_t &inputdata )
-	{
-		m_iHealth = 0;
-	}
+    void StartEngine(bool fStartSound);
+
+    virtual Vector BodyTarget(const Vector &posSrc, bool bNoisy = true) { return WorldSpaceCenter(); }
+
+    virtual float GetHeadTurnRate(void) { return 45.0f; } // Degrees per second
+
+    void CheckCollisions(float flInterval);
+
+    virtual void GatherEnemyConditions(CBaseEntity *pEnemy);
+
+    void PlayFlySound(void);
+
+    virtual void StopLoopingSounds(void);
+
+    void Precache(void);
+
+    void RunTask(const Task_t *pTask);
+
+    void Spawn(void);
+
+    void Activate();
+
+    void StartTask(const Task_t *pTask);
+
+    void BladesInit();
+
+    void SoundInit(void);
+
+    void StartEye(void);
+
+    bool HandleInteraction(int interactionType, void *data, CBaseCombatCharacter *sourceEnt);
+
+    void PostNPCInit(void);
+
+    void GatherConditions();
+
+    void PrescheduleThink(void);
+
+    void SpinBlades(float flInterval);
+
+    void Slice(CBaseEntity *pHitEntity, float flInterval, trace_t &tr);
+
+    void Bump(CBaseEntity *pHitEntity, float flInterval, trace_t &tr);
+
+    void Splash(const Vector &vecSplashPos);
+
+    float ManhackMaxSpeed(void);
+
+    virtual void VPhysicsShadowCollision(int index, gamevcollisionevent_t *pEvent);
+
+    void VPhysicsCollision(int index, gamevcollisionevent_t *pEvent);
+
+    void HitPhysicsObject(CBaseEntity *pOther);
+
+    virtual void ClampMotorForces(Vector &linear, AngularImpulse &angular);
+
+    unsigned int PhysicsSolidMaskForEntity(void) const;
+
+    // Create smoke trail!
+    void CreateSmokeTrail();
+
+    void DestroySmokeTrail();
+
+    void Ignite(float flFlameLifetime, bool bNPCOnly, float flSize, bool bCalledByLevelDesigner) { return; }
+
+    void InputDisableSwarm(inputdata_t &inputdata);
+
+    void InputUnpack(inputdata_t &inputdata);
+
+    // 	CDefaultPlayerPickupVPhysics
+    virtual void OnPhysGunPickup(CBasePlayer *pPhysGunUser, PhysGunPickup_t reason);
+
+    virtual void OnPhysGunDrop(CBasePlayer *pPhysGunUser, PhysGunDrop_t Reason);
+
+    CBasePlayer *HasPhysicsAttacker(float dt);
+
+    float GetMaxEnginePower();
+
+    // INPCInteractive Functions
+    virtual bool CanInteractWith(CAI_BaseNPC *pUser) { return false; } // Disabled for now (sjb)
+    virtual bool HasBeenInteractedWith() { return m_bHackedByAlyx; }
+
+    virtual void NotifyInteraction(CAI_BaseNPC *pUser) {
+        // Turn the sprites off and on again so their colors will change.
+        KillSprites(0.0f);
+        m_bHackedByAlyx = true;
+        StartEye();
+    }
+
+    virtual void InputPowerdown(inputdata_t &inputdata) {
+        m_iHealth = 0;
+    }
 
 
-	DEFINE_CUSTOM_AI;
+    DEFINE_CUSTOM_AI;
 
-	DECLARE_DATADESC();
+    DECLARE_DATADESC();
 
 private:
 
-	bool IsInEffectiveTargetZone( CBaseEntity *pTarget );
-	void MaintainGroundHeight( void );
+    bool IsInEffectiveTargetZone(CBaseEntity *pTarget);
 
-	void StartBurst( const Vector &vecDirection );
-	void StopBurst( bool bInterruptSchedule = false );
+    void MaintainGroundHeight(void);
 
-	void UpdatePanels( void );
-	void SetEyeState( int state );
+    void StartBurst(const Vector &vecDirection);
 
-	void ShowHostile( bool hostile = true );
+    void StopBurst(bool bInterruptSchedule = false);
 
-	bool IsFlyingActivity( Activity baseAct );
+    void UpdatePanels(void);
 
-	// Computes the slice bounce velocity
-	void ComputeSliceBounceVelocity( CBaseEntity *pHitEntity, trace_t &tr );
+    void SetEyeState(int state);
 
-	// Take damage from being thrown by a physcannon 
-	void TakeDamageFromPhyscannon( CBasePlayer *pPlayer );
+    void ShowHostile(bool hostile = true);
 
-	// Take damage from a vehicle: 
-	void TakeDamageFromVehicle( int index, gamevcollisionevent_t *pEvent );
+    bool IsFlyingActivity(Activity baseAct);
 
-	// Take damage from physics impacts
-	void TakeDamageFromPhysicsImpact( int index, gamevcollisionevent_t *pEvent );
+    // Computes the slice bounce velocity
+    void ComputeSliceBounceVelocity(CBaseEntity *pHitEntity, trace_t &tr);
 
-	// Are we being held by the physcannon?
-	bool IsHeldByPhyscannon( );
+    // Take damage from being thrown by a physcannon
+    void TakeDamageFromPhyscannon(CBasePlayer *pPlayer);
 
-	void StartLoitering( const Vector &vecLoiterPosition );
-	void StopLoitering() { m_vecLoiterPosition = vec3_invalid; m_fTimeNextLoiterPulse = gpGlobals->curtime; }
-	bool IsLoitering() { return m_vecLoiterPosition != vec3_invalid; }
-	void Loiter();
+    // Take damage from a vehicle:
+    void TakeDamageFromVehicle(int index, gamevcollisionevent_t *pEvent);
 
-	//
-	// Movement variables.
-	//
+    // Take damage from physics impacts
+    void TakeDamageFromPhysicsImpact(int index, gamevcollisionevent_t *pEvent);
 
-	Vector			m_vForceVelocity;		// Someone forced me to move
+    // Are we being held by the physcannon?
+    bool IsHeldByPhyscannon();
 
-	Vector			m_vTargetBanking;
+    void StartLoitering(const Vector &vecLoiterPosition);
 
-	Vector			m_vForceMoveTarget;		// Will fly here
-	float			m_fForceMoveTime;		// If time is less than this
-	Vector			m_vSwarmMoveTarget;		// Will fly here
-	float			m_fSwarmMoveTime;		// If time is less than this
-	float			m_fEnginePowerScale;	// scale all thrust by this amount (usually 1.0!)
+    void StopLoitering() {
+        m_vecLoiterPosition = vec3_invalid;
+        m_fTimeNextLoiterPulse = gpGlobals->curtime;
+    }
 
-	float			m_flNextEngineSoundTime;
-	float			m_flEngineStallTime;
+    bool IsLoitering() { return m_vecLoiterPosition != vec3_invalid; }
 
-	float			m_flNextBurstTime;
-	float			m_flBurstDuration;
-	Vector			m_vecBurstDirection;
+    void Loiter();
 
-	float			m_flWaterSuspendTime;
-	int				m_nLastSpinSound;
+    //
+    // Movement variables.
+    //
 
-	// physics influence
-	CHandle<CBasePlayer>	m_hPhysicsAttacker;
-	float					m_flLastPhysicsInfluenceTime;
+    Vector m_vForceVelocity;        // Someone forced me to move
 
-	// Death
-	float			m_fSparkTime;
-	float			m_fSmokeTime;
+    Vector m_vTargetBanking;
 
-	bool			m_bDirtyPitch; // indicates whether we want the sound pitch updated.(sjb)
-	bool			m_bShowingHostile;
+    Vector m_vForceMoveTarget;        // Will fly here
+    float m_fForceMoveTime;        // If time is less than this
+    Vector m_vSwarmMoveTarget;        // Will fly here
+    float m_fSwarmMoveTime;        // If time is less than this
+    float m_fEnginePowerScale;    // scale all thrust by this amount (usually 1.0!)
 
-	bool			m_bBladesActive;
-	bool			m_bIgnoreClipbrushes;
+    float m_flNextEngineSoundTime;
+    float m_flEngineStallTime;
 
-	float			m_flBladeSpeed;
+    float m_flNextBurstTime;
+    float m_flBurstDuration;
+    Vector m_vecBurstDirection;
 
-	CSprite			*m_pEyeGlow;
-	CSprite			*m_pLightGlow;
-	
-	CHandle<SmokeTrail>	m_hSmokeTrail;
+    float m_flWaterSuspendTime;
+    int m_nLastSpinSound;
 
-	int				m_iPanel1;
-	int				m_iPanel2;
-	int				m_iPanel3;
-	int				m_iPanel4;
+    // physics influence
+    CHandle<CBasePlayer> m_hPhysicsAttacker;
+    float m_flLastPhysicsInfluenceTime;
 
-	int				m_nLastWaterLevel;
-	bool			m_bDoSwarmBehavior;
-	bool			m_bGib;
+    // Death
+    float m_fSparkTime;
+    float m_fSmokeTime;
 
-	bool			m_bHeld;
-	bool			m_bHackedByAlyx;
-	Vector			m_vecLoiterPosition;
-	float			m_fTimeNextLoiterPulse;
+    bool m_bDirtyPitch; // indicates whether we want the sound pitch updated.(sjb)
+    bool m_bShowingHostile;
 
-	float			m_flBumpSuppressTime;
+    bool m_bBladesActive;
+    bool m_bIgnoreClipbrushes;
 
-	CNetworkVar( int,	m_nEnginePitch1 );
-	CNetworkVar( int,	m_nEnginePitch2 );
-	CNetworkVar( float,	m_flEnginePitch1Time );
-	CNetworkVar( float,	m_flEnginePitch2Time );
+    float m_flBladeSpeed;
+
+    CSprite *m_pEyeGlow;
+    CSprite *m_pLightGlow;
+
+    CHandle<SmokeTrail> m_hSmokeTrail;
+
+    int m_iPanel1;
+    int m_iPanel2;
+    int m_iPanel3;
+    int m_iPanel4;
+
+    int m_nLastWaterLevel;
+    bool m_bDoSwarmBehavior;
+    bool m_bGib;
+
+    bool m_bHeld;
+    bool m_bHackedByAlyx;
+    Vector m_vecLoiterPosition;
+    float m_fTimeNextLoiterPulse;
+
+    float m_flBumpSuppressTime;
+
+    CNetworkVar(int, m_nEnginePitch1);
+
+    CNetworkVar(int, m_nEnginePitch2);
+
+    CNetworkVar(float, m_flEnginePitch1Time);
+
+    CNetworkVar(float, m_flEnginePitch2Time);
 };
 
-#endif	//NPC_MANHACK_H
+#endif    //NPC_MANHACK_H

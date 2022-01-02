@@ -42,7 +42,7 @@
 #endif
 
 #ifdef HL2_DLL
-#include "weapon_physcannon.h"
+#include "hl2/weapons/weapon_physcannon.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!

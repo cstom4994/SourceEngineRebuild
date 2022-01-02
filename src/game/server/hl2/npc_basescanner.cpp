@@ -7,7 +7,7 @@
 #include "cbase.h"
 #include "npcevent.h"
 #include "ai_basenpc_physicsflyer.h"
-#include "weapon_physcannon.h"
+#include "hl2/weapons/weapon_physcannon.h"
 #include "hl2_player.h"
 #include "npc_scanner.h"
 #include "IEffects.h"

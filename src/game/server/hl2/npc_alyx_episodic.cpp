@@ -24,7 +24,7 @@
 #include "props.h"
 #include "IEffects.h"
 #include "globalstate.h"
-#include "weapon_physcannon.h"
+#include "weapons/weapon_physcannon.h"
 #include "info_darknessmode_lightsource.h"
 #include "sceneentity.h"
 #include "hl2_gamerules.h"
@@ -34,7 +34,7 @@
 #include "basehlcombatweapon.h"
 #include "basegrenade_shared.h"
 #include "ai_interactions.h"
-#include "weapon_flaregun.h"
+#include "weapons/weapon_flaregun.h"
 #include "env_debughistory.h"
 
 extern Vector PointOnLineNearestPoint(const Vector& vStartPos, const Vector& vEndPos, const Vector& vPoint);

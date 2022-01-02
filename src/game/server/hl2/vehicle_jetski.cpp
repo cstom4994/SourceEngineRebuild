@@ -12,7 +12,7 @@
 #include "ammodef.h"
 #include "IEffects.h"
 #include "beam_shared.h"
-#include "weapon_gauss.h"
+#include "weapons/weapon_gauss.h"
 #include "soundenvelope.h"
 #include "decals.h"
 #include "soundent.h"

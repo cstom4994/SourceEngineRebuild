@@ -17,7 +17,7 @@
 #include "npcevent.h"
 #include "soundent.h"
 #include "activitylist.h"
-#include "weapon_brickbat.h"
+#include "weapons/weapon_brickbat.h"
 #include "npc_headcrab.h"
 #include "player.h"
 #include "gamerules.h"		// For g_pGameRules

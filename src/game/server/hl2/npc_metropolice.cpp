@@ -12,7 +12,7 @@
 #include "ai_tacticalservices.h"
 #include "npc_manhack.h"
 #include "npc_metropolice.h"
-#include "weapon_stunstick.h"
+#include "hl2/weapons/weapon_stunstick.h"
 #include "basegrenade_shared.h"
 #include "ai_route.h"
 #include "hl2_player.h"

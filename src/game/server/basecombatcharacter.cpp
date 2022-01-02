@@ -44,7 +44,7 @@
 #endif
 
 #ifdef HL2_DLL
-#include "weapon_physcannon.h"
+#include "hl2/weapons/weapon_physcannon.h"
 #include "hl2_gamerules.h"
 #endif
 

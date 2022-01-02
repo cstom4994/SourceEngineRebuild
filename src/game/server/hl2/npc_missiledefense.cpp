@@ -12,7 +12,7 @@
 #include	"ai_memory.h"
 #include	"soundent.h"
 #include	"smoke_trail.h"
-#include	"weapon_rpg.h"
+#include    "hl2/weapons/weapon_rpg.h"
 #include	"gib.h"
 #include	"ndebugoverlay.h"
 #include "IEffects.h"

@@ -44,7 +44,7 @@
 #include "engine/IEngineSound.h"
 #include "props.h"
 #include "hl2_gamerules.h"
-#include "weapon_physcannon.h"
+#include "hl2/weapons/weapon_physcannon.h"
 #include "ammodef.h"
 #include "vehicle_base.h"
  

@@ -20,7 +20,7 @@
 #include "items.h"
 #include "ai_route.h"
 #include "player_pickup.h"
-#include "weapon_physcannon.h"
+#include "hl2/weapons/weapon_physcannon.h"
 #include "hl2_player.h"
 #include "npc_scanner.h"
 #include "materialsystem/imaterialsystemhardwareconfig.h"

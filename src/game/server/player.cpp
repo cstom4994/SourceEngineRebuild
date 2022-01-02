@@ -80,7 +80,7 @@
 #ifdef HL2_DLL
 
 #include "combine_mine.h"
-#include "weapon_physcannon.h"
+#include "hl2/weapons/weapon_physcannon.h"
 
 #endif
 

@@ -9,7 +9,7 @@
 #include "ammodef.h"
 #include "IEffects.h"
 #include "engine/IEngineSound.h"
-#include "weapon_rpg.h"
+#include "hl2/weapons/weapon_rpg.h"
 #include "in_buttons.h"
 #include "globalstate.h"
 #include "soundent.h"

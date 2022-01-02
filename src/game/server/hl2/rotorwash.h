@@ -10,6 +10,7 @@
 #pragma once
 #endif
 
-CBaseEntity *CreateRotorWashEmitter( const Vector &localOrigin, const QAngle &localAngles, CBaseEntity *pOwner, float flAltitude );
+CBaseEntity *
+CreateRotorWashEmitter(const Vector &localOrigin, const QAngle &localAngles, CBaseEntity *pOwner, float flAltitude);
 
 #endif // ROTORWASH_H

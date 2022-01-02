@@ -34,6 +34,8 @@
 #define SIZE_AMMO_357_LARGE			20
 #define SIZE_AMMO_CROSSBOW			6
 #define	SIZE_AMMO_AR2_ALTFIRE		1
+#define SIZE_AMMO_AK47				35
+#define SIZE_AMMO_AK47_LARGE		110
 
 #define SF_ITEM_START_CONSTRAINED	0x00000001
 
@@ -85,10 +87,10 @@ protected:
 	bool		m_bActivateWhenAtRest;
 
 private:
-	
+
 	COutputEvent m_OnPlayerTouch;
 	COutputEvent m_OnCacheInteraction;
-	
+
 	Vector		m_vOriginalSpawnOrigin;
 	QAngle		m_vOriginalSpawnAngles;
 
