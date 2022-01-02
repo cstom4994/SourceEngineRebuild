@@ -180,7 +180,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "STUDIORENDER_EXPORTS;"
         "PROTECTED_THINGS_ENABLE;"
-        "fopen=dont_use_fopen;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

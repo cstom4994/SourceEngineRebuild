@@ -144,7 +144,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "FAST_MATERIALVAR_ACCESS;"
-        "fopen=dont_use_fopen;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

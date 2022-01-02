@@ -93,7 +93,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "WMV_VIDEO;"
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
-        "fopen=dont_use_fopen;"
         "UNITLIB_DLL_EXPORT;"
         "VPCGAMECAPS=VANCE;"
         "SOURCE1=1;"

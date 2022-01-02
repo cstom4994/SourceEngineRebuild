@@ -163,7 +163,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "GAMEUI_EXPORTS;"
         "DONT_PROTECT_FILEIO_FUNCTIONS;"
         "PROTECTED_THINGS_ENABLE;"
-        "fopen=dont_use_fopen;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"

@@ -268,8 +268,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/mod_hl2mp/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/mod_hl2mp/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/lambdamod/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/lambdamod/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -342,7 +342,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "strncpy=use_Q_strncpy_instead;"
         "_snprintf=use_Q_snprintf_instead;"
         "ENABLE_CHROMEHTMLWINDOW;"
-        "fopen=dont_use_fopen;"
         "SHADER_EDITOR_DLL;"
         "SHADER_EDITOR_DLL_SER;"
         "VPCGAMECAPS=VALVE;"

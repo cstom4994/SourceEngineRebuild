@@ -885,7 +885,7 @@ bool CGame::CreateGameWindow(void) {
     }
 
     if (!windowName[0]) {
-        Q_strncpy(windowName, "HALF-LIFE 2", sizeof(windowName));
+        Q_strncpy(windowName, "Lambda Mod", sizeof(windowName));
     }
 
     if (IsOpenGL()) {

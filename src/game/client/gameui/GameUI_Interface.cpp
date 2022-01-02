@@ -229,25 +229,25 @@ void CGameUI::PostInit() {
         enginesound->PrecacheSound("UI/buttonclickrelease.wav", true, true);
         enginesound->PrecacheSound("player/suit_denydevice.wav", true, true);
     }
-
-    s_ui_basemodpanel = new SrcCefBrowser("test","https://www.bilibili.com/");
-
-    SrcCefVGUIPanel *pPanel = s_ui_basemodpanel->GetPanel();
-
-    pPanel->SetBounds(0, 0, 640, 480);
-    pPanel->SetPaintBorderEnabled(false);
-    pPanel->SetPaintBackgroundEnabled(true);
-    pPanel->SetPaintEnabled(true);
-    pPanel->SetVisible(true);
-
-    pPanel->SetMouseInputEnabled(true);
-    pPanel->SetKeyBoardInputEnabled(true);
-
-    pPanel->SetParent(enginevguifuncs->GetPanel(PANEL_GAMEDLL));
-
-    // Once the original ui base mod panel is removed, we can just hookup to the root gameui panel:
-    //pPanel->SetParent(rootpanel);
-    pPanel->MakePopup(true, true);
+//
+//    s_ui_basemodpanel = new SrcCefBrowser("test","https://www.bilibili.com/");
+//
+//    SrcCefVGUIPanel *pPanel = s_ui_basemodpanel->GetPanel();
+//
+//    pPanel->SetBounds(0, 0, 640, 480);
+//    pPanel->SetPaintBorderEnabled(false);
+//    pPanel->SetPaintBackgroundEnabled(true);
+//    pPanel->SetPaintEnabled(true);
+//    pPanel->SetVisible(true);
+//
+//    pPanel->SetMouseInputEnabled(true);
+//    pPanel->SetKeyBoardInputEnabled(true);
+//
+//    pPanel->SetParent(enginevguifuncs->GetPanel(PANEL_GAMEDLL));
+//
+//    // Once the original ui base mod panel is removed, we can just hookup to the root gameui panel:
+//    //pPanel->SetParent(rootpanel);
+//    pPanel->MakePopup(true, true);
 
 }
 

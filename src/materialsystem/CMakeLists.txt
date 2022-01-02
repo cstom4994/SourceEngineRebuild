@@ -190,7 +190,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "PROTECTED_THINGS_ENABLE;"
         "strncpy=use_Q_strncpy_instead;"
         "_snprintf=use_Q_snprintf_instead;"
-        "fopen=dont_use_fopen;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"
