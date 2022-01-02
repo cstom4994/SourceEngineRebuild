@@ -698,7 +698,6 @@ source_group("Header Files" FILES ${Header_Files})
 
 set(Source_Files
 
-        "pbr_dx9.cpp"
         "magicbloom_blend.cpp"
         "magicbloom_blur.cpp"
 

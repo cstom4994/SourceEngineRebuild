@@ -125,6 +125,9 @@ set(Source_Files__Post-processing
         "vance/tonemap.cpp"
         "vance/unsharp.cpp"
         "vance/unsharp_blur.cpp"
+
+        "pbr_common_ps2_3_x.h"
+        "pbr_dx9.cpp"
         )
 source_group("Source Files\\Post-processing" FILES ${Source_Files__Post-processing})
 
