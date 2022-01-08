@@ -485,7 +485,7 @@ if(MSVC)
             /GS;
             /Zc:wchar_t;
             /Zc:forScope;
-
+            /EHsc;
             )
     string(CONCAT FILE_CL_OPTIONS
             "/Y-"
