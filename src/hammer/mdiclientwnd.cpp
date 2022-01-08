@@ -14,45 +14,42 @@
 
 
 BEGIN_MESSAGE_MAP(CMDIClientWnd, CWnd)
-	//{{AFX_MSG_MAP(CMDIClientWnd)
-	ON_WM_ERASEBKGND()
-	//}}AFX_MSG_MAP
+                    //{{AFX_MSG_MAP(CMDIClientWnd)
+                    ON_WM_ERASEBKGND()
+                    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
-CMDIClientWnd::CMDIClientWnd()
-{
+CMDIClientWnd::CMDIClientWnd() {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor.
 //-----------------------------------------------------------------------------
-CMDIClientWnd::~CMDIClientWnd()
-{
+CMDIClientWnd::~CMDIClientWnd() {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Makes our background color mesh with the splash screen for maximum effect.
 //-----------------------------------------------------------------------------
-BOOL CMDIClientWnd::OnEraseBkgnd(CDC *pDC)
-{
-	// Set brush to desired background color
-	CBrush backBrush(RGB(141, 136, 130)); // This color blends with the splash image!
+BOOL CMDIClientWnd::OnEraseBkgnd(CDC *pDC) {
+    // Set brush to desired background color
+    CBrush backBrush(RGB(141, 136, 130)); // This color blends with the splash image!
 
-	// Save old brush
-	CBrush *pOldBrush = pDC->SelectObject(&backBrush);
+    // Save old brush
+    CBrush *pOldBrush = pDC->SelectObject(&backBrush);
 
-	CRect rect;
-	pDC->GetClipBox(&rect);     // Erase the area needed
+    CRect rect;
+    pDC->GetClipBox(&rect);     // Erase the area needed
 
-	pDC->PatBlt(rect.left, rect.top, rect.Width(), rect.Height(), PATCOPY);
+    pDC->PatBlt(rect.left, rect.top, rect.Width(), rect.Height(), PATCOPY);
 
-	pDC->SelectObject(pOldBrush);
-	return TRUE;
+    pDC->SelectObject(pOldBrush);
+    return TRUE;
 } 
 

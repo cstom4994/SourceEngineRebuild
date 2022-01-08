@@ -12,28 +12,22 @@
 #include "tier0/memdbgon.h"
 
 
-
 // --------------------------------------------------------------------------- //
 // Global functions.
 // --------------------------------------------------------------------------- //
-IBSPLightingThread* CreateBSPLightingThread( IVRadDLL *pDLL )
-{
-	CBSPLightingThread *pRet = new CBSPLightingThread;
+IBSPLightingThread *CreateBSPLightingThread(IVRadDLL *pDLL) {
+    CBSPLightingThread *pRet = new CBSPLightingThread;
 
-	if( pRet->Init( pDLL ) )
-	{
-		return pRet;
-	}
-	else
-	{
-		delete pRet;
-		return 0;
-	}
+    if (pRet->Init(pDLL)) {
+        return pRet;
+    } else {
+        delete pRet;
+        return 0;
+    }
 }
 
-DWORD WINAPI ThreadMainLoop_Static( LPVOID lpParameter )
-{
-	return ((CBSPLightingThread*)lpParameter)->ThreadMainLoop();
+DWORD WINAPI ThreadMainLoop_Static(LPVOID lpParameter) {
+    return ((CBSPLightingThread *) lpParameter)->ThreadMainLoop();
 }
 
 
@@ -41,21 +35,18 @@ DWORD WINAPI ThreadMainLoop_Static( LPVOID lpParameter )
 // Static helpers.
 // --------------------------------------------------------------------------- //
 
-class CCSLock
-{
+class CCSLock {
 public:
-					CCSLock( CRITICAL_SECTION *pCS )
-					{
-						EnterCriticalSection( pCS );
-						m_pCS = pCS;
-					}
+    CCSLock(CRITICAL_SECTION *pCS) {
+        EnterCriticalSection(pCS);
+        m_pCS = pCS;
+    }
 
-					~CCSLock()
-					{
-						LeaveCriticalSection( m_pCS );
-					}
+    ~CCSLock() {
+        LeaveCriticalSection(m_pCS);
+    }
 
-	CRITICAL_SECTION *m_pCS;
+    CRITICAL_SECTION *m_pCS;
 };
 
 
@@ -64,164 +55,142 @@ public:
 // 
 // --------------------------------------------------------------------------- //
 
-CBSPLightingThread::CBSPLightingThread()
-{
-	InitializeCriticalSection( &m_CS );
-	
-	m_hThread = 0;
-	m_ThreadID = 0;
-	
-	m_ThreadCmd = THREADCMD_NONE;
-	m_ThreadState = STATE_IDLE;
+CBSPLightingThread::CBSPLightingThread() {
+    InitializeCriticalSection(&m_CS);
+
+    m_hThread = 0;
+    m_ThreadID = 0;
+
+    m_ThreadCmd = THREADCMD_NONE;
+    m_ThreadState = STATE_IDLE;
 }
 
 
-CBSPLightingThread::~CBSPLightingThread()
-{
-	if( m_hThread )
-	{
-		// Stop the current lighting process if one is going on.
-		Interrupt();
+CBSPLightingThread::~CBSPLightingThread() {
+    if (m_hThread) {
+        // Stop the current lighting process if one is going on.
+        Interrupt();
 
-		// Tell the thread to exit.
-		SetThreadCmd( THREADCMD_EXIT );
-		
-		DWORD dwCode;
-		while( 1 )
-		{
-			if( GetExitCodeThread( m_hThread, &dwCode ) && dwCode == 0 )
-				break;
+        // Tell the thread to exit.
+        SetThreadCmd(THREADCMD_EXIT);
 
-			Sleep( 10 );
-		}
+        DWORD dwCode;
+        while (1) {
+            if (GetExitCodeThread(m_hThread, &dwCode) && dwCode == 0)
+                break;
 
-		CloseHandle( m_hThread );
-	}
+            Sleep(10);
+        }
 
-	DeleteCriticalSection( &m_CS );
+        CloseHandle(m_hThread);
+    }
+
+    DeleteCriticalSection(&m_CS);
 }
 
 
-void CBSPLightingThread::Release()
-{
-	delete this;
+void CBSPLightingThread::Release() {
+    delete this;
 }
 
 
-void CBSPLightingThread::StartLighting( char const *pVMFFileWithEntities )
-{
-	// First, kill any lighting going on.
-	Interrupt();
+void CBSPLightingThread::StartLighting(char const *pVMFFileWithEntities) {
+    // First, kill any lighting going on.
+    Interrupt();
 
-	// Store the VMF file data for the thread.
-	int len = strlen( pVMFFileWithEntities ) + 1;
-	m_VMFFileWithEntities.CopyArray( pVMFFileWithEntities, len );
+    // Store the VMF file data for the thread.
+    int len = strlen(pVMFFileWithEntities) + 1;
+    m_VMFFileWithEntities.CopyArray(pVMFFileWithEntities, len);
 
-	// Tell the thread to start lighting.
-	SetThreadState( STATE_LIGHTING );
-	SetThreadCmd( THREADCMD_LIGHT );
+    // Tell the thread to start lighting.
+    SetThreadState(STATE_LIGHTING);
+    SetThreadCmd(THREADCMD_LIGHT);
 }
 
 
-int CBSPLightingThread::GetCurrentState()
-{
-	return GetThreadState();
+int CBSPLightingThread::GetCurrentState() {
+    return GetThreadState();
 }
 
 
-void CBSPLightingThread::Interrupt()
-{
-	if( GetThreadState() == STATE_LIGHTING )
-	{
-		m_pVRadDLL->Interrupt();
-		
-		while( GetThreadState() == STATE_LIGHTING )		
-			Sleep( 10 );
-	}
+void CBSPLightingThread::Interrupt() {
+    if (GetThreadState() == STATE_LIGHTING) {
+        m_pVRadDLL->Interrupt();
+
+        while (GetThreadState() == STATE_LIGHTING)
+            Sleep(10);
+    }
 }
 
 
-float CBSPLightingThread::GetPercentComplete()
-{
-	return m_pVRadDLL->GetPercentComplete();
+float CBSPLightingThread::GetPercentComplete() {
+    return m_pVRadDLL->GetPercentComplete();
 }
 
 
-bool CBSPLightingThread::Init( IVRadDLL *pDLL )
-{
-	m_pVRadDLL = pDLL;
+bool CBSPLightingThread::Init(IVRadDLL *pDLL) {
+    m_pVRadDLL = pDLL;
 
-	m_hThread = CreateThread(
-		NULL,
-		0,
-		ThreadMainLoop_Static,
-		this,
-		0,
-		&m_ThreadID );
+    m_hThread = CreateThread(
+            NULL,
+            0,
+            ThreadMainLoop_Static,
+            this,
+            0,
+            &m_ThreadID);
 
-	if( !m_hThread )
-		return false;
+    if (!m_hThread)
+        return false;
 
-	SetThreadPriority( m_hThread, THREAD_PRIORITY_LOWEST );
-	return true;
+    SetThreadPriority(m_hThread, THREAD_PRIORITY_LOWEST);
+    return true;
 }
 
 
-DWORD CBSPLightingThread::ThreadMainLoop()
-{
-	while( 1 )
-	{
-		int cmd = GetThreadCmd();
+DWORD CBSPLightingThread::ThreadMainLoop() {
+    while (1) {
+        int cmd = GetThreadCmd();
 
-		if( cmd == THREADCMD_NONE )
-		{
-			// Keep waiting for a new command.
-			Sleep( 10 );
-		}
-		else if( cmd == THREADCMD_LIGHT )
-		{
-			if( m_pVRadDLL->DoIncrementalLight( m_VMFFileWithEntities.Base() ) )
-				SetThreadState( STATE_FINISHED );
-			else
-				SetThreadState( STATE_IDLE );
-		}
-		else if( cmd == THREADCMD_EXIT )
-		{
-			return 0;
-		}
-	}
+        if (cmd == THREADCMD_NONE) {
+            // Keep waiting for a new command.
+            Sleep(10);
+        } else if (cmd == THREADCMD_LIGHT) {
+            if (m_pVRadDLL->DoIncrementalLight(m_VMFFileWithEntities.Base()))
+                SetThreadState(STATE_FINISHED);
+            else
+                SetThreadState(STATE_IDLE);
+        } else if (cmd == THREADCMD_EXIT) {
+            return 0;
+        }
+    }
 }
 
 
-int CBSPLightingThread::GetThreadCmd()
-{
-	CCSLock lock( &m_CS );
+int CBSPLightingThread::GetThreadCmd() {
+    CCSLock lock(&m_CS);
 
-	int ret = m_ThreadCmd;
-	m_ThreadCmd = THREADCMD_NONE;
+    int ret = m_ThreadCmd;
+    m_ThreadCmd = THREADCMD_NONE;
 
-	return ret;
+    return ret;
 }
 
 
-void CBSPLightingThread::SetThreadCmd( int cmd )
-{
-	CCSLock lock( &m_CS );
-	m_ThreadCmd = cmd;
+void CBSPLightingThread::SetThreadCmd(int cmd) {
+    CCSLock lock(&m_CS);
+    m_ThreadCmd = cmd;
 }
 
 
-int CBSPLightingThread::GetThreadState()
-{
-	CCSLock lock( &m_CS );
-	return m_ThreadState;
+int CBSPLightingThread::GetThreadState() {
+    CCSLock lock(&m_CS);
+    return m_ThreadState;
 }
 
 
-void CBSPLightingThread::SetThreadState( int state )
-{
-	CCSLock lock( &m_CS );
-	m_ThreadState = state;
+void CBSPLightingThread::SetThreadState(int state) {
+    CCSLock lock(&m_CS);
+    m_ThreadState = state;
 }
 
 

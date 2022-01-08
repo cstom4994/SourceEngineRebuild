@@ -16,93 +16,107 @@
 
 
 class CHelperInfo;
+
 class CRender2D;
+
 class CRender3D;
+
 class CMapPointHandle;
 
 
-#define MAX_KEYNAME_SIZE	32
+#define MAX_KEYNAME_SIZE    32
 
-class CMapPointHandle : public CMapHelper
-{
+class CMapPointHandle : public CMapHelper {
 
-friend class CToolPointHandle;
-friend class CMapAxisHandle;
-friend class CMapSweptPlayerHull;
+    friend class CToolPointHandle;
+
+    friend class CMapAxisHandle;
+
+    friend class CMapSweptPlayerHull;
 
 public:
 
-	DECLARE_MAPCLASS(CMapPointHandle,CMapHelper)
+    DECLARE_MAPCLASS(CMapPointHandle, CMapHelper)
 
-	//
-	// Factory for building from a list of string parameters.
-	//
-	static CMapClass *Create(CHelperInfo *pInfo, CMapEntity *pParent);
+    //
+    // Factory for building from a list of string parameters.
+    //
+    static CMapClass *Create(CHelperInfo *pInfo, CMapEntity *pParent);
 
-	inline int GetRadius(void);
+    inline int GetRadius(void);
 
-	//
-	// Construction/destruction:
-	//
-	CMapPointHandle(void);
-	CMapPointHandle(const char *pszKey, bool bDrawLineToParent);
-	~CMapPointHandle(void);
+    //
+    // Construction/destruction:
+    //
+    CMapPointHandle(void);
 
-	void CalcBounds(BOOL bFullUpdate = FALSE);
+    CMapPointHandle(const char *pszKey, bool bDrawLineToParent);
 
-	virtual CMapClass *Copy(bool bUpdateDependencies);
-	virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+    ~CMapPointHandle(void);
 
-	virtual void Render2D(CRender2D *pRender);
-	virtual void Render3D(CRender3D *pRender);
+    void CalcBounds(BOOL bFullUpdate = FALSE);
 
-	virtual int SerializeRMF(std::fstream &File, BOOL bRMF);
-	virtual int SerializeMAP(std::fstream &File, BOOL bRMF);
+    virtual CMapClass *Copy(bool bUpdateDependencies);
 
-	// Overridden because origin helpers don't take the color of their parent entity.
-	virtual void SetRenderColor(unsigned char red, unsigned char green, unsigned char blue);
-	virtual void SetRenderColor(color32 rgbColor);
+    virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
 
-	virtual bool HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t &HitData);
+    virtual void Render2D(CRender2D *pRender);
 
-	virtual bool IsVisualElement(void) { return(false); } // Only visible if our parent is selected.
-	virtual bool IsClutter(void) { return true; }
-	virtual bool IsCulledByCordon(const Vector &vecMins, const Vector &vecMaxs) { return false; } // We don't hide unless our parent hides.
-	
-	virtual const char* GetDescription() { return("Point helper"); }
+    virtual void Render3D(CRender3D *pRender);
 
-	virtual void OnAddToWorld(CMapWorld *pWorld);
-	virtual void OnParentKeyChanged(const char *key, const char *value);
-	virtual void OnUndoRedo(void);
+    virtual int SerializeRMF(std::fstream &File, BOOL bRMF);
 
-	virtual void PostloadWorld(CMapWorld *pWorld);
+    virtual int SerializeMAP(std::fstream &File, BOOL bRMF);
 
-	virtual CBaseTool *GetToolObject(int nHitData, bool bAttachObject);
+    // Overridden because origin helpers don't take the color of their parent entity.
+    virtual void SetRenderColor(unsigned char red, unsigned char green, unsigned char blue);
+
+    virtual void SetRenderColor(color32 rgbColor);
+
+    virtual bool HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t &HitData);
+
+    virtual bool IsVisualElement(void) { return (false); } // Only visible if our parent is selected.
+    virtual bool IsClutter(void) { return true; }
+
+    virtual bool IsCulledByCordon(const Vector &vecMins,
+                                  const Vector &vecMaxs) { return false; } // We don't hide unless our parent hides.
+
+    virtual const char *GetDescription() { return ("Point helper"); }
+
+    virtual void OnAddToWorld(CMapWorld *pWorld);
+
+    virtual void OnParentKeyChanged(const char *key, const char *value);
+
+    virtual void OnUndoRedo(void);
+
+    virtual void PostloadWorld(CMapWorld *pWorld);
+
+    virtual CBaseTool *GetToolObject(int nHitData, bool bAttachObject);
 
 protected:
 
-	// Called by the point handle tool while dragging.
-	void UpdateOrigin(const Vector &vecOrigin);
+    // Called by the point handle tool while dragging.
+    void UpdateOrigin(const Vector &vecOrigin);
 
-	// Overridden to update our parent's keyvalue when we move.
-	virtual void DoTransform(const VMatrix &matrix);
-	
+    // Overridden to update our parent's keyvalue when we move.
+    virtual void DoTransform(const VMatrix &matrix);
+
 private:
 
-	void Initialize(void);
-	void UpdateParentKey(void);
+    void Initialize(void);
 
-	char m_szKeyName[MAX_KEYNAME_SIZE];
-	bool m_bDrawLineToParent;
+    void UpdateParentKey(void);
+
+    char m_szKeyName[MAX_KEYNAME_SIZE];
+    bool m_bDrawLineToParent;
 };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-int CMapPointHandle::GetRadius(void)
-{
-	return HANDLE_RADIUS;
+int CMapPointHandle::GetRadius(void) {
+    return HANDLE_RADIUS;
 }
 
 

@@ -1365,7 +1365,6 @@ public:
 	ShaderAPITextureHandle_t CreateRenderTargetSurface( int width, int height, ImageFormat format, const char *pDebugName, const char *pTextureGroupName );
 	void PersistDisplay();
 	bool PostQueuedTexture( const void *pData, int nSize, ShaderAPITextureHandle_t *pHandles, int nHandles, int nWidth, int nHeight, int nDepth, int nMips, int *pRefCount );
-	void *GetD3DDevice();
 
 	void PushVertexShaderGPRAllocation( int iVertexShaderCount = 64 );
 	void PopVertexShaderGPRAllocation( void );
@@ -13196,13 +13195,6 @@ cleanUp:
 	}
 
 	return bOK;
-}
-#endif
-
-#if defined( _X360 )
-                                                                                                                        void *CShaderAPIDx8::GetD3DDevice()
-{
-	return Dx9Device();
 }
 #endif
 

@@ -84,10 +84,7 @@ typedef uint64 VertexFormat_t;
 // NOTE NOTE NOTE!!!!  If you up this, grep for "NEW_INTERFACE" to see if there is anything
 // waiting to be enabled during an interface revision.
 
-// V081 - 10/25/2016 - Added new Suspend/Resume texture streaming interfaces. Might also have added more calls here due
-//                     to the streaming work that didn't get bumped, but we're not guarding versions on the TF branch
-//                     very judiciously since we need to audit them when merging to SDK branch either way.
-#define MATERIAL_SYSTEM_INTERFACE_VERSION "VMaterialSystem081"
+#define MATERIAL_SYSTEM_INTERFACE_VERSION "LambdaMaterialSystem001"
 
 #define ABSOLUTE_MINIMUM_DXLEVEL 90
 
@@ -1108,8 +1105,6 @@ public:
     virtual void				PersistDisplay() = 0;
     virtual bool				OwnGPUResources( bool bEnable ) = 0;
 #endif
-
-    virtual void				*GetD3DDevice() = 0;
 
     // -----------------------------------------------------------
     // Access the render contexts

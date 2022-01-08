@@ -21,37 +21,33 @@
 //-----------------------------------------------------------------------------
 // Purpose: Constructor. Inits data members.
 //-----------------------------------------------------------------------------
-CToolPickEntity::CToolPickEntity(void)
-{
-	m_pNotifyTarget = NULL;
-	m_bAllowMultiSelect = false;
+CToolPickEntity::CToolPickEntity(void) {
+    m_pNotifyTarget = NULL;
+    m_bAllowMultiSelect = false;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor.
 //-----------------------------------------------------------------------------
-CToolPickEntity::~CToolPickEntity(void)
-{
+CToolPickEntity::~CToolPickEntity(void) {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Enables or disables multiselect for this tool.
 //-----------------------------------------------------------------------------
-void CToolPickEntity::AllowMultiSelect(bool bAllow)
-{
-	m_bAllowMultiSelect = bAllow;
+void CToolPickEntity::AllowMultiSelect(bool bAllow) {
+    m_bAllowMultiSelect = bAllow;
 
-	//
-	// Shouldn't ever happen, but you never know.
-	//
-	if ((!bAllow) && (m_Entities.Count() > 1))
-	{
-		CMapEntity *pEntity = m_Entities[0].pEntity;
-		DeselectAll();
-		SelectEntity(pEntity);
-	}
+    //
+    // Shouldn't ever happen, but you never know.
+    //
+    if ((!bAllow) && (m_Entities.Count() > 1)) {
+        CMapEntity *pEntity = m_Entities[0].pEntity;
+        DeselectAll();
+        SelectEntity(pEntity);
+    }
 }
 
 
@@ -59,9 +55,8 @@ void CToolPickEntity::AllowMultiSelect(bool bAllow)
 // Purpose: Called when the tool is deactivated.
 // Input  : eNewTool - The ID of the tool that is being activated.
 //-----------------------------------------------------------------------------
-void CToolPickEntity::OnDeactivate()
-{
-	DeselectAll();
+void CToolPickEntity::OnDeactivate() {
+    DeselectAll();
 }
 
 
@@ -72,9 +67,8 @@ void CToolPickEntity::OnDeactivate()
 //			point - Point in client coordinates where the event occurred.
 // Output : Returns true if the message was handled by the tool, false if not.
 //-----------------------------------------------------------------------------
-bool CToolPickEntity::OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	return true;
+bool CToolPickEntity::OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) {
+    return true;
 }
 
 
@@ -85,41 +79,34 @@ bool CToolPickEntity::OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2
 //			point - Point in client coordinates where the event occurred.
 // Output : Returns true if the message was handled by the tool, false if not.
 //-----------------------------------------------------------------------------
-bool CToolPickEntity::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	bool bControl = ((nFlags & MK_CONTROL) != 0);
+bool CToolPickEntity::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) {
+    bool bControl = ((nFlags & MK_CONTROL) != 0);
 
-	unsigned long uEntity;
-	CMapClass *pObject = pView->NearestObjectAt( vPoint, uEntity);
-	if (pObject != NULL)
-	{
-		CMapClass *pSelObject = pObject->PrepareSelection(selectObjects);
-		CMapEntity *pEntity = dynamic_cast <CMapEntity *>(pSelObject);
-		if (pEntity != NULL)
-		{
-			//
-			// We clicked on an entity.
-			//
-			if ((!m_bAllowMultiSelect) || (!bControl))
-			{
-				// Single select.
-				DeselectAll();
-				SelectEntity(pEntity);
-			}
-			else
-			{
-				// Multiselect.
-				CycleSelectEntity(pEntity);
-			}
+    unsigned long uEntity;
+    CMapClass *pObject = pView->NearestObjectAt(vPoint, uEntity);
+    if (pObject != NULL) {
+        CMapClass *pSelObject = pObject->PrepareSelection(selectObjects);
+        CMapEntity *pEntity = dynamic_cast <CMapEntity *>(pSelObject);
+        if (pEntity != NULL) {
+            //
+            // We clicked on an entity.
+            //
+            if ((!m_bAllowMultiSelect) || (!bControl)) {
+                // Single select.
+                DeselectAll();
+                SelectEntity(pEntity);
+            } else {
+                // Multiselect.
+                CycleSelectEntity(pEntity);
+            }
 
-			if (m_pNotifyTarget)
-			{
-				m_pNotifyTarget->OnNotifyPickEntity(this);
-			}
-		}
-	}
+            if (m_pNotifyTarget) {
+                m_pNotifyTarget->OnNotifyPickEntity(this);
+            }
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -130,41 +117,34 @@ bool CToolPickEntity::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vecto
 //			point - Point in client coordinates where the event occurred.
 // Output : Returns true if the message was handled by the tool, false if not.
 //-----------------------------------------------------------------------------
-bool CToolPickEntity::OnLMouseDownLogical(CMapViewLogical *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	bool bControl = ((nFlags & MK_CONTROL) != 0);
+bool CToolPickEntity::OnLMouseDownLogical(CMapViewLogical *pView, UINT nFlags, const Vector2D &vPoint) {
+    bool bControl = ((nFlags & MK_CONTROL) != 0);
 
-	HitInfo_t hitData;
-	int nHits = pView->ObjectsAt( vPoint, &hitData, 1 );
-	if ( ( nHits > 0 ) && hitData.pObject )
-	{
-		CMapClass *pSelObject = hitData.pObject->PrepareSelection( selectObjects );
-		CMapEntity *pEntity = dynamic_cast <CMapEntity *>( pSelObject );
-		if (pEntity != NULL)
-		{
-			//
-			// We clicked on an entity.
-			//
-			if ((!m_bAllowMultiSelect) || (!bControl))
-			{
-				// Single select.
-				DeselectAll();
-				SelectEntity(pEntity);
-			}
-			else
-			{
-				// Multiselect.
-				CycleSelectEntity(pEntity);
-			}
+    HitInfo_t hitData;
+    int nHits = pView->ObjectsAt(vPoint, &hitData, 1);
+    if ((nHits > 0) && hitData.pObject) {
+        CMapClass *pSelObject = hitData.pObject->PrepareSelection(selectObjects);
+        CMapEntity *pEntity = dynamic_cast <CMapEntity *>( pSelObject );
+        if (pEntity != NULL) {
+            //
+            // We clicked on an entity.
+            //
+            if ((!m_bAllowMultiSelect) || (!bControl)) {
+                // Single select.
+                DeselectAll();
+                SelectEntity(pEntity);
+            } else {
+                // Multiselect.
+                CycleSelectEntity(pEntity);
+            }
 
-			if (m_pNotifyTarget)
-			{
-				m_pNotifyTarget->OnNotifyPickEntity(this);
-			}
-		}
-	}
+            if (m_pNotifyTarget) {
+                m_pNotifyTarget->OnNotifyPickEntity(this);
+            }
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -175,9 +155,8 @@ bool CToolPickEntity::OnLMouseDownLogical(CMapViewLogical *pView, UINT nFlags, c
 //			point - Point in client coordinates where the event occurred.
 // Output : Returns true if the message was handled by the tool, false if not.
 //-----------------------------------------------------------------------------
-bool CToolPickEntity::OnLMouseDblClk3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	return true;
+bool CToolPickEntity::OnLMouseDblClk3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) {
+    return true;
 }
 
 
@@ -188,9 +167,8 @@ bool CToolPickEntity::OnLMouseDblClk3D(CMapView3D *pView, UINT nFlags, const Vec
 //			point - Point in client coordinates where the event occurred.
 // Output : Returns true if the message was handled by the tool, false if not.
 //-----------------------------------------------------------------------------
-bool CToolPickEntity::OnRMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	return true;
+bool CToolPickEntity::OnRMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) {
+    return true;
 }
 
 
@@ -201,9 +179,8 @@ bool CToolPickEntity::OnRMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2
 //			point - Point in client coordinates where the event occurred.
 // Output : Returns true if the message was handled by the tool, false if not.
 //-----------------------------------------------------------------------------
-bool CToolPickEntity::OnRMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	return true;
+bool CToolPickEntity::OnRMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) {
+    return true;
 }
 
 
@@ -214,33 +191,29 @@ bool CToolPickEntity::OnRMouseDown3D(CMapView3D *pView, UINT nFlags, const Vecto
 //			point - Point in client coordinates where the event occurred.
 // Output : Returns true if the message was handled by the tool, false if not.
 //-----------------------------------------------------------------------------
-bool CToolPickEntity::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	SetEyedropperCursor();
-	return true;
+bool CToolPickEntity::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) {
+    SetEyedropperCursor();
+    return true;
 }
 
 
-bool CToolPickEntity::OnMouseMoveLogical(CMapViewLogical *pView, UINT nFlags, const Vector2D &vPoint)
-{
-	SetEyedropperCursor();
-	return true;
+bool CToolPickEntity::OnMouseMoveLogical(CMapViewLogical *pView, UINT nFlags, const Vector2D &vPoint) {
+    SetEyedropperCursor();
+    return true;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets the cursor to the eyedropper cursor.
 //-----------------------------------------------------------------------------
-void CToolPickEntity::SetEyedropperCursor(void)
-{
-	static HCURSOR hcurEyedropper = NULL;
-	
-	if (!hcurEyedropper)
-	{
-		hcurEyedropper = LoadCursor(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDC_EYEDROPPER));
-	}
-	
-	SetCursor(hcurEyedropper);
+void CToolPickEntity::SetEyedropperCursor(void) {
+    static HCURSOR hcurEyedropper = NULL;
+
+    if (!hcurEyedropper) {
+        hcurEyedropper = LoadCursor(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDC_EYEDROPPER));
+    }
+
+    SetCursor(hcurEyedropper);
 }
 
 
@@ -248,44 +221,32 @@ void CToolPickEntity::SetEyedropperCursor(void)
 // Purpose: 
 // Input  : pEntity - 
 //-----------------------------------------------------------------------------
-void CToolPickEntity::CycleSelectEntity(CMapEntity *pEntity)
-{
-	int nIndex = FindEntity(pEntity);
-	if (nIndex != -1)
-	{
-		//
-		// The entity is in our list, update its selection state.
-		//
-		if (m_Entities[nIndex].eState == EntityState_Partial)
-		{
-			DeselectEntity(nIndex);
-		}
-		else if (m_Entities[nIndex].eState == EntityState_Select)
-		{
-			if (m_Entities[nIndex].eOriginalState == EntityState_Partial)
-			{
-				m_Entities[nIndex].eState = EntityState_Partial;
-				//pEntity->SetSelectionState(SELECT_MULTI_PARTIAL);
-			}
-			else
-			{
-				DeselectEntity(nIndex);
-			}
-		}
-		else if (m_Entities[nIndex].eState == EntityState_None)
-		{
-			m_Entities[nIndex].eState = EntityState_Select;
-			//pEntity->SetSelectionState(SELECT_NORMAL);
-		}
-	}
-	else
-	{
-		//
-		// The entity is not in our list, add it.
-		//
-		AddToList(pEntity, EntityState_Select);
-		//pEntity->SetSelectionState(SELECT_NORMAL);
-	}
+void CToolPickEntity::CycleSelectEntity(CMapEntity *pEntity) {
+    int nIndex = FindEntity(pEntity);
+    if (nIndex != -1) {
+        //
+        // The entity is in our list, update its selection state.
+        //
+        if (m_Entities[nIndex].eState == EntityState_Partial) {
+            DeselectEntity(nIndex);
+        } else if (m_Entities[nIndex].eState == EntityState_Select) {
+            if (m_Entities[nIndex].eOriginalState == EntityState_Partial) {
+                m_Entities[nIndex].eState = EntityState_Partial;
+                //pEntity->SetSelectionState(SELECT_MULTI_PARTIAL);
+            } else {
+                DeselectEntity(nIndex);
+            }
+        } else if (m_Entities[nIndex].eState == EntityState_None) {
+            m_Entities[nIndex].eState = EntityState_Select;
+            //pEntity->SetSelectionState(SELECT_NORMAL);
+        }
+    } else {
+        //
+        // The entity is not in our list, add it.
+        //
+        AddToList(pEntity, EntityState_Select);
+        //pEntity->SetSelectionState(SELECT_NORMAL);
+    }
 }
 
 
@@ -294,25 +255,22 @@ void CToolPickEntity::CycleSelectEntity(CMapEntity *pEntity)
 // Input  : EntityListFull - 
 //			EntityListPartial - 
 //-----------------------------------------------------------------------------
-void CToolPickEntity::SetSelectedEntities(CMapEntityList &EntityListFull, CMapEntityList &EntityListPartial)
-{
-	m_Entities.RemoveAll();
+void CToolPickEntity::SetSelectedEntities(CMapEntityList &EntityListFull, CMapEntityList &EntityListPartial) {
+    m_Entities.RemoveAll();
 
-	for (int i = 0; i < EntityListFull.Count(); i++)
-	{
-		CMapEntity *pEntity = EntityListFull.Element(i);
+    for (int i = 0; i < EntityListFull.Count(); i++) {
+        CMapEntity *pEntity = EntityListFull.Element(i);
 
-		AddToList(pEntity, EntityState_Select);
-		pEntity->SetSelectionState(SELECT_NORMAL);
-	}
+        AddToList(pEntity, EntityState_Select);
+        pEntity->SetSelectionState(SELECT_NORMAL);
+    }
 
-	for (int i = 0; i < EntityListPartial.Count(); i++)
-	{
-		CMapEntity *pEntity = EntityListPartial.Element(i);
+    for (int i = 0; i < EntityListPartial.Count(); i++) {
+        CMapEntity *pEntity = EntityListPartial.Element(i);
 
-		AddToList(pEntity, EntityState_Partial);
-		pEntity->SetSelectionState(SELECT_MULTI_PARTIAL);
-	}
+        AddToList(pEntity, EntityState_Partial);
+        pEntity->SetSelectionState(SELECT_MULTI_PARTIAL);
+    }
 }
 
 
@@ -320,31 +278,26 @@ void CToolPickEntity::SetSelectedEntities(CMapEntityList &EntityListFull, CMapEn
 // Purpose: 
 // Input  : pEntity - 
 //-----------------------------------------------------------------------------
-int CToolPickEntity::FindEntity(CMapEntity *pEntity)
-{
-	for (int i = 0; i < m_Entities.Count(); i++)
-	{
-		if (m_Entities[i].pEntity == pEntity)
-		{
-			return i;
-		}
-	}
+int CToolPickEntity::FindEntity(CMapEntity *pEntity) {
+    for (int i = 0; i < m_Entities.Count(); i++) {
+        if (m_Entities[i].pEntity == pEntity) {
+            return i;
+        }
+    }
 
-	return -1;
+    return -1;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Clears the selection set.
 //-----------------------------------------------------------------------------
-void CToolPickEntity::DeselectAll(void)
-{
-	for (int i = 0; i < m_Entities.Count(); i++)
-	{
-		m_Entities[i].pEntity->SetSelectionState(SELECT_NONE);
-	}
+void CToolPickEntity::DeselectAll(void) {
+    for (int i = 0; i < m_Entities.Count(); i++) {
+        m_Entities[i].pEntity->SetSelectionState(SELECT_NONE);
+    }
 
-	m_Entities.RemoveAll();
+    m_Entities.RemoveAll();
 }
 
 
@@ -352,38 +305,32 @@ void CToolPickEntity::DeselectAll(void)
 // Purpose: Selects the entity unconditionally.
 // Input  : pEntity - entity to select.
 //-----------------------------------------------------------------------------
-void CToolPickEntity::SelectEntity(CMapEntity *pEntity)
-{
-	int nIndex = FindEntity(pEntity);
-	if (nIndex != -1)
-	{
-		//
-		// The entity is in our list, update its selection state.
-		//
-		m_Entities[nIndex].eState = EntityState_Select;
-		pEntity->SetSelectionState(SELECT_NORMAL);
-	}
-	else
-	{
-		//
-		// The entity is not in our list, add it.
-		//
-		AddToList(pEntity, EntityState_Select);
-		pEntity->SetSelectionState(SELECT_NORMAL);
-	}
+void CToolPickEntity::SelectEntity(CMapEntity *pEntity) {
+    int nIndex = FindEntity(pEntity);
+    if (nIndex != -1) {
+        //
+        // The entity is in our list, update its selection state.
+        //
+        m_Entities[nIndex].eState = EntityState_Select;
+        pEntity->SetSelectionState(SELECT_NORMAL);
+    } else {
+        //
+        // The entity is not in our list, add it.
+        //
+        AddToList(pEntity, EntityState_Select);
+        pEntity->SetSelectionState(SELECT_NORMAL);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Deselects the given entity.
 //-----------------------------------------------------------------------------
-void CToolPickEntity::DeselectEntity(CMapEntity *pEntity)
-{
-	int nIndex = FindEntity(pEntity);
-	if (nIndex != -1)
-	{
-		DeselectEntity(nIndex);
-	}
+void CToolPickEntity::DeselectEntity(CMapEntity *pEntity) {
+    int nIndex = FindEntity(pEntity);
+    if (nIndex != -1) {
+        DeselectEntity(nIndex);
+    }
 }
 
 
@@ -391,30 +338,25 @@ void CToolPickEntity::DeselectEntity(CMapEntity *pEntity)
 // Purpose: Removes the entity at the given index from the selection set.
 // Input  : nIndex - Index of the entity in the selection list.
 //-----------------------------------------------------------------------------
-void CToolPickEntity::DeselectEntity(int nIndex)
-{
-	Assert(m_Entities.IsValidIndex(nIndex));
+void CToolPickEntity::DeselectEntity(int nIndex) {
+    Assert(m_Entities.IsValidIndex(nIndex));
 
-	if (m_Entities.IsValidIndex(nIndex))
-	{
-		if (m_Entities[nIndex].eOriginalState != EntityState_Partial)
-		{
-			m_Entities[nIndex].pEntity->SetSelectionState(SELECT_NONE);
+    if (m_Entities.IsValidIndex(nIndex)) {
+        if (m_Entities[nIndex].eOriginalState != EntityState_Partial) {
+            m_Entities[nIndex].pEntity->SetSelectionState(SELECT_NONE);
 
-			//
-			// Remove the entity from our list.
-			//
-			RemoveFromList(nIndex);
-		}
-		else
-		{
-			//
-			// Just set the state to deselected so we can cycle back to partial selection.
-			//
-			m_Entities[nIndex].pEntity->SetSelectionState(SELECT_NONE);
-			m_Entities[nIndex].eState = EntityState_None;
-		}
-	}
+            //
+            // Remove the entity from our list.
+            //
+            RemoveFromList(nIndex);
+        } else {
+            //
+            // Just set the state to deselected so we can cycle back to partial selection.
+            //
+            m_Entities[nIndex].pEntity->SetSelectionState(SELECT_NONE);
+            m_Entities[nIndex].eState = EntityState_None;
+        }
+    }
 }
 
 
@@ -423,12 +365,11 @@ void CToolPickEntity::DeselectEntity(int nIndex)
 // Input  : pEntity - 
 //			eState - 
 //-----------------------------------------------------------------------------
-void CToolPickEntity::AddToList(CMapEntity *pEntity, EntityState_t eState)
-{
-	int nIndex = m_Entities.AddToTail();
-	m_Entities[nIndex].pEntity = pEntity;
-	m_Entities[nIndex].eState = eState;
-	m_Entities[nIndex].eOriginalState = eState;
+void CToolPickEntity::AddToList(CMapEntity *pEntity, EntityState_t eState) {
+    int nIndex = m_Entities.AddToTail();
+    m_Entities[nIndex].pEntity = pEntity;
+    m_Entities[nIndex].eState = eState;
+    m_Entities[nIndex].eOriginalState = eState;
 }
 
 
@@ -436,35 +377,28 @@ void CToolPickEntity::AddToList(CMapEntity *pEntity, EntityState_t eState)
 // Purpose: 
 // Input  : nIndex - 
 //-----------------------------------------------------------------------------
-void CToolPickEntity::RemoveFromList(int nIndex)
-{
-	Assert(m_Entities.IsValidIndex(nIndex));
+void CToolPickEntity::RemoveFromList(int nIndex) {
+    Assert(m_Entities.IsValidIndex(nIndex));
 
-	if (m_Entities.IsValidIndex(nIndex))
-	{
-		m_Entities.FastRemove(nIndex);
-	}
+    if (m_Entities.IsValidIndex(nIndex)) {
+        m_Entities.FastRemove(nIndex);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns lists of fully selected and partially selected entities.
 //-----------------------------------------------------------------------------
-void CToolPickEntity::GetSelectedEntities(CMapEntityList &EntityListFull, CMapEntityList &EntityListPartial)
-{
-	EntityListFull.RemoveAll();
-	EntityListPartial.RemoveAll();
+void CToolPickEntity::GetSelectedEntities(CMapEntityList &EntityListFull, CMapEntityList &EntityListPartial) {
+    EntityListFull.RemoveAll();
+    EntityListPartial.RemoveAll();
 
-	for (int i = 0; i < m_Entities.Count(); i++)
-	{
-		if (m_Entities[i].eState == EntityState_Select)
-		{
-			EntityListFull.AddToTail(m_Entities[i].pEntity);
-		}
-		else if (m_Entities[i].eState == EntityState_Partial)
-		{
-			EntityListPartial.AddToTail(m_Entities[i].pEntity);
-		}
-	}
+    for (int i = 0; i < m_Entities.Count(); i++) {
+        if (m_Entities[i].eState == EntityState_Select) {
+            EntityListFull.AddToTail(m_Entities[i].pEntity);
+        } else if (m_Entities[i].eState == EntityState_Partial) {
+            EntityListPartial.AddToTail(m_Entities[i].pEntity);
+        }
+    }
 }
 

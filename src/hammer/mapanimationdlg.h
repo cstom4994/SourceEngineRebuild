@@ -16,46 +16,54 @@
 #include "MapClass.h"
 
 
-class CMapAnimationDlg : public CHammerBar
-{
+class CMapAnimationDlg : public CHammerBar {
 public:
     CMapAnimationDlg();
-    
-    bool Create( CWnd *pParentWnd );
 
-	void RunFrame( void );
-	void SelectionChanged( CMapObjectList &NewSelList);
+    bool Create(CWnd *pParentWnd);
+
+    void RunFrame(void);
+
+    void SelectionChanged(CMapObjectList &NewSelList);
 
 protected:
 
-	//{{AFX_DATA(CMapAnimationDlg)
-	enum { IDD = IDD_ANIMATIONDLG };
-    CSliderCtrl		m_TimeSlider;        // time in animation
-    CButton         m_Play;              // plays the current animation
-	//}}AFX_DATA
+    //{{AFX_DATA(CMapAnimationDlg)
+    enum {
+        IDD = IDD_ANIMATIONDLG
+    };
+    CSliderCtrl m_TimeSlider;        // time in animation
+    CButton m_Play;              // plays the current animation
+    //}}AFX_DATA
 
-	//{{AFX_MSG( CMapAnimationDlg )
-    afx_msg void OnHScroll( UINT nSBCode, UINT nPos, CScrollBar* pScrollBar );
-	afx_msg void OnPlay();
-	afx_msg void OnCreateKeyFrame();
-	afx_msg void UpdateControl( CCmdUI *pCmdUI );
-	//}}AFX_MSG
+    //{{AFX_MSG( CMapAnimationDlg )
+    afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar);
 
-	void AdvanceAnimationTime( void );
+    afx_msg void OnPlay();
 
-    void InitTimeSlider( void );
-	void UpdateAnimationTime( void );
-	void ResetTimeSlider( void );
-	void PausePlayback( void );
+    afx_msg void OnCreateKeyFrame();
+
+    afx_msg void UpdateControl(CCmdUI *pCmdUI);
+    //}}AFX_MSG
+
+    void AdvanceAnimationTime(void);
+
+    void InitTimeSlider(void);
+
+    void UpdateAnimationTime(void);
+
+    void ResetTimeSlider(void);
+
+    void PausePlayback(void);
 
 
-	bool m_bPlaying;
-	bool m_bEnabled;
-	float m_flAnimationDuration;
-	float m_flAnimationStart;
-	float m_flAnimTime;
+    bool m_bPlaying;
+    bool m_bEnabled;
+    float m_flAnimationDuration;
+    float m_flAnimationStart;
+    float m_flAnimTime;
 
-	DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 };
 
 #endif // MAPANIMATIONDLG_H

@@ -16,7 +16,7 @@
 
 // If you get this interface out of the material system, it'll return an IMaterialSystem
 // with everything stubbed. This is used for running the client in text mode.
-#define MATERIAL_SYSTEM_STUB_INTERFACE_VERSION "VMaterialSystemStub001"
+#define MATERIAL_SYSTEM_STUB_INTERFACE_VERSION "LambdaMaterialSystemStub001"
 
 
 class IMaterialSystemStub : public IMaterialSystem {

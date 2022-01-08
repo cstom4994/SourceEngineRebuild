@@ -32,40 +32,38 @@
 // Layout types for remembering the last layout of the dialog. We could
 // also remember this as an array of booleans for which pages were visible.
 //
-enum LayoutType_t
-{
-	ltZero,			// Special enums for initialization
-	ltNone,
+enum LayoutType_t {
+    ltZero,            // Special enums for initialization
+    ltNone,
 
-	ltSolid,		// Enable groups only
-	ltSolidMulti,	// Enable none
-	ltEntity,		// Enable entity, flags, groups
-	ltEntityMulti,	// Enable entity, flags
-	ltWorld,		// Enable entity, flags, groups
-	ltModelEntity,	// Enable entity, flags, groups, model, 
-	ltMulti			// Enable none
+    ltSolid,        // Enable groups only
+    ltSolidMulti,    // Enable none
+    ltEntity,        // Enable entity, flags, groups
+    ltEntityMulti,    // Enable entity, flags
+    ltWorld,        // Enable entity, flags, groups
+    ltModelEntity,    // Enable entity, flags, groups, model,
+    ltMulti            // Enable none
 };
-
 
 
 IMPLEMENT_DYNAMIC(CObjectProperties, CPropertySheet)
 
 
 BEGIN_MESSAGE_MAP(CObjectProperties, CPropertySheet)
-	//{{AFX_MSG_MAP(CObjectProperties)
-	ON_WM_KILLFOCUS()
-	ON_WM_ACTIVATE()
-	ON_WM_CLOSE()
-	ON_WM_PAINT()
-	ON_WM_SIZE()
-	ON_WM_SHOWWINDOW()
-	ON_WM_CREATE()
-	ON_COMMAND(IDOK, OnApply )
-	ON_COMMAND(ID_APPLY_NOW, OnApply )
-	ON_COMMAND(IDCANCEL, OnCancel)
-	ON_COMMAND(IDI_INPUT, OnInputs)
-	ON_COMMAND(IDI_OUTPUT, OnOutputs)
-	//}}AFX_MSG_MAP
+                    //{{AFX_MSG_MAP(CObjectProperties)
+                    ON_WM_KILLFOCUS()
+                    ON_WM_ACTIVATE()
+                    ON_WM_CLOSE()
+                    ON_WM_PAINT()
+                    ON_WM_SIZE()
+                    ON_WM_SHOWWINDOW()
+                    ON_WM_CREATE()
+                    ON_COMMAND(IDOK, OnApply)
+                    ON_COMMAND(ID_APPLY_NOW, OnApply)
+                    ON_COMMAND(IDCANCEL, OnCancel)
+                    ON_COMMAND(IDI_INPUT, OnInputs)
+                    ON_COMMAND(IDI_OUTPUT, OnOutputs)
+                    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 IMPLEMENT_DYNAMIC(editCMapClass, CObject);
@@ -80,16 +78,15 @@ static editCEditGameClass e_CEditGameClass;
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
 CObjectProperties::CObjectProperties(void) :
-	CPropertySheet()
-{
-	m_bDummy = false;
-	m_pDummy = NULL;
-	m_pInputButton = NULL;
-	m_pOutputButton = NULL;
-	m_pOrgObjects = NULL;
-	m_bDataDirty = false;
+        CPropertySheet() {
+    m_bDummy = false;
+    m_pDummy = NULL;
+    m_pInputButton = NULL;
+    m_pOutputButton = NULL;
+    m_pOrgObjects = NULL;
+    m_bDataDirty = false;
 
-	CreatePages();
+    CreatePages();
 }
 
 
@@ -99,15 +96,14 @@ CObjectProperties::CObjectProperties(void) :
 //			pParentWnd - 
 //			iSelectPage - 
 //-----------------------------------------------------------------------------
-CObjectProperties::CObjectProperties(UINT nIDCaption, CWnd* pParentWnd, UINT iSelectPage)
-	:CPropertySheet(nIDCaption, pParentWnd, iSelectPage)
-{
-	m_bDummy = false;
-	m_pDummy = NULL;
-	m_pInputButton = NULL;
-	m_pOutputButton = NULL;
+CObjectProperties::CObjectProperties(UINT nIDCaption, CWnd *pParentWnd, UINT iSelectPage)
+        : CPropertySheet(nIDCaption, pParentWnd, iSelectPage) {
+    m_bDummy = false;
+    m_pDummy = NULL;
+    m_pInputButton = NULL;
+    m_pOutputButton = NULL;
 
-	CreatePages();
+    CreatePages();
 }
 
 
@@ -117,36 +113,34 @@ CObjectProperties::CObjectProperties(UINT nIDCaption, CWnd* pParentWnd, UINT iSe
 //			pParentWnd - 
 //			iSelectPage - 
 //-----------------------------------------------------------------------------
-CObjectProperties::CObjectProperties(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPage)
-	:CPropertySheet(pszCaption, pParentWnd, iSelectPage)
-{
-	m_bDummy = false;
-	m_pDummy = NULL;
-	m_pInputButton = NULL;
-	m_pOutputButton = NULL;
+CObjectProperties::CObjectProperties(LPCTSTR pszCaption, CWnd *pParentWnd, UINT iSelectPage)
+        : CPropertySheet(pszCaption, pParentWnd, iSelectPage) {
+    m_bDummy = false;
+    m_pDummy = NULL;
+    m_pInputButton = NULL;
+    m_pOutputButton = NULL;
 
-	CreatePages();
+    CreatePages();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor.
 //-----------------------------------------------------------------------------
-CObjectProperties::~CObjectProperties()
-{
-	delete m_pDummy;
+CObjectProperties::~CObjectProperties() {
+    delete m_pDummy;
 
-	delete m_pEntity;
-	delete m_pFlags;
-	delete m_pGroups;
-	delete m_pOutput;
-	delete m_pInput;
-	delete m_pModel;
+    delete m_pEntity;
+    delete m_pFlags;
+    delete m_pGroups;
+    delete m_pOutput;
+    delete m_pInput;
+    delete m_pModel;
 
-	delete m_pInputButton;
-	delete m_pOutputButton;
+    delete m_pInputButton;
+    delete m_pOutputButton;
 
-	delete[] m_ppPages;
+    delete[] m_ppPages;
 }
 
 
@@ -154,39 +148,38 @@ CObjectProperties::~CObjectProperties()
 // Purpose: Creates all possible pages and attaches our object list to them.
 //			Not all will be used depending on the types of objects being edited.
 //-----------------------------------------------------------------------------
-void CObjectProperties::CreatePages(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::CreatePages", "Object Properties" );
+void CObjectProperties::CreatePages(void) {
+    //VPROF_BUDGET( "CObjectProperties::CreatePages", "Object Properties" );
 
-	m_pEntity = new COP_Entity;
-	m_pEntity->SetObjectList(&m_DstObjects);
+    m_pEntity = new COP_Entity;
+    m_pEntity->SetObjectList(&m_DstObjects);
 
-	m_pFlags = new COP_Flags;
-	m_pFlags->SetObjectList(&m_DstObjects);
+    m_pFlags = new COP_Flags;
+    m_pFlags->SetObjectList(&m_DstObjects);
 
-	// There are some dependencies between the entity and flags tabs since
-	// they both edit the spawnflags property.
-	m_pEntity->SetFlagsPage( m_pFlags );
-	m_pFlags->SetEntityPage( m_pEntity );
+    // There are some dependencies between the entity and flags tabs since
+    // they both edit the spawnflags property.
+    m_pEntity->SetFlagsPage(m_pFlags);
+    m_pFlags->SetEntityPage(m_pEntity);
 
-	m_pGroups = new COP_Groups;
-	m_pGroups->SetObjectList(&m_DstObjects);
+    m_pGroups = new COP_Groups;
+    m_pGroups->SetObjectList(&m_DstObjects);
 
-	m_pOutput = new COP_Output;
-	m_pOutput->SetObjectList(&m_DstObjects);
+    m_pOutput = new COP_Output;
+    m_pOutput->SetObjectList(&m_DstObjects);
 
-	m_pInput = new COP_Input;
-	m_pInput->SetObjectList(&m_DstObjects);
+    m_pInput = new COP_Input;
+    m_pInput->SetObjectList(&m_DstObjects);
 
-	m_pModel = new COP_Model;
-	m_pModel->SetObjectList(&m_DstObjects);
+    m_pModel = new COP_Model;
+    m_pModel->SetObjectList(&m_DstObjects);
 
-	m_pDummy = new CPropertyPage(IDD_OBJPAGE_DUMMY);
+    m_pDummy = new CPropertyPage(IDD_OBJPAGE_DUMMY);
 
-	m_ppPages = NULL;
-	m_nPages = 0;
+    m_ppPages = NULL;
+    m_nPages = 0;
 
-	m_pLastActivePage = NULL;
+    m_pLastActivePage = NULL;
 }
 
 
@@ -194,21 +187,17 @@ void CObjectProperties::CreatePages(void)
 // Purpose: 
 // Input  : pType - 
 //-----------------------------------------------------------------------------
-PVOID CObjectProperties::GetEditObject(CRuntimeClass *pType)
-{
-	//VPROF_BUDGET( "CObjectProperties::GetEditObject", "Object Properties" );
+PVOID CObjectProperties::GetEditObject(CRuntimeClass *pType) {
+    //VPROF_BUDGET( "CObjectProperties::GetEditObject", "Object Properties" );
 
-	if (pType == RUNTIME_CLASS(editCMapClass))
-	{
-		return PVOID((CMapClass*)&e_CMapClass);
-	}
-	else if (pType == RUNTIME_CLASS(editCEditGameClass))
-	{
-		return PVOID((CEditGameClass*)&e_CEditGameClass);
-	}
+    if (pType == RUNTIME_CLASS(editCMapClass)) {
+        return PVOID((CMapClass *) &e_CMapClass);
+    } else if (pType == RUNTIME_CLASS(editCEditGameClass)) {
+        return PVOID((CEditGameClass *) &e_CEditGameClass);
+    }
 
-	Assert(0);
-	return NULL;
+    Assert(0);
+    return NULL;
 }
 
 
@@ -217,28 +206,22 @@ PVOID CObjectProperties::GetEditObject(CRuntimeClass *pType)
 // Input  : pobj - 
 //			pType - 
 //-----------------------------------------------------------------------------
-PVOID CObjectProperties::GetEditObjectFromMapObject(CMapClass *pobj, CRuntimeClass *pType)
-{
-	//VPROF_BUDGET( "CObjectProperties::GetEditObjectFromMapObject", "Object Properties" );
+PVOID CObjectProperties::GetEditObjectFromMapObject(CMapClass *pobj, CRuntimeClass *pType) {
+    //VPROF_BUDGET( "CObjectProperties::GetEditObjectFromMapObject", "Object Properties" );
 
-	if (pType == RUNTIME_CLASS(editCMapClass))
-	{
-		return PVOID(pobj);
-	}
-	else if (pType == RUNTIME_CLASS(editCEditGameClass))
-	{
-		if (pobj->IsMapClass(MAPCLASS_TYPE(CMapEntity)))
-		{
-			return PVOID((CEditGameClass*)((CMapEntity*)pobj));
-		}
+    if (pType == RUNTIME_CLASS(editCMapClass)) {
+        return PVOID(pobj);
+    } else if (pType == RUNTIME_CLASS(editCEditGameClass)) {
+        if (pobj->IsMapClass(MAPCLASS_TYPE(CMapEntity))) {
+            return PVOID((CEditGameClass *) ((CMapEntity *) pobj));
+        }
 
-		if (pobj->IsMapClass(MAPCLASS_TYPE(CMapWorld)))
-		{
-			return PVOID((CEditGameClass*)((CMapWorld*)pobj));
-		}
-	}
+        if (pobj->IsMapClass(MAPCLASS_TYPE(CMapWorld))) {
+            return PVOID((CEditGameClass *) ((CMapWorld *) pobj));
+        }
+    }
 
-	return NULL;
+    return NULL;
 }
 
 
@@ -246,54 +229,44 @@ PVOID CObjectProperties::GetEditObjectFromMapObject(CMapClass *pobj, CRuntimeCla
 // Purpose: 
 // Input  : *pobj - 
 //-----------------------------------------------------------------------------
-void CObjectProperties::CopyDataToEditObjects(CMapClass *pobj)
-{
-	//VPROF_BUDGET( "CObjectProperties::CopyDataToEditObjects", "Object Properties" );
+void CObjectProperties::CopyDataToEditObjects(CMapClass *pobj) {
+    //VPROF_BUDGET( "CObjectProperties::CopyDataToEditObjects", "Object Properties" );
 
-	//
-	// All copies here are done without updating object dependencies, because
-	// we're copying to a place that is outside of the world.
-	//
-	e_CMapClass.CopyFrom(pobj, false);
+    //
+    // All copies here are done without updating object dependencies, because
+    // we're copying to a place that is outside of the world.
+    //
+    e_CMapClass.CopyFrom(pobj, false);
 
-	if (pobj->IsMapClass(MAPCLASS_TYPE(CMapEntity)))
-	{
-		e_CEditGameClass.CopyFrom((CEditGameClass *)((CMapEntity *)pobj));
-	}
-	else if (pobj->IsMapClass(MAPCLASS_TYPE(CMapWorld)))
-	{
-		e_CEditGameClass.CopyFrom((CEditGameClass *)((CMapWorld *)pobj));
-	}
+    if (pobj->IsMapClass(MAPCLASS_TYPE(CMapEntity))) {
+        e_CEditGameClass.CopyFrom((CEditGameClass *) ((CMapEntity *) pobj));
+    } else if (pobj->IsMapClass(MAPCLASS_TYPE(CMapWorld))) {
+        e_CEditGameClass.CopyFrom((CEditGameClass *) ((CMapWorld *) pobj));
+    }
 }
 
 //------------------------------------------------------------------------------
 // Purpose:
 // Input  : nState - 
 //------------------------------------------------------------------------------
-void CObjectProperties::SetOutputButtonState(int nState)
-{
-	//VPROF_BUDGET( "CObjectProperties::SetOutputButtonState", "Object Properties" );
+void CObjectProperties::SetOutputButtonState(int nState) {
+    //VPROF_BUDGET( "CObjectProperties::SetOutputButtonState", "Object Properties" );
 
-	if (nState == CONNECTION_GOOD)
-	{
-		m_pOutputButton->SetIcon(m_hIconOutputGood);
-		m_pOutputButton->ShowWindow(SW_SHOW);
-		m_pOutputButton->Invalidate();
-		m_pOutputButton->UpdateWindow();
-	}
-	else if (nState == CONNECTION_BAD)
-	{
-		m_pOutputButton->SetIcon(m_hIconOutputBad);
-		m_pOutputButton->ShowWindow(SW_SHOW);
-		m_pOutputButton->Invalidate();
-		m_pOutputButton->UpdateWindow();
-	}
-	else
-	{
-		m_pOutputButton->ShowWindow(SW_HIDE);
-		m_pOutputButton->Invalidate();
-		m_pOutputButton->UpdateWindow();
-	}
+    if (nState == CONNECTION_GOOD) {
+        m_pOutputButton->SetIcon(m_hIconOutputGood);
+        m_pOutputButton->ShowWindow(SW_SHOW);
+        m_pOutputButton->Invalidate();
+        m_pOutputButton->UpdateWindow();
+    } else if (nState == CONNECTION_BAD) {
+        m_pOutputButton->SetIcon(m_hIconOutputBad);
+        m_pOutputButton->ShowWindow(SW_SHOW);
+        m_pOutputButton->Invalidate();
+        m_pOutputButton->UpdateWindow();
+    } else {
+        m_pOutputButton->ShowWindow(SW_HIDE);
+        m_pOutputButton->Invalidate();
+        m_pOutputButton->UpdateWindow();
+    }
 }
 
 
@@ -301,349 +274,294 @@ void CObjectProperties::SetOutputButtonState(int nState)
 // Purpose:
 // Input  : nState - 
 //------------------------------------------------------------------------------
-void CObjectProperties::SetInputButtonState(int nState)
-{
-	//VPROF_BUDGET( "CObjectProperties::SetInputButtonState", "Object Properties" );
+void CObjectProperties::SetInputButtonState(int nState) {
+    //VPROF_BUDGET( "CObjectProperties::SetInputButtonState", "Object Properties" );
 
-	if (nState == CONNECTION_GOOD)
-	{
-		m_pInputButton->SetIcon(m_hIconInputGood);
-		m_pInputButton->ShowWindow(SW_SHOW);
-		m_pInputButton->Invalidate();
-		m_pInputButton->UpdateWindow();
-	}
-	else if (nState == CONNECTION_BAD)
-	{
-		m_pInputButton->SetIcon(m_hIconInputBad);
-		m_pInputButton->ShowWindow(SW_SHOW);
-		m_pInputButton->Invalidate();
-		m_pInputButton->UpdateWindow();
-	}
-	else
-	{
-		m_pInputButton->ShowWindow(SW_HIDE);
-		m_pInputButton->Invalidate();
-		m_pInputButton->UpdateWindow();
-	}
+    if (nState == CONNECTION_GOOD) {
+        m_pInputButton->SetIcon(m_hIconInputGood);
+        m_pInputButton->ShowWindow(SW_SHOW);
+        m_pInputButton->Invalidate();
+        m_pInputButton->UpdateWindow();
+    } else if (nState == CONNECTION_BAD) {
+        m_pInputButton->SetIcon(m_hIconInputBad);
+        m_pInputButton->ShowWindow(SW_SHOW);
+        m_pInputButton->Invalidate();
+        m_pInputButton->UpdateWindow();
+    } else {
+        m_pInputButton->ShowWindow(SW_HIDE);
+        m_pInputButton->Invalidate();
+        m_pInputButton->UpdateWindow();
+    }
 }
 
 
 //------------------------------------------------------------------------------
 // Purpose: Set icon being displayed on output button.
 //------------------------------------------------------------------------------
-void CObjectProperties::UpdateOutputButton(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::UpdateOutputButton", "Object Properties" );
+void CObjectProperties::UpdateOutputButton(void) {
+    //VPROF_BUDGET( "CObjectProperties::UpdateOutputButton", "Object Properties" );
 
-	if (!m_pOutputButton)
-	{
-		return;
-	}
+    if (!m_pOutputButton) {
+        return;
+    }
 
-	bool bHaveConnection = false;
-	bool bIgnoreHiddenTargets = false;
-	if ( m_pOutput )
-		bIgnoreHiddenTargets = !m_pOutput->ShouldShowHiddenTargets();
+    bool bHaveConnection = false;
+    bool bIgnoreHiddenTargets = false;
+    if (m_pOutput)
+        bIgnoreHiddenTargets = !m_pOutput->ShouldShowHiddenTargets();
 
-	FOR_EACH_OBJ( m_DstObjects, pos )
-	{
-		CMapClass *pObject = m_DstObjects.Element(pos);
+    FOR_EACH_OBJ(m_DstObjects, pos) {
+        CMapClass *pObject = m_DstObjects.Element(pos);
 
-		if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))))
-		{
-			CMapEntity *pEntity = (CMapEntity *)pObject;
-			int nStatus = CEntityConnection::ValidateOutputConnections(pEntity, true, bIgnoreHiddenTargets);
-			if (nStatus == CONNECTION_BAD)
-			{
-				SetOutputButtonState(CONNECTION_BAD);
-				return;
-			}
-			else if (nStatus == CONNECTION_GOOD)
-			{
-				bHaveConnection = true;
-			}
-		}
-	}
-	if (bHaveConnection)
-	{
-		SetOutputButtonState(CONNECTION_GOOD);
-	}
-	else
-	{
-		SetOutputButtonState(CONNECTION_NONE);
-	}
+        if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity)))) {
+            CMapEntity *pEntity = (CMapEntity *) pObject;
+            int nStatus = CEntityConnection::ValidateOutputConnections(pEntity, true, bIgnoreHiddenTargets);
+            if (nStatus == CONNECTION_BAD) {
+                SetOutputButtonState(CONNECTION_BAD);
+                return;
+            } else if (nStatus == CONNECTION_GOOD) {
+                bHaveConnection = true;
+            }
+        }
+    }
+    if (bHaveConnection) {
+        SetOutputButtonState(CONNECTION_GOOD);
+    } else {
+        SetOutputButtonState(CONNECTION_NONE);
+    }
 }
 
 
 //------------------------------------------------------------------------------
 // Purpose: Set icon being displayed on input button.
 //------------------------------------------------------------------------------
-void CObjectProperties::UpdateInputButton()
-{
-	//VPROF_BUDGET( "CObjectProperties::UpdateInputButton", "Object Properties" );
+void CObjectProperties::UpdateInputButton() {
+    //VPROF_BUDGET( "CObjectProperties::UpdateInputButton", "Object Properties" );
 
-	if (!m_pInputButton)
-	{
-		return;
-	}
+    if (!m_pInputButton) {
+        return;
+    }
 
-	bool bHaveConnection = false;
+    bool bHaveConnection = false;
 
-	FOR_EACH_OBJ( m_DstObjects, pos )
-	{
-		CMapClass *pObject = m_DstObjects.Element(pos);
+    FOR_EACH_OBJ(m_DstObjects, pos) {
+        CMapClass *pObject = m_DstObjects.Element(pos);
 
-		if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))))
-		{
-			CMapEntity *pEntity = (CMapEntity *)pObject;
-			int nStatus = CEntityConnection::ValidateInputConnections(pEntity, false);
-			if (nStatus == CONNECTION_BAD)
-			{
-				SetInputButtonState(CONNECTION_BAD);
-				return;
-			}
-			else if (nStatus == CONNECTION_GOOD)
-			{
-				bHaveConnection = true;
-			}
-		}
-	}
-	if (bHaveConnection)
-	{
-		SetInputButtonState(CONNECTION_GOOD);
-	}
-	else
-	{
-		SetInputButtonState(CONNECTION_NONE);
-	}
+        if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity)))) {
+            CMapEntity *pEntity = (CMapEntity *) pObject;
+            int nStatus = CEntityConnection::ValidateInputConnections(pEntity, false);
+            if (nStatus == CONNECTION_BAD) {
+                SetInputButtonState(CONNECTION_BAD);
+                return;
+            } else if (nStatus == CONNECTION_GOOD) {
+                bHaveConnection = true;
+            }
+        }
+    }
+    if (bHaveConnection) {
+        SetInputButtonState(CONNECTION_GOOD);
+    } else {
+        SetInputButtonState(CONNECTION_NONE);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Finds/Creates the buttons.
 //-----------------------------------------------------------------------------
-void CObjectProperties::CreateButtons(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::CreateButtons", "Object Properties" );
+void CObjectProperties::CreateButtons(void) {
+    //VPROF_BUDGET( "CObjectProperties::CreateButtons", "Object Properties" );
 
 #if 0
-	// Get the screen location of the hidden apply button(ID_APPLY_NOW)
-	rect	rcButton;
-	pApplyButton->GetWindowRect( &rcButton );
+    // Get the screen location of the hidden apply button(ID_APPLY_NOW)
+    rect	rcButton;
+    pApplyButton->GetWindowRect( &rcButton );
 
-	// Grab, enable and rename the OK button to be Apply 
-	// (Because <enter> only accelerates IDOK)
-	// and we dont want "OK" (apply+close) functionality
-	CButton	*pOKButton = reinterpret_cast<CButton *>(GetDlgItem(IDOK)); 
-	pOKButton->SetWindowTextA("Apply");
-	pOKButton->EnableWindow();
-	pOKButton->ShowWindow(SW_SHOWNA);
-	pOKButton->MoveWindow(&rcButton);
+    // Grab, enable and rename the OK button to be Apply
+    // (Because <enter> only accelerates IDOK)
+    // and we dont want "OK" (apply+close) functionality
+    CButton	*pOKButton = reinterpret_cast<CButton *>(GetDlgItem(IDOK));
+    pOKButton->SetWindowTextA("Apply");
+    pOKButton->EnableWindow();
+    pOKButton->ShowWindow(SW_SHOWNA);
+    pOKButton->MoveWindow(&rcButton);
 #else
-	// Grab, enable and DONT show the OK button
-	// (Because <enter> only accelerates IDOK)
-	// and we dont want "OK" (apply+close) functionality
-	CButton	*pOKButton = reinterpret_cast<CButton *>(GetDlgItem(IDOK)); 
-	pOKButton->EnableWindow();
-	// Dont show the window, just make it active to forward <enter> -> IDOK -> OnApply
+    // Grab, enable and DONT show the OK button
+    // (Because <enter> only accelerates IDOK)
+    // and we dont want "OK" (apply+close) functionality
+    CButton *pOKButton = reinterpret_cast<CButton *>(GetDlgItem(IDOK));
+    pOKButton->EnableWindow();
+    // Dont show the window, just make it active to forward <enter> -> IDOK -> OnApply
 
-	// Grab and enable & show the hidden Apply button too
-	CButton *pApplyButton = reinterpret_cast<CButton *>(GetDlgItem(ID_APPLY_NOW));
-	pApplyButton->SetButtonStyle( pApplyButton->GetButtonStyle() | BS_DEFPUSHBUTTON );
-	pApplyButton->EnableWindow();
-	pApplyButton->ShowWindow(SW_SHOWNA);
+    // Grab and enable & show the hidden Apply button too
+    CButton *pApplyButton = reinterpret_cast<CButton *>(GetDlgItem(ID_APPLY_NOW));
+    pApplyButton->SetButtonStyle(pApplyButton->GetButtonStyle() | BS_DEFPUSHBUTTON);
+    pApplyButton->EnableWindow();
+    pApplyButton->ShowWindow(SW_SHOWNA);
 #endif
-	// Grab and enable & show the hidden Cancel button too
-	CButton *pCancelButton = reinterpret_cast<CButton *>(GetDlgItem(IDCANCEL));
-	pCancelButton->EnableWindow();
-	pCancelButton->ShowWindow(SW_SHOWNA);
+    // Grab and enable & show the hidden Cancel button too
+    CButton *pCancelButton = reinterpret_cast<CButton *>(GetDlgItem(IDCANCEL));
+    pCancelButton->EnableWindow();
+    pCancelButton->ShowWindow(SW_SHOWNA);
 
-	//
-	// Load Icons
-	//
-	CWinApp *pApp = AfxGetApp();
-	m_hIconOutputGood = pApp->LoadIcon(IDI_OUTPUT);
-	m_hIconOutputBad  = pApp->LoadIcon(IDI_OUTPUTBAD);
-	m_hIconInputGood  = pApp->LoadIcon(IDI_INPUT);
-	m_hIconInputBad   = pApp->LoadIcon(IDI_INPUTBAD);
+    //
+    // Load Icons
+    //
+    CWinApp *pApp = AfxGetApp();
+    m_hIconOutputGood = pApp->LoadIcon(IDI_OUTPUT);
+    m_hIconOutputBad = pApp->LoadIcon(IDI_OUTPUTBAD);
+    m_hIconInputGood = pApp->LoadIcon(IDI_INPUT);
+    m_hIconInputBad = pApp->LoadIcon(IDI_INPUTBAD);
 
-	// Create buttons to display connection status icons
-	CRect rect;
-	GetWindowRect(&rect);
-	rect.InflateRect(0, 0, 0, 32);
-	MoveWindow(&rect, FALSE);
-	GetClientRect(&rect);
+    // Create buttons to display connection status icons
+    CRect rect;
+    GetWindowRect(&rect);
+    rect.InflateRect(0, 0, 0, 32);
+    MoveWindow(&rect, FALSE);
+    GetClientRect(&rect);
 
-	m_pInputButton = new CButton;
-	m_pInputButton->Create(_T("My button"), WS_CHILD|WS_VISIBLE|BS_ICON|BS_FLAT, CRect(6,rect.bottom - 34,38,rect.bottom - 2), this, IDI_INPUT);
+    m_pInputButton = new CButton;
+    m_pInputButton->Create(_T("My button"), WS_CHILD | WS_VISIBLE | BS_ICON | BS_FLAT,
+                           CRect(6, rect.bottom - 34, 38, rect.bottom - 2), this, IDI_INPUT);
 
-	m_pOutputButton = new CButton;
-	m_pOutputButton->Create(_T("My button"), WS_CHILD|WS_VISIBLE|BS_ICON|BS_FLAT, CRect(40,rect.bottom - 34,72,rect.bottom - 2), this, IDI_OUTPUT);
+    m_pOutputButton = new CButton;
+    m_pOutputButton->Create(_T("My button"), WS_CHILD | WS_VISIBLE | BS_ICON | BS_FLAT,
+                            CRect(40, rect.bottom - 34, 72, rect.bottom - 2), this, IDI_OUTPUT);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns the appropriate page layout for the current object list.
 //-----------------------------------------------------------------------------
-void CObjectProperties::GetTabsForLayout(LayoutType_t eLayoutType, bool &bEntity, bool &bGroups, bool &bFlags, bool &bModel)
-{
-	//VPROF_BUDGET( "CObjectProperties::GetTabsForLayout", "Object Properties" );
+void CObjectProperties::GetTabsForLayout(LayoutType_t eLayoutType, bool &bEntity, bool &bGroups, bool &bFlags,
+                                         bool &bModel) {
+    //VPROF_BUDGET( "CObjectProperties::GetTabsForLayout", "Object Properties" );
 
-	bEntity = bGroups = bFlags = bModel = false;
+    bEntity = bGroups = bFlags = bModel = false;
 
-	switch (eLayoutType)
-	{
-		case ltEntity:
-		case ltEntityMulti:
-		case ltModelEntity:
-		{
-			bFlags = true;
-			bEntity = true;
-			bGroups = true;
-			bModel = (eLayoutType == ltModelEntity);
-			break;
-		}
+    switch (eLayoutType) {
+        case ltEntity:
+        case ltEntityMulti:
+        case ltModelEntity: {
+            bFlags = true;
+            bEntity = true;
+            bGroups = true;
+            bModel = (eLayoutType == ltModelEntity);
+            break;
+        }
 
-		case ltSolid:
-		{
-			bGroups = true;
-			break;
-		}
+        case ltSolid: {
+            bGroups = true;
+            break;
+        }
 
-		case ltWorld:
-		{
-			bEntity = true;
-			break;
-		}
+        case ltWorld: {
+            bEntity = true;
+            break;
+        }
 
-		case ltMulti:
-		case ltSolidMulti:
-		{
-			bGroups = true;
-			break;
-		}
-	}
+        case ltMulti:
+        case ltSolidMulti: {
+            bGroups = true;
+            break;
+        }
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns the appropriate page layout for the current object list.
 //-----------------------------------------------------------------------------
-LayoutType_t CObjectProperties::GetLayout(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::GetLayout", "Object Properties" );
+LayoutType_t CObjectProperties::GetLayout(void) {
+    //VPROF_BUDGET( "CObjectProperties::GetLayout", "Object Properties" );
 
-	LayoutType_t eLayoutType = ltNone;
+    LayoutType_t eLayoutType = ltNone;
 
-	if ((m_DstObjects.Count() == 0) || (CMapDoc::GetActiveMapDoc() == NULL))
-	{
-		eLayoutType = ltNone;
-	}
-	else
-	{
-		//
-		// Figure out which layout to use based on the objects being edited.
-		//
-		bool bFirst = true;
-		MAPCLASSTYPE PrevType = MAPCLASS_TYPE(CMapEntity);
-		
-		FOR_EACH_OBJ( m_DstObjects, pos )
-		{
-			CMapClass *pObject = m_DstObjects.Element(pos);
-			MAPCLASSTYPE ThisType = pObject->GetType();
-			
-			if (bFirst)
-			{
-				bFirst = false;
+    if ((m_DstObjects.Count() == 0) || (CMapDoc::GetActiveMapDoc() == NULL)) {
+        eLayoutType = ltNone;
+    } else {
+        //
+        // Figure out which layout to use based on the objects being edited.
+        //
+        bool bFirst = true;
+        MAPCLASSTYPE PrevType = MAPCLASS_TYPE(CMapEntity);
 
-				if (ThisType == MAPCLASS_TYPE(CMapEntity))
-				{
-					CMapEntity *pEntity = (CMapEntity *)pObject;
+        FOR_EACH_OBJ(m_DstObjects, pos) {
+            CMapClass *pObject = m_DstObjects.Element(pos);
+            MAPCLASSTYPE ThisType = pObject->GetType();
 
-					//
-					// Only show the model tab when we have a single entity selected that
-					// has a model helper.
-					//
-					if (m_DstObjects.Count() == 1)
-					{
-						if (pEntity->GetChildOfType((CMapStudioModel *)NULL))
-						{
-							eLayoutType = ltModelEntity;
-						}
-						else
-						{
-							eLayoutType = ltEntity;
-						}
-					}
-					else
-					{
-						eLayoutType = ltEntityMulti;
-					}
-				}
-				else if ((ThisType == MAPCLASS_TYPE(CMapSolid)) ||
-						(ThisType == MAPCLASS_TYPE(CMapGroup)))
-				{
-					eLayoutType = (m_DstObjects.Count() == 1) ? ltSolid : ltSolidMulti;
-				}
-				else if (ThisType == MAPCLASS_TYPE(CMapWorld))
-				{
-					eLayoutType = ltWorld;
-				}
-			}
-			else if (ThisType != PrevType)
-			{
-				eLayoutType = ltMulti;
-			}
+            if (bFirst) {
+                bFirst = false;
 
-			PrevType = ThisType;
-		}
-	}
+                if (ThisType == MAPCLASS_TYPE(CMapEntity)) {
+                    CMapEntity *pEntity = (CMapEntity *) pObject;
 
-	return eLayoutType;
+                    //
+                    // Only show the model tab when we have a single entity selected that
+                    // has a model helper.
+                    //
+                    if (m_DstObjects.Count() == 1) {
+                        if (pEntity->GetChildOfType((CMapStudioModel *) NULL)) {
+                            eLayoutType = ltModelEntity;
+                        } else {
+                            eLayoutType = ltEntity;
+                        }
+                    } else {
+                        eLayoutType = ltEntityMulti;
+                    }
+                } else if ((ThisType == MAPCLASS_TYPE(CMapSolid)) ||
+                           (ThisType == MAPCLASS_TYPE(CMapGroup))) {
+                    eLayoutType = (m_DstObjects.Count() == 1) ? ltSolid : ltSolidMulti;
+                } else if (ThisType == MAPCLASS_TYPE(CMapWorld)) {
+                    eLayoutType = ltWorld;
+                }
+            } else if (ThisType != PrevType) {
+                eLayoutType = ltMulti;
+            }
+
+            PrevType = ThisType;
+        }
+    }
+
+    return eLayoutType;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CObjectProperties::RestoreActivePage(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::RestoreActivePage", "Object Properties" );
+void CObjectProperties::RestoreActivePage(void) {
+    //VPROF_BUDGET( "CObjectProperties::RestoreActivePage", "Object Properties" );
 
-	//
-	// Try to restore the previously active page. If it is not in the page list
-	// just activate page zero.
-	//
-	bool bPageSet = false;
-	for (int i = 0; i < m_nPages; i++)
-	{
-		if (m_ppPages[i] == m_pLastActivePage)
-		{
-			SetActivePage(m_pLastActivePage);
-			bPageSet = true;
-			break;
-		}
-	}
+    //
+    // Try to restore the previously active page. If it is not in the page list
+    // just activate page zero.
+    //
+    bool bPageSet = false;
+    for (int i = 0; i < m_nPages; i++) {
+        if (m_ppPages[i] == m_pLastActivePage) {
+            SetActivePage(m_pLastActivePage);
+            bPageSet = true;
+            break;
+        }
+    }
 
-	if (!bPageSet)
-	{
-		SetActivePage(0);
-	}
+    if (!bPageSet) {
+        SetActivePage(0);
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CObjectProperties::SaveActivePage(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::SaveActivePage", "Object Properties" );
+void CObjectProperties::SaveActivePage(void) {
+    //VPROF_BUDGET( "CObjectProperties::SaveActivePage", "Object Properties" );
 
-	CObjectPage *pPage = (CObjectPage *)GetActivePage();
-	if (pPage != NULL)
-	{
-		m_pLastActivePage = pPage;
-	}
+    CObjectPage *pPage = (CObjectPage *) GetActivePage();
+    if (pPage != NULL) {
+        m_pLastActivePage = pPage;
+    }
 }
 
 
@@ -651,183 +569,163 @@ void CObjectProperties::SaveActivePage(void)
 // Purpose: Sets up pages to display based on "m_DstObjects".
 // Output : Returns TRUE if the page structure changed, FALSE if not.
 //-----------------------------------------------------------------------------
-BOOL CObjectProperties::SetupPages(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::SetupPages", "Object Properties" );
+BOOL CObjectProperties::SetupPages(void) {
+    //VPROF_BUDGET( "CObjectProperties::SetupPages", "Object Properties" );
 
-	static bool bFirstTime = true;
-	static LayoutType_t eLastLayoutType = ltZero;
-	static LayoutType_t eLastValidLayoutType = ltZero;
+    static bool bFirstTime = true;
+    static LayoutType_t eLastLayoutType = ltZero;
+    static LayoutType_t eLastValidLayoutType = ltZero;
 
-	//
-	// Save the current active page.
-	//
-	if ((eLastLayoutType != ltZero) && (eLastLayoutType != ltNone))
-	{	
-		SaveActivePage();
-	}
+    //
+    // Save the current active page.
+    //
+    if ((eLastLayoutType != ltZero) && (eLastLayoutType != ltNone)) {
+        SaveActivePage();
+    }
 
-	//
-	// Determine the appropriate layout for the current object list.
-	//	
-	LayoutType_t eLayoutType = GetLayout();
+    //
+    // Determine the appropriate layout for the current object list.
+    //
+    LayoutType_t eLayoutType = GetLayout();
 
-	bool bEntity;
-	bool bGroups;
-	bool bFlags;
-	bool bModel;
-	GetTabsForLayout(eLayoutType, bEntity, bGroups, bFlags, bModel);
+    bool bEntity;
+    bool bGroups;
+    bool bFlags;
+    bool bModel;
+    GetTabsForLayout(eLayoutType, bEntity, bGroups, bFlags, bModel);
 
-	//
-	// If the layout has not changed, we're done. All the pages are already set up.
-	//
-	if (eLayoutType == eLastLayoutType)
-	{
-		//
-		// Try to restore the previously active page. If it has been deleted just
-		// activate page zero.
-		//
-		RestoreActivePage();
-		return(FALSE);
-	}
+    //
+    // If the layout has not changed, we're done. All the pages are already set up.
+    //
+    if (eLayoutType == eLastLayoutType) {
+        //
+        // Try to restore the previously active page. If it has been deleted just
+        // activate page zero.
+        //
+        RestoreActivePage();
+        return (FALSE);
+    }
 
-	//
-	// Forget the last active page when the layout changes from one
-	// valid layout to another (such as from entity to solid).
-	// Don't reset when switching between model entities and non-model entities,
-	// because it's annoying to be switched away from the Outputs tab.
-	//
-	if ((eLayoutType != ltNone) && (eLayoutType != eLastValidLayoutType) &&
-		!((eLayoutType == ltEntity) && (eLastValidLayoutType == ltModelEntity)) &&
-		!((eLayoutType == ltModelEntity) && (eLastValidLayoutType == ltEntity)))
-	{
-		m_pLastActivePage = NULL;
-		eLastValidLayoutType = eLayoutType;
-	}
+    //
+    // Forget the last active page when the layout changes from one
+    // valid layout to another (such as from entity to solid).
+    // Don't reset when switching between model entities and non-model entities,
+    // because it's annoying to be switched away from the Outputs tab.
+    //
+    if ((eLayoutType != ltNone) && (eLayoutType != eLastValidLayoutType) &&
+        !((eLayoutType == ltEntity) && (eLastValidLayoutType == ltModelEntity)) &&
+        !((eLayoutType == ltModelEntity) && (eLastValidLayoutType == ltEntity))) {
+        m_pLastActivePage = NULL;
+        eLastValidLayoutType = eLayoutType;
+    }
 
-	eLastLayoutType = eLayoutType;
+    eLastLayoutType = eLayoutType;
 
-	CObjectPage::s_bRESTRUCTURING = TRUE;
+    CObjectPage::s_bRESTRUCTURING = TRUE;
 
-	UINT nAddPages = bEntity + bGroups + bFlags + bModel;
+    UINT nAddPages = bEntity + bGroups + bFlags + bModel;
 
-	// don't want to change focus .. just pages!
-	CWnd *pActiveWnd = GetActiveWindow();
+    // don't want to change focus .. just pages!
+    CWnd *pActiveWnd = GetActiveWindow();
 
-	bool bDisabledraw = false;
-	if (::IsWindow(m_hWnd) && IsWindowVisible())
-	{
-		SetRedraw(FALSE);
-		bDisabledraw = true;
-	}
+    bool bDisabledraw = false;
+    if (::IsWindow(m_hWnd) && IsWindowVisible()) {
+        SetRedraw(FALSE);
+        bDisabledraw = true;
+    }
 
-	if (!m_bDummy && (nAddPages == 0))
-	{
-		AddPage(m_pDummy);
-		m_bDummy = true;
-	}
-	else if (m_bDummy && (nAddPages > 0))
-	{
-		RemovePage(m_pDummy);
-		m_bDummy = false;
-	}
+    if (!m_bDummy && (nAddPages == 0)) {
+        AddPage(m_pDummy);
+        m_bDummy = true;
+    } else if (m_bDummy && (nAddPages > 0)) {
+        RemovePage(m_pDummy);
+        m_bDummy = false;
+    }
 
-	struct
-	{
-		bool m_bIsVisible;
-		bool m_bWantVisible;
-		CObjectPage *m_pPage;
-	} pages[] =
-	{
-		{false, bEntity, m_pEntity},
-		{false, bEntity, m_pOutput},
-		{false, bEntity, m_pInput},
-		{false, bModel, m_pModel},
-		{false, bFlags, m_pFlags},
-		{false, bGroups, m_pGroups}
-	};
+    struct {
+        bool m_bIsVisible;
+        bool m_bWantVisible;
+        CObjectPage *m_pPage;
+    } pages[] =
+            {
+                    {false, bEntity, m_pEntity},
+                    {false, bEntity, m_pOutput},
+                    {false, bEntity, m_pInput},
+                    {false, bModel,  m_pModel},
+                    {false, bFlags,  m_pFlags},
+                    {false, bGroups, m_pGroups}
+            };
 
-	// First, remove pages that we don't want visible.
-	// Also store if they're visible.
-	for ( int i=0; i < ARRAYSIZE( pages ); i++ )
-	{
-		pages[i].m_bIsVisible = ( GetPageIndex( pages[i].m_pPage ) != -1 );
-		if ( pages[i].m_bIsVisible && !pages[i].m_bWantVisible)
-		{
-			// It's visible but they don't want it there.
-			RemovePage( pages[i].m_pPage );
-			pages[i].m_bIsVisible = false;
-		}
-	}
-	
-	// We're about to add pages, but it'll only add them to the right of what's already there, 
-	// so we must get rid of anything to the right of our leftmost addition.
-	for ( int i=0; i < ARRAYSIZE( pages ); i++ )
-	{
-		if ( !pages[i].m_bIsVisible && pages[i].m_bWantVisible )
-		{
-			// Ok, page i needs to be on, so nuke everything to the right of it.
-			for ( int j=i+1; j < ARRAYSIZE( pages ); j++ )
-			{
-				if ( pages[j].m_bIsVisible )
-				{
-					RemovePage( pages[j].m_pPage );
-					pages[j].m_bIsVisible = false;
-				}
-			}
-			break;
-		}
-	}
-	
-	for ( int i=0; i < ARRAYSIZE( pages ); i++ )
-	{
-		if ( !pages[i].m_bIsVisible && pages[i].m_bWantVisible )
-			AddPage( pages[i].m_pPage );
-	}
+    // First, remove pages that we don't want visible.
+    // Also store if they're visible.
+    for (int i = 0; i < ARRAYSIZE(pages); i++) {
+        pages[i].m_bIsVisible = (GetPageIndex(pages[i].m_pPage) != -1);
+        if (pages[i].m_bIsVisible && !pages[i].m_bWantVisible) {
+            // It's visible but they don't want it there.
+            RemovePage(pages[i].m_pPage);
+            pages[i].m_bIsVisible = false;
+        }
+    }
 
-	//
-	// Store active pages in our array.
-	//
-	if (!m_bDummy)
-	{
-		delete[] m_ppPages;
-		m_nPages = GetPageCount();
-		m_ppPages = new CObjectPage*[m_nPages];
+    // We're about to add pages, but it'll only add them to the right of what's already there,
+    // so we must get rid of anything to the right of our leftmost addition.
+    for (int i = 0; i < ARRAYSIZE(pages); i++) {
+        if (!pages[i].m_bIsVisible && pages[i].m_bWantVisible) {
+            // Ok, page i needs to be on, so nuke everything to the right of it.
+            for (int j = i + 1; j < ARRAYSIZE(pages); j++) {
+                if (pages[j].m_bIsVisible) {
+                    RemovePage(pages[j].m_pPage);
+                    pages[j].m_bIsVisible = false;
+                }
+            }
+            break;
+        }
+    }
 
-		for (int i = 0; i < m_nPages; i++)
-		{
-			m_ppPages[i] = (CObjectPage *)GetPage(i);
-			m_ppPages[i]->m_bFirstTimeActive = true;
-			m_ppPages[i]->m_bHasUpdatedData = false;
-		}
-	}
+    for (int i = 0; i < ARRAYSIZE(pages); i++) {
+        if (!pages[i].m_bIsVisible && pages[i].m_bWantVisible)
+            AddPage(pages[i].m_pPage);
+    }
 
-	CObjectPage::s_bRESTRUCTURING = FALSE;
+    //
+    // Store active pages in our array.
+    //
+    if (!m_bDummy) {
+        delete[] m_ppPages;
+        m_nPages = GetPageCount();
+        m_ppPages = new CObjectPage *[m_nPages];
 
-	//VPROF_BUDGET( "CObjectProperties::RestoreActivePage", "Object Properties" );
-	RestoreActivePage();
+        for (int i = 0; i < m_nPages; i++) {
+            m_ppPages[i] = (CObjectPage *) GetPage(i);
+            m_ppPages[i]->m_bFirstTimeActive = true;
+            m_ppPages[i]->m_bHasUpdatedData = false;
+        }
+    }
 
-	//
-	// Enable redraws if they were disabled above.
-	//
-	if (bDisabledraw)
-	{
-		SetRedraw(TRUE);
-		Invalidate(FALSE);
-	}
+    CObjectPage::s_bRESTRUCTURING = FALSE;
 
-	// Set button status
-	UpdateOutputButton();
-	UpdateInputButton();
+    //VPROF_BUDGET( "CObjectProperties::RestoreActivePage", "Object Properties" );
+    RestoreActivePage();
 
-	if (pActiveWnd != NULL)
-	{
-		pActiveWnd->SetActiveWindow();
-	}
+    //
+    // Enable redraws if they were disabled above.
+    //
+    if (bDisabledraw) {
+        SetRedraw(TRUE);
+        Invalidate(FALSE);
+    }
 
-	bFirstTime = false;	
+    // Set button status
+    UpdateOutputButton();
+    UpdateInputButton();
 
-	return TRUE;	// pages changed - return true
+    if (pActiveWnd != NULL) {
+        pActiveWnd->SetActiveWindow();
+    }
+
+    bFirstTime = false;
+
+    return TRUE;    // pages changed - return true
 }
 
 
@@ -836,88 +734,78 @@ BOOL CObjectProperties::SetupPages(void)
 //			the given item
 // Input  : pConnection - 
 //------------------------------------------------------------------------------
-void CObjectProperties::SetPageToOutput(CEntityConnection *pConnection)
-{
-	if ( m_bDataDirty )
-		ReloadData();
+void CObjectProperties::SetPageToOutput(CEntityConnection *pConnection) {
+    if (m_bDataDirty)
+        ReloadData();
 
-	SetActivePage(m_pOutput);
-	m_pOutput->SetSelectedConnection(pConnection);
+    SetActivePage(m_pOutput);
+    m_pOutput->SetSelectedConnection(pConnection);
 }
 
-void CObjectProperties::SetPageToInput(CEntityConnection *pConnection)
-{
-	if ( m_bDataDirty )
-		ReloadData();
+void CObjectProperties::SetPageToInput(CEntityConnection *pConnection) {
+    if (m_bDataDirty)
+        ReloadData();
 
-	SetActivePage(m_pInput);
-	
-	m_pInput->SetSelectedConnection(pConnection);
+    SetActivePage(m_pInput);
+
+    m_pInput->SetSelectedConnection(pConnection);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CObjectProperties::SaveData(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::SaveData", "Object Properties" );
+void CObjectProperties::SaveData(void) {
+    //VPROF_BUDGET( "CObjectProperties::SaveData", "Object Properties" );
 
-	//
-	// Make sure window is visible - don't want to save otherwise.
-	//
-	if (!IsWindowVisible())
-	{
-		return;
-	}
+    //
+    // Make sure window is visible - don't want to save otherwise.
+    //
+    if (!IsWindowVisible()) {
+        return;
+    }
 
-	// we should never save in a dirty state
-	if ( m_bDataDirty )
-		return;
+    // we should never save in a dirty state
+    if (m_bDataDirty)
+        return;
 
-	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (!pDoc || !m_DstObjects.Count() || m_bDummy)
-	{
-		return;
-	}
+    CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
+    if (!pDoc || !m_DstObjects.Count() || m_bDummy) {
+        return;
+    }
 
-	//
-	// Transfer all page data to the objects being edited.
-	//
-	GetHistory()->MarkUndoPosition( pDoc->GetSelection()->GetList(), "Change Properties");
+    //
+    // Transfer all page data to the objects being edited.
+    //
+    GetHistory()->MarkUndoPosition(pDoc->GetSelection()->GetList(), "Change Properties");
 
-	// Don't keep all the world's children when we're editing the world, because
-	// that's really slow (and pointless since all we're changing is keyvalues).
-	bool bKeptWorld = false;
-	if (m_DstObjects.Count() == 1)
-	{
-		CMapClass *pObject = m_DstObjects.Element( 0 );
-		if ( IsWorldObject(pObject) )
-		{
-			GetHistory()->KeepNoChildren(pObject);
-			bKeptWorld = true;
-		}
-	}
+    // Don't keep all the world's children when we're editing the world, because
+    // that's really slow (and pointless since all we're changing is keyvalues).
+    bool bKeptWorld = false;
+    if (m_DstObjects.Count() == 1) {
+        CMapClass *pObject = m_DstObjects.Element(0);
+        if (IsWorldObject(pObject)) {
+            GetHistory()->KeepNoChildren(pObject);
+            bKeptWorld = true;
+        }
+    }
 
-	if (!bKeptWorld)
-	{
-		GetHistory()->Keep(&m_DstObjects);
-	}
+    if (!bKeptWorld) {
+        GetHistory()->Keep(&m_DstObjects);
+    }
 
-	for (int i = 0; i < m_nPages; i++)
-	{
-		//
-		// Pages that have never been shown have no hwnd.
-		//
-		if (IsWindow(m_ppPages[i]->m_hWnd) && m_ppPages[i]->m_bHasUpdatedData )
-		{
-			m_ppPages[i]->SaveData();
-		}
-	}
+    for (int i = 0; i < m_nPages; i++) {
+        //
+        // Pages that have never been shown have no hwnd.
+        //
+        if (IsWindow(m_ppPages[i]->m_hWnd) && m_ppPages[i]->m_bHasUpdatedData) {
+            m_ppPages[i]->SaveData();
+        }
+    }
 
-	// Objects may have changed. Update the views.
-		
-	pDoc->SetModifiedFlag();
+    // Objects may have changed. Update the views.
+
+    pDoc->SetModifiedFlag();
 }
 
 
@@ -926,93 +814,84 @@ void CObjectProperties::SaveData(void)
 //			update their controls.
 // Input  : iPage - Page index or -1 to update all pages.
 //-----------------------------------------------------------------------------
-void CObjectProperties::LoadDataForPages(int iPage)
-{
-	//VPROF_BUDGET( "CObjectProperties::LoadDataForPages", "Object Properties" );
-	
-	if (m_bDummy)
-	{
-		return;
-	}
+void CObjectProperties::LoadDataForPages(int iPage) {
+    //VPROF_BUDGET( "CObjectProperties::LoadDataForPages", "Object Properties" );
 
-	//
-	// Determine whether we are editing multiple objects or not.
-	//
-	bool bMultiEdit = (m_DstObjects.Count() > 1);
+    if (m_bDummy) {
+        return;
+    }
 
-	//
-	// Submit the edit objects to each page one at a time.
-	//
-	int nMode = CObjectPage::LoadFirstData;
-	
-	FOR_EACH_OBJ( m_DstObjects, pos )
-	{
-		CMapClass *pobj = m_DstObjects.Element(pos);
+    //
+    // Determine whether we are editing multiple objects or not.
+    //
+    bool bMultiEdit = (m_DstObjects.Count() > 1);
 
-		if (iPage != -1)
-		{
-			//
-			// Specific page.
-			//
-			m_ppPages[iPage]->SetMultiEdit(bMultiEdit);
+    //
+    // Submit the edit objects to each page one at a time.
+    //
+    int nMode = CObjectPage::LoadFirstData;
 
-			void *pObject = GetEditObjectFromMapObject(pobj, m_ppPages[iPage]->GetEditObjectRuntimeClass());
-			if (pObject != NULL)
-			{
-				m_ppPages[iPage]->UpdateData(nMode, pObject);
-				m_ppPages[iPage]->m_bHasUpdatedData = true;
-			}
-		}
-		else for (int i = 0; i < m_nPages; i++)
-		{
-			//
-			// All pages.
-			//
-			m_ppPages[i]->SetMultiEdit(bMultiEdit);
+    FOR_EACH_OBJ(m_DstObjects, pos) {
+        CMapClass *pobj = m_DstObjects.Element(pos);
 
-			// This page hasn't even been shown yet. Don't bother updating its data.
-			if (m_ppPages[i]->m_bFirstTimeActive)
-				continue;
+        if (iPage != -1) {
+            //
+            // Specific page.
+            //
+            m_ppPages[iPage]->SetMultiEdit(bMultiEdit);
 
-			void *pObject = GetEditObjectFromMapObject(pobj, m_ppPages[i]->GetEditObjectRuntimeClass());
-			if (pObject != NULL)
-			{
-				m_ppPages[i]->UpdateData(nMode, pObject);
-				m_ppPages[i]->m_bHasUpdatedData = true;
-			}								  
-		}
+            void *pObject = GetEditObjectFromMapObject(pobj, m_ppPages[iPage]->GetEditObjectRuntimeClass());
+            if (pObject != NULL) {
+                m_ppPages[iPage]->UpdateData(nMode, pObject);
+                m_ppPages[iPage]->m_bHasUpdatedData = true;
+            }
+        } else
+            for (int i = 0; i < m_nPages; i++) {
+                //
+                // All pages.
+                //
+                m_ppPages[i]->SetMultiEdit(bMultiEdit);
 
-		nMode = CObjectPage::LoadData;
-	}
+                // This page hasn't even been shown yet. Don't bother updating its data.
+                if (m_ppPages[i]->m_bFirstTimeActive)
+                    continue;
 
-	//
-	// Tell the pages that we are done submitting data.
-	//
-	if (iPage != -1)
-	{
-		//
-		// Specific page.
-		//
-		m_ppPages[iPage]->UpdateData(CObjectPage::LoadFinished, NULL);
-	}
-	else for (int i = 0; i < m_nPages; i++)
-	{
-		//
-		// All pages.
-		//
+                void *pObject = GetEditObjectFromMapObject(pobj, m_ppPages[i]->GetEditObjectRuntimeClass());
+                if (pObject != NULL) {
+                    m_ppPages[i]->UpdateData(nMode, pObject);
+                    m_ppPages[i]->m_bHasUpdatedData = true;
+                }
+            }
 
-		// This page hasn't even been shown yet. Don't bother updating its data.
-		if (m_ppPages[i]->m_bFirstTimeActive)
-			continue;
+        nMode = CObjectPage::LoadData;
+    }
 
-		m_ppPages[i]->UpdateData(CObjectPage::LoadFinished, NULL);
-	}
+    //
+    // Tell the pages that we are done submitting data.
+    //
+    if (iPage != -1) {
+        //
+        // Specific page.
+        //
+        m_ppPages[iPage]->UpdateData(CObjectPage::LoadFinished, NULL);
+    } else
+        for (int i = 0; i < m_nPages; i++) {
+            //
+            // All pages.
+            //
 
-	//
-	// Update the input/output icons based on the new data.
-	//
-	UpdateOutputButton();
-	UpdateInputButton();
+            // This page hasn't even been shown yet. Don't bother updating its data.
+            if (m_ppPages[i]->m_bFirstTimeActive)
+                continue;
+
+            m_ppPages[i]->UpdateData(CObjectPage::LoadFinished, NULL);
+        }
+
+    //
+    // Update the input/output icons based on the new data.
+    //
+    UpdateOutputButton();
+    UpdateInputButton();
 }
 
 
@@ -1020,23 +899,18 @@ void CObjectProperties::LoadDataForPages(int iPage)
 // Purpose: Adds the object to m_DstObjects unless it is a group, in which case
 //			it is expanded (recursively) to its children.
 //-----------------------------------------------------------------------------
-void CObjectProperties::AddObjectExpandGroups(CMapClass *pObject)
-{
-	//VPROF_BUDGET( "CObjectProperties::AddObjectExpandGroups", "Object Properties" );
+void CObjectProperties::AddObjectExpandGroups(CMapClass *pObject) {
+    //VPROF_BUDGET( "CObjectProperties::AddObjectExpandGroups", "Object Properties" );
 
-	if (pObject->IsGroup())
-	{
-		const CMapObjectList *pChildren = pObject->GetChildren();
-		
-		FOR_EACH_OBJ( *pChildren, pos )
-		{
-			AddObjectExpandGroups( pChildren->Element(pos) );
-		}
-	}
-	else
-	{
-		m_DstObjects.AddToTail(pObject);
-	}
+    if (pObject->IsGroup()) {
+        const CMapObjectList *pChildren = pObject->GetChildren();
+
+        FOR_EACH_OBJ(*pChildren, pos) {
+            AddObjectExpandGroups(pChildren->Element(pos));
+        }
+    } else {
+        m_DstObjects.AddToTail(pObject);
+    }
 }
 
 
@@ -1044,120 +918,108 @@ void CObjectProperties::AddObjectExpandGroups(CMapClass *pObject)
 // Purpose: Updates the property page data when the selection contents change.
 // Input  : pObjects - List of currently selected objects.
 //-----------------------------------------------------------------------------
-void CObjectProperties::ReloadData()
-{
-	//VPROF_BUDGET( "CObjectProperties::LoadData", "Object Properties" );
+void CObjectProperties::ReloadData() {
+    //VPROF_BUDGET( "CObjectProperties::LoadData", "Object Properties" );
 
-	//
-	// Disable window so it does not gain focus during this operation.
-	//
-	EnableWindow(FALSE);
+    //
+    // Disable window so it does not gain focus during this operation.
+    //
+    EnableWindow(FALSE);
 
 
-	//
-	// Transfer the objects from pObjects to m_DstObjects, expanding
-	// groups to their member children.
-	//
-	m_DstObjects.RemoveAll();
-	if ( m_pOrgObjects )
-	{
-		FOR_EACH_OBJ( (*m_pOrgObjects), pos )
-		{
-			AddObjectExpandGroups( m_pOrgObjects->Element(pos) );
-		}
-	}
+    //
+    // Transfer the objects from pObjects to m_DstObjects, expanding
+    // groups to their member children.
+    //
+    m_DstObjects.RemoveAll();
+    if (m_pOrgObjects) {
+        FOR_EACH_OBJ((*m_pOrgObjects), pos) {
+            AddObjectExpandGroups(m_pOrgObjects->Element(pos));
+        }
+    }
 
-	//
-	// If there is only one object selected, copy its data to our temporary
-	// edit objects.
-	//
-	if (m_DstObjects.Count() == 1)
-	{
-		//
-		// Copy the single destination object's data to our temporary
-		// edit objects.
-		//
-		CMapClass *pobj = m_DstObjects.Element(0);
-		CopyDataToEditObjects( pobj );
+    //
+    // If there is only one object selected, copy its data to our temporary
+    // edit objects.
+    //
+    if (m_DstObjects.Count() == 1) {
+        //
+        // Copy the single destination object's data to our temporary
+        // edit objects.
+        //
+        CMapClass *pobj = m_DstObjects.Element(0);
+        CopyDataToEditObjects(pobj);
 
-		//
-		// Set the window title to include the object's description.
-		//
-		char szTitle[MAX_PATH];
-		sprintf(szTitle, "Object Properties: %s", pobj->GetDescription());
-		SetWindowText(szTitle);
-	}
-	else if (m_DstObjects.Count() > 1)
-	{
-		SetWindowText("Object Properties: multiple objects");
-	}
-	else
-	{
-		SetWindowText("Object Properties");
-	}
+        //
+        // Set the window title to include the object's description.
+        //
+        char szTitle[MAX_PATH];
+        sprintf(szTitle, "Object Properties: %s", pobj->GetDescription());
+        SetWindowText(szTitle);
+    } else if (m_DstObjects.Count() > 1) {
+        SetWindowText("Object Properties: multiple objects");
+    } else {
+        SetWindowText("Object Properties");
+    }
 
-	SetupPages();
-	LoadDataForPages();
+    SetupPages();
+    LoadDataForPages();
 
-	EnableWindow(TRUE);
+    EnableWindow(TRUE);
 
-	m_bDataDirty = false;
+    m_bDataDirty = false;
 }
 
 
-BOOL CObjectProperties::OnInitDialog() 
-{
-	BOOL b = CPropertySheet::OnInitDialog();
-	SetWindowText("Object Properties");
+BOOL CObjectProperties::OnInitDialog() {
+    BOOL b = CPropertySheet::OnInitDialog();
+    SetWindowText("Object Properties");
 
-	CreateButtons();
-	UpdateAnchors( NULL );
-		
-	return b;
+    CreateButtons();
+    UpdateAnchors(NULL);
+
+    return b;
 }
 
 
-void CObjectProperties::UpdateAnchors( CWnd *pPage )
-{
-	if ( !GetSafeHwnd() )
-		return;
-		
-	// Anchor stuff.
-	HWND hTab = NULL;
-	if ( GetTabControl() )
-		hTab = GetTabControl()->GetSafeHwnd();
+void CObjectProperties::UpdateAnchors(CWnd *pPage) {
+    if (!GetSafeHwnd())
+        return;
 
-	CAnchorDef anchorDefs[] =
-	{
-		CAnchorDef( IDOK, k_eSimpleAnchorBottomRight ),
-		CAnchorDef( ID_APPLY_NOW, k_eSimpleAnchorBottomRight ),
-		CAnchorDef( IDCANCEL, k_eSimpleAnchorBottomRight ),
-		CAnchorDef( IDI_INPUT, k_eSimpleAnchorBottomRight ),
-		CAnchorDef( IDI_OUTPUT, k_eSimpleAnchorBottomRight ),
-		CAnchorDef( hTab, k_eSimpleAnchorAllSides ),
-		CAnchorDef( pPage ? pPage->GetSafeHwnd() : (HWND)NULL, k_eSimpleAnchorAllSides )
-	};
-	m_AnchorMgr.Init( GetSafeHwnd(), anchorDefs, ARRAYSIZE( anchorDefs ) );
+    // Anchor stuff.
+    HWND hTab = NULL;
+    if (GetTabControl())
+        hTab = GetTabControl()->GetSafeHwnd();
+
+    CAnchorDef anchorDefs[] =
+            {
+                    CAnchorDef(IDOK, k_eSimpleAnchorBottomRight),
+                    CAnchorDef(ID_APPLY_NOW, k_eSimpleAnchorBottomRight),
+                    CAnchorDef(IDCANCEL, k_eSimpleAnchorBottomRight),
+                    CAnchorDef(IDI_INPUT, k_eSimpleAnchorBottomRight),
+                    CAnchorDef(IDI_OUTPUT, k_eSimpleAnchorBottomRight),
+                    CAnchorDef(hTab, k_eSimpleAnchorAllSides),
+                    CAnchorDef(pPage ? pPage->GetSafeHwnd() : (HWND) NULL, k_eSimpleAnchorAllSides)
+            };
+    m_AnchorMgr.Init(GetSafeHwnd(), anchorDefs, ARRAYSIZE(anchorDefs));
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Closes the object properties dialog, saving changes.
 //-----------------------------------------------------------------------------
-void CObjectProperties::OnClose(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::OnClose", "Object Properties" );
-	OnApply();
+void CObjectProperties::OnClose(void) {
+    //VPROF_BUDGET( "CObjectProperties::OnClose", "Object Properties" );
+    OnApply();
 
-	ShowWindow(SW_HIDE);
+    ShowWindow(SW_HIDE);
 }
 
-void CObjectProperties::OnPaint()
-{
-	CPaintDC dc(this); // device context for painting
+void CObjectProperties::OnPaint() {
+    CPaintDC dc(this); // device context for painting
 
-	if ( m_bDataDirty )
-		ReloadData(); 
+    if (m_bDataDirty)
+        ReloadData();
 }
 
 //-----------------------------------------------------------------------------
@@ -1165,163 +1027,144 @@ void CObjectProperties::OnPaint()
 // Input  : bShow - 
 //			nStatus - 
 //-----------------------------------------------------------------------------
-void CObjectProperties::OnShowWindow(BOOL bShow, UINT nStatus) 
-{
-	//VPROF_BUDGET( "CObjectProperties::OnShowWindow", "Object Properties" );
+void CObjectProperties::OnShowWindow(BOOL bShow, UINT nStatus) {
+    //VPROF_BUDGET( "CObjectProperties::OnShowWindow", "Object Properties" );
 
-	// Forget the last active page when the window is hidden or shown.
-	// FIXME: SetupPages calls SaveActivePage, so we must switch to page 0 here
-	SetActivePage(0);
-	m_pLastActivePage = NULL;
+    // Forget the last active page when the window is hidden or shown.
+    // FIXME: SetupPages calls SaveActivePage, so we must switch to page 0 here
+    SetActivePage(0);
+    m_pLastActivePage = NULL;
 
-	CPropertySheet::OnShowWindow(bShow, nStatus);
+    CPropertySheet::OnShowWindow(bShow, nStatus);
 
-	for (int i = 0; i < m_nPages; i++)
-	{
-		m_ppPages[i]->OnShowPropertySheet(bShow, nStatus);
-	}
+    for (int i = 0; i < m_nPages; i++) {
+        m_ppPages[i]->OnShowPropertySheet(bShow, nStatus);
+    }
 }
 
 
-void CObjectProperties::OnSize( UINT nType, int cx, int cy )
-{
-	m_AnchorMgr.OnSize();
+void CObjectProperties::OnSize(UINT nType, int cx, int cy) {
+    m_AnchorMgr.OnSize();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Handles the Apply button.
 //-----------------------------------------------------------------------------
-void CObjectProperties::OnApply(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::OnApply", "Object Properties" );
+void CObjectProperties::OnApply(void) {
+    //VPROF_BUDGET( "CObjectProperties::OnApply", "Object Properties" );
 
-	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if ( !pDoc )
-		return;
+    CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
+    if (!pDoc)
+        return;
 
-	//We lock visgroup updates here because activities in the object properties dialog can 
-	//change visgroups which, if updated, will change the object properties, causing problems.
-	//All visgroup updates will occur at the end of this apply operation.
-    bool bLocked = pDoc->VisGroups_LockUpdates( true );
+    //We lock visgroup updates here because activities in the object properties dialog can
+    //change visgroups which, if updated, will change the object properties, causing problems.
+    //All visgroup updates will occur at the end of this apply operation.
+    bool bLocked = pDoc->VisGroups_LockUpdates(true);
 
-	for (int i = 0; i < m_nPages; i++)
-	{
-		if (!m_ppPages[i]->OnApply())
-		{
-			return;
-		}
-	}
+    for (int i = 0; i < m_nPages; i++) {
+        if (!m_ppPages[i]->OnApply()) {
+            return;
+        }
+    }
 
-	//
-	// Save and reload the data so the GUI updates.
-	//
-	SaveData();
+    //
+    // Save and reload the data so the GUI updates.
+    //
+    SaveData();
 
-	ReloadData();
-	
-	// Pass along the apply message to the entities.
-	FOR_EACH_OBJ( m_DstObjects, pos )
-	{
-		CMapClass *pObject = m_DstObjects.Element( pos );
-		if ( pObject )
-		{
-			pObject->OnApply();
-		}
-	}
+    ReloadData();
 
-	if ( bLocked )
-	{
-		pDoc->VisGroups_LockUpdates( false );
-	}
+    // Pass along the apply message to the entities.
+    FOR_EACH_OBJ(m_DstObjects, pos) {
+        CMapClass *pObject = m_DstObjects.Element(pos);
+        if (pObject) {
+            pObject->OnApply();
+        }
+    }
+
+    if (bLocked) {
+        pDoc->VisGroups_LockUpdates(false);
+    }
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Handles <return> keys sent to OK -> apply instead
 //-----------------------------------------------------------------------------
-void CObjectProperties::OnOK(void)
-{
-	//VPROF_BUDGET( "CObjectProperties::OnClose", "Object Properties" );
-	OnApply();
+void CObjectProperties::OnOK(void) {
+    //VPROF_BUDGET( "CObjectProperties::OnClose", "Object Properties" );
+    OnApply();
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Handles the Apply button.
 //-----------------------------------------------------------------------------
-void CObjectProperties::OnCancel(void)
-{
-	ShowWindow(SW_HIDE);
+void CObjectProperties::OnCancel(void) {
+    ShowWindow(SW_HIDE);
 
-	// reload original data and overwrite any changes made prio
-	ReloadData();
+    // reload original data and overwrite any changes made prio
+    ReloadData();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Handles the input icon button.
 //-----------------------------------------------------------------------------
-void CObjectProperties::OnInputs(void)
-{
-	SetActivePage(m_pInput);
+void CObjectProperties::OnInputs(void) {
+    SetActivePage(m_pInput);
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Handles the output icon button.
 //-----------------------------------------------------------------------------
-void CObjectProperties::OnOutputs(void)
-{
-	SetActivePage(m_pOutput);
+void CObjectProperties::OnOutputs(void) {
+    SetActivePage(m_pOutput);
 }
 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-int CObjectProperties::OnCreate(LPCREATESTRUCT lpCreateStruct) 
-{
-	//VPROF_BUDGET( "CObjectProperties::OnCreate", "Object Properties" );
+int CObjectProperties::OnCreate(LPCREATESTRUCT lpCreateStruct) {
+    //VPROF_BUDGET( "CObjectProperties::OnCreate", "Object Properties" );
 
-	lpCreateStruct->dwExStyle |= WS_EX_TOOLWINDOW;
+    lpCreateStruct->dwExStyle |= WS_EX_TOOLWINDOW;
 
-	if (CPropertySheet::OnCreate(lpCreateStruct) == -1)
-	{
-		return -1;
-	}
+    if (CPropertySheet::OnCreate(lpCreateStruct) == -1) {
+        return -1;
+    }
 
-	return 0;
+    return 0;
 }
 
-void CObjectProperties::SetObjectList(const CMapObjectList *pObjectList)
-{
-	m_pOrgObjects = pObjectList;
-	MarkDataDirty();
+void CObjectProperties::SetObjectList(const CMapObjectList *pObjectList) {
+    m_pOrgObjects = pObjectList;
+    MarkDataDirty();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CObjectProperties::MarkDataDirty()
-{
-	//VPROF_BUDGET( "CObjectProperties::RefreshData", "Object Properties" );
+void CObjectProperties::MarkDataDirty() {
+    //VPROF_BUDGET( "CObjectProperties::RefreshData", "Object Properties" );
 
-	// if flag already set, dont touch anything
-	if ( m_bDataDirty )
-		return;
+    // if flag already set, dont touch anything
+    if (m_bDataDirty)
+        return;
 
-	for (int i = 0; i < m_nPages; i++)
-	{
-		if (m_ppPages[i]->m_hWnd)
-		{
-			m_ppPages[i]->RememberState();
-			m_ppPages[i]->MarkDataDirty();
-		}
-	}
+    for (int i = 0; i < m_nPages; i++) {
+        if (m_ppPages[i]->m_hWnd) {
+            m_ppPages[i]->RememberState();
+            m_ppPages[i]->MarkDataDirty();
+        }
+    }
 
-	Invalidate( false );
+    Invalidate(false);
 
-	m_DstObjects.RemoveAll();
+    m_DstObjects.RemoveAll();
 
-	m_bDataDirty = true;
+    m_bDataDirty = true;
 }
 

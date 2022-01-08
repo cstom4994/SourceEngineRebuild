@@ -191,7 +191,7 @@ DECLARE_TIER2_INTERFACE(IAsyncFileSystem, g_pAsyncFileSystem);
 #define RESOURCESYSTEM_INTERFACE_VERSION        "ResourceSystem004"
 DECLARE_TIER2_INTERFACE(IResourceSystem, g_pResourceSystem);
 
-#define MATERIAL_SYSTEM_INTERFACE_VERSION        "VMaterialSystem080"
+#define MATERIAL_SYSTEM_INTERFACE_VERSION        "VMaterialSystem081"
 DECLARE_TIER2_INTERFACE(IMaterialSystem, materials);
 DECLARE_TIER2_INTERFACE(IMaterialSystem, g_pMaterialSystem);
 

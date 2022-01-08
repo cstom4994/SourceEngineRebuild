@@ -17,27 +17,33 @@
 #include "HammerBar.h"
 
 
-class CSelectModeDlgBar : public CHammerBar
-{
+class CSelectModeDlgBar : public CHammerBar {
 public:
-	BOOL Create(CWnd *pParentWnd);
+    BOOL Create(CWnd *pParentWnd);
 
 private:
-	//{{AFX_DATA(CFilterControl)
-	enum { IDD = IDD_SELECT_MODE_BAR };
-	//}}AFX_DATA
+    //{{AFX_DATA(CFilterControl)
+    enum {
+        IDD = IDD_SELECT_MODE_BAR
+    };
+    //}}AFX_DATA
 
 protected:
-	//{{AFX_MSG(CFilterControl)
-	afx_msg void OnGroups();
-	afx_msg void OnObjects();
-	afx_msg void OnSolids();
-	afx_msg void UpdateControlGroups(CCmdUI *pCmdUI);
-	afx_msg void UpdateControlObjects(CCmdUI *pCmdUI);
-	afx_msg void UpdateControlSolids(CCmdUI *pCmdUI);
-	//}}AFX_MSG
+    //{{AFX_MSG(CFilterControl)
+    afx_msg void OnGroups();
 
-	DECLARE_MESSAGE_MAP()
+    afx_msg void OnObjects();
+
+    afx_msg void OnSolids();
+
+    afx_msg void UpdateControlGroups(CCmdUI *pCmdUI);
+
+    afx_msg void UpdateControlObjects(CCmdUI *pCmdUI);
+
+    afx_msg void UpdateControlSolids(CCmdUI *pCmdUI);
+    //}}AFX_MSG
+
+DECLARE_MESSAGE_MAP()
 };
 
 #endif // SELECTMODEDLGBAR_H

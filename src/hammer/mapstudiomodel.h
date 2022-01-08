@@ -16,110 +16,124 @@
 
 
 class CRender2D;
+
 class CRender3D;
 
 
-class CMapStudioModel : public CMapHelper
-{
-	public:
+class CMapStudioModel : public CMapHelper {
+public:
 
-		//
-		// Factories.
-		//
-		static CMapClass *CreateMapStudioModel(CHelperInfo *pHelperInfo, CMapEntity *pParent);
-		static CMapStudioModel *CreateMapStudioModel(const char *pszModelPath, bool bOrientedBBox, bool bReversePitch);
+    //
+    // Factories.
+    //
+    static CMapClass *CreateMapStudioModel(CHelperInfo *pHelperInfo, CMapEntity *pParent);
 
-		static void AdvanceAnimation(float flInterval);
+    static CMapStudioModel *CreateMapStudioModel(const char *pszModelPath, bool bOrientedBBox, bool bReversePitch);
 
-		//
-		// Construction/destruction:
-		//
-		CMapStudioModel(void);
-		~CMapStudioModel(void);
+    static void AdvanceAnimation(float flInterval);
 
-		DECLARE_MAPCLASS(CMapStudioModel,CMapHelper)
+    //
+    // Construction/destruction:
+    //
+    CMapStudioModel(void);
 
-		void CalcBounds(BOOL bFullUpdate = FALSE);
+    ~CMapStudioModel(void);
 
-		virtual CMapClass *Copy(bool bUpdateDependencies);
-		virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
+    DECLARE_MAPCLASS(CMapStudioModel, CMapHelper)
 
-		void Initialize(void);
+    void CalcBounds(BOOL bFullUpdate = FALSE);
 
-		void Render2D(CRender2D *pRender);
-		void Render3D(CRender3D *pRender);
+    virtual CMapClass *Copy(bool bUpdateDependencies);
 
-		void GetAngles(QAngle& pfAngles);
-		void SetAngles(QAngle& fAngles);
+    virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
 
-		void OnParentKeyChanged(const char* szKey, const char* szValue);
+    void Initialize(void);
 
-		bool RenderPreload(CRender3D *pRender, bool bNewContext);
+    void Render2D(CRender2D *pRender);
 
-		int SerializeRMF(std::fstream &File, BOOL bRMF);
-		int SerializeMAP(std::fstream &File, BOOL bRMF);
+    void Render3D(CRender3D *pRender);
 
-		static void SetRenderDistance(float fRenderDistance);
-		static void EnableAnimation(BOOL bEnable);
+    void GetAngles(QAngle &pfAngles);
 
-		bool IsVisualElement(void) { return(true); }
-		
-		bool ShouldRenderLast();
+    void SetAngles(QAngle &fAngles);
 
-		const char* GetDescription() { return("Studio model"); }
+    void OnParentKeyChanged(const char *szKey, const char *szValue);
 
-		int GetFrame(void);
-		void SetFrame(int nFrame);
+    bool RenderPreload(CRender3D *pRender, bool bNewContext);
 
-		int GetSequence(void);
-		int GetSequenceCount(void);
-		void GetSequenceName(int nIndex, char *szName);
-		void SetSequence(int nIndex);
-		
-		// Returns the index of the sequence (does a case-insensitive search).
-		// Returns -1 if the sequence doesn't exist.
-		int GetSequenceIndex( const char *pSequenceName ) const;
+    int SerializeRMF(std::fstream &File, BOOL bRMF);
 
-	protected:
+    int SerializeMAP(std::fstream &File, BOOL bRMF);
 
-		inline float ComputeFade( CRender3D *pRender ) const;
-		inline float ComputeDistanceFade( CRender3D *pRender ) const;
-		inline float ComputeScreenFade( CRender3D *pRender ) const;
+    static void SetRenderDistance(float fRenderDistance);
 
-		void GetRenderAngles(QAngle &Angles);
-		
-		//
-		// Implements CMapAtom transformation functions.
-		//
-		void DoTransform(const VMatrix &matrix);
-		
-		inline void ReversePitch(bool bReversePitch);
-		inline void SetOrientedBounds(bool bOrientedBounds);
+    static void EnableAnimation(BOOL bEnable);
 
-		StudioModel *m_pStudioModel;		// Pointer to a studio model in the model cache.
-		QAngle m_Angles;					// Euler angles of this studio model.
-		float m_flPitch;					// Pitch (stored separately for lights -- yuck!)
-		bool m_bPitchSet;
+    bool IsVisualElement(void) { return (true); }
 
-		int	m_Skin;							// the model skin
+    bool ShouldRenderLast();
 
-		bool m_bOrientedBounds;				// Whether the bounding box should consider the orientation of the model.
-											// Note that this is not a true oriented bounding box, but an axial box
-											// indicating the extents of the oriented model.
+    const char *GetDescription() { return ("Studio model"); }
 
-		bool m_bReversePitch;				// Lights negate pitch, so models representing light sources in Hammer
-											// must do so as well.
+    int GetFrame(void);
 
-		bool m_bScreenSpaceFade;			// If true, min & max dist are pixel size in screen space.
-		float m_flFadeScale;				// Multiplied by distance to camera before calculating fade.
-		float m_flFadeMinDist;				// The distance/pixels at which this model is fully visible.
-		float m_flFadeMaxDist;				// The distance/pixels at which this model is fully invisible.
+    void SetFrame(int nFrame);
 
-		//
-		// Data that is common to all studio models.
-		//
-		static float m_fRenderDistance;		// Distance beyond which studio models render as bounding boxes.
-		static BOOL m_bAnimateModels;		// Whether to animate studio models.
+    int GetSequence(void);
+
+    int GetSequenceCount(void);
+
+    void GetSequenceName(int nIndex, char *szName);
+
+    void SetSequence(int nIndex);
+
+    // Returns the index of the sequence (does a case-insensitive search).
+    // Returns -1 if the sequence doesn't exist.
+    int GetSequenceIndex(const char *pSequenceName) const;
+
+protected:
+
+    inline float ComputeFade(CRender3D *pRender) const;
+
+    inline float ComputeDistanceFade(CRender3D *pRender) const;
+
+    inline float ComputeScreenFade(CRender3D *pRender) const;
+
+    void GetRenderAngles(QAngle &Angles);
+
+    //
+    // Implements CMapAtom transformation functions.
+    //
+    void DoTransform(const VMatrix &matrix);
+
+    inline void ReversePitch(bool bReversePitch);
+
+    inline void SetOrientedBounds(bool bOrientedBounds);
+
+    StudioModel *m_pStudioModel;        // Pointer to a studio model in the model cache.
+    QAngle m_Angles;                    // Euler angles of this studio model.
+    float m_flPitch;                    // Pitch (stored separately for lights -- yuck!)
+    bool m_bPitchSet;
+
+    int m_Skin;                            // the model skin
+
+    bool m_bOrientedBounds;                // Whether the bounding box should consider the orientation of the model.
+    // Note that this is not a true oriented bounding box, but an axial box
+    // indicating the extents of the oriented model.
+
+    bool m_bReversePitch;                // Lights negate pitch, so models representing light sources in Hammer
+    // must do so as well.
+
+    bool m_bScreenSpaceFade;            // If true, min & max dist are pixel size in screen space.
+    float m_flFadeScale;                // Multiplied by distance to camera before calculating fade.
+    float m_flFadeMinDist;                // The distance/pixels at which this model is fully visible.
+    float m_flFadeMaxDist;                // The distance/pixels at which this model is fully invisible.
+
+    //
+    // Data that is common to all studio models.
+    //
+    static float m_fRenderDistance;        // Distance beyond which studio models render as bounding boxes.
+    static BOOL m_bAnimateModels;        // Whether to animate studio models.
 };
 
 
@@ -128,18 +142,16 @@ class CMapStudioModel : public CMapHelper
 //			Note that this is not a true oriented bounding box, but an axial box
 //			indicating the extents of the oriented model.
 //-----------------------------------------------------------------------------
-void CMapStudioModel::SetOrientedBounds(bool bOrientedBounds)
-{
-	m_bOrientedBounds = bOrientedBounds;
+void CMapStudioModel::SetOrientedBounds(bool bOrientedBounds) {
+    m_bOrientedBounds = bOrientedBounds;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Sets whether this object negates pitch.
 //-----------------------------------------------------------------------------
-void CMapStudioModel::ReversePitch(bool bReversePitch)
-{
-	m_bReversePitch = bReversePitch;
+void CMapStudioModel::ReversePitch(bool bReversePitch) {
+    m_bReversePitch = bReversePitch;
 }
 
 

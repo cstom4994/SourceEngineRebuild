@@ -10,24 +10,23 @@
 #pragma once
 
 
-enum 
-{
-	CUSTOMMESSAGESSTART = WM_USER + 1,
+enum {
+    CUSTOMMESSAGESSTART = WM_USER + 1,
 
-	WM_MAPDOC_CHANGED,
-	WM_DOCTYPE_CHANGED,
-	WM_GAME_CHANGED,
+    WM_MAPDOC_CHANGED,
+    WM_DOCTYPE_CHANGED,
+    WM_GAME_CHANGED,
 
-	//
-	// Posted by CAngleBox:
-	//
-	ABN_CHANGED,		// The angle in the angle box has changed.
+    //
+    // Posted by CAngleBox:
+    //
+    ABN_CHANGED,        // The angle in the angle box has changed.
 
-	//
-	// Posted by CTextureWindow:
-	//
-	TWN_SELCHANGED,		// The texture window selection has changed.
-	TWN_LBUTTONDBLCLK,	// The user double clicked in the texture window.
+    //
+    // Posted by CTextureWindow:
+    //
+    TWN_SELCHANGED,        // The texture window selection has changed.
+    TWN_LBUTTONDBLCLK,    // The user double clicked in the texture window.
 };
 
 

@@ -18,43 +18,44 @@
 #include "OPTConfigs.h"
 #include "OPTBuild.h"
 
-class COptionProperties : public CPropertySheet
-{
-	DECLARE_DYNAMIC(COptionProperties)
+class COptionProperties : public CPropertySheet {
+DECLARE_DYNAMIC(COptionProperties)
 
 // Construction
 public:
-	COptionProperties(UINT nIDCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
-	COptionProperties(LPCTSTR pszCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+    COptionProperties(UINT nIDCaption, CWnd *pParentWnd = NULL, UINT iSelectPage = 0);
+
+    COptionProperties(LPCTSTR pszCaption, CWnd *pParentWnd = NULL, UINT iSelectPage = 0);
 
 // Attributes
 public:
-	COPTGeneral General;
-	COPTView2D View2D;
-	COPTView3D View3D;
-	COPTTextures Textures;
-	COPTConfigs Configs;
-	COPTBuild Build;
+    COPTGeneral General;
+    COPTView2D View2D;
+    COPTView3D View3D;
+    COPTTextures Textures;
+    COPTConfigs Configs;
+    COPTBuild Build;
 
 // Operations
 public:
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(COptionProperties)
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(COptionProperties)
+    //}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~COptionProperties();
-	void DoStandardInit();
+    virtual ~COptionProperties();
 
-	// Generated message map functions
+    void DoStandardInit();
+
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(COptionProperties)
-	afx_msg void OnClose();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(COptionProperties)
+    afx_msg void OnClose();
+    //}}AFX_MSG
+DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

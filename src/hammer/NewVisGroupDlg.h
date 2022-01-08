@@ -14,60 +14,66 @@
 #include "GroupList.h"
 
 
-class CNewVisGroupDlg : public CDialog
-{
+class CNewVisGroupDlg : public CDialog {
 public:
-	CNewVisGroupDlg(CString &str, CWnd *pParent = NULL);
+    CNewVisGroupDlg(CString &str, CWnd *pParent = NULL);
 
-	void GetName(CString &str);
-	CVisGroup *GetPickedVisGroup(void);
-	bool GetRemoveFromOtherGroups(void);
-	bool GetHideObjectsOption(void);
+    void GetName(CString &str);
 
-	//{{AFX_DATA(CNewVisGroupDlg)
-	enum { IDD = IDD_NEW_VISGROUP };
-	//}}AFX_DATA
+    CVisGroup *GetPickedVisGroup(void);
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CNewVisGroupDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange *pDX);
-	virtual BOOL OnInitDialog(void);
-	//}}AFX_VIRTUAL
+    bool GetRemoveFromOtherGroups(void);
+
+    bool GetHideObjectsOption(void);
+
+    //{{AFX_DATA(CNewVisGroupDlg)
+    enum {
+        IDD = IDD_NEW_VISGROUP
+    };
+    //}}AFX_DATA
+
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CNewVisGroupDlg)
+protected:
+    virtual void DoDataExchange(CDataExchange *pDX);
+
+    virtual BOOL OnInitDialog(void);
+    //}}AFX_VIRTUAL
 
 protected:
 
-	void UpdateGroupList(void);
+    void UpdateGroupList(void);
 
-	// Generated message map functions
-	//{{AFX_MSG(CNewVisGroupDlg)
-	virtual void OnOK();
-	LRESULT OnSelChangeGroupList(WPARAM wParam, LPARAM lParam);
-	void OnCreateNewVisGroup();
-	void OnPlaceInExistingVisGroup();
-	//}}AFX_MSG
+    // Generated message map functions
+    //{{AFX_MSG(CNewVisGroupDlg)
+    virtual void OnOK();
 
-	CGroupList m_cGroupList;
-	CVisGroup *m_pPickedVisGroup;
-	BOOL m_bRemoveFromOtherGroups;
-	BOOL m_bHideObjects;
-	CString m_strName;
+    LRESULT OnSelChangeGroupList(WPARAM wParam, LPARAM lParam);
 
-	DECLARE_MESSAGE_MAP()
+    void OnCreateNewVisGroup();
+
+    void OnPlaceInExistingVisGroup();
+    //}}AFX_MSG
+
+    CGroupList m_cGroupList;
+    CVisGroup *m_pPickedVisGroup;
+    BOOL m_bRemoveFromOtherGroups;
+    BOOL m_bHideObjects;
+    CString m_strName;
+
+DECLARE_MESSAGE_MAP()
 };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-inline bool CNewVisGroupDlg::GetRemoveFromOtherGroups(void)
-{
-	return m_bRemoveFromOtherGroups == TRUE;
+inline bool CNewVisGroupDlg::GetRemoveFromOtherGroups(void) {
+    return m_bRemoveFromOtherGroups == TRUE;
 }
 
-inline bool CNewVisGroupDlg::GetHideObjectsOption()
-{
-	return (m_bHideObjects != FALSE);
+inline bool CNewVisGroupDlg::GetHideObjectsOption() {
+    return (m_bHideObjects != FALSE);
 }
 
 #endif // NEWVISGROUPDLG_H

@@ -11,28 +11,35 @@
 #pragma once
 #endif
 
-#include "MapClass.h"	// For CMapObjectList
+#include "MapClass.h"    // For CMapObjectList
 
 
 class CMapSolid;
+
 class CMainFrame;
+
 class CMapWorld;
+
 class CMapDoc;
+
 class IWorldEditDispMgr;
+
 class CSubdivMesh;
 
 
 CMapWorld *GetActiveWorld(void);
 
-IWorldEditDispMgr *GetActiveWorldEditDispManager( void );
+IWorldEditDispMgr *GetActiveWorldEditDispManager(void);
 
 //
 // misc.cpp:
 //
 void randomize();
+
 DWORD random();
 
 void NotifyDuplicates(CMapSolid *pSolid);
+
 void NotifyDuplicates(const CMapObjectList *pList);
 
 bool IsWorldObject(CMapAtom *pObject);
@@ -40,9 +47,13 @@ bool IsWorldObject(CMapAtom *pObject);
 BOOL AddLeavesToListCallback(CMapClass *pObject, CMapObjectList *pList);
 
 void WriteDebug(char *pszStr);
+
 LPCTSTR GetDefaultTextureName();
-void SetDefaultTextureName( const char *szTexName );
+
+void SetDefaultTextureName(const char *szTexName);
+
 LPCTSTR GetNullTextureName();
+
 int mychdir(LPCTSTR pszDir);
 
 //
@@ -50,10 +61,10 @@ int mychdir(LPCTSTR pszDir);
 //
 class CMessageWnd;
 
-enum MWMSGTYPE
-{	mwStatus,
-	mwError,
-	mwWarning
+enum MWMSGTYPE {
+    mwStatus,
+    mwError,
+    mwWarning
 };
 
 extern CMessageWnd *g_pwndMessage;
@@ -64,13 +75,16 @@ void Msg(int type, const char *fmt, ...);
 //
 // timing functions
 //
-double I_FloatTime( void );
-void I_BeginTime( void );
-double I_EndTime( void );
+double I_FloatTime(void);
+
+void I_BeginTime(void);
+
+double I_EndTime(void);
 
 // noise function
-float PerlinNoise2D( float x, float y, float rockiness );
-float PerlinNoise2DScaled( float x, float y, float rockiness );
+float PerlinNoise2D(float x, float y, float rockiness);
+
+float PerlinNoise2DScaled(float x, float y, float rockiness);
 
 void DBG(char *fmt, ...);
 

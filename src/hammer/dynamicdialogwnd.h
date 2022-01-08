@@ -11,36 +11,35 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDynamicDialogWnd window
 
-class CDynamicDialogWnd : public CWnd
-{
+class CDynamicDialogWnd : public CWnd {
 // Construction
 public:
-	CDynamicDialogWnd(CWnd *pParent);
+    CDynamicDialogWnd(CWnd *pParent);
 
 // Attributes
 public:
 
 // Operations
 public:
-	void SetDialogClass(UINT nID, CDialog *pDialog);
+    void SetDialogClass(UINT nID, CDialog *pDialog);
 
 // Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CDynamicDialogWnd)
-	//}}AFX_VIRTUAL
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CDynamicDialogWnd)
+    //}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~CDynamicDialogWnd();
+    virtual ~CDynamicDialogWnd();
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CDynamicDialogWnd)
-		// NOTE - the ClassWizard will add and remove member functions here.
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CDynamicDialogWnd)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //}}AFX_MSG
+DECLARE_MESSAGE_MAP()
 
-	CDialog *m_pDialog;
+    CDialog *m_pDialog;
 };
 
 /////////////////////////////////////////////////////////////////////////////

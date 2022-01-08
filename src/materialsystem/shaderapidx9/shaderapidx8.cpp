@@ -1375,7 +1375,6 @@ public:
 
     void EnableVSync_360( bool bEnable );
 #endif
-    void *GetD3DDevice();
 
     virtual bool OwnGPUResources(bool bEnable);
 
@@ -13196,11 +13195,6 @@ cleanUp:
     return bOK;
 }
 #endif
-
-void *CShaderAPIDx8::GetD3DDevice()
-{
-    return Dx9Device();
-}
 
 #if defined( _X360 )
 static void r_enable_gpr_allocations_callback( IConVar *var, const char *pOldValue, float flOldValue )

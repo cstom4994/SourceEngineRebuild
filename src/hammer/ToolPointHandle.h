@@ -17,32 +17,35 @@
 class CMapPointHandle;
 
 
-class CToolPointHandle : public CBaseTool
-{
+class CToolPointHandle : public CBaseTool {
 
 public:
 
-	CToolPointHandle(void);
-	void Attach(CMapPointHandle *pPoint);
+    CToolPointHandle(void);
 
-	void CenterOnParent(CMapView *pView);
+    void Attach(CMapPointHandle *pPoint);
 
-	//
-	// CBaseTool implementation.
-	//
-	virtual ToolID_t GetToolID(void) { return TOOL_POINT_HANDLE; }
+    void CenterOnParent(CMapView *pView);
 
-	virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+    //
+    // CBaseTool implementation.
+    //
+    virtual ToolID_t GetToolID(void) { return TOOL_POINT_HANDLE; }
 
-	virtual void RenderTool2D(CRender2D *pRender);
-	//virtual void RenderTool3D(CRender3D *pRender);
+    virtual bool OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual void RenderTool2D(CRender2D *pRender);
+    //virtual void RenderTool3D(CRender3D *pRender);
 
 private:
 
-	CMapPointHandle *m_pPoint;
+    CMapPointHandle *m_pPoint;
 };
 
 

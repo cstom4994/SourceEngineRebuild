@@ -2191,7 +2191,7 @@ public:
     virtual void ReleaseRenderData() {}
 
 #if defined( _X360 )
-                                                                                                                            virtual void				ListUsedMaterials( void ) {}
+    virtual void				ListUsedMaterials( void ) {}
 	virtual HXUIFONT			OpenTrueTypeFont( const char *pFontname, int tall, int style )
 	{
 		return (HXUIFONT)0;
@@ -2220,8 +2220,6 @@ public:
 
 	virtual bool				OwnGPUResources( bool bEnable ) { return false; }
 #endif
-
-    virtual void				*GetD3DDevice() { return NULL; }
 
     virtual void CompactMemory() {}
 

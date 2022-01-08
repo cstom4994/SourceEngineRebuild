@@ -508,8 +508,6 @@ public:
 
 	virtual void EnableVSync_360( bool bEnable ) = 0; //360 allows us to bypass vsync blocking up to 60 fps without creating a new device
 #endif
-
-    virtual void *GetD3DDevice() = 0;
 	
 	virtual bool OwnGPUResources( bool bEnable ) = 0;
 

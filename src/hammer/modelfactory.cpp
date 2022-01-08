@@ -22,26 +22,21 @@
 //			pszModelData - 
 // Output : 
 //-----------------------------------------------------------------------------
-CMapClass *CModelFactory::CreateModel(ModelType_t eModelType, const char *pszModelData)
-{
-	switch (eModelType)
-	{
-		case ModelTypeStudio:
-		{
-			int nLen = strlen(pszModelData);
-			if ((nLen > 4) && (!stricmp(&pszModelData[nLen - 4], ".mdl")))
-			{
-				CMapStudioModel *pModel = new CMapStudioModel(pszModelData);
-				return(pModel);
-			}
-			break;
-		}
+CMapClass *CModelFactory::CreateModel(ModelType_t eModelType, const char *pszModelData) {
+    switch (eModelType) {
+        case ModelTypeStudio: {
+            int nLen = strlen(pszModelData);
+            if ((nLen > 4) && (!stricmp(&pszModelData[nLen - 4], ".mdl"))) {
+                CMapStudioModel *pModel = new CMapStudioModel(pszModelData);
+                return (pModel);
+            }
+            break;
+        }
 
-		default:
-		{
-			break;
-		}
-	}
+        default: {
+            break;
+        }
+    }
 
-	return(NULL);
+    return (NULL);
 }

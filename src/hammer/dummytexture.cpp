@@ -21,36 +21,30 @@
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
-CDummyTexture::CDummyTexture(const char *pszName, TEXTUREFORMAT eFormat)
-{
-	if (pszName != NULL)
-	{
-		strcpy(m_szName, pszName);
-	}
-	else
-	{
-		strcpy(m_szName, "Missing texture");
-	}
+CDummyTexture::CDummyTexture(const char *pszName, TEXTUREFORMAT eFormat) {
+    if (pszName != NULL) {
+        strcpy(m_szName, pszName);
+    } else {
+        strcpy(m_szName, "Missing texture");
+    }
 
-	m_eTextureFormat = eFormat;
+    m_eTextureFormat = eFormat;
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Destructor.
 //-----------------------------------------------------------------------------
-CDummyTexture::~CDummyTexture()
-{
+CDummyTexture::~CDummyTexture() {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns an empty string, since we have no source file.
 //-----------------------------------------------------------------------------
-const char *CDummyTexture::GetFileName() const
-{
-	static char *pszEmpty = "";
-	return(pszEmpty);
+const char *CDummyTexture::GetFileName() const {
+    static char *pszEmpty = "";
+    return (pszEmpty);
 }
 
 
@@ -60,14 +54,12 @@ const char *CDummyTexture::GetFileName() const
 // Input  : pszKeywords - Buffer to receive keywords, NULL to query string length.
 // Output : Returns the number of characters in the keyword string.
 //-----------------------------------------------------------------------------
-int CDummyTexture::GetKeywords(char *pszKeywords) const
-{
-	if (pszKeywords != NULL)
-	{
-		*pszKeywords = '\0';
-	}
+int CDummyTexture::GetKeywords(char *pszKeywords) const {
+    if (pszKeywords != NULL) {
+        *pszKeywords = '\0';
+    }
 
-	return(0);
+    return (0);
 }
 
 
@@ -77,42 +69,33 @@ int CDummyTexture::GetKeywords(char *pszKeywords) const
 // Output : 
 //-----------------------------------------------------------------------------
 // dvs: move into a common place for CWADTexture & CDummyTexture
-int CDummyTexture::GetShortName(char *pszName) const
-{
-	char szBuf[MAX_PATH];
+int CDummyTexture::GetShortName(char *pszName) const {
+    char szBuf[MAX_PATH];
 
-	if (pszName == NULL)
-	{
-		pszName = szBuf;
-	}
+    if (pszName == NULL) {
+        pszName = szBuf;
+    }
 
-	if (m_eTextureFormat == tfWAL)
-	{
-		const char *psz = strstr(m_szName, "textures");
-		if (psz == NULL)
-		{
-			psz = m_szName;
-		}
-		else
-		{
-			psz += strlen("textures\\");
-		}
+    if (m_eTextureFormat == tfWAL) {
+        const char *psz = strstr(m_szName, "textures");
+        if (psz == NULL) {
+            psz = m_szName;
+        } else {
+            psz += strlen("textures\\");
+        }
 
-		strcpy(pszName, psz);
+        strcpy(pszName, psz);
 
-		// remove extension
-		char *pszExtension = strstr(pszName, ".wal");
-		if (pszExtension)
-		{
-			*pszExtension = 0;
-		}
-	}
-	else
-	{
-		strcpy(pszName, m_szName);
-	}
+        // remove extension
+        char *pszExtension = strstr(pszName, ".wal");
+        if (pszExtension) {
+            *pszExtension = 0;
+        }
+    } else {
+        strcpy(pszName, m_szName);
+    }
 
-	return(strlen(pszName));
+    return (strlen(pszName));
 }
 
 
@@ -123,9 +106,8 @@ int CDummyTexture::GetShortName(char *pszName) const
 //				pointer is NULL, no data is copied, only the data size is returned.
 // Output : Returns a the size of the RGB image in bytes.
 //-----------------------------------------------------------------------------
-int CDummyTexture::GetImageDataRGB( void *pImageRGB )
-{
-	return(0);
+int CDummyTexture::GetImageDataRGB(void *pImageRGB) {
+    return (0);
 }
 
 
@@ -136,9 +118,8 @@ int CDummyTexture::GetImageDataRGB( void *pImageRGB )
 //				pointer is NULL, no data is copied, only the data size is returned.
 // Output : Returns a the size of the RGBA image in bytes.
 //-----------------------------------------------------------------------------
-int CDummyTexture::GetImageDataRGBA( void *pImageRGBA )
-{
-	return(0);
+int CDummyTexture::GetImageDataRGBA(void *pImageRGBA) {
+    return (0);
 }
 
 
@@ -146,10 +127,9 @@ int CDummyTexture::GetImageDataRGBA( void *pImageRGBA )
 // Purpose: 
 // Input  : size - 
 //-----------------------------------------------------------------------------
-void CDummyTexture::GetSize( SIZE &size ) const
-{
-	size.cx = 0;
-	size.cy = 0;
+void CDummyTexture::GetSize(SIZE &size) const {
+    size.cx = 0;
+    size.cy = 0;
 }
 
 
@@ -161,18 +141,17 @@ void CDummyTexture::GetSize( SIZE &size ) const
 //			iFontHeight - 
 //			dwFlags - 
 //-----------------------------------------------------------------------------
-void CDummyTexture::Draw(CDC *pDC, RECT &rect, int iFontHeight, int iIconHeight, DrawTexData_t &DrawTexData)
-{
-	CFont *pOldFont = (CFont *)pDC->SelectStockObject(ANSI_VAR_FONT);
-	COLORREF crText = pDC->SetTextColor(RGB(0xff, 0xff, 0xff));
-	COLORREF crBack = pDC->SetBkColor(RGB(0, 0, 0));
+void CDummyTexture::Draw(CDC *pDC, RECT &rect, int iFontHeight, int iIconHeight, DrawTexData_t &DrawTexData) {
+    CFont *pOldFont = (CFont *) pDC->SelectStockObject(ANSI_VAR_FONT);
+    COLORREF crText = pDC->SetTextColor(RGB(0xff, 0xff, 0xff));
+    COLORREF crBack = pDC->SetBkColor(RGB(0, 0, 0));
 
-	pDC->FillRect(&rect, CBrush::FromHandle(HBRUSH(GetStockObject(BLACK_BRUSH))));
-	pDC->TextOut(rect.left + 2, rect.top + 2, "No Image", 8);
+    pDC->FillRect(&rect, CBrush::FromHandle(HBRUSH(GetStockObject(BLACK_BRUSH))));
+    pDC->TextOut(rect.left + 2, rect.top + 2, "No Image", 8);
 
-	pDC->SelectObject(pOldFont);
-	pDC->SetTextColor(crText);
-	pDC->SetBkColor(crBack);
+    pDC->SelectObject(pOldFont);
+    pDC->SetTextColor(crText);
+    pDC->SetBkColor(crBack);
 }
 
 
@@ -180,7 +159,6 @@ void CDummyTexture::Draw(CDC *pDC, RECT &rect, int iFontHeight, int iIconHeight,
 // Purpose: Loads this texture from disk if it is not already loaded.
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
-bool CDummyTexture::Load( void )
-{
-	return(true);
+bool CDummyTexture::Load(void) {
+    return (true);
 }

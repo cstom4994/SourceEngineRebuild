@@ -16,6 +16,7 @@
 
 
 class CMapView3D;
+
 class CToolPickAngles;
 
 
@@ -23,45 +24,49 @@ class CToolPickAngles;
 // Interface for notification by the angles picking tool. Inherit from this if you
 // are a client of the angles picker.
 //
-class IPickAnglesTarget
-{
+class IPickAnglesTarget {
 public:
-	virtual void OnNotifyPickAngles(const Vector &vecPos) = 0;
+    virtual void OnNotifyPickAngles(const Vector &vecPos) = 0;
 };
 
 
-class CToolPickAngles : public CBaseTool
-{
+class CToolPickAngles : public CBaseTool {
 public:
 
-	//
-	// Constructor/Destructor
-	//
+    //
+    // Constructor/Destructor
+    //
     CToolPickAngles();
+
     ~CToolPickAngles();
 
-	//
-	// CBaseTool virtual implementations
-	//
-	virtual ToolID_t GetToolID(void) { return TOOL_PICK_ANGLES; }
+    //
+    // CBaseTool virtual implementations
+    //
+    virtual ToolID_t GetToolID(void) { return TOOL_PICK_ANGLES; }
 
-	virtual bool OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+    virtual bool OnLMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
     virtual bool OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
-    virtual bool OnLMouseDblClk3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnRMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
-    virtual bool OnRMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
-	virtual bool OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
 
-	//
-	// Functions specific to this tool.
-	//
-	inline void Attach(IPickAnglesTarget *pTarget);
+    virtual bool OnLMouseDblClk3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnRMouseUp3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnRMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    virtual bool OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint);
+
+    //
+    // Functions specific to this tool.
+    //
+    inline void Attach(IPickAnglesTarget *pTarget);
 
 protected:
 
-	void SetToolCursor(void);
+    void SetToolCursor(void);
 
-	IPickAnglesTarget *m_pNotifyTarget;			// Object to notify when selection events occur.
+    IPickAnglesTarget *m_pNotifyTarget;            // Object to notify when selection events occur.
 };
 
 
@@ -69,9 +74,8 @@ protected:
 // Purpose: Attaches the given notification target to this tool. That object
 //			will be used for all future notifications and updates by the tool.
 //-----------------------------------------------------------------------------
-void CToolPickAngles::Attach(IPickAnglesTarget *pNotifyTarget)
-{
-	m_pNotifyTarget = pNotifyTarget;
+void CToolPickAngles::Attach(IPickAnglesTarget *pNotifyTarget) {
+    m_pNotifyTarget = pNotifyTarget;
 }
 
 #endif // TOOLPICKANGLES_H

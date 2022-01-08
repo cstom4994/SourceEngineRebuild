@@ -685,9 +685,9 @@ void CLightingPreviewThread::SendVectorMatrixAsRendering(CSIMDVectorMatrix const
     for (int y = 0; y < src.m_nHeight; y++)
         for (int x = 0; x < src.m_nWidth; x++) {
             Vector color = src.Element(x, y);
-            *(ret_bm->GetPixel(x, y) + 0) = (uint8) min(255, (int)(255.0 * pow(color.z, (float) (1 / 2.2))));
-            *(ret_bm->GetPixel(x, y) + 1) = (uint8) min(255, (int)(255.0 * pow(color.y, (float) (1 / 2.2))));
-            *(ret_bm->GetPixel(x, y) + 2) = (uint8) min(255, (int)(255.0 * pow(color.x, (float) (1 / 2.2))));
+            *(ret_bm->GetPixel(x, y) + 0) = (uint8) min(255, (int) (255.0 * pow(color.z, (float) (1 / 2.2))));
+            *(ret_bm->GetPixel(x, y) + 1) = (uint8) min(255, (int) (255.0 * pow(color.y, (float) (1 / 2.2))));
+            *(ret_bm->GetPixel(x, y) + 2) = (uint8) min(255, (int) (255.0 * pow(color.x, (float) (1 / 2.2))));
             *(ret_bm->GetPixel(x, y) + 3) = 0;
         }
     MessageFromLPreview ret_msg(LPREVIEW_MSG_DISPLAY_RESULT);

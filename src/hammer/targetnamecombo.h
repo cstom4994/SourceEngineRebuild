@@ -23,44 +23,46 @@
 #include "FilteredComboBox.h"
 #include "utldict.h"
 
-class CTargetNameComboBox : public CFilteredComboBox, protected CFilteredComboBox::ICallbacks
-{
-	typedef CFilteredComboBox BaseClass;
+class CTargetNameComboBox : public CFilteredComboBox, protected CFilteredComboBox::ICallbacks {
+    typedef CFilteredComboBox BaseClass;
 
-	public:
+public:
 
-		CTargetNameComboBox( CFilteredComboBox::ICallbacks *pCallbacks );
-		~CTargetNameComboBox(void);
+    CTargetNameComboBox(CFilteredComboBox::ICallbacks *pCallbacks);
 
-		// For dynamic creation.
-		static CTargetNameComboBox* Create( CFilteredComboBox::ICallbacks *pCallbacks, DWORD dwStyle, RECT rect, CWnd *pParentWnd, UINT nID );
+    ~CTargetNameComboBox(void);
 
-		// Initialize the control with the entity list you want it to represent.
-		void SetEntityList(const CMapEntityList *pEntityList);
-		
-		// Gets the list of entities with this name. The data is valid until the next SetEntityList call.
-		CMapEntityList* GetSubEntityList( const char *pName );
+    // For dynamic creation.
+    static CTargetNameComboBox *
+    Create(CFilteredComboBox::ICallbacks *pCallbacks, DWORD dwStyle, RECT rect, CWnd *pParentWnd, UINT nID);
 
-	protected:
+    // Initialize the control with the entity list you want it to represent.
+    void SetEntityList(const CMapEntityList *pEntityList);
 
-		// CFilteredComboBox::ICallbacks
-		virtual void OnTextChanged( const char *pText );
+    // Gets the list of entities with this name. The data is valid until the next SetEntityList call.
+    CMapEntityList *GetSubEntityList(const char *pName);
 
-		void FreeSubLists(void);
-		void CreateFonts();
+protected:
 
-	protected:
+    // CFilteredComboBox::ICallbacks
+    virtual void OnTextChanged(const char *pText);
 
-		CUtlDict<CMapEntityList*,int> m_EntityLists;
+    void FreeSubLists(void);
 
-		const CMapEntityList *m_pEntityList;
-		CTypedPtrList<CPtrList, CMapEntityList *> m_SubLists;
-		
-		CFilteredComboBox::ICallbacks *m_pPassThru;
+    void CreateFonts();
 
-		CFont m_BoldFont;						// Bold font used when there are multiple matches.
+protected:
 
-		DECLARE_MESSAGE_MAP()
+    CUtlDict<CMapEntityList *, int> m_EntityLists;
+
+    const CMapEntityList *m_pEntityList;
+    CTypedPtrList<CPtrList, CMapEntityList *> m_SubLists;
+
+    CFilteredComboBox::ICallbacks *m_pPassThru;
+
+    CFont m_BoldFont;                        // Bold font used when there are multiple matches.
+
+DECLARE_MESSAGE_MAP()
 };
 
 

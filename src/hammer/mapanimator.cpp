@@ -364,7 +364,7 @@ void CMapAnimator::UpdateAnimation(float animTime) {
     }
 
     // Apply interpolated Rotation
-    QuaternionMatrix(newAngles, (matrix3x4_t&)mat.As3x4());
+    QuaternionMatrix(newAngles, (matrix3x4_t &) mat.As3x4());
     m_CoordFrame = m_CoordFrame * mat;
 
     // transform back to our new position

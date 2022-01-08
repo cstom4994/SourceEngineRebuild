@@ -17,70 +17,75 @@
 #include "utlvector.h"
 
 
-class CBSPLightingThread : public IBSPLightingThread
-{
+class CBSPLightingThread : public IBSPLightingThread {
 public:
 
-						CBSPLightingThread();
+    CBSPLightingThread();
 
 
 // IBSPLightingThread functions.
 public:
-	virtual				~CBSPLightingThread();
-	virtual void		Release();
-	virtual void		StartLighting( char const *pVMFFileWithEntities );
-	virtual int			GetCurrentState();
-	virtual void		Interrupt();
-	virtual float		GetPercentComplete();
+    virtual                ~CBSPLightingThread();
+
+    virtual void Release();
+
+    virtual void StartLighting(char const *pVMFFileWithEntities);
+
+    virtual int GetCurrentState();
+
+    virtual void Interrupt();
+
+    virtual float GetPercentComplete();
 
 
 // Other functions.
 public:
 
-	// This is called immediately after the constructor. It creates the thread.
-	bool				Init( IVRadDLL *pDLL );
+    // This is called immediately after the constructor. It creates the thread.
+    bool Init(IVRadDLL *pDLL);
 
 
 
 // Threadsafe functions.
 public:
 
-	enum
-	{
-		THREADCMD_NONE=0,
-		THREADCMD_LIGHT=1,
-		THREADCMD_EXIT=2
-	};
+    enum {
+        THREADCMD_NONE = 0,
+        THREADCMD_LIGHT = 1,
+        THREADCMD_EXIT = 2
+    };
 
-	// Get the current command to the thread. Resets to THREADCMD_NONE on exit.
-	int					GetThreadCmd();
-	void				SetThreadCmd( int cmd );
+    // Get the current command to the thread. Resets to THREADCMD_NONE on exit.
+    int GetThreadCmd();
 
-	// Returns an IBSPLightingThread::STATE_ define.
-	int					GetThreadState();
-	void				SetThreadState( int state );
-	
+    void SetThreadCmd(int cmd);
 
-public:
+    // Returns an IBSPLightingThread::STATE_ define.
+    int GetThreadState();
 
-	// The thread's run function.
-	DWORD				ThreadMainLoop();
+    void SetThreadState(int state);
 
 
 public:
 
-	int					m_ThreadCmd;		// Next command for the thread to run.
-	int					m_ThreadState;		// Current state of the thread.
-
-	CUtlVector<char>	m_VMFFileWithEntities;
+    // The thread's run function.
+    DWORD ThreadMainLoop();
 
 
 public:
-	IVRadDLL			*m_pVRadDLL;
 
-	HANDLE				m_hThread;
-	DWORD				m_ThreadID;
-	CRITICAL_SECTION	m_CS;
+    int m_ThreadCmd;        // Next command for the thread to run.
+    int m_ThreadState;        // Current state of the thread.
+
+    CUtlVector<char> m_VMFFileWithEntities;
+
+
+public:
+    IVRadDLL *m_pVRadDLL;
+
+    HANDLE m_hThread;
+    DWORD m_ThreadID;
+    CRITICAL_SECTION m_CS;
 };
 
 

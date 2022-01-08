@@ -4826,11 +4826,6 @@ void CMaterialSystem::PersistDisplay()
 }
 #endif
 
-void* CMaterialSystem::GetD3DDevice()
-{
-    return g_pShaderAPI->GetD3DDevice();
-}
-
 #if defined( _X360 )
 bool CMaterialSystem::OwnGPUResources(bool bEnable)
 {

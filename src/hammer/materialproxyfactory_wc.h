@@ -12,7 +12,7 @@
 
 class IMaterialProxyFactory;
 
-IMaterialProxyFactory* GetHammerMaterialProxyFactory();
+IMaterialProxyFactory *GetHammerMaterialProxyFactory();
 
 
 #endif // MATERIALPROXYFACTORY_WC_H

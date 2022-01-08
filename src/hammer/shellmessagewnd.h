@@ -20,22 +20,22 @@
 class CShell;
 
 
-class CShellMessageWnd : public CWnd
-{
-	public:
+class CShellMessageWnd : public CWnd {
+public:
 
-		bool Create(void);
-		void SetShell(CShell *pShell);
+    bool Create(void);
 
-	protected:
+    void SetShell(CShell *pShell);
 
-		CShell *m_pShell;
+protected:
 
-		//{{AFX_MSG_MAP(CShellMessageWnd)
-		afx_msg BOOL OnCopyData(CWnd *pWnd, COPYDATASTRUCT *pCopyData);
-		//}}AFX_MSG
-	
-		DECLARE_MESSAGE_MAP()
+    CShell *m_pShell;
+
+    //{{AFX_MSG_MAP(CShellMessageWnd)
+    afx_msg BOOL OnCopyData(CWnd *pWnd, COPYDATASTRUCT *pCopyData);
+    //}}AFX_MSG
+
+DECLARE_MESSAGE_MAP()
 };
 
 

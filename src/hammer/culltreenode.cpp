@@ -19,16 +19,14 @@ bool BoxesIntersect(Vector const &mins1, Vector const &maxs1, Vector const &mins
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CCullTreeNode::CCullTreeNode(void)
-{
+CCullTreeNode::CCullTreeNode(void) {
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CCullTreeNode::~CCullTreeNode(void)
-{
+CCullTreeNode::~CCullTreeNode(void) {
 }
 
 
@@ -36,9 +34,8 @@ CCullTreeNode::~CCullTreeNode(void)
 // Purpose: 
 // Input  : pChild - 
 //-----------------------------------------------------------------------------
-void CCullTreeNode::AddCullTreeChild(CCullTreeNode *pChild)
-{
-	m_Children.AddToTail(pChild);
+void CCullTreeNode::AddCullTreeChild(CCullTreeNode *pChild) {
+    m_Children.AddToTail(pChild);
 }
 
 
@@ -46,16 +43,15 @@ void CCullTreeNode::AddCullTreeChild(CCullTreeNode *pChild)
 // Purpose: 
 // Input  : pObject - 
 //-----------------------------------------------------------------------------
-void CCullTreeNode::AddCullTreeObject(CMapClass *pObject)
-{
-	// First make sure the object isn't already in this node.
+void CCullTreeNode::AddCullTreeObject(CMapClass *pObject) {
+    // First make sure the object isn't already in this node.
 
-	// If it's already here, bail out.
-	if ( m_Objects.Find( pObject ) != -1 )
-		return;
-	
-	// Add the object.
-	m_Objects.AddToTail(pObject);
+    // If it's already here, bail out.
+    if (m_Objects.Find(pObject) != -1)
+        return;
+
+    // Add the object.
+    m_Objects.AddToTail(pObject);
 }
 
 
@@ -63,58 +59,49 @@ void CCullTreeNode::AddCullTreeObject(CMapClass *pObject)
 // Purpose: 
 // Input  : pObject - 
 //-----------------------------------------------------------------------------
-void CCullTreeNode::AddCullTreeObjectRecurse(CMapClass *pObject)
-{
-	//
-	// If the object intersects this node, add it to this node and recurse,
-	// testing each of our children in the same fashion.
-	//
-	Vector ObjMins;
-	Vector ObjMaxs;
-	pObject->GetCullBox(ObjMins, ObjMaxs);
-	if (BoxesIntersect(ObjMins, ObjMaxs, bmins, bmaxs))
-	{
-		int nChildCount = GetChildCount();
-		if (nChildCount != 0)
-		{
-			// dvs: we should split when appropriate!
-			// otherwise the tree becomes less optimal over time.
-			for (int nChild = 0; nChild < nChildCount; nChild++)
-			{
-				CCullTreeNode *pChild = GetCullTreeChild(nChild);
-				pChild->AddCullTreeObjectRecurse(pObject);
-			}
-		}
-		else
-		{
-			AddCullTreeObject(pObject);
-		}
-	}
+void CCullTreeNode::AddCullTreeObjectRecurse(CMapClass *pObject) {
+    //
+    // If the object intersects this node, add it to this node and recurse,
+    // testing each of our children in the same fashion.
+    //
+    Vector ObjMins;
+    Vector ObjMaxs;
+    pObject->GetCullBox(ObjMins, ObjMaxs);
+    if (BoxesIntersect(ObjMins, ObjMaxs, bmins, bmaxs)) {
+        int nChildCount = GetChildCount();
+        if (nChildCount != 0) {
+            // dvs: we should split when appropriate!
+            // otherwise the tree becomes less optimal over time.
+            for (int nChild = 0; nChild < nChildCount; nChild++) {
+                CCullTreeNode *pChild = GetCullTreeChild(nChild);
+                pChild->AddCullTreeObjectRecurse(pObject);
+            }
+        } else {
+            AddCullTreeObject(pObject);
+        }
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Removes all objects from this node.
 //-----------------------------------------------------------------------------
-void CCullTreeNode::RemoveAllCullTreeObjects(void)
-{
-	m_Objects.RemoveAll();
+void CCullTreeNode::RemoveAllCullTreeObjects(void) {
+    m_Objects.RemoveAll();
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Removes all objects from this branch of the tree recursively.
 //-----------------------------------------------------------------------------
-void CCullTreeNode::RemoveAllCullTreeObjectsRecurse(void)
-{
-	RemoveAllCullTreeObjects();
+void CCullTreeNode::RemoveAllCullTreeObjectsRecurse(void) {
+    RemoveAllCullTreeObjects();
 
-	int nChildCount = GetChildCount();
-	for (int nChild = 0; nChild < nChildCount; nChild++)
-	{
-		CCullTreeNode *pChild = GetCullTreeChild(nChild);
-		pChild->RemoveAllCullTreeObjectsRecurse();
-	}
+    int nChildCount = GetChildCount();
+    for (int nChild = 0; nChild < nChildCount; nChild++) {
+        CCullTreeNode *pChild = GetCullTreeChild(nChild);
+        pChild->RemoveAllCullTreeObjectsRecurse();
+    }
 }
 
 
@@ -122,14 +109,13 @@ void CCullTreeNode::RemoveAllCullTreeObjectsRecurse(void)
 // Purpose: Removes all instances of a given object from this node.
 // Input  : pObject - 
 //-----------------------------------------------------------------------------
-void CCullTreeNode::RemoveCullTreeObject(CMapClass *pObject)
-{
-	// Remove occurrence of pObject from the array
-	
-	m_Objects.FindAndRemove( pObject );
+void CCullTreeNode::RemoveCullTreeObject(CMapClass *pObject) {
+    // Remove occurrence of pObject from the array
 
-	// make sure it's not in there twice
-	Assert( m_Objects.Find( pObject) == -1 );
+    m_Objects.FindAndRemove(pObject);
+
+    // make sure it's not in there twice
+    Assert(m_Objects.Find(pObject) == -1);
 }
 
 
@@ -137,15 +123,13 @@ void CCullTreeNode::RemoveCullTreeObject(CMapClass *pObject)
 // Purpose: Removes all instances of a given object from this node.
 // Input  : pObject - 
 //-----------------------------------------------------------------------------
-void CCullTreeNode::RemoveCullTreeObjectRecurse(CMapClass *pObject)
-{
-	RemoveCullTreeObject(pObject);
+void CCullTreeNode::RemoveCullTreeObjectRecurse(CMapClass *pObject) {
+    RemoveCullTreeObject(pObject);
 
-	for (int nChild = 0; nChild < m_Children.Count(); nChild++)
-	{
-		CCullTreeNode *pChild = m_Children[nChild];
-		pChild->RemoveCullTreeObjectRecurse(pObject);
-	}	
+    for (int nChild = 0; nChild < m_Children.Count(); nChild++) {
+        CCullTreeNode *pChild = m_Children[nChild];
+        pChild->RemoveCullTreeObjectRecurse(pObject);
+    }
 }
 
 
@@ -153,29 +137,24 @@ void CCullTreeNode::RemoveCullTreeObjectRecurse(CMapClass *pObject)
 // Purpose: Removes all instances of a given object from this node.
 // Input  : pObject - 
 //-----------------------------------------------------------------------------
-CCullTreeNode *CCullTreeNode::FindCullTreeObjectRecurse(CMapClass *pObject)
-{
-	for (int i = 0; i < m_Objects.Count(); i++)
-	{
-		CMapClass *pCurrent = m_Objects[i];
-		if (pCurrent == pObject)
-		{
-			return(this);
-		}
-	}
+CCullTreeNode *CCullTreeNode::FindCullTreeObjectRecurse(CMapClass *pObject) {
+    for (int i = 0; i < m_Objects.Count(); i++) {
+        CMapClass *pCurrent = m_Objects[i];
+        if (pCurrent == pObject) {
+            return (this);
+        }
+    }
 
-	int nChildCount = GetChildCount();
-	for (int nChild = 0; nChild < nChildCount; nChild++)
-	{
-		CCullTreeNode *pChild = GetCullTreeChild(nChild);
-		CCullTreeNode *pFound = pChild->FindCullTreeObjectRecurse(pObject);
-		if (pFound != NULL)
-		{
-			return(pFound);
-		}
-	}
+    int nChildCount = GetChildCount();
+    for (int nChild = 0; nChild < nChildCount; nChild++) {
+        CCullTreeNode *pChild = GetCullTreeChild(nChild);
+        CCullTreeNode *pFound = pChild->FindCullTreeObjectRecurse(pObject);
+        if (pFound != NULL) {
+            return (pFound);
+        }
+    }
 
-	return(NULL);
+    return (NULL);
 }
 
 
@@ -183,20 +162,16 @@ CCullTreeNode *CCullTreeNode::FindCullTreeObjectRecurse(CMapClass *pObject)
 // Purpose: 
 // Input  : pObject - 
 //-----------------------------------------------------------------------------
-void CCullTreeNode::UpdateCullTreeObject(CMapClass *pObject)
-{
-	Vector mins;
-	Vector maxs;
-	pObject->GetCullBox(mins, maxs);
+void CCullTreeNode::UpdateCullTreeObject(CMapClass *pObject) {
+    Vector mins;
+    Vector maxs;
+    pObject->GetCullBox(mins, maxs);
 
-	if (!BoxesIntersect(mins, maxs, bmins, bmaxs))
-	{
-		RemoveCullTreeObject(pObject);
-	}
-	else
-	{
-		AddCullTreeObject(pObject);
-	}
+    if (!BoxesIntersect(mins, maxs, bmins, bmaxs)) {
+        RemoveCullTreeObject(pObject);
+    } else {
+        AddCullTreeObject(pObject);
+    }
 }
 
 
@@ -207,21 +182,16 @@ void CCullTreeNode::UpdateCullTreeObject(CMapClass *pObject)
 //			no longer intersects.
 // Input  : pObject - The object whose bounding box has changed.
 //-----------------------------------------------------------------------------
-void CCullTreeNode::UpdateCullTreeObjectRecurse(CMapClass *pObject)
-{
-	int nChildCount = GetChildCount();
-	if (nChildCount != 0)
-	{
-		for (int nChild = 0; nChild < nChildCount; nChild++)
-		{
-			CCullTreeNode *pChild = GetCullTreeChild(nChild);
-			pChild->UpdateCullTreeObjectRecurse(pObject);
-		}
-	}
-	else
-	{
-		UpdateCullTreeObject(pObject);
-	}
+void CCullTreeNode::UpdateCullTreeObjectRecurse(CMapClass *pObject) {
+    int nChildCount = GetChildCount();
+    if (nChildCount != 0) {
+        for (int nChild = 0; nChild < nChildCount; nChild++) {
+            CCullTreeNode *pChild = GetCullTreeChild(nChild);
+            pChild->UpdateCullTreeObjectRecurse(pObject);
+        }
+    } else {
+        UpdateCullTreeObject(pObject);
+    }
 }
 
 
@@ -229,31 +199,24 @@ void CCullTreeNode::UpdateCullTreeObjectRecurse(CMapClass *pObject)
 // Purpose: 
 // Input  : pObject - The object whose bounding box has changed.
 //-----------------------------------------------------------------------------
-void CCullTreeNode::UpdateAllCullTreeObjectsRecurse(void)
-{
-	int nChildCount = GetChildCount();
-	if (nChildCount != 0)
-	{
-		for (int nChild = 0; nChild < nChildCount; nChild++)
-		{
-			CCullTreeNode *pChild = GetCullTreeChild(nChild);
-			pChild->UpdateAllCullTreeObjectsRecurse();
-		}
-	}
-	else
-	{
-		int nObjectCount = GetObjectCount();
-		for (int nObject = 0; nObject < nObjectCount; nObject++)
-		{
-			CMapClass *pObject = GetCullTreeObject(nObject);
+void CCullTreeNode::UpdateAllCullTreeObjectsRecurse(void) {
+    int nChildCount = GetChildCount();
+    if (nChildCount != 0) {
+        for (int nChild = 0; nChild < nChildCount; nChild++) {
+            CCullTreeNode *pChild = GetCullTreeChild(nChild);
+            pChild->UpdateAllCullTreeObjectsRecurse();
+        }
+    } else {
+        int nObjectCount = GetObjectCount();
+        for (int nObject = 0; nObject < nObjectCount; nObject++) {
+            CMapClass *pObject = GetCullTreeObject(nObject);
 
-			Vector mins;
-			Vector maxs;
-			pObject->GetCullBox(mins, maxs);
-			if (!BoxesIntersect(mins, maxs, bmins, bmaxs))
-			{
-				RemoveCullTreeObject(pObject);
-			}
-		}
-	}
+            Vector mins;
+            Vector maxs;
+            pObject->GetCullBox(mins, maxs);
+            if (!BoxesIntersect(mins, maxs, bmins, bmaxs)) {
+                RemoveCullTreeObject(pObject);
+            }
+        }
+    }
 }

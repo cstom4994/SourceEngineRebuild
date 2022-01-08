@@ -16,77 +16,89 @@
 #include "tier1/utlstack.h"
 
 class CWnd;
+
 class CView;
+
 class CMapAtom;
+
 class CMapClass;
+
 class CMapDoc;
+
 class CCamera;
+
 class CTitleWnd;
+
 class CEntityConnection;
 
 
-class CMapViewLogical : public CMapView2DBase
-{
+class CMapViewLogical : public CMapView2DBase {
 public:
-	// Other public methods
-	virtual void Render();
+    // Other public methods
+    virtual void Render();
 
 protected:
-	CMapViewLogical();           // protected constructor used by dynamic creation
-	virtual ~CMapViewLogical();
-	DECLARE_DYNCREATE(CMapViewLogical)
+    CMapViewLogical();           // protected constructor used by dynamic creation
+    virtual ~CMapViewLogical();
 
-	virtual bool IsLogical() { return true; }
-	virtual void OnRenderListDirty();
+DECLARE_DYNCREATE(CMapViewLogical)
 
-	// convert client view space to map world coordinates (2D versions for convenience) 
-	void WorldToClient( Vector2D &ptClient, const Vector2D &vWorld );
-	void ClientToWorld( Vector2D &vWorld, const Vector2D &vClient );
-	virtual void WorldToClient( Vector2D &ptClient, const Vector &vWorld );
-	virtual void ClientToWorld( Vector &vWorld, const Vector2D &vClient );
+    virtual bool IsLogical() { return true; }
 
-	// Performs a selection which selects an object at the point as well as entities connected to outputs.
-	bool SelectAtCascading( const Vector2D &ptClient, bool bMakeFirst );
+    virtual void OnRenderListDirty();
+
+    // convert client view space to map world coordinates (2D versions for convenience)
+    void WorldToClient(Vector2D &ptClient, const Vector2D &vWorld);
+
+    void ClientToWorld(Vector2D &vWorld, const Vector2D &vClient);
+
+    virtual void WorldToClient(Vector2D &ptClient, const Vector &vWorld);
+
+    virtual void ClientToWorld(Vector &vWorld, const Vector2D &vClient);
+
+    // Performs a selection which selects an object at the point as well as entities connected to outputs.
+    bool SelectAtCascading(const Vector2D &ptClient, bool bMakeFirst);
 
 private:
-	// timer IDs:
-	enum 
-	{ 
-		TIMER_CONNECTIONUPDATE = 2, 
-	};
+    // timer IDs:
+    enum {
+        TIMER_CONNECTIONUPDATE = 2,
+    };
 
-	typedef CUtlRBTree<CMapClass*, unsigned short> MapClassDict_t;
+    typedef CUtlRBTree<CMapClass *, unsigned short> MapClassDict_t;
 
-	// Purpose: Builds up list of mapclasses to render
-	void AddToRenderLists( CMapClass *pObject );
-	void PopulateConnectionList( );
+    // Purpose: Builds up list of mapclasses to render
+    void AddToRenderLists(CMapClass *pObject);
 
-	// Purpose: 
-	void RenderConnections(const bool bDrawSelected, const bool bAnySelected);
+    void PopulateConnectionList();
 
-	// Draws a wire from a particular point to a target
-	const color32 & GetWireColor(const char *pszName, const bool bSelected, const bool bBroken, const bool bAnySelected );
-	void DrawConnectingWire( float x, float y, CMapEntity *pSource, CEntityConnection *pConnection, CMapEntity *pTarget );
+    // Purpose:
+    void RenderConnections(const bool bDrawSelected, const bool bAnySelected);
 
-	bool	m_bUpdateRenderObjects;	// Should I build a list of things to render?
-	CUtlVector<CMapClass *> m_RenderList;	// list of current rendered objects
-	CUtlVector<CMapClass *> m_ConnectionList;	// list of all objects which are in the render list of have connections to something in the renderlist
-	CUtlStack<CMapClass *> m_ConnectionUpdate;	// for iteratively determining connectivity
-	MapClassDict_t m_RenderDict;
+    // Draws a wire from a particular point to a target
+    const color32 &GetWireColor(const char *pszName, const bool bSelected, const bool bBroken, const bool bAnySelected);
 
-	// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMapView2D)
-	protected:
-	virtual void OnInitialUpdate();     // first time after construct
-	//}}AFX_VIRTUAL
+    void DrawConnectingWire(float x, float y, CMapEntity *pSource, CEntityConnection *pConnection, CMapEntity *pTarget);
 
-	// Generated message map functions
-	//{{AFX_MSG(CMapView2D)
-	afx_msg void OnTimer(UINT nIDEvent);
-	//}}AFX_MSG
+    bool m_bUpdateRenderObjects;    // Should I build a list of things to render?
+    CUtlVector<CMapClass *> m_RenderList;    // list of current rendered objects
+    CUtlVector<CMapClass *> m_ConnectionList;    // list of all objects which are in the render list of have connections to something in the renderlist
+    CUtlStack<CMapClass *> m_ConnectionUpdate;    // for iteratively determining connectivity
+    MapClassDict_t m_RenderDict;
 
-	DECLARE_MESSAGE_MAP()
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMapView2D)
+protected:
+    virtual void OnInitialUpdate();     // first time after construct
+    //}}AFX_VIRTUAL
+
+    // Generated message map functions
+    //{{AFX_MSG(CMapView2D)
+    afx_msg void OnTimer(UINT nIDEvent);
+    //}}AFX_MSG
+
+DECLARE_MESSAGE_MAP()
 };
 
 
