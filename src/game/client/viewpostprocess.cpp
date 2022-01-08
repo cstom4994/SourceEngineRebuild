@@ -286,19 +286,6 @@ void ApplyPostProcessingPasses(PostProcessingPass *pass_list, // table of effect
     pRenderContext->SetRenderTarget(pSaveRenderTarget);
 }
 
-PostProcessingPass HDR_Magic[] =
-        {
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blur1", "_rt_FullFrameFB", "_rt_MBloomL1"),
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blur2", "_rt_MBloomL1", "_rt_MBloomL2"),
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blur3", "_rt_MBloomL2", "_rt_MBloomL3"),
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blur4", "_rt_MBloomL3", "_rt_MBloomL4"),
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blur5", "_rt_MBloomL4", "_rt_MBloomL5"),
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blur6", "_rt_MBloomL5", "_rt_MBloomL6"),
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blur7", "_rt_MBloomL6", "_rt_MBloomL7"),
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blur8", "_rt_MBloomL7", "_rt_MBloomL8"),
-                PPP_PROCESS_SRCTEXTURE("dev/mb_blend", "_rt_FullFrameFB", NULL),
-                PPP_END
-        };
 
 PostProcessingPass HDRFinal_Float[] =
         {
@@ -318,6 +305,20 @@ PostProcessingPass HDRFinal_Float_NoBloom[] =
 PostProcessingPass HDRSimulate_NonHDR[] =
         {
                 PPP_PROCESS("dev/copyfullframefb_vanilla", NULL),
+                PPP_END
+        };
+
+PostProcessingPass HDR_Magic[] =
+        {
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blur1", "_rt_FullFrameFB", "_rt_MBloomL1"),
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blur2", "_rt_MBloomL1", "_rt_MBloomL2"),
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blur3", "_rt_MBloomL2", "_rt_MBloomL3"),
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blur4", "_rt_MBloomL3", "_rt_MBloomL4"),
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blur5", "_rt_MBloomL4", "_rt_MBloomL5"),
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blur6", "_rt_MBloomL5", "_rt_MBloomL6"),
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blur7", "_rt_MBloomL6", "_rt_MBloomL7"),
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blur8", "_rt_MBloomL7", "_rt_MBloomL8"),
+                PPP_PROCESS_SRCTEXTURE("dev/mb_blend", "_rt_FullFrameFB", NULL),
                 PPP_END
         };
 

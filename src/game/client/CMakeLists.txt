@@ -3528,6 +3528,7 @@ set(Source_Files
         "weapon_selection.cpp"
         "weapons_resource.cpp"
         "WorldDimsProxy.cpp"
+        "magicbloom_rendertargets.cpp"
         )
 source_group("Source Files" FILES ${Source_Files})
 
