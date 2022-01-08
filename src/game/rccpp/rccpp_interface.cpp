@@ -5,10 +5,13 @@
 
 #include <stdlib.h>
 
+#include "SDL.h"
+
+#undef main
+
 // imgui headers
 #include <imgui.h>
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl2.h"
+#include "imgui_sdl.h"
 
 // RCC++ headers
 #include "RuntimeObjectSystem.h"
@@ -17,8 +20,6 @@
 #include "StdioLogSystem.h"
 #include "SystemTable.h"
 #include "RCCppMainLoop.h"
-
-#include <GLFW/glfw3.h>
 
 // RCC++ Data
 static StdioLogSystem g_Logger;
@@ -40,34 +41,33 @@ RCCPP &GetRCCPP() {
 EXPOSE_SINGLE_INTERFACE_GLOBALVAR(RCCPP, IRCCPP, RCCPP_DLL_INTERFACE_VERSION, StaticRCCPP);
 
 
-
 void ResetPowerSaveCountDown() { powerSaveCountDown = 3; }
 
-void WindowResizeCallback(GLFWwindow *window, int width, int height) { ResetPowerSaveCountDown(); }
-
-void WindowPosCallback(GLFWwindow *window, int xpos, int ypos) { ResetPowerSaveCountDown(); }
-
-void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    ResetPowerSaveCountDown();
-    ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
-}
-
-void CharCallback(GLFWwindow *window, unsigned int character) {
-    ResetPowerSaveCountDown();
-    ImGui_ImplGlfw_CharCallback(window, character);
-}
-
-void MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
-    ResetPowerSaveCountDown();
-    ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
-}
-
-void MousePosCallback(GLFWwindow *window, double x, double y) { ResetPowerSaveCountDown(); }
-
-void MouseWheelCallback(GLFWwindow *window, double x, double y) {
-    ResetPowerSaveCountDown();
-    ImGui_ImplGlfw_ScrollCallback(window, x, y);
-}
+//void WindowResizeCallback(GLFWwindow *window, int width, int height) { ResetPowerSaveCountDown(); }
+//
+//void WindowPosCallback(GLFWwindow *window, int xpos, int ypos) { ResetPowerSaveCountDown(); }
+//
+//void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+//    ResetPowerSaveCountDown();
+//    ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
+//}
+//
+//void CharCallback(GLFWwindow *window, unsigned int character) {
+//    ResetPowerSaveCountDown();
+//    ImGui_ImplGlfw_CharCallback(window, character);
+//}
+//
+//void MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
+//    ResetPowerSaveCountDown();
+//    ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
+//}
+//
+//void MousePosCallback(GLFWwindow *window, double x, double y) { ResetPowerSaveCountDown(); }
+//
+//void MouseWheelCallback(GLFWwindow *window, double x, double y) {
+//    ResetPowerSaveCountDown();
+//    ImGui_ImplGlfw_ScrollCallback(window, x, y);
+//}
 
 bool RCCppInit() {
     g_SystemTable.pImContext = ImGui::GetCurrentContext();
@@ -112,11 +112,11 @@ void RCCppUpdate() {
 }
 
 
-
-
 ImVec4 clear_color = ImColor(114, 144, 154);
 
-GLFWwindow *window;
+SDL_Texture *texture;
+SDL_Window *window;
+SDL_Renderer *renderer;
 
 void RCCPP::Initialize(CreateInterfaceFn AppFactory) {
     MEM_ALLOC_CREDIT();
@@ -136,29 +136,22 @@ void RCCPP::Initialize(CreateInterfaceFn AppFactory) {
         Error("RCCPP failed to get necessary interfaces.\n");
 
 
+    SDL_Init(SDL_INIT_EVERYTHING);
 
-    if (!glfwInit())
-        exit(1);
+    window = SDL_CreateWindow("Lambda Mod - RCCPP", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600,
+                              SDL_WINDOW_RESIZABLE);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    window = glfwCreateWindow(1280, 720, "Lambda Mod - RCCPP", NULL, NULL);
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync
-
-    // Power save - ensure callbacks point to the correct place
-    glfwSetWindowSizeCallback(window, WindowResizeCallback);
-    glfwSetWindowPosCallback(window, WindowPosCallback);
-    glfwSetKeyCallback(window, KeyCallback);
-    glfwSetCharCallback(window, CharCallback);
-    glfwSetMouseButtonCallback(window, MouseButtonCallback);
-    glfwSetCursorPosCallback(window, MousePosCallback);
-    glfwSetScrollCallback(window, MouseWheelCallback);
-
-    // Setup Dear ImGui binding
-    IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImGuiSDL::Initialize(renderer, 800, 600);
 
-    ImGui_ImplGlfw_InitForOpenGL(window, false);
-    ImGui_ImplOpenGL2_Init();
+    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 100, 100);
+    {
+        SDL_SetRenderTarget(renderer, texture);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+        SDL_RenderClear(renderer);
+        SDL_SetRenderTarget(renderer, nullptr);
+    }
 
     // Initialize RCC++
     RCCppInit();
@@ -179,6 +172,10 @@ void RCCPP::Shutdown() {
     DisconnectTier1Libraries();
 }
 
+void RCCPP::InitEditor() {
+
+}
+
 void RCCPP::OnInitialize() {
     ConColorMsg(Color(255, 148, 0, 255), "On Initialize\n");
 }
@@ -187,52 +184,80 @@ void RCCPP::OnShutdown() {
     ConColorMsg(Color(255, 148, 0, 255), "On Shutdown\n");
 
     RCCppCleanup();
-    ImGui_ImplOpenGL2_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
+
+    ImGuiSDL::Deinitialize();
+
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+
     ImGui::DestroyContext();
-    glfwTerminate();
 }
 
 void RCCPP::OnUpdate() {
-//	ConColorMsg(Color(255, 148, 0, 255), "On Update: %f\n", GetTime());
 
+    static bool run = true;
+    if (run) {
+        ImGuiIO &io = ImGui::GetIO();
 
-    if (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
+        int wheel = 0;
+//
+//        SDL_Event e;
+//        while (SDL_PollEvent(&e)) {
+//            if (e.type == SDL_QUIT) run = false;
+//            else if (e.type == SDL_WINDOWEVENT) {
+//                if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+//                    io.DisplaySize.x = static_cast<float>(e.window.data1);
+//                    io.DisplaySize.y = static_cast<float>(e.window.data2);
+//                }
+//            } else if (e.type == SDL_MOUSEWHEEL) {
+//                wheel = e.wheel.y;
+//            }
+//        }
+
+        int mouseX, mouseY;
+        const int buttons = SDL_GetMouseState(&mouseX, &mouseY);
+
+        // Setup low-level inputs (e.g. on Win32, GetKeyboardState(), or write to those fields from your Windows message loop handlers, etc.)
+
+        io.DeltaTime = 1.0f / 60.0f;
+        io.MousePos = ImVec2(static_cast<float>(mouseX), static_cast<float>(mouseY));
+        io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
+        io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
+        io.MouseWheel = static_cast<float>(wheel);
 
         // Update RCC++
         RCCppUpdate();
 
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL2_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
         // Call the function in our RCC++ class
         g_SystemTable.pRCCppMainLoopI->MainLoop();
 
-        // Rendering
-        {
-            glViewport(0, 0, (int) ImGui::GetIO().DisplaySize.x, (int) ImGui::GetIO().DisplaySize.y);
-            glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-            glClear(GL_COLOR_BUFFER_BIT);
-            ImGui::Render();
-            ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-            glfwSwapBuffers(window);
-        }
+        ImGui::ShowDemoWindow();
+
+        ImGui::Begin("Image");
+        ImGui::Image(texture, ImVec2(100, 100));
+        ImGui::End();
+
+        SDL_SetRenderDrawColor(renderer, 114, 144, 154, 255);
+        SDL_RenderClear(renderer);
+
+        ImGui::Render();
+        ImGuiSDL::Render(ImGui::GetDrawData());
 
         // Power save
         if (g_pSys->power_save) {
             if (powerSaveCountDown) {
                 --powerSaveCountDown;
-                glfwPollEvents();
+                //glfwPollEvents();
             } else {
                 ResetPowerSaveCountDown();
-                glfwWaitEvents();
+                //glfwWaitEvents();
             }
         }
-    }
 
+        SDL_RenderPresent(renderer);
+    }
 }
 
 void RCCPP::OnLevelInitializePreEntity() {

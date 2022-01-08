@@ -22,6 +22,7 @@ class RCCPP : public IRCCPP
 public:
 	virtual void Initialize(CreateInterfaceFn AppFactory);
 	virtual void Shutdown();
+	virtual void InitEditor();
 
 	virtual void OnInitialize();
 	virtual void OnShutdown();

@@ -1163,10 +1163,6 @@ bool CHLClient::ReplayPostInit() {
 #endif
 }
 
-void CHLClient::PostInitEditor() {
-
-}
-
 //-----------------------------------------------------------------------------
 // Purpose: Called after client & server DLL are loaded and all systems initialized
 //-----------------------------------------------------------------------------
@@ -1257,6 +1253,11 @@ void CHLClient::PostInit() {
         }
     }
 
+}
+
+void CHLClient::PostInitEditor() {
+    if (RCCPP != nullptr)
+        RCCPP->InitEditor();
 }
 
 //-----------------------------------------------------------------------------
@@ -1403,6 +1404,9 @@ void CHLClient::HudUpdate(bool bActive) {
     // GAMEUI2
     if (GameUI2 != nullptr)
         GameUI2->OnUpdate();
+
+    if (RCCPP != nullptr)
+        RCCPP->OnUpdate();
 }
 
 //-----------------------------------------------------------------------------

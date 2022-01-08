@@ -19,10 +19,9 @@ set(Base_Files
 source_group("Base Files" FILES ${Base_Files})
 
 set(Source_Files
-        "imgui/imgui_impl_glfw.h"
-        "imgui/imgui_impl_opengl2.h"
         "imgui/imconfig.h"
         "imgui/imgui.h"
+        "imgui/imgui_sdl.h"
         "imgui/imgui_internal.h"
         "RCCppMainLoop.h"
         "StdioLogSystem.h"
@@ -30,9 +29,8 @@ set(Source_Files
         "rccpp_interface.h"
         "rccpp_invoke.h"
 
-        "imgui/imgui_impl_glfw.cpp"
-        "imgui/imgui_impl_opengl2.cpp"
         "imgui/imgui.cpp"
+        "imgui/imgui_sdl.cpp"
         "rccpp_interface.cpp"
         "RCCppMainLoop.cpp"
         "StdioLogSystem.cpp"
@@ -95,6 +93,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/controls;"
 
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/lua;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/SDL2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty;"
         "${CMAKE_CURRENT_SOURCE_DIR}/imgui;"
         "${CMAKE_CURRENT_SOURCE_DIR}/RuntimeCompiledCPlusPlus/RuntimeObjectSystem;"
@@ -222,7 +221,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         libutilities
 
         steam_api
-        glfw3
+        SDL2
 
         "opengl32;"
         "shell32;"

@@ -17,6 +17,7 @@ abstract_class IRCCPP : public IBaseInterface
 public:
 	virtual void Initialize(CreateInterfaceFn AppFactory) = 0;
 	virtual void Shutdown() = 0;
+	virtual void InitEditor() = 0;
 
 	virtual void OnInitialize() = 0;
 	virtual void OnShutdown() = 0;
