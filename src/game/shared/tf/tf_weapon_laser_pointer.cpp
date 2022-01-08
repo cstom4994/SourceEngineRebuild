@@ -88,9 +88,6 @@ CTFLaserPointer::~CTFLaserPointer()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLaserPointer::Precache()
 {
 	BaseClass::Precache();
@@ -99,9 +96,6 @@ void CTFLaserPointer::Precache()
 	PrecacheModel( LASER_DOT_SPRITE_BLUE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFLaserPointer::Deploy( void )
 {
 	if ( BaseClass::Deploy() )
@@ -118,9 +112,6 @@ bool CTFLaserPointer::Deploy( void )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFLaserPointer::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	if ( BaseClass::Holster( pSwitchingTo ) )
@@ -137,9 +128,6 @@ bool CTFLaserPointer::Holster( CBaseCombatWeapon *pSwitchingTo )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLaserPointer::ItemPostFrame( void )
 {
 	if ( !m_bDeployed )
@@ -186,9 +174,6 @@ void CTFLaserPointer::WeaponIdle( void )
 	BaseClass::WeaponIdle();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLaserPointer::PrimaryAttack( void )
 {
 	CTFPlayer *pPlayer = ToTFPlayer( GetPlayerOwner() );
@@ -213,9 +198,6 @@ void CTFLaserPointer::PrimaryAttack( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLaserPointer::SecondaryAttack( void )
 {
 	CTFPlayer *pPlayer = ToTFPlayer( GetPlayerOwner() );
@@ -236,9 +218,6 @@ void CTFLaserPointer::SecondaryAttack( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLaserPointer::CreateLaserDot( void )
 {
 #ifdef GAME_DLL
@@ -259,9 +238,6 @@ void CTFLaserPointer::CreateLaserDot( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLaserPointer::DestroyLaserDot( void )
 {
 #ifdef GAME_DLL
@@ -283,9 +259,6 @@ void CTFLaserPointer::DestroyLaserDot( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLaserPointer::UpdateLaserDot( void )
 {
 #ifdef GAME_DLL

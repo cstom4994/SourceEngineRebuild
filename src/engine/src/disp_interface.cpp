@@ -696,9 +696,6 @@ void DispInfo_DrawPrimLists( ERenderDepthMode DepthMode )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void DecalDispSurfacesInit( void )
 {
 #ifndef SWDS

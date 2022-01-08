@@ -443,9 +443,6 @@ void CNPC_CraneDriver::StartTask( const Task_t *pTask )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_CraneDriver::RunTask( const Task_t *pTask )
 {
 	switch( pTask->iTask )

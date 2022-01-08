@@ -9,17 +9,11 @@
 #include "tf_shareddefs.h"
 #include "tf_playerclass_shared.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 FileWeaponInfo_t *CreateWeaponInfo()
 {
 	return new CTFWeaponInfo;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponInfo::CTFWeaponInfo()
 {
 	m_WeaponData[0].Init();
@@ -55,9 +49,6 @@ CTFWeaponInfo::~CTFWeaponInfo()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponInfo::Parse( KeyValues *pKeyValuesData, const char *szWeaponName )
 {
 	int i;

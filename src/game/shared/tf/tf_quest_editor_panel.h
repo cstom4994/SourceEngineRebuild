@@ -37,9 +37,6 @@ struct EditorObjectInitStruct
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class IEditorObject : public EditablePanel
 {
 public:
@@ -86,9 +83,6 @@ private:
 	const IEditableDataType* m_pOwningEditable;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class IEditableDataType
 {
 public:
@@ -129,9 +123,6 @@ protected:
 	mutable PHandle m_hButton;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CEditableQuestDataType : public IEditableDataType
 {
 public:
@@ -142,9 +133,6 @@ private:
 	virtual IEditorObject* CreateEditableObject_Internal( Panel* pParent ) const OVERRIDE;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CEditableObjectiveConditionDataType : public IEditableDataType
 {
 public:
@@ -221,9 +209,6 @@ private:
 	Label		*m_pLabel;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CTextEntryEditorParam : public IEditorObjectParameter
 {
 public:
@@ -245,9 +230,6 @@ private:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 DECLARE_AUTO_LIST( ILocalizationEditorParamAutoList );
 class CLocalizationEditorParam : public CTextEntryEditorParam, public ILocalizationEditorParamAutoList
 {
@@ -265,9 +247,6 @@ private:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CComboBoxEditorParam : public IEditorObjectParameter
 {
 public:
@@ -290,9 +269,6 @@ protected:
 	mutable char m_szValueBuff[MAX_QUEST_DESC_LENGTH];
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CNewQuestObjectiveParam : public CComboBoxEditorParam
 {
 public:
@@ -324,9 +300,6 @@ private:
 	Button* m_pSelectObjectiveButton;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class IOptionalExpandableBlock : public CEditorObjectNode
 {
 public:
@@ -410,9 +383,6 @@ private:
 	virtual int GetMinCount() const OVERRIDE { return 1; }
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CQuestObjectiveRestrictionNode : public CEditorObjectNode
 {
 public:
@@ -438,9 +408,6 @@ private:
 	CNewQuestObjectiveParam *m_pNewCondition;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CEditorQuest : public CEditorObjectNode
 {
 public:
@@ -450,9 +417,6 @@ public:
 private:
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CQuestEditorPanel : public Frame
 {
 public:

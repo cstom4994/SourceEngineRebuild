@@ -1521,9 +1521,6 @@ void CPropAirboat::UpdateSound()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropAirboat::UpdateSplashEffects( void )
 {
 	// Splash effects.
@@ -1558,9 +1555,6 @@ void CPropAirboat::DoMuzzleFlash( void )
 	BaseClass::DoMuzzleFlash();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #define GUN_WINDUP_TIME 1.5f
 
 // NVNT Convar for airboat gun magnitude
@@ -1931,9 +1925,6 @@ void CPropAirboat::ComputePDControllerCoefficients( float *pCoefficientsOut,
 }
  
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropAirboat::DampenForwardMotion( Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles, float flFrameTime )
 {
 	// Get forward vector.
@@ -1976,9 +1967,6 @@ void CPropAirboat::DampenForwardMotion( Vector &vecVehicleEyePos, QAngle &vecVeh
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropAirboat::DampenUpMotion( Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles, float flFrameTime )
 {
 	// Get up vector.

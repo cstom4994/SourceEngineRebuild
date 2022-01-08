@@ -734,9 +734,6 @@ void CDispPaintDistDlg::SetEffectButtonGeo(unsigned int nEffect) {
     radiobutton->SetCheck(nEffect == DISPPAINT_EFFECT_SMOOTH);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispPaintDistDlg::SetBrushTypeButtonGeo(unsigned int uiBrushType) {
     CButton *pRadioButton;
     pRadioButton = (CButton *) GetDlgItem(ID_DISPPAINT_SOFTEDGE);
@@ -786,9 +783,6 @@ void CDispPaintDistDlg::OnEffectSmoothGeo(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispPaintDistDlg::OnBrushTypeSoftEdge(void) {
     CToolDisplace *pTool = GetDisplacementTool();
     if (pTool) {
@@ -797,9 +791,6 @@ void CDispPaintDistDlg::OnBrushTypeSoftEdge(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispPaintDistDlg::OnBrushTypeHardEdge(void) {
     CToolDisplace *pTool = GetDisplacementTool();
     if (pTool) {

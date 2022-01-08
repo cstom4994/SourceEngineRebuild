@@ -1184,9 +1184,6 @@ void CCBasePanelBasePanel::DrawBackgroundImage() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::CreateGameMenu() {
     // load settings from config file
     KeyValues *datafile = new KeyValues("GameMenu");
@@ -1206,9 +1203,6 @@ void CCBasePanelBasePanel::CreateGameMenu() {
     datafile->deleteThis();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::CreateGameLogo() {
     if (ModInfo().UseGameLogo()) {
         m_pGameLogo = new CMainMenuGameLogo(this, "GameLogo");
@@ -2477,9 +2471,6 @@ void CCBasePanelBasePanel::OnOpenDisconnectConfirmationDialog() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenNewGameDialog(const char *chapter) {
     if (!m_hNewGameDialog.Get()) {
         m_hNewGameDialog = new CNewGameDialog(this, false);
@@ -2494,9 +2485,6 @@ void CCBasePanelBasePanel::OnOpenNewGameDialog(const char *chapter) {
     m_hNewGameDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenBonusMapsDialog(void) {
     if (!m_hBonusMapsDialog.Get()) {
         m_hBonusMapsDialog = new CBonusMapsDialog(this);
@@ -2506,9 +2494,6 @@ void CCBasePanelBasePanel::OnOpenBonusMapsDialog(void) {
     m_hBonusMapsDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenLoadGameDialog() {
     if (!m_hLoadGameDialog.Get()) {
         m_hLoadGameDialog = new CLoadGameDialog(this);
@@ -2517,9 +2502,6 @@ void CCBasePanelBasePanel::OnOpenLoadGameDialog() {
     m_hLoadGameDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenLoadGameDialog_Xbox() {
     if (!m_hLoadGameDialog_Xbox.Get()) {
         m_hLoadGameDialog_Xbox = new CLoadGameDialogXbox(this);
@@ -2528,9 +2510,6 @@ void CCBasePanelBasePanel::OnOpenLoadGameDialog_Xbox() {
     m_hLoadGameDialog_Xbox->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenSaveGameDialog() {
     if (!m_hSaveGameDialog.Get()) {
         m_hSaveGameDialog = new CSaveGameDialog(this);
@@ -2539,9 +2518,6 @@ void CCBasePanelBasePanel::OnOpenSaveGameDialog() {
     m_hSaveGameDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenSaveGameDialog_Xbox() {
     if (!m_hSaveGameDialog_Xbox.Get()) {
         m_hSaveGameDialog_Xbox = new CSaveGameDialogXbox(this);
@@ -2550,9 +2526,6 @@ void CCBasePanelBasePanel::OnOpenSaveGameDialog_Xbox() {
     m_hSaveGameDialog_Xbox->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenOptionsDialog() {
     if (!m_hOptionsDialog.Get()) {
         m_hOptionsDialog = new COptionsDialog(this);
@@ -2563,9 +2536,6 @@ void CCBasePanelBasePanel::OnOpenOptionsDialog() {
     m_hOptionsDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenOptionsDialog_Xbox() {
     if (!m_hOptionsDialog_Xbox.Get()) {
         m_hOptionsDialog_Xbox = new COptionsDialogXbox(this);
@@ -2584,9 +2554,6 @@ void CCBasePanelBasePanel::ApplyOptionsDialogSettings() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenControllerDialog() {
     if (!m_hControllerDialog.Get()) {
         m_hControllerDialog = new CControllerDialog(this);
@@ -2596,9 +2563,6 @@ void CCBasePanelBasePanel::OnOpenControllerDialog() {
     m_hControllerDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenBenchmarkDialog() {
     if (!m_hBenchmarkDialog.Get()) {
         m_hBenchmarkDialog = new CBenchmarkDialog(this, "BenchmarkDialog");
@@ -2607,23 +2571,14 @@ void CCBasePanelBasePanel::OnOpenBenchmarkDialog() {
     m_hBenchmarkDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenServerBrowser() {
     g_VModuleLoader.ActivateModule("Servers");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenFriendsDialog() {
     g_VModuleLoader.ActivateModule("Friends");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenDemoDialog() {
 /*	if ( !m_hDemoPlayerDialog.Get() )
 	{
@@ -2633,9 +2588,6 @@ void CCBasePanelBasePanel::OnOpenDemoDialog() {
 	m_hDemoPlayerDialog->Activate();*/
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenCreateMultiplayerGameDialog() {
     if (!m_hCreateMultiplayerGameDialog.Get()) {
         m_hCreateMultiplayerGameDialog = new CCreateMultiplayerGameDialog(this);
@@ -2644,9 +2596,6 @@ void CCBasePanelBasePanel::OnOpenCreateMultiplayerGameDialog() {
     m_hCreateMultiplayerGameDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenChangeGameDialog() {
 #ifdef POSIX
                                                                                                                             // Alfred says this is old legacy code that allowed you to walk through looking for
@@ -2660,9 +2609,6 @@ void CCBasePanelBasePanel::OnOpenChangeGameDialog() {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenPlayerListDialog() {
     if (!m_hPlayerListDialog.Get()) {
         m_hPlayerListDialog = new CPlayerListDialog(this);
@@ -2671,9 +2617,6 @@ void CCBasePanelBasePanel::OnOpenPlayerListDialog() {
     m_hPlayerListDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenLoadCommentaryDialog() {
     if (!m_hPlayerListDialog.Get()) {
         m_hLoadCommentaryDialog = new CLoadCommentaryDialog(this);
@@ -2682,9 +2625,6 @@ void CCBasePanelBasePanel::OnOpenLoadCommentaryDialog() {
     m_hLoadCommentaryDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OpenLoadSingleplayerCommentaryDialog() {
     if (!m_hNewGameDialog.Get()) {
         m_hNewGameDialog = new CNewGameDialog(this, true);
@@ -2695,9 +2635,6 @@ void CCBasePanelBasePanel::OpenLoadSingleplayerCommentaryDialog() {
     m_hNewGameDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenAchievementsDialog() {
     if (!m_hAchievementsDialog.Get()) {
         m_hAchievementsDialog = new CAchievementsDialog(this);
@@ -2743,9 +2680,6 @@ void CCBasePanelBasePanel::OnOpenAchievementsDialog_Xbox() {
     m_hAchievementsDialog->Activate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnOpenMatchmakingBasePanel() {
     if (!m_hMatchmakingBasePanel.Get()) {
         m_hMatchmakingBasePanel = new CMatchmakingBasePanel(this);
@@ -2988,9 +2922,6 @@ void CCBasePanelBasePanel::SessionSearchResult(int searchIdx, void *pHostData, X
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnChangeStorageDevice(void) {
     if (m_bWaitingForStorageDeviceHandle == false) {
         m_bWaitingForStorageDeviceHandle = true;
@@ -3021,9 +2952,6 @@ void CCBasePanelBasePanel::OnCreditsFinished(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::OnGameUIHidden() {
     if (m_hOptionsDialog.Get()) {
         PostMessage(m_hOptionsDialog.Get(), new KeyValues("GameUIHidden"));
@@ -3051,16 +2979,10 @@ void CCBasePanelBasePanel::SetMenuAlpha(int alpha) {
     m_bForceTitleTextUpdate = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CCBasePanelBasePanel::GetMenuAlpha(void) {
     return m_pGameMenu->GetAlpha();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::SetMainMenuOverride(vgui::VPANEL panel) {
     m_hMainMenuOverridePanel = panel;
 
@@ -4028,9 +3950,6 @@ CMainMenuGameLogo::CMainMenuGameLogo(vgui::Panel *parent, const char *name) : vg
     m_nOffsetY = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMainMenuGameLogo::ApplySettings(KeyValues *inResourceData) {
     BaseClass::ApplySettings(inResourceData);
 
@@ -4038,9 +3957,6 @@ void CMainMenuGameLogo::ApplySettings(KeyValues *inResourceData) {
     m_nOffsetY = inResourceData->GetInt("offsetY", 0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMainMenuGameLogo::ApplySchemeSettings(vgui::IScheme *pScheme) {
     BaseClass::ApplySchemeSettings(pScheme);
 
@@ -4062,9 +3978,6 @@ void CMainMenuGameLogo::ApplySchemeSettings(vgui::IScheme *pScheme) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCBasePanelBasePanel::CloseBaseDialogs(void) {
     if (m_hNewGameDialog.Get())
         m_hNewGameDialog->Close();

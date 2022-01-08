@@ -161,9 +161,6 @@ CBasePlayer *CWeaponGrenadeRocket::GetScorer( void )
 	return ToBasePlayer( m_hOwner );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponGrenadeRocket::Precache( void )
 {
 	PrecacheModel( "models/weapons/w_missile.mdl" );

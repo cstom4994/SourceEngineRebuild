@@ -172,9 +172,6 @@ void C_NextBotManager::UnRegister( C_NextBotCombatCharacter *bot )
 	m_botList.FindAndRemove( bot );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_NextBotManager::SetupInFrustumData( void )
 {
 #ifdef ENABLE_AFTER_INTEGRATION

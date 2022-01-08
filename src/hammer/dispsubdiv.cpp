@@ -150,17 +150,11 @@ private: // variables
     CUtlLinkedList<SubdivQuad_t, SubdivQuadHandle_t> m_Quads;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEditDispSubdivMesh *CreateEditDispSubdivMesh(void) {
     return new CEditDispSubdivMesh;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void DestroyEditDispSubdivMesh(IEditDispSubdivMesh **pSubdivMesh) {
     if (*pSubdivMesh) {
         delete *pSubdivMesh;
@@ -169,9 +163,6 @@ void DestroyEditDispSubdivMesh(IEditDispSubdivMesh **pSubdivMesh) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditDispSubdivMesh::SubdivPoint_t *CEditDispSubdivMesh::GetPoint(SubdivPointHandle_t ptHandle) {
     if (!m_Points.IsValidIndex(ptHandle))
         return NULL;
@@ -180,9 +171,6 @@ CEditDispSubdivMesh::SubdivPoint_t *CEditDispSubdivMesh::GetPoint(SubdivPointHan
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditDispSubdivMesh::SubdivEdge_t *CEditDispSubdivMesh::GetEdge(SubdivEdgeHandle_t edgeHandle) {
     if (!m_Edges.IsValidIndex(edgeHandle))
         return NULL;
@@ -191,9 +179,6 @@ CEditDispSubdivMesh::SubdivEdge_t *CEditDispSubdivMesh::GetEdge(SubdivEdgeHandle
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditDispSubdivMesh::SubdivQuad_t *CEditDispSubdivMesh::GetQuad(SubdivQuadHandle_t quadHandle) {
     if (!m_Quads.IsValidIndex(quadHandle))
         return NULL;
@@ -207,9 +192,6 @@ CEditDispSubdivMesh::SubdivQuad_t *CEditDispSubdivMesh::GetQuad(SubdivQuadHandle
 // Subdivision Edit Displacement Point Functions 
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Point_Init(SubdivPointHandle_t ptHandle) {
     SubdivPoint_t *pPoint = GetPoint(ptHandle);
     if (pPoint) {
@@ -228,9 +210,6 @@ void CEditDispSubdivMesh::Point_Init(SubdivPointHandle_t ptHandle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Point_CalcNewPoint(SubdivPointHandle_t ptHandle) {
     // get the point to act on
     SubdivPoint_t *pPoint = GetPoint(ptHandle);
@@ -254,9 +233,6 @@ void CEditDispSubdivMesh::Point_CalcNewPoint(SubdivPointHandle_t ptHandle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Point_PointOrdinary(SubdivPoint_t *pPoint) {
     //
     // accumulate the edge data and multiply by the valence (coincident edge)
@@ -329,18 +305,12 @@ void CEditDispSubdivMesh::Point_PointOrdinary(SubdivPoint_t *pPoint) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Point_PointCorner(SubdivPoint_t *pPoint) {
     VectorCopy(pPoint->m_vPoint, pPoint->m_vNewPoint);
     VectorCopy(pPoint->m_vNormal, pPoint->m_vNewNormal);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Point_PointCrease(SubdivPoint_t *pPoint) {
     //
     // accumulate the edge data and multiply by the valence (coincident edge)
@@ -369,9 +339,6 @@ void CEditDispSubdivMesh::Point_PointCrease(SubdivPoint_t *pPoint) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Edge_Init(SubdivEdgeHandle_t edgeHandle) {
     SubdivEdge_t *pEdge = GetEdge(edgeHandle);
     if (pEdge) {
@@ -389,9 +356,6 @@ void CEditDispSubdivMesh::Edge_Init(SubdivEdgeHandle_t edgeHandle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Edge_CalcNewPoint(SubdivEdgeHandle_t edgeHandle) {
     SubdivEdge_t *pEdge = GetEdge(edgeHandle);
     if (!pEdge)
@@ -463,9 +427,6 @@ void CEditDispSubdivMesh::Edge_CalcNewPoint(SubdivEdgeHandle_t edgeHandle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Quad_Init(SubdivQuadHandle_t quadHandle) {
     SubdivQuad_t *pQuad = GetQuad(quadHandle);
     if (pQuad) {
@@ -487,9 +448,6 @@ void CEditDispSubdivMesh::Quad_Init(SubdivQuadHandle_t quadHandle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Quad_CalcCentroid(SubdivQuadHandle_t quadHandle) {
     SubdivQuad_t *pQuad = GetQuad(quadHandle);
     if (pQuad) {
@@ -504,9 +462,6 @@ void CEditDispSubdivMesh::Quad_CalcCentroid(SubdivQuadHandle_t quadHandle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Quad_CalcNormal(SubdivQuadHandle_t quadHandle) {
     SubdivQuad_t *pQuad = GetQuad(quadHandle);
     if (pQuad) {
@@ -526,9 +481,6 @@ void CEditDispSubdivMesh::Quad_CalcNormal(SubdivQuadHandle_t quadHandle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEditDispSubdivMesh::CompareSubdivPoints(Vector const &pt1, Vector const &pt2,
                                               float flTolerance) {
     for (int axis = 0; axis < 3; axis++) {
@@ -540,9 +492,6 @@ bool CEditDispSubdivMesh::CompareSubdivPoints(Vector const &pt1, Vector const &p
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEditDispSubdivMesh::CompareSubdivEdges(SubdivPointHandle_t ptEdge0Handle0,
                                              SubdivPointHandle_t ptEdge0Handle1,
                                              SubdivPointHandle_t ptEdge1Handle0,
@@ -555,9 +504,6 @@ bool CEditDispSubdivMesh::CompareSubdivEdges(SubdivPointHandle_t ptEdge0Handle0,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditDispSubdivMesh::SubdivPointHandle_t CEditDispSubdivMesh::BuildSubdivPoint(Vector const &vPoint,
                                                                                Vector const &vPointNormal) {
     //
@@ -584,9 +530,6 @@ CEditDispSubdivMesh::SubdivPointHandle_t CEditDispSubdivMesh::BuildSubdivPoint(V
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditDispSubdivMesh::SubdivEdgeHandle_t CEditDispSubdivMesh::BuildSubdivEdge(int ndxEdge, SubdivQuadHandle_t quadHandle,
                                                                              SubdivQuadHandle_t parentHandle,
                                                                              int ndxChild) {
@@ -645,9 +588,6 @@ CEditDispSubdivMesh::SubdivEdgeHandle_t CEditDispSubdivMesh::BuildSubdivEdge(int
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditDispSubdivMesh::SubdivQuadHandle_t CEditDispSubdivMesh::BuildSubdivQuad(int ndxChild,
                                                                              SubdivQuadHandle_t parentHandle) {
     // get parent quad
@@ -753,9 +693,6 @@ CEditDispSubdivMesh::SubdivQuadHandle_t CEditDispSubdivMesh::BuildSubdivQuad(int
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Init(void) {
     // ensure capacity on all lists
     IWorldEditDispMgr *pDispMgr = GetActiveWorldEditDispManager();
@@ -769,9 +706,6 @@ void CEditDispSubdivMesh::Init(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::Shutdown(void) {
     // clear all lists
     m_Points.Purge();
@@ -780,9 +714,6 @@ void CEditDispSubdivMesh::Shutdown(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::AddDispTo(CMapDisp *pDisp) {
     // add a quad to the subdivision mesh
     SubdivQuadHandle_t quadHandle = m_Quads.AddToTail();
@@ -858,9 +789,6 @@ void CEditDispSubdivMesh::AddDispTo(CMapDisp *pDisp) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::GetDispFrom(CMapDisp *pDisp) {
     //
     // find the parent quad with the id of the displacement
@@ -902,9 +830,6 @@ void CEditDispSubdivMesh::GetDispFrom(CMapDisp *pDisp) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::DoCatmullClarkSubdivision(void) {
     for (int ndxLevel = 0; ndxLevel < NUM_SUBDIV_LEVELS; ndxLevel++) {
         // subdivide
@@ -916,9 +841,6 @@ void CEditDispSubdivMesh::DoCatmullClarkSubdivision(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::CatmullClarkSubdivision(void) {
     //
     // step 1: calculate the "new edge points" for all edges
@@ -1010,9 +932,6 @@ void CEditDispSubdivMesh::CatmullClarkSubdivision(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispSubdivMesh::UpdateSubdivisionHierarchy(int ndxLevel) {
     int quadCount = m_Quads.Count();
     SubdivQuadHandle_t quadHandle = m_Quads.Head();

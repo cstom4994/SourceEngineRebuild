@@ -357,9 +357,6 @@ inline int CDispCollTree::Nodes_GetChild( int iNode, int nDirection )
     return ( ( iNode << 2 ) + ( nDirection + 1 ) );	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline int CDispCollTree::Nodes_CalcCount( int nPower )
 { 
 	Assert( nPower >= 1 );
@@ -403,9 +400,6 @@ inline int CDispCollTree::Nodes_GetLevel( int iNode )
 	return -1;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline int CDispCollTree::Nodes_GetIndexFromComponents( int x, int y )
 {
 	int nIndex = 0;
@@ -425,9 +419,6 @@ inline int CDispCollTree::Nodes_GetIndexFromComponents( int x, int y )
 	return nIndex;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CDispCollTree::CalcClosestBoxPoint( const Vector &vecPlaneNormal, const Vector &vecBoxStart, 
 											    const Vector &vecBoxExtents, Vector &vecBoxPoint )
 {
@@ -437,9 +428,6 @@ inline void CDispCollTree::CalcClosestBoxPoint( const Vector &vecPlaneNormal, co
 	( vecPlaneNormal[2] < 0.0f ) ? vecBoxPoint[2] += vecBoxExtents[2] : vecBoxPoint[2] -= vecBoxExtents[2];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CDispCollTree::CalcClosestExtents( const Vector &vecPlaneNormal, const Vector &vecBoxExtents, 
 											   Vector &vecBoxPoint )
 {

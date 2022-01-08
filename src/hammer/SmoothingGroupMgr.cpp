@@ -59,9 +59,6 @@ private:
     CUtlVector<SmoothingGroup_t> m_aSmoothingGroups;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ISmoothingGroupMgr *SmoothingGroupMgr(void) {
     static CSmoothingGroupMgr s_SmoothingGroupMgr;
     return &s_SmoothingGroupMgr;

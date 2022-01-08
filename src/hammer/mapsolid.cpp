@@ -1187,9 +1187,6 @@ void CMapSolid::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapSolid::RemoveEmptyFaces(void) {
     int nFaces = GetFaceCount();
 
@@ -1533,9 +1530,6 @@ bool CMapSolid::Subtract(CMapObjectList *pInside, CMapObjectList *pOutside, CMap
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 color32 CMapSolid::GetLineColor() {
     //
     // If the solid is not selected, determine the appropriate pen color.

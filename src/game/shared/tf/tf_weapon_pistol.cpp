@@ -212,9 +212,6 @@ void CTFPistol_ScoutPrimary::ItemPostFrame()
 	BaseClass::ItemPostFrame();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPistol_ScoutPrimary::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	m_flPushTime = -1.f;

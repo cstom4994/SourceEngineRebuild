@@ -20,9 +20,6 @@
 #include <tier0/memdbgon.h>
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CComboBoxBackpackOverlayDialogBase::CComboBoxBackpackOverlayDialogBase( vgui::Panel *parent, CEconItemView *pItem )
 	: vgui::EditablePanel( parent, "ComboBoxBackpackOverlayDialogBase" )
 	, m_pPreviewModelPanel( NULL )
@@ -37,9 +34,6 @@ CComboBoxBackpackOverlayDialogBase::CComboBoxBackpackOverlayDialogBase( vgui::Pa
 	m_pComboBox = new vgui::ComboBox( this, "ComboBox", 5, false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CComboBoxBackpackOverlayDialogBase::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
 	LoadControlSettings( "Resource/UI/econ/ComboBoxBackpackOverlayDialog.res" );
@@ -75,9 +69,6 @@ void CComboBoxBackpackOverlayDialogBase::ApplySchemeSettings( vgui::IScheme *pSc
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CComboBoxBackpackOverlayDialogBase::OnCommand( const char *command )
 {
 	if ( !Q_strnicmp( command, "cancel", 6 ) )
@@ -138,9 +129,6 @@ void CComboBoxBackpackOverlayDialogBase::OnTextChanged( KeyValues *data )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CStyleSelectDialog::PopulateComboBoxOptions()
 {
 	CEconItemView* pItem = GetPreviewModelPanel()->GetItem();

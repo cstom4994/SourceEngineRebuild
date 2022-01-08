@@ -29,9 +29,6 @@ IMPLEMENT_MAPCLASS(CMapOverlayTransition)
 #define DISPSHORE_VECTOR_EPS        0.1f
 #define    DISPSHORE_SURF_LENGTH        120.0f
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Shoreline_t::Shoreline_t() {
     m_nShorelineId = -1;
     m_aSegments.Purge();
@@ -39,17 +36,11 @@ Shoreline_t::Shoreline_t() {
     m_flLength = 0.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Shoreline_t::~Shoreline_t() {
     m_aSegments.Purge();
     m_aOverlays.Purge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Shoreline_t::AddSegment(Vector &vecPoint0, Vector &vecPoint1,
                              Vector &vecNormal, float flWaterZ,
                              CMapFace *pWaterFace, EditDispHandle_t hDisp) {
@@ -175,54 +166,33 @@ private:
     CUtlVector<CMapDisp *> m_aDispCache;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static CDispShoreManager s_DispShoreManager;
 
 IDispShoreManager *GetShoreManager(void) {
     return &s_DispShoreManager;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CDispShoreManager::CDispShoreManager() {
     m_aDispCache.Purge();
     m_aShorelines.Purge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CDispShoreManager::~CDispShoreManager() {
     m_aDispCache.Purge();
     m_aShorelines.Purge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispShoreManager::Init(void) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::Shutdown(void) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CDispShoreManager::GetShorelineCount(void) {
     return m_aShorelines.Count();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Shoreline_t *CDispShoreManager::GetShoreline(int nShorelineId) {
     int nShorelineCount = m_aShorelines.Count();
     for (int iShoreline = 0; iShoreline < nShorelineCount; ++iShoreline) {
@@ -233,9 +203,6 @@ Shoreline_t *CDispShoreManager::GetShoreline(int nShorelineId) {
     return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::AddShoreline(int nShorelineId) {
     // Check to see if the id is already taken, if so remove it and re-add it.
     RemoveShoreline(nShorelineId);
@@ -244,9 +211,6 @@ void CDispShoreManager::AddShoreline(int nShorelineId) {
     m_aShorelines[iShoreline].m_nShorelineId = nShorelineId;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::RemoveShoreline(int nShorelineId) {
     int nShorelineCount = m_aShorelines.Count();
     for (int iShoreline = (nShorelineCount - 1); iShoreline >= 0; --iShoreline) {
@@ -256,9 +220,6 @@ void CDispShoreManager::RemoveShoreline(int nShorelineId) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::BuildShoreline(int nShorelineId, CUtlVector<CMapFace *> &aFaces,
                                        CUtlVector<CMapFace *> &aWaterFaces) {
     // Verify faces to build a shoreline.
@@ -275,9 +236,6 @@ void CDispShoreManager::BuildShoreline(int nShorelineId, CUtlVector<CMapFace *> 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::BuildShorelineSegments(Shoreline_t *pShoreline, CUtlVector<CMapFace *> &aFaces,
                                                CUtlVector<CMapFace *> &aWaterFaces) {
     int nWaterFaceCount = aWaterFaces.Count();
@@ -300,9 +258,6 @@ void CDispShoreManager::BuildShorelineSegments(Shoreline_t *pShoreline, CUtlVect
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::AverageShorelineNormals(Shoreline_t *pShoreline) {
     int nSegmentCount = pShoreline->m_aSegments.Count();
     if (nSegmentCount == 0)
@@ -349,9 +304,6 @@ void CDispShoreManager::AverageShorelineNormals(Shoreline_t *pShoreline) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::BuildShorelineOverlayPoints(Shoreline_t *pShoreline, CUtlVector<CMapFace *> &aWaterFaces) {
     int nSegmentCount = pShoreline->m_aSegments.Count();
     if (nSegmentCount == 0)
@@ -362,9 +314,6 @@ void CDispShoreManager::BuildShorelineOverlayPoints(Shoreline_t *pShoreline, CUt
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::BuildShorelineOverlayPoint(Shoreline_t *pShoreline, int iSegment,
                                                    CUtlVector<CMapFace *> &aWaterFaces) {
     // Get the displacement manager and segment displacement.
@@ -576,9 +525,6 @@ void CDispShoreManager::BuildShorelineOverlayPoint(Shoreline_t *pShoreline, int 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispShoreManager::TexcoordShoreline(Shoreline_t *pShoreline) {
     int nSegmentCount = pShoreline->m_aSegments.Count();
     if (nSegmentCount == 0)
@@ -608,9 +554,6 @@ bool CDispShoreManager::TexcoordShoreline(Shoreline_t *pShoreline) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispShoreManager::ConnectShorelineSegments(Shoreline_t *pShoreline) {
     // Reset/recreate the shoreline sorted segment list.
     pShoreline->m_aSortedSegments.Purge();
@@ -664,9 +607,6 @@ bool CDispShoreManager::ConnectShorelineSegments(Shoreline_t *pShoreline) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CDispShoreManager::FindShorelineStart(Shoreline_t *pShoreline) {
     // Find a segment that doesn't have any (fewest) matching point data.
     int nSegmentCount = pShoreline->m_aSegments.Count();
@@ -710,9 +650,6 @@ int CDispShoreManager::FindShorelineStart(Shoreline_t *pShoreline) {
     return -1;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::ShorelineLength(Shoreline_t *pShoreline) {
     float flLength = 0.0f;
     int nSegmentCount = pShoreline->m_aSegments.Count();
@@ -726,9 +663,6 @@ void CDispShoreManager::ShorelineLength(Shoreline_t *pShoreline) {
     pShoreline->m_flLength = flLength;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::GenerateTexCoord(Shoreline_t *pShoreline, int iSegment, float flLengthToSegment, bool bEnd) {
     float flValue = pShoreline->m_ShoreData.m_vecLengthTexcoord[1] - pShoreline->m_ShoreData.m_vecLengthTexcoord[0];
 
@@ -848,9 +782,6 @@ void CDispShoreManager::GenerateTexCoord(Shoreline_t *pShoreline, int iSegment, 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::BuildShorelineOverlays(Shoreline_t *pShoreline) {
     // Reset the list.
     if (pShoreline->m_aOverlays.Count() != 0) {
@@ -878,9 +809,6 @@ void CDispShoreManager::BuildShorelineOverlays(Shoreline_t *pShoreline) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::CreateOverlays(Shoreline_t *pShoreline, int iSegment) {
     // Create the face list than this overlay will act upon.
     CUtlVector<CMapFace *> aWorldFaces;
@@ -980,9 +908,6 @@ void CDispShoreManager::CreateOverlays(Shoreline_t *pShoreline, int iSegment) {
     pOverlay->PostUpdate(Notify_Changed);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::Draw(CRender3D *pRender) {
     int nShoreCount = m_aShorelines.Count();
     for (int iShore = 0; iShore < nShoreCount; ++iShore) {
@@ -999,9 +924,6 @@ void CDispShoreManager::Draw(CRender3D *pRender) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::DebugDraw(CRender3D *pRender) {
     pRender->SetRenderMode(RENDER_MODE_WIREFRAME);
 
@@ -1013,9 +935,6 @@ void CDispShoreManager::DebugDraw(CRender3D *pRender) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::DrawShorelines(int iShoreline) {
     Shoreline_t *pShoreline = &m_aShorelines[iShoreline];
     if (pShoreline) {
@@ -1047,9 +966,6 @@ void CDispShoreManager::DrawShorelines(int iShoreline) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::DrawShorelineNormals(int iShoreline) {
 #define DISPSHORE_NORMAL_SCALE 25.0f
 
@@ -1105,9 +1021,6 @@ void CDispShoreManager::DrawShorelineNormals(int iShoreline) {
 #undef DISPSHORE_NORMAL_SCALE
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispShoreManager::DrawShorelineOverlayPoints(CRender3D *pRender, int iShoreline) {
 #define DISPSHORE_BOX_SIZE    5.0f
 

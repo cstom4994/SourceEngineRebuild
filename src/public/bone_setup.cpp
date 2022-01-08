@@ -229,9 +229,6 @@ void Studio_InvalidateBoneCache(memhandle_t cacheHandle) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void BuildBoneChain(
         const CStudioHdr *pStudioHdr,
@@ -527,9 +524,6 @@ void SetupSingleBoneMatrix(
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 static void
 CalcDecompressedAnimation(const mstudiocompressedikerror_t *pCompressed, int iFrame, float fraq, Vector &pos,
@@ -2521,9 +2515,6 @@ bool Studio_SolveIK(int iThigh, int iKnee, int iFoot, Vector &targetFoot, Vector
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 float
 Studio_IKRuleWeight(mstudioikrule_t &ikRule, const mstudioanimdesc_t *panim, float flCycle, int &iFrame, float &fraq) {
@@ -2574,9 +2565,6 @@ float Studio_IKRuleWeight(ikcontextikrule_t &ikRule, float flCycle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 bool Studio_IKShouldLatch(ikcontextikrule_t &ikRule, float flCycle) {
     if (ikRule.end > 1.0f && flCycle < ikRule.start) {
@@ -2592,9 +2580,6 @@ bool Studio_IKShouldLatch(ikcontextikrule_t &ikRule, float flCycle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 float Studio_IKTail(ikcontextikrule_t &ikRule, float flCycle) {
     if (ikRule.end > 1.0f && flCycle < ikRule.start) {
@@ -2610,9 +2595,6 @@ float Studio_IKTail(ikcontextikrule_t &ikRule, float flCycle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 bool Studio_IKAnimationError(const CStudioHdr *pStudioHdr, mstudioikrule_t *pRule, const mstudioanimdesc_t *panim,
@@ -2805,9 +2787,6 @@ Studio_IKSequenceError(const CStudioHdr *pStudioHdr, mstudioseqdesc_t &seqdesc, 
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 CIKContext::CIKContext() {
@@ -2919,9 +2898,6 @@ void CIKContext::AddDependencies(mstudioseqdesc_t &seqdesc, int iSequence, float
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKContext::AddAutoplayLocks(Vector pos[], Quaternion q[]) {
     // skip all array access if no autoplay locks.
@@ -2968,9 +2944,6 @@ void CIKContext::AddAutoplayLocks(Vector pos[], Quaternion q[]) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKContext::AddSequenceLocks(mstudioseqdesc_t &seqdesc, Vector pos[], Quaternion q[]) {
     if (m_pStudioHdr->numikchains() == 0) {
@@ -3081,9 +3054,6 @@ void SolveBone(
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKTarget::SetOwner(int entindex, const Vector &pos, const QAngle &angles) {
     latched.owner = entindex;
@@ -3091,17 +3061,11 @@ void CIKTarget::SetOwner(int entindex, const Vector &pos, const QAngle &angles) 
     latched.absAngles = angles;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKTarget::ClearOwner(void) {
     latched.owner = -1;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int CIKTarget::GetOwner(void) {
     return latched.owner;
@@ -3195,25 +3159,16 @@ void CIKTarget::SetPosWithNormalOffset(const Vector &pos, const Vector &normal) 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKTarget::SetOnWorld(bool bOnWorld) {
     est.onWorld = bOnWorld;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 bool CIKTarget::IsActive() {
     return (est.flWeight > 0.0f);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKTarget::IKFailed(void) {
     latched.deltaPos.Init();
@@ -3226,9 +3181,6 @@ void CIKTarget::IKFailed(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKTarget::MoveReferenceFrame(Vector &deltaPos, QAngle &deltaAngles) {
     est.pos -= deltaPos;
@@ -3743,9 +3695,6 @@ CIKContext::SolveDependencies(Vector pos[], Quaternion q[], matrix3x4_t boneToWo
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKContext::SolveAutoplayLocks(
         Vector pos[],
@@ -3764,9 +3713,6 @@ void CIKContext::SolveAutoplayLocks(
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKContext::SolveSequenceLocks(
         mstudioseqdesc_t &seqdesc,
@@ -3785,9 +3731,6 @@ void CIKContext::SolveSequenceLocks(
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CIKContext::AddAllLocks(Vector pos[], Quaternion q[]) {
     // skip all array access if no autoplay locks.
@@ -3833,9 +3776,6 @@ void CIKContext::AddAllLocks(Vector pos[], Quaternion q[]) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 void CIKContext::SolveAllLocks(
@@ -3860,9 +3800,6 @@ void CIKContext::SolveAllLocks(
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 void CIKContext::SolveLock(
@@ -3951,9 +3888,6 @@ void CBoneSetup::CalcAutoplaySequences(
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Studio_BuildMatrices(
         const CStudioHdr *pStudioHdr,
         const QAngle &angles,
@@ -4339,9 +4273,6 @@ void DoAimAtBone(
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 bool CalcProceduralBone(
         const CStudioHdr *pStudioHdr,
@@ -4539,9 +4470,6 @@ float Studio_GetPoseParameter(const CStudioHdr *pStudioHdr, int iParameter, floa
 #pragma warning (disable : 4701)
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static int ClipRayToHitbox(const Ray_t &ray, mstudiobbox_t *pbox, matrix3x4_t &matrix, trace_t &tr) {
     const float flProjEpsilon = 0.01f;
     // scale by current t so hits shorten the ray and increase the likelihood of early outs
@@ -4645,9 +4573,6 @@ static int ClipRayToHitbox(const Ray_t &ray, mstudiobbox_t *pbox, matrix3x4_t &m
 #pragma warning (default : 4701)
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool SweepBoxToStudio(IPhysicsSurfaceProps *pProps, const Ray_t &ray, CStudioHdr *pStudioHdr, mstudiohitboxset_t *set,
                       matrix3x4_t **hitboxbones, int fContentsMask, trace_t &tr) {
     tr.fraction = 1.0;
@@ -4699,9 +4624,6 @@ bool SweepBoxToStudio(IPhysicsSurfaceProps *pProps, const Ray_t &ray, CStudioHdr
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool TraceToStudio(IPhysicsSurfaceProps *pProps, const Ray_t &ray, CStudioHdr *pStudioHdr, mstudiohitboxset_t *set,
                    matrix3x4_t **hitboxbones, int fContentsMask, const Vector &vecOrigin, float flScale, trace_t &tr) {
     if (!ray.m_IsRay) {

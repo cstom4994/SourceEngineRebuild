@@ -883,9 +883,6 @@ void C_BaseObject::OnEndDisabled()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseObject::GetTargetIDString( OUT_Z_BYTECAP( iMaxLenInBytes ) wchar_t *sIDString, int iMaxLenInBytes, bool bSpectator )
 {
 	Assert( iMaxLenInBytes >= sizeof(sIDString[0]) );
@@ -1027,17 +1024,11 @@ void C_BaseObject::GetTargetIDDataString( OUT_Z_BYTECAP(iMaxLenInBytes) wchar_t 
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int C_BaseObject::GetDisplayPriority( void )
 {
 	return GetObjectInfo( GetType() )->m_iDisplayPriority;	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *C_BaseObject::GetHudStatusIcon( void )
 {
 	return GetObjectInfo( GetType() )->m_pHudStatusIcon;	
@@ -1045,9 +1036,6 @@ const char *C_BaseObject::GetHudStatusIcon( void )
 
 ConVar cl_obj_fake_alert( "cl_obj_fake_alert", "0", 0, "", true, BUILDING_HUD_ALERT_NONE, true, MAX_BUILDING_HUD_ALERT_LEVEL-1 );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 BuildingHudAlert_t C_BaseObject::GetBuildingAlertLevel( void )
 {
 	float flHealthPercent = GetHealth() / GetMaxHealth();

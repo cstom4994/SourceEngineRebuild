@@ -90,9 +90,6 @@ void CTFPrediction::SetupMove( C_BasePlayer *player, CUserCmd *ucmd, IMoveHelper
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPrediction::SetupMoveRecon( CUserCmd *ucmd, C_BaseTFPlayer *pTFPlayer, IMoveHelper *pHelper, 
 								    CTFMoveData *pTFMove )
 {
@@ -114,9 +111,6 @@ void CTFPrediction::SetupMoveRecon( CUserCmd *ucmd, C_BaseTFPlayer *pTFPlayer, I
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPrediction::SetupMoveCommando( CUserCmd *ucmd, C_BaseTFPlayer *pTFPlayer, IMoveHelper *pHelper, 
 								       CTFMoveData *pTFMove )
 {
@@ -190,9 +184,6 @@ void CTFPrediction::FinishMove( C_BasePlayer *player, CUserCmd *ucmd, CMoveData 
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPrediction::FinishMoveRecon( CTFMoveData *pTFMove, C_BaseTFPlayer *pTFPlayer )
 {
 	C_PlayerClassRecon *pRecon = static_cast<C_PlayerClassRecon*>( pTFPlayer->GetPlayerClass() );
@@ -213,9 +204,6 @@ void CTFPrediction::FinishMoveRecon( CTFMoveData *pTFMove, C_BaseTFPlayer *pTFPl
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPrediction::FinishMoveCommando( CTFMoveData *pTFMove, C_BaseTFPlayer *pTFPlayer )
 {
 	C_PlayerClassCommando *pCommando = static_cast<C_PlayerClassCommando*>( pTFPlayer->GetPlayerClass() );

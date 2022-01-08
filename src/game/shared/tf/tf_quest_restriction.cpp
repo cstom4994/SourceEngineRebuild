@@ -284,25 +284,16 @@ void GetValidParamsKeyFromEvent( const char *pszKeyName, const char *pszRestrict
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFQuestCondition::CTFQuestCondition()
 	: m_pParent( NULL )
 {}
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFQuestCondition::~CTFQuestCondition()
 {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFQuestCondition::BInitFromKV( KeyValues *pKVItem, CUtlVector<CUtlString> *pVecErrors /* = NULL */ )
 {
 	// check if restriction name matches the keyvalue name

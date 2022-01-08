@@ -19,9 +19,6 @@
 
 extern IFileSystem *		g_pFileSystem;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 // a string table to speed up searching for sequences in the current virtual model
 struct modellookup_t
@@ -225,9 +222,6 @@ void virtualmodel_t::UpdateAutoplaySequences( const studiohdr_t *pStudioHdr )
 	pStudioHdr->CopyAutoplaySequences( m_autoplaySequences.Base(), autoplayCount );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void virtualmodel_t::AppendAnimations( int group, const studiohdr_t *pStudioHdr )
 {
@@ -291,9 +285,6 @@ void virtualmodel_t::AppendAnimations( int group, const studiohdr_t *pStudioHdr 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void virtualmodel_t::AppendBonemap( int group, const studiohdr_t *pStudioHdr )
 {
@@ -358,9 +349,6 @@ void virtualmodel_t::AppendBonemap( int group, const studiohdr_t *pStudioHdr )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void virtualmodel_t::AppendAttachments( int group, const studiohdr_t *pStudioHdr )
 {
@@ -431,9 +419,6 @@ void virtualmodel_t::AppendAttachments( int group, const studiohdr_t *pStudioHdr
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void virtualmodel_t::AppendPoseParameters( int group, const studiohdr_t *pStudioHdr )
 {
@@ -487,9 +472,6 @@ void virtualmodel_t::AppendPoseParameters( int group, const studiohdr_t *pStudio
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void virtualmodel_t::AppendNodes( int group, const studiohdr_t *pStudioHdr )
 {
@@ -532,9 +514,6 @@ void virtualmodel_t::AppendNodes( int group, const studiohdr_t *pStudioHdr )
 	m_node = node;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 void virtualmodel_t::AppendIKLocks( int group, const studiohdr_t *pStudioHdr )

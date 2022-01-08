@@ -1207,9 +1207,6 @@ void CHL2MPRules::CheckAllPlayersReady( void )
     m_bHeardAllPlayersReady = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CHL2MPRules::GetChatFormat( bool bTeamOnly, CBasePlayer *pPlayer )
 {
     if ( !pPlayer )  // dedicated server output

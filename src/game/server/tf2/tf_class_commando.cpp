@@ -188,9 +188,6 @@ void CPlayerClassCommando::SetupMoveData( void )
 	m_flMaxWalkingSpeed = class_commando_speed.GetFloat();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPlayerClassCommando::SetupSizeData( void )
 {
 	// Initially set the player to the base player class standing hull size.
@@ -271,9 +268,6 @@ bool CPlayerClassCommando::ShouldApplyDamageForce( const CTakeDamageInfo &info )
 	return !InBullRush();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPlayerClassCommando::BullRushTouch( CBaseEntity *pTouched )
 {
 	if ( pTouched->IsPlayer() && !pTouched->InSameTeam( m_pPlayer ) )

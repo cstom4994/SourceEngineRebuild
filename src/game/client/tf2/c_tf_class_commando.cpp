@@ -28,9 +28,6 @@ BEGIN_PREDICTION_DATA_NO_BASE( C_PlayerClassCommando )
 
 END_PREDICTION_DATA()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassCommando::C_PlayerClassCommando( C_BaseTFPlayer *pPlayer ) :
 	C_PlayerClass( pPlayer )
 {
@@ -43,9 +40,6 @@ C_PlayerClassCommando::C_PlayerClassCommando( C_BaseTFPlayer *pPlayer ) :
 	m_ClassData.m_flDoubleTapForwardTime = COMMANDO_TIME_INVALID;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassCommando::~C_PlayerClassCommando()
 {
 }
@@ -114,9 +108,6 @@ void C_PlayerClassCommando::CheckBullRushState( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_PlayerClassCommando::InterpolateBullRushViewAngles( void )
 {
 	// Determine the fraction.

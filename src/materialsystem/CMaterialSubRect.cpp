@@ -433,17 +433,11 @@ void CMaterialSubRect::SetShaderAndParams( KeyValues *pKeyValues )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CMaterialSubRect::GetName() const
 {
 	return m_symName.String();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CMaterialSubRect::GetTextureGroupName() const
 {
 	return m_symTextureGroupName.String();
@@ -483,52 +477,34 @@ void CMaterialSubRect::GetMaterialScale( float *pScale )
 	pScale[1] = m_vecScale.y;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialSubRect::IncrementReferenceCount( void )
 {
 	++m_nRefCount;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialSubRect::DecrementReferenceCount( void )
 { 
 	--m_nRefCount;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CMaterialSubRect::GetReferenceCount( void )	const
 {
 	return m_nRefCount;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMaterialSubRect::IsPrecached() const
 {
 	return ( m_fLocal & MATERIALSUBRECT_IS_PRECACHED ) != 0;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMaterialSubRect::IsPrecachedVars( ) const
 {
 	return ( m_fLocal & MATERIALSUBRECT_VARS_IS_PRECACHED ) != 0;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMaterialSubRect::IsManuallyCreated() const
 {
 	return ( m_fLocal & MATERIALSUBRECT_IS_MANUALLY_CREATED ) != 0;
@@ -544,9 +520,6 @@ bool CMaterialSubRect::UsesUNCFileName() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialSubRect::Precache()
 {
 	// Are we already precached?
@@ -564,9 +537,6 @@ void CMaterialSubRect::Precache()
 }
 		  
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMaterialSubRect::PrecacheVars( KeyValues * pVMTKeyValues, KeyValues * pPatchKeyValues, CUtlVector<FileNameHandle_t> *pIncludes, int nFindContext )
 {
 	// FIXME:  Should call through to the parent material for all of this???
@@ -632,9 +602,6 @@ precacheVarsDone:
 	return bOk;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialSubRect::ParseMaterialVars( KeyValues &keyValues )
 {
 	KeyValues *pKeyValues = &keyValues;
@@ -687,9 +654,6 @@ void CMaterialSubRect::ParseMaterialVars( KeyValues &keyValues )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialSubRect::SetupMaterialVars( void )
 {
 	if ( !m_pMaterialPage )
@@ -775,9 +739,6 @@ IMaterialVar *CMaterialSubRect::FindVarFast( char const *pVarName, unsigned int 
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IMaterialVar *CMaterialSubRect::GetDummyMaterialVar()
 {
 	static IMaterialVar* pDummyVar = 0;
@@ -787,25 +748,16 @@ IMaterialVar *CMaterialSubRect::GetDummyMaterialVar()
 	return pDummyVar;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CMaterialSubRect::GetEnumerationID() const
 {
 	return m_iEnumID;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialSubRect::SetEnumerationID( int id )
 {
 	m_iEnumID = id;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialSubRect::Uncache( bool bPreserveVars )
 {
 	MaterialLock_t hMaterialLock = MaterialSystem()->Lock();
@@ -833,9 +785,6 @@ void CMaterialSubRect::Uncache( bool bPreserveVars )
 	MaterialSystem()->Unlock( hMaterialLock );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialSubRect::AddMaterialVar( IMaterialVar *pMaterialVar )
 {
 	m_aMaterialVars.AddToTail( pMaterialVar );
@@ -1021,9 +970,6 @@ static IMaterialVar* CreateMatrixMaterialVarFromKeyValue( IMaterial* pMaterial, 
 	return IMaterialVar::Create( pMaterial, pKeyValue->GetName(), mat );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static IMaterialVar *CreateMaterialVarFromKeyValue( IMaterial* pMaterial, KeyValues* pKeyValue )
 {
 	switch( pKeyValue->GetDataType() )

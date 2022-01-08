@@ -788,9 +788,6 @@ int CWin32Surface::GetNumTextures() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void staticGenerateIconForTexture(Texture *texture, HDC hdc) {
     // see if there is an iconic version of the texture file first
     char buf[256];
@@ -956,9 +953,6 @@ void CWin32Surface::Shutdown() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VPANEL CWin32Surface::GetEmbeddedPanel() {
     return _embeddedPanel;
 }
@@ -1099,9 +1093,6 @@ void CWin32Surface::SetCurrentContextPanel(VPANEL panel) {
     _currentContextPanel = panel;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VPANEL CWin32Surface::GetContextPanelForChildPanel(VPANEL childPanel) {
     VPANEL contextPanel = childPanel;
     while (contextPanel && !PLAT(contextPanel)) {
@@ -1175,9 +1166,6 @@ void CWin32Surface::PushMakeCurrent(VPANEL panel, bool useInsets) {
     ::SelectObject(PLAT(_currentContextPanel)->hdc, PLAT(_currentContextPanel)->clipRgn);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::PopMakeCurrent(VPANEL panel) {
     if (panel == _currentContextPanel) {
         // reset the current panel to be the main panel
@@ -1185,9 +1173,6 @@ void CWin32Surface::PopMakeCurrent(VPANEL panel) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::GetScreenSize(int &wide, int &tall) {
     if (m_ScreenSizeOverride.m_bActive) {
         wide = m_ScreenSizeOverride.m_nValue[0];
@@ -1249,16 +1234,10 @@ void CWin32Surface::DrawSetTextureFrame(int id, int nFrame, unsigned int *pFrame
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VPANEL CWin32Surface::GetNotifyPanel() {
     return _notifyPanel;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::SetNotifyIcon(VPANEL context, HTexture iconID, VPANEL panelToReceiveMessages, const char *text) {
     context = GetContextPanelForChildPanel(context);
     if (!context)
@@ -1722,9 +1701,6 @@ void CWin32Surface::DrawSetTextureFile(int id, const char *filename, int hardwar
     m_pCurrentTexture = texture;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::DrawTexturedRect(int x0, int y0, int x1, int y1) {
     if (m_pCurrentTexture == NULL) {
         return;
@@ -1807,9 +1783,6 @@ HBITMAP staticCreateBitmapHandle(int wide, int tall, HDC hdc, int bpp, void **di
 
 #define DIB_HEADER_MARKER   ((WORD) ('M' << 8) | 'B')
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWin32Surface::LoadBMP(Texture *texture, const char *filename) {
     // try load the tga
     char buf[1024];
@@ -1887,9 +1860,6 @@ bool CWin32Surface::LoadBMP(Texture *texture, const char *filename) {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWin32Surface::LoadTGA(Texture *texture, const char *filename) {
     bool invertAlpha = false;
 
@@ -2156,18 +2126,12 @@ void CWin32Surface::SetForegroundWindow(VPANEL panel) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::MovePopupToFront(VPANEL panel) {
     _popupList.MoveElementToEnd(panel);
 
     g_pIVgui->PostMessage(panel, new KeyValues("OnMovedPopupToFront"), NULL);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::MovePopupToBack(VPANEL panel) {
 }
 
@@ -2195,9 +2159,6 @@ void CWin32Surface::SetAsTopMost(VPANEL panel, bool state) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::SetPanelVisible(VPANEL panel, bool visible) {
     // if the panel has an attached window we need to set it's style
     if (PLAT(panel)) {
@@ -2222,17 +2183,11 @@ void CWin32Surface::FlashWindow(VPANEL panel, bool state) {
     ::FlashWindow(PLAT(panel)->hwnd, state);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::SetTopLevelFocus(VPANEL panel) {
     // this is handled by WM_FOCUS messages instead of directly
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::SetMinimized(VPANEL panel, bool state) {
     if (PLAT(panel)) {
         if (state) {
@@ -2253,9 +2208,6 @@ bool CWin32Surface::IsMinimized(VPANEL panel) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::SetTitle(VPANEL panel, const wchar_t *title) {
     panel = GetContextPanelForChildPanel(panel);
     if (panel) {
@@ -2269,9 +2221,6 @@ void CWin32Surface::SetTitle(VPANEL panel, const wchar_t *title) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::SetAsToolBar(VPANEL panel, bool state) {
     panel = GetContextPanelForChildPanel(panel);
     if (panel && PLAT(panel)) {
@@ -2285,23 +2234,14 @@ void CWin32Surface::SetAsToolBar(VPANEL panel, bool state) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CWin32Surface::GetPopupCount() {
     return _popupList.GetCount();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VPANEL CWin32Surface::GetPopup(int index) {
     return _popupList[index];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::CreatePopup(VPANEL panel, bool minimised, bool showTaskbarIcon, bool disabled, bool mouseInput,
                                 bool kbInput) {
     if (((VPanel *) panel)->IsPopup() && PLAT(panel)) {
@@ -2512,9 +2452,6 @@ bool CWin32Surface::RecreateContext(VPANEL panel) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::EnableMouseCapture(VPANEL panel, bool state) {
     VPANEL contextPanel = GetContextPanelForChildPanel(panel);
     if (state) {
@@ -2524,9 +2461,6 @@ void CWin32Surface::EnableMouseCapture(VPANEL panel, bool state) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWin32Surface::ShouldPaintChildPanel(VPANEL childPanel) {
     // don't Paint children as part of the normal process, handle them in with WM_PAINT messages instead
     return !((VPanel *) childPanel)->IsPopup();
@@ -2693,9 +2627,6 @@ void CWin32Surface::SolveTraverse(VPANEL panel, bool forceApplySchemeSettings) {
     InternalSolveTraverse(panel);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWin32Surface::PaintTraverse(VPANEL panel) {
     START_TIMER();
 
@@ -2762,9 +2693,6 @@ void CWin32Surface::CalculateMouseVisible() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWin32Surface::NeedKBInput() {
     return _needKB;
 }

@@ -20,17 +20,11 @@ BEGIN_PREDICTION_DATA_NO_BASE( C_PlayerClassEscort )
 
 END_PREDICTION_DATA()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassEscort::C_PlayerClassEscort( C_BaseTFPlayer *pPlayer ) :
 	C_PlayerClass( pPlayer )
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassEscort::~C_PlayerClassEscort()
 {
 }

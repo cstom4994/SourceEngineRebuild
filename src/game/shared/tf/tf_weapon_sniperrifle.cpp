@@ -187,9 +187,6 @@ void CTFSniperRifle::Spawn()
 	ResetTimers();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::Precache()
 {
 	BaseClass::Precache();
@@ -209,9 +206,6 @@ void CTFSniperRifle::ResetTimers( void )
 	m_bRezoomAfterShot = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSniperRifle::Reload( void )
 {
 	// We currently don't reload.
@@ -239,9 +233,6 @@ bool CTFSniperRifle::CanHolster( void ) const
 	return BaseClass::CanHolster();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSniperRifle::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 // Server specific.
@@ -275,17 +266,11 @@ void CTFSniperRifle::WeaponReset( void )
 	m_flChargePerSec = TF_WEAPON_SNIPERRIFLE_CHARGE_PER_SEC;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSniperRifle::OwnerCanJump( void )
 {
 	return gpGlobals->curtime > m_flUnzoomTime;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::HandleZooms( void )
 {
 	// Get the owning player.
@@ -345,9 +330,6 @@ void CTFSniperRifle::HandleZooms( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::ItemPostFrame( void )
 {
 	// If we're lowered, we're not allowed to fire
@@ -623,9 +605,6 @@ void CTFSniperRifle::ZoomOut( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::ApplyScopeSpeedModifications( float &flBaseRef )
 {
 	CALL_ATTRIB_HOOK_FLOAT( flBaseRef, fast_reload );
@@ -652,9 +631,6 @@ void CTFSniperRifle::ApplyScopeSpeedModifications( float &flBaseRef )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::ApplyChargeSpeedModifications( float &flBaseRef )
 {
 	CALL_ATTRIB_HOOK_FLOAT( flBaseRef, mult_sniper_charge_per_sec );
@@ -710,9 +686,6 @@ void CTFSniperRifle::ApplyChargeSpeedModifications( float &flBaseRef )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSniperRifle::MustBeZoomedToFire( void )
 {
 	int iModOnlyFireZoomed = 0;
@@ -720,9 +693,6 @@ bool CTFSniperRifle::MustBeZoomedToFire( void )
 	return ( iModOnlyFireZoomed != 0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::HandleNoScopeFireDeny( void )
 { 
 	if ( m_flNextEmptySoundTime < gpGlobals->curtime )
@@ -764,9 +734,6 @@ float CTFSniperRifle::GetRezoomTime() const
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::Fire( CTFPlayer *pPlayer )
 {
 	// Check the ammo.  We don't use clip ammo, check the primary ammo type.
@@ -894,9 +861,6 @@ int	CTFSniperRifle::GetDamageType( void ) const
 	return nDamageType;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::CreateSniperDot( void )
 {
 // Server specific.
@@ -918,9 +882,6 @@ void CTFSniperRifle::CreateSniperDot( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::DestroySniperDot( void )
 {
 // Server specific.
@@ -936,9 +897,6 @@ void CTFSniperRifle::DestroySniperDot( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifle::UpdateSniperDot( void )
 {
 // Server specific.
@@ -976,9 +934,6 @@ void CTFSniperRifle::UpdateSniperDot( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSniperRifle::CanFireCriticalShot( bool bIsHeadshot )
 {
 	m_bCurrentAttackIsCrit = false;
@@ -1231,9 +1186,6 @@ bool CTFSniperRifle::IsRageFull( void )
 	return ( pPlayer->m_Shared.GetRageMeter() >= 100.0f );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSniperRifle::EffectMeterShouldFlash( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -1763,9 +1715,6 @@ CTFSniperRifleClassic::~CTFSniperRifleClassic()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifleClassic::Precache()
 {
 	BaseClass::Precache();
@@ -1809,9 +1758,6 @@ void CTFSniperRifleClassic::Zoom( void )
 	m_flNextSecondaryAttack = gpGlobals->curtime + TF_WEAPON_SNIPERRIFLE_ZOOM_TIME;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifleClassic::HandleZooms( void )
 {
 	// Get the owning player.
@@ -1844,9 +1790,6 @@ void CTFSniperRifleClassic::OnDataChanged( DataUpdateType_t updateType )
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifleClassic::ItemPostFrame( void )
 {
 	// If we're lowered, we're not allowed to fire
@@ -1952,9 +1895,6 @@ int	CTFSniperRifleClassic::GetDamageType( void ) const
 	return CTFWeaponBaseGun::GetDamageType(); // intentionally skipping CTFSniperRifle::GetDamageType()
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSniperRifleClassic::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	WeaponReset();
@@ -1962,9 +1902,6 @@ bool CTFSniperRifleClassic::Holster( CBaseCombatWeapon *pSwitchingTo )
 	return BaseClass::Holster( pSwitchingTo );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSniperRifleClassic::Deploy( void )
 {
 	WeaponReset();
@@ -1972,9 +1909,6 @@ bool CTFSniperRifleClassic::Deploy( void )
 	return BaseClass::Deploy();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSniperRifleClassic::WeaponReset( void )
 {
 	m_flChargedDamage = 0.0f;

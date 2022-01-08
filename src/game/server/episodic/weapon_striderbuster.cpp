@@ -367,9 +367,6 @@ void CWeaponStriderBuster::InputConstraintBroken( inputdata_t &inputdata )
 	Shatter( NULL );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponStriderBuster::UpdateOnRemove( void )
 {
 	DestroyConstraint();

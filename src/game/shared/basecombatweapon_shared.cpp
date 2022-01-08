@@ -240,9 +240,6 @@ const unsigned char *CBaseCombatWeapon::GetEncryptionKey( void )
 	return g_pGameRules->GetEncryptionKey(); 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseCombatWeapon::Precache( void )
 {
 #if defined( CLIENT_DLL )
@@ -546,9 +543,6 @@ const char *CBaseCombatWeapon::GetShootSound( int iIndex ) const
 	return GetWpnData().aShootSounds[ iIndex ];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CBaseCombatWeapon::GetRumbleEffect() const
 {
 	return GetWpnData().iRumbleEffect;
@@ -2470,9 +2464,6 @@ Activity CBaseCombatWeapon::ActivityOverride( Activity baseAct, bool *pRequired 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseCombatWeapon::PoseParameterOverride( bool bReset )
 {
 	CBaseCombatCharacter *pOwner = GetOwner();
@@ -2498,9 +2489,6 @@ void CBaseCombatWeapon::PoseParameterOverride( bool bReset )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CDmgAccumulator::CDmgAccumulator( void )
 {
 #ifdef GAME_DLL
@@ -2510,9 +2498,6 @@ CDmgAccumulator::CDmgAccumulator( void )
 	m_bActive = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CDmgAccumulator::~CDmgAccumulator()
 {
 	// Did a weapon get deleted while aggregating CTakeDamageInfo events?

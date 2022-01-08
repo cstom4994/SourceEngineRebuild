@@ -383,9 +383,6 @@ void CMDL::SetUpBones( const matrix3x4_t& rootToWorld, int nMaxBoneCount, matrix
 	Studio_RunBoneFlexDrivers( m_pFlexControls, &studioHdr, pos, pBoneToWorld, rootToWorld );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMDL::SetupBonesWithBoneMerge( const CStudioHdr *pMergeHdr, matrix3x4_t *pMergeBoneToWorld, 
 								    const CStudioHdr *pFollow, const matrix3x4_t *pFollowBoneToWorld,
 									const matrix3x4_t &matModelToWorld )

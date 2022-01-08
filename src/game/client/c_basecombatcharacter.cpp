@@ -105,9 +105,6 @@ void C_BaseCombatCharacter::GetGlowEffectColor( float *r, float *g, float *b )
     *b = 0.76f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 /*
 void C_BaseCombatCharacter::EnableGlowEffect( float r, float g, float b )
 {
@@ -121,9 +118,6 @@ void C_BaseCombatCharacter::EnableGlowEffect( float r, float g, float b )
 }
 */
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseCombatCharacter::UpdateGlowEffect( void )
 {
     // destroy the existing effect
@@ -142,9 +136,6 @@ void C_BaseCombatCharacter::UpdateGlowEffect( void )
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseCombatCharacter::DestroyGlowEffect( void )
 {
     if ( m_pGlowEffect )

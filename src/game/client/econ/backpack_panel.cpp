@@ -534,9 +534,6 @@ void CBackpackPanel::ApplySettings( KeyValues *inResourceData )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::AddNewItemPanel( int iPanelIndex )
 {
 	BaseClass::AddNewItemPanel( iPanelIndex );
@@ -546,9 +543,6 @@ void CBackpackPanel::AddNewItemPanel( int iPanelIndex )
 	m_ItemModelPanelPos[iPanelIndex].x = m_ItemModelPanelPos[iPanelIndex].y = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CItemModelPanel *CBackpackPanel::GetItemPanelAtPos( int x, int y )
 {
 	if ( !m_pItemModelPanels.Count() )
@@ -568,9 +562,6 @@ CItemModelPanel *CBackpackPanel::GetItemPanelAtPos( int x, int y )
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CBackpackPanel::GetPageButtonIndexAtPos( int x, int y )
 {
 	if ( !m_Pages.Count() )
@@ -675,9 +666,6 @@ void CBackpackPanel::SetPageButtonTextColorBasedOnContents()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::MarkItemIDDirty( itemid_t itemID )
 {
 	if ( m_vecDirtyItems.Find( itemID ) == m_vecDirtyItems.InvalidIndex() )
@@ -687,9 +675,6 @@ void CBackpackPanel::MarkItemIDDirty( itemid_t itemID )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::PositionItemPanel( CItemModelPanel *pPanel, int iIndex )
 {
 	int iCenter = GetWide() * 0.5;
@@ -2411,9 +2396,6 @@ void CBackpackPanel::OnMouseMismatchedRelease( MouseCode code, Panel* pPressedPa
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::StartDrag( int x, int y )
 {
 	// don't allow item drag if there's a filter
@@ -2461,9 +2443,6 @@ void CBackpackPanel::StartDrag( int x, int y )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::StopDrag( bool bSucceeded )
 {
 	if ( !m_pItemDraggedFromPanel )
@@ -2498,9 +2477,6 @@ void CBackpackPanel::StopDrag( bool bSucceeded )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CBackpackPanel::GetBackpackPositionForPanel( CItemModelPanel *pItemPanel )
 {
 	for ( int i = 0; i < m_pItemModelPanels.Count(); i++ )
@@ -2513,9 +2489,6 @@ int CBackpackPanel::GetBackpackPositionForPanel( CItemModelPanel *pItemPanel )
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::HandleDragTo( CItemModelPanel *pItemPanel, int iPanelIndex )
 {
 	// Find the position based on the panel we're dragging to
@@ -2558,9 +2531,6 @@ void CBackpackPanel::HandleDragTo( CItemModelPanel *pItemPanel, int iPanelIndex 
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::OnTick( void )
 {
 	BaseClass::OnTick();
@@ -2610,9 +2580,6 @@ void CBackpackPanel::OnTick( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::OnThink( void )
 {
 	BaseClass::OnThink();
@@ -2628,9 +2595,6 @@ void CBackpackPanel::OnThink( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::OnCursorMoved( int x, int y )
 {
 	if ( !m_pItemDraggedFromPanel )
@@ -2736,9 +2700,6 @@ void CBackpackPanel::OnCursorMoved( int x, int y )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBackpackPanel::OnItemPanelCursorMoved( int x, int y )
 {
 	if ( !m_pItemDraggedFromPanel )

@@ -1000,9 +1000,6 @@ void CNPC_SecurityCamera::EyeOff( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_SecurityCamera::InputToggle( inputdata_t &inputdata )
 {
 	Toggle();

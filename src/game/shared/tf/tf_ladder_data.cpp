@@ -112,9 +112,6 @@ bool CSOTFLadderData::BYieldingAddInsertToTransaction( GCSDK::CSQLAccess & sqlAc
 	return CSchemaSharedObjectHelper::BYieldingAddInsertToTransaction( sqlAccess, &schLadderData );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CSOTFLadderData::BYieldingAddWriteToTransaction( GCSDK::CSQLAccess & sqlAccess, const CUtlVector< int > &fields )
 {
 	CSchLadderData schLadderData;
@@ -492,9 +489,6 @@ public:
 	bool BYieldingRunJobFromMsg( GCSDK::IMsgNetPacket *pNetPacket );
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CGCMatchHistoryLoad::BYieldingRunJobFromMsg( IMsgNetPacket *pNetPacket )
 {
 	CProtoBufMsg < CMsgGCMatchHistoryLoad > msg( pNetPacket );

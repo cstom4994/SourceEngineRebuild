@@ -50,9 +50,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_normal );
 BEGIN_DATADESC( CTFGrenadeNormal )
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFGrenadeNormal::EmitGrenade( Vector vecSrc, QAngle vecAngles, Vector vecVel, 
 							        AngularImpulse angImpulse, CBasePlayer *pPlayer, float flTime, int iflags )
 {
@@ -80,9 +77,6 @@ CTFWeaponBaseGrenadeProj *CTFGrenadeNormal::EmitGrenade( Vector vecSrc, QAngle v
 LINK_ENTITY_TO_CLASS( tf_weapon_grenade_normal_projectile, CTFGrenadeNormalProjectile );
 PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_normal_projectile );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGrenadeNormalProjectile* CTFGrenadeNormalProjectile::Create( const Vector &position, const QAngle &angles, 
 																const Vector &velocity, const AngularImpulse &angVelocity, 
 																CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, float timer, int iFlags )
@@ -91,9 +85,6 @@ CTFGrenadeNormalProjectile* CTFGrenadeNormalProjectile::Create( const Vector &po
 	return pGrenade;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeNormalProjectile::Spawn()
 {
 	SetModel( GRENADE_MODEL );
@@ -101,9 +92,6 @@ void CTFGrenadeNormalProjectile::Spawn()
 	BaseClass::Spawn();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeNormalProjectile::Precache()
 {
 	PrecacheModel( GRENADE_MODEL );
@@ -111,17 +99,11 @@ void CTFGrenadeNormalProjectile::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeNormalProjectile::BounceSound( void )
 {
 	EmitSound( "BaseGrenade.BounceSound" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeNormalProjectile::Detonate()
 {
 	if ( ShouldNotDetonate() )

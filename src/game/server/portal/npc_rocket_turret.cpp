@@ -1175,9 +1175,6 @@ void CNPC_RocketTurret::Destroy( void )
 	SetNextThink( gpGlobals->curtime + 0.1f );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_RocketTurret::InputToggle( inputdata_t &inputdata )
 {
 	Toggle();

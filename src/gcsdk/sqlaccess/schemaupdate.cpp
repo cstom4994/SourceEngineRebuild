@@ -222,9 +222,6 @@ namespace GCSDK {
     }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     bool CJobUpdateSchema::BYieldingUpdateSchema(ESchemaCatalog eSchemaCatalog) {
         if (!YieldingBuildTypeMap(eSchemaCatalog))
             return false;

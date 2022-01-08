@@ -22,9 +22,6 @@ DECLARE_BUILD_FACTORY(CAvatarImagePanel);
 CUtlMap<AvatarImagePair_t, int> CAvatarImage::s_AvatarImageCache; // cache of steam id's to textureids to use for images
 bool CAvatarImage::m_sbInitializedAvatarCache = false;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CAvatarImage::CAvatarImage(void)
         : m_sPersonaStateChangedCallback(this, &CAvatarImage::OnPersonaStateChanged) {
     ClearAvatarSteamID();
@@ -271,9 +268,6 @@ vgui::HTexture CAvatarImage::GetID() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CAvatarImagePanel::CAvatarImagePanel(vgui::Panel *parent, const char *name) : BaseClass(parent, name) {
     m_bScaleImage = false;
     m_pImage = new CAvatarImage();
@@ -322,9 +316,6 @@ void CAvatarImagePanel::SetPlayer(CSteamID steamIDForPlayer, EAvatarSize avatarS
         m_pImage->SetAvatarSteamID(steamIDForPlayer, avatarSize);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAvatarImagePanel::PaintBackground(void) {
     if (m_bSizeDirty)
         UpdateSize();

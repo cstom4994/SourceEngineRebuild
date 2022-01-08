@@ -2628,9 +2628,6 @@ inline void FindMinMax( float v1, float v2, float v3, float &min, float &max )
 	if ( v3 > max ) { max = v3; }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline bool AxisTestEdgeCrossX2( float flEdgeZ, float flEdgeY, float flAbsEdgeZ, float flAbsEdgeY,
 							     const Vector &p1, const Vector &p3, const Vector &vecExtents,
 								 float flTolerance )

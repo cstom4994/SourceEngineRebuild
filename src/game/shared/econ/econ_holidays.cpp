@@ -349,9 +349,6 @@ static IIsHolidayActive *s_HolidayChecks[] =
 
 COMPILE_TIME_ASSERT( ARRAYSIZE( s_HolidayChecks ) == kHolidayCount );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool EconHolidays_IsHolidayActive( int iHolidayIndex, const CRTime& timeCurrent )
 {
 	if ( iHolidayIndex < 0 || iHolidayIndex >= kHolidayCount )
@@ -364,9 +361,6 @@ bool EconHolidays_IsHolidayActive( int iHolidayIndex, const CRTime& timeCurrent 
 	return s_HolidayChecks[iHolidayIndex]->IsActive( timeCurrent );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int	EconHolidays_GetHolidayForString( const char* pszHolidayName )
 {
 	for ( int iHoliday = 0; iHoliday < kHolidayCount; ++iHoliday )
@@ -382,9 +376,6 @@ int	EconHolidays_GetHolidayForString( const char* pszHolidayName )
 	return kHoliday_None;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *EconHolidays_GetActiveHolidayString()
 {
 	CRTime timeNow;
@@ -405,9 +396,6 @@ const char *EconHolidays_GetActiveHolidayString()
 }
 
 #if defined(PONDER_CLIENT_DLL) || defined(TF_DLL) || defined(TF_GC_DLL)
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 RTime32 EconHolidays_TerribleHack_GetHalloweenEndData()
 {
 	return g_Holiday_Halloween.GetEndRTime();

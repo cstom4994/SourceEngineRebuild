@@ -35,16 +35,10 @@ END_DATADESC()
 
 LINK_ENTITY_TO_CLASS( trigger_skybox2world, CTrigger3DSkyboxToWorld );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTrigger3DSkyboxToWorld::CTrigger3DSkyboxToWorld()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTrigger3DSkyboxToWorld::Spawn( void )
 {
 	BaseClass::Spawn();

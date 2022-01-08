@@ -802,9 +802,6 @@ void CTFMinigameLogic::InputTeleportToRandomMinigame( inputdata_t &inputdata )
 #endif
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CConditionFortuneTellerEffect 
 #ifdef GAME_DLL
 	: public CGameEventListener
@@ -959,9 +956,6 @@ void CTFHalloweenFortuneTeller::Precache()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFHalloweenFortuneTeller::Spawn()
 {
 	Precache();
@@ -980,9 +974,6 @@ void CTFHalloweenFortuneTeller::Spawn()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFHalloweenFortuneTeller::UpdateOnRemove()
 {
 #ifdef GAME_DLL
@@ -1059,9 +1050,6 @@ void CTFHalloweenFortuneTeller::FireGameEvent( IGameEvent* pEvent )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFHalloweenFortuneTeller::UpdateFortuneTellerTime()
 {
 	// unpause time, compute new start time
@@ -1100,9 +1088,6 @@ void CTFHalloweenFortuneTeller::ResetTimer()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFHalloweenFortuneTeller::StartFortuneWarning()
 {
 	// disable nagging
@@ -1112,9 +1097,6 @@ void CTFHalloweenFortuneTeller::StartFortuneWarning()
 	SetContextThink( &CTFHalloweenFortuneTeller::StartFortuneTell, gpGlobals->curtime + tf_fortune_teller_warning_time.GetFloat(), "StartFortuneTell" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFHalloweenFortuneTeller::StartFortuneTell()
 {
 	// Common effects.
@@ -1128,9 +1110,6 @@ void CTFHalloweenFortuneTeller::StartFortuneTell()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFHalloweenFortuneTeller::EndFortuneTell()
 {
 	// resume nagging
@@ -1156,9 +1135,6 @@ void CTFHalloweenFortuneTeller::EndFortuneTell()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFHalloweenFortuneTeller::TellFortune()
 {
 	if ( m_pActiveFortune )

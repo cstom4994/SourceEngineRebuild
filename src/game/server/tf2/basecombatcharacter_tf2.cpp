@@ -11,9 +11,6 @@
 
 extern char *g_pszEMPPulseStart;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseCombatCharacter::HasPowerup( int iPowerup )
 {
 	Assert( iPowerup >= 0 && iPowerup < MAX_POWERUPS );

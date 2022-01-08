@@ -961,9 +961,6 @@ bool CViewRender::ShouldDrawViewModel(bool bDrawViewmodel) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CViewRender::UpdateRefractIfNeededByList(CUtlVector<IClientRenderable *> &list) {
     int nCount = list.Count();
     for (int i = 0; i < nCount; ++i) {
@@ -982,9 +979,6 @@ bool CViewRender::UpdateRefractIfNeededByList(CUtlVector<IClientRenderable *> &l
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CViewRender::DrawRenderablesInList(CUtlVector<IClientRenderable *> &list, int flags) {
     Assert(m_pCurrentlyDrawingEntity == NULL);
     int nCount = list.Count();
@@ -1658,9 +1652,6 @@ void CViewRender::DisableFog(void) {
     pRenderContext->FogMode(MATERIAL_FOG_NONE);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void
 CViewRender::SetupVis(const CViewSetup &viewRender, unsigned int &visFlags, ViewCustomVisibility_t *pCustomVisibility) {
     VPROF("CViewRender::SetupVis");
@@ -3199,9 +3190,6 @@ void CRendering3dView::PruneWorldListInfo() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static inline void UpdateBrushModelLightmap(IClientRenderable *pEnt) {
     model_t *pModel = (model_t *) pEnt->GetModel();
     render->UpdateBrushModelLightmap(pModel, pEnt);
@@ -4756,9 +4744,6 @@ void CFreezeFrameView::Setup(const CViewSetup &shadowViewIn) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFreezeFrameView::Draw(void) {
     CMatRenderContextPtr pRenderContext(materials);
 

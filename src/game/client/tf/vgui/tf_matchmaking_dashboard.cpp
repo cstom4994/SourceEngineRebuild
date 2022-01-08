@@ -233,9 +233,6 @@ void CTFMatchmakingPopup::Update()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFMatchmakingPopup::CTFMatchmakingPopup(const char* pszName, const char* pszResFile)
     : CExpandablePanel(NULL, pszName)
     , m_pszResFile(pszResFile)

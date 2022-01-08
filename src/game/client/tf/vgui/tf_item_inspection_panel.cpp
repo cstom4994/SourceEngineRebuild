@@ -168,9 +168,6 @@ CON_COMMAND_F( tf_econ_item_preview, "Preview an economy item", FCVAR_DONTRECORD
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFItemInspectionPanel::CTFItemInspectionPanel( Panel* pPanel, const char *pszName )
 	: BaseClass( pPanel, pszName )
 	, m_pModelInspectPanel( NULL )
@@ -182,9 +179,6 @@ CTFItemInspectionPanel::CTFItemInspectionPanel( Panel* pPanel, const char *pszNa
 	m_pItemNamePanel = new CItemModelPanel( this, "ItemName" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemInspectionPanel::ApplySchemeSettings( IScheme *pScheme )
 {
 	const char* pszFileName = "Resource/UI/econ/InspectionPanel.res";
@@ -200,9 +194,6 @@ void CTFItemInspectionPanel::ApplySchemeSettings( IScheme *pScheme )
 	BaseClass::ApplySchemeSettings( pScheme );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemInspectionPanel::PerformLayout()
 {
 	CEconItemView* pItem = m_pModelInspectPanel->GetItem();
@@ -231,9 +222,6 @@ void CTFItemInspectionPanel::PerformLayout()
 	BaseClass::PerformLayout();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemInspectionPanel::OnCommand( const char *command )
 {
 	if ( FStrEq( command, "close" ) )
@@ -285,9 +273,6 @@ void CTFItemInspectionPanel::OnCommand( const char *command )
 	BaseClass::OnCommand( command );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemInspectionPanel::SetItem( CEconItemView *pItem )
 {
 	m_pItemNamePanel->SetItem( pItem );
@@ -308,9 +293,6 @@ void CTFItemInspectionPanel::SetSpecialAttributesOnly( bool bSpecialOnly )
 		m_pItemNamePanel->SetSpecialAttributesOnly( bSpecialOnly ); 
 	}
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemInspectionPanel::Reset()
 {
 	InvalidateLayout( true, true );
@@ -344,17 +326,11 @@ void CTFItemInspectionPanel::SetItemCopy( CEconItemView *pItem )
 	SetItem( m_pItemViewData );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemInspectionPanel::OnRadioButtonChecked( vgui::Panel *panel )
 {
 	OnCommand( panel->GetName() );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemInspectionPanel::OnNavButtonSelected( KeyValues *pData )
 {
 	const int iTeam = pData->GetInt( "userdata", -1 );	AssertMsg( iTeam >= 0, "Bad filter" );
@@ -370,9 +346,6 @@ void CTFItemInspectionPanel::OnNavButtonSelected( KeyValues *pData )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemInspectionPanel::RecompositeItem()
 {
 	// Force a reload of the skin

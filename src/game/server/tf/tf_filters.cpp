@@ -48,9 +48,6 @@ END_DATADESC()
 
 LINK_ENTITY_TO_CLASS( filter_activator_tfteam, CFilterTFTeam );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFilterTFTeam::PassesFilterImpl( CBaseEntity *pCaller, CBaseEntity *pEntity )
 {
 	// is the entity we're asking about on the winning 

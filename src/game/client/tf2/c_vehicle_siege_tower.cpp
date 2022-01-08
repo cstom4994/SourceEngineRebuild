@@ -219,9 +219,6 @@ private:
 IMPLEMENT_CLIENTCLASS_DT( C_ObjectSiegeLadder, DT_ObjectSiegeLadder, CObjectSiegeLadder )
 END_RECV_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_ObjectSiegeLadder::C_ObjectSiegeLadder()
 {
 }
@@ -252,9 +249,6 @@ private:
 IMPLEMENT_CLIENTCLASS_DT( C_ObjectSiegePlatform, DT_ObjectSiegePlatform, CObjectSiegePlatform )
 END_RECV_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_ObjectSiegePlatform::C_ObjectSiegePlatform()
 {
 }

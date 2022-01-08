@@ -455,9 +455,6 @@ const char *g_pszItemFoundMethodStrings[] =
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_pszItemFoundMethodStrings ) == (UNACK_NUM_METHODS - 1) );
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 struct strange_attr_set_t
 {
 	strange_attr_set_t( const char *pScoreAttrName, const char *pTypeAttrName, const char *pRestrictionAttrName, const char *pRestrictionValueAttrName, bool bIsUserCustomizable )
@@ -920,9 +917,6 @@ const char* GetCraftCommonStatClockInvalidReason( const class IEconItemInterface
 
 	return "#TF_MannCoTrade_ItemInvalid";
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 enum { kMaxCardUpgradesPerItem = 2 };
 
 int GetMaxCardUpgradesPerItem()

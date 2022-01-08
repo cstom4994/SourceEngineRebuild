@@ -123,9 +123,6 @@ private:
 	client_textmessage_t		message;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CDemoActionCDTrackStart : public CBaseDemoAction
 {
 	typedef CBaseDemoAction BaseClass;
@@ -142,9 +139,6 @@ private:
 	int			m_nCDTrack;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CDemoActionCDTrackStop : public CBaseDemoAction
 {
 	typedef CBaseDemoAction BaseClass;

@@ -11,9 +11,6 @@
 static CTFGameMovementChooser g_GameMovement;
 IGameMovement *g_pGameMovement = ( IGameMovement* )&g_GameMovement;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGameMovementChooser::CTFGameMovementChooser()
 {
 	// Allocate memory for a movement type for each class (0 = undecided)
@@ -32,9 +29,6 @@ CTFGameMovementChooser::CTFGameMovementChooser()
 	m_Movements[TFCLASS_PYRO] = &m_PyroMovement;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementChooser::ProcessMovement( CBasePlayer *pPlayer, CMoveData *pMoveData )
 {
 	// Convert CMoveData to CTFMoveData
@@ -50,26 +44,17 @@ void CTFGameMovementChooser::ProcessMovement( CBasePlayer *pPlayer, CMoveData *p
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementChooser::GetPlayerMins( bool ducked ) const
 {
 	// Player class mins.
 	return m_Movements[m_nClassID]->GetPlayerMins( ducked );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementChooser::GetPlayerMaxs( bool ducked ) const
 {
 	return m_Movements[m_nClassID]->GetPlayerMins( ducked );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementChooser::GetPlayerViewOffset( bool ducked ) const
 {
 	return m_Movements[m_nClassID]->GetPlayerViewOffset( ducked );

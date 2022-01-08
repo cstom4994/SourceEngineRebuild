@@ -2050,9 +2050,6 @@ bool C_BaseAnimating::GetAttachmentLocal(int iAttachment, Vector &origin) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BaseAnimating::GetRootBone(matrix3x4_t &rootBone) {
     Assert(!IsDynamicModelLoading());
 
@@ -2088,33 +2085,21 @@ bool C_BaseAnimating::GetSoundSpatialization(SpatializationInfo_t &info) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BaseAnimating::IsViewModel() const {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::UpdateOnRemove(void) {
     RemoveFromClientSideAnimationList(true);
 
     BaseClass::UpdateOnRemove();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BaseAnimating::IsMenuModel() const {
     return false;
 }
 
 // UNDONE: Seems kind of silly to have this when we also have the cached bones in C_BaseAnimating
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBoneCache *C_BaseAnimating::GetBoneCache(CStudioHdr *pStudioHdr) {
     int boneMask = BONE_USED_BY_HITBOX;
     CBoneCache *pcache = Studio_GetBoneCache(m_hitboxBoneCacheHandle);
@@ -3991,9 +3976,6 @@ void C_BaseAnimating::FireObsoleteEvent(const Vector &origin, const QAngle &angl
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BaseAnimating::IsSelfAnimating() {
     if (m_bClientSideAnimation)
         return true;
@@ -4565,9 +4547,6 @@ void C_BaseAnimating::OnDataChanged(DataUpdateType_t updateType) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::AddEntity(void) {
     // Server says don't interpolate this frame, so set previous info to new info.
     if (IsNoInterpolationFrame()) {
@@ -5543,9 +5522,6 @@ void C_BaseAnimating::SetModelScale(float scale, float change_duration /*= 0.0f*
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::UpdateModelScale() {
     ModelScale *mvs = (ModelScale *) GetDataObject(MODELSCALE);
     if (!mvs) {
@@ -5615,9 +5591,6 @@ bool C_BoneFollower::ShouldDraw(void) {
     return (vcollide_wireframe.GetBool());  //MOTODO
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int C_BoneFollower::DrawModel(int flags) {
     vcollide_t *pCollide = modelinfo->GetVCollide(m_modelIndex);
     if (pCollide) {
@@ -5656,9 +5629,6 @@ void C_BaseAnimating::DoMuzzleFlash() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void DevMsgRT(char const *pMsg, ...) {
     if (gpGlobals->frametime != 0.0f) {
         va_list argptr;
@@ -5890,9 +5860,6 @@ bool C_BaseAnimating::ShouldResetSequenceOnNewModel(void) {
     return (m_bReceivedSequence == false);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::UpdateBoneAttachments(void) {
     if (!m_pAttachedTo)
         return;
@@ -5917,9 +5884,6 @@ void C_BaseAnimating::UpdateBoneAttachments(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::AttachEntityToBone(C_BaseAnimating *attachTarget, int boneIndexAttached, Vector bonePosition,
                                          QAngle boneAngles) {
     if (!attachTarget)
@@ -5946,9 +5910,6 @@ void C_BaseAnimating::AttachEntityToBone(C_BaseAnimating *attachTarget, int bone
     NotifyBoneAttached(attachTarget);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::NotifyBoneAttached(C_BaseAnimating *attachTarget) {
     // If we're already attached to something, remove us from it.
     if (m_pAttachedTo) {
@@ -5970,9 +5931,6 @@ void C_BaseAnimating::NotifyBoneAttached(C_BaseAnimating *attachTarget) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::AddBoneAttachment(C_BaseAnimating *newBoneAttachment) {
     if (!newBoneAttachment)
         return;
@@ -5980,9 +5938,6 @@ void C_BaseAnimating::AddBoneAttachment(C_BaseAnimating *newBoneAttachment) {
     m_BoneAttachments.AddToTail(newBoneAttachment);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::RemoveBoneAttachment(C_BaseAnimating *boneAttachment) {
     if (!boneAttachment)
         return;
@@ -5990,16 +5945,10 @@ void C_BaseAnimating::RemoveBoneAttachment(C_BaseAnimating *boneAttachment) {
     m_BoneAttachments.FindAndRemove(boneAttachment);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int C_BaseAnimating::GetNumBoneAttachments() {
     return m_BoneAttachments.Count();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_BaseAnimating *C_BaseAnimating::GetBoneAttachment(int i) {
     if (m_BoneAttachments.IsValidIndex(i)) {
         return m_BoneAttachments[i];
@@ -6007,9 +5956,6 @@ C_BaseAnimating *C_BaseAnimating::GetBoneAttachment(int i) {
     return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::DestroyBoneAttachments() {
     while (GetNumBoneAttachments()) {
         C_BaseAnimating *pAttachment = GetBoneAttachment(0);
@@ -6021,9 +5967,6 @@ void C_BaseAnimating::DestroyBoneAttachments() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseAnimating::MoveBoneAttachments(C_BaseAnimating *attachTarget) {
     if (!attachTarget)
         return;

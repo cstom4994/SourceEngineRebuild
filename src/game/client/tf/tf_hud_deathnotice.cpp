@@ -767,9 +767,6 @@ void CTFHudDeathNotice::FireGameEvent( IGameEvent *event )
 	BaseClass::FireGameEvent( event );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFHudDeathNotice::EventIsPlayerDeath( const char* eventName )
 {
 	return FStrEq( eventName, "fish_notice" )

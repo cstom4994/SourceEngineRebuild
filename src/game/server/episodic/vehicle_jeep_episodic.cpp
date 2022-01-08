@@ -84,9 +84,6 @@ BEGIN_DATADESC( CRadarTarget )
 	DEFINE_INPUTFUNC( FIELD_VOID, "Disable",InputDisable ),
 END_DATADESC();
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRadarTarget::Spawn()
 {
 	BaseClass::Spawn();
@@ -96,17 +93,11 @@ void CRadarTarget::Spawn()
 	SetSolid( SOLID_NONE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRadarTarget::InputEnable( inputdata_t &inputdata )
 {
 	m_bDisabled = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRadarTarget::InputDisable( inputdata_t &inputdata )
 {
 	m_bDisabled = true;

@@ -46,9 +46,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_napalm );
 BEGIN_DATADESC( CTFGrenadeNapalm )
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFGrenadeNapalm::EmitGrenade( Vector vecSrc, QAngle vecAngles, Vector vecVel, 
 							        AngularImpulse angImpulse, CBasePlayer *pPlayer, float flTime, int iflags )
 {
@@ -69,9 +66,6 @@ CTFWeaponBaseGrenadeProj *CTFGrenadeNapalm::EmitGrenade( Vector vecSrc, QAngle v
 LINK_ENTITY_TO_CLASS( tf_weapon_grenade_napalm_projectile, CTFGrenadeNapalmProjectile );
 PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_napalm_projectile );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGrenadeNapalmProjectile* CTFGrenadeNapalmProjectile::Create( const Vector &position, const QAngle &angles, 
 																const Vector &velocity, const AngularImpulse &angVelocity, 
 																CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, float timer, int iFlags )
@@ -85,18 +79,12 @@ CTFGrenadeNapalmProjectile* CTFGrenadeNapalmProjectile::Create( const Vector &po
 	return pGrenade;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeNapalmProjectile::Spawn()
 {
 	SetModel( GRENADE_MODEL );
 	BaseClass::Spawn();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeNapalmProjectile::Precache()
 {
 	PrecacheModel( GRENADE_MODEL );
@@ -104,17 +92,11 @@ void CTFGrenadeNapalmProjectile::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeNapalmProjectile::BounceSound( void )
 {
 	EmitSound( "Weapon_Grenade_Nail.Bounce" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeNapalmProjectile::Detonate()
 {
 	if ( ShouldNotDetonate() )

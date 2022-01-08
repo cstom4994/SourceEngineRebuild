@@ -2340,9 +2340,6 @@ void CNPC_CombineDropship::PrescheduleThink( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #define DROPSHIP_WASH_ALTITUDE 1024.0
 
 void CNPC_CombineDropship::DoRotorWash( void )
@@ -2709,9 +2706,6 @@ void CNPC_CombineDropship::Hunt( void )
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_CombineDropship::GatherEnemyConditions( CBaseEntity *pEnemy )
 {
 	BaseClass::GatherEnemyConditions(pEnemy);

@@ -301,9 +301,6 @@ bool CBaseTrigger::PointIsWithin(const Vector &vecPoint) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseTrigger::InitTrigger() {
     SetSolid(GetParent() ? SOLID_VPHYSICS : SOLID_BSP);
     AddSolidFlags(FSOLID_NOT_SOLID);
@@ -558,9 +555,6 @@ END_DATADESC()
 LINK_ENTITY_TO_CLASS(trigger_remove, CTriggerRemove);
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerRemove::Spawn(void) {
     BaseClass::Spawn();
     InitTrigger();
@@ -997,9 +991,6 @@ void CTriggerLook::StartTouch(CBaseEntity *pOther) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerLook::TimeoutThink(void) {
     Trigger(m_hActivator, true);
 }
@@ -2565,9 +2556,6 @@ void CAI_ChangeHintGroup::InputActivate(inputdata_t &inputdata) {
 #define SF_CAMERA_PLAYER_INTERRUPT        64
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CTriggerCamera : public CBaseEntity {
 public:
     DECLARE_CLASS(CTriggerCamera, CBaseEntity);
@@ -2680,9 +2668,6 @@ BEGIN_DATADESC(CTriggerCamera)
 
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerCamera::Spawn(void) {
     BaseClass::Spawn();
 
@@ -2715,9 +2700,6 @@ int CTriggerCamera::UpdateTransmitState() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTriggerCamera::KeyValue(const char *szKeyName, const char *szValue) {
     if (FStrEq(szKeyName, "wait")) {
         m_flWait = atof(szValue);
@@ -2749,9 +2731,6 @@ void CTriggerCamera::InputDisable(inputdata_t &inputdata) {
     Disable();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerCamera::Enable(void) {
     m_state = USE_ON;
 
@@ -2899,9 +2878,6 @@ void CTriggerCamera::Enable(void) {
     DispatchUpdateTransmitState();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerCamera::Disable(void) {
     if (m_hPlayer && m_hPlayer->IsAlive()) {
         if (HasSpawnFlags(SF_CAMERA_PLAYER_NOT_SOLID)) {
@@ -2929,9 +2905,6 @@ void CTriggerCamera::Disable(void) {
     DispatchUpdateTransmitState();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerCamera::Use(CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value) {
     if (!ShouldToggle(useType, m_state))
         return;
@@ -2945,9 +2918,6 @@ void CTriggerCamera::Use(CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerCamera::FollowTarget() {
     if (m_hPlayer == NULL)
         return;
@@ -3140,9 +3110,6 @@ void CTriggerCDAudio::Touch(CBaseEntity *pOther) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerCDAudio::Spawn(void) {
     BaseClass::Spawn();
     InitTrigger();
@@ -3425,9 +3392,6 @@ extern float GetFloorZ(const Vector &origin);
 
 #define WIND_THINK_CONTEXT        "WindThinkContext"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CTriggerWind : public CBaseVPhysicsTrigger {
     DECLARE_CLASS(CTriggerWind, CBaseVPhysicsTrigger);
 public:
@@ -3519,9 +3483,6 @@ void CTriggerWind::Spawn(void) {
     SetContextThink(&CTriggerWind::WindThink, gpGlobals->curtime, WIND_THINK_CONTEXT);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTriggerWind::KeyValue(const char *szKeyName, const char *szValue) {
     // Done here to avoid collision with CBaseEntity's speed key
     if (FStrEq(szKeyName, "Speed")) {
@@ -3992,9 +3953,6 @@ void CBaseVPhysicsTrigger::InputToggle(inputdata_t &inputdata) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseVPhysicsTrigger::InputEnable(inputdata_t &inputdata) {
     if (m_bDisabled) {
         m_bDisabled = false;
@@ -4004,9 +3962,6 @@ void CBaseVPhysicsTrigger::InputEnable(inputdata_t &inputdata) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseVPhysicsTrigger::InputDisable(inputdata_t &inputdata) {
     if (!m_bDisabled) {
         m_bDisabled = true;
@@ -4016,21 +3971,12 @@ void CBaseVPhysicsTrigger::InputDisable(inputdata_t &inputdata) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseVPhysicsTrigger::StartTouch(CBaseEntity *pOther) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseVPhysicsTrigger::EndTouch(CBaseEntity *pOther) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseVPhysicsTrigger::PassesTriggerFilters(CBaseEntity *pOther) {
     if (pOther->GetMoveType() != MOVETYPE_VPHYSICS && !pOther->IsPlayer())
         return false;
@@ -4274,9 +4220,6 @@ void CTriggerVPhysicsMotion::StartTouch(CBaseEntity *pOther) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerVPhysicsMotion::EndTouch(CBaseEntity *pOther) {
     BaseClass::EndTouch(pOther);
 
@@ -4479,9 +4422,6 @@ CTriggerApplyImpulse::CTriggerApplyImpulse() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerApplyImpulse::Spawn() {
     // Convert pushdir from angles to a vector
     Vector vecAbsDir;
@@ -4497,9 +4437,6 @@ void CTriggerApplyImpulse::Spawn() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTriggerApplyImpulse::InputApplyImpulse(inputdata_t &) {
     Vector vecImpulse = m_flForce * m_vecImpulseDir;
     FOR_EACH_VEC(m_hTouchingEntities, i) {

@@ -50,9 +50,6 @@ END_DATADESC()
 
 extern ConVar tf_smoke_bomb_time;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFGrenadeSmokeBomb::EmitGrenade( Vector vecSrc, QAngle vecAngles, Vector vecVel, 
 													 AngularImpulse angImpulse, CBasePlayer *pPlayer, float flTime, int iflags )
 {

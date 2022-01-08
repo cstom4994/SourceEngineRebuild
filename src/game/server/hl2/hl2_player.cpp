@@ -438,9 +438,6 @@ void CHL2_Player::Precache(void) {
     PrecacheScriptSound("HL2Player.BurnPain");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHL2_Player::CheckSuitZoom(void) {
 //#ifndef _XBOX
     //Adrian - No zooming without a suit!
@@ -1185,9 +1182,6 @@ void CHL2_Player::StartZooming(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHL2_Player::StopZooming(void) {
     int iFOV = GetZoomOwnerDesiredFOV(m_hZoomOwner);
 
@@ -1222,9 +1216,6 @@ public:
 
 static CPhysicsPlayerCallback playerCallback;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHL2_Player::InitVCollision(const Vector &vecAbsOrigin, const Vector &vecAbsVelocity) {
     BaseClass::InitVCollision(vecAbsOrigin, vecAbsVelocity);
 
@@ -1568,9 +1559,6 @@ void CHL2_Player::CheatImpulseCommands(int iImpulse) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHL2_Player::SetupVisibility(CBaseEntity *pViewEntity, unsigned char *pvs, int pvssize) {
     BaseClass::SetupVisibility(pViewEntity, pvs, pvssize);
 
@@ -1950,9 +1938,6 @@ bool CHL2_Player::PassesDamageFilter(const CTakeDamageInfo &info) {
     return BaseClass::PassesDamageFilter(info);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHL2_Player::SetFlashlightEnabled(bool bState) {
     m_bFlashlightDisabled = !bState;
 }
@@ -2013,9 +1998,6 @@ void CHL2_Player::OnSquadMemberKilled(inputdata_t &data) {
     MessageEnd();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHL2_Player::NotifyFriendsOfDamage(CBaseEntity *pAttackerEntity) {
     CAI_BaseNPC *pAttacker = pAttackerEntity->MyNPCPointer();
     if (pAttacker) {
@@ -2036,9 +2018,6 @@ void CHL2_Player::NotifyFriendsOfDamage(CBaseEntity *pAttackerEntity) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ConVar test_massive_dmg("test_massive_dmg", "30");
 ConVar test_massive_dmg_clip("test_massive_dmg_clip", "0.5");
 
@@ -2849,9 +2828,6 @@ void CHL2_Player::InputForceDropPhysObjects(inputdata_t &data) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHL2_Player::UpdateClientData(void) {
     if (m_DmgTake || m_DmgSave || m_bitsHUDDamage != m_bitsDamageType) {
         // Comes from inside me if not set

@@ -279,9 +279,6 @@ void ScrollBarSlider::ApplySchemeSettings(IScheme *pScheme) {
     _ScrollBarSliderBorder = pScheme->GetBorder("ButtonBorder");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBarSlider::Paint() {
     int wide, tall;
     GetPaintSize(wide, tall);
@@ -312,9 +309,6 @@ void ScrollBarSlider::Paint() {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBarSlider::PaintBackground() {
 //	BaseClass::PaintBackground();
 
@@ -484,9 +478,6 @@ int ScrollBarSlider::GetRangeWindow() {
     return _rangeWindow;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBarSlider::SetButtonOffset(int buttonOffset) {
     _buttonOffset = buttonOffset;
 }

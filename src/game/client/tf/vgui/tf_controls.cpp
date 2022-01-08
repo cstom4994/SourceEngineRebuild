@@ -1017,9 +1017,6 @@ public:
 
 DECLARE_BUILD_FACTORY( CExScrollingEditablePanel );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CExScrollingEditablePanel::CExScrollingEditablePanel( Panel *pParent, const char *pszName )
 	: EditablePanel( pParent, pszName )
 	, m_nLastScrollValue( 0 )
@@ -1029,15 +1026,9 @@ CExScrollingEditablePanel::CExScrollingEditablePanel( Panel *pParent, const char
 	m_pScrollBar->AddActionSignalTarget( this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CExScrollingEditablePanel::~CExScrollingEditablePanel()
 {}
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CExScrollingEditablePanel::ApplySettings( KeyValues *inResourceData )
 {
 	BaseClass::ApplySettings( inResourceData );
@@ -1052,9 +1043,6 @@ void CExScrollingEditablePanel::ApplySettings( KeyValues *inResourceData )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CExScrollingEditablePanel::OnSizeChanged( int newWide, int newTall )
 {
 	BaseClass::OnSizeChanged( newWide, newTall );
@@ -1081,9 +1069,6 @@ void CExScrollingEditablePanel::OnSizeChanged( int newWide, int newTall )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CExScrollingEditablePanel::PerformLayout()
 {
 	BaseClass::PerformLayout();

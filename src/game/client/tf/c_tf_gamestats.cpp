@@ -246,9 +246,6 @@ void C_CTFGameStats::Shutdown()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_CTFGameStats::Event_LevelInit( void )
 {
 	m_currentMap.Init( engine->GetLevelName(), engine->GetLevelVersion(), 0, 0, GetSteamWorksSGameStatsUploader().GetTimeSinceEpoch() );
@@ -256,9 +253,6 @@ void C_CTFGameStats::Event_LevelInit( void )
 	m_currentSession.m_iMapsPlayed++;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_CTFGameStats::Event_LevelShutdown( float flElapsed )
 {
 	if ( !m_bIsDisconnecting )
@@ -331,9 +325,6 @@ void C_CTFGameStats::FireGameEvent( IGameEvent *event )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_CTFGameStats::Event_RoundActive()
 {
 	m_currentRound.m_iRoundStartTime = GetSteamWorksSGameStatsUploader().GetTimeSinceEpoch();
@@ -341,17 +332,11 @@ void C_CTFGameStats::Event_RoundActive()
 	m_bRoundActive = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_CTFGameStats::Event_RoundEnd( int winningTeam, float roundTime, int fullRound )
 {
 	SW_GameStats_WriteClientRound( winningTeam, fullRound, RE_ROUND_END );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_CTFGameStats::Event_PlayerChangeClass( int userid, int classid )
 {
 	C_TFPlayer *pTFPlayer = C_TFPlayer::GetLocalTFPlayer();
@@ -364,9 +349,6 @@ void C_CTFGameStats::Event_PlayerChangeClass( int userid, int classid )
 	m_currentSession.m_ClassesPlayed.Set( classid );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_CTFGameStats::Event_PlayerHurt( IGameEvent* event /*player_hurt*/ )
 {
 	C_TFPlayer *pTFPlayer = C_TFPlayer::GetLocalTFPlayer();
@@ -430,9 +412,6 @@ void C_CTFGameStats::Event_PlayerHurt( IGameEvent* event /*player_hurt*/ )
 	m_mapWeaponInfo[idx] = info;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_CTFGameStats::Event_PlayerFiredWeapon( C_TFPlayer *pPlayer, bool bCritical )
 {
 	C_TFPlayer *pTFPlayer = C_TFPlayer::GetLocalTFPlayer();

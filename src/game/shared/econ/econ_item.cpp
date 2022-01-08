@@ -2689,9 +2689,6 @@ ENUMSTRINGS_END( eEconItemOrigin )
 
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCrateLootListWrapper::BAttemptCrateSeriesInitialization( const IEconItemInterface *pEconItem )
 {
 	Assert( m_pLootList == NULL );
@@ -2726,9 +2723,6 @@ bool CCrateLootListWrapper::BAttemptCrateSeriesInitialization( const IEconItemIn
 	return m_pLootList != NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCrateLootListWrapper::BAttemptLootListStringInitialization( const IEconItemInterface *pEconItem )
 {
 	Assert( m_pLootList == NULL );
@@ -2747,9 +2741,6 @@ bool CCrateLootListWrapper::BAttemptLootListStringInitialization( const IEconIte
 	return m_pLootList != NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCrateLootListWrapper::BAttemptLineItemInitialization( const IEconItemInterface *pEconItem )
 {
 	Assert( m_pLootList == NULL );

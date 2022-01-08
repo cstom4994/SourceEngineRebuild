@@ -251,9 +251,6 @@ bool CHalloweenPickup::ValidTouch( CBasePlayer *pPlayer )
 	return BaseClass::ValidTouch( pPlayer );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CHalloweenPickup::GetRespawnDelay( void )
 {
 	return TF_HALLOWEEN_PICKUP_RETURN_DELAY;
@@ -289,9 +286,6 @@ CBaseEntity* CHalloweenPickup::Respawn( void )
 	return this;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CHalloweenPickup::ItemCanBeTouchedByPlayer( CBasePlayer *pPlayer )
 {
 	if ( m_flThrowerTouchTime > 0.f && gpGlobals->curtime < m_flThrowerTouchTime )

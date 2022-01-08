@@ -326,9 +326,6 @@ int CWeaponCombatShield::GetShieldState( void )
 	return m_iShieldState;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCombatShield::SetShieldUsable( bool bUsable )
 {
 	// Shutting down!
@@ -346,9 +343,6 @@ void CWeaponCombatShield::SetShieldUsable( bool bUsable )
 	m_bUsable = bUsable;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponCombatShield::ShieldUsable( void )
 {
 	return m_bUsable;
@@ -767,9 +761,6 @@ void CWeaponCombatShield::ViewModelDrawn( C_BaseViewModel *pViewModel )
 	DrawBeams( pViewModel );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCombatShield::InitShieldBeam( void )
 {
 	BeamInfo_t beamInfo;
@@ -840,9 +831,6 @@ void CWeaponCombatShield::InitShieldBeam( void )
 	m_hShieldSpriteMaterial.Init( "sprites/blueflare1", TEXTURE_GROUP_CLIENT_EFFECTS );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCombatShield::InitTeslaBeam( void )
 {
 	BeamInfo_t beamInfo;

@@ -3855,9 +3855,6 @@ void CTFPlayer::RemoveNemesisRelationships()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::Regenerate( bool bRefillHealthAndAmmo /*= true*/ )
 {
 	// We may have been boosted over our max health. If we have, 
@@ -3973,9 +3970,6 @@ void CTFPlayer::Regenerate( bool bRefillHealthAndAmmo /*= true*/ )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::InitClass( void )
 {
 	SetArmorValue( GetPlayerClass()->GetMaxArmor() );
@@ -5575,9 +5569,6 @@ CBaseEntity* CTFPlayer::EntSelectSpawnPoint()
 	return pSpot;
 } 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::SelectSpawnSpotByType( const char *pEntClassName, CBaseEntity* &pSpot )
 {
 	bool bMatchSummary = TFGameRules()->ShowMatchSummary();
@@ -12655,9 +12646,6 @@ void CTFPlayer::DropHealthPack( const CTakeDamageInfo &info, bool bEmpty )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::DropCurrencyPack( CurrencyRewards_t nSize /* = TF_CURRENCY_PACK_SMALL */, int nAmount /*= 0*/, bool bForceDistribute /*= false*/, CBasePlayer* pMoneyMaker /*= NULL*/ )
 {
 	// SMALL, MEDIUM, LARGE packs generate a default value on spawn
@@ -12965,9 +12953,6 @@ void CTFPlayer::RemoveOwnedProjectiles( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::NoteWeaponFired()
 {
 	Assert( m_pCurrentCommand );
@@ -12989,9 +12974,6 @@ void CTFPlayer::NoteWeaponFired()
 // Player state functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CPlayerStateInfo *CTFPlayer::StateLookupInfo( int nState )
 {
 	// This table MUST match the 
@@ -13012,9 +12994,6 @@ CPlayerStateInfo *CTFPlayer::StateLookupInfo( int nState )
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StateEnter( int nState )
 {
 	m_Shared.m_nPlayerState = nState;
@@ -13035,9 +13014,6 @@ void CTFPlayer::StateEnter( int nState )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StateLeave( void )
 {
 	if ( m_pStateInfo && m_pStateInfo->pfnLeaveState )
@@ -13046,18 +13022,12 @@ void CTFPlayer::StateLeave( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StateTransition( int nState )
 {
 	StateLeave();
 	StateEnter( nState );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StateEnterWELCOME( void )
 {
 	PickWelcomeObserverPoint();  
@@ -13182,9 +13152,6 @@ void CTFPlayer::StateThinkWELCOME( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StateEnterACTIVE()
 {
 	SetMoveType( MOVETYPE_WALK );
@@ -13319,9 +13286,6 @@ bool CTFPlayer::SetObserverMode(int mode)
 	return true;	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StateEnterOBSERVER( void )
 {
 	// Always start a spectator session in chase mode
@@ -13411,9 +13375,6 @@ void CTFPlayer::StateThinkOBSERVER()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StateEnterDYING( void )
 {
 	SetMoveType( MOVETYPE_NONE );
@@ -14849,9 +14810,6 @@ void CTFPlayer::RemoveTeleportEffect( void )
 	m_Shared.RemoveCond( TF_COND_TELEPORTED );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StopRagdollDeathAnim( void )
 {
 	CTFRagdoll *pRagdoll = dynamic_cast<CTFRagdoll*>( m_hRagdoll.Get() );
@@ -14861,9 +14819,6 @@ void CTFPlayer::StopRagdollDeathAnim( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::CreateRagdollEntity( void )
 {
 	CreateRagdollEntity( false, false, false, false, false, false, false, false );

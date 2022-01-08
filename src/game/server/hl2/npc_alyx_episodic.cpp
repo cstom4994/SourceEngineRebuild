@@ -521,9 +521,6 @@ void CNPC_Alyx::InputGiveEMP( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 struct ReadinessTransition_t
 {
@@ -1593,9 +1590,6 @@ bool CNPC_Alyx::IsCoverPosition( const Vector &vecThreat, const Vector &vecPosit
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Activity CNPC_Alyx::NPC_TranslateActivity( Activity activity )
 {
 	activity = BaseClass::NPC_TranslateActivity( activity );
@@ -2221,9 +2215,6 @@ void CNPC_Alyx::OnStateChange( NPC_STATE OldState, NPC_STATE NewState )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Alyx::TraceAttack( const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator )
 {
 	BaseClass::TraceAttack( info, vecDir, ptr, pAccumulator );

@@ -2011,9 +2011,6 @@ void C_OP_RenderRope::Render( IMatRenderContext *pRenderContext, CParticleCollec
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_OP_RenderRope::RenderUnsorted( CParticleCollection *pParticles, void *pContext, IMatRenderContext *pRenderContext, CMeshBuilder &meshBuilder, int nVertexOffset, int nFirstParticle, int nParticleCount ) const
 {
 	IMaterial *pMaterial = pParticles->m_pDef->GetMaterial();

@@ -78,9 +78,6 @@ int CAI_BaseNPC::GetActivityID(const char* actName)
 
 #define ADD_ACTIVITY_TO_SR(activityname) AddActivityToSR(#activityname,activityname)
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::InitDefaultActivitySR(void) 
 {
 	ADD_ACTIVITY_TO_SR( ACT_INVALID );

@@ -150,9 +150,6 @@ float CRender3D::LightPlane(Vector &Normal) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CRender3D::CRender3D(void) {
     memset(&m_WinData, 0, sizeof(m_WinData));
     m_WinData.bAllowSoft = true;
@@ -191,9 +188,6 @@ CRender3D::CRender3D(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CRender3D::~CRender3D(void) {
     if (m_pDropCamera != NULL) {
         delete m_pDropCamera;
@@ -572,9 +566,6 @@ static ITexture *SetRenderTargetNamed(int nWhichTarget, char const *pRtName) {
     return dest_rt;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRender3D::StartRenderFrame(void) {
     CRender::StartRenderFrame();
 
@@ -1014,9 +1005,6 @@ void CRender3D::SendLightList(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRender3D::EndRenderFrame(void) {
     CRender::EndRenderFrame();
 
@@ -1376,9 +1364,6 @@ void CRender3D::RenderWorldAxes() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRender3D::Render(void) {
     CMapDoc *pDoc = m_pView->GetMapDoc();
     bool view_changed = false;
@@ -1887,9 +1872,6 @@ void CRender3D::RenderSphere(Vector const &vCenter, float flRadius, int nTheta, 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRender3D::RenderWireframeSphere(Vector const &vCenter, float flRadius, int nTheta, int nPhi,
                                       unsigned char chRed, unsigned char chGreen, unsigned char chBlue) {
     PushRenderMode(RENDER_MODE_WIREFRAME);
@@ -2282,9 +2264,6 @@ void CRender3D::RenderTool(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRender3D::RenderTree(void) {
     CMapWorld *pWorld = m_pView->GetMapDoc()->GetMapWorld();
     if (pWorld == NULL) {
@@ -2342,9 +2321,6 @@ bool CRender3D::NeedsOverlay() const {
            (m_eCurrentRenderMode == RENDER_MODE_TEXTURED);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRender3D::ShutDown(void) {
     MaterialSystemInterface()->RemoveView(m_WinData.hWnd);
 

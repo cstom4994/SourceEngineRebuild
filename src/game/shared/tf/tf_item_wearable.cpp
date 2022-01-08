@@ -739,9 +739,6 @@ bool CTFWearable::CanEquip( CBaseEntity *pOther )
 }
 
 #ifdef CLIENT_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWearable::OnDataChanged( DataUpdateType_t updateType )
 {
 	BaseClass::OnDataChanged( updateType );
@@ -754,9 +751,6 @@ void CTFWearable::OnDataChanged( DataUpdateType_t updateType )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWearable::FireGameEvent( IGameEvent *event )
 {
 	const char *pszEventName = event->GetName();

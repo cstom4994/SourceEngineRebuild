@@ -250,9 +250,6 @@ void CTFStorePageBase::UpdateFilterComboBox( void )
 	pKeyValues->deleteThis();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStorePageBase::OnTick( void )
 {
 	BaseClass::OnTick();

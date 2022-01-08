@@ -705,9 +705,6 @@ void CTFTeamMenu::ActivateSelectIconHint( int focus_group_number )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTeamMenu::SetHighlanderTeamsFullPanels( bool bTeamsFull, bool bForce /* = false */ )
 {
 	if ( m_pTeamsFullLabel )
@@ -897,9 +894,6 @@ void CTFTeamMenu::OnThink()
 	BaseClass::OnThink();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTeamMenu::FireGameEvent( IGameEvent *event )
 {
 	// when we are changing levels

@@ -84,33 +84,21 @@ void CChangeClassZone::EndTouch( CBaseEntity *pOther )
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CChangeClassZone::InputEnable( inputdata_t &inputdata )
 {
 	SetDisabled( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CChangeClassZone::InputDisable( inputdata_t &inputdata )
 {
 	SetDisabled( true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CChangeClassZone::IsDisabled( void )
 {
 	return m_bDisabled;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CChangeClassZone::InputToggle( inputdata_t &inputdata )
 {
 	if ( m_bDisabled )
@@ -123,9 +111,6 @@ void CChangeClassZone::InputToggle( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CChangeClassZone::SetDisabled( bool bDisabled )
 {
 	m_bDisabled = bDisabled;

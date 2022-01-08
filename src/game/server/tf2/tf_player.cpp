@@ -3475,9 +3475,6 @@ bool CBaseTFPlayer::ClearClientRagdoll( bool moveplayertofinalspot )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseTFPlayer::CheckRagdollToStand( trace_t &trace )
 {
 	Assert( GetPlayerClass() != NULL );

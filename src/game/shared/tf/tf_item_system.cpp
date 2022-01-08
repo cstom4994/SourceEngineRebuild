@@ -30,9 +30,6 @@ item_definition_index_t CTFItemSystem::GenerateBaseItem( baseitemcriteria_t *pCr
 	return iChosenItem;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFItemSystem *TFItemSystem( void )
 {
 	CEconItemSystem *pItemSystem = ItemSystem();

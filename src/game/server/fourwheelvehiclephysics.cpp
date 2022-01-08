@@ -419,25 +419,16 @@ void CFourWheelVehiclePhysics::SetThrottle( float flThrottle )
 	m_controls.throttle = flThrottle;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::SetMaxThrottle( float flMaxThrottle )
 {
 	m_maxThrottle = flMaxThrottle;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::SetMaxReverseThrottle( float flMaxThrottle )
 {
 	m_flMaxRevThrottle = flMaxThrottle;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::SetSteering( float flSteering, float flSteeringRate )
 {
 	if ( !flSteeringRate )
@@ -450,9 +441,6 @@ void CFourWheelVehiclePhysics::SetSteering( float flSteering, float flSteeringRa
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::SetSteeringDegrees( float flDegrees )
 {
 	vehicleparams_t &vehicleParams = m_pVehicle->GetVehicleParamsForChange();
@@ -460,17 +448,11 @@ void CFourWheelVehiclePhysics::SetSteeringDegrees( float flDegrees )
 	vehicleParams.steering.degreesFast = flDegrees;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::SetAction( float flAction )
 {
 	m_actionSpeed = flAction;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::TurnOn( )
 {
 	if ( IsEngineDisabled() )
@@ -483,9 +465,6 @@ void CFourWheelVehiclePhysics::TurnOn( )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::TurnOff( )
 {
 	ResetControls();
@@ -497,9 +476,6 @@ void CFourWheelVehiclePhysics::TurnOff( )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::SetBoost( float flBoost )
 {
 	if ( !IsEngineDisabled() )
@@ -522,9 +498,6 @@ bool CFourWheelVehiclePhysics::UpdateBooster( void )
 	return ( retval > 0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::SetHasBrakePedal( bool bHasBrakePedal )
 {
 	m_controls.bHasBrakePedal = bHasBrakePedal;
@@ -902,9 +875,6 @@ void CFourWheelVehiclePhysics::SetHandbrake( bool bBrake )
 	m_controls.handbrake = bBrake;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::EnableMotion( void )
 {
 	for( int iWheel = 0; iWheel < m_wheelCount; ++iWheel )
@@ -913,9 +883,6 @@ void CFourWheelVehiclePhysics::EnableMotion( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::DisableMotion( void )
 {
 	Vector vecZero( 0.0f, 0.0f, 0.0f );
@@ -1398,9 +1365,6 @@ void CFourWheelVehiclePhysics::UpdateDriverControls( CUserCmd *cmd, float flFram
 	m_pOuterServerVehicle->SoundUpdate( params );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFourWheelVehiclePhysics::IsBoosting( void )
 {
 	const vehicleparams_t *pVehicleParams = &m_pVehicle->GetVehicleParams();
@@ -1414,9 +1378,6 @@ bool CFourWheelVehiclePhysics::IsBoosting( void )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFourWheelVehiclePhysics::SetDisableEngine( bool bDisable )
 {
 	// Set the engine state.

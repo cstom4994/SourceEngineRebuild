@@ -2590,9 +2590,6 @@ void CNPC_Manhack::SoundInit( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Manhack::StopLoopingSounds(void)
 {
 	BaseClass::StopLoopingSounds();

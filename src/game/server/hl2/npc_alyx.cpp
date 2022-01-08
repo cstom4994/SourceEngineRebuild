@@ -196,9 +196,6 @@ void CNPC_Alyx::PrescheduleThink(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Activity CNPC_Alyx::NPC_TranslateActivity(Activity activity) {
     activity = BaseClass::NPC_TranslateActivity(activity);
     if (activity == ACT_IDLE && (m_NPCState == NPC_STATE_COMBAT || m_NPCState == NPC_STATE_ALERT)) {
@@ -210,9 +207,6 @@ Activity CNPC_Alyx::NPC_TranslateActivity(Activity activity) {
     return activity;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void
 CNPC_Alyx::TraceAttack(const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator) {

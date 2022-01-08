@@ -18,9 +18,6 @@
 #define SHUFFLE_TIME 5.f
 
 float CInputStringForItemBackpackOverlayDialog::m_sflNextShuffleTime = 0.f;
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CInputStringForItemBackpackOverlayDialog::CInputStringForItemBackpackOverlayDialog( vgui::Panel *pParent, CEconItemView *pItem, CEconItemView *pChosenKey )
 	: vgui::EditablePanel( pParent, "InputStringForItemBackpackOverlayDialog" )
 	, m_Item( *pItem )

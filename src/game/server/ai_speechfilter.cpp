@@ -48,9 +48,6 @@ void CAI_SpeechFilter::Activate( void )
 	PopulateSubjectList( m_bDisabled );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_SpeechFilter::UpdateOnRemove(void)
 {
 	gEntList.RemoveListenerEntity( this );

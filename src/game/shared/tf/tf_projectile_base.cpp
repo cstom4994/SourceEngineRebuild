@@ -358,9 +358,6 @@ C_LocalTempEntity *ClientsideProjectileCallback( const CEffectData &data, float 
 //
 #else
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 unsigned int CTFBaseProjectile::PhysicsSolidMaskForEntity( void ) const
 { 
 	return BaseClass::PhysicsSolidMaskForEntity() | CONTENTS_HITBOX;

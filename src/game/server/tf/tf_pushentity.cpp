@@ -64,9 +64,6 @@ CTFPhysicsPushEntities::~CTFPhysicsPushEntities()
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPhysicsPushEntities::SpeculativelyCheckRotPush( const RotatingPushMove_t &rotPushMove, CBaseEntity *pRoot )
 {
 	// Only do this for "payload" or "escort" maps.
@@ -144,9 +141,6 @@ bool CTFPhysicsPushEntities::SpeculativelyCheckLinearPush( const Vector &vecAbsP
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPhysicsPushEntities::RotationPushTFPlayer( PhysicsPushedInfo_t &info, const Vector &vecAbsPush, const RotatingPushMove_t &rotPushMove, bool bRotationalPush )
 {
 	// Clear out the collision entity so that if we early out we don't send bogus collision data to the physics system.
@@ -225,9 +219,6 @@ bool CTFPhysicsPushEntities::RotationPushTFPlayer( PhysicsPushedInfo_t &info, co
 	return RotationCheckPush( info );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPhysicsPushEntities::RotationCheckPush( PhysicsPushedInfo_t &info )
 {
 	// Get the blocking and pushing entities.
@@ -268,9 +259,6 @@ bool CTFPhysicsPushEntities::RotationCheckPush( PhysicsPushedInfo_t &info )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPhysicsPushEntities::LinearPushTFPlayer( PhysicsPushedInfo_t &info, const Vector &vecAbsPush, bool bRotationalPush )
 {
 	// Clear out the collision entity so that if we early out we don't send bogus collision data to the physics system.
@@ -320,9 +308,6 @@ bool CTFPhysicsPushEntities::LinearPushTFPlayer( PhysicsPushedInfo_t &info, cons
 	return LinearCheckPush( info );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPhysicsPushEntities::LinearCheckPush( PhysicsPushedInfo_t &info )
 {
 	// Get the blocking and pushing entities.
@@ -359,9 +344,6 @@ bool CTFPhysicsPushEntities::LinearCheckPush( PhysicsPushedInfo_t &info )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPhysicsPushEntities::IsPlayerAABBIntersetingPusherOBB( CBaseEntity *pEntity, CBaseEntity *pRootEntity )
 {
 	// Get the player.

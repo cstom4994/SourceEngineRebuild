@@ -129,9 +129,6 @@ bool CTFPlayerClassShared::CustomModelHasChanged( void )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef STAGING_ONLY
 ConVar tf_player_use_female_models( "tf_player_use_female_models", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "For testing. Appends '_female' to the model filename loaded" );
 #endif

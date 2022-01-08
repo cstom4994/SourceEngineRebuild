@@ -455,9 +455,6 @@ void CNPC_VehicleDriver::StartTask( const Task_t *pTask )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_VehicleDriver::RunTask( const Task_t *pTask )
 {
 	switch( pTask->iTask )

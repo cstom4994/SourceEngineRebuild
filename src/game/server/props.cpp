@@ -151,9 +151,6 @@ float GetBreakableDamage(const CTakeDamageInfo &inputInfo, IBreakableWithPropDat
 //=============================================================================================================
 // BASE PROP
 //=============================================================================================================
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseProp::Spawn(void) {
     char *szModel = (char *) STRING(GetModelName());
     if (!szModel || !*szModel) {
@@ -204,9 +201,6 @@ void CBaseProp::Spawn(void) {
     SetCycle(0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseProp::Precache(void) {
     if (GetModelName() == NULL_STRING) {
         Msg("%s at (%.3f, %.3f, %.3f) has no model name!\n", GetClassname(), GetAbsOrigin().x, GetAbsOrigin().y,
@@ -226,9 +220,6 @@ void CBaseProp::Precache(void) {
     BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseProp::Activate(void) {
     BaseClass::Activate();
 
@@ -308,9 +299,6 @@ int CBaseProp::ParsePropData(void) {
     return iResult;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseProp::DrawDebugGeometryOverlays(void) {
     BaseClass::DrawDebugGeometryOverlays();
 
@@ -737,9 +725,6 @@ CBreakableProp::CBreakableProp() {
     m_bUsePuntSound = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBreakableProp::Spawn() {
     // Starts out as the default fade scale value
     m_flDefaultFadeScale = m_flFadeScale;
@@ -1036,9 +1021,6 @@ int CBreakableProp::OnTakeDamage(const CTakeDamageInfo &inputInfo) {
     return ret;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBreakableProp::Event_Killed(const CTakeDamageInfo &info) {
     IPhysicsObject *pPhysics = VPhysicsGetObject();
     if (pPhysics && !pPhysics->IsMoveable()) {
@@ -1336,9 +1318,6 @@ void CBreakableProp::CreateFlare( float flLifetime )
 }
 #endif // HL2_EPISODIC
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBreakableProp::OnPhysGunDrop(CBasePlayer *pPhysGunUser, PhysGunDrop_t Reason) {
     SetContextThink(&CBreakableProp::RampToDefaultFadeScale, gpGlobals->curtime + 2.0f, s_pFadeScaleThink);
 
@@ -1373,9 +1352,6 @@ CBasePlayer *CBreakableProp::HasPhysicsAttacker(float dt) {
     return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBreakableProp::BreakThink(void) {
     CTakeDamageInfo info;
     info.SetAttacker(this);
@@ -1395,9 +1371,6 @@ void CBreakableProp::PlayPuntSound() {
     EmitSound(STRING(m_iszPuntSound));
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBreakableProp::Precache() {
     m_iNumBreakableChunks = PropBreakablePrecacheAll(GetModelName());
 
@@ -1643,9 +1616,6 @@ IMPLEMENT_SERVERCLASS_ST(CDynamicProp, DT_DynamicProp)
                     SendPropBool(SENDINFO(m_bUseHitboxesForRenderBox)),
 END_SEND_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CDynamicProp::CDynamicProp() {
     m_nPendingSequence = -1;
     if (g_pGameRules->IsMultiplayer()) {
@@ -1729,9 +1699,6 @@ void CDynamicProp::Spawn() {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDynamicProp::OnRestore(void) {
     BaseClass::OnRestore();
 
@@ -1751,9 +1718,6 @@ void CDynamicProp::BoneFollowerHierarchyChanged() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDynamicProp::OverridePropdata(void) {
     return (FClassnameIs(this, "prop_dynamic_override"));
 }
@@ -1856,9 +1820,6 @@ IPhysicsObject *CDynamicProp::GetRootPhysicsObjectForBreak() {
     return BaseClass::GetRootPhysicsObjectForBreak();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDynamicProp::UpdateOnRemove(void) {
     m_BoneFollowerManager.DestroyBoneFollowers();
     BaseClass::UpdateOnRemove();
@@ -1889,9 +1850,6 @@ void CDynamicProp::HandleAnimEvent(animevent_t *pEvent) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDynamicProp::NotifyPositionChanged(CBaseEntity *pEntity) {
     Assert(pEntity == this);
     m_BoneFollowerManager.UpdateBoneFollowers(this);
@@ -1981,9 +1939,6 @@ void CDynamicProp::InputSetDefaultAnimation(inputdata_t &inputdata) {
     m_iszDefaultAnim = inputdata.value.StringID();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDynamicProp::InputSetPlaybackRate(inputdata_t &inputdata) {
     SetPlaybackRate(inputdata.value.Float());
 }
@@ -2228,9 +2183,6 @@ void CPhysicsProp::Spawn() {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysicsProp::Precache(void) {
     if (GetModelName() == NULL_STRING) {
         Msg("%s at (%.3f, %.3f, %.3f) has no model name!\n", GetClassname(), GetAbsOrigin().x, GetAbsOrigin().y,
@@ -2242,9 +2194,6 @@ void CPhysicsProp::Precache(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CPhysicsProp::CreateVPhysics() {
     // Create the object in the physics system
     bool asleep = HasSpawnFlags(SF_PHYSPROP_START_ASLEEP) ? true : false;
@@ -2326,9 +2275,6 @@ bool CPhysicsProp::CanBePickedUpByPhyscannon(void) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CPhysicsProp::OverridePropdata(void) {
     return (FClassnameIs(this, "prop_physics_override"));
 }
@@ -2375,9 +2321,6 @@ void CPhysicsProp::InputDisableFloating(inputdata_t &inputdata) {
     PhysEnableFloating(VPhysicsGetObject(), false);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysicsProp::EnableMotion(void) {
     IPhysicsObject *pPhysicsObject = VPhysicsGetObject();
     if (pPhysicsObject) {
@@ -2398,9 +2341,6 @@ void CPhysicsProp::EnableMotion(void) {
     CheckRemoveRagdolls();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysicsProp::OnPhysGunPickup(CBasePlayer *pPhysGunUser, PhysGunPickup_t reason) {
     BaseClass::OnPhysGunPickup(pPhysGunUser, reason);
 
@@ -2433,9 +2373,6 @@ void CPhysicsProp::OnPhysGunPickup(CBasePlayer *pPhysGunUser, PhysGunPickup_t re
     CheckRemoveRagdolls();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysicsProp::OnPhysGunDrop(CBasePlayer *pPhysGunUser, PhysGunDrop_t Reason) {
     BaseClass::OnPhysGunDrop(pPhysGunUser, Reason);
 
@@ -2494,9 +2431,6 @@ bool CPhysicsProp::GetPropDataAngles(const char *pKeyName, QAngle &vecAngles) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CPhysicsProp::GetCarryDistanceOffset(void) {
     KeyValues *modelKeyValues = new KeyValues("");
     if (modelKeyValues->LoadFromBuffer(modelinfo->GetModelName(GetModel()),
@@ -2513,9 +2447,6 @@ float CPhysicsProp::GetCarryDistanceOffset(void) {
     return 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CPhysicsProp::ObjectCaps() {
     int caps = BaseClass::ObjectCaps() | FCAP_WCEDIT_POSITION;
 
@@ -2579,9 +2510,6 @@ void CPhysicsProp::VPhysicsUpdate(IPhysicsObject *pPhysics) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysicsProp::ClearFlagsThink(void) {
     // collision may have destroyed the physics object, recheck
     if (VPhysicsGetObject()) {
@@ -2626,9 +2554,6 @@ void CPhysicsProp::ComputeEnablingImpulse(int index, gamevcollisionevent_t *pEve
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysicsProp::VPhysicsCollision(int index, gamevcollisionevent_t *pEvent) {
     BaseClass::VPhysicsCollision(index, pEvent);
 
@@ -2710,9 +2635,6 @@ void CPhysicsProp::VPhysicsCollision(int index, gamevcollisionevent_t *pEvent) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CPhysicsProp::OnTakeDamage(const CTakeDamageInfo &info) {
     // note: if motion is disabled, OnTakeDamage can't apply physics force
     int ret = BaseClass::OnTakeDamage(info);
@@ -3280,9 +3202,6 @@ CBasePropDoor::CBasePropDoor(void) {
     m_hMaster = NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePropDoor::Spawn() {
     BaseClass::Spawn();
 
@@ -3334,9 +3253,6 @@ int CBasePropDoor::ObjectCaps() {
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePropDoor::Precache(void) {
     BaseClass::Precache();
 
@@ -3344,9 +3260,6 @@ void CBasePropDoor::Precache(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePropDoor::RegisterPrivateActivities(void) {
     static bool bRegistered = false;
 
@@ -3358,9 +3271,6 @@ void CBasePropDoor::RegisterPrivateActivities(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePropDoor::Activate(void) {
     BaseClass::Activate();
 
@@ -3396,9 +3306,6 @@ void CBasePropDoor::Activate(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePropDoor::HandleAnimEvent(animevent_t *pEvent) {
     // Opening is called here via an animation event if the open sequence has one,
     // otherwise it is called immediately when the open sequence is set.
@@ -3412,9 +3319,6 @@ void CBasePropDoor::HandleAnimEvent(animevent_t *pEvent) {
 #define ASSIGN_STRING_IF_NULL(str1, str2) \
     if ( ( str1 ) == NULL_STRING ) { ( str1 ) = ( str2 ); }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePropDoor::CalcDoorSounds() {
     ErrorIfNot(GetModel() != NULL,
                ("prop_door with no model at %.2f %.2f %.2f\n", GetAbsOrigin().x, GetAbsOrigin().y, GetAbsOrigin().z));
@@ -4107,9 +4011,6 @@ void CBasePropDoor::EndBlocked(void) {
     OnEndBlocked();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePropDoor::OnEndBlocked(void) {
     if (m_bFirstBlocked)
         return;
@@ -4384,9 +4285,6 @@ void UTIL_ComputeAABBForBounds(const Vector &mins1, const Vector &maxs1, const V
     (*destMaxs)[2] = MAX(maxs1[2], maxs2[2]);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropDoorRotating::Spawn() {
     // Doors are built closed, so save the current angles as the closed angles.
     m_angRotationClosed = GetLocalAngles();
@@ -4484,9 +4382,6 @@ doorCheck_e CPropDoorRotating::GetOpenState(void) {
     return (m_angGoal == m_angRotationOpenForward) ? DOOR_CHECK_FORWARD : DOOR_CHECK_BACKWARD;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropDoorRotating::OnDoorOpened(void) {
     if (m_hDoorBlocker != NULL) {
         // Allow passage through this blocker while open
@@ -4499,9 +4394,6 @@ void CPropDoorRotating::OnDoorOpened(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropDoorRotating::OnDoorClosed(void) {
     if (m_hDoorBlocker != NULL) {
         // Destroy the blocker that was preventing NPCs from getting in our way.
@@ -4580,9 +4472,6 @@ CPropDoorRotating::CalculateDoorVolume(QAngle closedAngles, QAngle openAngles, V
     *destMaxs -= GetAbsOrigin();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropDoorRotating::OnRestore(void) {
     BaseClass::OnRestore();
 
@@ -4718,9 +4607,6 @@ void CPropDoorRotating::AngularMove(const QAngle &vecDestAngle, float flSpeed) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropDoorRotating::BeginOpening(CBaseEntity *pOpenAwayFrom) {
     // Determine the direction to open.
     QAngle angOpen = m_angRotationOpenForward;
@@ -4811,9 +4697,6 @@ void CPropDoorRotating::BeginOpening(CBaseEntity *pOpenAwayFrom) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropDoorRotating::BeginClosing(void) {
     if (m_hDoorBlocker != NULL) {
         // Become solid again unless we're already being blocked
@@ -4830,9 +4713,6 @@ void CPropDoorRotating::BeginClosing(void) {
     AngularMove(m_angRotationClosed, m_flSpeed);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropDoorRotating::DoorStop(void) {
     SetLocalAngularVelocity(vec3_angle);
     SetMoveDoneTime(-1);

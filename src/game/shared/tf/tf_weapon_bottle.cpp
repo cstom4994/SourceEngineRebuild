@@ -81,9 +81,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_stickbomb );
 // Weapon Bottle functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFBottle::CTFBottle()
 {
 }

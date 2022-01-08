@@ -31,9 +31,6 @@ ConVar	vehicle_battering_ram_mindamagevel( "vehicle_battering_ram_mindamagevel",
 ConVar	vehicle_battering_ram_maxdamagevel( "vehicle_battering_ram_maxdamagevel","260", FCVAR_NONE, "Battering ram velocity for max damage" );
 ConVar  vehicle_battering_ram_impact_time( "vehicle_battering_ram_impact_time", "1.0", FCVAR_NONE, "Battering ram impact wait time." );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CVehicleBatteringRam::CVehicleBatteringRam()
 {
 }

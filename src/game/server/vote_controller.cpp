@@ -178,9 +178,6 @@ private:
 
 CVoteControllerSystem VoteControllerSystem( "CVoteControllerSystem" );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CommandListIssues( void )
 {
 	CBasePlayer *commandIssuer = UTIL_GetCommandClient();
@@ -191,9 +188,6 @@ void CommandListIssues( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ConCommand ListIssues("listissues", CommandListIssues, "List all the issues that can be voted on.", 0);
 
 //-----------------------------------------------------------------------------
@@ -211,9 +205,6 @@ int GetVoterTeam( CBaseEntity *pEntity )
 	return iTeam;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CON_COMMAND( callvote, "Start a vote on an issue." )
 {
 	if ( !g_voteController )
@@ -267,9 +258,6 @@ CON_COMMAND( callvote, "Start a vote on an issue." )
 	g_voteController->CreateVote( pVoteCaller->entindex(), arg2, arg3 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CVoteController::~CVoteController()
 {
 	g_voteController = NULL;
@@ -280,9 +268,6 @@ CVoteController::~CVoteController()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoteController::ResetData( void )
 {
 	m_iActiveIssueIndex = INVALID_ISSUE;
@@ -308,9 +293,6 @@ void CVoteController::ResetData( void )
 	m_pendingVoteParams.Reset();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoteController::Spawn( void )
 {
 	ResetData();
@@ -325,26 +307,17 @@ void CVoteController::Spawn( void )
 	g_voteController = this;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CVoteController::UpdateTransmitState( void )
 {
 	// ALWAYS transmit to all clients.
 	return SetTransmitState( FL_EDICT_ALWAYS );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoteController::IsVoteSystemEnabled( void )
 {
 	return sv_allow_votes.GetBool();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoteController::CanTeamCastVote( int iTeam ) const
 {
 	if ( m_iOnlyTeamToVote == TEAM_UNASSIGNED )
@@ -691,9 +664,6 @@ void CVoteController::VoteChoice_Increment( int nVoteChoice )
 	m_nVoteOptionCount.Set( nVoteChoice, ++nValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoteController::VoteChoice_Decrement( int nVoteChoice )
 {
 	if ( nVoteChoice < VOTE_OPTION1 || nVoteChoice > VOTE_OPTION5 )
@@ -703,9 +673,6 @@ void CVoteController::VoteChoice_Decrement( int nVoteChoice )
 	m_nVoteOptionCount.Set( nVoteChoice, --nValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoteController::VoteControllerThink( void )
 {
 	// This will stall all voting until the GC answers, or we time-out.  Only Kick does this (sometimes).
@@ -843,9 +810,6 @@ void CVoteController::CheckForEarlyVoteClose( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoteController::IsValidVoter( CBasePlayer *pWhom )
 {
 	if ( !pWhom  )
@@ -888,17 +852,11 @@ bool CVoteController::IsValidVoter( CBasePlayer *pWhom )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoteController::RegisterIssue( CBaseIssue *pszNewIssue )
 {
 	m_potentialIssues.AddToTail( pszNewIssue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoteController::ListIssues( CBasePlayer *pForWhom )
 {
 	if ( !IsVoteSystemEnabled() )
@@ -1085,9 +1043,6 @@ CBaseIssue::CBaseIssue( const char *pszTypeString )
 	g_voteController->RegisterIssue( this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseIssue::~CBaseIssue()
 {
 	for ( int index = 0; index < m_FailedVotes.Count(); index++ )
@@ -1097,41 +1052,26 @@ CBaseIssue::~CBaseIssue()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CBaseIssue::GetTypeString( void )
 {
 	return m_szTypeString;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CBaseIssue::GetDetailsString( void )
 {
 	return m_szDetailsString;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseIssue::SetIssueDetails( const char *pszDetails )
 {
 	V_strcpy_safe( m_szDetailsString, pszDetails );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseIssue::IsTeamRestrictedVote( void )
 {
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CBaseIssue::GetVotePassedString( void )
 {
 	return "Unknown vote passed.";
@@ -1174,17 +1114,11 @@ void CBaseIssue::OnVoteFailed( int iEntityHoldingVote )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseIssue::CanTeamCallVote( int iTeam ) const
 {
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseIssue::CanCallVote( int iEntIndex, const char *pszDetails, vote_create_failed_t &nFailCode, int &nTime )
 {
 	// Automated server vote - don't bother testing against it
@@ -1255,9 +1189,6 @@ bool CBaseIssue::CanCallVote( int iEntIndex, const char *pszDetails, vote_create
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CBaseIssue::CountPotentialVoters( void )
 {
 	int nTotalPlayers = 0;
@@ -1277,25 +1208,16 @@ int CBaseIssue::CountPotentialVoters( void )
 	return nTotalPlayers;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CBaseIssue::GetNumberVoteOptions( void )
 {
 	return 2;  // The default issue is Yes/No (so 2), but it can be anywhere between 1 and MAX_VOTE_COUNT
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseIssue::IsYesNoVote( void )
 {
 	return true;  // Default
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseIssue::SetYesNoVoteCount( int iNumYesVotes, int iNumNoVotes, int iNumPotentialVotes )
 {
 	m_iNumYesVotes = iNumYesVotes;
@@ -1303,9 +1225,6 @@ void CBaseIssue::SetYesNoVoteCount( int iNumYesVotes, int iNumNoVotes, int iNumP
 	m_iNumPotentialVotes = iNumPotentialVotes;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseIssue::ListStandardNoArgCommand( CBasePlayer *forWhom, const char *issueString )
 {
 	ClientPrint( forWhom, HUD_PRINTCONSOLE, "callvote %s1\n", issueString );

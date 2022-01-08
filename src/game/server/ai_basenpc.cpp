@@ -7152,9 +7152,6 @@ void CAI_BaseNPC::InitRelationshipTable(void)
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::AddRelationship( const char *pszRelationship, CBaseEntity *pActivator )
 {
 	// Parse the keyvalue data
@@ -7475,9 +7472,6 @@ void CAI_BaseNPC::RemoveMemory( void )
 	delete m_pEnemies;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::TaskComplete(  bool fIgnoreSetFailedCondition )
 {
 	EndTaskOverlay();
@@ -11410,9 +11404,6 @@ CAI_BaseNPC::~CAI_BaseNPC(void)
 	delete m_pTacticalServices;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::UpdateOnRemove(void)
 {
 	if ( !m_bDidDeathCleanup )
@@ -11533,9 +11524,6 @@ CAI_Pathfinder *CAI_BaseNPC::CreatePathfinder()
 	return new CAI_Pathfinder( this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::InputSetRelationship( inputdata_t &inputdata )
 {
 	AddRelationship( inputdata.value.String(), inputdata.pActivator );
@@ -11552,9 +11540,6 @@ void CAI_BaseNPC::InputSetEnemyFilter( inputdata_t &inputdata )
 	m_hEnemyFilter = dynamic_cast<CBaseFilter*>(pFilter);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::InputSetHealth( inputdata_t &inputdata )
 {
 	int iNewHealth = inputdata.value.Int();
@@ -11577,9 +11562,6 @@ void CAI_BaseNPC::InputBeginRappel( inputdata_t &inputdata )
 	BeginRappel();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::InputSetSquad( inputdata_t &inputdata )
 {
 	if ( !( CapabilitiesGet() & bits_CAP_SQUAD ) )
@@ -11605,9 +11587,6 @@ void CAI_BaseNPC::InputSetSquad( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::InputWake( inputdata_t &inputdata )
 {
 	Wake();
@@ -11630,9 +11609,6 @@ void CAI_BaseNPC::InputWake( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_BaseNPC::InputForgetEntity( inputdata_t &inputdata )
 {
 	const char *pszEntityToForget = inputdata.value.String();

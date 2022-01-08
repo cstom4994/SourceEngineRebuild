@@ -46,9 +46,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_mechanical_arm );
 // CTFMechanicalArm
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFMechanicalArm::CTFMechanicalArm()
 {
 #ifdef CLIENT_DLL
@@ -92,9 +89,6 @@ void CTFMechanicalArm::Precache()
 	PrecacheParticleSystem( "dxhr_arm_impact" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFMechanicalArm::ShockAttack( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -511,9 +505,6 @@ int CTFMechanicalArm::GetAmmoPerShot( void )
 	return 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFMechanicalArm::UpdateBodygroups( CBaseCombatCharacter* pOwner, int iState )
 {
 	if ( !pOwner )

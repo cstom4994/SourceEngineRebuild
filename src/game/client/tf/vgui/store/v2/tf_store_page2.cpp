@@ -505,9 +505,6 @@ void CTFStorePage2::OnTextChanged( KeyValues *data )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStorePage2::GetFiltersForDef( GameItemDefinition_t *pDef, CUtlVector<int> *pVecFilters )
 {
 	BaseClass::GetFiltersForDef( pDef, pVecFilters );
@@ -767,9 +764,6 @@ void CTFStorePage2::UpdateFilterComboBox( void )
 	BaseClass::UpdateFilterComboBox();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStorePage2::OnThink( void )
 {
 	BaseClass::OnThink();

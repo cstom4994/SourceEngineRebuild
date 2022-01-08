@@ -73,9 +73,6 @@ bool CVRADDispColl::Create(CCoreDispInfo *pDisp) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVRADDispColl::CalcSampleRadius2AndBox(dface_t *pFace) {
     // Get the luxel sample size.
     texinfo_t *pTexInfo = &texinfo[pFace->texinfo];
@@ -189,9 +186,6 @@ void CVRADDispColl::DispUVToSurfPoint(Vector2D const &dispUV, Vector &vecPoint, 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVRADDispColl::DispUVToSurf_TriTLToBR(Vector &vecPoint, float flPushEps,
                                            float flU, float flV, int nSnapU, int nSnapV,
                                            int nWidth, int nHeight) {
@@ -238,9 +232,6 @@ void CVRADDispColl::DispUVToSurf_TriTLToBR(Vector &vecPoint, float flPushEps,
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVRADDispColl::DispUVToSurf_TriBLToTR(Vector &vecPoint, float flPushEps,
                                            float flU, float flV, int nSnapU, int nSnapV,
                                            int nWidth, int nHeight) {

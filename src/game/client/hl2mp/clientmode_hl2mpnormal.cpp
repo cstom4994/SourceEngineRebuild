@@ -76,9 +76,6 @@ protected:
 extern ConVar g_cef_draw;
 extern ConVar cl_drawhud;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudViewport::PostChildPaint()
 {
     BaseClass::PostChildPaint();

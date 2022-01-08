@@ -48,9 +48,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_gas );
 BEGIN_DATADESC( CTFGrenadeGas )
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFGrenadeGas::EmitGrenade( Vector vecSrc, QAngle vecAngles, Vector vecVel, 
 							        AngularImpulse angImpulse, CBasePlayer *pPlayer, float flTime, int iflags )
 {
@@ -76,9 +73,6 @@ BEGIN_DATADESC( CTFGrenadeGasProjectile )
 	DEFINE_THINKFUNC( Think_Emit ),
 	DEFINE_THINKFUNC( Think_Fade ),
 END_DATADESC()
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGrenadeGasProjectile* CTFGrenadeGasProjectile::Create( const Vector &position, const QAngle &angles, 
 																const Vector &velocity, const AngularImpulse &angVelocity, 
 																CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, float timer, int iFlags )
@@ -92,9 +86,6 @@ CTFGrenadeGasProjectile* CTFGrenadeGasProjectile::Create( const Vector &position
 	return pGrenade;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeGasProjectile::Spawn()
 {
 	SetModel( GRENADE_MODEL );
@@ -112,9 +103,6 @@ CTFGrenadeGasProjectile::~CTFGrenadeGasProjectile()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeGasProjectile::Precache()
 {
 	PrecacheModel( GRENADE_MODEL );
@@ -122,17 +110,11 @@ void CTFGrenadeGasProjectile::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeGasProjectile::BounceSound( void )
 {
 	EmitSound( "Weapon_Grenade_Gas.Bounce" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeGasProjectile::DetonateThink( void )
 {
 	// if we're past the detonate time but still moving, delay the detonate
@@ -150,9 +132,6 @@ void CTFGrenadeGasProjectile::DetonateThink( void )
 	BaseClass::DetonateThink();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeGasProjectile::Detonate()
 {
 	if ( ShouldNotDetonate() )

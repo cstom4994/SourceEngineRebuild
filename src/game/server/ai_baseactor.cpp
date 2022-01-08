@@ -1109,9 +1109,6 @@ Vector CAI_BaseActor::HeadDirection3D( )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CAI_BaseActor::HasActiveLookTargets( void )
 {
 	return m_lookQueue.Count() != 0;

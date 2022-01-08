@@ -411,9 +411,6 @@ void CTFRocketLauncher::CreateMuzzleFlashEffects( C_BaseEntity *pAttachEnt, int 
 #endif
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int	CTFRocketLauncher::GetWeaponProjectileType( void ) const
 {
 	return BaseClass::GetWeaponProjectileType();

@@ -171,9 +171,6 @@ IPhysicsObject *CPhysics_Airboat::GetWheel(int index) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysics_Airboat::SetWheelFriction(int iWheel, float flFriction) {
     change_friction_of_wheel(IVP_POS_WHEEL(iWheel), flFriction);
 }
@@ -291,9 +288,6 @@ void CPhysics_Airboat::pre_raycasts_gameside(int nRaycastCount, IVP_Ray_Solver_T
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CPhysics_Airboat::GetWaterDepth(Ray_t *pGameRay, IPhysicsObject *pPhysAirboat) {
     float flDepth = 0.0f;
 
@@ -506,9 +500,6 @@ void CPhysics_Airboat::UpdateAirborneState(IVP_Raycast_Airboat_Impact *pImpacts,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CPhysics_Airboat::PostRaycasts(IVP_Ray_Solver_Template *pRaySolverTemplates, const IVP_U_Matrix *matWorldFromCore,
                                     IVP_Raycast_Airboat_Impact *pImpacts) {
     bool bReturn = true;
@@ -577,9 +568,6 @@ bool CPhysics_Airboat::PostRaycasts(IVP_Ray_Solver_Template *pRaySolverTemplates
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysics_Airboat::DoSimulationPontoons(IVP_Raycast_Airboat_Impact *pImpacts, IVP_Event_Sim *pEventSim) {
     int nPontoonPoints = n_wheels;
     for (int iPoint = 0; iPoint < nPontoonPoints; ++iPoint) {
@@ -835,9 +823,6 @@ void CPhysics_Airboat::DoSimulationDrag(IVP_Raycast_Airboat_Impact *pImpacts,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysics_Airboat::DoSimulationTurbine(IVP_Event_Sim *pEventSim) {
     // Reduce the turbine power during weak jumps to avoid unrealistic air control.
     // Also, reduce reverse thrust while airborne.
@@ -872,9 +857,6 @@ void CPhysics_Airboat::DoSimulationTurbine(IVP_Event_Sim *pEventSim) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysics_Airboat::DoSimulationSteering(IVP_Event_Sim *pEventSim) {
     // Calculate the steering direction: forward or reverse.
     // Don't mess with the steering direction while we're steering, unless thrust is applied.
@@ -1462,9 +1444,6 @@ void CPhysics_Airboat::get_skid_info(IVP_Wheel_Skid_Info *array_of_skid_info_out
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysics_Airboat::InitRaycastCarEnvironment(IVP_Environment *pEnvironment,
                                                  const IVP_Template_Car_System *pCarSystemTemplate) {
     // Copies of the car system template component indices and handedness.
@@ -1499,9 +1478,6 @@ void CPhysics_Airboat::InitRaycastCarEnvironment(IVP_Environment *pEnvironment,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysics_Airboat::InitRaycastCarBody(const IVP_Template_Car_System *pCarSystemTemplate) {
     // Car body attributes.
     n_wheels = pCarSystemTemplate->n_wheels;
@@ -1524,9 +1500,6 @@ void CPhysics_Airboat::InitRaycastCarBody(const IVP_Template_Car_System *pCarSys
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysics_Airboat::InitRaycastCarWheels(const IVP_Template_Car_System *pCarSystemTemplate) {
     IVP_U_Matrix m_core_f_object;
     m_pAirboatBody->calc_m_core_f_object(&m_core_f_object);
@@ -1571,9 +1544,6 @@ void CPhysics_Airboat::InitRaycastCarWheels(const IVP_Template_Car_System *pCarS
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysics_Airboat::InitRaycastCarAxes(const IVP_Template_Car_System *pCarSystemTemplate) {
     m_SteeringAngle = -1.0f;            // make sure next call is not optimized
     this->do_steering(0.0f, false);    // make sure next call gets through

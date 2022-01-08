@@ -40,9 +40,6 @@ CTFForceRespawn::CTFForceRespawn()
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFForceRespawn::ForceRespawn( bool bSwitchTeams, int nTeam /* = TEAM_UNASSIGNED */, bool bRemoveEverything /* = true */ )
 {
 	int i = 0;
@@ -116,25 +113,16 @@ void CTFForceRespawn::ForceRespawn( bool bSwitchTeams, int nTeam /* = TEAM_UNASS
 	m_outputOnForceRespawn.FireOutput( this, this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFForceRespawn::InputForceRespawn( inputdata_t &inputdata )
 {
 	ForceRespawn( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFForceRespawn::InputForceRespawnSwitchTeams( inputdata_t &inputdata )
 {
 	ForceRespawn( true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFForceRespawn::InputForceTeamRespawn( inputdata_t &inputdata )
 {
 	int nTeam = inputdata.value.Int();

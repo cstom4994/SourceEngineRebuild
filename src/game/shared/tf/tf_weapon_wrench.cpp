@@ -83,18 +83,12 @@ LINK_ENTITY_TO_CLASS( tf_wearable_robot_arm, CTFWearableRobotArm );
 // Weapon Wrench functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWrench::CTFWrench()
 	: m_bReloadDown( false )
 {}
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWrench::Spawn()
 {
 	BaseClass::Spawn();
@@ -357,18 +351,12 @@ float CTFWrench::GetRepairValue( void )
 	return flValue;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWrench::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	return BaseClass::Holster( pSwitchingTo );
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFRobotArm::CTFRobotArm()
 {
 	m_iComboCount = 0;
@@ -377,9 +365,6 @@ CTFRobotArm::CTFRobotArm()
 	m_bBigHit = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFRobotArm::Precache()
 {
 	BaseClass::Precache();
@@ -388,9 +373,6 @@ void CTFRobotArm::Precache()
 	PrecacheModel( g_HACK_GunslingerEngineerArmsOverride );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef GAME_DLL
 void CTFRobotArm::Equip( CBaseCombatCharacter* pOwner )
 {
@@ -412,9 +394,6 @@ void CTFRobotArm::Equip( CBaseCombatCharacter* pOwner )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFRobotArm::Drop( const Vector &vecVelocity )
 {
 	RemoveRobotArm();

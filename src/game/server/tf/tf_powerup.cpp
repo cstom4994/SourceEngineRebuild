@@ -184,9 +184,6 @@ bool CTFPowerup::MyTouch( CBasePlayer *pPlayer )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPowerup::DropSingleInstance( Vector &vecLaunchVel, CBaseCombatCharacter *pThrower, float flThrowerTouchDelay, float flResetTime /*= 0.1f*/ )
 {
 //	SetSize( Vector(-8,-8,-8), Vector(8,8,8) );
@@ -208,33 +205,21 @@ void CTFPowerup::DropSingleInstance( Vector &vecLaunchVel, CBaseCombatCharacter 
 	SetContextThink( &CBaseEntity::SUB_Remove, gpGlobals->curtime + GetLifeTime(), "PowerupRemoveThink" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPowerup::InputEnable( inputdata_t &inputdata )
 {
 	SetDisabled( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPowerup::InputDisable( inputdata_t &inputdata )
 {
 	SetDisabled( true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPowerup::IsDisabled( void )
 {
 	return m_bDisabled;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPowerup::InputToggle( inputdata_t &inputdata )
 {
 	if ( m_bDisabled )
@@ -247,9 +232,6 @@ void CTFPowerup::InputToggle( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPowerup::SetDisabled( bool bDisabled )
 {
 	m_bDisabled = bDisabled;
@@ -274,9 +256,6 @@ void CTFPowerup::SetDisabled( bool bDisabled )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CTFPowerup::GetPowerupModel( void )
 {
 	if ( m_iszModel != NULL_STRING )
@@ -290,9 +269,6 @@ const char *CTFPowerup::GetPowerupModel( void )
 	return GetDefaultPowerupModel();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPowerup::ItemCanBeTouchedByPlayer( CBasePlayer *pPlayer )
 {
 	if ( pPlayer == GetOwnerEntity() )

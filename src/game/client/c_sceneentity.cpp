@@ -84,9 +84,6 @@ bool UseHWMorphVCDs() {
     return mp_usehwmvcds.GetInt() > 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_SceneEntity::GetHWMorphSceneFileName(const char *pFilename, char *pHWMFilename) {
     // Are we even using hardware morph?
     if (!UseHWMorphVCDs())
@@ -954,9 +951,6 @@ void C_SceneEntity::SetCurrentTime(float t, bool forceClientSync) {
     m_flForceClientTime = t;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_SceneEntity::PrefetchAnimBlocks(CChoreoScene *pScene) {
     if (!HushAsserts()) {
         Assert(pScene && m_bMultiplayer);

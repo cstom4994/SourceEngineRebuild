@@ -89,9 +89,6 @@ CLimpetMine::~CLimpetMine( void )
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CLimpetMine::Precache( void )
 {
 	PrecacheModel( "models/projectiles/grenade_limpet.mdl" );

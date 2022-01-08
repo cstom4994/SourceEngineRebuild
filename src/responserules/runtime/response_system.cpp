@@ -166,9 +166,6 @@ static soundlevel_t TextToSoundLevel(const char *key) {
 
 CResponseSystem::ExcludeList_t CResponseSystem::m_DebugExcludeList(4, 0);
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CResponseSystem::CResponseSystem() :
         m_RootCommandHashes(0, 0, DefLessFunc(unsigned int)),
         m_FileDispatch(0, 0, DefLessFunc(unsigned int)),
@@ -182,9 +179,6 @@ CResponseSystem::CResponseSystem() :
     BuildDispatchTables();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CResponseSystem::~CResponseSystem() {
 }
 
@@ -221,9 +215,6 @@ void CResponseSystem::PopScript(void) {
     m_ScriptStack.Remove(0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::Clear() {
     m_Responses.RemoveAll();
     m_Criteria.RemoveAll();
@@ -649,9 +640,6 @@ void CResponseSystem::DebugPrint(int depth, const char *fmt, ...) {
     DevMsg("%s%s", indent, szText);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::ResetResponseGroups() {
     int i;
     int c = m_Responses.Count();
@@ -1225,9 +1213,6 @@ void CResponseSystem::LoadFromBuffer(const char *scriptfile, const char *buffer)
     COM_TimestampedLog("CResponseSystem::LoadFromBuffer [%s] - Finish", scriptfile);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::LoadRuleSet(const char *basescript) {
     float flStart = Plat_FloatTime();
     int length = 0;
@@ -1566,9 +1551,6 @@ void CResponseSystem::ParseResponseGroup_Soundlevel(char const *responseGroupNam
     groupResponseParams.soundlevel = (soundlevel_t) TextToSoundLevel(token);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::ParseResponse(void) {
     AI_ResponseParams groupResponseParams; // default response parameters inherited from single line format for group
 
@@ -1867,9 +1849,6 @@ void CResponseSystem::ParseRule(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CResponseSystem::GetCurrentToken() const {
     if (m_ScriptStack.Count() <= 0)
         return -1;
@@ -1891,9 +1870,6 @@ void CResponseSystem::ResponseWarning(const char *fmt, ...) {
     DevMsg(1, "%s(token %i) : %s", cur, GetCurrentToken(), string);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::CopyCriteriaFrom(Rule *pSrcRule, Rule *pDstRule, CResponseSystem *pCustomSystem) {
     // Add criteria from this rule to global list in custom response system.
     int nCriteriaCount = pSrcRule->m_Criteria.Count();
@@ -1945,9 +1921,6 @@ void CResponseSystem::CopyCriteriaFrom(Rule *pSrcRule, Rule *pDstRule, CResponse
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::CopyResponsesFrom(Rule *pSrcRule, Rule *pDstRule, CResponseSystem *pCustomSystem) {
     // Add responses from this rule to global list in custom response system.
     int nResponseGroupCount = pSrcRule->m_Responses.Count();
@@ -1992,9 +1965,6 @@ void CResponseSystem::CopyResponsesFrom(Rule *pSrcRule, Rule *pDstRule, CRespons
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::CopyEnumerationsFrom(CResponseSystem *pCustomSystem) {
     int nEnumerationCount = m_Enumerations.Count();
     for (int iEnumeration = 0; iEnumeration < nEnumerationCount; ++iEnumeration) {
@@ -2007,9 +1977,6 @@ void CResponseSystem::CopyEnumerationsFrom(CResponseSystem *pCustomSystem) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void
 CResponseSystem::CopyRuleFrom(Rule *pSrcRule, ResponseRulePartition::tIndex iRule, CResponseSystem *pCustomSystem) {
     // Verify data.

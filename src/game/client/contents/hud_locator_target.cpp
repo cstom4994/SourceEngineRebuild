@@ -481,9 +481,6 @@ void CLocatorTarget::SetBinding(const char *pszBinding) {
     m_pulseStart = gpGlobals->curtime;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CLocatorTarget::UseBindingImage(char *pchIconTextureName, size_t bufSize) {
     if (m_iBindingChoicesCount <= 0) {
         if (IsX360()) {
@@ -590,9 +587,6 @@ int CLocatorTarget::GetIconHeight(void) {
     return m_tall;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CLocatorPanel : public vgui::EditablePanel {
     DECLARE_CLASS_SIMPLE(CLocatorPanel, vgui::EditablePanel);
 
@@ -754,9 +748,6 @@ void Locator_ComputeTargetIconPositionFromHandle(int hTarget) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CLocatorPanel::CLocatorPanel(Panel *parent, const char *name) : EditablePanel(parent, name) {
     Assert(s_pLocatorPanel == NULL);
     DeactivateAllTargets();
@@ -769,9 +760,6 @@ CLocatorPanel::CLocatorPanel(Panel *parent, const char *name) : EditablePanel(pa
     m_textureID_SimpleArrow = -1;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CLocatorPanel::~CLocatorPanel(void) {
     Assert(s_pLocatorPanel == this);
     s_pLocatorPanel = NULL;
@@ -785,9 +773,6 @@ void CLocatorPanel::ApplySchemeSettings(vgui::IScheme *pScheme) {
     LoadControlSettings("resource/UI/Locator.res");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CLocatorPanel::PerformLayout(void) {
     BaseClass::PerformLayout();
 
@@ -911,9 +896,6 @@ void CLocatorPanel::AnimateIconAlpha(int flags, int *alpha, float fadeStart) {
     *alpha = static_cast<int>(255.0f * flScale);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CLocatorPanel::AnimateIconPosition(int flags, int *x, int *y) {
     int newX = *x;
     int newY = *y;
@@ -930,22 +912,13 @@ void CLocatorPanel::AnimateIconPosition(int flags, int *x, int *y) {
     *y = newY;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CLocatorPanel::OnTick(void) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CLocatorPanel::PaintBackground(void) {
     return;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CLocatorPanel::Paint(void) {
     ValidateTexture(&m_textureID_ArrowLeft, "vgui/hud/icon_arrow_left");
     ValidateTexture(&m_textureID_ArrowRight, "vgui/hud/icon_arrow_right");

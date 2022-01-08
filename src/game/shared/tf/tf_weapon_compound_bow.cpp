@@ -59,9 +59,6 @@ END_DATADESC()
 // Weapon functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFCompoundBow::CTFCompoundBow()
 {
 	m_flLastDenySoundTime = 0.0f;
@@ -354,16 +351,10 @@ float CTFCompoundBow::GetProjectileGravity( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFCompoundBow::AddPipeBomb( CTFGrenadePipebombProjectile *pBomb )
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFCompoundBow::SecondaryAttack( void )
 {
 	LowerBow();
@@ -549,9 +540,6 @@ void CTFCompoundBow::GetProjectileFireSetup( CTFPlayer *pPlayer, Vector vecOffse
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFCompoundBow::ApplyRefireSpeedModifications( float &flBaseRef )
 {
 	CALL_ATTRIB_HOOK_FLOAT( flBaseRef, fast_reload );

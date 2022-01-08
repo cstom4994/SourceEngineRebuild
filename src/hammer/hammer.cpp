@@ -685,9 +685,6 @@ static SpewRetval_t HammerDbgOutput(SpewType_t spewType, char const *pMsg) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static HANDLE dwChangeHandle = NULL;
 
 void UpdatePrefabs_Init() {
@@ -710,9 +707,6 @@ void UpdatePrefabs_Init() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void UpdatePrefabs() {
     // Wait for notification.
     DWORD dwWaitStatus = WaitForSingleObject(dwChangeHandle, 0);
@@ -731,17 +725,11 @@ void UpdatePrefabs() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void UpdatePrefabs_Shutdown() {
     FindCloseChangeNotification(dwChangeHandle);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 BOOL CHammer::InitInstance() {
     return TRUE;
 }
@@ -1177,9 +1165,6 @@ void CHammer::BeginClosing() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CHammer::ExitInstance() {
     g_ShellMessageWnd.DestroyWindow();
 
@@ -1228,9 +1213,6 @@ DECLARE_MESSAGE_MAP()
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD) {
     //{{AFX_DATA_INIT(CAboutDlg)
     //}}AFX_DATA_INIT
@@ -1252,9 +1234,6 @@ void CAboutDlg::DoDataExchange(CDataExchange *pDX) {
 #include <process.h>
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAboutDlg::OnOrder() {
     char szBuf[MAX_PATH];
     GetWindowsDirectory(szBuf, MAX_PATH);
@@ -1363,9 +1342,6 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHammer::OnAppAbout(void) {
     CAboutDlg aboutDlg;
     aboutDlg.DoModal();
@@ -1379,9 +1355,6 @@ void CHammer::OnAppAbout(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHammer::OnFileNew(void) {
     pMapDocTemplate->OpenDocumentFile(NULL);
     if (Options.general.bLoadwinpos && Options.general.bIndependentwin) {
@@ -1390,9 +1363,6 @@ void CHammer::OnFileNew(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHammer::OnFileOpen(void) {
     static char szInitialDir[MAX_PATH] = "";
     if (szInitialDir[0] == '\0') {
@@ -1494,9 +1464,6 @@ BOOL CHammer::PreTranslateMessage(MSG *pMsg) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHammer::LoadSequences(void) {
     char szRootDir[MAX_PATH];
     char szFullPath[MAX_PATH];
@@ -1543,9 +1510,6 @@ void CHammer::LoadSequences(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHammer::SaveSequences(void) {
     char szRootDir[MAX_PATH];
     char szFullPath[MAX_PATH];

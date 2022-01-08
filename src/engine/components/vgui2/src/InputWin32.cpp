@@ -612,9 +612,6 @@ void CVGUIInputSystem::ActivateInputContext(HInputContext context) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVGUIInputSystem::RunFrame() {
     if (m_nDebugMessages == -1) {
         m_nDebugMessages = CommandLine()->FindParm("-vguifocus") ? 1 : 0;
@@ -803,9 +800,6 @@ VPanel *CVGUIInputSystem::CalculateNewKeyFocus() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVGUIInputSystem::PanelDeleted(VPANEL vfocus, InputContext_t &context) {
     VPanel *focus = (VPanel *) vfocus;
     if (context._keyFocus == focus) {
@@ -1167,23 +1161,14 @@ bool CVGUIInputSystem::IsChildOfModalPanel(VPANEL panel, bool checkModalSubTree 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VPANEL CVGUIInputSystem::GetFocus() {
     return (VPANEL) (GetInputContext(m_hContext)->_keyFocus);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VPANEL CVGUIInputSystem::GetCalculatedFocus() {
     return (VPANEL) CalculateNewKeyFocus();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VPANEL CVGUIInputSystem::GetMouseOver() {
     return (VPANEL) (GetInputContext(m_hContext)->_mouseOver);
 }
@@ -1967,9 +1952,6 @@ void CVGUIInputSystem::SetIMEWindow(void *hwnd) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void *CVGUIInputSystem::GetIMEWindow() {
 #ifdef DO_IME
     return _imeWnd;

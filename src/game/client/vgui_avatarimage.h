@@ -61,9 +61,6 @@ enum EAvatarSize {
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CAvatarImage : public vgui::IImage {
 public:
     CAvatarImage(void);
@@ -189,9 +186,6 @@ private:
     void OnPersonaStateChanged(PersonaStateChange_t *info);
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CAvatarImagePanel : public vgui::Panel {
 public:
     DECLARE_CLASS_SIMPLE(CAvatarImagePanel, vgui::Panel);

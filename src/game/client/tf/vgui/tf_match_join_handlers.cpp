@@ -27,9 +27,6 @@ using namespace vgui;
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IMatchJoiningHandler::IMatchJoiningHandler()
 {}
 
@@ -41,9 +38,6 @@ void IMatchJoiningHandler::JoinMatch()
     GTFGCClientSystem()->JoinMMMatch();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFImmediateAutoJoinHandler::CTFImmediateAutoJoinHandler()
     : m_flNextAutoJoinTime(0.f)
 {}
@@ -58,9 +52,6 @@ void CTFImmediateAutoJoinHandler::MatchFound()
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFRejoinConfirmDialog* CTFMatchMakingPopupPrompJoinHandler::m_pRejoinPrompt = NULL;
 
 CTFMatchMakingPopupPrompJoinHandler::CTFMatchMakingPopupPrompJoinHandler()

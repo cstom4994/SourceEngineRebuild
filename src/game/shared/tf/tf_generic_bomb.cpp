@@ -47,18 +47,12 @@ BEGIN_DATADESC( CTFGenericBomb )
 END_DATADESC()
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGenericBomb::CTFGenericBomb()
 {
 	m_bDead = false;
 	m_bPrecached = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGenericBomb::Precache()
 {
 	BaseClass::Precache();
@@ -109,9 +103,6 @@ void CTFGenericBomb::Spawn()
 	SetTouch( &CTFGenericBombShim::Touch );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGenericBomb::GenericTouch( CBaseEntity *pOther )
 {
 	if ( !pOther )

@@ -205,9 +205,6 @@ void CWeaponPistol::Operator_HandleAnimEvent(animevent_t *pEvent, CBaseCombatCha
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPistol::DryFire(void) {
     WeaponSound(EMPTY);
     SendWeaponAnim(ACT_VM_DRYFIRE);
@@ -216,9 +213,6 @@ void CWeaponPistol::DryFire(void) {
     m_flNextPrimaryAttack = gpGlobals->curtime + SequenceDuration();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPistol::PrimaryAttack(void) {
     if ((gpGlobals->curtime - m_flLastAttackTime) > 0.5f) {
         m_nNumShotsFired = 0;

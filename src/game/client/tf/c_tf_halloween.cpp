@@ -19,9 +19,6 @@
 #include "achievements_tf.h"
 #include "gc_clientsystem.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 EHalloweenMap GetHalloweenMap()
 {
 	if ( FStrEq( engine->GetLevelName(), "maps/cp_manor_event.bsp" ) )

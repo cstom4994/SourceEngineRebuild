@@ -42,9 +42,6 @@ CTeamplayRoundWin::CTeamplayRoundWin()
 	m_iWinReason = WINREASON_DEFEND_UNTIL_TIME_LIMIT;	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTeamplayRoundWin::RoundWin( void )
 {
     CTeamplayRoundBasedRules *pGameRules = dynamic_cast<CTeamplayRoundBasedRules *>( GameRules() );
@@ -74,9 +71,6 @@ void CTeamplayRoundWin::RoundWin( void )
 	m_outputOnRoundWin.FireOutput( this, this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTeamplayRoundWin::InputRoundWin( inputdata_t &inputdata )
 {
 	RoundWin();

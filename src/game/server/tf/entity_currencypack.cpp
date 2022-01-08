@@ -52,9 +52,6 @@ IMPLEMENT_AUTO_LIST( ICurrencyPackAutoList );
 // CTF CurrencyPack functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CCurrencyPack::CCurrencyPack()
 {
 	m_nAmount = 0;
@@ -64,17 +61,11 @@ CCurrencyPack::CCurrencyPack()
 	m_bDistributed = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CCurrencyPack::~CCurrencyPack()
 {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCurrencyPack::UpdateOnRemove( void )
 {
 	BaseClass::UpdateOnRemove();
@@ -104,17 +95,11 @@ int CCurrencyPack::UpdateTransmitState( void )
 	return SetTransmitState( FL_EDICT_ALWAYS );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CCurrencyPack::ShouldTransmit( const CCheckTransmitInfo *pInfo )
 {
 	return FL_EDICT_ALWAYS;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCurrencyPack::Spawn( void )
 {
 	BaseClass::Spawn();
@@ -251,9 +236,6 @@ void CCurrencyPack::DistributedBy( CBasePlayer* pMoneyMaker )
 	m_bDistributed = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCurrencyPack::Precache( void )
 {
 	PrecacheScriptSound( TF_CURRENCYPACK_PICKUP_SOUND );
@@ -263,9 +245,6 @@ void CCurrencyPack::Precache( void )
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCurrencyPack::MyTouch( CBasePlayer *pPlayer )
 {
 	if ( ValidTouch( pPlayer ) && !m_bTouched )
@@ -344,9 +323,6 @@ bool CCurrencyPack::MyTouch( CBasePlayer *pPlayer )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CCurrencyPackCustom::GetDefaultPowerupModel( void )
 { 
 	// Custom packs should always be set to a value by hand

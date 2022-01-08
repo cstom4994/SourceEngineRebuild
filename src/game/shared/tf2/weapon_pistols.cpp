@@ -72,9 +72,6 @@ bool CWeaponPistols::Deploy( void )
 	return BaseClass::Deploy();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPistols::PrimaryAttack( void )
 {
 	m_flSoonestPrimaryAttack = gpGlobals->curtime + 0.1;

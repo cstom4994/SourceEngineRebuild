@@ -882,9 +882,6 @@ void CDODPlayerAnimState::UpdateLayerSequenceGeneric( CStudioHdr *pStudioHdr, in
 extern ConVar mp_facefronttime;
 extern ConVar mp_feetyawrate;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODPlayerAnimState::Update( float eyeYaw, float eyePitch )
 {
 	// Profile the animation update.
@@ -1296,9 +1293,6 @@ void CDODPlayerAnimState::ComputePoseParam_BodyHeight( CStudioHdr *pStudioHdr )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Anim_StateLog( const char *pMsg, ... )
 {
 	// Format the string.
@@ -1322,9 +1316,6 @@ void Anim_StateLog( const char *pMsg, ... )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Anim_StatePrintf( int iLine, const char *pMsg, ... )
 {
 	// Format the string.
@@ -1341,9 +1332,6 @@ void Anim_StatePrintf( int iLine, const char *pMsg, ... )
 	Anim_StateLog( "%s\n", str );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODPlayerAnimState::DebugShowAnimStateForPlayer( bool bIsServer )
 {
 	// Get the player's velocity.
@@ -1384,9 +1372,6 @@ void CDODPlayerAnimState::DebugShowAnimStateForPlayer( bool bIsServer )
 	DebugShowEyeYaw();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODPlayerAnimState::DebugShowEyeYaw( void )
 {
 #ifdef _NDEBUG
@@ -1413,9 +1398,6 @@ void CDODPlayerAnimState::DebugShowEyeYaw( void )
 // Client specific debug functions.
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODPlayerAnimState::DebugShowActivity( Activity activity )
 {
 #ifdef _DEBUG

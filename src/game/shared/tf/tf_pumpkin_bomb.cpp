@@ -31,9 +31,6 @@ END_NETWORK_TABLE()
 
 IMPLEMENT_AUTO_LIST( ITFPumpkinBomb );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFPumpkinBomb::CTFPumpkinBomb()
 {
 #ifdef GAME_DLL
@@ -50,9 +47,6 @@ CTFPumpkinBomb::CTFPumpkinBomb()
 	m_flLifeTime = -1.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPumpkinBomb::Precache()
 {
 	BaseClass::Precache();
@@ -138,9 +132,6 @@ void CTFPumpkinBomb::RemovePumpkin()
 	UTIL_Remove( this );
 #endif // GAME_DLL
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPumpkinBomb::PumpkinTouch( CBaseEntity *pOther )
 {
 	if ( !pOther )

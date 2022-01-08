@@ -132,9 +132,6 @@ int	CAmmoDef::DamageType(int nAmmoIndex)
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CAmmoDef::Flags(int nAmmoIndex)
 {
 	if (nAmmoIndex < 1 || nAmmoIndex >= m_nAmmoIndex)

@@ -331,9 +331,6 @@ int CTFViewModel::GetSkin() {
     return nSkin;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CTFViewModel::ModifyEventParticles(const char *token) {
     CTFWeaponBase *pWeapon = (CTFWeaponBase *) GetOwningWeapon();
     if (pWeapon) {

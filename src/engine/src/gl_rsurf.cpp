@@ -3166,9 +3166,6 @@ void R_DrawWorldLists(IWorldRenderList *pRenderListIn, unsigned long flags, floa
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void R_SceneBegin(void) {
     ComputeDebugSettings();
 }

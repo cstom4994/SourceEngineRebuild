@@ -115,9 +115,6 @@ void CWeaponTripMine::Equip(CBaseCombatCharacter *pOwner) {
     BaseClass::Equip(pOwner);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponTripMine::PrimaryAttack(void) {
     CHL1_Player *pPlayer = ToHL1Player(GetOwner());
     if (!pPlayer) {

@@ -42,9 +42,6 @@ CMortarRound::CMortarRound()
 	UseClientSideAnimation();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMortarRound::Precache( void )
 {
 	PrecacheModel( "models/weapons/w_grenade.mdl" );

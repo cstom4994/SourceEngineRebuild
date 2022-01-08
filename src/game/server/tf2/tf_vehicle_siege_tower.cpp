@@ -109,9 +109,6 @@ void CVehicleSiegeTower::OnItemPostFrame( CBaseTFPlayer *pDriver )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleSiegeTower::InternalDeploy( void )
 {
 	// Deploy
@@ -127,9 +124,6 @@ void CVehicleSiegeTower::InternalDeploy( void )
 	CreateLadder( vecOrigin, vecAngle );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleSiegeTower::InternalUnDeploy( void )
 {
 	// Undeploy
@@ -140,9 +134,6 @@ void CVehicleSiegeTower::InternalUnDeploy( void )
 	DestroyLadder();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleSiegeTower::CreateLadder( const Vector &vecOrigin, const QAngle &vecAngles )
 {
 	// NOTE: This ladder and platform code is a total hack to test vehicles with.  This
@@ -151,9 +142,6 @@ void CVehicleSiegeTower::CreateLadder( const Vector &vecOrigin, const QAngle &ve
 	m_hPlatform = CObjectSiegePlatform::Create( vecOrigin, vecAngles, this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleSiegeTower::DestroyLadder( void )
 {
 	if ( m_hLadder.Get() )

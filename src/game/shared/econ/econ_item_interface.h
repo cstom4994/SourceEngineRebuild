@@ -395,9 +395,6 @@ bool FindAttribute( const TAttributeContainerType *pSomethingThatHasAnIterateAtt
 	return it.WasFound();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < typename TActualTypeInMemory, typename TTreatAsThisType, typename TAttributeContainerType >
 bool FindAttribute_UnsafeBitwiseCast( const TAttributeContainerType *pSomethingThatHasAnIterateAttributesFunction, const CEconItemAttributeDefinition *pAttrDef, TTreatAsThisType *out_pValue )
 {
@@ -412,18 +409,12 @@ bool FindAttribute_UnsafeBitwiseCast( const TAttributeContainerType *pSomethingT
 	return it.WasFound();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < typename TAttributeContainerType, typename T >
 bool FindAttribute( const TAttributeContainerType *pSomethingThatHasAnIterateAttributesFunction, const CEconItemAttributeDefinition *pAttrDef, T *out_pValue )
 {
 	return FindAttribute_UnsafeBitwiseCast<T, T, TAttributeContainerType>( pSomethingThatHasAnIterateAttributesFunction, pAttrDef, out_pValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class IEconItemInterface
 {
 public:

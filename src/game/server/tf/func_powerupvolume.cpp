@@ -80,17 +80,11 @@ void CPowerupVolume::Touch( CBaseEntity *pOther )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CPowerupVolume::IsDisabled( void )
 {
 	return m_bDisabled;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPowerupVolume::SetDisabled( bool bDisabled )
 {
 	m_bDisabled = bDisabled;

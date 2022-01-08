@@ -25,17 +25,11 @@ PRECACHE_REGISTER( obj_vehicle_boost );
 
 ConVar	obj_vehicle_boost_health( "obj_vehicle_boost_health","100", FCVAR_NONE, "Vehicle Boost Health" );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CObjectVehicleBoost::CObjectVehicleBoost()
 {
 	UseClientSideAnimation();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectVehicleBoost::Spawn( void )
 {
 	Precache();
@@ -53,17 +47,11 @@ void CObjectVehicleBoost::Spawn( void )
 	BaseClass::Spawn();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectVehicleBoost::Precache( void )
 {
 	PrecacheModel( VEHICLE_BOOST_MODEL );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectVehicleBoost::FinishedBuilding( void )
 {
 	BaseClass::FinishedBuilding();

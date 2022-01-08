@@ -8,9 +8,6 @@
 #include "tf_gamemovement_support.h"
 #include "tf_movedata.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGameMovementSupport::CTFGameMovementSupport()
 {
 	m_pSupportData = NULL;
@@ -24,9 +21,6 @@ CTFGameMovementSupport::CTFGameMovementSupport()
 	m_vDuckViewOffset = SUPPORTCLASS_VIEWOFFSET_DUCK;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementSupport::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFMoveData *pTFMoveData )
 {
 	// Get the class specific data from the TFMoveData structure
@@ -37,25 +31,16 @@ void CTFGameMovementSupport::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFMo
 	BaseClass::ProcessMovement( (CBasePlayer *)pPlayer, static_cast<CMoveData*>( pTFMoveData ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementSupport::GetPlayerMins( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMins : m_vStandMins; 
 }
-	
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+
 const Vector &CTFGameMovementSupport::GetPlayerMaxs( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMaxs : m_vStandMaxs;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementSupport::GetPlayerViewOffset( bool bDucked ) const
 {
 	return bDucked ? m_vDuckViewOffset : m_vStandViewOffset;

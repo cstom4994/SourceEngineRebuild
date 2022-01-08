@@ -77,9 +77,6 @@ CHudHealth::CHudHealth( const char *pElementName ) : CHudElement( pElementName )
 	SetHiddenBits( HIDEHUD_HEALTH | HIDEHUD_PLAYERDEAD );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudHealth::Init()
 {
 	m_iHealth		= 100;
@@ -116,16 +113,10 @@ void CHudHealth::Reset()
 	g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("HealthRestored");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudHealth::VidInit()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudHealth::OnThink()
 {
 	int realHealth = 0;

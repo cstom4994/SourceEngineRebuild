@@ -1401,9 +1401,6 @@ CUtlFixedLinkedList<decal_t *> g_aDispDecalSortPool;
 CUtlVector<DecalSortTrees_t> g_aDispDecalSortTrees;
 int g_nDispDecalSortCheckCount;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void R_DecalSortInit(void) {
     g_aDecalFormats.Purge();
 
@@ -1421,9 +1418,6 @@ void R_DecalSortInit(void) {
     g_nDispDecalSortCheckCount = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void DecalSurfacesInit(bool bBrushModel) {
     if (!bBrushModel) {
         // Only clear the pool once per frame.
@@ -1436,9 +1430,6 @@ void DecalSurfacesInit(bool bBrushModel) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void R_DecalMaterialSort(decal_t *pDecal, SurfaceHandle_t surfID) {
     // Setup the decal material sort data.
     DecalMaterialSortData_t sort;
@@ -1516,9 +1507,6 @@ static void R_DecalMaterialSort(decal_t *pDecal, SurfaceHandle_t surfID) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void R_DecalReSortMaterials(void) //X
 {
     R_DecalSortInit();
@@ -2581,9 +2569,6 @@ R_DrawDecalsAll(IMatRenderContext *pRenderContext, int iGroup, int iTreeType, co
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void
 DecalSurfaceDraw_NonQueued(IMatRenderContext *pRenderContext, int renderGroup, const Vector &vModelOrg, int nCheckCount,
                            float flFade) {

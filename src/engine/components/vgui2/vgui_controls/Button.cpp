@@ -273,9 +273,6 @@ void Button::DrawFocusBox(bool bEnable) {
     _buttonFlags.SetFlag(DRAW_FOCUS_BOX, bEnable);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Button::NavigateTo() {
     BaseClass::NavigateTo();
 
@@ -286,9 +283,6 @@ void Button::NavigateTo() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Button::NavigateFrom() {
     BaseClass::NavigateFrom();
 

@@ -93,9 +93,6 @@ void CMapOverlay::Basis_Init(CMapFace *pFace) {
     Material_TexCoordInit();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Basis_UpdateOrigin(void) {
     CMapEntity *pEntity = static_cast<CMapEntity *>( GetParent());
     if (pEntity) {
@@ -114,9 +111,6 @@ void CMapOverlay::Basis_UpdateOrigin(void) {
     Basis_UpdateParentKey();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Basis_BuildAxes(void) {
     // Valid face?
     if (!m_Basis.m_pFace)
@@ -174,9 +168,6 @@ void CMapOverlay::Basis_SetInitialUAxis(Vector const &vecNormal) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMapOverlay::Basis_IsValid(void) {
     for (int iBasis = 0; iBasis < 3; ++iBasis) {
         for (int iAxis = 0; iAxis < 3; ++iAxis) {
@@ -188,9 +179,6 @@ bool CMapOverlay::Basis_IsValid(void) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Basis_SetFace(CMapFace *pFace) {
     // Verify face.
     if (!pFace)
@@ -214,9 +202,6 @@ void CMapOverlay::Basis_Copy(Basis_t *pSrc, Basis_t *pDst) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Basis_UpdateParentKey(void) {
     char szValue[80];
 
@@ -244,9 +229,6 @@ void CMapOverlay::Basis_UpdateParentKey(void) {
 // Basis - Legacy support!
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Basis_BuildFromSideList(void) {
     // Initialization (don't have or couldn't find the basis face)
     if (m_Faces.Count() > 0) {
@@ -269,9 +251,6 @@ void CMapOverlay::Basis_ToggleAxesFlip(int iAxis, int iComponent) {
     m_Basis.m_nAxesFlip[iAxis] ^= nValue;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMapOverlay::Basis_IsFlipped(int iAxis, int iComponent) {
     if (iAxis < 0 || iAxis > 2 || iComponent < 0 || iComponent > 2)
         return false;
@@ -285,9 +264,6 @@ bool CMapOverlay::Basis_IsFlipped(int iAxis, int iComponent) {
 // Handles Functions
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Handles_Clear(void) {
     m_Handles.m_iHit = -1;
 
@@ -301,9 +277,6 @@ void CMapOverlay::Handles_Clear(void) {
     m_Handles.m_vecBasisCoords[3].Init(OVERLAY_INITSIZE, -OVERLAY_INITSIZE);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Handles_Init(CMapFace *pFace) {
     IEditorTexture *pTexture = g_Textures.FindActiveTexture(GetDefaultTextureName());
     int nWidth = pTexture->GetImageWidth();
@@ -323,9 +296,6 @@ void CMapOverlay::Handles_Init(CMapFace *pFace) {
     Handles_UpdateParentKey();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Handles_Build3D(void) {
     // Verify that we have a valid basis to build the handles from.
     if (!Basis_IsValid())
@@ -340,9 +310,6 @@ void CMapOverlay::Handles_Build3D(void) {
     Handles_FixOrder();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Handles_Render3D(CRender3D *pRender) {
     // Set the render mode to "flat."
     pRender->PushRenderMode(RENDER_MODE_FLAT);
@@ -373,9 +340,6 @@ void CMapOverlay::Handles_Render3D(CRender3D *pRender) {
     pRender->PopRenderMode();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Handles_SurfToOverlayPlane(CMapFace *pFace, Vector const &vecSurf, Vector &vecPoint) {
     Vector vecWorld;
     if (pFace->HasDisp()) {
@@ -389,9 +353,6 @@ void CMapOverlay::Handles_SurfToOverlayPlane(CMapFace *pFace, Vector const &vecS
     WorldToOverlayPlane(vecWorld, vecPoint);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Handles_Copy(Handles_t *pSrc, Handles_t *pDst) {
     pDst->m_iHit = pSrc->m_iHit;
 
@@ -401,9 +362,6 @@ void CMapOverlay::Handles_Copy(Handles_t *pSrc, Handles_t *pDst) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Handles_UpdateParentKey(void) {
     char szValue[80];
 
@@ -431,9 +389,6 @@ void CMapOverlay::Handles_UpdateParentKey(void) {
 // ClipFace Functions
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapOverlay::ClipFace_t *CMapOverlay::ClipFace_Create(int nSize) {
     ClipFace_t *pClipFace = new ClipFace_t;
     if (pClipFace) {
@@ -463,9 +418,6 @@ CMapOverlay::ClipFace_t *CMapOverlay::ClipFace_Create(int nSize) {
     return pClipFace;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::ClipFace_Destroy(ClipFace_t **ppClipFace) {
     if (*ppClipFace) {
         delete *ppClipFace;
@@ -1117,9 +1069,6 @@ void CMapOverlay::Material_Clear(void) {
     m_Material.m_vecTextureV.Init(0.0f, 1.0f);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Material_TexCoordInit(void) {
     int nMaxU = MaxComponent(m_Basis.m_vecAxes[OVERLAY_BASIS_U]);
     int nMaxV = MaxComponent(m_Basis.m_vecAxes[OVERLAY_BASIS_V]);
@@ -1146,9 +1095,6 @@ void CMapOverlay::Material_Copy(Material_t *pSrc, Material_t *pDst) {
     pDst->m_vecTextureV = pSrc->m_vecTextureV;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Material_UpdateParentKey(void) {
     char szValue[80];
 
@@ -1429,9 +1375,6 @@ void CMapOverlay::CalcBounds(BOOL bFullUpdate) {
     m_Render2DBox.UpdateBounds(vecMins, vecMaxs);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::PostModified(void) {
     // update face and origin
     if (m_Faces.Count() > 0) {
@@ -1898,9 +1841,6 @@ bool CMapOverlay::BuildEdgePlanes(Vector const *pPoints, int nPointCount,
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Disp_ClipFragments(CMapDisp *pDisp, ClipFaces_t &aDispFragments) {
     cplane_t clipPlane;
 
@@ -1924,9 +1864,6 @@ void CMapOverlay::Disp_ClipFragments(CMapDisp *pDisp, ClipFaces_t &aDispFragment
     Disp_DoClip(pDisp, aDispFragments, clipPlane, 0.707f, nInterval, -(nInterval - 2), (nInterval - 1), 2);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::Disp_DoClip(CMapDisp *pDisp, ClipFaces_t &aDispFragments,
                               cplane_t &clipPlane, float clipDistStart, int nInterval,
                               int nLoopStart, int nLoopEnd, int nLoopInc) {
@@ -2066,9 +2003,6 @@ void CMapOverlay::HandleMoveTo(int iHandle, Vector &vecPoint, CMapFace *pFace) {
     m_Handles.m_vecBasisCoords[iHandle] = vecUVOverlay;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::SetTexCoords(Vector2D vecTexCoords[4]) {
     m_Material.m_vecTextureU.x = vecTexCoords[0][0];
     m_Material.m_vecTextureV.x = vecTexCoords[0][1];
@@ -2104,9 +2038,6 @@ void CMapOverlay::UpdateDispBarycentric(void) {
     Handles_Build3D();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::CenterEntity(void) {
     // Center in overlay plane.
     Vector vecTotal;
@@ -2179,9 +2110,6 @@ void CMapOverlay::SideList_Init(CMapFace *pFace) {
     PostModified();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::SideList_AddFace(CMapFace *pFace) {
     // Valid face?
     if (!pFace)
@@ -2315,9 +2243,6 @@ void CMapOverlay::OverlayPlaneToSurfFromList(const Vector &vecOverlayPoint, Vect
     aPlanes.Purge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMapOverlay::EntityOnSurfFromListToBaseFacePlane(const Vector &vecWorldPoint, Vector &vecBasePoint) {
     int nFaceCount = GetFaceCount();
     for (int iFace = 0; iFace < nFaceCount; ++iFace) {
@@ -2338,9 +2263,6 @@ bool CMapOverlay::EntityOnSurfFromListToBaseFacePlane(const Vector &vecWorldPoin
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::GetTriVerts(CMapDisp *pDisp, const Vector2D &vecSurfUV, int *pTris, Vector2D *pVertsUV) {
     // Get the displacement width.
     int nWidth = pDisp->GetWidth();
@@ -2403,9 +2325,6 @@ void CMapOverlay::GetTriVerts(CMapDisp *pDisp, const Vector2D &vecSurfUV, int *p
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlay::SetMaterial(const char *szMaterialName) {
     // Get the new material.
     IEditorTexture *pTex = g_Textures.FindActiveTexture(szMaterialName);
@@ -2416,9 +2335,6 @@ void CMapOverlay::SetMaterial(const char *szMaterialName) {
     m_Material.m_pTexture = pTex;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ChunkFileResult_t CMapOverlay::SaveDataToVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo) {
     ChunkFileResult_t eResult = pFile->BeginChunk("overlaydata");
 

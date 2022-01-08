@@ -1436,9 +1436,6 @@ bool CBaseObject::StartBuilding( CBaseEntity *pBuilder )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseObject::ShouldBeMiniBuilding( CTFPlayer* pPlayer )
 {
 	if ( !pPlayer )
@@ -1460,9 +1457,6 @@ bool CBaseObject::ShouldBeMiniBuilding( CTFPlayer* pPlayer )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseObject::MakeMiniBuilding( CTFPlayer* pPlayer )
 {
 	if ( !ShouldBeMiniBuilding( pPlayer ) || IsMiniBuilding() )
@@ -1471,9 +1465,6 @@ void CBaseObject::MakeMiniBuilding( CTFPlayer* pPlayer )
 	m_bMiniBuilding = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseObject::MakeDisposableBuilding( CTFPlayer *pPlayer )
 {
 	m_bDisposableBuilding = true;
@@ -2877,9 +2868,6 @@ bool CBaseObject::CheckUpgradeOnHit( CTFPlayer *pPlayer )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseObject::CanBeUpgraded( CTFPlayer *pPlayer )
 {
 	// Already upgrading
@@ -3690,9 +3678,6 @@ float CBaseObject::GetReversesBuildingConstructionSpeed( void )
 	return pSapper->GetReversesBuildingConstructionSpeed();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseObject::InputEnable( inputdata_t &inputdata )
 {
 	if ( IsDisabled() )
@@ -3705,9 +3690,6 @@ void CBaseObject::InputEnable( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseObject::InputDisable( inputdata_t &inputdata )
 {
 	if ( !IsDisabled() )
@@ -3717,9 +3699,6 @@ void CBaseObject::InputDisable( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CBaseObject::GetMaxHealthForCurrentLevel( void )
 {
 	int iMaxHealth = IsMiniBuilding() ? GetMiniBuildingStartingHealth() : GetBaseHealth();

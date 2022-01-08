@@ -405,9 +405,6 @@ econ_store_entry_t *CEconStorePriceSheet::GetEntryWriteable( item_definition_ind
 }
 #endif // GC_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BInsertSinglePricePoint( CurrencyPricePointMap_t& out_mapPricePoints, const price_point_map_key_t& key, item_price_t unValue )
 {
 	if ( out_mapPricePoints.Find( key ) != out_mapPricePoints.InvalidIndex() )
@@ -417,9 +414,6 @@ bool BInsertSinglePricePoint( CurrencyPricePointMap_t& out_mapPricePoints, const
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BInitializeCurrencyPricePoints( CurrencyPricePointMap_t& out_mapPricePoints, KeyValues *pKVPricePoints )
 {
 	if ( !pKVPricePoints )
@@ -643,9 +637,6 @@ uint32 CEconStorePriceSheet::CalculateHashFromItems() const
 	return (uint32)unHash;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BInitializeStoreEntryPricePoints( econ_store_entry_t& out_entry, const CurrencyPricePointMap_t& mapCurrencyPricePoints, KeyValues *pKVPrice, int nSalePercent )
 {
 	if ( !pKVPrice )
@@ -928,9 +919,6 @@ bool CEconStorePriceSheet::InitTimedSaleEntryFromKV( KeyValues *pKVTimedSaleEntr
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconStorePriceSheet::VerifyTimedSaleEntries()
 {
 	// We could write an interval tree and be smart about this, but Fletcher made
@@ -976,9 +964,6 @@ bool CEconStorePriceSheet::VerifyTimedSaleEntries()
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconStorePriceSheet::UpdatePricesForTimedSales( const RTime32 curTime )
 {
 	FOR_EACH_VEC( m_vecTimedSales, i )
@@ -1036,9 +1021,6 @@ void CEconStorePriceSheet::UpdatePricesForTimedSales( const RTime32 curTime )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconStorePriceSheet::DumpTimeSaleState( const RTime32 curTime ) const
 {
 	char curTimeBuf[k_RTimeRenderBufferSize];

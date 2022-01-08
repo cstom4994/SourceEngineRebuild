@@ -54,9 +54,6 @@ CGrenadeStickyBomb::CGrenadeStickyBomb()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGrenadeStickyBomb::Precache( void )
 {
 	PrecacheModel( "models/weapons/w_grenade.mdl" );

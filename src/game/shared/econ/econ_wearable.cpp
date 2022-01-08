@@ -136,9 +136,6 @@ void CEconWearable::GiveTo( CBaseEntity *pOther )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconWearable::RemoveFrom( CBaseEntity *pOther )
 {
 	CBasePlayer *pPlayer = ToBasePlayer(pOther);
@@ -258,9 +255,6 @@ bool CEconWearable::UpdateBodygroups( CBaseCombatCharacter* pOwner, int iState )
 	return true;
 }
 */
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconWearable::OnWearerDeath( void )
 {
 #ifdef CLIENT_DLL
@@ -268,9 +262,6 @@ void CEconWearable::OnWearerDeath( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CEconWearable::GetDropType()
 {
 	CAttributeContainer *pCont = GetAttributeContainer();
@@ -322,9 +313,6 @@ void CEconWearable::UpdateWearableBodyGroups( CBasePlayer* pPlayer )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWearableItem::CTFWearableItem()
 {
 }
@@ -356,9 +344,6 @@ ShadowType_t CEconWearable::ShadowCastType()
 	return SHADOWS_NONE;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconWearable::ShouldDraw( void )
 {
 	CBasePlayer *pPlayerOwner = ToBasePlayer( GetOwnerEntity() );
@@ -400,9 +385,6 @@ bool CEconWearable::ShouldDraw( void )
 	return BaseClass::ShouldDraw();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconWearable::OnDataChanged( DataUpdateType_t updateType )
 {
 	BaseClass::OnDataChanged( updateType );
@@ -417,9 +399,6 @@ void CEconWearable::OnDataChanged( DataUpdateType_t updateType )
 	UpdateParticleSystems();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconWearable::ClientThink( void )
 {
 	BaseClass::ClientThink();
@@ -427,9 +406,6 @@ void CEconWearable::ClientThink( void )
 	UpdateParticleSystems();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconWearable::ShouldDrawParticleSystems( void )
 {
 	// Make sure the entity we're attaching to is being drawn
@@ -542,9 +518,6 @@ EXPOSE_INTERFACE( CProxyItemTintColor, IMaterialProxy, "ItemTintColor" IMATERIAL
 //============================================================================================================================
 extern ConVar	r_propsmaxdist;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_EconWearableGib::C_EconWearableGib()
 {
 	m_fDeathTime = -1;

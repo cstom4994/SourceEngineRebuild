@@ -347,9 +347,6 @@ void CTFBaseRocket::RocketTouch( CBaseEntity *pOther )
 	Explode( &trace, pOther );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 unsigned int CTFBaseRocket::PhysicsSolidMaskForEntity( void ) const
 { 
 	int teamContents = 0;
@@ -534,9 +531,6 @@ void CTFBaseRocket::Explode( trace_t *pTrace, CBaseEntity *pOther )
 	return;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBaseRocket::CheckForStunOnImpact( CTFPlayer* pTarget )
 {
 	if ( !m_bStunOnImpact )
@@ -568,9 +562,6 @@ void CTFBaseRocket::CheckForStunOnImpact( CTFPlayer* pTarget )
 	TE_TFParticleEffect( filter, 0.0, "mvm_soldier_shockwave", GetAbsOrigin(), QAngle( 0, 0, 0 ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFBaseRocket::GetStunLevel( void )
 {
 	CTFPlayer *pAttacker = ToTFPlayer( GetOwnerPlayer() );
@@ -583,9 +574,6 @@ int CTFBaseRocket::GetStunLevel( void )
 }
 
 #ifdef STAGING_ONLY
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBaseRocket::DrawRadius( float flRadius )
 {
 	Vector pos = GetAbsOrigin();

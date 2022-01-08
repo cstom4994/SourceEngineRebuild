@@ -2209,9 +2209,6 @@ void CTFGameRules::ManageCompetitiveMode( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameRules::ReportMatchResultsToGC( CMsgGC_Match_Result_Status nCode )
 {
 	CMatchInfo *pMatch = GTFGCClientSystem()->GetMatch();
@@ -2452,9 +2449,6 @@ bool CTFGameRules::ReportMatchResultsToGC( CMsgGC_Match_Result_Status nCode )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameRules::MatchmakingShouldUseStopwatchMode()
 {
 	CTeamControlPointMaster *pMaster = g_hControlPointMasters.Count() ? g_hControlPointMasters[0] : NULL;
@@ -2464,9 +2458,6 @@ bool CTFGameRules::MatchmakingShouldUseStopwatchMode()
 	return bRetVal;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameRules::SetPowerupMode( bool bValue )
 {
 	// Powerup mode uses grapple and changes some gamerule variables.
@@ -2539,9 +2530,6 @@ void CTFGameRules::SetBountyMode( bool bValue )
 #endif // GAME_DLL
 #endif // STAGING_ONLY
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameRules::UsePlayerReadyStatusMode( void )
 {
 	if ( IsMannVsMachineMode() )
@@ -2556,9 +2544,6 @@ bool CTFGameRules::UsePlayerReadyStatusMode( void )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameRules::PlayerReadyStatus_HaveMinPlayersToEnable( void )
 {
 	// we always have enough players if the match wants players to autoready
@@ -2689,9 +2674,6 @@ bool CTFGameRules::PlayerReadyStatus_ArePlayersOnTeamReady( int iTeam )
 	return bAtLeastOneReady;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameRules::PlayerReadyStatus_ShouldStartCountdown( void )
 {
 	CMatchInfo *pMatch = GTFGCClientSystem()->GetMatch();
@@ -2891,9 +2873,6 @@ void CTFGameRules::PlayerReadyStatus_UpdatePlayerState( CTFPlayer *pTFPlayer, bo
 }
 #endif // GAME_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameRules::IsDefaultGameMode( void )
 {
 	if ( IsMannVsMachineMode() )
@@ -9673,9 +9652,6 @@ bool CTFGameRules::CanHaveAmmo( CBaseCombatCharacter *pPlayer, int iAmmoIndex )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool EconEntity_KillEaterEventPassesRestrictionCheck( const IEconItemInterface *pEconInterface, const CEconItemAttributeDefinition *pRestrictionAttribDef, const CEconItemAttributeDefinition *pRestrictionValueAttribDef, const CSteamID VictimSteamID )
 {
 	uint32 unRestrictionType = kStrangeEventRestriction_None;
@@ -9710,9 +9686,6 @@ bool EconEntity_KillEaterEventPassesRestrictionCheck( const IEconItemInterface *
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static CSteamID GetSteamIDForKillEaterScoring( CTFPlayer *pPlayer )
 {
 	if ( pPlayer->IsBot() )
@@ -9725,9 +9698,6 @@ static CSteamID GetSteamIDForKillEaterScoring( CTFPlayer *pPlayer )
 	return ret;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CStrangeEventValidator
 {
 public:
@@ -9827,9 +9797,6 @@ private:
 	kill_eater_event_t m_eEventType;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < typename tMsgType >
 static void FillOutBaseKillEaterMessage( tMsgType *out_pMsg, const CStrangeEventValidator& Validator )
 {
@@ -9924,9 +9891,6 @@ void EconEntity_ValidateAndSendStrangeMessageToGC( IEconItemInterface *pEconEnti
 	GCClientSystem()->BSendMessage( msg );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void EconEntity_OnOwnerKillEaterEvent( CEconEntity *pEconEntity, CTFPlayer *pOwner, CTFPlayer *pVictim, kill_eater_event_t eEventType, int nIncrementValue /*= 1*/ )
 {
 	if ( !pEconEntity )
@@ -9964,9 +9928,6 @@ void EconItemInterface_OnOwnerKillEaterEvent( IEconItemInterface *pEconEntity, C
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void EconEntity_OnOwnerKillEaterEventNoPartner( CEconEntity *pEconEntity, CTFPlayer *pOwner, kill_eater_event_t eEventType, int nIncrementValue /*= 1*/ )
 {
 	if ( !pEconEntity )
@@ -10008,9 +9969,6 @@ void EconItemInterface_OnOwnerKillEaterEventNoPartner( IEconItemInterface *pEcon
 	// We couldn't find anyone else at all. This is hard. Let's give up.
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static GCSDK::CProtoBufMsg<CMsgIncrementKillCountAttribute_Multiple> *s_pmsgIncrementKillCountMessageBatch = NULL;
 //-----------------------------------------------------------------------------
 void EconEntity_ValidateAndSendStrangeMessageToGC_Batched( IEconItemInterface *pEconInterface, class CTFPlayer *pOwner, class CTFPlayer *pVictim, kill_eater_event_t eEventType, int nIncrementValue /*= 1*/ )
@@ -10082,9 +10040,6 @@ void EconItemInterface_OnOwnerKillEaterEvent_Batched( IEconItemInterface *pEconI
 	EconEntity_ValidateAndSendStrangeMessageToGC_Batched( pEconInterface, pOwner, pVictim, eEventType, nIncrementValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void KillEaterEvents_FlushBatches()
 {
 	if ( s_pmsgIncrementKillCountMessageBatch )
@@ -10098,9 +10053,6 @@ void KillEaterEvents_FlushBatches()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void HatAndMiscEconEntities_OnOwnerKillEaterEventNoParter( class CTFPlayer *pOwner, kill_eater_event_t eEventType, int nIncrementValue )
 {
 	EconItemInterface_OnOwnerKillEaterEventNoPartner( NULL, pOwner, eEventType, nIncrementValue );

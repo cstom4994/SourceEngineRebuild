@@ -50,9 +50,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_caltrop );
 BEGIN_DATADESC( CTFGrenadeCaltrop )
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFGrenadeCaltrop::EmitGrenade( Vector vecSrc, QAngle vecAngles, Vector vecVel, 
 							        AngularImpulse angImpulse, CBasePlayer *pPlayer, float flTime, int iflags )
 {
@@ -85,9 +82,6 @@ END_NETWORK_TABLE()
 
 #define GRENADE_MODEL "models/weapons/w_models/w_grenade_beartrap.mdl"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGrenadeCaltropProjectile* CTFGrenadeCaltropProjectile::Create( const Vector &position, const QAngle &angles, 
 																  const Vector &velocity, const AngularImpulse &angVelocity, 
 																  CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo,
@@ -104,9 +98,6 @@ CTFGrenadeCaltropProjectile* CTFGrenadeCaltropProjectile::Create( const Vector &
 	return pGrenade;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeCaltropProjectile::Spawn()
 {
 	SetModel( GRENADE_MODEL );
@@ -117,9 +108,6 @@ void CTFGrenadeCaltropProjectile::Spawn()
 	AddSolidFlags( FSOLID_TRIGGER );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeCaltropProjectile::Precache()
 {
 	PrecacheModel( GRENADE_MODEL );
@@ -127,17 +115,11 @@ void CTFGrenadeCaltropProjectile::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeCaltropProjectile::BounceSound( void )
 {
 	EmitSound( "Weapon_Grenade_Caltrop.Bounce" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeCaltropProjectile::Detonate()
 {
 	if ( ShouldNotDetonate() )
@@ -162,9 +144,6 @@ void CTFGrenadeCaltropProjectile::Detonate()
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeCaltropProjectile::Touch( CBaseEntity *pOther )
 {
 	if ( !pOther->IsPlayer() || !( pOther->GetFlags() & FL_ONGROUND ) || !pOther->IsAlive() )

@@ -165,81 +165,51 @@ void CEconTool_Noisemaker::OnClientUseConsumable( CEconItemView *pItem, vgui::Pa
 	Assert( !"CEconTool_Noisemaker::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_WrappedGift::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_WrappedGift::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_WeddingRing::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_WeddingRing::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_BackpackExpander::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_BackpackExpander::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_AccountUpgradeToPremium::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_AccountUpgradeToPremium::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_ClaimCode::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_ClaimCode::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_Collection::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_Collection::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_StrangifierBase::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_StrangifierBase::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_PaintCan::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_PaintCan::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_Gift::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_Gift::OnClientUseConsumable() is unimplemented!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_DuelingMinigame::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_DuelingMinigame::OnClientUseConsumable() is unimplemented!" );
@@ -255,9 +225,6 @@ void CEconTool_GrantOperationPass::OnClientUseConsumable( CEconItemView *pItem, 
 {
 	Assert( !"CEconTool_DuckToken::CEconTool_GrantOperationPass() is unimplemented!" );
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_Default::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( !"CEconTool_Default::OnClientUseConsumable() is unimplemented!" );

@@ -52,9 +52,6 @@ void CTFSyringeGun::Precache()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSyringeGun::Deploy()
 {
 	CBaseEntity *pOwner = GetOwnerEntity();
@@ -66,9 +63,6 @@ bool CTFSyringeGun::Deploy()
 	return BaseClass::Deploy();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSyringeGun::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	CBaseEntity *pOwner = GetOwnerEntity();

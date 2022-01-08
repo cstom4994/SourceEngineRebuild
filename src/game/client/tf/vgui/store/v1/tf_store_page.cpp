@@ -71,17 +71,11 @@ void CTFStorePage1::UpdateFilterComboBox( void )
 	BaseClass::UpdateFilterComboBox();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStorePage1::GetFiltersForDef( GameItemDefinition_t *pDef, CUtlVector<int> *pVecFilters )
 {
 	return BaseClass::GetFiltersForDef( pDef, pVecFilters );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStorePage1::OnTick( void )
 {
 	BaseClass::OnTick();

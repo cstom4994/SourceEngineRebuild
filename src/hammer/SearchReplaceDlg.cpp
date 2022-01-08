@@ -323,9 +323,6 @@ void CSearchReplaceDlg::DoDataExchange(CDataExchange *pDX) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSearchReplaceDlg::OnCancel(void) {
     ShowWindow(SW_HIDE);
 }
@@ -489,9 +486,6 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSearchReplaceDlg::OnOK() {
 }
 

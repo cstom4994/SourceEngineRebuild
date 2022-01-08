@@ -811,9 +811,6 @@ void CMapDisp::DownSample(int oldPower) {
     delete[] subdivNormals;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDisp::InvertAlpha(void) {
     int nVertCount = GetSize();
     for (int iVert = 0; iVert < nVertCount; ++iVert) {
@@ -1423,9 +1420,6 @@ void CMapDisp::UpdateBuildable(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDisp::CreateShoreOverlays(CMapFace *pFace, Shoreline_t *pShoreline) {
     // Do the bounds volumes intersect?
     Vector vecDispMin, vecDispMax;

@@ -218,9 +218,6 @@ namespace GCSDK {
 #define FOR_EACH_SQL_RESULT(sqlAccess, resultSet, record) \
     for( CSQLRecord record = (sqlAccess).GetResultRecord( resultSet, 0 ); record.IsValid(); record.NextRow() )
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     class CSQLOutputParams {
     public:
         CSQLOutputParams(const CRecordBase *pRecord, const CColumnSet &ColumnSet)

@@ -14,9 +14,6 @@
 // Car constraint object functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IVP_Constraint_Car_Object::IVP_Constraint_Car_Object(IVP_Constraint_Solver_Car *solver_car_,
                                                      IVP_Real_Object *i_real_obj_app,
                                                      IVP_Real_Object *i_real_obj_body,
@@ -57,9 +54,6 @@ IVP_Constraint_Car_Object::IVP_Constraint_Car_Object(IVP_Constraint_Solver_Car *
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IVP_Constraint_Car_Object::~IVP_Constraint_Car_Object() {
     real_object->get_core()->car_wheel = NULL;
 }
@@ -69,9 +63,6 @@ IVP_Constraint_Car_Object::~IVP_Constraint_Car_Object() {
 // Car constraint solver functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IVP_Constraint_Solver_Car::IVP_Constraint_Solver_Car(IVP_COORDINATE_INDEX right,
                                                      IVP_COORDINATE_INDEX up,
                                                      IVP_COORDINATE_INDEX forward,
@@ -89,9 +80,6 @@ IVP_Constraint_Solver_Car::IVP_Constraint_Solver_Car(IVP_COORDINATE_INDEX right,
     // constraint_is_disabled is inited in Builder.
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IVP_Constraint_Solver_Car::~IVP_Constraint_Solver_Car() {
     //delete silently
     IVP_Controller_Manager::remove_controller_from_environment(this, IVP_TRUE);
@@ -112,9 +100,6 @@ IVP_Constraint_Solver_Car::~IVP_Constraint_Solver_Car() {
     P_FREE(this->co_matrix.desired_vector);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IVP_RETURN_TYPE IVP_Constraint_Solver_Car::init_constraint_system(IVP_Environment *env, IVP_Real_Object *body,
                                                                   IVP_U_Vector<IVP_Real_Object> &wheels,
                                                                   IVP_U_Vector<IVP_U_Float_Point> &p_Bos) {
@@ -146,9 +131,6 @@ IVP_RETURN_TYPE IVP_Constraint_Solver_Car::init_constraint_system(IVP_Environmen
     return res;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Constraint_Solver_Car::do_simulation_controller_rotation(IVP_Event_Sim *es,
                                                                   IVP_Core *core_B,
                                                                   const IVP_U_Matrix *m_world_f_B) {
@@ -233,9 +215,6 @@ void IVP_Constraint_Solver_Car::do_simulation_controller_rotation(IVP_Event_Sim 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Constraint_Solver_Car::do_simulation_controller(IVP_Event_Sim *es,
                                                          IVP_U_Vector<IVP_Core> * /*core_list*/ ) {
     IVP_DOUBLE inv_dtime = es->i_delta_time;
@@ -436,18 +415,12 @@ void IVP_Constraint_Solver_Car::do_simulation_controller(IVP_Event_Sim *es,
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Constraint_Solver_Car::core_is_going_to_be_deleted_event(IVP_Core *) {
     P_DELETE_THIS(this);
 }
 
 /////////////////////////////////////////////////////////////////////////
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IVP_Constraint_Solver_Car_Builder::IVP_Constraint_Solver_Car_Builder(IVP_Constraint_Solver_Car *i_car_solver) {
     P_MEM_CLEAR(this);
 
@@ -461,9 +434,6 @@ IVP_Constraint_Solver_Car_Builder::IVP_Constraint_Solver_Car_Builder(IVP_Constra
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Constraint_Solver_Car_Builder::disable_constraint(int idx) {
     IVP_ASSERT((idx >= 0) && (idx < 6));
 
@@ -625,9 +595,6 @@ void IVP_Constraint_Solver_Car_Builder::calc_pushing_behavior(int A_obj_idx, int
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IVP_RETURN_TYPE IVP_Constraint_Solver_Car_Builder::calc_constraint_matrix() {
     // Malloc matrix value vec (temp).
     int gm_size = n_constraints * n_appends;

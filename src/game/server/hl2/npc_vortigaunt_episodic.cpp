@@ -267,9 +267,6 @@ void CNPC_Vortigaunt::SpeakSentence( int sentenceType )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Vortigaunt::StartTask( const Task_t *pTask )
 {
 	switch ( pTask->iTask)
@@ -384,9 +381,6 @@ void CNPC_Vortigaunt::StartTask( const Task_t *pTask )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Vortigaunt::RunTask( const Task_t *pTask )
 {
 	switch ( pTask->iTask )
@@ -1241,9 +1235,6 @@ void CNPC_Vortigaunt::DeathSound( const CTakeDamageInfo &info )
 	Speak( VORT_DIE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Vortigaunt::TraceAttack( const CTakeDamageInfo &inputInfo, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator )
 {
 	CTakeDamageInfo info = inputInfo;
@@ -1281,9 +1272,6 @@ void CNPC_Vortigaunt::TraceAttack( const CTakeDamageInfo &inputInfo, const Vecto
 	BaseClass::TraceAttack( info, vecDir, ptr, pAccumulator );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CNPC_Vortigaunt::TranslateSchedule( int scheduleType )
 {
 	switch( scheduleType )
@@ -2279,9 +2267,6 @@ void CNPC_Vortigaunt::InputDisableHealthRegeneration( inputdata_t &data )
 	m_bRegenerateHealth = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CNPC_Vortigaunt::IRelationPriority( CBaseEntity *pTarget )
 {
 	int priority = BaseClass::IRelationPriority( pTarget );

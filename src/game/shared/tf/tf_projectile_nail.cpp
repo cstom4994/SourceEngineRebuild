@@ -62,9 +62,6 @@ CTFBaseProjectile *CTFProjectile_Syringe::Create(
 	return CTFBaseProjectile::Create( "tf_projectile_syringe", vecOrigin, vecAngles, pOwner, SYRINGE_VELOCITY, g_sModelIndexSyringe, SYRINGE_DISPATCH_EFFECT, pScorer, bCritical );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 unsigned int CTFProjectile_Syringe::PhysicsSolidMaskForEntity( void ) const
 { 
 	return BaseClass::PhysicsSolidMaskForEntity() | CONTENTS_REDTEAM | CONTENTS_BLUETEAM;
@@ -84,9 +81,6 @@ float CTFProjectile_Syringe::GetGravity( void )
 #define TRANQ_STUN		0.50f
 #define TRANQ_DURATION	1.5f
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFBaseProjectile *CTFProjectile_Tranq::Create(
 	const Vector &vecOrigin,
 	const QAngle &vecAngles,

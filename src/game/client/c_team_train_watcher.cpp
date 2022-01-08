@@ -88,9 +88,6 @@ void C_TeamTrainWatcher::UpdateGlowEffect( void )
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TeamTrainWatcher::DestroyGlowEffect( void )
 {
     if ( m_pGlowEffect )

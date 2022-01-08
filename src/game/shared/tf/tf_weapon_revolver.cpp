@@ -94,9 +94,6 @@ int	CTFRevolver::GetDamageType( void ) const
 	return BaseClass::GetDamageType();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFRevolver::CanFireCriticalShot( bool bIsHeadshot )
 {
 	if ( !BaseClass::CanFireCriticalShot( bIsHeadshot ) )
@@ -116,9 +113,6 @@ bool CTFRevolver::CanFireCriticalShot( bool bIsHeadshot )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFRevolver::PrimaryAttack( void )
 {
 	// Check for ammunition.
@@ -220,9 +214,6 @@ void CTFRevolver::GetWeaponCrosshairScale( float &flScale )
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFRevolver::GetCount( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -255,9 +246,6 @@ const char* CTFRevolver::GetEffectLabelText( void )
 	}
 	return "#TF_CRITS";
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFRevolver::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 #ifdef GAME_DLL
@@ -282,9 +270,6 @@ bool CTFRevolver::Holster( CBaseCombatWeapon *pSwitchingTo )
 	return BaseClass::Holster( pSwitchingTo );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFRevolver::Deploy( void )
 {
 #ifdef GAME_DLL

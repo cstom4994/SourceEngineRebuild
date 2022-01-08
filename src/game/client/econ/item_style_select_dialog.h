@@ -17,9 +17,6 @@ class CItemModelPanel;
 #include "vgui_controls/EditablePanel.h"
 #include "vgui_controls/ComboBox.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CComboBoxBackpackOverlayDialogBase : public vgui::EditablePanel
 {
 	DECLARE_CLASS_SIMPLE( CComboBoxBackpackOverlayDialogBase, vgui::EditablePanel );
@@ -51,9 +48,6 @@ private:
 	vgui::ComboBox			*m_pComboBox;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CStyleSelectDialog : public CComboBoxBackpackOverlayDialogBase
 {
 	DECLARE_CLASS_SIMPLE( CStyleSelectDialog, CComboBoxBackpackOverlayDialogBase );

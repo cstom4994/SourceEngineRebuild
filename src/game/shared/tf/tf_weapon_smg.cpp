@@ -77,9 +77,6 @@ int	CTFSMG::GetDamageType( void ) const
 	return BaseClass::GetDamageType();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSMG::CanFireCriticalShot( bool bIsHeadshot )
 {
 	if ( !BaseClass::CanFireCriticalShot( bIsHeadshot ) )

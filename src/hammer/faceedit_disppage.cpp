@@ -1006,9 +1006,6 @@ void CFaceEditDispPage::OnButtonTagBuildable(void) {
     UpdateDialogData();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFaceEditDispPage::OnButtonInvertAlpha(void) {
     // Invert the alpha channel on all the selected displacements.
     CFaceEditSheet *pSheet = (CFaceEditSheet *) GetParent();

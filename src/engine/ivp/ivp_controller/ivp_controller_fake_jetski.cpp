@@ -101,9 +101,6 @@ void IVP_Controller_Raycast_Fake_Jetski::SetupWheelRaycasts( IVP_Ray_Solver_Temp
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool IVP_Controller_Raycast_Fake_Jetski::DoSimulationWheels( const IVP_U_Matrix *m_world_f_core, 
 															 IVP_Raycast_Fake_Jetski_Wheel_Temp *pTempWheels,
 															 IVP_Ray_Hit *pRayHits, IVP_FLOAT *pFrictions, 
@@ -181,9 +178,6 @@ bool IVP_Controller_Raycast_Fake_Jetski::DoSimulationWheels( const IVP_U_Matrix 
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::DoSimulationStabilizers( IVP_Raycast_Fake_Jetski_Wheel_Temp *pTempWheels )
 {
     if ( wheels_per_axis == 2 )
@@ -212,9 +206,6 @@ void IVP_Controller_Raycast_Fake_Jetski::DoSimulationStabilizers( IVP_Raycast_Fa
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::DoSimulationShocks( IVP_Raycast_Fake_Jetski_Wheel_Temp *pTempWheels,
 													         IVP_Ray_Hit *pRayHits, IVP_Event_Sim *pEventSim,
 													         IVP_Core *pCarCore )
@@ -276,9 +267,6 @@ void IVP_Controller_Raycast_Fake_Jetski::DoSimulationShocks( IVP_Raycast_Fake_Je
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::DoSimulationBooster( IVP_Event_Sim *pEventSim, IVP_Core *pCarCore )
 {
 	// Update the timer for next boost.
@@ -307,9 +295,6 @@ void IVP_Controller_Raycast_Fake_Jetski::DoSimulationBooster( IVP_Event_Sim *pEv
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::DoSimulationSteering( IVP_Raycast_Fake_Jetski_Wheel_Temp *pTempWheels,
 													  IVP_Core *pCarCore, IVP_Event_Sim *pEventSim )
 {
@@ -319,9 +304,6 @@ void IVP_Controller_Raycast_Fake_Jetski::DoSimulationSteering( IVP_Raycast_Fake_
 	ApplySteeringForces( pTempWheels, pCarCore, pEventSim, forcesNeededToDriveStraight );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::CalcSteeringForces( IVP_Raycast_Fake_Jetski_Wheel_Temp *pTempWheels, 
 													 IVP_Core *pCarCore, IVP_Event_Sim *pEventSim,
 													 IVP_FLOAT *pForcesNeededToDriveStraight )
@@ -379,9 +361,6 @@ void IVP_Controller_Raycast_Fake_Jetski::CalcSteeringForces( IVP_Raycast_Fake_Je
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IVP_DOUBLE IVP_Controller_Raycast_Fake_Jetski::GetSteeringForceRotational( int iWheel, 
 																		   IVP_Raycast_Fake_Jetski_Wheel_Temp *pTempWheels, 
 													                       IVP_Core *pCarCore, IVP_Event_Sim *pEventSim,
@@ -422,9 +401,6 @@ IVP_DOUBLE IVP_Controller_Raycast_Fake_Jetski::GetSteeringForceRotational( int i
 	return flForceRotational;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::ApplySteeringForces( IVP_Raycast_Fake_Jetski_Wheel_Temp *pTempWheels, 
 													  IVP_Core *pCarCore, IVP_Event_Sim *pEventSim,
 													  IVP_FLOAT *pForcesNeededToDriveStraight )
@@ -769,9 +745,6 @@ IVP_Controller_Raycast_Fake_Jetski::IVP_Controller_Raycast_Fake_Jetski( IVP_Envi
 	InitRaycastCarAxes( pCarSystemTemplate );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::InitRaycastCarEnvironment( IVP_Environment *pEnvironment, 
 													        const IVP_Template_Car_System *pCarSystemTemplate )
 {
@@ -797,9 +770,6 @@ void IVP_Controller_Raycast_Fake_Jetski::InitRaycastCarEnvironment( IVP_Environm
     normized_gravity_ws.normize();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::InitRaycastCarBody( const IVP_Template_Car_System *pCarSystemTemplate )
 {
 	// Car body attributes.
@@ -828,9 +798,6 @@ void IVP_Controller_Raycast_Fake_Jetski::InitRaycastCarBody( const IVP_Template_
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::InitRaycastCarWheels( const IVP_Template_Car_System *pCarSystemTemplate )
 {
     IVP_U_Matrix m_core_f_object;
@@ -874,9 +841,6 @@ void IVP_Controller_Raycast_Fake_Jetski::InitRaycastCarWheels( const IVP_Templat
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Fake_Jetski::InitRaycastCarAxes( const IVP_Template_Car_System *pCarSystemTemplate )
 {
     m_SteeringAngle = -1.0f;		// make sure next call is not optimized

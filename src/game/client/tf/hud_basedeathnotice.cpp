@@ -353,9 +353,6 @@ void CHudBaseDeathNotice::RetireExpiredDeathNotices() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CHudBaseDeathNotice::EventIsPlayerDeath(const char *eventName) {
     if (FStrEq(eventName, "player_death"))
         return true;

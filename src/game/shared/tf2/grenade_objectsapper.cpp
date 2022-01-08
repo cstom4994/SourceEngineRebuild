@@ -57,9 +57,6 @@ void CGrenadeObjectSapper::Spawn( void )
 	m_bArmed = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGrenadeObjectSapper::Precache( void )
 {
 	PrecacheModel( "models/sapper.mdl" );

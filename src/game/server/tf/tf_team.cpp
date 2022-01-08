@@ -71,9 +71,6 @@ CTFTeamManager *TFTeamMgr()
 	return &s_TFTeamManager;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFTeamManager::CTFTeamManager()
 {
 	m_UndefinedTeamColor.r = 255;
@@ -83,9 +80,6 @@ CTFTeamManager::CTFTeamManager()
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFTeamManager::Init( void )
 {
 	// Clear the list.
@@ -105,9 +99,6 @@ bool CTFTeamManager::Init( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTeamManager::Shutdown( void )
 {
 	// Note, don't delete each team since they are in the gEntList and will 
@@ -115,9 +106,6 @@ void CTFTeamManager::Shutdown( void )
 	g_Teams.Purge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFTeamManager::Create( const char *pName, color32 color )
 {
 	CTeam *pTeam = static_cast<CTeam*>( CreateEntityByName( "tf_team" ) );
@@ -141,9 +129,6 @@ int CTFTeamManager::Create( const char *pName, color32 color )
 	return -1;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFTeamManager::GetFlagCaptures( int iTeam )
 {
 	if ( !IsValidTeam( iTeam ) )
@@ -156,9 +141,6 @@ int CTFTeamManager::GetFlagCaptures( int iTeam )
 	return pTeam->GetFlagCaptures();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTeamManager::IncrementFlagCaptures( int iTeam )
 {
 	if ( !IsValidTeam( iTeam ) )
@@ -171,9 +153,6 @@ void CTFTeamManager::IncrementFlagCaptures( int iTeam )
 	pTeam->IncrementFlagCaptures();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTeamManager::AddTeamScore( int iTeam, int iScoreToAdd )
 {
 	if ( !IsValidTeam( iTeam ) )
@@ -186,9 +165,6 @@ void CTFTeamManager::AddTeamScore( int iTeam, int iScoreToAdd )
 	pTeam->AddScore( iScoreToAdd );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFTeamManager::IsValidTeam( int iTeam )
 {
 	if ( ( iTeam >= 0 ) && ( iTeam < g_Teams.Count() ) )
@@ -197,17 +173,11 @@ bool CTFTeamManager::IsValidTeam( int iTeam )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int	CTFTeamManager::GetTeamCount( void )
 {
 	return g_Teams.Count();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFTeam *CTFTeamManager::GetTeam( int iTeam )
 {
 	Assert( ( iTeam >= 0 ) && ( iTeam < g_Teams.Count() ) );
@@ -219,17 +189,11 @@ CTFTeam *CTFTeamManager::GetTeam( int iTeam )
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFTeam *CTFTeamManager::GetSpectatorTeam()
 {
 	return GetTeam( 0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 color32 CTFTeamManager::GetUndefinedTeamColor( void )
 {
 	return m_UndefinedTeamColor;
@@ -286,17 +250,11 @@ CTFTeam::CTFTeam()
 	m_hLeader = NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTeam::SetColor( color32 color )
 {
 	m_TeamColor = color;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 color32 CTFTeam::GetColor( void )
 {
 	return m_TeamColor;

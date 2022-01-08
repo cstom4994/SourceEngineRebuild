@@ -1037,9 +1037,6 @@ float CObjectDispenser::GetDispenserRadius( void )
 	return flRadius;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectDispenser::AddHealingTarget( CBaseEntity *pOther )
 {
 	// add to tail
@@ -1054,9 +1051,6 @@ void CObjectDispenser::AddHealingTarget( CBaseEntity *pOther )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CObjectDispenser::RemoveHealingTarget( CBaseEntity *pOther )
 {
 	// remove
@@ -1137,9 +1131,6 @@ CObjectCartDispenser::CObjectCartDispenser()
 	m_bUseGenerateMetalSound = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectCartDispenser::Spawn( void )
 {
 	// This cast is for the benefit of GCC

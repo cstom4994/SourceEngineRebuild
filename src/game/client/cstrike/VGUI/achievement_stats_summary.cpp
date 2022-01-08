@@ -62,9 +62,6 @@ CAchievementAndStatsSummary::~CAchievementAndStatsSummary()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAchievementAndStatsSummary::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );

@@ -357,9 +357,6 @@ void CMultiPlayerAnimState::PlayFlinchGesture( Activity iActivity )
 // Multiplayer gesture code.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMultiPlayerAnimState::InitGestureSlots( void )
 {
 	// Setup the number of gesture slots.
@@ -389,18 +386,12 @@ bool CMultiPlayerAnimState::InitGestureSlots( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMultiPlayerAnimState::ShutdownGestureSlots( void )
 {
 	// Clean up the gesture slots.
 	m_aGestureSlots.Purge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMultiPlayerAnimState::ResetGestureSlots( void )
 {
 	// Clear out all the gesture slots.
@@ -410,9 +401,6 @@ void CMultiPlayerAnimState::ResetGestureSlots( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMultiPlayerAnimState::ResetGestureSlot( int iGestureSlot )
 {
 	// Sanity Check
@@ -447,9 +435,6 @@ void CMultiPlayerAnimState::ResetGestureSlot( int iGestureSlot )
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMultiPlayerAnimState::RunGestureSlotAnimEventsToCompletion( GestureSlot_t *pGesture )
 {
 	CBasePlayer *pPlayer = GetBasePlayer();
@@ -488,9 +473,6 @@ void CMultiPlayerAnimState::RunGestureSlotAnimEventsToCompletion( GestureSlot_t 
 
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMultiPlayerAnimState::IsGestureSlotActive( int iGestureSlot )
 {
 	// Sanity Check
@@ -528,9 +510,6 @@ bool CMultiPlayerAnimState::VerifyAnimLayerInSlot( int iGestureSlot )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMultiPlayerAnimState::IsGestureSlotPlaying( int iGestureSlot, Activity iGestureActivity )
 {
 	// Sanity Check
@@ -1813,9 +1792,6 @@ float CMultiPlayerAnimState::GetOuterXYSpeed()
 	return vel.Length2D();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Anim_StateLog( const char *pMsg, ... )
 {
 	// Format the string.
@@ -1839,9 +1815,6 @@ void Anim_StateLog( const char *pMsg, ... )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Anim_StatePrintf( int iLine, const char *pMsg, ... )
 {
 	// Format the string.
@@ -1858,9 +1831,6 @@ void Anim_StatePrintf( int iLine, const char *pMsg, ... )
 	Anim_StateLog( "%s\n", str );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMultiPlayerAnimState::DebugShowAnimStateForPlayer( bool bIsServer )
 {
 	// Get the player's velocity.
@@ -1918,9 +1888,6 @@ void CMultiPlayerAnimState::DebugShowAnimStateForPlayer( bool bIsServer )
 	DebugShowEyeYaw();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMultiPlayerAnimState::DebugShowEyeYaw( void )
 {
 #ifdef _NDEBUG
@@ -2054,9 +2021,6 @@ const char *s_aGestureSlotNames[GESTURE_SLOT_COUNT] =
 	"Custom"
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMultiPlayerAnimState::DebugGestureInfo( void )
 {
 	CBasePlayer *pPlayer = GetBasePlayer();

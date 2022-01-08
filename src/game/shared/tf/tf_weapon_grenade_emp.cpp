@@ -51,9 +51,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_emp );
 BEGIN_DATADESC( CTFGrenadeEmp )
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFGrenadeEmp::EmitGrenade( Vector vecSrc, QAngle vecAngles, Vector vecVel, 
 							        AngularImpulse angImpulse, CBasePlayer *pPlayer, float flTime, int iflags )
 {
@@ -78,9 +75,6 @@ BEGIN_DATADESC( CTFGrenadeEmpProjectile )
 DEFINE_THINKFUNC( DetonateThink ),
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGrenadeEmpProjectile* CTFGrenadeEmpProjectile::Create( const Vector &position, const QAngle &angles, 
 																const Vector &velocity, const AngularImpulse &angVelocity, 
 																CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, float timer, int iFlags )
@@ -94,9 +88,6 @@ CTFGrenadeEmpProjectile* CTFGrenadeEmpProjectile::Create( const Vector &position
 	return pGrenade;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeEmpProjectile::Spawn()
 {
 	Precache();
@@ -109,9 +100,6 @@ void CTFGrenadeEmpProjectile::Spawn()
 	SetThink( &CTFGrenadeEmpProjectile::DetonateThink );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeEmpProjectile::Precache()
 {
 	PrecacheModel( GRENADE_MODEL );
@@ -121,9 +109,6 @@ void CTFGrenadeEmpProjectile::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeEmpProjectile::BounceSound( void )
 {
 	EmitSound( "Weapon_Grenade_Emp.Bounce" );
@@ -131,9 +116,6 @@ void CTFGrenadeEmpProjectile::BounceSound( void )
 
 extern ConVar tf_grenade_show_radius;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeEmpProjectile::Detonate()
 {
 	if ( ShouldNotDetonate() )
@@ -211,9 +193,6 @@ void CTFGrenadeEmpProjectile::Detonate()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeEmpProjectile::DetonateThink( void )
 {
 	if ( !m_bPlayedLeadIn && gpGlobals->curtime > GetDetonateTime() - GRENADE_EMP_LEADIN )

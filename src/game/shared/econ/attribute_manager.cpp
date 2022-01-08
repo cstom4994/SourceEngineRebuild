@@ -437,9 +437,6 @@ string_t CAttributeManager::ApplyAttributeStringWrapper( string_t iszValue, CBas
 	return iszOut;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CAttributeManager::ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook, CUtlVector<CBaseEntity*> *pItemList )
 {
 	VPROF_BUDGET( "CAttributeManager::ApplyAttributeFloat", VPROF_BUDGETGROUP_ATTRIBUTES );
@@ -676,9 +673,6 @@ float CollateAttributeValues( const CEconItemAttributeDefinition *pAttrDef1, con
 	return flValue;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CEconItemAttributeIterator_ApplyAttributeFloat : public CEconItemSpecificAttributeIterator
 {
 public:
@@ -724,9 +718,6 @@ private:
 	CUtlVector<CBaseEntity *> *m_pItemList;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CAttributeContainer::ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook, CUtlVector<CBaseEntity*> *pItemList )
 {
 	if ( m_bPreventLoopback || !GetOuter() )
@@ -745,9 +736,6 @@ float CAttributeContainer::ApplyAttributeFloat( float flValue, CBaseEntity *pIni
 }
 
 #ifndef DOTA_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CAttributeContainerPlayer::ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook, CUtlVector<CBaseEntity*> *pItemList )
 {
 	if ( m_bPreventLoopback || !GetOuter() )
@@ -772,9 +760,6 @@ float CAttributeContainerPlayer::ApplyAttributeFloat( float flValue, CBaseEntity
 #endif
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CEconItemAttributeIterator_ApplyAttributeString : public CEconItemSpecificAttributeIterator
 {
 public:
@@ -839,9 +824,6 @@ private:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 string_t CAttributeContainer::ApplyAttributeString( string_t iszValue, CBaseEntity *pInitiator, string_t iszAttribHook /*= NULL_STRING*/, CUtlVector<CBaseEntity*> *pItemList /*= NULL*/ )
 {
 	if ( m_bPreventLoopback || !GetOuter() )

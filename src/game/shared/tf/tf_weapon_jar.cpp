@@ -111,10 +111,7 @@ PRECACHE_WEAPON_REGISTER( tf_projectile_cleaver );
 //
 // Weapon Jar functions.
 //
-	
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+
 CTFJar::CTFJar()
 {
 }
@@ -143,9 +140,6 @@ void CTFJar::PrimaryAttack( void )
 	BaseClass::PrimaryAttack();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseEntity *CTFJar::FireJar( CTFPlayer *pPlayer )
 {
 	StartEffectBarRegen();
@@ -155,9 +149,6 @@ CBaseEntity *CTFJar::FireJar( CTFPlayer *pPlayer )
 }
 
 #ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Jar *CTFJar::CreateJarProjectile( const Vector &position, const QAngle &angles, const Vector &velocity, 
 												   const AngularImpulse &angVelocity, CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo )
 {
@@ -173,9 +164,6 @@ Vector CTFJar::GetVelocityVector( const Vector &vecForward, const Vector &vecRig
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFJar::TossJarThink( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -238,18 +226,12 @@ void CTFJar::GetProjectileEntityName( CAttribute_String *attrProjectileEntityNam
 
 #ifdef GAME_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Jar::CTFProjectile_Jar()
 {
 	m_vCollisionVelocity = Vector( 0,0,0 );
 	m_iProjectileType = TF_PROJECTILE_JAR;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Jar::Precache()
 {
 	PrecacheModel( TF_WEAPON_PEEJAR_MODEL );
@@ -260,9 +242,6 @@ void CTFProjectile_Jar::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Jar::SetCustomPipebombModel()
 {
 	// Check for Model Override
@@ -288,9 +267,6 @@ void CTFProjectile_Jar::SetCustomPipebombModel()
 	SetModel( TF_WEAPON_PEEJAR_MODEL );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Jar* CTFProjectile_Jar::Create( const Vector &position, const QAngle &angles, 
 												const Vector &velocity, const AngularImpulse &angVelocity, 
 												CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo )
@@ -470,9 +446,6 @@ void JarExplode( int iEntIndex, CTFPlayer *pAttacker, CBaseEntity *pOriginalWeap
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Jar::Explode( trace_t *pTrace, int bitsDamageType )
 {
 	SetModelName( NULL_STRING );//invisible
@@ -775,9 +748,6 @@ const char *CTFProjectile_Jar::GetTrailParticleName( void )
 #endif
 
 #ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Jar *CTFJarMilk::CreateJarProjectile( const Vector &position, const QAngle &angles, const Vector &velocity, 
 												 const AngularImpulse &angVelocity, CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo )
 {
@@ -785,9 +755,6 @@ CTFProjectile_Jar *CTFJarMilk::CreateJarProjectile( const Vector &position, cons
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_JarMilk::Precache()
 {
 	PrecacheModel( TF_WEAPON_MILKJAR_MODEL );
@@ -796,9 +763,6 @@ void CTFProjectile_JarMilk::Precache()
 }
 #ifdef GAME_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_JarMilk* CTFProjectile_JarMilk::Create( const Vector &position, const QAngle &angles, 
 											 const Vector &velocity, const AngularImpulse &angVelocity, 
 											 CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo )
@@ -827,9 +791,6 @@ CTFProjectile_JarMilk* CTFProjectile_JarMilk::Create( const Vector &position, co
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_JarMilk::SetCustomPipebombModel()
 {
 	// Check for Model Override
@@ -854,9 +815,6 @@ void CTFProjectile_JarMilk::SetCustomPipebombModel()
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char* CTFJarMilk::ModifyEventParticles( const char* token )
 {
 	if ( FStrEq( token, "energydrink_splash") )
@@ -876,9 +834,6 @@ const char* CTFJarMilk::ModifyEventParticles( const char* token )
 	return BaseClass::ModifyEventParticles( token );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFJarMilk::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -897,9 +852,6 @@ bool CTFJarMilk::Holster( CBaseCombatWeapon *pSwitchingTo )
 #endif
 
 #ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Vector CTFCleaver::GetVelocityVector( const Vector &vecForward, const Vector &vecRight, const Vector &vecUp )
 {
 	Vector vecVelocity;
@@ -914,9 +866,6 @@ Vector CTFCleaver::GetVelocityVector( const Vector &vecForward, const Vector &ve
 	return vecVelocity;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Jar *CTFCleaver::CreateJarProjectile( const Vector &position, const QAngle &angles, const Vector &velocity, 
 	const AngularImpulse &angVelocity, CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo )
 {
@@ -924,9 +873,6 @@ CTFProjectile_Jar *CTFCleaver::CreateJarProjectile( const Vector &position, cons
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFCleaver::GetProjectileSpeed( void )
 {
 	return TF_CLEAVER_LAUNCH_SPEED;
@@ -939,26 +885,17 @@ void CTFCleaver::SecondaryAttack( void )
 }
 
 #ifdef CLIENT_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char* CTFCleaver::ModifyEventParticles( const char* token )
 {
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFCleaver::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	return BaseClass::Holster( pSwitchingTo );
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Cleaver::Precache()
 {
 	PrecacheModel( TF_WEAPON_CLEAVER_MODEL );
@@ -968,9 +905,6 @@ void CTFProjectile_Cleaver::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Cleaver::SetCustomPipebombModel()
 {
 	SetModel( TF_WEAPON_CLEAVER_MODEL );
@@ -986,9 +920,6 @@ CTFProjectile_Cleaver::CTFProjectile_Cleaver()
 
 #ifdef GAME_DLL
 #define FLIGHT_TIME_TO_MAX_DMG	1.f
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Cleaver::OnHit( CBaseEntity *pOther )
 {
 	SetModelName( NULL_STRING );//invisible
@@ -1071,9 +1002,6 @@ void CTFProjectile_Cleaver::OnHit( CBaseEntity *pOther )
 	m_bHitPlayer = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Cleaver::Explode( trace_t *pTrace, int bitsDamageType )
 {
 	if ( !m_bHitPlayer )
@@ -1105,9 +1033,6 @@ void CTFProjectile_Cleaver::Detonate( void )
 	Explode( &tr, GetDamageType() );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Cleaver* CTFProjectile_Cleaver::Create( const Vector &position, const QAngle &angles, 
 	const Vector &velocity, const AngularImpulse &angVelocity, 
 	CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, int nSkin )

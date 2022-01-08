@@ -495,9 +495,6 @@ void CNPC_CScanner::HandleAnimEvent( animevent_t *pEvent )
 	BaseClass::HandleAnimEvent( pEvent );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 char *CNPC_CScanner::GetEngineSound( void )
 {
 	if( m_bIsClawScanner )
@@ -2613,9 +2610,6 @@ float CNPC_CScanner::GetGoalDistance( void )
 	return BaseClass::GetGoalDistance();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_CScanner::MoveToPhotograph(float flInterval)
 {
 	if ( HaveInspectTarget() == false )

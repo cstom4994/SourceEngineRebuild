@@ -1218,9 +1218,6 @@ static void CheckVisGroups(CListBox *pList, CMapWorld *pWorld) {
     pWorld->EnumChildrenRecurseGroupsOnly((ENUMMAPCHILDRENPROC) _CheckVisGroups, (DWORD) pList);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static BOOL _CheckOverlayFaceList(CMapEntity *pEntity, CListBox *pList) {
     if (!IsCheckVisible(pEntity))
         return TRUE;
@@ -1241,9 +1238,6 @@ static BOOL _CheckOverlayFaceList(CMapEntity *pEntity, CListBox *pList) {
     return TRUE;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void CheckOverlayFaceList(CListBox *pList, CMapWorld *pWorld) {
     pWorld->EnumChildren((ENUMMAPCHILDRENPROC) _CheckOverlayFaceList, (DWORD) pList, MAPCLASS_TYPE(CMapEntity));
 }

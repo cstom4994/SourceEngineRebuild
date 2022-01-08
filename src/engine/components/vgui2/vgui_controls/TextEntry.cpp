@@ -119,9 +119,6 @@ TextEntry::~TextEntry() {
     delete m_pIMECandidates;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TextEntry::ApplySchemeSettings(IScheme *pScheme) {
     BaseClass::ApplySchemeSettings(pScheme);
 
@@ -2203,9 +2200,6 @@ void TextEntry::ScrollLeft() {
     LayoutVerticalScrollBarSlider();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TextEntry::ScrollLeftForResize() {
     if (_multiline)      // early out
     {
@@ -3245,9 +3239,6 @@ void TextEntry::OnSliderMoved() {
     Repaint();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool TextEntry::RequestInfo(KeyValues *outputData) {
     if (!stricmp(outputData->GetName(), "GetText")) {
         wchar_t wbuf[256];
@@ -3263,9 +3254,6 @@ bool TextEntry::RequestInfo(KeyValues *outputData) {
     return BaseClass::RequestInfo(outputData);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TextEntry::OnSetText(const wchar_t *text) {
     SetText(text);
 }
@@ -3279,9 +3267,6 @@ void TextEntry::OnSetState(int state) {
     SetText(buf);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TextEntry::ApplySettings(KeyValues *inResourceData) {
     BaseClass::ApplySettings(inResourceData);
 
@@ -3296,9 +3281,6 @@ void TextEntry::ApplySettings(KeyValues *inResourceData) {
     SelectAllOnFirstFocus(inResourceData->GetInt("selectallonfirstfocus", 0));
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TextEntry::GetSettings(KeyValues *outResourceData) {
     BaseClass::GetSettings(outResourceData);
     outResourceData->SetInt("textHidden", _hideText);
@@ -3308,9 +3290,6 @@ void TextEntry::GetSettings(KeyValues *outResourceData) {
     outResourceData->SetInt("unicode", m_bAllowNonAsciiCharacters);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *TextEntry::GetDescription() {
     static char buf[1024];
     Q_snprintf(buf, sizeof(buf),
@@ -3390,9 +3369,6 @@ void TextEntry::SetToFullWidth() {
     PerformLayout();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TextEntry::SelectAllOnFirstFocus(bool status) {
     _selectAllOnFirstFocus = status;
 }
@@ -3649,9 +3625,6 @@ void TextEntry::UpdateIMECandidates() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TextEntry::FlipToLastIME() {
     int hCurrentIME = input()->GetCurrentIMEHandle();
     int hEnglishIME = input()->GetEnglishIMEHandle();

@@ -243,9 +243,6 @@ static void ComputePlayerMatrix(CBasePlayer *pPlayer, matrix3x4_t &out) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 // derive from this so we can add save/load data to it
 struct game_shadowcontrol_params_t : public hlshadowcontrol_params_t {
@@ -1428,9 +1425,6 @@ bool CWeaponPhysCannon::Deploy(void) {
     return bReturn;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::SetViewModel(void) {
     BaseClass::SetViewModel();
 }
@@ -1467,9 +1461,6 @@ bool CWeaponPhysCannon::DropIfEntityHeld(CBaseEntity *pTarget) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::Drop(const Vector &vecVelocity) {
     ForceDrop();
 
@@ -1478,9 +1469,6 @@ void CWeaponPhysCannon::Drop(const Vector &vecVelocity) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponPhysCannon::CanHolster(void) {
     //Don't holster this weapon if we're holding onto something
     if (m_bActive)
@@ -1504,18 +1492,12 @@ bool CWeaponPhysCannon::Holster(CBaseCombatWeapon *pSwitchingTo) {
     return BaseClass::Holster(pSwitchingTo);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::DryFire(void) {
     SendWeaponAnim(ACT_VM_PRIMARYATTACK);
 
     WeaponSound(EMPTY);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::PrimaryFireEffect(void) {
     CBasePlayer *pOwner = ToBasePlayer(GetOwner());
 
@@ -1908,9 +1890,6 @@ void CWeaponPhysCannon::SecondaryAttack(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::WeaponIdle(void) {
     if (HasWeaponIdleTimeElapsed()) {
         if (m_bActive) {
@@ -2445,9 +2424,6 @@ void CWeaponPhysCannon::ItemPreFrame() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::CheckForTarget(void) {
 #ifndef CLIENT_DLL
                                                                                                                             //See if we're suppressing this
@@ -2692,9 +2668,6 @@ bool CWeaponPhysCannon::CanPickupObject(CBaseEntity *pTarget) {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::OpenElements(void) {
     if (m_bOpen)
         return;
@@ -2719,9 +2692,6 @@ void CWeaponPhysCannon::OpenElements(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::CloseElements(void) {
     if (m_bOpen == false)
         return;
@@ -2797,9 +2767,6 @@ void CWeaponPhysCannon::StopLoopingSounds() {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::DestroyEffects(void) {
 #ifdef CLIENT_DLL
 
@@ -2814,9 +2781,6 @@ void CWeaponPhysCannon::DestroyEffects(void) {
     StopEffects();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::StopEffects(bool stopSound) {
     // Turn off our effect state
     DoEffect(EFFECT_NONE);
@@ -2830,9 +2794,6 @@ void CWeaponPhysCannon::StopEffects(bool stopSound) {
 #endif    // !CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::StartEffects(void) {
 #ifdef CLIENT_DLL
 
@@ -3343,9 +3304,6 @@ bool CWeaponPhysCannon::IsTransparent(void) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::NotifyShouldTransmit(ShouldTransmitState_t state) {
     BaseClass::NotifyShouldTransmit(state);
 

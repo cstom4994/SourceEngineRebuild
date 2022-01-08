@@ -42,9 +42,6 @@ WeaponsResource::WeaponsResource(void) {
 WeaponsResource::~WeaponsResource(void) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void WeaponsResource::Init(void) {
     Reset();
 }

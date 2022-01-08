@@ -411,9 +411,6 @@ PRECACHE_WEAPON_REGISTER( tf_projectile_pipe_remote );
 LINK_ENTITY_TO_CLASS( tf_projectile_pipe, CTFGrenadePipebombProjectile );
 PRECACHE_WEAPON_REGISTER( tf_projectile_pipe );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char* CTFGrenadePipebombProjectile::GetPipebombClass( int iPipeBombType )
 {
 	switch ( iPipeBombType )
@@ -428,9 +425,6 @@ const char* CTFGrenadePipebombProjectile::GetPipebombClass( int iPipeBombType )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGrenadePipebombProjectile* CTFGrenadePipebombProjectile::Create( const Vector &position, const QAngle &angles, 
 																    const Vector &velocity, const AngularImpulse &angVelocity, 
 																    CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, 
@@ -489,9 +483,6 @@ CTFGrenadePipebombProjectile* CTFGrenadePipebombProjectile::Create( const Vector
 	return pGrenade;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadePipebombProjectile::Spawn()
 {
 	const bool bHasStickyEffects = HasStickyEffects();
@@ -562,9 +553,6 @@ void CTFGrenadePipebombProjectile::Spawn()
 	AddFlag( FL_GRENADE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadePipebombProjectile::Precache()
 {
 	int iModel = PrecacheModel( TF_WEAPON_PIPEBOMB_MODEL );
@@ -603,17 +591,11 @@ void CTFGrenadePipebombProjectile::SetPipebombMode( int iPipebombMode /* = TF_GL
 	m_iType.Set( iPipebombMode );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadePipebombProjectile::BounceSound( void )
 {
 	EmitSound( TF_WEAPON_PIPEBOMB_BOUNCE_SOUND );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadePipebombProjectile::Detonate()
 {
 	if ( gpGlobals->curtime > m_flDetonateTime )
@@ -645,9 +627,6 @@ void CTFGrenadePipebombProjectile::Detonate()
 	BaseClass::Detonate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGrenadePipebombProjectile::DetonateStickies()
 {
 	if ( !GetLauncher() )
@@ -1366,9 +1345,6 @@ public:
 EXPOSE_INTERFACE( CProxyStickybombGlowColor, IMaterialProxy, "StickybombGlowColor" IMATERIAL_PROXY_INTERFACE_VERSION );
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #if GAME_DLL
 int CTFGrenadePipebombProjectile::GetDamageCustom()
 {

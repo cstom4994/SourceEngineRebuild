@@ -37,9 +37,6 @@ CGrenadeRocket::CGrenadeRocket()
 	UseClientSideAnimation();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGrenadeRocket::Precache( void )
 {
 	PrecacheModel( "models/weapons/w_missile.mdl" );

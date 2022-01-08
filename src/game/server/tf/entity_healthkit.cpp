@@ -210,9 +210,6 @@ bool CHealthKit::MyTouch( CBasePlayer *pPlayer )
 	return bSuccess;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CHealthKit::GetRespawnDelay( void )
 {
 	return g_pGameRules->FlItemRespawnTime( this );

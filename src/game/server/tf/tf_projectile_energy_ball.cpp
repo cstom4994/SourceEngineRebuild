@@ -45,24 +45,15 @@ BEGIN_DATADESC( CTFProjectile_EnergyBall )
 //DEFINE_THINKFUNC( ImpactThink ),
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_EnergyBall::CTFProjectile_EnergyBall()
 {
 	m_bChargedShot = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_EnergyBall::~CTFProjectile_EnergyBall()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_EnergyBall *CTFProjectile_EnergyBall::Create( const Vector &vecOrigin, const QAngle &vecAngles, const float fSpeed, const float fGravity, CBaseEntity *pOwner, CBaseEntity *pScorer )
 {
 	CTFProjectile_EnergyBall *pBall = static_cast<CTFProjectile_EnergyBall*>( CBaseEntity::Create( "tf_projectile_energy_ball", vecOrigin, vecAngles, pOwner ) );
@@ -74,9 +65,6 @@ CTFProjectile_EnergyBall *CTFProjectile_EnergyBall::Create( const Vector &vecOri
 	return pBall;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_EnergyBall::InitEnergyBall( const Vector &vecOrigin, const QAngle &vecAngles, const float fSpeed, const float fGravity, CBaseEntity *pOwner, CBaseEntity *pScorer )
 {
 	// Initialize the owner.
@@ -117,18 +105,12 @@ void CTFProjectile_EnergyBall::InitEnergyBall( const Vector &vecOrigin, const QA
 	m_flInitTime = gpGlobals->curtime;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_EnergyBall::Spawn()
 {	
 	SetModel( ENERGY_BALL_MODEL );
 	BaseClass::Spawn();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_EnergyBall::Precache()
 {
 	PrecacheParticleSystem( "drg_cow_rockettrail_charged" );
@@ -143,17 +125,11 @@ void CTFProjectile_EnergyBall::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_EnergyBall::SetScorer( CBaseEntity *pScorer )
 {
 	m_Scorer = pScorer;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBasePlayer *CTFProjectile_EnergyBall::GetScorer( void )
 {
 	return dynamic_cast<CBasePlayer *>( m_Scorer.Get() );

@@ -8,9 +8,6 @@
 #include "tf_gamemovement_infiltrator.h"
 #include "tf_movedata.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGameMovementInfiltrator::CTFGameMovementInfiltrator()
 {
 	m_pInfiltratorData = NULL;
@@ -24,9 +21,6 @@ CTFGameMovementInfiltrator::CTFGameMovementInfiltrator()
 	m_vDuckViewOffset = INFILTRATORCLASS_VIEWOFFSET_DUCK;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementInfiltrator::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFMoveData *pTFMoveData )
 {
 	// Get the class specific data from the TFMoveData structure
@@ -37,25 +31,16 @@ void CTFGameMovementInfiltrator::ProcessClassMovement( CBaseTFPlayer *pPlayer, C
 	BaseClass::ProcessMovement( (CBasePlayer *)pPlayer, static_cast<CMoveData*>( pTFMoveData ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementInfiltrator::GetPlayerMins( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMins : m_vStandMins; 
 }
-	
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+
 const Vector &CTFGameMovementInfiltrator::GetPlayerMaxs( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMaxs : m_vStandMaxs;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementInfiltrator::GetPlayerViewOffset( bool bDucked ) const
 {
 	return bDucked ? m_vDuckViewOffset : m_vStandViewOffset;

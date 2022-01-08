@@ -484,9 +484,6 @@ int ScrollBar::GetRangeWindow() {
     return _slider->GetRangeWindow();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBar::Validate() {
     if (_slider != NULL) {
         int buttonOffset = 0;
@@ -507,9 +504,6 @@ void ScrollBar::Validate() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBar::SetScrollbarButtonsVisible(bool visible) {
     for (int i = 0; i < 2; i++) {
         if (_button[i] != NULL) {
@@ -519,9 +513,6 @@ void ScrollBar::SetScrollbarButtonsVisible(bool visible) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBar::UseImages(const char *pszUpArrow, const char *pszDownArrow, const char *pszLine, const char *pszBox) {
     if (pszUpArrow) {
         if (!m_pUpArrow) {
@@ -596,9 +587,6 @@ void ScrollBar::UseImages(const char *pszUpArrow, const char *pszDownArrow, cons
     InvalidateLayout();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBar::UpdateButtonsForImages(void) {
     // Turn off parts of our drawing based on which images we're replacing it with
     if (m_pUpArrow || m_pDownArrow) {
@@ -617,9 +605,6 @@ void ScrollBar::UpdateButtonsForImages(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBar::UpdateSliderImages(void) {
     if (m_pUpArrow && m_pDownArrow) {
         // set the alpha on the up arrow

@@ -1015,9 +1015,6 @@ void CStorePage::PerformLayout( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CStorePage::PositionItemPanel( CItemModelPanel *pPanel, int iIndex )
 {
 	CItemModelPanel *pRealPanel = m_vecItemPanels[iIndex].m_pItemModelPanel;

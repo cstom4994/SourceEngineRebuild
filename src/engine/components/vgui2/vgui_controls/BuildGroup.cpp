@@ -330,9 +330,6 @@ bool BuildGroup::CursorMoved(int x, int y, Panel *panel) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BuildGroup::MousePressed(MouseCode code, Panel *panel) {
     Assert(panel);
 
@@ -453,9 +450,6 @@ bool BuildGroup::MousePressed(MouseCode code, Panel *panel) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BuildGroup::MouseReleased(MouseCode code, Panel *panel) {
     if (!m_hBuildDialog.Get()) {
         if (panel->GetParent()) {
@@ -477,9 +471,6 @@ bool BuildGroup::MouseReleased(MouseCode code, Panel *panel) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BuildGroup::MouseDoublePressed(MouseCode code, Panel *panel) {
     Assert(panel);
     return MousePressed(code, panel);
@@ -503,9 +494,6 @@ bool BuildGroup::KeyTyped(wchar_t unichar, Panel *panel) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BuildGroup::KeyCodeTyped(KeyCode code, Panel *panel) {
     if (!m_hBuildDialog.Get()) {
         if (panel->GetParent()) {
@@ -691,9 +679,6 @@ void BuildGroup::ActivateBuildDialog(void) {
     ivgui()->PostMessage(m_hBuildDialog->GetVPanel(), keyval, NULL);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 HCursor BuildGroup::GetCursor(Panel *panel) {
     Assert(panel);
 

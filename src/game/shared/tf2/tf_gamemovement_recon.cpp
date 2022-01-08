@@ -19,9 +19,6 @@
 #define MAX_VERTICAL_SPEED				400
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGameMovementRecon::CTFGameMovementRecon()
 {
 	m_pReconData = NULL;
@@ -38,9 +35,6 @@ CTFGameMovementRecon::CTFGameMovementRecon()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementRecon::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFMoveData *pTFMove )
 {
 	// Get the class specific data from the TFMoveData structure
@@ -71,9 +65,6 @@ void CTFGameMovementRecon::PostPlayerMove( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementRecon::UpdateTimers( void )
 {
 	BaseClass::UpdateTimers();
@@ -170,9 +161,6 @@ void CTFGameMovementRecon::OnTryPlayerMoveCollision( trace_t &tr )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementRecon::AirMove()
 {
 	m_bPerformingAirMove = true;
@@ -570,25 +558,16 @@ bool CTFGameMovementRecon::CheckJumpButton()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementRecon::GetPlayerMins( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMins : m_vStandMins; 
 }
-	
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+
 const Vector &CTFGameMovementRecon::GetPlayerMaxs( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMaxs : m_vStandMaxs;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementRecon::GetPlayerViewOffset( bool bDucked ) const
 {
 	return bDucked ? m_vDuckViewOffset : m_vStandViewOffset;

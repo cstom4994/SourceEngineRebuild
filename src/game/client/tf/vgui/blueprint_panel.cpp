@@ -169,9 +169,6 @@ void CBlueprintPanel::OnMouseDoublePressed(vgui::MouseCode code)
 	vgui::surface()->PlaySound( "UI/buttonclickrelease.wav" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBlueprintPanel::OnCursorMoved( int x, int y )
 {
 	if ( !m_bClickable )

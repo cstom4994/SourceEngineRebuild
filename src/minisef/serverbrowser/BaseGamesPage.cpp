@@ -890,9 +890,6 @@ void CBaseGamesPage::ServerResponded(int iServer, gameserveritem_t *pServerItem)
     m_iServerRefreshCount++;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseGamesPage::UpdateFilterAndQuickListVisibility() {
     bool showQuickList = m_pQuickListCheckButton->IsSelected();
     bool showFilter = m_pFilter->IsSelected();
@@ -926,9 +923,6 @@ void CBaseGamesPage::UpdateFilterAndQuickListVisibility() {
     ApplyGameFilters();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseGamesPage::SetQuickListEnabled(bool bEnabled) {
     m_pQuickListCheckButton->SetSelected(bEnabled);
 
@@ -939,9 +933,6 @@ void CBaseGamesPage::SetQuickListEnabled(bool bEnabled) {
     m_pFilterString->SetVisible(!m_pQuickListCheckButton->IsSelected());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseGamesPage::SetFiltersVisible(bool bVisible) {
     if (bVisible == m_pFilter->IsSelected())
         return;

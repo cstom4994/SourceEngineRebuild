@@ -41,9 +41,6 @@ void CDispCollTri::Init( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CDispCollTri::SetPoint( int index, Vector const &vert )
 {
 	Assert( index >= 0 );
@@ -55,9 +52,6 @@ inline void CDispCollTri::SetPoint( int index, Vector const &vert )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CDispCollTri::SetPointNormal( int index, Vector const &normal )
 {
 	Assert( index >= 0 );
@@ -69,9 +63,6 @@ inline void CDispCollTri::SetPointNormal( int index, Vector const &normal )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTri::CalcPlane( void )
 {
 	//
@@ -119,18 +110,12 @@ void CDispCollTri::CalcPlane( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CDispCollTri::SetIntersect( bool bIntersect )
 {
 	m_bIntersect = bIntersect;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline bool CDispCollTri::IsIntersect( void )
 {
 	return m_bIntersect;
@@ -158,18 +143,12 @@ CDispCollNode::CDispCollNode()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline bool CDispCollNode::IsLeaf( void )
 {
 	return m_bIsLeaf;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CDispCollNode::SetBounds( Vector const &bMin, Vector const &bMax )
 {
 	m_Bounds[0] = bMin;
@@ -177,9 +156,6 @@ inline void CDispCollNode::SetBounds( Vector const &bMin, Vector const &bMax )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CDispCollNode::GetBounds( Vector &bMin, Vector &bMax )
 {
 	bMin = m_Bounds[0];
@@ -365,9 +341,6 @@ int CDispCollTree::GetNodeIndexFromComponents( int x, int y )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTree::InitLeaves( CCoreDispInfo *pDisp )
 {
 	//
@@ -554,9 +527,6 @@ inline int CDispCollTree::GetChildNode( int nodeIndex, int direction )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline int CDispCollTree::GetNodeLevel( int nodeIndex )
 {
 	// node range [0...m_NodeCount)
@@ -680,9 +650,6 @@ bool CDispCollTree::RayTriListTest( CDispCollTreeTempData *pTemp, CDispCollData 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::RayAABBTest( CDispCollTreeTempData *pTemp, Vector &rayStart, Vector &rayEnd )
 {
 	const float MY_DIST_EPSILON = 0.01f;
@@ -716,9 +683,6 @@ bool CDispCollTree::RayAABBTest( CDispCollTreeTempData *pTemp, Vector &rayStart,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTree::CreatePlanesFromBounds( CDispCollTreeTempData *pTemp, Vector const &bbMin, Vector const &bbMax )
 {
 	//
@@ -744,9 +708,6 @@ void CDispCollTree::CreatePlanesFromBounds( CDispCollTreeTempData *pTemp, Vector
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTree::RayNodeTest_r( CDispCollTreeTempData *pTemp, int nodeIndex, Vector rayStart, Vector rayEnd )
 {
 	// get the current node
@@ -785,9 +746,6 @@ void CDispCollTree::RayNodeTest_r( CDispCollTreeTempData *pTemp, int nodeIndex, 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::RayTestAllTris( CDispCollData *pData, int power )
 {
 	//
@@ -838,9 +796,6 @@ bool CDispCollTree::RayTestAllTris( CDispCollData *pData, int power )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::RayTest( CDispCollData *pData )
 {
 	// reset the triangle list count
@@ -863,9 +818,6 @@ bool CDispCollTree::RayTest( CDispCollData *pData )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::SweptAABBTriIntersect( Vector &rayStart, Vector &rayEnd, Vector &extents,
 										   CDispCollTri const *pTri, Vector &plNormal, float *plDist,
 										   float *fraction )
@@ -1358,9 +1310,6 @@ bool CDispCollTree::SweptAABBTriIntersect( Vector &rayStart, Vector &rayEnd, Vec
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::AABBTriIntersect( CDispCollTreeTempData *pTemp, CDispCollData *pData )
 {
 	bool bResult = false;
@@ -1393,9 +1342,6 @@ bool CDispCollTree::AABBTriIntersect( CDispCollTreeTempData *pTemp, CDispCollDat
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::IntersectAABBTriTest( Vector &rayStart, Vector &extents, 
 										  CDispCollTri const *pTri )
 {
@@ -1556,9 +1502,6 @@ bool CDispCollTree::IntersectAABBTriTest( Vector &rayStart, Vector &extents,
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::SweptAABBTriTest( Vector &rayStart, Vector &rayEnd, Vector &extents, 
 									  CDispCollTri const *pTri )
 {
@@ -1742,9 +1685,6 @@ bool CDispCollTree::SweptAABBTriTest( Vector &rayStart, Vector &rayEnd, Vector &
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::CullTriList( CDispCollTreeTempData *pTemp, Vector &rayStart, Vector &rayEnd, Vector &extents, bool bIntersect )
 {
 	//
@@ -1781,9 +1721,6 @@ bool CDispCollTree::CullTriList( CDispCollTreeTempData *pTemp, Vector &rayStart,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::IntersectAABBAABBTest( CDispCollTreeTempData *pTemp, const Vector &pos, const Vector &extents )
 {
 	float dist;
@@ -1805,9 +1742,6 @@ bool CDispCollTree::IntersectAABBAABBTest( CDispCollTreeTempData *pTemp, const V
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::SweptAABBAABBTest( CDispCollTreeTempData *pTemp, const Vector &rayStart, const Vector &rayEnd, const Vector &extents )
 {
 	int   dir;
@@ -1900,9 +1834,6 @@ bool CDispCollTree::SweptAABBAABBTest( CDispCollTreeTempData *pTemp, const Vecto
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTree::BuildTriList_r( CDispCollTreeTempData *pTemp, int nodeIndex, Vector &rayStart, Vector &rayEnd, Vector &extents,
 								    bool bIntersect )
 {
@@ -1953,9 +1884,6 @@ void CDispCollTree::BuildTriList_r( CDispCollTreeTempData *pTemp, int nodeIndex,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::AABBSweep( CDispCollData *pData )
 {
 	// reset the triangle lists counts
@@ -1977,9 +1905,6 @@ bool CDispCollTree::AABBSweep( CDispCollData *pData )
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::AABBIntersect( CDispCollData *pData )
 {
 	// reset the triangle lists counts

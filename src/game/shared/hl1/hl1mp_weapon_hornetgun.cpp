@@ -120,9 +120,6 @@ void CWeaponHgun::Precache( void )
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponHgun::PrimaryAttack( void )
 {
 	CHL1_Player *pPlayer = ToHL1Player( GetOwner() );
@@ -172,9 +169,6 @@ void CWeaponHgun::PrimaryAttack( void )
 	SetWeaponIdleTime( random->RandomFloat( 10, 15 ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponHgun::SecondaryAttack( void )
 {
 	CHL1_Player *pPlayer = ToHL1Player( GetOwner() );

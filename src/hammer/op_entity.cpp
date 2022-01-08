@@ -379,9 +379,6 @@ ColumnSortFn g_ColumnSortFunctions[] =
         };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 COP_Entity::COP_Entity()
         : CObjectPage(COP_Entity::IDD),
           m_cClasses(this),
@@ -1201,9 +1198,6 @@ void COP_Entity::RemoveBlankKeys(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::LoadClassList(void) {
     CEditGameClass *pEdit = (CEditGameClass *) GetEditObject();
     const char *pWorldSpawnString = "worldspawn";
@@ -1255,9 +1249,6 @@ void COP_Entity::LoadClassList(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 BOOL COP_Entity::OnInitDialog(void) {
     //VPROF_BUDGET( "COP_Entity::OnInitDialog", "Object Properties" );
 
@@ -1975,9 +1966,6 @@ void COP_Entity::SetSmartControlText(const char *pszText) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnSelchangeKeyvalues(void) {
     //VPROF_BUDGET( "COP_Entity::OnSelchangeKeyvalues", "Object Properties" );
 
@@ -2091,9 +2079,6 @@ void COP_Entity::OnChangeKeyorValue(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnAddkeyvalue(void) {
     //VPROF_BUDGET( "COP_Entity::OnAddkeyvalue", "Object Properties" );
 
@@ -2370,9 +2355,6 @@ void COP_Entity::SetReadOnly(bool bReadOnly) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnSmartedit(void) {
     m_iSortColumn = -1;    // Go back to FGD sorting.
     SetSmartedit(!m_bSmartedit);
@@ -2587,9 +2569,6 @@ void COP_Entity::InternalOnChangeSmartcontrol(const char *szValue) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnChangeSmartcontrolSel(void) {
     // update current value with this
     int iSel = GetCurVarListSelection();
@@ -2883,9 +2862,6 @@ void COP_Entity::OnBrowse(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnCopy(void) {
     // copy entity keyvalues
     kvClipboard.RemoveAll();
@@ -2901,18 +2877,12 @@ void COP_Entity::OnCopy(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnEntityHelp(void) {
     CEntityHelpDlg::ShowEntityHelpDialog();
     CEntityHelpDlg::SetEditGameClass(m_pDisplayClass);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnKillfocusKey(void) {
     if (!m_bChangingKeyName)
         return;
@@ -3059,9 +3029,6 @@ void COP_Entity::OnMarkAndAdd(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnPaste(void) {
     if (bKvClipEmpty)
         return;
@@ -3164,9 +3131,6 @@ void COP_Entity::GetFaceListsForKey(CMapFaceList &FullFaces, CMapFaceList &Parti
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnPickFaces(void) {
     CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
     Assert(pDoc != NULL);
@@ -3228,9 +3192,6 @@ void COP_Entity::OnPickFaces(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnPickAngles(void) {
     CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
     Assert(pDoc != NULL);
@@ -3270,9 +3231,6 @@ void COP_Entity::OnPickAngles(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnPickEntity(void) {
     CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
     Assert(pDoc != NULL);
@@ -3330,9 +3288,6 @@ void COP_Entity::OnPickEntity(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnPickColor(void) {
     int iSel = GetCurVarListSelection();
     if (m_VarMap[iSel] < 0)
@@ -3402,9 +3357,6 @@ void COP_Entity::OnPickColor(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COP_Entity::OnSetfocusKey(void) {
     m_cKey.GetWindowText(m_szOldKeyName);
 

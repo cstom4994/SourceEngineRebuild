@@ -15,9 +15,6 @@
 #include "tier0/memdbgon.h"
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 mstudioanimdesc_t &studiohdr_t::pAnimdesc( int i ) const
 { 
@@ -36,9 +33,6 @@ mstudioanimdesc_t &studiohdr_t::pAnimdesc( int i ) const
 	return *pStudioHdr->pLocalAnimdesc( pVModel->m_anim[i].index );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 mstudioanim_t *mstudioanimdesc_t::pAnimBlock( int block, int index ) const
 {
@@ -60,9 +54,6 @@ mstudioanim_t *mstudioanimdesc_t::pAnimBlock( int block, int index ) const
 	return (mstudioanim_t *)NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 static ConVar mod_load_showstall( "mod_load_showstall", "0", 0, "1 - show hitches , 2 - show stalls" );
 mstudioanim_t *mstudioanimdesc_t::pAnim( int *piFrame ) const
@@ -223,9 +214,6 @@ mstudiolocalhierarchy_t *mstudioanimdesc_t::pHierarchy( int i ) const
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 bool studiohdr_t::SequencesAvailable() const
 {
@@ -238,9 +226,6 @@ bool studiohdr_t::SequencesAvailable() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int studiohdr_t::GetNumSeq( void ) const
 {
@@ -254,9 +239,6 @@ int studiohdr_t::GetNumSeq( void ) const
 	return pVModel->m_seq.Count();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 mstudioseqdesc_t &studiohdr_t::pSeqdesc( int i ) const
 {
@@ -280,9 +262,6 @@ mstudioseqdesc_t &studiohdr_t::pSeqdesc( int i ) const
 	return *pStudioHdr->pLocalSeqdesc( pVModel->m_seq[i].index );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int studiohdr_t::iRelativeAnim( int baseseq, int relanim ) const
 {
@@ -299,9 +278,6 @@ int studiohdr_t::iRelativeAnim( int baseseq, int relanim ) const
 	return pGroup->masterAnim[ relanim ];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int studiohdr_t::iRelativeSeq( int baseseq, int relseq ) const
 {
@@ -319,9 +295,6 @@ int studiohdr_t::iRelativeSeq( int baseseq, int relseq ) const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int	studiohdr_t::GetNumPoseParameters( void ) const
 {
@@ -338,9 +311,6 @@ int	studiohdr_t::GetNumPoseParameters( void ) const
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 const mstudioposeparamdesc_t &studiohdr_t::pPoseParameter( int i )
 {
@@ -364,9 +334,6 @@ const mstudioposeparamdesc_t &studiohdr_t::pPoseParameter( int i )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int studiohdr_t::GetSharedPoseParameter( int iSequence, int iLocalPose ) const
 {
@@ -387,9 +354,6 @@ int studiohdr_t::GetSharedPoseParameter( int iSequence, int iLocalPose ) const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int studiohdr_t::EntryNode( int iSequence )
 {
@@ -409,9 +373,6 @@ int studiohdr_t::EntryNode( int iSequence )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 int studiohdr_t::ExitNode( int iSequence )
@@ -432,9 +393,6 @@ int studiohdr_t::ExitNode( int iSequence )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int	studiohdr_t::GetNumAttachments( void ) const
 {
@@ -451,9 +409,6 @@ int	studiohdr_t::GetNumAttachments( void ) const
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 const mstudioattachment_t &studiohdr_t::pAttachment( int i ) const
 {
@@ -472,9 +427,6 @@ const mstudioattachment_t &studiohdr_t::pAttachment( int i ) const
 	return *pStudioHdr->pLocalAttachment( pVModel->m_attachment[i].index );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int	studiohdr_t::GetAttachmentBone( int i )
 {
@@ -494,9 +446,6 @@ int	studiohdr_t::GetAttachmentBone( int i )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void studiohdr_t::SetAttachmentBone( int iAttachment, int iBone )
 {
@@ -512,9 +461,6 @@ void studiohdr_t::SetAttachmentBone( int iAttachment, int iBone )
 	attachment.localbone = iBone;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 char *studiohdr_t::pszNodeName( int iNode )
 {
@@ -533,9 +479,6 @@ char *studiohdr_t::pszNodeName( int iNode )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int studiohdr_t::GetTransition( int iFrom, int iTo ) const
 {
@@ -606,9 +549,6 @@ void studiohdr_t::SetActivityListVersion( int ActVersion ) const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 int studiohdr_t::GetNumIKAutoplayLocks( void ) const
@@ -703,9 +643,6 @@ int	studiohdr_t::RemapAnimBone( int iAnim, int iLocalBone ) const
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 CStudioHdr::CStudioHdr( void ) 
 {
@@ -773,9 +710,6 @@ void CStudioHdr::Term()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 bool CStudioHdr::SequencesAvailable() const
 {
@@ -897,9 +831,6 @@ mstudioanimdesc_t &CStudioHdr::pAnimdesc( int i )
 	return *pStudioHdr->pLocalAnimdesc( m_pVModel->m_anim[i].index );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int CStudioHdr::GetNumSeq( void ) const
 {
@@ -911,9 +842,6 @@ int CStudioHdr::GetNumSeq( void ) const
 	return m_pVModel->m_seq.Count();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 mstudioseqdesc_t &CStudioHdr::pSeqdesc( int i )
 {
@@ -944,9 +872,6 @@ mstudioseqdesc_t &CStudioHdr::pSeqdesc( int i )
 	return *pStudioHdr->pLocalSeqdesc( m_pVModel->m_seq[i].index );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int CStudioHdr::iRelativeAnim( int baseseq, int relanim ) const
 {
@@ -960,9 +885,6 @@ int CStudioHdr::iRelativeAnim( int baseseq, int relanim ) const
 	return pGroup->masterAnim[ relanim ];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int CStudioHdr::iRelativeSeq( int baseseq, int relseq ) const
 {
@@ -979,9 +901,6 @@ int CStudioHdr::iRelativeSeq( int baseseq, int relseq ) const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int	CStudioHdr::GetNumPoseParameters( void ) const
 {
@@ -1000,9 +919,6 @@ int	CStudioHdr::GetNumPoseParameters( void ) const
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 const mstudioposeparamdesc_t &CStudioHdr::pPoseParameter( int i )
 {
@@ -1020,9 +936,6 @@ const mstudioposeparamdesc_t &CStudioHdr::pPoseParameter( int i )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int CStudioHdr::GetSharedPoseParameter( int iSequence, int iLocalPose ) const
 {
@@ -1043,9 +956,6 @@ int CStudioHdr::GetSharedPoseParameter( int iSequence, int iLocalPose ) const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int CStudioHdr::EntryNode( int iSequence )
 {
@@ -1064,9 +974,6 @@ int CStudioHdr::EntryNode( int iSequence )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 int CStudioHdr::ExitNode( int iSequence )
@@ -1086,9 +993,6 @@ int CStudioHdr::ExitNode( int iSequence )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int	CStudioHdr::GetNumAttachments( void ) const
 {
@@ -1104,9 +1008,6 @@ int	CStudioHdr::GetNumAttachments( void ) const
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 const mstudioattachment_t &CStudioHdr::pAttachment( int i )
 {
@@ -1122,9 +1023,6 @@ const mstudioattachment_t &CStudioHdr::pAttachment( int i )
 	return *pStudioHdr->pLocalAttachment( m_pVModel->m_attachment[i].index );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int	CStudioHdr::GetAttachmentBone( int i )
 {
@@ -1142,9 +1040,6 @@ int	CStudioHdr::GetAttachmentBone( int i )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CStudioHdr::SetAttachmentBone( int iAttachment, int iBone )
 {
@@ -1159,9 +1054,6 @@ void CStudioHdr::SetAttachmentBone( int iAttachment, int iBone )
 	attachment.localbone = iBone;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 char *CStudioHdr::pszNodeName( int iNode )
 {
@@ -1179,9 +1071,6 @@ char *CStudioHdr::pszNodeName( int iNode )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int CStudioHdr::GetTransition( int iFrom, int iTo ) const
 {
@@ -1200,9 +1089,6 @@ int CStudioHdr::GetTransition( int iFrom, int iTo ) const
 	*/
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int	CStudioHdr::GetActivityListVersion( void )
 {
@@ -1243,9 +1129,6 @@ void CStudioHdr::SetActivityListVersion( int version )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 int	CStudioHdr::GetEventListVersion( void )
 {
@@ -1285,9 +1168,6 @@ void CStudioHdr::SetEventListVersion( int version )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 
 int CStudioHdr::GetNumIKAutoplayLocks( void ) const

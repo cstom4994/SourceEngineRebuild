@@ -72,9 +72,6 @@ CTFWeaponBaseGun::CTFWeaponBaseGun()
 	m_iAmmoToAdd = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGun::PrimaryAttack( void )
 {
 	float flUberChargeAmmoPerShot = UberChargeAmmoPerShot();
@@ -251,9 +248,6 @@ bool CTFWeaponBaseGun::ShouldRemoveDisguiseOnPrimaryAttack() const
 
 	return true;
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGun::SecondaryAttack( void )
 {
 	// semi-auto behaviour
@@ -1075,9 +1069,6 @@ float CTFWeaponBaseGun::GetProjectileDamage( void )
 	return flDamage;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWeaponBaseGun::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 // Server specific.
@@ -1108,9 +1099,6 @@ void CTFWeaponBaseGun::DoFireEffects()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGun::ToggleZoom( void )
 {
 	// Toggle the zoom.
@@ -1131,9 +1119,6 @@ void CTFWeaponBaseGun::ToggleZoom( void )
 	m_flNextSecondaryAttack = gpGlobals->curtime + 1.2;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGun::ZoomIn( void )
 {
 	// The the owning player.
@@ -1157,9 +1142,6 @@ void CTFWeaponBaseGun::ZoomIn( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGun::ZoomOut( void )
 {
 	// The the owning player.
@@ -1180,9 +1162,6 @@ void CTFWeaponBaseGun::ZoomOut( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGun::ZoomOutIn( void )
 {
 	//Zoom out, set think to zoom back in.

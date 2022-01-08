@@ -319,9 +319,6 @@ bool CNPC_Ichthyosaur::OverrideMove(float flInterval) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Ichthyosaur::MoveExecute_Alive(float flInterval) {
     Vector vStart = GetAbsOrigin();
     Vector vForward, vRight, vUp;

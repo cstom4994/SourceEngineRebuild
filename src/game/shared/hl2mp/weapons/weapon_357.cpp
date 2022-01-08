@@ -86,9 +86,6 @@ CWeapon357::CWeapon357(void) {
     m_bFiresUnderwater = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeapon357::PrimaryAttack(void) {
     // Only the player fires this way so we can cast
     CBasePlayer *pPlayer = ToBasePlayer(GetOwner());

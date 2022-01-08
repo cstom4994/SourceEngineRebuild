@@ -529,9 +529,6 @@ float CTFWeaponPDA_Spy_Build::GetProgress( void )
 	return pPlayer->m_Shared.GetRageMeter() / 100.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWeaponPDA_Spy_Build::VisibleInWeaponSelection( void )
 {
 	if ( !BaseClass::VisibleInWeaponSelection() )

@@ -536,9 +536,6 @@ void CL_ReadPackets(bool bFinalTick) {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CL_ClearState(void) {
     // clear out the current whitelist
     IFileList *pFilesToReload = NULL;
@@ -2521,9 +2518,6 @@ void CL_Init(void) {
     CL_InitCloudSettingsCvar();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CL_Shutdown(void) {
 }
 

@@ -400,9 +400,6 @@ void CTFPowerupBottle::UnEquip( CBasePlayer* pOwner )
 	RemoveEffect();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPowerupBottle::Use()
 {
 	if ( !m_bActive && GetNumCharges() > 0 )
@@ -485,17 +482,11 @@ bool CTFPowerupBottle::Use()
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPowerupBottle::StatusThink()
 {
 	RemoveEffect();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPowerupBottle::RemoveEffect()
 {
 	m_bActive = false;
@@ -503,9 +494,6 @@ void CTFPowerupBottle::RemoveEffect()
 	SetContextThink( NULL, 0, "PowerupBottleThink" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPowerupBottle::SetNumCharges( uint8 usNumCharges )
 {
 	static CSchemaAttributeDefHandle pAttrDef_PowerupCharges( "powerup charges" );
@@ -522,17 +510,11 @@ void CTFPowerupBottle::SetNumCharges( uint8 usNumCharges )
 	pEconItemView->GetAttributeList()->SetRuntimeAttributeValue( pAttrDef_PowerupCharges, float( usNumCharges ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 uint8 CTFPowerupBottle::GetNumCharges() const
 {
 	return m_usNumCharges; 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 uint8 CTFPowerupBottle::GetMaxNumCharges() const
 {
 	int iMaxNumCharges = 0;
@@ -547,9 +529,6 @@ uint8 CTFPowerupBottle::GetMaxNumCharges() const
 	return (uint8)iMaxNumCharges;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPowerupBottle::AllowedToUse()
 {
 	if ( TFGameRules() && !( TFGameRules()->State_Get() == GR_STATE_BETWEEN_RNDS || TFGameRules()->State_Get() == GR_STATE_RND_RUNNING ) )

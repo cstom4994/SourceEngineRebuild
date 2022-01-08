@@ -71,9 +71,6 @@ bool CWeaponRocketLauncher::ComputeEMPFireState( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponRocketLauncher::Spawn( void )
 {
 	BaseClass::Spawn();
@@ -197,9 +194,6 @@ float CWeaponRocketLauncher::GetFireRate( void )
 #if defined( CLIENT_DLL )
 // Client Only
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponRocketLauncher::ShouldPredict( void )
 {
 	if ( GetOwner() == C_BasePlayer::GetLocalPlayer() )

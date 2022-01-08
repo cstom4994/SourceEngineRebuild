@@ -889,9 +889,6 @@ void CBasePlayer::UpdateWetness()
 */
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::CategorizeGroundSurface(trace_t &pm) {
     player->m_surfaceProps = pm.surface.surfaceProps;
     player->m_pSurfaceData = MoveHelper()->GetSurfaceProps()->GetSurfaceData(player->m_surfaceProps);
@@ -949,9 +946,6 @@ float CGameMovement::ComputeConstraintSpeedFactor(void) {
     return flSpeedFactor;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::CheckParameters(void) {
     QAngle v_angle;
 
@@ -1180,9 +1174,6 @@ void CGameMovement::DecayPunchAngle(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::StartGravity(void) {
     float ent_gravity;
 
@@ -1203,9 +1194,6 @@ void CGameMovement::StartGravity(void) {
     CheckVelocity();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::CheckWaterJump(void) {
     Vector flatforward;
     Vector forward;
@@ -1278,9 +1266,6 @@ void CGameMovement::CheckWaterJump(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::WaterJump(void) {
     if (player->m_flWaterJumpTime > 10000)
         player->m_flWaterJumpTime = 10000;
@@ -1299,9 +1284,6 @@ void CGameMovement::WaterJump(void) {
     mv->m_vecVelocity[1] = player->m_vecWaterJumpVel[1];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::WaterMove(void) {
     int i;
     Vector wishvel;
@@ -1510,9 +1492,6 @@ void CGameMovement::StepMove(Vector &vecDestination, trace_t &trace) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::Friction(void) {
     float speed, newspeed, control;
     float friction;
@@ -1573,9 +1552,6 @@ void CGameMovement::Friction(void) {
     mv->m_outWishVel -= (1.f - newspeed) * mv->m_vecVelocity;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::FinishGravity(void) {
     float ent_gravity;
 
@@ -1639,9 +1615,6 @@ void CGameMovement::AirAccelerate(Vector &wishdir, float wishspeed, float accel)
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::AirMove(void) {
     int i;
     Vector wishvel;
@@ -1774,9 +1747,6 @@ void CGameMovement::StayOnGround(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::WalkMove(void) {
     int i;
 
@@ -1901,9 +1871,6 @@ void CGameMovement::WalkMove(void) {
     StayOnGround();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::FullWalkMove() {
     if (!CheckWater()) {
         StartGravity();
@@ -2001,9 +1968,6 @@ void CGameMovement::FullWalkMove() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::FullObserverMove(void) {
     int mode = player->GetObserverMode();
 
@@ -2103,9 +2067,6 @@ void CGameMovement::FullObserverMove(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::FullNoClipMove(float factor, float maxacceleration) {
     Vector wishvel;
     Vector forward, right, up;
@@ -2192,9 +2153,6 @@ void CGameMovement::PlaySwimSound() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CGameMovement::CheckJumpButton(void) {
     if (player->pl.deadflag) {
         mv->m_nOldButtons |= IN_JUMP;    // don't jump again until released
@@ -2358,9 +2316,6 @@ bool CGameMovement::CheckJumpButton(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::FullLadderMove() {
     CheckWater();
 
@@ -2638,9 +2593,6 @@ ConVar sv_ladder_angle( "sv_ladder_angle", "-0.707", FCVAR_REPLICATED, "Cos of a
 // HPE_END
 //=============================================================================
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CGameMovement::LadderMove(void) {
     trace_t pm;
     bool onFloor;
@@ -2817,9 +2769,6 @@ const char *DescribeAxis(int axis) {
 const char *DescribeAxis( int axis );
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::CheckVelocity(void) {
     int i;
 
@@ -2853,9 +2802,6 @@ void CGameMovement::CheckVelocity(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::AddGravity(void) {
     float ent_gravity;
 
@@ -2978,9 +2924,6 @@ extern Vector rgv3tStuckTable[54];
 
 #if !defined(_STATIC_LINKED) || defined(CLIENT_DLL)
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CreateStuckTable(void) {
     float x, y, z;
     int idx;
@@ -3873,9 +3816,6 @@ void CGameMovement::UpdateDuckJumpEyeOffset(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::FinishUnDuckJump(trace_t &trace) {
     Vector vecNewOrigin;
     VectorCopy(mv->GetAbsOrigin(), vecNewOrigin);
@@ -3955,9 +3895,6 @@ void CGameMovement::FinishDuck(void) {
     CategorizePosition();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::StartUnDuckJump(void) {
     player->AddFlag(FL_DUCKING);
     player->m_Local.m_bDucked = true;
@@ -4231,9 +4168,6 @@ void CGameMovement::Duck(void) {
 
 static ConVar sv_optimizedmovement("sv_optimizedmovement", "1", FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY);
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::PlayerMove(void) {
     VPROF("CGameMovement::PlayerMove");
 
@@ -4422,9 +4356,6 @@ void CGameMovement::PerformFlyCollisionResolution(trace_t &pm, Vector &move) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGameMovement::FullTossMove(void) {
     trace_t pm;
     Vector move;

@@ -408,9 +408,6 @@ void CTFPlayerDestructionLogic::PlaySound( const char *pszSound, CTFPlayer *pPla
 	pPlayer->EmitSound( filter, pPlayer->entindex(), params );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPlayerDestructionDispenser::Spawn( void )
 {
 	// This cast is for the benefit of GCC

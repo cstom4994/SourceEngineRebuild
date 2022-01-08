@@ -165,9 +165,6 @@ void CTFWeaponBaseGrenadeProj::Precache( void )
 //
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGrenadeProj::Spawn()
 {
 	m_flSpawnTime = gpGlobals->curtime;
@@ -176,9 +173,6 @@ void CTFWeaponBaseGrenadeProj::Spawn()
 	AddFlag( FL_GRENADE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGrenadeProj::OnDataChanged( DataUpdateType_t type )
 {
 	BaseClass::OnDataChanged( type );
@@ -207,9 +201,6 @@ void CTFWeaponBaseGrenadeProj::OnDataChanged( DataUpdateType_t type )
 //
 #else
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFWeaponBaseGrenadeProj::Create( const char *szName, const Vector &position, const QAngle &angles, 
 													   const Vector &velocity, const AngularImpulse &angVelocity, 
 													   CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, int iFlags )
@@ -260,9 +251,6 @@ void CTFWeaponBaseGrenadeProj::InitGrenade( const Vector &velocity, const Angula
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGrenadeProj::Spawn( void )
 {
 	// Base class spawn.
@@ -445,9 +433,6 @@ int CTFWeaponBaseGrenadeProj::OnTakeDamage( const CTakeDamageInfo &info )
 	return CBaseEntity::OnTakeDamage( info2 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGrenadeProj::DetonateThink( void )
 {
 	if ( !IsInWorld() )
@@ -501,9 +486,6 @@ void CTFWeaponBaseGrenadeProj::SetDetonateTimerLength( float timer )
 	m_flDetonateTime = gpGlobals->curtime + ( timer * fFuseMult );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBaseGrenadeProj::ResolveFlyCollisionCustom( trace_t &trace, Vector &vecVelocity )
 {
 	//Assume all surfaces have the same elasticity

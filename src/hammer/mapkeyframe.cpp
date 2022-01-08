@@ -59,9 +59,6 @@ CMapKeyFrame::CMapKeyFrame() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapKeyFrame::~CMapKeyFrame() {
     if (m_pPositionInterpolator)
         m_pPositionInterpolator->Release();

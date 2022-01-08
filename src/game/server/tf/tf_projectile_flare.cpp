@@ -34,9 +34,6 @@ BEGIN_DATADESC( CTFProjectile_Flare )
 DEFINE_THINKFUNC( ImpactThink ),
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Flare::CTFProjectile_Flare()
 {
 	m_bIsFromTaunt = false;
@@ -46,17 +43,11 @@ CTFProjectile_Flare::CTFProjectile_Flare()
 	m_flNextSeekUpdate = 0.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Flare::~CTFProjectile_Flare()
 {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Flare *CTFProjectile_Flare::Create( CBaseEntity *pLauncher, const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner, CBaseEntity *pScorer )
 {
 	CTFProjectile_Flare *pFlare = static_cast<CTFProjectile_Flare*>( CBaseEntity::CreateNoSpawn( "tf_projectile_flare", vecOrigin, vecAngles, pOwner ) );
@@ -99,9 +90,6 @@ CTFProjectile_Flare *CTFProjectile_Flare::Create( CBaseEntity *pLauncher, const 
 	return pFlare;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Flare::Spawn()
 {
 	SetModel( FLARE_MODEL );
@@ -132,9 +120,6 @@ void CTFProjectile_Flare::Spawn()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Flare::Precache()
 {
 	PrecacheModel( FLARE_MODEL );
@@ -161,17 +146,11 @@ void CTFProjectile_Flare::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Flare::SetScorer( CBaseEntity *pScorer )
 {
 	m_Scorer = pScorer;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBasePlayer *CTFProjectile_Flare::GetScorer( void )
 {
 	return dynamic_cast<CBasePlayer *>( m_Scorer.Get() );

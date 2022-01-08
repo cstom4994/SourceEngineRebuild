@@ -490,9 +490,6 @@ void CMapDoc::RemoveEmptyGroups(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::AssignToGroups() {
     //
     // Get a list of all the groups.
@@ -685,9 +682,6 @@ void CMapDoc::GetSelectedCenter(Vector &vCenter) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::CenterViewsOnSelection() {
     Vector vecCenter;
     GetSelectedCenter(vecCenter);
@@ -1000,25 +994,16 @@ BOOL CMapDoc::ForceVisibilityCallback(CMapClass *pObject, bool bVisible) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CMapDoc::GetDocumentCount(void) {
     return s_ActiveDocs.Count();
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapDoc *CMapDoc::GetDocument(int index) {
     return s_ActiveDocs.Element(index);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnViewGotoCoords() {
     CStrDlg dlg(0, "", "Coordinates to go to (x y z), ex: 200 -4096 1154\nex: setpos -1 2 3; setang 4 5 6",
                 "Go to coordinates");
@@ -2056,9 +2041,6 @@ void CMapDoc::VisGroups_UpdateForObject(CMapClass *pObject) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::VisGroups_UpdateParents(void) {
     int nVisGroupCount = VisGroups_GetCount();
     for (int i = 0; i < nVisGroupCount; i++) {
@@ -2070,9 +2052,6 @@ void CMapDoc::VisGroups_UpdateParents(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::VisGroups_UpdateAll(void) {
     //Msg("=======  Visgroups_UpdateAll ========\n");
 
@@ -2443,9 +2422,6 @@ void CMapDoc::RenderAllViews(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::UpdateAllCameras(const Vector *vecViewPos, const Vector *vecLookAt, const float *fZoom) {
     POSITION pos = GetFirstViewPosition();
     while (pos != NULL) {
@@ -2541,9 +2517,6 @@ void CMapDoc::UpdateCurrentTime(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static BOOL SelectInBox(CMapClass *pObject, SelectBoxInfo_t *pInfo) {
     //
     // Skip hidden objects.
@@ -2607,9 +2580,6 @@ static BOOL SelectInBox(CMapClass *pObject, SelectBoxInfo_t *pInfo) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static BOOL SelectInLogicalBox(CMapClass *pObject, SelectLogicalBoxInfo_t *pInfo) {
     // Skip hidden objects.
     if (!pObject->IsVisible() || !pObject->IsLogical() || !pObject->IsVisibleLogical())
@@ -2657,9 +2627,6 @@ static BOOL SelectInLogicalBox(CMapClass *pObject, SelectLogicalBoxInfo_t *pInfo
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::SelectRegion(BoundBox *pBox, bool bInsideOnly) {
     SelectBoxInfo_t info;
     info.pDoc = this;
@@ -2673,9 +2640,6 @@ void CMapDoc::SelectRegion(BoundBox *pBox, bool bInsideOnly) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::SelectLogicalRegion(const Vector2D &vecMins, const Vector2D &vecMaxs, bool bInsideOnly) {
     SelectLogicalBoxInfo_t info;
     info.pDoc = this;
@@ -2697,9 +2661,6 @@ void CMapDoc::SelectObjectList(const CMapObjectList *pList, int cmd) {
     m_pSelection->SelectObjectList(pList, cmd);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::UpdateStatusbar(void) {
     if (m_pToolManager->GetActiveToolID() == TOOL_FACEEDIT_MATERIAL) {
         CString str;
@@ -2762,9 +2723,6 @@ void CMapDoc::UpdateStatusbar(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void
 CMapDoc::BuildCascadingSelectionList(CMapClass *pObj, CUtlRBTree<CMapClass *, unsigned short> &list, bool bRecursive) {
     // Also add all entities connected to outputs of this selection
@@ -2869,9 +2827,6 @@ void CMapDoc::SetActiveMapDoc(CMapDoc *pDoc) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapWorld *GetActiveWorld(void) {
     CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
     if (pDoc != NULL) {
@@ -2984,18 +2939,12 @@ void CMapDoc::OnEditReplace(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnMapSnaptogrid(void) {
     m_bSnapToGrid = !m_bSnapToGrid;
     UpdateStatusBarSnap();
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::UpdateStatusBarSnap(void) {
     CString strSnap;
     strSnap.Format(" Snap: %s Grid: %d ", m_bSnapToGrid ? "On" : "Off", m_nGridSpacing);
@@ -3003,9 +2952,6 @@ void CMapDoc::UpdateStatusBarSnap(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnUpdateMapSnaptogrid(CCmdUI *pCmdUI) {
     pCmdUI->SetCheck(m_bSnapToGrid);
 }
@@ -4007,9 +3953,6 @@ void CMapDoc::OnEditSelectall(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnFileSaveAs(void) {
     static char szBaseDir[MAX_PATH] = "";
 
@@ -4096,9 +4039,6 @@ void CMapDoc::OnFileSaveAs(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnFileSave(void) {
     DWORD dwAttrib = GetFileAttributes(GetPathName());
     if (dwAttrib & FILE_ATTRIBUTE_READONLY) {
@@ -4122,9 +4062,6 @@ void CMapDoc::OnUpdateFileSave(CCmdUI *pCmdUI) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnMapGridlower(void) {
     if (m_nGridSpacing <= 1) {
         return;
@@ -4136,9 +4073,6 @@ void CMapDoc::OnMapGridlower(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnMapGridhigher(void) {
     if (m_nGridSpacing >= 512)
         return;
@@ -4183,9 +4117,6 @@ END_MESSAGE_MAP()
 static BOOL bLastVis;
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnFileExport(void) {
     //
     // If we haven't saved the file yet, save it now.
@@ -4280,9 +4211,6 @@ void CMapDoc::OnFileExportAgain(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnEditMapproperties(void) {
     m_pSelection->SelectObject(m_pWorld, scClear | scSelect);
 
@@ -4848,9 +4776,6 @@ void CMapDoc::SelectFace(CMapSolid *pSolid, int iFace, int cmd) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnMapInformation(void) {
     CMapInfoDlg dlg(m_pWorld);
     dlg.DoModal();
@@ -4949,9 +4874,6 @@ void CMapDoc::CenterViewsOn(const Vector &vec) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::Center2DViewsOn(const Vector &vec) {
     VIEW2DINFO vi;
     vi.wFlags = VI_CENTER;
@@ -5008,9 +4930,6 @@ void CMapDoc::Set3DViewsPosAng(const Vector &vPos, const Vector &vAng) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::CenterLogicalViewsOn(const Vector2D &vecLogical) {
     VIEW2DINFO vi;
     vi.wFlags = VI_CENTER;
@@ -5195,9 +5114,6 @@ void CMapDoc::OnToolsHollow(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnEditPastespecial(void) {
     CPasteSpecialDlg dlg(GetMainWnd(), &s_Clipboard.Bounds);
     if (dlg.DoModal() == IDCANCEL) {
@@ -5968,9 +5884,6 @@ void CMapDoc::OnUpdateViewHideUnselectedObjects(CCmdUI *pCmdUI) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnMapCheck(void) {
     CMapCheckDlg::CheckForProblems(GetMainWnd());
 }
@@ -5979,9 +5892,6 @@ void CMapDoc::OnMapDiff(void) {
     CMapDiffDlg::MapDiff(GetMainWnd(), this);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnViewShowconnections(void) {
     bool bShow = CMapEntity::GetShowEntityConnections();
     CMapEntity::ShowEntityConnections(!bShow);
@@ -6023,9 +5933,6 @@ void CMapDoc::OnMapEntityGallery(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnUpdateViewShowconnections(CCmdUI *pCmdUI) {
     pCmdUI->SetCheck(CMapEntity::GetShowEntityConnections());
 }
@@ -6174,9 +6081,6 @@ void CMapDoc::OnToolsCreateprefab(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnInsertprefabOriginal(void) {
     int iCurTool = m_pToolManager->GetActiveToolID();
     if ((iCurTool != TOOL_POINTER) && (iCurTool != TOOL_BLOCK) && (iCurTool != TOOL_ENTITY)) {
@@ -6679,9 +6583,6 @@ void CMapDoc::OnUpdateToolsSplitface(CCmdUI *pCmdUI) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToolsSplitface(void) {
     if (m_pToolManager->GetActiveToolID() == TOOL_MORPH) {
         Morph3D *pMorph = (Morph3D *) m_pToolManager->GetActiveTool();
@@ -6766,9 +6667,6 @@ void CMapDoc::Snap(Vector &pt, int nFlags) {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToolsTransform(void) {
     if (m_pSelection->IsEmpty()) {
         AfxMessageBox("You must select some objects before you can\n"
@@ -6825,17 +6723,11 @@ void CMapDoc::OnToolsTransform(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToggleDispSolidMask(void) {
     UpdateAllViews(MAPVIEW_UPDATE_ONLY_3D);
     m_bDispSolidDrawMask = !m_bDispSolidDrawMask;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnUpdateToggleSolidMask(CCmdUI *pCmdUI) {
     pCmdUI->SetCheck(m_bDispSolidDrawMask);
 }
@@ -6854,9 +6746,6 @@ void CMapDoc::OnUpdateToggleDispDrawWalkable(CCmdUI *pCmdUI) {
     pCmdUI->SetCheck(m_bDispDrawWalkable);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToggleDispDrawBuildable(void) {
     UpdateAllViews(MAPVIEW_UPDATE_ONLY_3D);
     m_bDispDrawBuildable = !m_bDispDrawBuildable;
@@ -6879,24 +6768,15 @@ void CMapDoc::OnUpdateToggleDispDraw3D(CCmdUI *pCmdUI) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnUpdateToggleDispDrawBuildable(CCmdUI *pCmdUI) {
     pCmdUI->SetCheck(m_bDispDrawBuildable);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToggleDispDrawRemovedVerts(void) {
     UpdateAllViews(MAPVIEW_UPDATE_ONLY_3D);
     m_bDispDrawRemovedVerts = !m_bDispDrawRemovedVerts;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnUpdateToggleDispDrawRemovedVerts(CCmdUI *pCmdUI) {
     pCmdUI->SetCheck(m_bDispDrawRemovedVerts);
 }
@@ -6921,9 +6801,6 @@ void CMapDoc::OnUpdateToolsToggletexlockScale(CCmdUI *pCmdUI) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToolsTextureAlignment(void) {
     TextureAlignment_t eTextureAlignment;
 
@@ -6987,9 +6864,6 @@ void CMapDoc::SetCordon(const Vector &mins, const Vector &maxs) {
     SetModifiedFlag(true);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToggleCordon(void) {
     SetCordoning(!m_bIsCordoning);
 }
@@ -7028,9 +6902,6 @@ void CMapDoc::OnUpdateToggleGroupignore(CCmdUI *pCmdUI) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnChangeVertexscale(void) {
     if (m_pToolManager->GetActiveToolID() == TOOL_MORPH) {
         Morph3D *pMorph = (Morph3D *) m_pToolManager->GetActiveTool();
@@ -7039,9 +6910,6 @@ void CMapDoc::OnChangeVertexscale(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnVscaleToggle(void) {
     if (m_pToolManager->GetActiveToolID() == TOOL_MORPH) {
         Morph3D *pMorph = (Morph3D *) m_pToolManager->GetActiveTool();
@@ -7050,17 +6918,11 @@ void CMapDoc::OnVscaleToggle(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnMapEntityreport(void) {
     CEntityReportDlg::ShowEntityReport(this, GetMainWnd());
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToggleSelectbyhandle(void) {
     Options.view2d.bSelectbyhandles = !Options.view2d.bSelectbyhandles;
 }
@@ -7096,9 +6958,6 @@ static BOOL SaveDXF(CMapSolid *pSolid, ExportDXFInfo_s *pInfo) {
     return pSolid->SaveDXF(pInfo);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnFileExporttodxf(void) {
     static CString str;
 
@@ -7287,9 +7146,6 @@ void CMapDoc::OnMapUnloadportalfile(void) {
     m_pPortalFile = NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnMapLoadpointfile(void) {
     if (m_strLastPointFile.IsEmpty()) {
         m_strLastPointFile = GetPathName();
@@ -7339,9 +7195,6 @@ void CMapDoc::OnMapLoadpointfile(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnMapUnloadpointfile(void) {
     m_PFPoints.Purge();
     UpdateAllViews(MAPVIEW_UPDATE_ONLY_2D);
@@ -8293,9 +8146,6 @@ CVisGroup *CMapDoc::VisGroups_AddGroup(CVisGroup *pGroup) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMapDoc::VisGroups_CanMoveUp(CVisGroup *pGroup) {
     CVisGroup *pParent = pGroup->GetParent();
     if (pParent) {
@@ -8306,9 +8156,6 @@ bool CMapDoc::VisGroups_CanMoveUp(CVisGroup *pGroup) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMapDoc::VisGroups_CanMoveDown(CVisGroup *pGroup) {
     CVisGroup *pParent = pGroup->GetParent();
     if (pParent) {
@@ -8798,9 +8645,6 @@ void CMapDoc::OnUpdateLightPreview() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::OnToggleLightPreview() {
 #if 0
                                                                                                                             if( m_pBSPLighting )
@@ -9034,9 +8878,6 @@ void CMapDoc::GetNudgeVector(const Vector &vHorz, const Vector &vVert, int nChar
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapDoc::NudgeObjects(const Vector &Delta, bool bClone) {
     const CMapObjectList *pSelList = m_pSelection->GetList();
 

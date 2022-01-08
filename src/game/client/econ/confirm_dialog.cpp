@@ -813,9 +813,6 @@ void CTFReviveDialog::OnTick()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFReviveDialog::SetOwner( CBaseEntity *pEntity )
 {
 	if ( pEntity )

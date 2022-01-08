@@ -156,25 +156,16 @@ void CBubbling::TurnOff()
 	SetNextThink( TICK_NEVER_THINK );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBubbling::InputActivate( inputdata_t &inputdata )
 {
 	TurnOn();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBubbling::InputDeactivate( inputdata_t &inputdata )
 {
 	TurnOff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBubbling::InputToggle( inputdata_t &inputdata )
 {
 	Toggle();
@@ -525,9 +516,6 @@ void CGibShooter::InitPointGib( CGib *pGib, const Vector &vecShootDir, float flS
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseEntity *CGibShooter::SpawnGib( const Vector &vecShootDir, float flSpeed )
 {
 	switch (m_nSimulationType)
@@ -604,9 +592,6 @@ CBaseEntity *CGibShooter::SpawnGib( const Vector &vecShootDir, float flSpeed )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGibShooter::ShootThink ( void )
 {
 	SetNextThink( gpGlobals->curtime + m_flDelay );
@@ -915,9 +900,6 @@ CBaseEntity *CRotorWashShooter::DoWashPush( float flWashStartTime, const Vector 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CTestEffect : public CBaseEntity
 {
 public:
@@ -1065,9 +1047,6 @@ END_DATADESC()
 #define SF_BLOOD_GORE		0x0040
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBlood::Spawn( void )
 {
 	// Convert spraydir from angles to a vector
@@ -1143,9 +1122,6 @@ Vector CBlood::BloodPosition( CBaseEntity *pActivator )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void UTIL_BloodSpray( const Vector &pos, const Vector &dir, int color, int amount, int flags )
 {
 	if( color == DONT_BLEED )
@@ -1687,9 +1663,6 @@ IMPLEMENT_SERVERCLASS_ST( CEmbers, DT_Embers )
 	SendPropInt(	SENDINFO( m_bEmit ),		2,	SPROP_UNSIGNED ),
 END_SEND_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEmbers::Spawn( void )
 {
 	Precache();
@@ -1705,9 +1678,6 @@ void CEmbers::Spawn( void )
 	m_bEmit = ( HasSpawnFlags( bitsSF_EMBERS_START_ON ) || ( !GetEntityName() ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEmbers::Precache( void )
 {
 }
@@ -1750,9 +1720,6 @@ void CEmbers::EmberUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CPhysicsWire : public CBaseEntity
 {
 public:
@@ -1785,9 +1752,6 @@ BEGIN_DATADESC( CPhysicsWire )
 END_DATADESC()
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysicsWire::Spawn( void )
 {
 	BaseClass::Spawn();
@@ -1798,9 +1762,6 @@ void CPhysicsWire::Spawn( void )
 //		return;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPhysicsWire::Precache( void )
 {
 	BaseClass::Precache();
@@ -1808,9 +1769,6 @@ void CPhysicsWire::Precache( void )
 
 class CPhysBallSocket;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CPhysicsWire::SetupPhysics( void )
 {
 /*

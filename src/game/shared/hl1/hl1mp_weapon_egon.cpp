@@ -194,9 +194,6 @@ void CWeaponEgon::UseAmmo( int count )
 		pPlayer->RemoveAmmo( pPlayer->GetAmmoCount( m_iPrimaryAmmoType ), m_iPrimaryAmmoType );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponEgon::PrimaryAttack( void )
 {
 	CHL1_Player *pPlayer = ToHL1Player( GetOwner() );

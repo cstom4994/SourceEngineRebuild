@@ -26,9 +26,6 @@ CClientInfo *CMatchmaking::SelectNewHost()
 	return pClient;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatchmaking::StartHostMigration()
 {
 	SwitchToState( MMSTATE_HOSTMIGRATE_STARTINGMIGRATION );
@@ -47,9 +44,6 @@ void CMatchmaking::StartHostMigration()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatchmaking::BeginHosting()
 {
 	m_Session.SetIsHost( true );
@@ -74,9 +68,6 @@ void CMatchmaking::BeginHosting()
 	SwitchToState( MMSTATE_HOSTMIGRATE_MIGRATING );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatchmaking::TellClientsToMigrate()
 {
 	Msg( "Sending migrate request\n" );
@@ -186,9 +177,6 @@ bool CMatchmaking::ProcessMigrate( MM_Migrate *pMsg )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatchmaking::SwitchToNewHost()
 {
 	// Set a timer to wait for the host to contact us
@@ -202,9 +190,6 @@ void CMatchmaking::SwitchToNewHost()
 	SwitchToState( MMSTATE_HOSTMIGRATE_WAITINGFORHOST );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatchmaking::EndMigration()
 {
 	Msg( "Migration complete\n" );

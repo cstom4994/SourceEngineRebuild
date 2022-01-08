@@ -995,9 +995,6 @@ void COverlayMgr::CreateFragments(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COverlayMgr::ReSortMaterials(void) {
 #ifndef SWDS
     // Clear the old render queue.
@@ -1192,9 +1189,6 @@ bool COverlayMgr::LoadOverlays() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COverlayMgr::Disp_CreateFragments(moverlay_t *pOverlay, SurfaceHandle_t surfID) {
     OverlayFragmentVector_t aDispFragments;
 
@@ -1212,9 +1206,6 @@ void COverlayMgr::Disp_CreateFragments(moverlay_t *pOverlay, SurfaceHandle_t sur
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool COverlayMgr::Disp_PreClipFragment(moverlay_t *pOverlay, OverlayFragmentVector_t &aDispFragments,
                                        SurfaceHandle_t surfID) {
     MEM_ALLOC_CREDIT();
@@ -1276,9 +1267,6 @@ bool COverlayMgr::Disp_PreClipFragment(moverlay_t *pOverlay, OverlayFragmentVect
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COverlayMgr::Disp_PostClipFragment(CDispInfo *pDisp, CMeshReader *pReader, moverlay_t *pOverlay,
                                         OverlayFragmentVector_t &aDispFragments, SurfaceHandle_t surfID) {
 #ifndef SWDS
@@ -1389,9 +1377,6 @@ void COverlayMgr::Disp_PostClipFragment(CDispInfo *pDisp, CMeshReader *pReader, 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COverlayMgr::Disp_ClipFragment(CDispInfo *pDisp, OverlayFragmentVector_t &aDispFragments) {
     cplane_t clipPlane;
 
@@ -1458,9 +1443,6 @@ void COverlayMgr::Disp_DoClip(CDispInfo *pDisp, OverlayFragmentVector_t &aDispFr
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COverlayMgr::InitTexCoords(moverlay_t *pOverlay, moverlayfragment_t &overlayFrag) {
     // Overlay texture coordinates.
     overlayFrag.m_aPrimVerts[0].texCoord[0].Init(pOverlay->m_flU[0], pOverlay->m_flV[0]);
@@ -1707,9 +1689,6 @@ void COverlayMgr::BuildClipPlanes(SurfaceHandle_t surfID, moverlayfragment_t &su
 // Code below this line will get moved out into common code!!!!!!!!!!!!!
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Overlay_BuildBasisOrigin(Vector &vecBasisOrigin, SurfaceHandle_t surfID) {
     cplane_t surfacePlane = MSurf_Plane(surfID);
     VectorNormalize(surfacePlane.normal);
@@ -1731,9 +1710,6 @@ bool Overlay_IsBasisFlipped(int *pFlip, int iAxis, int iComponent) {
     return ((pFlip[iAxis] & nValue) != 0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Overlay_BuildBasis(const Vector &vecBasisNormal, Vector &vecBasisU, Vector &vecBasisV, bool bFlip) {
     // Verify incoming data.
     Assert(vecBasisNormal.IsValid());
@@ -1747,9 +1723,6 @@ void Overlay_BuildBasis(const Vector &vecBasisNormal, Vector &vecBasisU, Vector 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Overlay_TriTLToBR(
         CDispInfo *pDisp,
         CMeshReader *pReader,
@@ -1906,9 +1879,6 @@ void Overlay_TriTLToBR(
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Overlay_TriBLToTR(
         CDispInfo *pDisp,
         CMeshReader *pReader,
@@ -2064,9 +2034,6 @@ void Overlay_TriBLToTR(
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Overlay_DispUVToWorld(CDispInfo *pDisp, CMeshReader *pReader, const Vector2D &vecUV, Vector &vecWorld,
                            moverlayfragment_t &surfaceFrag) {
     // Get the displacement power.

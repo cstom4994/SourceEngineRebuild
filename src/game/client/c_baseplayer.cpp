@@ -460,9 +460,6 @@ C_BasePlayer::C_BasePlayer() : m_iv_vecViewOffset("C_BasePlayer::m_iv_vecViewOff
     ListenForGameEvent("base_player_teleported");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_BasePlayer::~C_BasePlayer() {
     DeactivateVguiScreen(m_pCurrentVguiScreen.Get());
     if (this == s_pLocalPlayer) {
@@ -473,9 +470,6 @@ C_BasePlayer::~C_BasePlayer() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BasePlayer::Spawn(void) {
     // Clear all flags except for FL_FULLEDICT
     ClearFlags();
@@ -499,9 +493,6 @@ void C_BasePlayer::Spawn(void) {
     m_bFiredWeapon = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BasePlayer::AudioStateIsUnderwater(Vector vecMainViewOrigin) {
     if (IsObserver()) {
         // Just check the view position
@@ -725,9 +716,6 @@ bool C_BasePlayer::IsPlayerDead() {
     return pl.deadflag == true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BasePlayer::SetVehicleRole(int nRole) {
     if (!IsInAVehicle())
         return;
@@ -884,9 +872,6 @@ void C_BasePlayer::PostDataUpdate(DataUpdateType_t updateType) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BasePlayer::CanSetSoundMixer(void) {
     // Can't set sound mixers when we're in freezecam mode, since it has a code-enforced mixer
     return (GetObserverMode() != OBS_MODE_FREEZECAM);
@@ -1208,9 +1193,6 @@ void C_BasePlayer::AddEntity(void) {
 
 extern float UTIL_WaterLevel(const Vector &position, float minz, float maxz);
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BasePlayer::CreateWaterEffects(void) {
     // Must be completely submerged to bother
     if (GetWaterLevel() < 3) {
@@ -1317,9 +1299,6 @@ int C_BasePlayer::DrawModel(int flags) {
     return BaseClass::DrawModel(flags);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Vector C_BasePlayer::GetChaseCamViewOffset(CBaseEntity *target) {
     C_BasePlayer *player = ToBasePlayer(target);
 
@@ -2061,9 +2040,6 @@ void C_BasePlayer::SetSuitUpdate(const char *name, int fgroup, int iNoRepeat) {
     // FIXME:  Do something here?
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BasePlayer::ResetAutoaim(void) {
 #if 0
                                                                                                                             if (m_vecAutoAim.x != 0 || m_vecAutoAim.y != 0)
@@ -2567,9 +2543,6 @@ void C_BasePlayer::UpdateFogBlend(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BasePlayer::GetSteamID(CSteamID *pID) {
     // try to make this a little more efficient
 

@@ -41,9 +41,6 @@ CAI_FuncTankBehavior::~CAI_FuncTankBehavior()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CAI_FuncTankBehavior::CanSelectSchedule()
 {
 	// If we don't have a func_tank do not bother with conditions, schedules, etc.
@@ -61,16 +58,10 @@ bool CAI_FuncTankBehavior::CanSelectSchedule()
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::BeginScheduleSelection()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::EndScheduleSelection()
 {
 	if ( m_bMounted )
@@ -92,9 +83,6 @@ void CAI_FuncTankBehavior::PrescheduleThink()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int	CAI_FuncTankBehavior::SelectSchedule()
 {
 	// This shouldn't get called with an m_hFuncTank, see CanSelectSchedule.
@@ -153,9 +141,6 @@ Activity CAI_FuncTankBehavior::NPC_TranslateActivity( Activity activity )
 	return BaseClass::NPC_TranslateActivity( activity );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::Dismount( void )
 {
 	SetBusy( gpGlobals->curtime + AI_FUNCTANK_BEHAVIOR_BUSYTIME );
@@ -213,9 +198,6 @@ int CAI_FuncTankBehavior::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	return iResult;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::StartTask( const Task_t *pTask )
 {
 	switch ( pTask->iTask )
@@ -398,9 +380,6 @@ void CAI_FuncTankBehavior::StartTask( const Task_t *pTask )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::RunTask( const Task_t *pTask )
 {
 	switch ( pTask->iTask )
@@ -495,9 +474,6 @@ void CAI_FuncTankBehavior::RunTask( const Task_t *pTask )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::Event_Killed( const CTakeDamageInfo &info )
 {
 	if ( m_hFuncTank )
@@ -509,9 +485,6 @@ void CAI_FuncTankBehavior::Event_Killed( const CTakeDamageInfo &info )
 	BaseClass::Event_Killed( info );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::UpdateOnRemove( void )
 {
 	if ( m_hFuncTank )
@@ -523,9 +496,6 @@ void CAI_FuncTankBehavior::UpdateOnRemove( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::SetFuncTank( CHandle<CFuncTank> hFuncTank )			
 { 
 	if ( m_hFuncTank && !hFuncTank )
@@ -554,9 +524,6 @@ void CAI_FuncTankBehavior::AimGun( void )
 	BaseClass::AimGun();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAI_FuncTankBehavior::GatherConditions()
 {
 	BaseClass::GatherConditions();
@@ -579,9 +546,6 @@ void CAI_FuncTankBehavior::GatherConditions()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseEntity *CAI_FuncTankBehavior::BestEnemy( void )
 {
 	// Only use this BestEnemy call when we are on the manned gun.

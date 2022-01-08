@@ -436,17 +436,11 @@ void CVoteSetupDialog::Activate() {
     InitializeIssueList();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoteSetupDialog::OnClose() {
     ResetData();
     BaseClass::OnClose();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoteSetupDialog::OnCommand(const char *command) {
     // We should have enough data to issue a CallVote command
     if (!V_stricmp(command, "CallVote")) {

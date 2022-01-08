@@ -1515,9 +1515,6 @@ void CFaceEditMaterialPage::OnButtonSmoothingGroups(void) {
     return;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFaceEditMaterialPage::SetMaterialPageTool(unsigned short iMaterialTool) {
     if (m_iMaterialTool == MATERIALPAGETOOL_SMOOTHING_GROUP) {
         // Close the window.

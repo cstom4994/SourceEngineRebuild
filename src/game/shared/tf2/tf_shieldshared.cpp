@@ -275,9 +275,6 @@ void CShieldEffect::ComputeBounds( Vector& mins, Vector& maxs )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CShieldEffect::Precache( void )
 {
 	m_RestLength = 200.0;

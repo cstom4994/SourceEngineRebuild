@@ -178,9 +178,6 @@ void C_PropVehicleDriveable::ClientThink(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_PropVehicleDriveable::DampenEyePosition(Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles) {
 }
 

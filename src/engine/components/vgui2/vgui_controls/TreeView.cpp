@@ -1458,9 +1458,6 @@ bool TreeNode::IsInFocus()
 
 DECLARE_BUILD_FACTORY(TreeView);
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 TreeView::TreeView(Panel *parent, const char *panelName) : Panel(parent, panelName) {
     m_bScrollbarExternal[0] = m_bScrollbarExternal[1] = false;
     m_nRowHeight = 20;
@@ -1492,9 +1489,6 @@ TreeView::TreeView(Panel *parent, const char *panelName) : Panel(parent, panelNa
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 TreeView::~TreeView() {
     CleanUpImageList();
 }
@@ -1513,9 +1507,6 @@ void TreeView::CleanUpImageList() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::SetSortFunc(TreeViewSortFunc_t pSortFunc) {
     m_pSortFunc = pSortFunc;
 }
@@ -1525,9 +1516,6 @@ HFont TreeView::GetFont() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::SetFont(HFont font) {
     Assert(font);
     if (!font)
@@ -1542,16 +1530,10 @@ void TreeView::SetFont(HFont font) {
     InvalidateLayout();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int TreeView::GetRowHeight() {
     return m_nRowHeight;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int TreeView::GetVisibleMaxWidth() {
     if (m_pRootNode) {
         return m_pRootNode->GetVisibleMaxWidth();
@@ -1560,9 +1542,6 @@ int TreeView::GetVisibleMaxWidth() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int TreeView::AddItem(KeyValues *data, int parentItemIndex) {
     Assert(parentItemIndex == -1 || m_NodeList.IsValidIndex(parentItemIndex));
 
@@ -1637,16 +1616,10 @@ TreeNode *TreeView::GetItem(int itemIndex) {
     return m_NodeList[itemIndex];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int TreeView::GetItemCount(void) {
     return m_NodeList.Count();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 KeyValues *TreeView::GetItemData(int itemIndex) {
     if (!m_NodeList.IsValidIndex(itemIndex))
         return NULL;
@@ -1654,9 +1627,6 @@ KeyValues *TreeView::GetItemData(int itemIndex) {
         return m_NodeList[itemIndex]->m_pData;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::RemoveItem(int itemIndex, bool bPromoteChildren, bool bFullDelete) {
     // HACK: there's a bug with RemoveItem where panels are lingering. This gets around it temporarily.
 
@@ -1712,9 +1682,6 @@ void TreeView::RemoveItem(int itemIndex, bool bPromoteChildren, bool bFullDelete
     m_SelectedItems.FindAndRemove(pNode);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::RemoveAll() {
     int i;
     for (i = 0; i < m_NodeList.MaxElementIndex(); i++) {
@@ -1729,9 +1696,6 @@ void TreeView::RemoveAll() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool TreeView::ModifyItem(int itemIndex, KeyValues *data) {
     if (!m_NodeList.IsValidIndex(itemIndex))
         return false;
@@ -1818,17 +1782,11 @@ void TreeView::SetItemBgColor(int itemIndex, const Color &color) {
     pNode->SetBgColor(color);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int TreeView::GetItemParent(int itemIndex) {
     return m_NodeList[itemIndex]->m_ParentIndex;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::SetImageList(ImageList *imageList, bool deleteImageListWhenDone) {
     CleanUpImageList();
     m_pImageList = imageList;
@@ -1836,17 +1794,11 @@ void TreeView::SetImageList(ImageList *imageList, bool deleteImageListWhenDone) 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IImage *TreeView::GetImage(int index) {
     return m_pImageList->GetImage(index);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::GetSelectedItems(CUtlVector<int> &list) {
     list.RemoveAll();
 
@@ -1856,9 +1808,6 @@ void TreeView::GetSelectedItems(CUtlVector<int> &list) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::GetSelectedItemData(CUtlVector<KeyValues *> &list) {
     list.RemoveAll();
 
@@ -1868,23 +1817,14 @@ void TreeView::GetSelectedItemData(CUtlVector<KeyValues *> &list) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool TreeView::IsItemIDValid(int itemIndex) {
     return m_NodeList.IsValidIndex(itemIndex);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int TreeView::GetHighestItemID() {
     return m_NodeList.MaxElementIndex();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::ExpandItem(int itemIndex, bool bExpand) {
     if (!m_NodeList.IsValidIndex(itemIndex))
         return;
@@ -1913,9 +1853,6 @@ void TreeView::OnMouseWheeled(int delta) {
     m_pVertScrollBar->SetValue(val);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::OnSizeChanged(int wide, int tall) {
     BaseClass::OnSizeChanged(wide, tall);
     InvalidateLayout();
@@ -1937,9 +1874,6 @@ void TreeView::GetScrollBarSize(bool vertical, int &w, int &h) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::PerformLayout() {
     int wide, tall;
     GetSize(wide, tall);
@@ -2047,9 +1981,6 @@ void TreeView::PerformLayout() {
     Repaint();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::MakeItemVisible(int itemIndex) {
     // first make sure that all parents are expanded
     TreeNode *pNode = m_NodeList[itemIndex];
@@ -2094,9 +2025,6 @@ void TreeView::GetVBarInfo(int &top, int &nItemsVisible, bool &hbarVisible) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::ApplySchemeSettings(IScheme *pScheme) {
     BaseClass::ApplySchemeSettings(pScheme);
 
@@ -2107,17 +2035,11 @@ void TreeView::ApplySchemeSettings(IScheme *pScheme) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::SetBgColor(Color color) {
     BaseClass::SetBgColor(color);
     m_pSubPanel->SetBgColor(color);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::OnSliderMoved(int position) {
     InvalidateLayout();
     Repaint();
@@ -2294,9 +2216,6 @@ void TreeView::RemoveSelectedItem(int itemIndex) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void TreeView::AddSelectedItem(int itemIndex, bool clearCurrentSelection, bool requestFocus /* = true */,
                                bool bMakeItemVisible /*= true*/ ) {
     if (clearCurrentSelection) {

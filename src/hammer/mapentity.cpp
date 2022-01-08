@@ -669,9 +669,6 @@ ChunkFileResult_t CMapEntity::LoadEditorKeyCallback(const char *szKey, const cha
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ChunkFileResult_t CMapEntity::LoadEditorCallback(CChunkFile *pFile, CMapEntity *pObject) {
     return pFile->ReadChunk((KeyHandler_t) LoadEditorKeyCallback, pObject);
 }
@@ -911,9 +908,6 @@ void CMapEntity::SignalChanged(void) {
         SignalUpdate(EVTYPE_LIGHTING_CHANGED);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapEntity::EnsureUniqueNodeID(CMapWorld *pWorld) {
     bool bBuildNewNodeID = true;
     int nOurNodeID = GetNodeID();
@@ -1100,9 +1094,6 @@ void CMapEntity::NotifyChildKeyChanged(CMapClass *pChild, const char *szKey, con
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapEntity::DeleteKeyValue(LPCSTR pszKey) {
     char szOldValue[KEYVALUE_MAX_VALUE_LENGTH];
     const char *pszOld = GetKeyValue(pszKey);
@@ -1120,9 +1111,6 @@ void CMapEntity::DeleteKeyValue(LPCSTR pszKey) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapEntity::SetKeyValue(LPCSTR pszKey, LPCSTR pszValue) {
     //
     // Get the current value so we can tell if it is changing.
@@ -1319,9 +1307,6 @@ bool CMapEntity::HasSolidChildren(void) {
     return (false);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMapEntity::OnApply(void) {
     FOR_EACH_OBJ(m_Children, pos) {
         CMapClass *pChild = m_Children.Element(pos);
@@ -1477,9 +1462,6 @@ ChunkFileResult_t CMapEntity::SaveEditorData(CChunkFile *pFile) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ChunkFileResult_t CMapEntity::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo) {
     //
     // Check rules before saving this object.

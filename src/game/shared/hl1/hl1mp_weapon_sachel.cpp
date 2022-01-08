@@ -174,9 +174,6 @@ void CWeaponSatchel::ItemPostFrame( void )
 	BaseClass::ItemPostFrame();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponSatchel::PrimaryAttack( void )
 {
 	switch ( m_iChargeReady )
@@ -221,9 +218,6 @@ void CWeaponSatchel::PrimaryAttack( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponSatchel::SecondaryAttack( void )
 {
 	if ( m_iChargeReady != 2 )

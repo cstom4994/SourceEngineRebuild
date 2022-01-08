@@ -45,9 +45,6 @@ public:
 	const char *m_pTextId;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CReplayBrowserPanel::CReplayBrowserPanel( Panel *parent )
 :	PropertyDialog(parent, "ReplayBrowser"),
 	m_pConfirmDeleteDialog( NULL )

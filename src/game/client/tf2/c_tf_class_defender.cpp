@@ -20,17 +20,11 @@ BEGIN_PREDICTION_DATA_NO_BASE( C_PlayerClassDefender )
 
 END_PREDICTION_DATA()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassDefender::C_PlayerClassDefender( C_BaseTFPlayer *pPlayer ) :
 	C_PlayerClass( pPlayer )
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassDefender::~C_PlayerClassDefender()
 {
 }

@@ -212,9 +212,6 @@ void CTFMinigun::ItemPostFrame( void )
 	BaseClass::ItemPostFrame();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMinigun::PrimaryAttack()
 {
 	SharedAttack();
@@ -695,9 +692,6 @@ bool CTFMinigun::IsRageFull( void )
 	return ( pPlayer->m_Shared.GetRageMeter() >= 100.0f );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFMinigun::EffectMeterShouldFlash( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -710,9 +704,6 @@ bool CTFMinigun::EffectMeterShouldFlash( void )
 		return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFMinigun::CanInspect() const
 {
 	return BaseClass::CanInspect() && CanHolster();
@@ -730,9 +721,6 @@ float CTFMinigun::GetProgress( void )
 	return pPlayer->m_Shared.GetRageMeter() / 100.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMinigun::WindUp( void )
 {
 	// Get the player owning the weapon.
@@ -808,9 +796,6 @@ bool CTFMinigun::CanHolster( void ) const
 	return BaseClass::CanHolster();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFMinigun::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	if ( m_iWeaponState > AC_STATE_IDLE )
@@ -834,9 +819,6 @@ bool CTFMinigun::Lower( void )
 	return BaseClass::Lower();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMinigun::WindDown( void )
 {
 	// Get the player owning the weapon.
@@ -885,9 +867,6 @@ void CTFMinigun::WindDown( void )
 	m_flStartedWindUpAt = -1.f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMinigun::WeaponIdle()
 {
 	if ( gpGlobals->curtime < m_flTimeWeaponIdle )
@@ -911,9 +890,6 @@ void CTFMinigun::WeaponIdle()
 	m_flTimeWeaponIdle = gpGlobals->curtime + 12.5;// how long till we do this again.
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMinigun::FireGameEvent( IGameEvent * event )
 {
 #ifdef CLIENT_DLL
@@ -931,9 +907,6 @@ void CTFMinigun::FireGameEvent( IGameEvent * event )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFMinigun::SendWeaponAnim( int iActivity )
 {
 #ifdef CLIENT_DLL
@@ -1339,9 +1312,6 @@ void CTFMinigun::ViewModelAttachmentBlending( CStudioHdr *hdr, Vector pos[], Qua
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMinigun::CreateMove( float flInputSampleTime, CUserCmd *pCmd, const QAngle &vecOldViewAngles )
 {
 	// Prevent jumping while firing

@@ -25,9 +25,6 @@ IMPLEMENT_CLIENTCLASS_DT(C_VoteController, DT_VoteController, CVoteController)
 END_RECV_TABLE()
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_VoteController::RecvProxy_VoteType(const CRecvProxyData *pData, void *pStruct, void *pOut) {
     C_VoteController *pMe = (C_VoteController *) pStruct;
     if (pMe->m_iActiveIssueIndex == pData->m_Value.m_Int)
@@ -41,9 +38,6 @@ void C_VoteController::RecvProxy_VoteType(const CRecvProxyData *pData, void *pSt
     // can notice that and send the event.
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_VoteController::RecvProxy_VoteOption(const CRecvProxyData *pData, void *pStruct, void *pOut) {
     int index = pData->m_pRecvProp->GetOffset() / sizeof(int);
 
@@ -57,24 +51,15 @@ void C_VoteController::RecvProxy_VoteOption(const CRecvProxyData *pData, void *p
     pMe->SetNextClientThink(gpGlobals->curtime + 0.001);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_VoteController::C_VoteController() {
     ResetData();
 
     ListenForGameEvent("vote_cast");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_VoteController::~C_VoteController() {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_VoteController::ResetData() {
     m_iActiveIssueIndex = INVALID_ISSUE;
     m_iOnlyTeamToVote = TEAM_UNASSIGNED;
@@ -86,18 +71,12 @@ void C_VoteController::ResetData() {
     m_bTypeDirty = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_VoteController::Spawn(void) {
     ResetData();
     BaseClass::Spawn();
     SetNextClientThink(gpGlobals->curtime);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_VoteController::ClientThink() {
     BaseClass::ClientThink();
 
@@ -136,9 +115,6 @@ void C_VoteController::ClientThink() {
     SetNextClientThink(gpGlobals->curtime + 0.5f);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_VoteController::FireGameEvent(IGameEvent *event) {
     CHudVote *pHudVote = GET_HUDELEMENT(CHudVote);
     if (pHudVote && pHudVote->IsVisible()) {

@@ -170,9 +170,6 @@ BEGIN_DATADESC(CFuncTank)
                     DEFINE_OUTPUT(m_OnReadyToFire, "OnReadyToFire"),
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CFuncTank::CFuncTank() {
     m_nBulletCount = 0;
 
@@ -181,9 +178,6 @@ CFuncTank::CFuncTank() {
     m_bShouldFindNPCs = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CFuncTank::~CFuncTank(void) {
     if (m_soundLoopRotate != NULL_STRING && (m_spawnflags & SF_TANK_SOUNDON)) {
         StopSound(entindex(), CHAN_STATIC, STRING(m_soundLoopRotate));
@@ -223,9 +217,6 @@ void CFuncTank::InputActivate(inputdata_t &inputdata) {
     TankActivate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::TankActivate(void) {
     m_spawnflags |= SF_TANK_ACTIVE;
     SetNextThink(gpGlobals->curtime + 0.1f);
@@ -239,9 +230,6 @@ void CFuncTank::InputDeactivate(inputdata_t &inputdata) {
     TankDeactivate();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::TankDeactivate(void) {
     m_spawnflags &= ~SF_TANK_ACTIVE;
     m_fireLast = 0;
@@ -667,9 +655,6 @@ static Vector gTankSpread[] =
 #define MAX_FIRING_SPREADS ARRAYSIZE(gTankSpread)
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::Spawn(void) {
     Precache();
 
@@ -787,9 +772,6 @@ void CFuncTank::Spawn(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::Activate(void) {
     BaseClass::Activate();
 
@@ -883,9 +865,6 @@ void CFuncTank::PhysicsSimulate(void) {
 // TANK CONTROLLING
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFuncTank::OnControls(CBaseEntity *pTest) {
     // Is the tank controllable.
     if (!IsControllable())
@@ -909,9 +888,6 @@ bool CFuncTank::OnControls(CBaseEntity *pTest) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFuncTank::StartControl(CBaseCombatCharacter *pController) {
     // Check to see if we have a controller.
     if (HasController() && GetController() != pController)
@@ -1099,9 +1075,6 @@ CBaseCombatCharacter *CFuncTank::GetController(void) {
     return m_hController;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFuncTank::NPC_FindManPoint(Vector &vecPos) {
     if (m_iszNPCManPoint != NULL_STRING) {
         CBaseEntity * pEntity = gEntList.FindEntityByName(NULL, m_iszNPCManPoint);
@@ -1121,9 +1094,6 @@ void CFuncTank::NPC_JustSawPlayer(CBaseEntity *pTarget) {
     SetNextAttack(gpGlobals->curtime + m_flPlayerLockTimeBeforeFire);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::NPC_Fire(void) {
     // Control the firing rate.
     if (gpGlobals->curtime < m_flNextAttack)
@@ -1204,9 +1174,6 @@ void CFuncTank::NPC_Fire(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFuncTank::NPC_HasEnemy(void) {
     if (!IsNPCManned())
         return false;
@@ -1218,9 +1185,6 @@ bool CFuncTank::NPC_HasEnemy(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::NPC_InterruptRoute(void) {
     if (!m_hController)
         return;
@@ -1250,9 +1214,6 @@ void CFuncTank::NPC_InterruptRoute(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFuncTank::NPC_InterruptController(void) {
     // If we don't have a controller - then the gun should be free.
     if (!m_hController)
@@ -1361,9 +1322,6 @@ bool CFuncTank::InRange(float range) {
     return TRUE;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFuncTank::InRange2(float flRange2) {
     if (flRange2 < m_flMinRange2)
         return false;
@@ -1374,9 +1332,6 @@ bool CFuncTank::InRange2(float flRange2) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::Think(void) {
     FuncTankPreThink();
 
@@ -1649,9 +1604,6 @@ void CFuncTank::LostTarget(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::ComputeLeadingPosition(const Vector &vecShootPosition, CBaseEntity *pTarget, Vector *pLeadPosition) {
     Vector vecTarget = pTarget->BodyTarget(vecShootPosition, false);
     float flShotSpeed = GetShotSpeed();
@@ -1713,9 +1665,6 @@ void CFuncTank::ComputeLeadingPosition(const Vector &vecShootPosition, CBaseEnti
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::AimFuncTankAtTarget(void) {
     // Get world target position
     CBaseEntity * pTarget = NULL;
@@ -1847,9 +1796,6 @@ void CFuncTank::AimFuncTankAtTarget(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::TrackTarget(void) {
     QAngle angles;
 
@@ -1909,9 +1855,6 @@ void CFuncTank::FiringSequence(const Vector &barrelEnd, const Vector &forward, C
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTank::DoMuzzleFlash(void) {
     // If we're parented to something, make it play the muzzleflash
     if (m_bUsePoseParameters && GetParent()) {
@@ -2081,9 +2024,6 @@ void CFuncTank::StopRotSound(void) {
     m_spawnflags &= ~SF_TANK_SOUNDON;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CFuncTank::IsEntityInViewCone(CBaseEntity *pEntity) {
     // First check to see if the enemy is in range.
     Vector vecBarrelEnd = WorldBarrelPosition();
@@ -2171,9 +2111,6 @@ public:
 
 LINK_ENTITY_TO_CLASS(func_tank, CFuncTankGun);
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTankGun::Fire(int bulletCount, const Vector &barrelEnd, const Vector &forward, CBaseEntity *pAttacker,
                         bool bIgnoreSpread) {
     int i;
@@ -2656,9 +2593,6 @@ Vector CFuncTankAirboatGun::WorldBarrelPosition(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CFuncTankAirboatGun::GetTracerType(void) {
     if (gpGlobals->curtime >= m_flNextHeavyShotTime)
         return "AirboatGunHeavyTracer";
@@ -2667,9 +2601,6 @@ const char *CFuncTankAirboatGun::GetTracerType(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTankAirboatGun::DoMuzzleFlash(void) {
     if (m_hAirboatGunModel && (m_nGunBarrelAttachment != 0)) {
         CEffectData data;
@@ -3383,9 +3314,6 @@ void CMortarShell::Impact(void) {
 
 #define    MORTAR_FADE_LENGTH 1.0f
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMortarShell::FadeThink(void) {
     SetNextThink(gpGlobals->curtime + 0.05f);
 
@@ -3539,9 +3467,6 @@ void CFuncTankMortar::InputFireAtWill(inputdata_t &inputdata) {
     SetNextAttack(gpGlobals->curtime);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFuncTankMortar::ShootGun(void) {
     Vector forward;
     AngleVectors(GetLocalAngles(), &forward);
@@ -3662,9 +3587,6 @@ BEGIN_DATADESC(CFuncTankPhysCannister)
 
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void
 CFuncTankPhysCannister::Fire(int bulletCount, const Vector &barrelEnd, const Vector &forward, CBaseEntity *pAttacker,
                              bool bIgnoreSpread) {

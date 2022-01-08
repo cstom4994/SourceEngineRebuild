@@ -175,9 +175,6 @@ bool CItemSelectionCriteria::BInitFromKV( KeyValues *pKVCriteria )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemSelectionCriteria::SetTags( const char *pszTags )
 {
 	m_vecTags.Purge();
@@ -195,9 +192,6 @@ void CItemSelectionCriteria::SetTags( const char *pszTags )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CItemSelectionCriteria::BAddCondition( CItemSelectionCriteria::ICondition *pCondition )
 {
 	CPlainAutoPtr<ICondition> pConditionPtr( pCondition );
@@ -567,9 +561,6 @@ bool CItemSelectionCriteria::CCondition::BSerializeToMsg( CSOItemCriteriaConditi
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CItemSelectionCriteria::CCondition::BItemDefinitionPassesCriteria( const CEconItemDefinition *pItemDef ) const
 {
 	return BEvaluate( pItemDef->GetRawDefinition() );

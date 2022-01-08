@@ -14,24 +14,15 @@ IMPLEMENT_CLIENTCLASS_DT(C_BaseTFFourWheelVehicle, DT_BaseTFFourWheelVehicle, CB
 	RecvPropInt( RECVINFO( m_nBoostTimeLeft ) ),
 END_RECV_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_BaseTFFourWheelVehicle::C_BaseTFFourWheelVehicle()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float C_BaseTFFourWheelVehicle::GetDeployFinishTime() const
 {
 	return m_flDeployFinishTime;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VehicleModeDeploy_e C_BaseTFFourWheelVehicle::GetVehicleModeDeploy() const
 {
 	return m_eDeployMode;

@@ -84,17 +84,11 @@ DECLARE_BUILD_FACTORY( CAutoFittingLabel );
 
 DECLARE_BUILD_FACTORY( CRepeatingContainer );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CRepeatingContainer::CRepeatingContainer( Panel *pParent, const char *pszName )
 	: EditablePanel( pParent, pszName )
 	, m_eLayoutMethod( METHOD_EVEN )
 {}
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CRepeatingContainer::~CRepeatingContainer()
 {}
 
@@ -146,9 +140,6 @@ void CRepeatingContainer::ApplySettings( KeyValues *inResourceData )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRepeatingContainer::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -194,9 +185,6 @@ void CRepeatingContainer::PerformLayout()
 
 DECLARE_BUILD_FACTORY( CTFItemCardPanel );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFItemCardPanel::CTFItemCardPanel( Panel *pParent, const char *pszName )
 	: BaseClass( pParent, pszName )
 	, m_pItem( NULL )
@@ -226,9 +214,6 @@ CTFItemCardPanel::CTFItemCardPanel( Panel *pParent, const char *pszName )
 	m_pDropShadow->SetAutoDelete( false ); // We'll delete this panel
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFItemCardPanel::~CTFItemCardPanel()
 {
 	m_pDropShadow->MarkForDeletion();
@@ -253,9 +238,6 @@ T* CTFItemCardPanel::FindAndVerifyControl( Panel* pParent, const char* pszPanelN
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::ApplySchemeSettings( IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
@@ -263,17 +245,11 @@ void CTFItemCardPanel::ApplySchemeSettings( IScheme *pScheme )
 	LoadResFileForCurrentItem();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::ApplySettings( KeyValues *inResourceData )
 {
 	BaseClass::ApplySettings( inResourceData );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -317,9 +293,6 @@ void CTFItemCardPanel::PerformLayout()
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::SetVisible( bool bVisible )
 {
 	// Update the position of our external shadow panel
@@ -354,9 +327,6 @@ void CTFItemCardPanel::SetMouseInputEnabled( bool state )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::SetItem( CEconItemView* pItem )
 {
 	m_pItem = pItem;
@@ -366,9 +336,6 @@ void CTFItemCardPanel::SetItem( CEconItemView* pItem )
 	MakeReadyForUse();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::PinCard( bool bPin ) 
 {
 #ifdef STAGING_ONLY
@@ -400,9 +367,6 @@ void CTFItemCardPanel::PinCard( bool bPin )
 	SetMouseInputEnabled( bPin );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::UpdateDescription()
 {
 	const GameItemDefinition_t *pItemDef = m_pItem->GetItemDefinition();
@@ -548,9 +512,6 @@ void CTFItemCardPanel::UpdateDescription()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::UpdateModelOrIcon()
 {
 	if ( !m_pItem )
@@ -576,9 +537,6 @@ void CTFItemCardPanel::UpdateModelOrIcon()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemCardPanel::LoadResFileForCurrentItem()
 {
 	// Temp hack.  New items get the new cards
@@ -625,9 +583,6 @@ void CTFItemCardPanel::LoadResFileForCurrentItem()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CItemCardPanelToolTip::CItemCardPanelToolTip( Panel *parent, const char *text ) 
 : BaseTooltip( parent, text )
 , m_pMouseOverItemPanel( NULL )
@@ -637,9 +592,6 @@ CItemCardPanelToolTip::CItemCardPanelToolTip( Panel *parent, const char *text )
 	SetTooltipDelay( 100 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemCardPanelToolTip::GetPosition( itempanel_tooltippos_t iTooltipPosition, CItemModelPanel *pItemPanel, int iItemX, int iItemY, int *iXPos, int *iYPos )
 {
 	switch ( iTooltipPosition )
@@ -657,9 +609,6 @@ void CItemCardPanelToolTip::GetPosition( itempanel_tooltippos_t iTooltipPosition
 	*iYPos = Clamp( *iYPos, (int)YRES( -30 ), int( m_pParentPanel->GetTall() - m_pMouseOverItemPanel->GetTall() - YRES( 30 ) ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CItemCardPanelToolTip::ValidatePosition( CItemModelPanel *pItemPanel, int iItemX, int iItemY, int *iXPos, int *iYPos )
 {
 	if ( *iXPos < 0 )
@@ -671,9 +620,6 @@ bool CItemCardPanelToolTip::ValidatePosition( CItemModelPanel *pItemPanel, int i
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemCardPanelToolTip::PerformLayout() 
 {
 	BaseClass::PerformLayout();
@@ -732,9 +678,6 @@ void CItemCardPanelToolTip::PerformLayout()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemCardPanelToolTip::ShowTooltip( Panel *currentPanel ) 
 { 
 	if ( m_pMouseOverItemPanel && currentPanel != m_hCurrentPanel.Get() ) 
@@ -747,9 +690,6 @@ void CItemCardPanelToolTip::ShowTooltip( Panel *currentPanel )
 	BaseClass::ShowTooltip( currentPanel );	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemCardPanelToolTip::HideTooltip() 
 { 
 	if ( m_pMouseOverItemPanel ) 

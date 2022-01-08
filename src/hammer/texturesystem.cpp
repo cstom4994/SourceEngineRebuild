@@ -115,9 +115,6 @@ CTextureSystem::~CTextureSystem(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTextureSystem::FreeAllTextures() {
     if (m_pCubemapTexture) {
         m_pCubemapTexture->DecrementReferenceCount();
@@ -401,9 +398,6 @@ TextureContext_t *CTextureSystem::FindTextureContextForConfig(CGameConfig *pConf
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTextureSystem::SetActiveConfig(CGameConfig *pConfig) {
     TextureContext_t *pContext = FindTextureContextForConfig(pConfig);
     if (pContext) {

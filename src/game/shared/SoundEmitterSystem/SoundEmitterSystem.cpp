@@ -118,9 +118,6 @@ void Hack_FixEscapeChars(char *str) {
     Q_strncpy(str, osave, len);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CSoundEmitterSystem : public CBaseGameSystem {
 public:
     virtual char const *Name() { return "CSoundEmitterSystem"; }

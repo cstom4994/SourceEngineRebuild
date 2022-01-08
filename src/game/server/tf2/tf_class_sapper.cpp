@@ -171,9 +171,6 @@ void CPlayerClassSapper::SetupMoveData( void )
 	m_flLastMoveTime = 0.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPlayerClassSapper::SetupSizeData( void )
 {
 	// Initially set the player to the base player class standing hull size.

@@ -207,9 +207,6 @@ int CBaseObject::GetBuildPointAttachmentIndex( int iPoint ) const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseObject::SetObjectOnBuildPoint( int iPoint, CBaseObject *pObject )
 {
 	Assert( iPoint >= 0 && iPoint <= GetNumBuildPoints() );

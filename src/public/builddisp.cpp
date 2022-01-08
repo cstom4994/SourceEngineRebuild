@@ -2238,9 +2238,6 @@ void CCoreDispInfo::BaseFacePlaneToDispUV( Vector const &planePt, Vector2D &disp
 	PointInQuadToBarycentric( vecPoints[0], vecPoints[3], vecPoints[2], vecPoints[1], planePt, dispUV );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::DispUVToSurf_TriTLToBR_1( const Vector &vecIntersectPoint,   
 											  int nSnapU, int nNextU, int nSnapV, int nNextV, 
 											  Vector &vecPoint, Vector *pNormal, float *pAlpha,
@@ -2344,9 +2341,6 @@ void CCoreDispInfo::DispUVToSurf_TriTLToBR_1( const Vector &vecIntersectPoint,
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::DispUVToSurf_TriTLToBR_2( const Vector &vecIntersectPoint,   
 											  int nSnapU, int nNextU, int nSnapV, int nNextV, 
 											  Vector &vecPoint, Vector *pNormal, float *pAlpha,
@@ -2450,9 +2444,6 @@ void CCoreDispInfo::DispUVToSurf_TriTLToBR_2( const Vector &vecIntersectPoint,
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::DispUVToSurf_TriTLToBR( Vector &vecPoint, Vector *pNormal, float *pAlpha, 
 											float flU, float flV, const Vector &vecIntersectPoint )
 {
@@ -2481,9 +2472,6 @@ void CCoreDispInfo::DispUVToSurf_TriTLToBR( Vector &vecPoint, Vector *pNormal, f
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::DispUVToSurf_TriBLToTR_1( const Vector &vecIntersectPoint,   
 											  int nSnapU, int nNextU, int nSnapV, int nNextV, 
 											  Vector &vecPoint, Vector *pNormal, float *pAlpha,
@@ -2587,9 +2575,6 @@ void CCoreDispInfo::DispUVToSurf_TriBLToTR_1( const Vector &vecIntersectPoint,
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::DispUVToSurf_TriBLToTR_2( const Vector &vecIntersectPoint,   
 											  int nSnapU, int nNextU, int nSnapV, int nNextV, 
 											  Vector &vecPoint, Vector *pNormal, float *pAlpha,
@@ -2693,9 +2678,6 @@ void CCoreDispInfo::DispUVToSurf_TriBLToTR_2( const Vector &vecIntersectPoint,
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::DispUVToSurf_TriBLToTR( Vector &vecPoint, Vector *pNormal, float *pAlpha, 
 											float flU, float flV, const Vector &vecIntersectPoint )
 {
@@ -2940,17 +2922,11 @@ bool CCoreDispInfo::SurfToBaseFacePlane( Vector const &surfPt, Vector &planePt )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CCoreDispInfo::GetTriCount( void )
 {
 	return ( ( GetHeight() - 1 ) * ( GetWidth() -1 ) * 2 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::GetTriIndices( int iTri, unsigned short &v1, unsigned short &v2, unsigned short &v3 )
 {
 	// Verify we have the correct data (only build when collision data is built).
@@ -2968,9 +2944,6 @@ void CCoreDispInfo::GetTriIndices( int iTri, unsigned short &v1, unsigned short 
 	v3 = pTri->m_iIndex[2];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::SetTriIndices( int iTri, unsigned short v1, unsigned short v2, unsigned short v3 )
 {
 	// Verify we have the correct data (only build when collision data is built).
@@ -2988,9 +2961,6 @@ void CCoreDispInfo::SetTriIndices( int iTri, unsigned short v1, unsigned short v
 	pTri->m_iIndex[2] = v3;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::GetTriPos( int iTri, Vector &v1, Vector &v2, Vector &v3 )
 {
 	// Verify we have the correct data (only build when collision data is built).
@@ -3008,9 +2978,6 @@ void CCoreDispInfo::GetTriPos( int iTri, Vector &v1, Vector &v2, Vector &v3 )
 	v3 = m_pVerts[pTri->m_iIndex[2]].m_Vert;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::InitTris( void )
 {
 	// Verify we have the correct data (only build when collision data is built).
@@ -3027,9 +2994,6 @@ void CCoreDispInfo::InitTris( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::CreateTris( void )
 {
 	// Verify we have the correct data (only build when collision data is built).
@@ -3051,9 +3015,6 @@ void CCoreDispInfo::CreateTris( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCoreDispInfo::IsTriWalkable( int iTri )
 { 
 	if ( IsTriTag( iTri, COREDISPTRI_TAG_FORCE_WALKABLE_BIT ) )
@@ -3064,9 +3025,6 @@ bool CCoreDispInfo::IsTriWalkable( int iTri )
 	return IsTriTag( iTri, COREDISPTRI_TAG_WALKABLE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCoreDispInfo::IsTriBuildable( int iTri )						
 { 
 	if ( IsTriTag( iTri, COREDISPTRI_TAG_FORCE_BUILDABLE_BIT ) )
@@ -3077,17 +3035,11 @@ bool CCoreDispInfo::IsTriBuildable( int iTri )
 	return IsTriTag( iTri, COREDISPTRI_TAG_BUILDABLE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCoreDispInfo::IsTriRemove( int iTri )						
 { 
 	return IsTriTag( iTri, COREDISPTRI_TAG_FORCE_REMOVE_BIT );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCoreDispInfo::Position_Update( int iVert, Vector vecPos )
 {
 	Vector vSPos, vFlat;

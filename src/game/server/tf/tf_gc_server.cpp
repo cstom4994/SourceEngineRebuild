@@ -3691,9 +3691,6 @@ void CTFGCServerSystem::MMServerModeChanged()
 	UpdateConnectedPlayersAndServerInfo( CMsgGameServerMatchmakingStatus_Event_None, true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGCServerSystem::LaunchNewMatchForLobby()
 {
 	/// XXX(JohnS): Technically the lobby might legitimately be gone here -- if we have gotten the NewMatchForLobby
@@ -3823,9 +3820,6 @@ void OnMMServerModeChanged( IConVar *pConVar, const char *pOldString, float flOl
 	GTFGCClientSystem()->MMServerModeChanged();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void OnMMServerModeTrustedChanged( IConVar *pConVar, const char *pOldString, float flOldValue )
 {
 	OnMMServerModeChanged( pConVar, pOldString, flOldValue );

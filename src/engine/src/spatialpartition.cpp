@@ -692,9 +692,6 @@ void CVoxelHash::RemoveFromTree( SpatialPartitionHandle_t hPartition )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void ClampStartPoint( Ray_t &ray, const Vector &vecEnd )
 {
 	float flDistStart, flT;
@@ -729,9 +726,6 @@ inline void ClampStartPoint( Ray_t &ray, const Vector &vecEnd )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void ClampEndPoint( Ray_t &ray, Vector &vecEnd )
 {
 	float flDistStart, flT;
@@ -899,9 +893,6 @@ private:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template <class T> 
 bool CVoxelHash::EnumerateElementsInVoxel( Voxel_t voxel, const T &intersectTest, SpatialPartitionListMask_t listMask, IPartitionEnumerator* pIterator )
 {
@@ -985,10 +976,7 @@ bool CVoxelHash::EnumerateElementsInSingleVoxel( Voxel_t voxel, const T &interse
 	return true;
 }
 
-	
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+
 bool CVoxelHash::EnumerateElementsInBox( SpatialPartitionListMask_t listMask, 
 	Voxel_t vmin, Voxel_t vmax, const Vector& mins, const Vector& maxs, IPartitionEnumerator* pIterator )
 {
@@ -1032,9 +1020,6 @@ bool CVoxelHash::EnumerateElementsInBox( SpatialPartitionListMask_t listMask,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoxelHash::EnumerateElementsAlongRay( SpatialPartitionListMask_t listMask, 
 	const Ray_t &ray, const Vector &vecInvDelta, const Vector &vecEnd, IPartitionEnumerator *pIterator )
 {
@@ -1047,9 +1032,6 @@ bool CVoxelHash::EnumerateElementsAlongRay( SpatialPartitionListMask_t listMask,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoxelHash::EnumerateElementsAlongRay_Ray( SpatialPartitionListMask_t listMask, 
 	const Ray_t &ray, const Vector &vecInvDelta, const Vector &vecEnd, IPartitionEnumerator *pIterator )
 {
@@ -1119,9 +1101,6 @@ bool CVoxelHash::EnumerateElementsAlongRay_Ray( SpatialPartitionListMask_t listM
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelHash::LeafListRaySetup( const Ray_t &ray, const Vector &vecEnd, 
 	const Vector &vecInvDelta, Voxel_t voxel, int *pStep, float *pMax, float *pDelta )
 {
@@ -1188,9 +1167,6 @@ inline int MinIndex( float v1, float v2, float v3 )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoxelHash::EnumerateElementsAlongRay_ExtrudedRay( SpatialPartitionListMask_t listMask, 
 	const Ray_t &ray, const Vector &vecInvDelta, const Vector &vecEnd, IPartitionEnumerator *pIterator )
 {
@@ -1283,9 +1259,6 @@ bool CVoxelHash::EnumerateElementsAlongRay_ExtrudedRay( SpatialPartitionListMask
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelHash::LeafListExtrudedRaySetup( const Ray_t &ray, const Vector &vecInvDelta,
 											const Vector &vecMin, const Vector &vecMax,
 											int iVoxelMin[3], int iVoxelMax[3],													 
@@ -1347,9 +1320,6 @@ void CVoxelHash::LeafListExtrudedRaySetup( const Ray_t &ray, const Vector &vecIn
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoxelHash::EnumerateElementsAlongRay_ExtrudedRaySlice( SpatialPartitionListMask_t listMask,
 	IPartitionEnumerator *pIterator, const CIntersectSweptBox &intersectSweptBox,
 	int voxelMin[3], int voxelMax[3], int iAxis, int *pStep )
@@ -1386,9 +1356,6 @@ bool CVoxelHash::EnumerateElementsAlongRay_ExtrudedRaySlice( SpatialPartitionLis
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoxelHash::EnumerateElementsAtPoint( SpatialPartitionListMask_t listMask,
 	Voxel_t v, const Vector& pt, IPartitionEnumerator* pIterator )
 {
@@ -1661,9 +1628,6 @@ void CVoxelHash::RenderAllObjectsInTree( float flTime )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelHash::RenderObjectsInPlayerLeafs( const Vector &vecPlayerMin, const Vector &vecPlayerMax, float flTime )
 {
 	// Visit each voxel in the box and enumerate its elements.
@@ -1757,9 +1721,6 @@ void CVoxelTree::Init( CSpatialPartition *pOwner, int iTree, const Vector &world
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelTree::Shutdown( void )
 {
 	m_aLeafList.Purge();
@@ -1887,9 +1848,6 @@ void CVoxelTree::ElementMoved( SpatialPartitionHandle_t hPartition, const Vector
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelTree::EnumerateElementsInBox( SpatialPartitionListMask_t listMask, 
 										const Vector& vecMins, const Vector& vecMaxs, 
 										bool coarseTest, IPartitionEnumerator* pIterator )
@@ -1951,9 +1909,6 @@ void CVoxelTree::EnumerateElementsInBox( SpatialPartitionListMask_t listMask,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelTree::EnumerateElementsInSphere( SpatialPartitionListMask_t listMask, 
 										   const Vector& origin, float radius, bool coarseTest, IPartitionEnumerator* pIterator )
 {
@@ -1967,9 +1922,6 @@ void CVoxelTree::EnumerateElementsInSphere( SpatialPartitionListMask_t listMask,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoxelTree::EnumerateElementsAlongRay_Ray( SpatialPartitionListMask_t listMask, 
 											   const Ray_t &ray, const Vector &vecInvDelta, const Vector &vecEnd, IPartitionEnumerator *pIterator )
 {
@@ -2075,9 +2027,6 @@ bool CVoxelTree::EnumerateElementsAlongRay_Ray( SpatialPartitionListMask_t listM
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelTree::ComputeSweptRayBounds( const Ray_t &ray, const Vector &vecStartMin, const Vector &vecStartMax, Vector *pVecMin, Vector *pVecMax )
 {
 	if ( ray.m_Delta.x < 0 )
@@ -2115,9 +2064,6 @@ void CVoxelTree::ComputeSweptRayBounds( const Ray_t &ray, const Vector &vecStart
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVoxelTree::EnumerateElementsAlongRay_ExtrudedRay( SpatialPartitionListMask_t listMask, 
 													   const Ray_t &ray, const Vector &vecInvDelta, const Vector &vecEnd, IPartitionEnumerator *pIterator )
 {
@@ -2248,9 +2194,6 @@ bool CVoxelTree::EnumerateElementsAlongRay_ExtrudedRay( SpatialPartitionListMask
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CVoxelTree::EnumerateElementsAlongRay( SpatialPartitionListMask_t listMask, 
 										   const Ray_t &ray, bool coarseTest, IPartitionEnumerator *pIterator )
@@ -2314,9 +2257,6 @@ void CVoxelTree::EnumerateElementsAlongRay( SpatialPartitionListMask_t listMask,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelTree::EnumerateElementsAtPoint( SpatialPartitionListMask_t listMask, 
 										  const Vector& pt, bool coarseTest, IPartitionEnumerator* pIterator )
 {
@@ -2372,9 +2312,6 @@ void CVoxelTree::RenderAllObjectsInTree( float flTime )
 
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVoxelTree::RenderObjectsInPlayerLeafs( const Vector &vecPlayerMin, const Vector &vecPlayerMax, float flTime )
 {
 	MDLCACHE_CRITICAL_SECTION_(g_pMDLCache);
@@ -2433,9 +2370,6 @@ void CSpatialPartition::Init( const Vector &worldmin, const Vector &worldmax )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::Shutdown( void )
 {
 	for ( int i = 0; i < NUM_TREES; i++ )
@@ -2619,9 +2553,6 @@ void CSpatialPartition::Remove( SpatialPartitionListMask_t listId, SpatialPartit
 	m_aHandles[handle].m_fList &= ~listId;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::RemoveAndInsert( SpatialPartitionListMask_t removeMask, SpatialPartitionListMask_t insertMask, 
 											 SpatialPartitionHandle_t handle )
 {
@@ -2696,9 +2627,6 @@ SpatialPartitionListMask_t CSpatialPartition::GetSuppressedLists( void )
 	return m_nSuppressedListMask;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::ElementMoved( SpatialPartitionHandle_t handle, const Vector& mins, const Vector& maxs )
 {
 	EntityInfo_t &entityInfo = EntityInfo( handle );
@@ -2726,9 +2654,6 @@ void CSpatialPartition::ElementMoved( SpatialPartitionHandle_t handle, const Vec
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::EnumerateElementsInBox( SpatialPartitionListMask_t listMask, const Vector& mins, const Vector& maxs, bool coarseTest, IPartitionEnumerator* pIterator )
 {
 	MDLCACHE_CRITICAL_SECTION_(g_pMDLCache);
@@ -2738,9 +2663,6 @@ void CSpatialPartition::EnumerateElementsInBox( SpatialPartitionListMask_t listM
 	InvokeQueryCallbacks( listMask, true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::EnumerateElementsInSphere( SpatialPartitionListMask_t listMask, const Vector& origin, float radius, bool coarseTest, IPartitionEnumerator* pIterator )
 {
 	MDLCACHE_CRITICAL_SECTION_(g_pMDLCache);
@@ -2750,9 +2672,6 @@ void CSpatialPartition::EnumerateElementsInSphere( SpatialPartitionListMask_t li
 	InvokeQueryCallbacks( listMask, true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::EnumerateElementsAlongRay( SpatialPartitionListMask_t listMask, const Ray_t& ray, bool coarseTest, IPartitionEnumerator* pIterator )
 {
 	MDLCACHE_CRITICAL_SECTION_(g_pMDLCache);
@@ -2762,9 +2681,6 @@ void CSpatialPartition::EnumerateElementsAlongRay( SpatialPartitionListMask_t li
 	InvokeQueryCallbacks( listMask, true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::EnumerateElementsAtPoint( SpatialPartitionListMask_t listMask, const Vector& pt, bool coarseTest, IPartitionEnumerator* pIterator )
 {
 	MDLCACHE_CRITICAL_SECTION_(g_pMDLCache);
@@ -2775,9 +2691,6 @@ void CSpatialPartition::EnumerateElementsAtPoint( SpatialPartitionListMask_t lis
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::InsertIntoTree( SpatialPartitionHandle_t hPartition, const Vector& mins, const Vector& maxs ) 
 {
 	EntityInfo_t &entityInfo = EntityInfo( hPartition );
@@ -2804,9 +2717,6 @@ void CSpatialPartition::InsertIntoTree( SpatialPartitionHandle_t hPartition, con
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::RemoveFromTree( SpatialPartitionHandle_t hPartition ) 
 { 
 	EntityInfo_t &entityInfo = EntityInfo( hPartition );
@@ -2824,17 +2734,11 @@ void CSpatialPartition::RemoveFromTree( SpatialPartitionHandle_t hPartition )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::RenderObjectsInBox( const Vector &vecMin, const Vector &vecMax, float flTime )
 {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSpatialPartition::RenderObjectsInSphere( const Vector &vecCenter, float flRadius, float flTime )
 {
 }

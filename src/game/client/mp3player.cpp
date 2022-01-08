@@ -142,9 +142,6 @@ static bool SplitArtistAlbum( char const *relative, char *artist, size_t artistl
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CMP3FileListPage : public PropertyPage
 {
     DECLARE_CLASS_SIMPLE( CMP3FileListPage, PropertyPage );

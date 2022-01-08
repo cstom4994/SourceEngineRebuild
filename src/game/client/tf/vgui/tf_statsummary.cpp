@@ -261,9 +261,6 @@ void CTFStatsSummaryPanel::PerformLayout()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStatsSummaryPanel::OnThink()
 {
 	BaseClass::OnThink();

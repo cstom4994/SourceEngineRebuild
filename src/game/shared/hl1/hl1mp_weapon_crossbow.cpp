@@ -412,9 +412,6 @@ void CWeaponCrossbow::Precache( void )
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCrossbow::PrimaryAttack( void )
 {
 	if ( m_fInZoom && g_pGameRules->IsMultiplayer() )
@@ -428,9 +425,6 @@ void CWeaponCrossbow::PrimaryAttack( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCrossbow::SecondaryAttack( void )
 {
 	ToggleZoom();

@@ -86,9 +86,6 @@ void IVP_Controller_Raycast_Airboat::PreRaycasts( IVP_Ray_Solver_Template *pRayS
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool IVP_Controller_Raycast_Airboat::PostRaycasts( IVP_Ray_Solver_Template *pRaySolverTemplates, const IVP_U_Matrix *matWorldFromCore, IVP_Raycast_Airboat_Pontoon_Temp *pTempPontoons, 
 												   IVP_Raycast_Airboat_Impact *pImpacts, IVP_Core *pAirboatCore )
 {
@@ -160,9 +157,6 @@ bool IVP_Controller_Raycast_Airboat::PostRaycasts( IVP_Ray_Solver_Template *pRay
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Airboat::DoSimulationPontoons( IVP_Raycast_Airboat_Pontoon_Temp *pTempPontoons,
 													       IVP_Raycast_Airboat_Impact *pImpacts, IVP_Event_Sim *pEventSim,
 													       IVP_Core *pAirboatCore )
@@ -303,9 +297,6 @@ void IVP_Controller_Raycast_Airboat::DoSimulationDrag( IVP_Raycast_Airboat_Ponto
 	pAirboatCore->center_push_core_multiple_ws( &vecImpulse );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Airboat::DoSimulationTurbine( IVP_Raycast_Airboat_Pontoon_Temp *pTempPontoons,
 											              IVP_Event_Sim *pEventSim, IVP_Core *pAirboatCore )
 {
@@ -320,9 +311,6 @@ void IVP_Controller_Raycast_Airboat::DoSimulationTurbine( IVP_Raycast_Airboat_Po
 	pAirboatCore->center_push_core_multiple_ws( &vecImpulse );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Airboat::DoSimulationSteering( IVP_Raycast_Airboat_Pontoon_Temp *pTempPontoons,
 													       IVP_Core *pAirboatCore, IVP_Event_Sim *pEventSim )
 {
@@ -583,9 +571,6 @@ IVP_Controller_Raycast_Airboat::IVP_Controller_Raycast_Airboat( IVP_Environment 
 	InitRaycastCarAxes( pCarSystemTemplate );	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Airboat::InitRaycastCarEnvironment( IVP_Environment *pEnvironment, 
 													        const IVP_Template_Car_System *pCarSystemTemplate )
 {
@@ -626,9 +611,6 @@ void IVP_Controller_Raycast_Airboat::InitRaycastCarEnvironment( IVP_Environment 
     normized_gravity_ws.normize();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Airboat::InitRaycastCarBody( const IVP_Template_Car_System *pCarSystemTemplate )
 {
 	// Car body attributes.
@@ -657,9 +639,6 @@ void IVP_Controller_Raycast_Airboat::InitRaycastCarBody( const IVP_Template_Car_
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Airboat::InitRaycastCarWheels( const IVP_Template_Car_System *pCarSystemTemplate )
 {
     IVP_U_Matrix m_core_f_object;
@@ -705,9 +684,6 @@ void IVP_Controller_Raycast_Airboat::InitRaycastCarWheels( const IVP_Template_Ca
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Airboat::InitRaycastCarAxes( const IVP_Template_Car_System *pCarSystemTemplate )
 {
     m_SteeringAngle = -1.0f;		// make sure next call is not optimized

@@ -1013,9 +1013,6 @@ CTFFlagCalloutPanel::~CTFFlagCalloutPanel( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlagCalloutPanel::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );

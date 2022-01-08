@@ -1786,9 +1786,6 @@ void CWeaponRPG::UpdateLaserPosition(Vector vecMuzzlePos, Vector vecEndPos) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponRPG::CreateLaserPointer(void) {
     if (m_hLaserDot != NULL)
         return;

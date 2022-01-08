@@ -234,9 +234,6 @@ CHudArmor::CHudArmor( const char *pName ) : CHudNumericDisplay( NULL, "HudArmor"
 	SetHiddenBits( HIDEHUD_HEALTH | HIDEHUD_PLAYERDEAD );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudArmor::Init()
 {
 	C_TFPlayer *pTFPlayer = ToTFPlayer( C_BasePlayer::GetLocalPlayer() );
@@ -247,9 +244,6 @@ void CHudArmor::Init()
 	SetDisplayValue( m_nArmor );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudArmor::ApplySchemeSettings( IScheme *scheme )
 {
 	// Fall back to base.
@@ -269,9 +263,6 @@ void CHudArmor::ApplySchemeSettings( IScheme *scheme )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudArmor::OnThink()
 {
 	C_TFPlayer *pTFPlayer = ToTFPlayer( C_BasePlayer::GetLocalPlayer() );
@@ -282,9 +273,6 @@ void CHudArmor::OnThink()
 	SetDisplayValue( m_nArmor );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CHudArmor::ShouldDraw()
 {
 	C_TFPlayer *pTFPlayer = ToTFPlayer( C_BasePlayer::GetLocalPlayer() );
@@ -297,9 +285,6 @@ bool CHudArmor::ShouldDraw()
 	return !pTFPlayer->IsObserver();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudArmor::Paint()
 {
 	// Draw the armor icon.

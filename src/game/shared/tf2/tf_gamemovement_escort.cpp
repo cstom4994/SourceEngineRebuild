@@ -8,9 +8,6 @@
 #include "tf_gamemovement_escort.h"
 #include "tf_movedata.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGameMovementEscort::CTFGameMovementEscort()
 {
 	m_pEscortData = NULL;
@@ -25,9 +22,6 @@ CTFGameMovementEscort::CTFGameMovementEscort()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementEscort::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFMoveData *pTFMoveData )
 {
 	// Get the class specific data from the TFMoveData structure
@@ -39,26 +33,17 @@ void CTFGameMovementEscort::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFMov
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementEscort::GetPlayerMins( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMins : m_vStandMins; 
 }
 
-	
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+
 const Vector &CTFGameMovementEscort::GetPlayerMaxs( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMaxs : m_vStandMaxs;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementEscort::GetPlayerViewOffset( bool bDucked ) const
 {
 	return bDucked ? m_vDuckViewOffset : m_vStandViewOffset;

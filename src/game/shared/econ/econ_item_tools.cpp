@@ -224,9 +224,6 @@ bool CEconTool_StrangeCountTransfer::AreItemsEligibleForStrangeCountTransfer( co
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconTool_StrangePart::CanApplyTo( const IEconItemInterface *pTool, const IEconItemInterface *pToolSubject ) const
 {
 	Assert( pTool );
@@ -315,9 +312,6 @@ bool CEconTool_StrangePart::CanApplyTo( const IEconItemInterface *pTool, const I
 	return IEconTool::CanApplyTo( pTool, pToolSubject );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static const char *s_pszStrangeRestrictionTypes[] =
 {
 	"",										// kStrangeEventRestriction_None
@@ -350,9 +344,6 @@ CEconTool_StrangePartRestriction::CEconTool_StrangePartRestriction( const char *
 	m_pszRestrictionValue = pUsageKV->GetString( "restriction_value", NULL );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconTool_StrangePartRestriction::BFinishInitialization()
 {
 	// Run different parsers based on our restriction type.
@@ -405,9 +396,6 @@ bool CEconTool_StrangePartRestriction::BFinishInitialization()
 		&& IEconTool::BFinishInitialization();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconTool_StrangePartRestriction::CanApplyTo( const IEconItemInterface *pTool, const IEconItemInterface *pToolSubject ) const
 {
 	Assert( pTool );
@@ -520,9 +508,6 @@ bool CEconTool_ItemDynamicRecipe::CanApplyTo( const IEconItemInterface *pTool, c
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEconTool_ItemDynamicRecipe::CBaseRecipeComponent::CBaseRecipeComponent( bool bIsOutput, const CBaseRecipeComponent* pParent ) 
 	: m_bIsOutput( bIsOutput )
 	, m_flChanceOfApplying( 1.f )
@@ -532,9 +517,6 @@ CEconTool_ItemDynamicRecipe::CBaseRecipeComponent::CBaseRecipeComponent( bool bI
 	, m_attributesMatchingType( ATTRIBUTES_MATCH_NONE )
 {}
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEconTool_ItemDynamicRecipe::CBaseRecipeComponent::~CBaseRecipeComponent()
 {
 	m_vecAdditionalComponents.PurgeAndDeleteElements();
@@ -589,9 +571,6 @@ void CEconTool_ItemDynamicRecipe::CBaseRecipeComponent::SetChanceOfApplying( flo
 	m_flChanceOfApplying = flChance;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconTool_ItemDynamicRecipe::CBaseRecipeComponent::BFinishInitialization_Internal( CUtlVector<CUtlString>* pVecErrors, ComponentAttribVector_t* pAttribVec  )
 {
 	FOR_EACH_VEC( m_vecAdditionalComponents, i )
@@ -619,16 +598,10 @@ void CEconTool_ItemDynamicRecipe::CBaseRecipeComponent::GetIsGuaranteed( int &nF
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEconTool_ItemDynamicRecipe::CDynamicRecipeComponentDefinedItem::CDynamicRecipeComponentDefinedItem( bool bIsOutput, const CBaseRecipeComponent* pParent )
 	: CBaseRecipeComponent( bIsOutput, pParent )
 {}
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEconTool_ItemDynamicRecipe::CDynamicRecipeComponentDefinedItem::~CDynamicRecipeComponentDefinedItem()
 {}
 
@@ -853,9 +826,6 @@ bool CEconTool_ItemDynamicRecipe::CDynamicRecipeComponentDefinedItem::AddRecipeC
 
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEconTool_ItemDynamicRecipe::CDynamicRecipeComponentLootList::CDynamicRecipeComponentLootList( bool bIsOutput, const CBaseRecipeComponent* pParent )
 	: CEconTool_ItemDynamicRecipe::CBaseRecipeComponent( bIsOutput, pParent )
 #ifdef GC_DLL
@@ -1570,9 +1540,6 @@ int CEconTool_ItemEaterRecharger::GetChargesForItemDefId( item_definition_index_
 	return 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconTool_UpgradeCard::CanApplyTo( const IEconItemInterface *pTool, const IEconItemInterface *pToolSubject ) const
 {
 	Assert( pTool );
@@ -1619,9 +1586,6 @@ bool CEconTool_UpgradeCard::CanApplyTo( const IEconItemInterface *pTool, const I
 	return IEconTool::CanApplyTo( pTool, pToolSubject );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconTool_ClassTransmogrifier::CanApplyTo( const IEconItemInterface *pTool, const IEconItemInterface *pToolSubject ) const
 {
 	Assert( pTool );

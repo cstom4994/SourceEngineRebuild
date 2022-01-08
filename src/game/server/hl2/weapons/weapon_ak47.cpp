@@ -170,17 +170,11 @@ acttable_t CWeaponAK47::m_acttable[] =
 
 IMPLEMENT_ACTTABLE(CWeaponAK47);
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CWeaponAK47::CWeaponAK47() {
     m_fMinRange1 = 0; // No minimum range
     m_fMaxRange1 = 1400;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponAK47::Precache() {
     BaseClass::Precache();
 }
@@ -197,9 +191,6 @@ void CWeaponAK47::Equip(CBaseCombatCharacter *pOwner) {
     BaseClass::Equip(pOwner);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponAK47::FireNPCPrimaryAttack(CBaseCombatCharacter *pOperator, Vector &vecShootOrigin, Vector &vecShootDir) {
     // FIXME: Use the returned number of bullets to account for >10hz firerate
     WeaponSoundRealtime(SINGLE_NPC);
@@ -213,9 +204,6 @@ void CWeaponAK47::FireNPCPrimaryAttack(CBaseCombatCharacter *pOperator, Vector &
     m_iClip1--;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponAK47::Operator_ForceNPCFire(CBaseCombatCharacter *pOperator, bool bSecondary) {
     // Ensure we have enough rounds in the magazine
     m_iClip1++;
@@ -227,9 +215,6 @@ void CWeaponAK47::Operator_ForceNPCFire(CBaseCombatCharacter *pOperator, bool bS
     FireNPCPrimaryAttack(pOperator, vecShootOrigin, vecShootDir);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponAK47::Operator_HandleAnimEvent(animevent_t *pEvent, CBaseCombatCharacter *pOperator) {
     switch (pEvent->event) {
         case EVENT_WEAPON_SMG1: {
@@ -272,9 +257,6 @@ Activity CWeaponAK47::GetPrimaryAttackActivity() {
     return ACT_VM_RECOIL3;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponAK47::Reload() {
     bool fRet = DefaultReload(GetMaxClip1(), GetMaxClip2(), ACT_VM_RELOAD);
     if (fRet)
@@ -283,9 +265,6 @@ bool CWeaponAK47::Reload() {
     return fRet;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponAK47::AddViewKick() {
 #define EASY_DAMPEN            2.3f
 #define MAX_VERTICAL_KICK    17.0f // Degrees
@@ -300,9 +279,6 @@ void CWeaponAK47::AddViewKick() {
     DoMachineGunKick(pPlayer, EASY_DAMPEN, MAX_VERTICAL_KICK, m_fFireDuration, SLIDE_LIMIT);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponAK47::SecondaryAttack() {
 }
 
@@ -316,9 +292,6 @@ int CWeaponAK47::WeaponRangeAttack2Condition(float flDot, float flDist) {
     return COND_NONE;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const WeaponProficiencyInfo_t *CWeaponAK47::GetProficiencyValues() {
     static WeaponProficiencyInfo_t proficiencyTable[] =
             {

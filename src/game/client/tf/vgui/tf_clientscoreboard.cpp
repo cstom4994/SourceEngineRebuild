@@ -668,9 +668,6 @@ void CTFClientScoreBoardDialog::GetCameraUnderlayBounds( int *pX, int *pY, int *
 	*pTall -= 40;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFClientScoreBoardDialog::OnScoreBoardMouseRightRelease( void )
 {
 	if ( !IsVisible() )
@@ -1033,9 +1030,6 @@ void CTFClientScoreBoardDialog::UpdateTeamInfo()
 	m_pBlueTeamImage->SetVisible( !bShowAvatars && !bMvM );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool AreEnemyTeams( int iTeam1, int iTeam2 )
 {
 	if ( iTeam1 == TF_TEAM_RED && iTeam2 == TF_TEAM_BLUE )

@@ -28,9 +28,6 @@ unsigned int CTFItem::GetItemID( void ) const
 	return TF_ITEM_UNDEFINED; 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItem::PickUp( CTFPlayer *pPlayer, bool bInvisible )
 {
 	// SetParent with attachment point - look it up later if need be!
@@ -55,9 +52,6 @@ void CTFItem::PickUp( CTFPlayer *pPlayer, bool bInvisible )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItem::Drop( CTFPlayer *pPlayer, bool bVisible, bool bThrown /*= false*/, bool bMessage /*= true*/ )
 {
 	// Remove the item from the player's item inventory.

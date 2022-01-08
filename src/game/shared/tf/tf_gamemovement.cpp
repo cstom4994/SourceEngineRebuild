@@ -3144,9 +3144,6 @@ void CTFGameMovement::TestDuck(  )
 #endif
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::DuckOverrides()
 {
 	bool bOnGround = ( player->GetGroundEntity() != NULL );
@@ -3194,9 +3191,6 @@ void CTFGameMovement::DuckOverrides()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::OnDuck( int nButtonsPressed )
 {
 	// Check to see if we are in the air or ducking.
@@ -3249,9 +3243,6 @@ void CTFGameMovement::OnDuck( int nButtonsPressed )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::OnUnDuck( int nButtonsReleased )
 {
 	// Check to see if we are in the air or ducking.

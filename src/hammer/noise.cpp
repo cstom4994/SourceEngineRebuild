@@ -24,9 +24,6 @@ float RandomNoise2D(int x, int y) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float SmoothNoise2D(int x, int y) {
     float corners = (RandomNoise2D(x - 1, y - 1) + RandomNoise2D(x + 1, y - 1) +
                      RandomNoise2D(x - 1, y + 1) + RandomNoise2D(x + 1, y + 1)) / 16.0f;
@@ -37,17 +34,11 @@ float SmoothNoise2D(int x, int y) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline float InterpLinear(float a, float b, float x) {
     return (a * (1.0f - x) + b * x);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline float InterpCos(float a, float b, float x) {
     float alpha = x * 3.1415927f; /* PI */
     float frac = 1.0f - (float) cos(alpha) * 0.5f;
@@ -55,9 +46,6 @@ inline float InterpCos(float a, float b, float x) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline float InterpCubic(float a, float b, float c, float d, float x) {
     float P = (d - c) - (a - b);
     float Q = (a - b) - P;
@@ -68,9 +56,6 @@ inline float InterpCubic(float a, float b, float c, float d, float x) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float InterpNoise2D(float x, float y) {
     int iX = (int) x;
     float fracX = x - iX;

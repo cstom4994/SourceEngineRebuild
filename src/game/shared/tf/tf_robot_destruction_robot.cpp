@@ -1261,9 +1261,6 @@ CRobotDispenser::CRobotDispenser()
 	m_bUseGenerateMetalSound = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRobotDispenser::Spawn( void )
 {
 	// This cast is for the benefit of GCC

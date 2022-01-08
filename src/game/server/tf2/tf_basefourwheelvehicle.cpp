@@ -138,9 +138,6 @@ void CBaseTFFourWheelVehicle::UnDeploy( void )
 	m_eDeployMode = VEHICLE_MODE_UNDEPLOYING;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseTFFourWheelVehicle::CancelDeploy( void )
 {
 	// Check for the deploying state.
@@ -162,9 +159,6 @@ void CBaseTFFourWheelVehicle::CancelDeploy( void )
 	SetContextThink( NULL, 0, BASEFOURWHEELEDVEHICLE_DEPLOYTHINK_CONTEXT );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseTFFourWheelVehicle::BaseFourWheeledVehicleDeployThink( void )
 {
 	// Called from deploy.
@@ -197,18 +191,12 @@ void CBaseTFFourWheelVehicle::BaseFourWheeledVehicleStopTheRodeoMadnessThink( vo
 	SetContextThink( BaseFourWheeledVehicleThink, gpGlobals->curtime + 0.1, BASEFOURWHEELEDVEHICLE_THINK_CONTEXT );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseTFFourWheelVehicle::OnFinishedDeploy( void )
 {
 	SetActivity( ACT_DEPLOY_IDLE );
 	m_eDeployMode = VEHICLE_MODE_DEPLOYED;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseTFFourWheelVehicle::OnFinishedUnDeploy( void )
 {
 	m_eDeployMode = VEHICLE_MODE_NORMAL;

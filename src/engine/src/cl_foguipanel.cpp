@@ -512,9 +512,6 @@ void CFogUIPanel::UpdateFogColors()
 	Cbuf_AddText( va( "fog_colorskybox %i %i %i\n", iRedSky, iGreenSky, iBlueSky ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void FogUI_f()
 {
 	if ( !g_pFogUI )

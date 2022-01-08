@@ -607,9 +607,6 @@ CAI_Schedule::CAI_Schedule(char *name, int schedule_id, CAI_Schedule *pNext)
 	nextSchedule = pNext;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CAI_Schedule::~CAI_Schedule( void )
 {
 	delete[] m_pName;

@@ -497,9 +497,6 @@ void CCraftingPanel::OnClosing()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCraftingPanel::PositionItemPanel( CItemModelPanel *pPanel, int iIndex )
 {
 	int iCenter = 0;
@@ -525,9 +522,6 @@ void CCraftingPanel::PositionItemPanel( CItemModelPanel *pPanel, int iIndex )
 	return;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCraftingPanel::UpdateRecipeItems( bool bClearInputItems )
 {
 	if ( bClearInputItems )
@@ -680,9 +674,6 @@ void CCraftingPanel::UpdateRecipeItems( bool bClearInputItems )
 	UpdateCraftButton();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCraftingPanel::UpdateCraftButton( void )
 {
 	if ( m_iCurrentlySelectedRecipe == -1 )
@@ -751,9 +742,6 @@ void CCraftingPanel::UpdateCraftButton( void )
 	}	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CCraftingPanel::GetItemTextForCriteria( const CItemSelectionCriteria *pCriteria )
 {
 	// Otherwise, look at the first condition, and see if we can determine what the item is
@@ -796,9 +784,6 @@ const char *CCraftingPanel::GetItemTextForCriteria( const CItemSelectionCriteria
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEconItemDefinition *CCraftingPanel::GetItemDefFromCriteria( const CItemSelectionCriteria *pCriteria )
 {
 	// Otherwise, look at the first condition, and see if we can determine what the item is
@@ -809,9 +794,6 @@ CEconItemDefinition *CCraftingPanel::GetItemDefFromCriteria( const CItemSelectio
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCraftingPanel::AddNewItemPanel( int iPanelIndex )
 {
 	BaseClass::AddNewItemPanel( iPanelIndex );
@@ -820,9 +802,6 @@ void CCraftingPanel::AddNewItemPanel( int iPanelIndex )
 	m_pItemModelPanels[iPanelIndex]->SetParent( m_pSelectedRecipeContainer );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCraftingPanel::UpdateModelPanels( void )
 {
 	BaseClass::UpdateModelPanels();

@@ -1051,9 +1051,6 @@ bool CObjectSentrygun::FindTarget()
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CObjectSentrygun::ValidTargetPlayer( CTFPlayer *pPlayer, const Vector &vecStart, const Vector &vecEnd )
 {
 	// Keep shooting at spies that go invisible after we acquire them as a target.
@@ -1085,9 +1082,6 @@ bool CObjectSentrygun::ValidTargetPlayer( CTFPlayer *pPlayer, const Vector &vecS
 	return FVisible( pPlayer, MASK_SHOT | CONTENTS_GRATE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CObjectSentrygun::ValidTargetObject( CBaseObject *pObject, const Vector &vecStart, const Vector &vecEnd )
 {
 	// Ignore objects being placed, they are not real objects yet.
@@ -1109,9 +1103,6 @@ bool CObjectSentrygun::ValidTargetObject( CBaseObject *pObject, const Vector &ve
 	return FVisible( pObject, MASK_SHOT | CONTENTS_GRATE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CObjectSentrygun::ValidTargetBot( CBaseCombatCharacter *pBot, const Vector &vecStart, const Vector &vecEnd )
 {
 	// Already collected all of the players in FindTarget()
@@ -1838,9 +1829,6 @@ void CObjectSentrygun::OnEndDisabled( void )
 	BaseClass::OnEndDisabled();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CObjectSentrygun::GetBaseTurnRate( void )
 {
 	if ( m_bPlayerControlled )
@@ -2202,9 +2190,6 @@ void CObjectSentrygun::MakeCarriedObject( CTFPlayer *pCarrier )
 	m_nShieldLevel.Set( SHIELD_NONE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectSentrygun::MakeDisposableBuilding( CTFPlayer* pPlayer )
 {
 	// We don't have our main gun
@@ -2422,9 +2407,6 @@ CTFProjectile_SentryRocket::CTFProjectile_SentryRocket()
 	UseClientSideAnimation();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_SentryRocket::Spawn()
 {
 	BaseClass::Spawn();

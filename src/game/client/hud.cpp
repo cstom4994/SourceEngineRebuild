@@ -1111,9 +1111,6 @@ void CHudIcons::Shutdown() {
     m_bHudTexturesLoaded = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CHudTexture *CHudIcons::AddUnsearchableHudIconToList(CHudTexture &texture) {
     // These names are composed based on the texture file name
     char composedName[512];
@@ -1140,9 +1137,6 @@ CHudTexture *CHudIcons::AddUnsearchableHudIconToList(CHudTexture &texture) {
     return m_Icons[idx];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CHudTexture *CHudIcons::AddSearchableHudIconToList(CHudTexture &texture) {
     CHudTexture *icon = GetIcon(texture.szShortName);
     if (icon) {
@@ -1195,9 +1189,6 @@ void CHudIcons::SetupNewHudTexture(CHudTexture *t) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudIcons::RefreshHudTextures() {
     if (!m_bHudTexturesLoaded) {
         Assert(0);

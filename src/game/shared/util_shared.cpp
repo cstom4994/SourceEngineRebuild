@@ -1453,9 +1453,6 @@ ISteamUtils* GetSteamUtils()
 	return steamapicontext ? steamapicontext->SteamUtils() : NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 EUniverse GetUniverse()
 {
 	if ( !GetSteamUtils() )

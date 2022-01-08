@@ -712,9 +712,6 @@ void Slider::OnMouseDoublePressed(MouseCode code) {
     OnMousePressed(code);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef _X360
 void Slider::OnKeyCodePressed(KeyCode code)
 {

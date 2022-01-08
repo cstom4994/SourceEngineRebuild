@@ -3972,19 +3972,6 @@ set(Source_Files__Lambda__NextBot
         )
 source_group("NextBot" FILES ${Source_Files__Lambda__NextBot})
 
-set(Source_Files__Lambda__ImGui
-        "imgui/imgui_impl_source.cpp"
-        "imgui/imgui_impl_source.h"
-        "imgui/app.cpp"
-        "imgui/app.h"
-        "imgui/imgui/imgui.cpp"
-        "imgui/imgui/imgui_draw.cpp"
-        "imgui/imgui/imgui_widgets.cpp"
-        "imgui/imgui/imgui_tables.cpp"
-        "imgui/imgui/imgui_demo.cpp"
-        )
-source_group("ImGui" FILES ${Source_Files__Lambda__ImGui})
-
 set(ALL_FILES
         ${Game_Shared_Header_Files}
         ${Header_Files}
@@ -3999,7 +3986,6 @@ set(ALL_FILES
         ${Source_Files__game_controls}
         ${Source_Files__GAMEUI}
         ${Source_Files__Lambda__NextBot}
-        ${Source_Files__Lambda__ImGui}
         ${Source_Files__IFM}
         ${SEE_Files}
         ${CONTENTS_Files}
@@ -4068,8 +4054,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../common/GameUI;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared;"
         "${CMAKE_CURRENT_SOURCE_DIR}/gameui;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/imgui/imgui;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/imgui;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../rccpp;"
         "${CMAKE_CURRENT_SOURCE_DIR}/game_controls;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/sixensesdk/include;"

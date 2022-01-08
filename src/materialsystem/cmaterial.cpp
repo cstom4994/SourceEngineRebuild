@@ -2466,9 +2466,6 @@ int CMaterial::GetNumAnimationFrames( )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterial::GetMaterialOffset( float *pOffset )
 {
 	// Identity.
@@ -2476,9 +2473,6 @@ void CMaterial::GetMaterialOffset( float *pOffset )
 	pOffset[1] = 0.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterial::GetMaterialScale( float *pScale )
 {
 	// Identity.

@@ -91,9 +91,6 @@ void CWeaponSnark::Precache(void) {
     UTIL_PrecacheOther("monster_snark");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponSnark::PrimaryAttack(void) {
     // Only the player fires this way so we can cast
     CBasePlayer *pPlayer = ToBasePlayer(GetOwner());

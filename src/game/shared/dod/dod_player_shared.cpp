@@ -1387,9 +1387,6 @@ bool CDODPlayerShared::IsPlayerDominated( int iPlayerIndex )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDODPlayerShared::IsPlayerDominatingMe( int iPlayerIndex )
 {
 	return m_bPlayerDominatingMe.Get( iPlayerIndex );

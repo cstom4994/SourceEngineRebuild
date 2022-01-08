@@ -72,9 +72,6 @@ CPlayerClassEscort::CPlayerClassEscort( CBaseTFPlayer *pPlayer, TFClass iClass )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPlayerClassEscort::SetupSizeData( void )
 {
 	// Initially set the player to the base player class standing hull size.

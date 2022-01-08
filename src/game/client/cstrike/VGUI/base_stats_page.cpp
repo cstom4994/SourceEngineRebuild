@@ -304,9 +304,6 @@ void CBaseStatGroupPanel::Update( vgui::IScheme* pScheme )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseStatGroupPanel::PreloadResourceFile( void )
 {
 	const char *controlResourceName = "resource/ui/StatGroup.res";

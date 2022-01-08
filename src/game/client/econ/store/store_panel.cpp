@@ -960,9 +960,6 @@ void CStorePanel::InitiateCheckout( bool bSkipUpsell )
 	DoCheckout();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 /*static*/ void CStorePanel::ConfirmCheckout( bool bConfirmed, void *pContext )
 {
 	CStorePanel *pStorePanel = ( CStorePanel * )pContext;
@@ -980,9 +977,6 @@ void CStorePanel::InitiateCheckout( bool bSkipUpsell )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 /*static*/ void CStorePanel::ConfirmUpsellStamps( bool bConfirmed, CSchemaItemDefHandle hItemDef, int nSecondsVisible )
 {
 	CStorePanel *pStorePanel = EconUI()->GetStorePanel();
@@ -1063,9 +1057,6 @@ void CStorePanel::InitiateCheckout( bool bSkipUpsell )
 #endif // !defined(NO_STEAM)
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CStorePanel::DoCheckout()
 {
 	m_iCheckoutAttempts++;
@@ -1077,9 +1068,6 @@ void CStorePanel::DoCheckout()
 	pJob->StartJob( NULL );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void ShowPurchaseInitError( const char *pszError )
 {
 	OpenStoreStatusDialog( NULL, pszError, true, false );

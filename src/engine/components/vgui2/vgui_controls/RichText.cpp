@@ -2347,9 +2347,6 @@ void RichText::OnTextClicked(const wchar_t *wszText) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void RichText::SetURLClickedHandler(Panel *pPanelToHandleClickMsg) {
     m_hPanelToHandleClickingURLs = pPanelToHandleClickMsg;
 }

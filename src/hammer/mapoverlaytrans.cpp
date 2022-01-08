@@ -13,9 +13,6 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapOverlayTransition::CMapOverlayTransition() {
     m_ShoreData.m_pTexture = NULL;
     m_ShoreData.m_vecLengthTexcoord.Init();
@@ -28,9 +25,6 @@ CMapOverlayTransition::CMapOverlayTransition() {
     m_bDebugDraw = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapOverlayTransition::~CMapOverlayTransition() {
 }
 
@@ -53,9 +47,6 @@ void CMapOverlayTransition::PostloadWorld(CMapWorld *pWorld) {
     OnApply();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::CalcBounds(BOOL bFullUpdate) {
     CMapClass::CalcBounds(bFullUpdate);
 
@@ -93,9 +84,6 @@ void CMapOverlayTransition::CalcBounds(BOOL bFullUpdate) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapClass *CMapOverlayTransition::Copy(bool bUpdateDependencies) {
     CMapOverlayTransition *pCopy = new CMapOverlayTransition;
     if (pCopy) {
@@ -105,9 +93,6 @@ CMapClass *CMapOverlayTransition::Copy(bool bUpdateDependencies) {
     return pCopy;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapClass *CMapOverlayTransition::CopyFrom(CMapClass *pObject, bool bUpdateDependencies) {
     // Verify the object is of the correct type and cast.
     Assert(pObject->IsMapClass(MAPCLASS_TYPE(CMapOverlayTransition)));
@@ -123,9 +108,6 @@ CMapClass *CMapOverlayTransition::CopyFrom(CMapClass *pObject, bool bUpdateDepen
     return this;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::OnParentKeyChanged(const char *szKey, const char *szValue) {
     // Material data.
     if (!stricmp(szKey, "material")) {
@@ -166,56 +148,32 @@ void CMapOverlayTransition::OnParentKeyChanged(const char *szKey, const char *sz
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotifyType) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::OnAddToWorld(CMapWorld *pWorld) {
     OnApply();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren) {
     GetShoreManager()->RemoveShoreline((int) GetParent());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::OnUndoRedo(void) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::DoTransform(const VMatrix &matrix) {
     return;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::OnPaste(CMapClass *pCopy, CMapWorld *pSourceWorld, CMapWorld *pDestWorld,
                                     const CMapObjectList &OriginalList, CMapObjectList &NewList) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::OnClone(CMapClass *pClone, CMapWorld *pWorld, const CMapObjectList &OriginalList,
                                     CMapObjectList &NewList) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapOverlayTransition::Render3D(CRender3D *pRender) {
     GetShoreManager()->Draw(pRender);
     if (m_bDebugDraw) {
@@ -293,9 +251,6 @@ bool CMapOverlayTransition::OnApply(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ChunkFileResult_t CMapOverlayTransition::LoadVMF(CChunkFile *pFile) {
     // This doesn't need to be implemented until we can "edit" the overlay data.  For
     // now just regenerate the data.
@@ -303,9 +258,6 @@ ChunkFileResult_t CMapOverlayTransition::LoadVMF(CChunkFile *pFile) {
     return ChunkFile_Ok;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ChunkFileResult_t CMapOverlayTransition::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo) {
     ChunkFileResult_t eResult = pFile->BeginChunk("overlaytransition");
 

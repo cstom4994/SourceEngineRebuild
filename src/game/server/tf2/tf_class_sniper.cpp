@@ -130,9 +130,6 @@ void CPlayerClassSniper::SetupMoveData( void )
 	m_flMaxWalkingSpeed = class_sniper_speed.GetFloat();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPlayerClassSniper::SetupSizeData( void )
 {
 	// Initially set the player to the base player class standing hull size.

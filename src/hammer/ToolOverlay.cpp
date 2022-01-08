@@ -152,9 +152,6 @@ bool CToolOverlay::CreateOverlay(CMapSolid *pSolid, ULONG iFace, CMapView3D *pVi
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CToolOverlay::InitOverlay(CMapEntity *pEntity, CMapFace *pFace) {
     // Valid face?
     if (!pFace)

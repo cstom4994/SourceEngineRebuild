@@ -16,9 +16,6 @@ using namespace vgui;
 extern float GetAutoPlayTime( void );
 DECLARE_BUILD_FACTORY( CBaseModelPanel );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseModelPanel::CBaseModelPanel( vgui::Panel *pParent, const char *pName )
 	: BaseClass( pParent, pName )
 	, m_nActiveSequence( ACT_INVALID )
@@ -33,9 +30,6 @@ CBaseModelPanel::CBaseModelPanel( vgui::Panel *pParent, const char *pName )
 	m_bForcedCameraPosition = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseModelPanel::~CBaseModelPanel()
 {
 }
@@ -737,9 +731,6 @@ void CBaseModelPanel::LookAtBounds( const Vector &vecBoundsMin, const Vector &ve
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseModelPanel::particle_data_t::~particle_data_t()
 {
 	if ( m_pParticleSystem )

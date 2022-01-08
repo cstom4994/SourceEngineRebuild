@@ -46,17 +46,11 @@ CMapClass *CMapSweptPlayerHull::Create(CHelperInfo *pHelperInfo, CMapEntity *pPa
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapSweptPlayerHull::CMapSweptPlayerHull(void) {
     Initialize();
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::Initialize(void) {
     r = 255;
     g = 255;
@@ -70,9 +64,6 @@ void CMapSweptPlayerHull::Initialize(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapSweptPlayerHull::~CMapSweptPlayerHull(void) {
 }
 
@@ -314,17 +305,11 @@ void CMapSweptPlayerHull::Render3D(CRender3D *pRender) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CMapSweptPlayerHull::SerializeRMF(std::fstream &File, BOOL bRMF) {
     return (0);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CMapSweptPlayerHull::SerializeMAP(std::fstream &File, BOOL bRMF) {
     return (0);
 }
@@ -432,9 +417,6 @@ void CMapSweptPlayerHull::DoTransform(const VMatrix &matrix) {
     UpdateParentKey();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapSweptPlayerHull::UpdateParentKey(void) {
     CMapEntity *pEntity = dynamic_cast <CMapEntity *> (m_pParent);
     if (pEntity != NULL) {

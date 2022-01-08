@@ -2170,9 +2170,6 @@ void CBaseServer::SetMaxClients(int number) {
 
 extern ConVar tv_enable;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseServer::RecalculateTags(void) {
     if (IsHLTV() || IsReplay())
         return;
@@ -2236,9 +2233,6 @@ void CBaseServer::RecalculateTags(void) {
     bRecalculatingTags = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseServer::AddTag(const char *pszTag) {
     CUtlVector<char *> TagList;
     V_SplitString(sv_tags.GetString(), ",", TagList);
@@ -2258,9 +2252,6 @@ void CBaseServer::AddTag(const char *pszTag) {
     sv_tags.SetValue(tmptags);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseServer::RemoveTag(const char *pszTag) {
     const char *pszTags = sv_tags.GetString();
     if (!pszTags || !pszTags[0])

@@ -743,9 +743,6 @@ bool CHudItemEffectMeter_Weapon<CTFMinigun>::IsEnabled(void) {
     return bVisible;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<CTFMinigun>::ShouldFlash(void) {
     CTFMinigun *pWeapon = GetWeapon();
@@ -841,9 +838,6 @@ int CHudItemEffectMeter_Weapon<CTFFlareGun_Revenge>::GetCount(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 int CHudItemEffectMeter_Weapon<CTFSniperRifleDecap>::GetCount(void) {
     CTFSniperRifleDecap *pWeapon = GetWeapon();
@@ -854,9 +848,6 @@ int CHudItemEffectMeter_Weapon<CTFSniperRifleDecap>::GetCount(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------		    
 template<>
 Color CHudItemEffectMeter_Weapon<CTFParticleCannon>::GetFgColor(void) {
     CTFParticleCannon *pWeapon = GetWeapon();
@@ -867,9 +858,6 @@ Color CHudItemEffectMeter_Weapon<CTFParticleCannon>::GetFgColor(void) {
         return Color(255, 0, 0, 255);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 int CHudItemEffectMeter_Weapon<CTFRevolver>::GetCount(void) {
     CTFRevolver *pWeapon = GetWeapon();
@@ -880,9 +868,6 @@ int CHudItemEffectMeter_Weapon<CTFRevolver>::GetCount(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<CTFRevolver>::IsEnabled(void) {
     CTFRevolver *pWeapon = GetWeapon();
@@ -908,9 +893,6 @@ bool CHudItemEffectMeter_Weapon<CTFRevolver>::ShowPercentSymbol(void) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<CTFKnife>::IsEnabled(void) {
     CTFKnife *pWeapon = GetWeapon();
@@ -921,9 +903,6 @@ bool CHudItemEffectMeter_Weapon<CTFKnife>::IsEnabled(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<CTFSniperRifle>::IsEnabled(void) {
     if (!m_pPlayer)
@@ -936,9 +915,6 @@ bool CHudItemEffectMeter_Weapon<CTFSniperRifle>::IsEnabled(void) {
     return (pWeapon->GetBuffType() > 0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<CTFSniperRifle>::ShouldFlash(void) {
     CTFSniperRifle *pWeapon = GetWeapon();
@@ -949,9 +925,6 @@ bool CHudItemEffectMeter_Weapon<CTFSniperRifle>::ShouldFlash(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<C_TFWeaponBuilder>::IsEnabled(void) {
     if (!m_pPlayer)
@@ -960,9 +933,6 @@ bool CHudItemEffectMeter_Weapon<C_TFWeaponBuilder>::IsEnabled(void) {
     return (TFGameRules() && TFGameRules()->IsMannVsMachineMode());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<C_TFWeaponBuilder>::ShouldBeep(void) {
     if (!m_pPlayer)
@@ -974,9 +944,6 @@ bool CHudItemEffectMeter_Weapon<C_TFWeaponBuilder>::ShouldBeep(void) {
     return (iRoboSapper > 0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<C_TFWeaponBuilder>::ShouldFlash(void) {
     if (!m_pPlayer)
@@ -1061,9 +1028,6 @@ bool CHudItemEffectMeter_Weapon<CWeaponMedigun>::IsEnabled(void) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<>
 bool CHudItemEffectMeter_Weapon<CWeaponMedigun>::ShouldFlash(void) {
     CWeaponMedigun *pWeapon = GetWeapon();

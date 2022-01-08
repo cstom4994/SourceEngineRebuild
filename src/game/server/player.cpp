@@ -496,9 +496,6 @@ CBaseViewModel *CBasePlayer::GetViewModel(int index /*= 0*/, bool bObserverOK) {
     return m_hViewModel[index].Get();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::CreateViewModel(int index /*=0*/ ) {
     Assert(index >= 0 && index < MAX_VIEWMODELS);
 
@@ -516,9 +513,6 @@ void CBasePlayer::CreateViewModel(int index /*=0*/ ) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::CreateHandModel(int index, int iOtherVm) {
     Assert(index >= 0 && index < MAX_VIEWMODELS && iOtherVm >= 0 && iOtherVm < MAX_VIEWMODELS);
 
@@ -536,9 +530,6 @@ void CBasePlayer::CreateHandModel(int index, int iOtherVm) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::DestroyViewModels(void) {
     int i;
     for (i = MAX_VIEWMODELS - 1; i >= 0; i--) {
@@ -2291,9 +2282,6 @@ void CBasePlayer::CheckObserverSettings() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::ValidateCurrentObserverTarget(void) {
     if (!IsValidObserverTarget(m_hObserverTarget.Get())) {
         // our target is not valid, try to find new target
@@ -2318,9 +2306,6 @@ void CBasePlayer::ValidateCurrentObserverTarget(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::AttemptToExitFreezeCam(void) {
     StartObserverMode(OBS_MODE_DEATHCAM);
 }
@@ -2581,9 +2566,6 @@ bool CBasePlayer::IsUseableEntity(CBaseEntity *pEntity, unsigned int requiredCap
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBasePlayer::CanPickupObject(CBaseEntity *pObject, float massLimit, float sizeLimit) {
     // UNDONE: Make this virtual and move to HL2 player
 #ifdef HL2_DLL
@@ -2746,9 +2728,6 @@ CCommandContext *CBasePlayer::GetCommandContext(int index) {
     return &m_CommandContext[index];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CCommandContext *CBasePlayer::AllocCommandContext(void) {
     int idx = m_CommandContext.AddToTail();
     if (m_CommandContext.Count() > 1000) {
@@ -2765,9 +2744,6 @@ void CBasePlayer::RemoveCommandContext(int index) {
     m_CommandContext.Remove(index);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::RemoveAllCommandContexts() {
     m_CommandContext.RemoveAll();
 }
@@ -4110,9 +4086,6 @@ void CBasePlayer::ForceOrigin(const Vector &vecOrigin) {
     m_vForcedOrigin = vecOrigin;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::PostThink() {
     m_vecSmoothedVelocity = m_vecSmoothedVelocity * SMOOTHING_FACTOR + GetAbsVelocity() * (1 - SMOOTHING_FACTOR);
 
@@ -4231,9 +4204,6 @@ void CBasePlayer::Touch(CBaseEntity *pOther) {
     SetTouchedPhysics(true);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::PostThinkVPhysics(void) {
     // Check to see if things are initialized!
     if (!m_pPhysicsController)
@@ -4762,9 +4732,6 @@ int CBasePlayer::Restore(IRestore &restore) {
     return 1;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::OnRestore(void) {
     BaseClass::OnRestore();
 
@@ -5492,9 +5459,6 @@ static ConCommand ch_createjalopy("ch_createjalopy", CC_CH_CreateJalopy, "Spawn 
 
 #endif // HL2_EPISODIC
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void CreateJeep(CBasePlayer *pPlayer) {
     // Cheat to create a jeep in front of the player
     Vector vecForward;
@@ -5549,9 +5513,6 @@ static void CreateAirboat(CBasePlayer *pPlayer) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CC_CH_CreateAirboat(void) {
     CBasePlayer *pPlayer = UTIL_GetCommandClient();
     if (!pPlayer)
@@ -6071,9 +6032,6 @@ void CBasePlayer::ShowCrosshair(bool bShow) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 QAngle CBasePlayer::BodyAngles() {
     return EyeAngles();
 }
@@ -6565,9 +6523,6 @@ QAngle CBasePlayer::AutoaimDeflection(Vector &vecSrc, autoaim_params_t &params) 
     return vec3_angle;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::ResetAutoaim(void) {
     if (m_vecAutoAim.x != 0 || m_vecAutoAim.y != 0) {
         m_vecAutoAim = QAngle(0, 0, 0);
@@ -6738,9 +6693,6 @@ void CBasePlayer::RemoveWearable( CEconWearable *pItem )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::PlayWearableAnimsForPlaybackEvent( wearableanimplayback_t iPlayback )
 {
 	// Tell all our wearables to play their animations
@@ -6842,9 +6794,6 @@ bool CBasePlayer::ClearUseEntity() {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::HideViewModels(void) {
     for (int i = 0; i < MAX_VIEWMODELS; i++) {
         CBaseViewModel *vm = GetViewModel(i);
@@ -7325,9 +7274,6 @@ CBasePlayer::SetupVPhysicsShadow(const Vector &vecAbsOrigin, const Vector &vecAb
 void CBasePlayer::VPhysicsCollision(int index, gamevcollisionevent_t *pEvent) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::VPhysicsUpdate(IPhysicsObject *pPhysics) {
     float savedImpact = m_impactEnergyScale;
 
@@ -7348,9 +7294,6 @@ unsigned int CBasePlayer::PlayerSolidMask(bool brushOnly) const {
     return MASK_PLAYERSOLID;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::VPhysicsShadowUpdate(IPhysicsObject *pPhysics) {
     if (sv_turbophysics.GetBool())
         return;
@@ -7539,9 +7482,6 @@ void CBasePlayer::RefreshCollisionBounds(void) {
     SetViewOffset(VEC_VIEW_SCALED(this));
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::InitVCollision(const Vector &vecAbsOrigin, const Vector &vecAbsVelocity) {
     // Cleanup any old vphysics stuff.
     VPhysicsDestroyObject();
@@ -7585,9 +7525,6 @@ void CBasePlayer::VPhysicsDestroyObject() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::SetVCollisionState(const Vector &vecAbsOrigin, const Vector &vecAbsVelocity, int collisionState) {
     m_vphysicsCollisionState = collisionState;
     switch (collisionState) {
@@ -7616,9 +7553,6 @@ void CBasePlayer::SetVCollisionState(const Vector &vecAbsOrigin, const Vector &v
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CBasePlayer::GetFOV(void) {
     int nDefaultFOV;
 
@@ -7762,9 +7696,6 @@ void CBasePlayer::ActivateMovementConstraint(CBaseEntity *pEntity, const Vector 
     m_flConstraintSpeedFactor = flSpeedFactor;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::DeactivateMovementConstraint() {
     m_hConstraintEntity = NULL;
     m_flConstraintRadius = 0.0f;
@@ -7824,9 +7755,6 @@ void CBasePlayer::DoImpactEffect(trace_t &tr, int nDamageType) {
     BaseClass::DoImpactEffect(tr, nDamageType);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::InputSetHealth(inputdata_t &inputdata) {
     int iNewHealth = inputdata.value.Int();
     int iDelta = abs(GetHealth() - iNewHealth);
@@ -7841,9 +7769,6 @@ void CBasePlayer::InputSetHealth(inputdata_t &inputdata) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::InputHandleMapEvent(inputdata_t &inputdata) {
     Internal_HandleMapEvent(inputdata);
 }
@@ -8078,9 +8003,6 @@ float CBasePlayer::GetStickDist() {
     return controlStick.Length();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlayer::HandleAnimEvent(animevent_t *pEvent) {
     if ((pEvent->type & AE_TYPE_NEWEVENTSYSTEM) && (pEvent->type & AE_TYPE_SERVER)) {
         if (pEvent->event == AE_RAGDOLL) {
@@ -8099,9 +8021,6 @@ void CBasePlayer::HandleAnimEvent(animevent_t *pEvent) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBasePlayer::ShouldAnnounceAchievement(void) {
     m_flAchievementTimes.AddToTail(gpGlobals->curtime);
     if (m_flAchievementTimes.Count() > 3) {
@@ -8437,9 +8356,6 @@ void CBasePlayer::AdjustDrownDmg(int nAmount) {
 
 #if !defined(NO_STEAM)
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBasePlayer::GetSteamID(CSteamID *pID) {
     const CSteamID *pClientID = engine->GetClientSteamID(edict());
     if (pClientID) {
@@ -8450,9 +8366,6 @@ bool CBasePlayer::GetSteamID(CSteamID *pID) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 uint64 CBasePlayer::GetSteamIDAsUInt64(void) {
     CSteamID steamIDForPlayer;
     if (GetSteamID(&steamIDForPlayer))

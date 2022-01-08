@@ -956,9 +956,6 @@ winding_t *TryMergeWinding(winding_t *f1, winding_t *f2, Vector &planenormal) {
     return newf;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool OverlaysAreEqual(face_t *f1, face_t *f2) {
     // Check the overlay ids - see if they are the same.
     if (f1->originalface->aOverlayIds.Count() != f2->originalface->aOverlayIds.Count())
@@ -974,9 +971,6 @@ bool OverlaysAreEqual(face_t *f1, face_t *f2) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool FaceOnWaterBrush(face_t *face) {
     side_t *pSide = face->originalface;
     if (!pSide)

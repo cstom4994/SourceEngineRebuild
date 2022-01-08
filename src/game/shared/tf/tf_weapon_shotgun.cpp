@@ -60,17 +60,11 @@ bool CanScatterGunKnockBack( CTFWeaponBase *pWeapon, float flDamage, float flDis
 
 	return false;
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFShotgun::CTFShotgun()
 {
 	m_bReloadsSingly = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFShotgun::PrimaryAttack()
 {
 	if ( !CanAttack() )
@@ -114,9 +108,6 @@ CTFShotgun_Revenge::CTFShotgun_Revenge()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFShotgun_Revenge::Precache()
 {
 	int iModelIndex = PrecacheModel( TF_WEAPON_TAUNT_FRONTIER_JUSTICE_GUITAR_MODEL );
@@ -145,9 +136,6 @@ void CTFShotgun_Revenge::PrimaryAttack()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFShotgun_Revenge::SentryKilled( int iCrits )
 {
 	int val = 0;
@@ -162,9 +150,6 @@ void CTFShotgun_Revenge::SentryKilled( int iCrits )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFShotgun_Revenge::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 #ifdef GAME_DLL
@@ -178,9 +163,6 @@ bool CTFShotgun_Revenge::Holster( CBaseCombatWeapon *pSwitchingTo )
 	return BaseClass::Holster( pSwitchingTo );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFShotgun_Revenge::Deploy( void )
 {
 #ifdef GAME_DLL
@@ -194,9 +176,6 @@ bool CTFShotgun_Revenge::Deploy( void )
 	return BaseClass::Deploy();
 }												
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFShotgun_Revenge::GetCustomDamageType() const
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -208,9 +187,6 @@ int CTFShotgun_Revenge::GetCustomDamageType() const
 	return TF_DMG_CUSTOM_NONE;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFShotgun_Revenge::GetCount( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -293,9 +269,6 @@ void CTFShotgun_Revenge::Detach( void )
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFScatterGun::Reload( void )
 {
 	int iWeaponMod = 0;
@@ -312,9 +285,6 @@ bool CTFScatterGun::Reload( void )
 extern ConVar tf_player_movement_stun_time;
 extern float AirBurstDamageForce( const Vector &size, float damage, float scale );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFScatterGun::FireBullet( CTFPlayer *pPlayer )
 {
 #ifndef CLIENT_DLL
@@ -366,9 +336,6 @@ void CTFScatterGun::FireBullet( CTFPlayer *pPlayer )
 	BaseClass::FireBullet( pPlayer );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFScatterGun::ApplyPostHitEffects( const CTakeDamageInfo &inputInfo, CTFPlayer *pPlayer )
 {
 #ifndef CLIENT_DLL
@@ -412,9 +379,6 @@ void CTFScatterGun::ApplyPostHitEffects( const CTakeDamageInfo &inputInfo, CTFPl
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFScatterGun::FinishReload( void )
 {
 	CTFPlayer* pOwner = ToTFPlayer( GetOwner() );
@@ -431,9 +395,6 @@ void CTFScatterGun::FinishReload( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFScatterGun::HasKnockback( void )
 {
 	int iWeaponMod = 0;

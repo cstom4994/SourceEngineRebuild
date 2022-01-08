@@ -1099,9 +1099,6 @@ public:
 typedef CUtlVector<CSplitPacketEntry> vecSplitPacketEntries_t;
 static CUtlVector<vecSplitPacketEntries_t> net_splitpackets;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void NET_DiscardStaleSplitpackets(const int sock) {
     if (!net_splitpackets.IsValidIndex(sock))
         return;

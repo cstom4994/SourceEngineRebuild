@@ -141,16 +141,10 @@ static string_t s_iszTrainName;
 // CTFBat
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFBat::CTFBat()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBat::Smack( void )
 {
 	BaseClass::Smack();
@@ -171,9 +165,6 @@ void CTFBat::Smack( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBat::PlayDeflectionSound( bool bPlayer )
 {
 	WeaponSound( MELEE_HIT_WORLD );
@@ -192,14 +183,8 @@ CTFBat_Wood::CTFBat_Wood()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ConVar tf_scout_bat_launch_delay( "tf_scout_bat_launch_delay", "0.1", FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBat_Wood::LaunchBallThink( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -217,9 +202,6 @@ void CTFBat_Wood::LaunchBallThink( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBat_Wood::SecondaryAttackAnim( CTFPlayer *pPlayer )
 {
 	pPlayer->DoAnimationEvent( PLAYERANIMEVENT_ATTACK_SECONDARY );
@@ -251,9 +233,6 @@ void CTFBat_Wood::GetBallDynamics( Vector& vecLoc, QAngle& vecAngles, Vector& ve
 // -- SERVER ONLY
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBat_Wood::SecondaryAttack( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -372,9 +351,6 @@ void CTFBat_Wood::AddBallChild( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBat_Wood::Drop( const Vector &vecVelocity )
 {
 	BaseClass::Drop( vecVelocity );
@@ -453,9 +429,6 @@ bool CTFBat_Wood::CanCreateBall( CTFPlayer* pPlayer )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBat_Wood::LaunchBall( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -621,9 +594,6 @@ CTFStunBall* CTFStunBall::Create( const Vector &vecOrigin, const QAngle &vecAngl
 	return pBall;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStunBall::Precache( void )
 {
 	PrecacheModel( GetBallModelName() );
@@ -672,9 +642,6 @@ void CTFStunBall::Spawn( void )
 	CreateBallTrail();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStunBall::Explode( trace_t *pTrace, int bitsDamageType )
 {
 	if ( !IsAllowedToExplode() )

@@ -438,9 +438,6 @@ void CTFAmmoPack::PackTouch( CBaseEntity *pOther )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 unsigned int CTFAmmoPack::PhysicsSolidMaskForEntity( void ) const
 { 
 	return BaseClass::PhysicsSolidMaskForEntity() | CONTENTS_DEBRIS;

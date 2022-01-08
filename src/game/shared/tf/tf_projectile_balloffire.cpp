@@ -62,25 +62,16 @@ void PrecacheRing(void *pUser)
 PRECACHE_REGISTER_FN(PrecacheRing);
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_EnergyRing::CTFProjectile_EnergyRing()
 {
 	m_vecPrevPos = vec3_origin;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CTFProjectile_EnergyRing::GetProjectileModelName( void )
 {
 	return g_pszEnergyRingModel;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFProjectile_EnergyRing::GetGravity( void )
 {
 	return 0.f;
@@ -91,9 +82,6 @@ float CTFProjectile_EnergyRing::GetInitialVelocity( void )
 	return ShouldPenetrate() ? 840.f : 1200.f; 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_EnergyRing *CTFProjectile_EnergyRing::Create( CTFWeaponBaseGun *pLauncher, const Vector &vecOrigin, const QAngle& vecAngles, float fSpeed, float fGravity, 
 														    CBaseEntity *pOwner, CBaseEntity *pScorer, Vector vColor1, Vector vColor2, bool bCritical )
 {
@@ -166,9 +154,6 @@ CTFProjectile_EnergyRing *CTFProjectile_EnergyRing::Create( CTFWeaponBaseGun *pL
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_EnergyRing::Spawn()
 {	
 	BaseClass::Spawn();
@@ -180,9 +165,6 @@ void CTFProjectile_EnergyRing::Spawn()
 	SetCollisionGroup( TFCOLLISION_GROUP_ROCKETS );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_EnergyRing::Precache()
 {
 	PrecacheParticleSystem( g_pszEnergyProjectileImpactParticle );

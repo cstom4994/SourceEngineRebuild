@@ -52,9 +52,6 @@ END_DATADESC()
 
 ConVar tf_grenade_heal_amount( "tf_grenade_heal_amount", "100", FCVAR_CHEAT, "Amount healed by the medic heal grenade.\n" );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFGrenadeHeal::EmitGrenade( Vector vecSrc, QAngle vecAngles, Vector vecVel, 
 													 AngularImpulse angImpulse, CBasePlayer *pPlayer, float flTime, int iflags )
 {
@@ -76,9 +73,6 @@ BEGIN_DATADESC( CTFGrenadeHealProjectile )
 	DEFINE_THINKFUNC( DetonateThink ),
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGrenadeHealProjectile* CTFGrenadeHealProjectile::Create( const Vector &position, const QAngle &angles, 
 														 const Vector &velocity, const AngularImpulse &angVelocity, 
 														 CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, float timer, int iFlags )
@@ -92,9 +86,6 @@ CTFGrenadeHealProjectile* CTFGrenadeHealProjectile::Create( const Vector &positi
 	return pGrenade;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeHealProjectile::Spawn()
 {
 	SetModel( GRENADE_MODEL );
@@ -118,9 +109,6 @@ void CTFGrenadeHealProjectile::Spawn()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeHealProjectile::Precache()
 {
 	PrecacheModel( GRENADE_MODEL );
@@ -135,9 +123,6 @@ void CTFGrenadeHealProjectile::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeHealProjectile::BounceSound( void )
 {
 	EmitSound( "Weapon_Grenade_Heal.Bounce" );
@@ -145,9 +130,6 @@ void CTFGrenadeHealProjectile::BounceSound( void )
 
 extern ConVar tf_grenade_show_radius;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeHealProjectile::Detonate()
 {
 	if ( ShouldNotDetonate() )
@@ -196,9 +178,6 @@ void CTFGrenadeHealProjectile::Detonate()
 	UTIL_Remove( this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeHealProjectile::DetonateThink( void )
 {
 	if ( !m_bPlayedLeadIn && gpGlobals->curtime > GetDetonateTime() - GRENADE_HEAL_LEADIN )

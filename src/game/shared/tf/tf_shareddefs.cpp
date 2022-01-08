@@ -1201,9 +1201,6 @@ const char *g_pszDeathCallingCardModels[] =
 	"models/props_gameplay/tombstone_gasjockey.mdl",		// Pyro PolyCount Set
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int GetWeaponId( const char *pszWeaponName )
 {
 	// if this doesn't match, you need to add missing weapons to the array
@@ -1219,9 +1216,6 @@ int GetWeaponId( const char *pszWeaponName )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *WeaponIdToAlias( int iWeapon )
 {
 	// if this doesn't match, you need to add missing weapons to the array
@@ -1235,9 +1229,6 @@ const char *WeaponIdToAlias( int iWeapon )
 
 #ifdef GAME_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int GetWeaponFromDamage( const CTakeDamageInfo &info )
 {
 	int iWeapon = TF_WEAPON_NONE;
@@ -1378,9 +1369,6 @@ CObjectInfo g_ObjectInfos[OBJ_LAST] =
 };
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_ObjectInfos ) == OBJ_LAST );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int GetBuildableId( const char *pszBuildableName )
 {
 	for ( int iBuildable = 0; iBuildable < OBJ_LAST; ++iBuildable )

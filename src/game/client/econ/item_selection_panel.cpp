@@ -264,9 +264,6 @@ void CItemSelectionPanel::PerformLayout( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemSelectionPanel::OnThink( void )
 {
 	BaseClass::OnThink();
@@ -633,9 +630,6 @@ void CItemSelectionPanel::SetCurrentPage( int nNewPage )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemSelectionPanel::PositionItemPanel( CItemModelPanel *pPanel, int iIndex )
 {
 	int iCenter = GetWide() * 0.5;
@@ -648,9 +642,6 @@ void CItemSelectionPanel::PositionItemPanel( CItemModelPanel *pPanel, int iIndex
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemSelectionPanel::PostMessageSelectionReturned( itemid_t ulItemID )
 {
 	KeyValues *pKey = new KeyValues( "SelectionReturned" );
@@ -1184,9 +1175,6 @@ void CEquipSlotItemSelectionPanel::OnBackPressed()
 	OnClose();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemSelectionPanel::OnTextChanged( KeyValues *data )
 {
 	Panel *pPanel = reinterpret_cast<vgui::Panel *>( data->GetPtr("panel") );

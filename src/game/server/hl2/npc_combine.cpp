@@ -210,23 +210,14 @@ void CNPC_Combine::InputLookOn(inputdata_t &inputdata) {
     m_spawnflags &= ~SF_COMBINE_NO_LOOK;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Combine::InputStartPatrolling(inputdata_t &inputdata) {
     m_bShouldPatrol = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Combine::InputStopPatrolling(inputdata_t &inputdata) {
     m_bShouldPatrol = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Combine::InputAssault(inputdata_t &inputdata) {
     m_AssaultBehavior.SetParameters(AllocPooledString(inputdata.value.String()), CUE_DONT_WAIT,
                                     RALLY_POINT_SELECT_DEFAULT);
@@ -263,9 +254,6 @@ void CNPC_Combine::InputThrowGrenadeAtTarget(inputdata_t &inputdata) {
     ClearSchedule("Told to throw grenade via input");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Combine::Precache() {
     PrecacheModel("models/Weapons/w_grenade.mdl");
     UTIL_PrecacheOther("npc_handgrenade");
@@ -397,9 +385,6 @@ void CNPC_Combine::GatherConditions() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Combine::PrescheduleThink() {
     BaseClass::PrescheduleThink();
 
@@ -2660,9 +2645,6 @@ Vector CNPC_Combine::EyeOffset(Activity nActivity) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Vector CNPC_Combine::GetCrouchEyeOffset(void) {
     return COMBINE_EYE_CROUCHING_POSITION;
 }

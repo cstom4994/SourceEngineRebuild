@@ -466,9 +466,6 @@ void CDemoRecorder::RecordCommand(const char *cmdstring) {
     m_DemoFile.WriteConsoleCommand(cmdstring, GetRecordingTick());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDemoRecorder::StartupDemoHeader(void) {
     CloseDemoFile();    // make sure it's closed
 
@@ -487,9 +484,6 @@ void CDemoRecorder::StartupDemoHeader(void) {
     m_MessageData.SetDebugName("DemoHeaderWriteBuffer");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDemoRecorder::StartupDemoFile(void) {
     if (!m_bRecording)
         return;
@@ -1289,9 +1283,6 @@ void CDemoPlayer::InterpolateDemoCommand(int targettick, DemoCommandQueue &prev,
 static ConVar demo_legacy_rollback("demo_legacy_rollback", "1", 0,
                                    "Use legacy view interpolation rollback amount in demo playback.");
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDemoPlayer::InterpolateViewpoint(void) {
     if (!IsPlayingBack())
         return;
@@ -1828,9 +1819,6 @@ void CL_ListDemo_f(const CCommand &args) {
     ConMsg("Signon size     : %i\n", header->signonlength);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CON_COMMAND(stop, "Finish recording demo.") {
     if (cmd_source != src_command)
         return;
@@ -1843,9 +1831,6 @@ CON_COMMAND(stop, "Finish recording demo.") {
     demorecorder->StopRecording();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CON_COMMAND_F(record, "Record a demo.", FCVAR_DONTRECORD) {
     if (g_ClientDLL == NULL) {
         ConMsg("Can't record on dedicated server.\n");
@@ -1900,9 +1885,6 @@ CON_COMMAND_F(record, "Record a demo.", FCVAR_DONTRECORD) {
     demorecorder->StartRecording(name, incremental);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CL_PlayDemo_f(const CCommand &args) {
     if (cmd_source != src_command)
         return;
@@ -1933,9 +1915,6 @@ void CL_PlayDemo_f(const CCommand &args) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CL_TimeDemo_f(const CCommand &args) {
     if (cmd_source != src_command)
         return;
@@ -1997,9 +1976,6 @@ void CL_BenchFrame_f(const CCommand &args) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CON_COMMAND(vtune, "Controls VTune's sampling.") {
     if (args.ArgC() != 2) {
         ConMsg("vtune \"pause\" | \"resume\" : Suspend or resume VTune's sampling.\n");

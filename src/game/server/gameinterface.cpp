@@ -425,9 +425,6 @@ void DrawMeasuredSections(void)
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void DrawAllDebugOverlays(void) {
     // If in debug select mode print the selection entities name or classname
     if (CBaseEntity::m_bInDebugSelect) {

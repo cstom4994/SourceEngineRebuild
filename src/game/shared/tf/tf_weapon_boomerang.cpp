@@ -36,9 +36,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_boomerang );
 // Weapon Boomerang functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFBoomerang::CTFBoomerang()
 {
 }

@@ -1088,9 +1088,6 @@ unsigned short &FirstShadowOnModelInstance(ModelInstanceHandle_t handle) {
     return s_ModelRender.FirstShadowOnModelInstance(handle);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void R_RemoveAllDecalsFromAllModels() {
     s_ModelRender.RemoveAllDecalsFromAllModels();
 }
@@ -4387,9 +4384,6 @@ void CModelRender::RemoveAllDecals(ModelInstanceHandle_t handle) {
     inst.m_DecalHandle = STUDIORENDER_DECAL_INVALID;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CModelRender::RemoveAllDecalsFromAllModels() {
     for (ModelInstanceHandle_t i = m_ModelInstances.Head();
          i != m_ModelInstances.InvalidIndex();

@@ -404,9 +404,6 @@ int CTFPlayerResource::GetTotalScore( int iIndex )
 	return 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerResource::SetPlayerClassWhenKilled( int iIndex, int iClass )
 {
 	Assert( iIndex >= 0 && iIndex <= MAX_PLAYERS );

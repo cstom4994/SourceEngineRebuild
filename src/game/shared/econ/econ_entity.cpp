@@ -1240,9 +1240,6 @@ void CEconEntity::UpdateParticleSystems( void )
 	SetParticleSystemsVisible( nVisible );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconEntity::ShouldDrawParticleSystems( void )
 {
 #if defined(PONDER_CLIENT_DLL) || defined(TF_DLL)
@@ -1284,9 +1281,6 @@ bool CEconEntity::ShouldDrawParticleSystems( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconEntity::FireEvent( const Vector& origin, const QAngle& angles, int event, const char *options )
 {
 	if ( !InternalFireEvent( origin, angles, event, options ) )
@@ -1295,17 +1289,11 @@ void CEconEntity::FireEvent( const Vector& origin, const QAngle& angles, int eve
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconEntity::OnFireEvent( C_BaseViewModel *pViewModel, const Vector& origin, const QAngle& angles, int event, const char *options )
 {
 	return InternalFireEvent( origin, angles, event, options );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconEntity::InternalFireEvent( const Vector& origin, const QAngle& angles, int event, const char *options )
 {
 	switch( event )
@@ -1378,9 +1366,6 @@ void CEconEntity::SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeight
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void cc_dump_particlemanifest()
 {
 	Msg("Dumping particle list:\n");
@@ -2078,9 +2063,6 @@ bool CEconEntity::UpdateBodygroups( CBaseCombatCharacter* pOwner, int iState )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseAttributableItem::CBaseAttributableItem()
 {
 }

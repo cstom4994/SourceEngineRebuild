@@ -59,9 +59,6 @@ static char *CopyString(const char *in) {
 
 #if defined( VGUI_USEDRAGDROP )
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 struct vgui::DragDrop_t {
     vgui::DragDrop_t() :
             m_bDragEnabled(false),
@@ -666,9 +663,6 @@ void Panel::MakeReadyForUse() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetName(const char *panelName) {
     // No change?
     if (_panelName &&
@@ -719,47 +713,29 @@ const char *Panel::GetClassName() {
     return "Panel";
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetPos(int x, int y) {
     Assert(abs(x) < 32768 && abs(y) < 32768);
     ipanel()->SetPos(GetVPanel(), x, y);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::GetPos(int &x, int &y) {
     ipanel()->GetPos(GetVPanel(), x, y);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetSize(int wide, int tall) {
     Assert(abs(wide) < 32768 && abs(tall) < 32768);
     ipanel()->SetSize(GetVPanel(), wide, tall);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::GetSize(int &wide, int &tall) {
     ipanel()->GetSize(GetVPanel(), wide, tall);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetBounds(int x, int y, int wide, int tall) {
     SetPos(x, y);
     SetSize(wide, tall);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::GetBounds(int &x, int &y, int &wide, int &tall) {
     GetPos(x, y);
     GetSize(wide, tall);
@@ -817,23 +793,14 @@ void Panel::OnScreenSizeChanged(int nOldWide, int nOldTall) {
     InvalidateLayout();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetVisible(bool state) {
     ipanel()->SetVisible(GetVPanel(), state);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool Panel::IsVisible() {
     return ipanel()->IsVisible(GetVPanel());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetEnabled(bool state) {
     if (state != ipanel()->IsEnabled(GetVPanel())) {
         ipanel()->SetEnabled(GetVPanel(), state);
@@ -842,31 +809,19 @@ void Panel::SetEnabled(bool state) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool Panel::IsEnabled() {
     return ipanel()->IsEnabled(GetVPanel());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool Panel::IsPopup() {
     return ipanel()->IsPopup(GetVPanel());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::Repaint() {
     _flags.SetFlag(NEEDS_REPAINT);
     surface()->Invalidate(GetVPanel());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::Think() {
     if (IsVisible()) {
         // update any tooltips
@@ -881,9 +836,6 @@ void Panel::Think() {
     OnThink();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::PaintTraverse(bool repaint, bool allowForce) {
     if (!IsVisible()) {
         return;
@@ -994,17 +946,11 @@ void Panel::PaintTraverse(bool repaint, bool allowForce) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::PaintBorder() {
     _border->Paint(GetVPanel());
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::PaintBackground() {
     int wide, tall;
     GetSize(wide, tall);
@@ -1049,17 +995,11 @@ void Panel::PaintBackground() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::Paint() {
     // empty on purpose
     // PaintBackground is painted and default behavior is for Paint to do nothing
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::PostChildPaint() {
     // Empty on purpose
     // This is called if _postChildPaintEnabled is true and allows painting to
@@ -1121,9 +1061,6 @@ void Panel::SetParent(Panel *newParent) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetParent(VPANEL newParent) {
     if (newParent) {
         ipanel()->SetParent(GetVPanel(), newParent);
@@ -1145,9 +1082,6 @@ void Panel::SetParent(VPANEL newParent) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::OnChildAdded(VPANEL child) {
     Assert(!_flags.IsFlagSet(IN_PERFORM_LAYOUT));
 }
@@ -1166,9 +1100,6 @@ void Panel::SetZPos(int z) {
     ipanel()->SetZPos(GetVPanel(), z);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int Panel::GetZPos(void) {
     return ipanel()->GetZPos(GetVPanel());
 }
@@ -1289,9 +1220,6 @@ void Panel::SetAutoDelete(bool state) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool Panel::IsAutoDeleteSet() {
     return _flags.IsFlagSet(AUTODELETE_ENABLED);
 }
@@ -2648,23 +2576,14 @@ void Panel::SetBuildModeDeletable(bool state) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool Panel::IsBuildModeActive() {
     return _buildGroup ? _buildGroup->IsEnabled() : false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::GetClipRect(int &x0, int &y0, int &x1, int &y1) {
     ipanel()->GetClipRect(GetVPanel(), x0, y0, x1, y1);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int Panel::GetChildCount() {
     return ipanel()->GetChildCount(GetVPanel());
 }
@@ -2689,9 +2608,6 @@ bool Panel::RequestFocusPrev(VPANEL panel) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool Panel::RequestFocusNext(VPANEL panel) {
     // chain to parent
     if (GetVParent()) {
@@ -2718,9 +2634,6 @@ void Panel::OnRequestFocus(VPANEL subFocus, VPANEL defaultPanel) {
     CallParentFunction(new KeyValues("OnRequestFocus", "subFocus", subFocus, "defaultPanel", defaultPanel));
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 VPANEL Panel::GetCurrentKeyFocus() {
     return NULL;
 }
@@ -2735,23 +2648,14 @@ bool Panel::HasFocus() {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetTabPosition(int position) {
     _tabPosition = position;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int Panel::GetTabPosition() {
     return _tabPosition;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::InternalFocusChanged(bool lost) {
 /*
 	//if focus is gained tell the focusNavGroup about it so its current can be correct
@@ -2771,9 +2675,6 @@ void Panel::OnMouseCaptureLost() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::AddActionSignalTarget(Panel *messageTarget) {
     HPanel target = ivgui()->PanelToHandle(messageTarget->GetVPanel());
     if (!_actionSignalTargetDar.HasElement(target)) {
@@ -2781,9 +2682,6 @@ void Panel::AddActionSignalTarget(Panel *messageTarget) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::AddActionSignalTarget(VPANEL messageTarget) {
     HPanel target = ivgui()->PanelToHandle(messageTarget);
     if (!_actionSignalTargetDar.HasElement(target)) {
@@ -2791,9 +2689,6 @@ void Panel::AddActionSignalTarget(VPANEL messageTarget) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::RemoveActionSignalTarget(Panel *oldTarget) {
     _actionSignalTargetDar.RemoveElement(ivgui()->PanelToHandle(oldTarget->GetVPanel()));
 }
@@ -3103,9 +2998,6 @@ void Panel::GetResizeOffset(int &dx, int &dy) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::ApplySchemeSettings(IScheme *pScheme) {
     // get colors
     SetFgColor(GetSchemeColor("Panel.FgColor", pScheme));
@@ -3534,9 +3426,6 @@ void Panel::ApplyOverridableColors(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::SetOverridableColor(Color *pColor, Color &newColor) {
     for (int i = 0; i < m_OverridableColorEntries.Count(); i++) {
         if (m_OverridableColorEntries[i].m_bOverridden) {
@@ -3549,16 +3438,10 @@ void Panel::SetOverridableColor(Color *pColor, Color &newColor) {
     *pColor = newColor;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Color Panel::GetSchemeColor(const char *keyName, IScheme *pScheme) {
     return pScheme->GetColor(keyName, Color(255, 255, 255, 255));
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Color Panel::GetSchemeColor(const char *keyName, Color defaultColor, IScheme *pScheme) {
     return pScheme->GetColor(keyName, defaultColor);
 }
@@ -3593,9 +3476,6 @@ bool Panel::HasUserConfigSettings() {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::InternalInvalidateLayout() {
     InvalidateLayout(false, false);
 }
@@ -3606,9 +3486,6 @@ void Panel::InternalInvalidateLayout() {
 void Panel::OnMove() {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Panel::InternalMove() {
     OnMove();
     for (int i = 0; i < GetChildCount(); i++) {
@@ -5874,9 +5751,6 @@ PanelMessageMap *CPanelMessageMapDictionary::FindPanelMessageMap(char const *cla
 
 #include <tier0/memdbgoff.h>
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 PanelMessageMap *CPanelMessageMapDictionary::FindOrAddPanelMessageMap(char const *className) {
     PanelMessageMap *map = FindPanelMessageMap(className);
     if (map)
@@ -5942,9 +5816,6 @@ PanelKeyBindingMap *CPanelKeyBindingMapDictionary::FindPanelKeyBindingMap(char c
 
 #include <tier0/memdbgoff.h>
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 PanelKeyBindingMap *CPanelKeyBindingMapDictionary::FindOrAddPanelKeyBindingMap(char const *className) {
     PanelKeyBindingMap *map = FindPanelKeyBindingMap(className);
     if (map)
@@ -5974,9 +5845,6 @@ CPanelMessageMapDictionary &GetPanelMessageMapDictionary() {
 
 namespace vgui {
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     PanelMessageMap *FindOrAddPanelMessageMap(char const *className) {
         return GetPanelMessageMapDictionary().FindOrAddPanelMessageMap(className);
     }
@@ -5995,9 +5863,6 @@ namespace vgui {
         return dictionary;
     }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     PanelKeyBindingMap *FindOrAddPanelKeyBindingMap(char const *className) {
         return GetPanelKeyBindingMapDictionary().FindOrAddPanelKeyBindingMap(className);
     }

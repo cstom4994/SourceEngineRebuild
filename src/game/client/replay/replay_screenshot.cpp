@@ -28,9 +28,6 @@ extern IClientReplayContext *g_pClientReplayContext;
 ITexture *CReplayScreenshotTaker::m_pScreenshotTarget;
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CReplayScreenshotTaker::CReplayScreenshotTaker( IViewRender *pViewRender, CViewSetup &viewSetup )
 :	m_pViewRender( pViewRender ),
 	m_View( viewSetup )
@@ -80,9 +77,6 @@ CReplayScreenshotTaker::CReplayScreenshotTaker( IViewRender *pViewRender, CViewS
 	m_pBuffer = new CUtlBuffer( m_pVTFPixels, nVTFSize );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CReplayScreenshotTaker::~CReplayScreenshotTaker()
 {
 	delete [] m_pUnpaddedPixels;

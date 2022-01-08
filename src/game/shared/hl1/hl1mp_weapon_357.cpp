@@ -121,9 +121,6 @@ bool CWeapon357::Deploy( void )
 	return BaseClass::Deploy();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeapon357::PrimaryAttack( void )
 {
 	// Only the player fires this way so we can cast
@@ -187,9 +184,6 @@ void CWeapon357::PrimaryAttack( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeapon357::SecondaryAttack( void )
 {
 	// only in multiplayer

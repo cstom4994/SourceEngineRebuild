@@ -1830,9 +1830,6 @@ bool CMDLCache::ReadFileNative(char *pFileName, const char *pPath, CUtlBuffer &b
     return bOk;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 studiohdr_t *CMDLCache::UnserializeMDL(MDLHandle_t handle, void *pData, int nDataSize, bool bDataValid) {
     if (!bDataValid || nDataSize <= 0 || pData == NULL) {
         return NULL;

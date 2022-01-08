@@ -71,9 +71,6 @@ IMPLEMENT_CLIENTCLASS_DT(C_AI_BaseHumanoid, DT_BaseHumanoid, CAI_BaseHumanoid)
     RecvPropFloat(RECVINFO_NAME(m_Layer[3][2].flWeight,weight3))
 END_RECV_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_AI_BaseHumanoid::StandardBlendingRules( CStudioHdr *pStudioHdr, Vector pos[], Quaternion q[], float currentTime, int boneMask )
 {
     VPROF( "C_AI_BaseHumanoid::StandardBlendingRules" );

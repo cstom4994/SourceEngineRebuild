@@ -56,9 +56,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_knife );
 // Weapon Knife functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFKnife::CTFKnife()
 {
 	m_bReadyToBackstab = false;
@@ -275,9 +272,6 @@ void CTFKnife::PrimaryAttack( void )
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFKnife::DisguiseOnKill()
 {
 #ifdef GAME_DLL
@@ -294,9 +288,6 @@ void CTFKnife::DisguiseOnKill()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFKnife::ShouldDisguiseOnBackstab()
 {
 	int iDisguiseAsVictim = 0;
@@ -496,9 +487,6 @@ bool CTFKnife::Deploy( void )
 	return bDeployed;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFKnife::ItemPreFrame( void )
 {
 	BaseClass::ItemPreFrame();
@@ -544,18 +532,12 @@ void CTFKnife::ItemPostFrame( void )
 	BaseClass::ItemPostFrame();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFKnife::ItemBusyFrame( void )
 {
 	BaseClass::ItemBusyFrame();
 	ProcessDisguiseImpulse();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFKnife::ItemHolsterFrame( void )
 {
 	BaseClass::ItemHolsterFrame();

@@ -825,9 +825,6 @@ void CUpgrades::ReportUpgrade( CTFPlayer *pTFPlayer, int nItemDef, int nAttribut
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CUpgrades::RestoreItemAttributeToBaseValue( CEconItemAttributeDefinition *pAttrib, CEconItemView *pItem )
 {
 	Assert( pAttrib );
@@ -853,9 +850,6 @@ void CUpgrades::RestoreItemAttributeToBaseValue( CEconItemAttributeDefinition *p
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CUpgrades::RestorePlayerAttributeToBaseValue( CEconItemAttributeDefinition *pAttrib, CTFPlayer *pTFPlayer )
 {
 	Assert( pAttrib );
@@ -881,9 +875,6 @@ void CUpgrades::RestorePlayerAttributeToBaseValue( CEconItemAttributeDefinition 
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CUpgrades::ApplyUpgradeAttributeBlock( UpgradeAttribBlock_t *upgradeBlock, int upgradeCount, CTFPlayer *pPlayer, bool bDowngrade )
 {
 	if ( !pPlayer )

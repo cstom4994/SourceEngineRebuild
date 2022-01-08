@@ -67,9 +67,6 @@ void ShutdownPME(void) {
 
 static int s_nCreateCount = 0;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CL2Cache::CL2Cache() {
     m_nID = s_nCreateCount++;
     m_pL2CacheEvent = new P4Event_BSQ_cache_reference;
@@ -78,9 +75,6 @@ CL2Cache::CL2Cache() {
     m_i64End = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CL2Cache::~CL2Cache() {
     if (m_pL2CacheEvent) {
         delete m_pL2CacheEvent;
@@ -88,9 +82,6 @@ CL2Cache::~CL2Cache() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CL2Cache::Start(void) {
     if (m_pL2CacheEvent) {
         // Set this up to check for L2 cache misses.
@@ -109,9 +100,6 @@ void CL2Cache::Start(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CL2Cache::End(void) {
     if (m_pL2CacheEvent) {
         // Stop the counter and find the delta.

@@ -8,9 +8,6 @@
 #include "tf_gamemovement_defender.h"
 #include "tf_movedata.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGameMovementDefender::CTFGameMovementDefender()
 {
 	m_pDefenderData = NULL;
@@ -25,9 +22,6 @@ CTFGameMovementDefender::CTFGameMovementDefender()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementDefender::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFMoveData *pTFMoveData )
 {
 	// Get the class specific data from the TFMoveData structure
@@ -39,26 +33,17 @@ void CTFGameMovementDefender::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFM
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementDefender::GetPlayerMins( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMins : m_vStandMins; 
 }
 
-	
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+
 const Vector &CTFGameMovementDefender::GetPlayerMaxs( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMaxs : m_vStandMaxs;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementDefender::GetPlayerViewOffset( bool bDucked ) const
 {
 	return bDucked ? m_vDuckViewOffset : m_vStandViewOffset;

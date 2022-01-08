@@ -694,9 +694,6 @@ public:
 #endif
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < typename TAttribInMemoryType >
 /*virtual*/ void ISchemaAttributeTypeBase<TAttribInMemoryType>::LoadByteStreamToEconAttributeValue( CEconItem *pTargetItem, const CEconItemAttributeDefinition *pAttrDef, const std::string& sBytes ) const
 {
@@ -709,18 +706,12 @@ template < typename TAttribInMemoryType >
 	pTargetItem->SetDynamicAttributeValue( pAttrDef, typedValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < typename TAttribInMemoryType >
 /*virtual*/ void ISchemaAttributeTypeBase<TAttribInMemoryType>::ConvertEconAttributeValueToByteStream( const attribute_data_union_t& value, ::std::string *out_psBytes ) const
 {
 	ConvertTypedValueToByteStream( GetTypedValueContentsFromEconAttributeValue( value ), out_psBytes );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < typename TAttribInMemoryType >
 /*virtual*/ void ISchemaAttributeTypeBase<TAttribInMemoryType>::LoadEconAttributeValue( CEconItem *pTargetItem, const CEconItemAttributeDefinition *pAttrDef, const union attribute_data_union_t& value ) const
 {
@@ -728,9 +719,6 @@ template < typename TAttribInMemoryType >
 }
 
 #ifdef GC_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 struct CEconItemEquipInstanceHelpers
 {
 	static void AssignItemToSlot( CEconSharedObjectCache *pSOCache, CEconItem *pItem, equipped_class_t unClass, equipped_slot_t unSlot, CEconUserSession *pOptionalSession = NULL );

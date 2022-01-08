@@ -275,9 +275,6 @@ void CTFItemDiscardPanel::ShowPanel(bool bShow)
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemDiscardPanel::OnTick( void )
 {
 	BaseClass::OnTick();

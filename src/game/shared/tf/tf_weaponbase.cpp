@@ -103,17 +103,11 @@ ConVar tf_weapon_force_allow_inspect( "tf_weapon_force_allow_inspect", "0", FCVA
 // Global functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool IsAmmoType( int iAmmoType, const char *pAmmoName )
 {
 	return GetAmmoDef()->Index( pAmmoName ) == iAmmoType;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void FindHullIntersection( const Vector &vecSrc, trace_t &tr, const Vector &mins, const Vector &maxs, CBaseEntity *pEntity )
 {
 	int	i, j, k;
@@ -1140,9 +1134,6 @@ bool CTFWeaponBase::Deploy( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWeaponBase::ForceWeaponSwitch() const
 {
 	// allow knockout rune to force switch to melee
@@ -1164,17 +1155,11 @@ bool CTFWeaponBase::ForceWeaponSwitch() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::Detach( void )
 {
 	BaseClass::Detach();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::OnActiveStateChanged( int iOldState )
 {
 	UpdateHiddenParentBodygroup( m_iState == WEAPON_IS_ACTIVE );
@@ -1217,9 +1202,6 @@ void CTFWeaponBase::OnActiveStateChanged( int iOldState )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWeaponBase::VisibleInWeaponSelection( void )
 {
 	if ( BaseClass::VisibleInWeaponSelection() == false )
@@ -1251,9 +1233,6 @@ bool CTFWeaponBase::VisibleInWeaponSelection( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::UpdateHiddenParentBodygroup( bool bHide )
 {
 #ifdef GAME_DLL
@@ -1402,9 +1381,6 @@ bool CTFWeaponBase::CalcIsAttackCriticalHelperNoCrits()
 	return pPlayer->m_Shared.IsCritBoosted();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ETFDmgCustom CTFWeaponBase::GetPenetrateType() const
 {
 	int iMode = 0;
@@ -2299,9 +2275,6 @@ void CTFWeaponBase::ItemPostFrame( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFWeaponBase::GetInspectActivity( TFWeaponInspectStage inspectStage )
 {
 	static int s_inspectActivities[][INSPECT_STAGE_COUNT] =
@@ -2345,18 +2318,12 @@ int CTFWeaponBase::GetInspectActivity( TFWeaponInspectStage inspectStage )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWeaponBase::CanInspect() const
 {
 	return true;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::HandleInspect()
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -2413,9 +2380,6 @@ void CTFWeaponBase::HandleInspect()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::ItemHolsterFrame( void )
 {
 	BaseClass::ItemHolsterFrame();
@@ -3219,9 +3183,6 @@ void CTFWeaponBase::OnDataChanged( DataUpdateType_t type )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::FireGameEvent( IGameEvent *event )
 {
 	// If we were the active weapon, we need to update our visibility 
@@ -5923,9 +5884,6 @@ bool WeaponID_IsSniperRifleOrBow( int iWeaponID )
 		return WeaponID_IsSniperRifle( iWeaponID );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFWeaponBase::Energy_GetMaxEnergy( void ) const
 {
 	// This is a terrible hack to support clip size upgrades.
@@ -5938,9 +5896,6 @@ float CTFWeaponBase::Energy_GetMaxEnergy( void ) const
 	return ( iNumShots * Energy_GetShotCost() );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWeaponBase::Energy_FullyCharged( void ) const
 {
 	if ( m_flEnergy >= Energy_GetMaxEnergy() )
@@ -5949,9 +5904,6 @@ bool CTFWeaponBase::Energy_FullyCharged( void ) const
 		return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWeaponBase::Energy_HasEnergy( void )
 {
 	if ( m_flEnergy >= Energy_GetShotCost() )
@@ -5961,25 +5913,16 @@ bool CTFWeaponBase::Energy_HasEnergy( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::Energy_DrainEnergy( void )
 {
 	Energy_DrainEnergy( Energy_GetShotCost() );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::Energy_DrainEnergy( float flDrain )
 {
 	m_flEnergy -= flDrain;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFWeaponBase::Energy_Recharge( void )
 {
 	m_flEnergy += Energy_GetRechargeCost();
@@ -5992,17 +5935,11 @@ bool CTFWeaponBase::Energy_Recharge( void )
 		return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::WeaponRegenerate( void )
 {
 	m_flEnergy = Energy_GetMaxEnergy();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::FinishReload( void )
 {
 	if ( IsEnergyWeapon() )
@@ -6032,9 +5969,6 @@ void CTFWeaponBase::FinishReload( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::CheckReload( void )
 {
 	if ( IsEnergyWeapon() )
@@ -6110,9 +6044,6 @@ void CTFWeaponBase::StartEffectBarRegen( void )
 	}	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::CheckEffectBarRegen( void ) 
 { 
 	if ( !m_flEffectBarRegenTime )
@@ -6133,9 +6064,6 @@ void CTFWeaponBase::CheckEffectBarRegen( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBase::EffectBarRegenFinished( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();

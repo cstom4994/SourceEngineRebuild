@@ -124,9 +124,6 @@ BEGIN_NETWORK_TABLE_NOBASE( CTFFlameThrower, DT_LocalFlameThrower )
 	#endif
 END_NETWORK_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 BEGIN_NETWORK_TABLE( CTFFlameThrower, DT_WeaponFlameThrower )
 	#if defined( CLIENT_DLL )
 		RecvPropInt( RECVINFO( m_iWeaponState ) ),
@@ -1363,17 +1360,11 @@ float CTFFlameThrower::GetFlameHitRatio( void )
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlameThrower::IncrementFlameDamageCount( void )
 {
 	m_iDamagingFlames++;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlameThrower::DecrementFlameDamageCount( void )
 {
 	if ( m_iDamagingFlames <= 0 )
@@ -1382,17 +1373,11 @@ void CTFFlameThrower::DecrementFlameDamageCount( void )
 	m_iDamagingFlames--;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlameThrower::IncrementActiveFlameCount( void )
 {
 	m_iActiveFlames++;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlameThrower::DecrementActiveFlameCount( void )
 {
 	if ( m_iActiveFlames <= 0 )
@@ -1401,9 +1386,6 @@ void CTFFlameThrower::DecrementActiveFlameCount( void )
 	m_iActiveFlames--;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlameThrower::ResetFlameHitCount( void )
 {
 	m_iDamagingFlames = 0;
@@ -1436,9 +1418,6 @@ bool CTFFlameThrower::IsRageFull( void )
 	return ( pPlayer->m_Shared.GetRageMeter() >= 100.0f );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFFlameThrower::EffectMeterShouldFlash( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -1504,9 +1483,6 @@ bool CTFFlameThrower::Deploy( void )
 	return BaseClass::Deploy();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlameThrower::FireGameEvent( IGameEvent *event )
 {
 	if ( FStrEq( event->GetName(), "recalculate_holidays" ) )
@@ -2222,9 +2198,6 @@ END_NETWORK_TABLE()
 LINK_ENTITY_TO_CLASS( tf_flame, CTFFlameEntity );
 IMPLEMENT_AUTO_LIST( ITFFlameEntityAutoList );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFFlameEntity::CTFFlameEntity()
 {}
 
@@ -2735,9 +2708,6 @@ DEFINE_THINKFUNC( NapalmThink ),
 END_DATADESC()
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Napalm::CTFProjectile_Napalm()
 {
 #ifdef GAME_DLL
@@ -2747,16 +2717,10 @@ CTFProjectile_Napalm::CTFProjectile_Napalm()
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Napalm::~CTFProjectile_Napalm()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Napalm::Precache()
 {
 	// PrecacheModel( TF_MODEL_NAPALM );
@@ -2768,9 +2732,6 @@ void CTFProjectile_Napalm::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Napalm::Spawn()
 {
 	Precache();
@@ -2816,17 +2777,11 @@ CTFProjectile_Napalm *CTFProjectile_Napalm::Create( CBaseCombatCharacter *pOwner
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFProjectile_Napalm::UpdateTransmitState()
 {
 	return SetTransmitState( FL_EDICT_PVSCHECK );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Napalm::NapalmThink( void )
 {
 	if ( gpGlobals->curtime > m_flRemoveTime )
@@ -2839,9 +2794,6 @@ void CTFProjectile_Napalm::NapalmThink( void )
 	SetContextThink( &CTFProjectile_Napalm::NapalmThink, gpGlobals->curtime + 0.1f, NAPALM_THINK_CONTEXT );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Napalm::Explode( trace_t *pTrace, int bitsDamageType )
 {
 	if ( !m_nHitCount )
@@ -2981,9 +2933,6 @@ void CTFProjectile_Napalm::ApplyBlastDamage( CTFPlayer *pThrower, Vector vecOrig
 	TFGameRules()->RadiusDamage( radiusinfo );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFProjectile_Napalm::InitialExplodeEffects( CTFPlayer *pThrower, const trace_t *pTrace )
 {
 	// Added Particle

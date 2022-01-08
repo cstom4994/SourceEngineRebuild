@@ -1380,9 +1380,6 @@ CFloatingHealthIcon::CFloatingHealthIcon( vgui::Panel *parent, const char *name 
 	m_pTargetHealth = new CTFSpectatorGUIHealth( this, "SpectatorGUIHealth" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFloatingHealthIcon::Reset( void )
 {
 	m_pTargetHealth->Reset();

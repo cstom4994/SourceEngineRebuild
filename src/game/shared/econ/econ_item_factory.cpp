@@ -238,9 +238,6 @@ bool CEconItemFactory::BAddGCGeneratedAttributesToItem( const CEconGameAccount *
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconItemFactory::ApplyStaticAttributeToItem( CEconItem *pItem, const static_attrib_t& staticAttrib, const CEconGameAccount *pGameAccount ) const
 {
 	static CSchemaAttributeDefHandle pAttr_ElevateQuality( "elevate quality" );

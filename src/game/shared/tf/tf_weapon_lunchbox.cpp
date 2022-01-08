@@ -68,16 +68,10 @@ static const char *s_pszLunchboxMaxHealThink = "LunchboxMaxHealThink";
 // Weapon Lunchbox functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFLunchBox::CTFLunchBox()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLunchBox::UpdateOnRemove( void )
 {
 #ifndef CLIENT_DLL
@@ -92,9 +86,6 @@ void CTFLunchBox::UpdateOnRemove( void )
 	BaseClass::UpdateOnRemove();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLunchBox::Precache( void )
 {
 	if ( DropAllowed() )
@@ -112,25 +103,16 @@ void CTFLunchBox::Precache( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLunchBox::WeaponReset( void )
 {
 	BaseClass::WeaponReset();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFLunchBox::UsesPrimaryAmmo( void )
 {
 	return CBaseCombatWeapon::UsesPrimaryAmmo();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFLunchBox::DropAllowed( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -143,9 +125,6 @@ bool CTFLunchBox::DropAllowed( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLunchBox::PrimaryAttack( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -163,9 +142,6 @@ void CTFLunchBox::PrimaryAttack( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLunchBox::SecondaryAttack( void )
 {
 	if ( !DropAllowed() )
@@ -256,9 +232,6 @@ void CTFLunchBox::SecondaryAttack( void )
 	StartEffectBarRegen();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLunchBox::DrainAmmo( bool bForceCooldown )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -300,9 +273,6 @@ void CTFLunchBox::DrainAmmo( bool bForceCooldown )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLunchBox::Detach( void )
 {
 #ifdef GAME_DLL
@@ -323,9 +293,6 @@ void CTFLunchBox::Detach( void )
 }
 
 #ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFLunchBox::ApplyBiteEffects( CTFPlayer *pPlayer )
 {
 	int nLunchBoxType = GetLunchboxType();
@@ -384,9 +351,6 @@ CTFLunchBox_Drink::CTFLunchBox_Drink()
 }
 
 #ifdef CLIENT_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFLunchBox_Drink::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
@@ -402,9 +366,6 @@ bool CTFLunchBox_Drink::Holster( CBaseCombatWeapon *pSwitchingTo )
 	return BaseClass::Holster( pSwitchingTo );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char* CTFLunchBox_Drink::ModifyEventParticles( const char* token )
 {
 	if ( GetLunchboxType() == LUNCHBOX_ADDS_MINICRITS )

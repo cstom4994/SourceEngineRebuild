@@ -57,9 +57,6 @@ CTFTargetDummy* CTFTargetDummy::Create( const Vector& vPosition, const QAngle& q
 CTFTargetDummy::CTFTargetDummy()
 {
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTargetDummy::Precache( void )
 {
 	PrecacheModel( DUMMY_MODEL );

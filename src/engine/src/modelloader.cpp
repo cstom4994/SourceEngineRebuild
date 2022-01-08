@@ -813,9 +813,6 @@ CMapLoadHelper::CMapLoadHelper(int lumpToLoad) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapLoadHelper::~CMapLoadHelper(void) {
     if (m_pUncompressedData) {
         free(m_pUncompressedData);
@@ -1038,9 +1035,6 @@ static int ComputeLightmapSize(dface_t *pFace, mtexinfo_t *pTexInfo) {
     return nLuxels * 4 * lightstyles;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadLighting(CMapLoadHelper &lh) {
     if (!lh.LumpSize()) {
         lh.GetMap()->lightdata = NULL;
@@ -1059,9 +1053,6 @@ void Mod_LoadLighting(CMapLoadHelper &lh) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadWorldlights(CMapLoadHelper &lh, bool bIsHDR) {
     lh.GetMap()->shadowzbuffers = NULL;
     if (!lh.LumpSize()) {
@@ -1114,9 +1105,6 @@ void Mod_LoadWorldlights(CMapLoadHelper &lh, bool bIsHDR) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadVertices(void) {
     dvertex_t *in;
     mvertex_t *out;
@@ -1158,9 +1146,6 @@ static float RadiusFromBounds(Vector &mins, Vector &maxs) {
     return VectorLength(corner);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadSubmodels(CUtlVector<mmodel_t> &submodelList) {
     dmodel_t *in;
     int i, j, count;
@@ -1218,9 +1203,6 @@ medge_t *Mod_LoadEdges(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadOcclusion(void) {
     CMapLoadHelper lh(LUMP_OCCLUSION);
 
@@ -1307,9 +1289,6 @@ void Mod_LoadOcclusion(void) {
 // copy of the name too.  I guess we'll get rid of this when we have a material
 // system that works without a graphics context.  At that point, everyone can
 // reference the name in the material, or just the material itself.
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadTexdata(void) {
     // Don't bother loading these again; they're already stored in the collision model
     // which is guaranteed to be loaded at this point
@@ -1318,9 +1297,6 @@ void Mod_LoadTexdata(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadTexinfo(void) {
     texinfo_t *in;
     mtexinfo_t *out;
@@ -1521,9 +1497,6 @@ void Mod_LoadVertNormals(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadVertNormalIndices(void) {
     CMapLoadHelper lh(LUMP_VERTNORMALINDICES);
 
@@ -2139,9 +2112,6 @@ void Mod_LoadLeafs(void) {
     pMap->m_nDispInfoReferences = GetCollisionBSPData()->numdisplist;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadLeafWaterData(void) {
     dleafwaterdata_t *in;
     mleafwaterdata_t *out;
@@ -2174,9 +2144,6 @@ void Mod_LoadLeafWaterData(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadCubemapSamples(void) {
     char textureName[512];
     char loadName[MAX_PATH];
@@ -2255,9 +2222,6 @@ void Mod_LoadCubemapSamples(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadLeafMinDistToWater(void) {
     CMapLoadHelper lh(LUMP_LEAFMINDISTTOWATER);
 
@@ -2297,9 +2261,6 @@ void Mod_LoadLeafMinDistToWater(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Mod_LoadMarksurfaces(void) {
     int i, j, count;
     unsigned short *in;
@@ -3001,9 +2962,6 @@ class CResourcePreloadModel : public CResourcePreload {
 static CResourcePreloadModel s_ResourcePreloadModel;
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CModelLoader::Init(void) {
     m_Models.RemoveAll();
     m_InlineModels.Purge();
@@ -3021,9 +2979,6 @@ void CModelLoader::Init(void) {
     g_pQueuedLoader->InstallLoader(RESOURCEPRELOAD_MODEL, &s_ResourcePreloadModel);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CModelLoader::Shutdown(void) {
     m_pWorldModel = NULL;
 
@@ -4320,9 +4275,6 @@ static void GetSpriteInfo(const char *pName, bool bIsVideo, int &nWidth, int &nH
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CModelLoader::Sprite_LoadModel(model_t *mod) {
     Assert(!(mod->nLoadFlags & FMODELLOADER_LOADED));
 
@@ -4362,9 +4314,6 @@ void CModelLoader::Sprite_LoadModel(model_t *mod) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CModelLoader::Sprite_UnloadModel(model_t *mod) {
     Assert(!(mod->nLoadFlags & FMODELLOADER_REFERENCEMASK));
     mod->nLoadFlags &= ~FMODELLOADER_LOADED;
@@ -4648,9 +4597,6 @@ void CModelLoader::SetWorldModel(model_t *mod) {
 //	host_state.SetWorldModel( mod ); // garymcthack
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CModelLoader::ClearWorldModel(void) {
     m_pWorldModel = NULL;
     memset(&m_worldBrushData, 0, sizeof(m_worldBrushData));
@@ -4722,9 +4668,6 @@ bool CModelLoader::Map_GetRenderInfoAllocated(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CModelLoader::Map_SetRenderInfoAllocated(bool allocated) {
     m_bMapRenderInfoLoaded = allocated;
 }

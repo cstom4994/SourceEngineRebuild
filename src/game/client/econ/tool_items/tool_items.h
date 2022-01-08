@@ -13,9 +13,6 @@
 
 #include "item_model_panel.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CBaseToolUsageDialog : public vgui::EditablePanel
 {
 	DECLARE_CLASS_SIMPLE( CBaseToolUsageDialog, vgui::EditablePanel );

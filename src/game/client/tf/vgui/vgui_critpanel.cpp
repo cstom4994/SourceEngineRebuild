@@ -129,9 +129,6 @@ void CCriticalPanel::InitCritData( void )
 	m_CritData.m_flHigh = -1.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCriticalPanel::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );

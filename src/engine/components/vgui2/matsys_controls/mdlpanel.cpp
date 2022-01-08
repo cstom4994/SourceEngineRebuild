@@ -221,9 +221,6 @@ bool CMDLPanel::GetBoundingSphere( Vector &vecCenter, float &flRadius )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMDLPanel::SetModelAnglesAndPosition(  const QAngle &angRot, const Vector &vecPos )
 {
 	SetIdentityMatrix( m_RootMDL.m_MDLToWorld );
@@ -835,9 +832,6 @@ void CMDLPanel::SetMergeMDL( MDLHandle_t handle, void *pProxyData, int nSkin /*=
 	InvalidateLayout();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 MDLHandle_t CMDLPanel::SetMergeMDL( const char *pMDLName, void *pProxyData, int nSkin /*= -1 */ )
 {
 	MDLHandle_t hMDLFindResult = vgui::MDLCache()->FindMDL( pMDLName );

@@ -135,9 +135,6 @@ void C_ObjectDispenser::SetInvisibilityLevel( float flValue )
 	BaseClass::SetInvisibilityLevel( flValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_ObjectDispenser::UpdateEffects( void )
 {
 	C_TFPlayer *pOwner = GetOwner();
@@ -241,9 +238,6 @@ void C_ObjectDispenser::UpdateEffects( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_ObjectDispenser::StopEffects( bool bRemoveAll /* = false */ )
 {
 	// Find all the targets we've stopped healing

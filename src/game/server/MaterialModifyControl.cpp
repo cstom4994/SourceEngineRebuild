@@ -103,9 +103,6 @@ IMPLEMENT_SERVERCLASS_ST(CMaterialModifyControl, DT_MaterialModifyControl)
 	SendPropInt( SENDINFO(m_nModifyMode), 2, SPROP_UNSIGNED ),
 END_SEND_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMaterialModifyControl::CMaterialModifyControl()
 {
 	m_iFrameStart = MATERIAL_MODIFY_ANIMATION_UNSET;
@@ -166,9 +163,6 @@ int CMaterialModifyControl::ShouldTransmit( const CCheckTransmitInfo *pInfo )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialModifyControl::SetMaterialVar( inputdata_t &inputdata )
 {
 	//if( debug_materialmodifycontrol.GetBool() && Q_stristr( GetDebugName(), "alyx" ) )

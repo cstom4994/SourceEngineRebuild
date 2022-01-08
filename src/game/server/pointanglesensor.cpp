@@ -500,9 +500,6 @@ void CPointProximitySensor::InputDisable( inputdata_t &inputdata )
 	Disable();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPointProximitySensor::InputToggle( inputdata_t &inputdata )
 {
 	if ( m_bDisabled )

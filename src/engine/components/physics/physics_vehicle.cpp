@@ -578,9 +578,6 @@ IVP_Real_Object *CVehicleController::CreateWheel(int wheelIndex, vehicle_axlepar
     return pWheel->GetObject();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleController::CreateTraceData(int wheelIndex, vehicle_axleparams_t &axle) {
     if (wheelIndex >= VEHICLE_MAX_WHEEL_COUNT)
         return;
@@ -922,9 +919,6 @@ void CVehicleController::UpdatePowerslide(const vehicle_controlparams_t &control
     m_pCarSystem->set_powerslide(flFrontAccel, flRearAccel);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleController::UpdateEngine(const vehicle_controlparams_t &controls, float flDeltaTime,
                                       float flThrottle, float flBrake, bool bHandbrake, bool bPowerslide) {
     bool bTorqueBoost = UpdateEngineTurboStart(controls, flDeltaTime);
@@ -934,9 +928,6 @@ void CVehicleController::UpdateEngine(const vehicle_controlparams_t &controls, f
     UpdateEngineTurboFinish();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CVehicleController::UpdateEngineTurboStart(const vehicle_controlparams_t &controls, float flDeltaTime) {
     bool bTorqueBoost = false;
     if (controls.boost > 0) {
@@ -958,9 +949,6 @@ bool CVehicleController::UpdateEngineTurboStart(const vehicle_controlparams_t &c
     return bTorqueBoost;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleController::UpdateEngineTurboFinish(void) {
     if (m_vehicleData.engine.boostDuration + m_vehicleData.engine.boostDelay > 0)    // watch out for div by zero
     {
@@ -1015,9 +1003,6 @@ void CVehicleController::UpdateHandbrake(const vehicle_controlparams_t &controls
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleController::UpdateSkidding(bool bHandbrake) {
     m_currentState.skidSpeed = 0.0f;
     m_currentState.skidMaterial = 0;
@@ -1096,9 +1081,6 @@ void CVehicleController::UpdateWheelPositions(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CVehicleController::CalcSteering(float dt, float speed, float steering, bool bAnalog) {
     float degrees = RemapValClamped(speed, m_vehicleData.steering.speedSlow, m_vehicleData.steering.speedFast,
                                     m_vehicleData.steering.degreesSlow, m_vehicleData.steering.degreesFast);
@@ -1123,9 +1105,6 @@ float CVehicleController::CalcSteering(float dt, float speed, float steering, bo
     return steering * degrees;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleController::CalcEngineTransmission(float flThrottle) {
     // Automatic Transmission?
     if (!m_vehicleData.engine.isAutoTransmission)
@@ -1418,9 +1397,6 @@ void CVehicleController::InitFromTemplate(CPhysicsEnvironment *pEnv, void *pGame
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleController::OnVehicleEnter(void) {
     m_bOccupied = true;
 
@@ -1431,9 +1407,6 @@ void CVehicleController::OnVehicleEnter(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleController::OnVehicleExit(void) {
     m_bOccupied = false;
 

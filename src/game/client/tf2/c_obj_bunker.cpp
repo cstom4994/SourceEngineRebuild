@@ -61,9 +61,6 @@ private:
 IMPLEMENT_CLIENTCLASS_DT( C_ObjectBunkerLadder, DT_ObjectBunkerLadder, CObjectBunkerLadder )
 END_RECV_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_ObjectBunkerLadder::C_ObjectBunkerLadder()
 {
 }

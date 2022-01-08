@@ -226,9 +226,6 @@ CTFPlayerClassDataMgr::CTFPlayerClassDataMgr()
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerClassDataMgr::Init( void )
 {
 	// Special case the undefined class.
@@ -259,17 +256,11 @@ TFPlayerClassData_t *CTFPlayerClassDataMgr::Get( unsigned int iClass )
 	return &m_aTFPlayerClassData[iClass];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 TFPlayerClassData_t *GetPlayerClassData( unsigned int iClass )
 {
 	return g_pTFPlayerClassDataMgr->Get( iClass );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerClassDataMgr::AddAdditionalPlayerDeathSounds( void )
 {
 	for ( int iClass = 1; iClass < TF_CLASS_COUNT_ALL; ++iClass )

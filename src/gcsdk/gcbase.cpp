@@ -2183,16 +2183,10 @@ namespace GCSDK {
             return NULL;
     }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     bool CGCBase::BYieldingLoadSOCache(CGCSharedObjectCache *pSOCache) {
         return true;
     }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     void CGCBase::YieldingSOCacheLoaded(CGCSharedObjectCache *pSOCache) {
         // remove it, so we don't stomp the copy in memcached
         m_rbtreeSOCachesWithDirtyVersions.Remove(pSOCache->GetOwner());
@@ -2842,9 +2836,6 @@ namespace GCSDK {
     }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     void CGCBase::AddCacheToWritebackQueue(CGCSharedObjectCache *pSOCache) {
         Assert(pSOCache);
         if ((g_pJobCur != NULL) && PJobHoldingLock(pSOCache->GetOwner()) != g_pJobCur &&
@@ -2858,9 +2849,6 @@ namespace GCSDK {
         }
     }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     bool CGCBase::BYieldingRetrieveCacheVersion(CGCSharedObjectCache *pSOCache) {
         if (!socache_persist_version_via_memcached.GetBool()) {
             // We'll keep doing the updates, but fail to restore it if not requested.
@@ -2887,16 +2875,10 @@ namespace GCSDK {
         return true;
     }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     void CGCBase::AddCacheToVersionChangedList(CGCSharedObjectCache *pSOCache) {
         m_rbtreeSOCachesWithDirtyVersions.InsertIfNotFound(pSOCache->GetOwner());
     }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     void CGCBase::UpdateSOCacheVersions() {
         CUtlVector<CUtlString> vecSetKeys(0, m_rbtreeSOCachesWithDirtyVersions.Count());
         CUtlVector<GCMemcachedBuffer_t> vecSetValues(0, m_rbtreeSOCachesWithDirtyVersions.Count());

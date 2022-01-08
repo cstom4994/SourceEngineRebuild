@@ -36,9 +36,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_crowbar );
 // Weapon Crowbar functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFCrowbar::CTFCrowbar()
 {
 }

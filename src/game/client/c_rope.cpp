@@ -305,9 +305,6 @@ inline bool ShouldUseFakeAA(IMaterial *pBackMaterial) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CRopeManager::CRopeManager() {
     m_aRenderCache.Purge();
     m_aSegmentCache.Purge();
@@ -318,9 +315,6 @@ CRopeManager::CRopeManager() {
     m_nHolidayLightsStyle = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CRopeManager::~CRopeManager() {
     int nRenderCacheCount = m_aRenderCache.Count();
     for (int iRenderCache = 0; iRenderCache < nRenderCacheCount; ++iRenderCache) {
@@ -336,9 +330,6 @@ CRopeManager::~CRopeManager() {
     m_aSegmentCache.Purge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRopeManager::ResetRenderCache(void) {
     int nRenderCacheCount = m_aRenderCache.Count();
     for (int iRenderCache = 0; iRenderCache < nRenderCacheCount; ++iRenderCache) {
@@ -346,9 +337,6 @@ void CRopeManager::ResetRenderCache(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRopeManager::AddToRenderCache(C_RopeKeyframe *pRope) {
     if (!pRope->GetSolidMaterial()) {
         return;
@@ -492,9 +480,6 @@ void CRopeManager::DrawRenderCache_NonQueued(bool bShadowDepth, RopeRenderData_t
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRopeManager::DrawRenderCache(bool bShadowDepth) {
     int iRenderCacheCount = m_aRenderCache.Count();
 
@@ -643,9 +628,6 @@ int CRopeManager::GetHolidayLightStyle(void) {
     return m_nHolidayLightsStyle;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRopeManager::RenderNonSolidRopes(IMatRenderContext *pRenderContext, IMaterial *pMaterial, int nVertCount,
                                        int nIndexCount) {
     // Render the solid portion of the ropes.
@@ -670,9 +652,6 @@ void CRopeManager::RenderNonSolidRopes(IMatRenderContext *pRenderContext, IMater
     pMesh->Draw();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void
 CRopeManager::RenderSolidRopes(IMatRenderContext *pRenderContext, IMaterial *pMaterial, int nVertCount, int nIndexCount,
                                bool bRenderNonSolid) {
@@ -730,9 +709,6 @@ CRopeManager::RenderSolidRopes(IMatRenderContext *pRenderContext, IMaterial *pMa
     pMesh->Draw();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRopeManager::ResetSegmentCache(int nMaxSegments) {
     MEM_ALLOC_CREDIT();
     m_nSegmentCacheCount = 0;
@@ -743,9 +719,6 @@ void CRopeManager::ResetSegmentCache(int nMaxSegments) {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 RopeSegData_t *CRopeManager::GetNextSegmentFromCache(void) {
     if (m_nSegmentCacheCount >= m_aSegmentCache.Count()) {
         Warning("CRopeManager::GetNextSegmentFromCache too many segments for cache!\n");
@@ -1527,9 +1500,6 @@ inline void Catmull_Rom_Eval(const catmull_t &spline, const Vector &t, Vector &o
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_RopeKeyframe::BuildRope(RopeSegData_t *pSegmentData, const Vector &vCurrentViewForward,
                                const Vector &vCurrentViewOrigin, C_RopeKeyframe::BuildRopeQueuedData_t *pQueuedData,
                                bool bQueued) {

@@ -98,9 +98,6 @@ class IUIDoubleBufferedTexture;
 class CTransform3D;
 extern const int k_nExtraScrollRoom; // max number of padding pixels to use if needed
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CHTML : public CPanel2D, public ITextInputControl
 #if !defined( SOURCE2_PANORAMA ) && !defined( PANORAMA_PUBLIC_STEAM_SDK )
 	, public IHTMLResponses
@@ -738,9 +735,6 @@ private:
 	static const float s_fScrollDeadzoneScale;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CHTMLSimpleNavigationWrapper : public CPanel2D
 {
 	DECLARE_PANEL2D( CHTMLSimpleNavigationWrapper, CPanel2D );

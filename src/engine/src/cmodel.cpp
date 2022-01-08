@@ -1721,9 +1721,6 @@ void CM_RayLeafnums_r(const Ray_t &ray, CCollisionBSPData *pBSPData, int iNode,
                      nLeafCount);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CM_RayLeafnums(const Ray_t &ray, int *pLeafList, int nMaxLeafCount, int &nLeafCount) {
     CCollisionBSPData *pBSPData = GetCollisionBSPData();
     if (!pBSPData->numnodes)

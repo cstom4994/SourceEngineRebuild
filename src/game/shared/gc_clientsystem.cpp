@@ -92,9 +92,6 @@ CGCClientSystem::~CGCClientSystem()
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 GCSDK::CGCClient *CGCClientSystem::GetGCClient()
 {
 	Assert ( this != NULL );
@@ -102,45 +99,30 @@ GCSDK::CGCClient *CGCClientSystem::GetGCClient()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CGCClientSystem::BSendMessage( uint32 unMsgType, const uint8 *pubData, uint32 cubData )
 {
 	return m_GCClient.BSendMessage( unMsgType, pubData, cubData );
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CGCClientSystem::BSendMessage( const GCSDK::CGCMsgBase& msg )									
 { 
 	return m_GCClient.BSendMessage( msg ); 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CGCClientSystem::BSendMessage( const GCSDK::CProtoBufMsgBase& msg )									
 { 
 	return m_GCClient.BSendMessage( msg ); 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 GCSDK::CGCClientSharedObjectCache *CGCClientSystem::GetSOCache( const CSteamID &steamID )
 {
 	return m_GCClient.FindSOCache( steamID, false );
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 GCSDK::CGCClientSharedObjectCache *CGCClientSystem::FindOrAddSOCache( const CSteamID &steamID )
 {
 	return m_GCClient.FindSOCache( steamID, true );

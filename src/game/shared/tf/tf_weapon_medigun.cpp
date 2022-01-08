@@ -839,9 +839,6 @@ medigun_resist_types_t CWeaponMedigun::GetResistType() const
 	return medigun_resist_types_t(nCurrentActiveResist);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponMedigun::IsAllowedToTargetBuildings( void )
 {
 #ifdef STAGING_ONLY
@@ -858,9 +855,6 @@ bool CWeaponMedigun::IsAllowedToTargetBuildings( void )
 #endif // STAGING_ONLY
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponMedigun::IsAttachedToBuilding( void )
 {
 	if ( !m_hHealingTarget )
@@ -870,9 +864,6 @@ bool CWeaponMedigun::IsAttachedToBuilding( void )
 }
 
 #ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponMedigun::HealTargetThink( void )
 {	
 	// Verify that we still have a valid heal target.
@@ -960,9 +951,6 @@ void CWeaponMedigun::HealTargetThink( void )
 	SetNextThink( gpGlobals->curtime + 0.2f, s_pszMedigunHealTargetThink );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponMedigun::StartHealingTarget( CBaseEntity *pTarget )
 {
 	CTFPlayer *pTFTarget = ToTFPlayer( pTarget );
@@ -1033,17 +1021,11 @@ void CWeaponMedigun::StopHealingOwner( void )
 	m_bHealingSelf = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponMedigun::AddCharge( float flPercentage )
 {
 	m_flChargeLevel = MIN( m_flChargeLevel + flPercentage, 1.0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponMedigun::SubtractCharge( float flPercentage )
 {
 	float flSubtractAmount = Max( flPercentage, 0.0f );
@@ -1051,9 +1033,6 @@ void CWeaponMedigun::SubtractCharge( float flPercentage )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponMedigun::RecalcEffectOnTarget( CTFPlayer *pPlayer, bool bInstantRemove )
 {
 	if ( !pPlayer )
@@ -1064,9 +1043,6 @@ void CWeaponMedigun::RecalcEffectOnTarget( CTFPlayer *pPlayer, bool bInstantRemo
 
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CWeaponMedigun::GetHealSound( void ) const
 {
 	COMPILE_TIME_ASSERT( ARRAYSIZE(g_pszMedigunHealSounds) == MEDIGUN_NUM_CHARGE_TYPES );
@@ -1089,9 +1065,6 @@ void CWeaponMedigun::UberchargeChunkDeployed()
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponMedigun::CreateMedigunShield( void )
 {
 #ifdef GAME_DLL
@@ -1125,9 +1098,6 @@ void CWeaponMedigun::CreateMedigunShield( void )
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponMedigun::RemoveMedigunShield( void )
 {
 #ifdef GAME_DLL
@@ -1141,9 +1111,6 @@ void CWeaponMedigun::RemoveMedigunShield( void )
 
 
 #ifdef STAGING_ONLY
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponMedigun::HasPermanentShield() const
 {
 	if ( !TFGameRules()->IsMannVsMachineMode() )
@@ -2518,9 +2485,6 @@ void CWeaponMedigun::OnControlStunned( void )
 	RemoveHealingTarget( true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponMedigun::EffectMeterShouldFlash( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -2606,9 +2570,6 @@ CTFMedigunShield::~CTFMedigunShield()
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMedigunShield::Spawn()
 {
 	BaseClass::Spawn();
@@ -2632,9 +2593,6 @@ void CTFMedigunShield::Spawn()
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMedigunShield::Precache()
 {
 	PrecacheScriptSound( "WeaponMedi_Shield.Deploy" );
@@ -2650,18 +2608,12 @@ void CTFMedigunShield::Precache()
 }
 
 #ifdef CLIENT_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMedigunShield::ClientThink()
 {
 	UpdateShieldPosition();
 }
 #endif // CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFMedigunShield::UpdateShieldPosition( void )
 {
 	CBaseEntity *pOwner = GetOwnerEntity();
@@ -2742,9 +2694,6 @@ CTFMedigunShield *CTFMedigunShield::Create( CTFPlayer *pOwner )
 // 	return true;
 // }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFMedigunShield::ShouldCollide( int collisionGroup, int contentsMask ) const
 {
 	if ( collisionGroup == COLLISION_GROUP_PROJECTILE || 

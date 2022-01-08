@@ -57,17 +57,11 @@ CUtlHash<DispCollPlaneIndex_t, CPlaneIndexHashFuncs, CPlaneIndexHashFuncs> g_Dis
 //=============================================================================
 //	Displacement Collision Triangle
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CDispCollTri::CDispCollTri()
 {
 	Init();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTri::Init( void )
 {
 	m_vecNormal.Init();
@@ -75,9 +69,6 @@ void CDispCollTri::Init( void )
 	m_TriData[0].m_IndexDummy = m_TriData[1].m_IndexDummy = m_TriData[2].m_IndexDummy = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTri::CalcPlane( CDispVector<Vector> &m_aVerts )
 {
 	Vector vecEdges[2];
@@ -125,9 +116,6 @@ inline void FindMax( float v1, float v2, float v3, int &iMax )
 	if( v3 > flMax ) { flMax = v3; iMax = 2; }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTri::FindMinMax( CDispVector<Vector> &m_aVerts )
 {
 	int iMin, iMax;
@@ -310,9 +298,6 @@ bool CDispCollTree::AABBTree_Create( CCoreDispInfo *pDisp )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTree::AABBTree_CopyDispData( CCoreDispInfo *pDisp )
 {
 	// Displacement size.
@@ -400,9 +385,6 @@ void CDispCollTree::AABBTree_CopyDispData( CCoreDispInfo *pDisp )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispCollTree::AABBTree_CreateLeafs( void )
 {
 	int numLeaves = (GetWidth()-1) * (GetHeight()-1);
@@ -1206,9 +1188,6 @@ bool CDispCollTree::Cache_EdgeCrossAxisY( const Vector &vecEdge, const Vector &v
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::Cache_EdgeCrossAxisZ( const Vector &vecEdge, const Vector &vecOnEdge,
 										  const Vector &vecOffEdge, CDispCollTri *pTri,
 										  unsigned short &iPlane )
@@ -1254,9 +1233,6 @@ bool CDispCollTree::Cache_EdgeCrossAxisZ( const Vector &vecEdge, const Vector &v
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template <int AXIS>
 bool CDispCollTree::EdgeCrossAxis( const Ray_t &ray, unsigned short iPlane, CDispCollHelper *pHelper )
 {
@@ -1303,17 +1279,11 @@ bool CDispCollTree::EdgeCrossAxis( const Ray_t &ray, unsigned short iPlane, CDis
 	return ResolveRayPlaneIntersect( flStart, flEnd, vecNormal, flDist, pHelper );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline bool CDispCollTree::EdgeCrossAxisX( const Ray_t &ray, unsigned short iPlane, CDispCollHelper *pHelper )
 {
 	return EdgeCrossAxis<0>( ray, iPlane, pHelper );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline bool CDispCollTree::EdgeCrossAxisY( const Ray_t &ray, unsigned short iPlane, CDispCollHelper *pHelper )
 {
 	return EdgeCrossAxis<1>( ray, iPlane, pHelper );
@@ -1438,18 +1408,12 @@ CDispCollTree::~CDispCollTree()
 	m_aEdgePlanes.Purge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::Create( CCoreDispInfo *pDisp )
 {
 	// Create the AABB Tree.
 	return AABBTree_Create( pDisp );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispCollTree::PointInBounds( const Vector &vecBoxCenter, const Vector &vecBoxMin, 
 								   const Vector &vecBoxMax, bool bPoint )
 {

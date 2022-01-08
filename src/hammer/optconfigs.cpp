@@ -205,9 +205,6 @@ void COPTConfigs::OnEditconfigs(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::OnGdfileAdd(void) {
     if (m_pLastSelConfig == NULL)
         return;
@@ -232,9 +229,6 @@ void COPTConfigs::OnGdfileAdd(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::OnGdfileEdit(void) {
     if (m_pLastSelConfig == NULL)
         return;
@@ -259,9 +253,6 @@ void COPTConfigs::OnGdfileEdit(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::OnGdfileRemove(void) {
     if (m_pLastSelConfig == NULL)
         return;
@@ -351,9 +342,6 @@ void COPTConfigs::SaveInfo(CGameConfig *pConfig) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::OnSelchangeConfigurations(void) {
     // save info from controls into last selected config
     SaveInfo(m_pLastSelConfig);
@@ -434,9 +422,6 @@ void COPTConfigs::OnSelchangeConfigurations(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::UpdateEntityLists(void) {
     if (m_pLastSelConfig == NULL)
         return;
@@ -512,9 +497,6 @@ void UpdateConfigList(CComboBox &combo) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void SelectActiveConfig(CComboBox &combo) {
     char szGameDir[MAX_PATH];
     if (GetPersistentEnvironmentVariable(GAMEDIR_TOKEN, szGameDir, sizeof(szGameDir))) {
@@ -539,9 +521,6 @@ void SelectActiveConfig(CComboBox &combo) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::UpdateConfigList() {
     m_pLastSelConfig = NULL;
 
@@ -664,9 +643,6 @@ BOOL COPTConfigs::BrowseForFolder(char *pszTitle, char *pszDirectory) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::OnBrowseCordonTexture(void) {
     CTextureBrowser *pBrowser = new CTextureBrowser(this);
     if (pBrowser != NULL) {
@@ -695,9 +671,6 @@ void COPTConfigs::OnBrowseCordonTexture(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::OnBrowseGameExeDir(void) {
     char szTmp[MAX_PATH];
     if (!BrowseForFolder("Select Game Executable Directory", szTmp)) {
@@ -710,9 +683,6 @@ void COPTConfigs::OnBrowseGameExeDir(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::OnBrowseModDir(void) {
     char szTmp[MAX_PATH];
     if (!BrowseForFolder("Select Mod Directory", szTmp)) {
@@ -725,9 +695,6 @@ void COPTConfigs::OnBrowseModDir(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void COPTConfigs::OnBrowsemapdir(void) {
     char szTmp[MAX_PATH];
     if (!BrowseForFolder("Select Map Directory", szTmp)) {

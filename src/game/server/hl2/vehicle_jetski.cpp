@@ -240,9 +240,6 @@ void CPropJetski::Think(void)
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropJetski::OnTurn( CUserCmd *ucmd )
 {
 #if 0
@@ -314,9 +311,6 @@ void CPropJetski::OnTurn( CUserCmd *ucmd )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CPropJetski::UpdateLean( CUserCmd *ucmd )
 {
 	// Are we leaning back?
@@ -330,9 +324,6 @@ bool CPropJetski::UpdateLean( CUserCmd *ucmd )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CPropJetski::CalculateFriction( CUserCmd *ucmd )
 {
 	// Get the speed and ratio to max speed.
@@ -353,9 +344,6 @@ float CPropJetski::CalculateFriction( CUserCmd *ucmd )
 	return flFriction;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CPropJetski::CalculateDrag( CUserCmd *ucmd )
 {
 	// Get the speed and ratio to max speed.
@@ -398,9 +386,6 @@ float CPropJetski::CalculateDrag( CUserCmd *ucmd )
 	return flDrag;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPropJetski::OnSpeed( CUserCmd *ucmd )
 {
 	// Get the physics object so we can adjust the drag.

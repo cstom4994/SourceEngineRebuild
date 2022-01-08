@@ -187,9 +187,6 @@ void CPublishedFiles::DeletePublishedFile( uint64 nPublishedFileID )
 	m_callbackDeletePublishedFile.Set( hSteamAPICall, this, &CPublishedFiles::Steam_OnDeletePublishedFile ); 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const SteamUGCDetails_t *CPublishedFiles::GetPublishedFileDetails( uint64 nPublishedFileID ) const
 {
 	int idx = m_FileDetails.Find( nPublishedFileID );
@@ -200,9 +197,6 @@ const SteamUGCDetails_t *CPublishedFiles::GetPublishedFileDetails( uint64 nPubli
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPublishedFiles::ViewPublishedFile( uint64 nPublishedFileID )
 {
 	EUniverse universe = GetUniverse();

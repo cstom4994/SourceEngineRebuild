@@ -1211,9 +1211,6 @@ void CNPC_CombineGunship::StopGroundAttack( bool bDoAttack )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_CombineGunship::DrawRotorWash( float flAltitude, const Vector &vecRotorOrigin )
 {
 	// If we have a ragdoll, we want the wash under that, not me
@@ -3154,9 +3151,6 @@ bool CNPC_CombineGunship::IsValidEnemy( CBaseEntity *pEnemy )
 	return BaseClass::IsValidEnemy( pEnemy );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_CombineGunship::GatherEnemyConditions( CBaseEntity *pEnemy )
 {
 	BaseClass::GatherEnemyConditions(pEnemy);

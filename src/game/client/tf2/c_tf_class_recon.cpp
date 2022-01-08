@@ -29,9 +29,6 @@ BEGIN_PREDICTION_DATA_NO_BASE( C_PlayerClassRecon )
 
 END_PREDICTION_DATA()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassRecon::C_PlayerClassRecon( C_BaseTFPlayer *pPlayer ) :
 	C_PlayerClass( pPlayer )
 {
@@ -46,9 +43,6 @@ C_PlayerClassRecon::C_PlayerClassRecon( C_BaseTFPlayer *pPlayer ) :
 	m_ClassData.m_bTrailParticles = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassRecon::~C_PlayerClassRecon()
 {
 }

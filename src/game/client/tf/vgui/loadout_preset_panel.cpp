@@ -167,9 +167,6 @@ void CLoadoutPresetPanel::OnCommand( const char *command )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CLoadoutPresetPanel::OnTick()
 {
 	UpdatePresetButtonStates();

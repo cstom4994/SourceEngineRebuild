@@ -745,9 +745,6 @@ const CCSWeaponInfo &CWeaponCSBase::GetCSWpnData() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CWeaponCSBase::GetViewModel( int /*viewmodelindex = 0 -- this is ignored in the base class here*/ ) const
 {
 	CCSPlayer *pOwner = GetPlayerOwner();

@@ -314,9 +314,6 @@ CShieldMobile::CShieldMobile()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CShieldMobile::Precache( void )
 {
 	m_ShieldEffect.SetActiveVertexList( &m_VertList );

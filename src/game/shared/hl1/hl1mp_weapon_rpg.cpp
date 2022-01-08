@@ -772,9 +772,6 @@ bool CWeaponRPG::Deploy( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponRPG::PrimaryAttack( void )
 {
 	// Can't have an active missile out

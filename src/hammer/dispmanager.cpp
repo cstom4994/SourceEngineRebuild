@@ -42,33 +42,21 @@ private: // variables
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEditDispMgr *EditDispMgr(void) {
     static CEditDispMgr s_EditDispMgr;
     return &s_EditDispMgr;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditDispMgr::CEditDispMgr() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditDispMgr::~CEditDispMgr() {
     m_AllocList.Purge();
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 EditDispHandle_t CEditDispMgr::Create(void) {
     EditDispHandle_t handle = m_AllocList.AddToTail();
     if (handle != EDITDISPHANDLE_INVALID) {
@@ -80,9 +68,6 @@ EditDispHandle_t CEditDispMgr::Create(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditDispMgr::Destroy(EditDispHandle_t handle) {
     if (m_AllocList.IsValidIndex(handle)) {
         m_AllocList.Remove(handle);
@@ -105,9 +90,6 @@ void CEditDispMgr::Destroy(EditDispHandle_t handle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapDisp *CEditDispMgr::GetDisp(EditDispHandle_t handle) {
     if (m_AllocList.IsValidIndex(handle)) {
         return &m_AllocList.Element(handle);
@@ -186,17 +168,11 @@ private: // variables
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IWorldEditDispMgr *CreateWorldEditDispMgr(void) {
     return new CWorldEditDispMgr;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void DestroyWorldEditDispMgr(IWorldEditDispMgr **pDispMgr) {
     if (*pDispMgr) {
         delete *pDispMgr;
@@ -205,18 +181,12 @@ void DestroyWorldEditDispMgr(IWorldEditDispMgr **pDispMgr) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CWorldEditDispMgr::CWorldEditDispMgr() {
     // allocate the subdivision mesh
     m_pSubdivMesh = CreateEditDispSubdivMesh();
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CWorldEditDispMgr::~CWorldEditDispMgr() {
     // clear the displacement manager lists
     m_WorldList.Purge();
@@ -229,17 +199,11 @@ CWorldEditDispMgr::~CWorldEditDispMgr() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CWorldEditDispMgr::WorldCount(void) {
     return m_WorldList.Count();
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapDisp *CWorldEditDispMgr::GetFromWorld(int iWorldList) {
     // no assert because the .Element( ) takes care of that!
     EditDispHandle_t handle = m_WorldList.Element(iWorldList);
@@ -247,9 +211,6 @@ CMapDisp *CWorldEditDispMgr::GetFromWorld(int iWorldList) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapDisp *CWorldEditDispMgr::GetFromWorld(EditDispHandle_t handle) {
     int ndx = m_WorldList.Find(handle);
     if (ndx != -1) {
@@ -260,9 +221,6 @@ CMapDisp *CWorldEditDispMgr::GetFromWorld(EditDispHandle_t handle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::AddToWorld(EditDispHandle_t handle) {
     int ndx = m_WorldList.Find(handle);
     if (ndx == -1) {
@@ -278,9 +236,6 @@ void CWorldEditDispMgr::AddToWorld(EditDispHandle_t handle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::RemoveFromWorld(EditDispHandle_t handle) {
     int ndx = m_WorldList.Find(handle);
     if (ndx != -1) {
@@ -398,9 +353,6 @@ int CWorldEditDispMgr::NumSharedPoints(CMapDisp *pDisp, CMapDisp *pNeighborDisp,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CWorldEditDispMgr::GetCornerIndex(int index) {
     switch (index) {
         case 0:
@@ -417,9 +369,6 @@ int CWorldEditDispMgr::GetCornerIndex(int index) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CWorldEditDispMgr::GetEdgeIndex(int *edge) {
     if ((edge[0] == 0 && edge[1] == 1) || (edge[0] == 1 && edge[1] == 0))
         return 0;
@@ -437,25 +386,16 @@ int CWorldEditDispMgr::GetEdgeIndex(int *edge) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CWorldEditDispMgr::SelectCount(void) {
     return m_SelectList.Count();
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::SelectClear(void) {
     m_SelectList.RemoveAll();
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMapDisp *CWorldEditDispMgr::GetFromSelect(int iSelectList) {
     // no assert because the .Element( ) takes care of that!
     EditDispHandle_t handle = m_SelectList.Element(iSelectList);
@@ -463,9 +403,6 @@ CMapDisp *CWorldEditDispMgr::GetFromSelect(int iSelectList) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::AddToSelect(EditDispHandle_t handle) {
     int ndx = m_SelectList.Find(handle);
     if (ndx == -1) {
@@ -474,9 +411,6 @@ void CWorldEditDispMgr::AddToSelect(EditDispHandle_t handle) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::RemoveFromSelect(EditDispHandle_t handle) {
     int ndx = m_SelectList.Find(handle);
     if (ndx != -1) {
@@ -485,18 +419,12 @@ void CWorldEditDispMgr::RemoveFromSelect(EditDispHandle_t handle) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWorldEditDispMgr::IsInSelect(EditDispHandle_t handle) {
     int ndx = m_SelectList.Find(handle);
     return (ndx != -1);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::CatmullClarkSubdivide(void) {
     // change the mouse to hourglass, so level designers know something is
     // happening
@@ -555,9 +483,6 @@ void CWorldEditDispMgr::CatmullClarkSubdivide(void) {
     SetCursor(oldCursor);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWorldEditDispMgr::IsInKeptList(CMapClass *pObject) {
     if (m_aKeptList.Find(pObject) == -1)
         return false;
@@ -565,16 +490,10 @@ bool CWorldEditDispMgr::IsInKeptList(CMapClass *pObject) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::PreUndo(const char *pszMarkName) {
     GetHistory()->MarkUndoPosition(NULL, pszMarkName);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::Undo(EditDispHandle_t hDisp, bool bAddNeighbors) {
     // Check the handle.
     Assert(hDisp != EDITDISPHANDLE_INVALID);
@@ -650,9 +569,6 @@ void CWorldEditDispMgr::Undo(EditDispHandle_t hDisp, bool bAddNeighbors) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWorldEditDispMgr::PostUndo(void) {
     // Clear the kept list.
     m_aKeptList.RemoveAll();

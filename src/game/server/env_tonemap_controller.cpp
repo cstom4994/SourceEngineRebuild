@@ -172,9 +172,6 @@ void CEnvTonemapController::InputSetBloomScaleRange( inputdata_t &inputdata )
 	m_flCustomBloomScaleMinimum=bloom_min;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEnvTonemapController::InputSetTonemapRate( inputdata_t &inputdata )
 {
 	// TODO: There should be a better way to do this.

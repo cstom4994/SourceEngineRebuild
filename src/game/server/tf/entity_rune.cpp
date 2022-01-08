@@ -564,9 +564,6 @@ bool CTFRuneTemp::MyTouch( CBasePlayer *pPlayer )
 	return bSuccess;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFRuneTemp::GetRespawnDelay( void )
 {
 	if ( m_nRuneTempType == RUNETYPE_TEMP_UBER )

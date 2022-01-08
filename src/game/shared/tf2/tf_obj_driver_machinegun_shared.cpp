@@ -197,9 +197,6 @@ void CObjectDriverMachinegun::RechargeThink( void )
 
 // Client code only
 #if defined( CLIENT_DLL )
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectDriverMachinegun::GetBoneControllers( float controllers[MAXSTUDIOBONECTRLS] )
 {
 	BaseClass::GetBoneControllers( controllers );

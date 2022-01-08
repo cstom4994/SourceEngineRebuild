@@ -1597,9 +1597,6 @@ void CTFClassMenu::UpdateNumClassLabels( int iTeam )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFClassMenu::FireGameEvent( IGameEvent *event )
 {
 	const char *pszEventName = event->GetName();
@@ -1638,9 +1635,6 @@ void CTFClassMenu::FireGameEvent( IGameEvent *event )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFClassMenu::OnEconUIClosed()
 {
 	// Reload items on model panel, in case anything's changed

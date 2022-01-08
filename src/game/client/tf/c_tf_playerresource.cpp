@@ -77,9 +77,6 @@ C_TF_PlayerResource::~C_TF_PlayerResource()
 	g_TF_PR = NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int C_TF_PlayerResource::GetTeam( int iIndex )
 {
 	bool bValid = ( iIndex >= 1 && iIndex <= MAX_PLAYERS );

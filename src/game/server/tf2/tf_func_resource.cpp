@@ -480,9 +480,6 @@ bool CResourceZone::ShouldSpawnChunk( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResourceZone::SpawnChunk( const Vector &vecOrigin )
 {
 	// ROBIN: Disabled for now
@@ -503,18 +500,12 @@ void CResourceZone::SpawnChunk( const Vector &vecOrigin )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResourceZone::RecomputeClientResources( )
 {
 	m_flClientResources = clamp( (float)m_nResourcesLeft / (float)m_nMaxResources, 0.0f, 1.0f );
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResourceZone::RemoveChunk( CResourceChunk *pChunk, bool bReturn )
 {
 	if (bReturn)
@@ -532,9 +523,6 @@ void CResourceZone::RemoveChunk( CResourceChunk *pChunk, bool bReturn )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResourceZone::AddSpawner( CResourceSpawner *pSpawner )
 {
 	m_aSpawners.AddToTail( pSpawner );

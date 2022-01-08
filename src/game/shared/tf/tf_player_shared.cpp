@@ -293,9 +293,6 @@ ETFCond g_SoldierBuffAttributeIDToConditionMap[kSoldierBuffCount + 1] =
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void RecvProxy_BuildablesListChanged(const CRecvProxyData *pData, void *pStruct, void *pOut) {
     RecvProxy_Int32ToInt32(pData, pStruct, pOut);
 
@@ -668,16 +665,10 @@ CTFPlayer *GetRuneCarrier(RuneTypes_t type, int iTeam = TEAM_ANY) {
 // Shared CTFPlayer implementation.
 // --------------------------------------------------------------------------------------------------- //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::HasCampaignMedal(int iMedal) {
     return ((m_iCampaignMedals & iMedal) != 0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::IsAllowedToTaunt(void) {
     if (!IsAlive())
         return false;
@@ -991,9 +982,6 @@ void CTFPlayerShared::Spawn(void) {
     SetAssist(NULL);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<typename tIntType>
 class CConditionVars {
 public:
@@ -1131,9 +1119,6 @@ void CTFPlayerShared::RemoveCond(ETFCond eCond, bool ignore_duration) {
 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::InCond(ETFCond eCond) const {
     Assert(eCond >= 0 && eCond < TF_COND_LAST);
 
@@ -1173,9 +1158,6 @@ void CTFPlayerShared::ForceRecondNextSync(ETFCond eCond) {
     playerCond.CondVar() |= playerCond.CondBit();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFPlayerShared::GetConditionDuration(ETFCond eCond) const {
     Assert(eCond >= 0 && eCond < TF_COND_LAST);
     Assert(eCond < m_ConditionData.Count());
@@ -1259,9 +1241,6 @@ CBaseEntity *CTFPlayerShared::GetConditionAssistFromAttacker(void) {
     return pProvider;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::DebugPrintConditions(void) {
 #ifndef CLIENT_DLL
     const char *szDll = "Server";
@@ -1309,9 +1288,6 @@ void CTFPlayerShared::InstantlySniperUnzoom(void) {
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnPreDataChanged(void) {
     m_ConditionList.OnPreDataChanged();
 
@@ -1327,9 +1303,6 @@ void CTFPlayerShared::OnPreDataChanged(void) {
     ConditionThink();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnDataChanged(void) {
     m_ConditionList.OnDataChanged(m_pOuter);
 
@@ -2098,9 +2071,6 @@ int CTFPlayerShared::GetMaxBuffedHealth(bool bIgnoreAttributes /*= false*/, bool
     return iRoundDown;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFPlayerShared::GetDisguiseMaxBuffedHealth(bool bIgnoreAttributes /*= false*/,
                                                 bool bIgnoreHealthOverMax /*= false*/ ) {
     // Find the healer we have who's providing the most overheal
@@ -3022,9 +2992,6 @@ void CTFPlayerShared::ConditionThink(void) {
 #endif // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::CheckDisguiseTimer(void) {
     if (InCond(TF_COND_DISGUISING) && GetDisguiseCompleteTime() > 0) {
         if (gpGlobals->curtime > GetDisguiseCompleteTime()) {
@@ -3033,9 +3000,6 @@ void CTFPlayerShared::CheckDisguiseTimer(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddZoomed(void) {
 #ifdef CLIENT_DLL
     // hide cosmetic while zoom in thirdperson
@@ -3045,9 +3009,6 @@ void CTFPlayerShared::OnAddZoomed(void) {
 #endif // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveZoomed(void) {
 #ifdef GAME_DLL
     m_pOuter->SetFOV( m_pOuter, 0, 0.1f );
@@ -3061,9 +3022,6 @@ void CTFPlayerShared::OnRemoveZoomed(void) {
 #endif // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddDisguising(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->GetPredictable() && (!prediction->IsFirstTimePredicted() || m_bSyncingConditions))
@@ -3103,9 +3061,6 @@ void CTFPlayerShared::OnAddDisguised(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddDemoCharge(void) {
 #ifdef CLIENT_DLL
     m_pOuter->StopSound("DemoCharge.ChargeCritOn");
@@ -3142,9 +3097,6 @@ void CTFPlayerShared::OnDisguiseChanged(void) {
 
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddInvulnerable(void) {
 #ifdef CLIENT_DLL
 
@@ -3204,9 +3156,6 @@ void CTFPlayerShared::OnAddInvulnerable(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveInvulnerable(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->IsLocalPlayer()) {
@@ -3222,18 +3171,12 @@ void CTFPlayerShared::OnRemoveInvulnerable(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveInvulnerableWearingOff(void) {
 #ifdef CLIENT_DLL
     m_flInvulnerabilityRemoveTime = gpGlobals->curtime;
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddPhase(void) {
     UpdatePhaseEffects();
 
@@ -3245,9 +3188,6 @@ void CTFPlayerShared::OnAddPhase(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemovePhase(void) {
     RemovePhaseEffects();
 
@@ -3266,9 +3206,6 @@ void CTFPlayerShared::OnRemovePhase(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddUrine(void) {
 #ifdef CLIENT_DLL
     if (tf_colorblindassist.GetBool()) {
@@ -3297,9 +3234,6 @@ void CTFPlayerShared::OnAddUrine(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveUrine(void) {
 
 #ifdef CLIENT_DLL
@@ -3337,9 +3271,6 @@ void CTFPlayerShared::OnRemoveUrine(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddMarkedForDeath(void) {
 #ifdef CLIENT_DLL
     m_pOuter->UpdatedMarkedForDeathEffect();
@@ -3363,9 +3294,6 @@ void CTFPlayerShared::OnAddMarkedForDeath(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveMarkedForDeath(void) {
 #ifdef CLIENT_DLL
     m_pOuter->UpdatedMarkedForDeathEffect();
@@ -3408,9 +3336,6 @@ void CTFPlayerShared::OnAddTranqMark( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveTranqMark( void )
 {
 #ifdef CLIENT_DLL
@@ -3498,9 +3423,6 @@ void CTFPlayerShared::OnRemoveCondParachute(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddMadMilk(void) {
 #ifdef GAME_DLL
                                                                                                                             Assert( InCond( TF_COND_MAD_MILK ) );
@@ -3538,9 +3460,6 @@ void CTFPlayerShared::OnAddMadMilk(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveMadMilk(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->m_pMilkEffect) {
@@ -3561,9 +3480,6 @@ void CTFPlayerShared::OnRemoveMadMilk(void) {
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFPlayerShared::taunt_particle_state_t CTFPlayerShared::GetClientTauntParticleDesiredState() const {
     const itemid_t unTauntSourceItemID = GetTauntSourceItemID();
     if (unTauntSourceItemID != INVALID_ITEM_ID) {
@@ -3646,9 +3562,6 @@ CTFPlayerShared::taunt_particle_state_t CTFPlayerShared::GetClientTauntParticleD
     return taunt_particle_state_t(NULL, 0.0f);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::FireClientTauntParticleEffects() {
     taunt_particle_state_t TauntParticleState = GetClientTauntParticleDesiredState();
     if (TauntParticleState.first) {
@@ -3680,9 +3593,6 @@ void CTFPlayerShared::FireClientTauntParticleEffects() {
 
 #endif // CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddTaunting(void) {
     CTFWeaponBase *pWpn = m_pOuter->GetActiveTFWeapon();
     if (pWpn) {
@@ -3717,9 +3627,6 @@ void CTFPlayerShared::OnAddTaunting(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveTaunting(void) {
 #ifdef GAME_DLL
                                                                                                                             #ifdef STAGING_ONLY
@@ -3804,9 +3711,6 @@ void CTFPlayerShared::OnRemoveTaunting(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddBleeding(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->IsLocalPlayer()) {
@@ -3822,9 +3726,6 @@ void CTFPlayerShared::OnAddBleeding(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveBleeding(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->IsLocalPlayer()) {
@@ -3856,9 +3757,6 @@ const char *CTFPlayerShared::GetSoldierBuffEffectName(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddSoldierOffensiveBuff(void) {
 #ifdef CLIENT_DLL
     const char *strBuffName = GetSoldierBuffEffectName();
@@ -3943,65 +3841,38 @@ void CTFPlayerShared::OnRemoveSoldierNoHealingDamageBuff(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddOffenseBuff(void) {
     OnAddSoldierOffensiveBuff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveOffenseBuff(void) {
     OnRemoveSoldierOffensiveBuff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddDefenseBuff(void) {
     OnAddSoldierDefensiveBuff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveDefenseBuff(void) {
     OnRemoveSoldierDefensiveBuff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddOffenseHealthRegenBuff(void) {
     OnAddSoldierOffensiveHealthRegenBuff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveOffenseHealthRegenBuff(void) {
     OnRemoveSoldierOffensiveHealthRegenBuff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddNoHealingDamageBuff(void) {
     OnAddSoldierNoHealingDamageBuff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveNoHealingDamageBuff(void) {
     OnRemoveSoldierNoHealingDamageBuff();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddSpeedBoost(bool IsNonCombat) {
 #ifdef CLIENT_DLL
     const char *strBuffName = "speed_boost_trail";
@@ -4023,9 +3894,6 @@ void CTFPlayerShared::OnAddSpeedBoost(bool IsNonCombat) {
 #endif // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveSpeedBoost(bool IsNonCombat) {
 #ifdef CLIENT_DLL
     if (m_pOuter->m_pSpeedBoostEffect) {
@@ -4055,9 +3923,6 @@ void CTFPlayerShared::OnAddSapped(void) {
 #endif    // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveSapped(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->m_pSappedPlayerEffect) {
@@ -4085,9 +3950,6 @@ void CTFPlayerShared::OnAddReprogrammed(void) {
 #endif    // STAGING_ONLY
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveReprogrammed(void) {
 }
 
@@ -4095,9 +3957,6 @@ void CTFPlayerShared::OnAddDisguisedAsDispenser(void) {
     m_pOuter->TeamFortress_SetSpeed();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 void CTFPlayerShared::OnAddRadiusHealOnDamage(void) {
     Heal_Radius(true);
@@ -4108,9 +3967,6 @@ void CTFPlayerShared::OnRemoveRadiusHealOnDamage(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddMarkedForDeathSilent(void) {
 #ifdef CLIENT_DLL
     m_pOuter->UpdatedMarkedForDeathEffect();
@@ -4143,9 +3999,6 @@ void CTFPlayerShared::OnAddRocketPack( void )
 #endif	// CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveRocketPack( void )
 {
 #ifdef CLIENT_DLL
@@ -4157,9 +4010,6 @@ void CTFPlayerShared::OnRemoveRocketPack( void )
 #endif	// CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::UpdateRocketPack( void )
 {
 	if ( !m_pOuter->IsPlayerClass( TF_CLASS_PYRO ) )
@@ -4177,9 +4027,6 @@ void CTFPlayerShared::UpdateRocketPack( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::ApplyRocketPackStun( float flStunDuration )
 {
 	if ( flStunDuration < 0.1f )
@@ -4212,9 +4059,6 @@ void CTFPlayerShared::ApplyRocketPackStun( float flStunDuration )
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::CanBuildSpyTraps( void )
 {
 	if ( !m_pOuter->IsPlayerClass( TF_CLASS_SPY ) )
@@ -4656,9 +4500,6 @@ void CTFPlayerShared::OnRemoveSelfConc()
 	RemovePhaseEffects();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddStealthedPhase( void )
 {
 #ifdef GAME_DLL
@@ -4673,9 +4514,6 @@ void CTFPlayerShared::OnAddStealthedPhase( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveStealthedPhase( void )
 {
 #ifdef GAME_DLL
@@ -4969,9 +4807,6 @@ void CTFPlayerShared::OnRemovePlague(void) {
 //	RemoveCond( TF_COND_BLEEDING );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddInPurgatory(void) {
 #ifdef GAME_DLL
                                                                                                                             // just entered
@@ -4989,9 +4824,6 @@ void CTFPlayerShared::OnAddInPurgatory(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveInPurgatory(void) {
 #ifdef GAME_DLL
                                                                                                                             if ( m_pOuter->IsAlive() )
@@ -5046,9 +4878,6 @@ void CTFPlayerShared::OnRemoveInPurgatory(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddCompetitiveWinner(void) {
 #ifdef GAME_DLL
 
@@ -5061,9 +4890,6 @@ void CTFPlayerShared::OnAddCompetitiveWinner(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveCompetitiveWinner(void) {
 #ifdef GAME_DLL
 
@@ -5074,9 +4900,6 @@ void CTFPlayerShared::OnRemoveCompetitiveWinner(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddCompetitiveLoser(void) {
 #ifdef GAME_DLL
 
@@ -5090,9 +4913,6 @@ void CTFPlayerShared::OnAddCompetitiveLoser(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveCompetitiveLoser(void) {
 #ifdef GAME_DLL
 
@@ -5103,9 +4923,6 @@ void CTFPlayerShared::OnRemoveCompetitiveLoser(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::UpdateChargeMeter(void) {
     if (!m_pOuter->IsPlayerClass(TF_CLASS_DEMOMAN))
         return;
@@ -5143,9 +4960,6 @@ void CTFPlayerShared::UpdateChargeMeter(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::EndCharge() {
     if (!InCond(TF_COND_SHIELD_CHARGE))
         return;
@@ -5172,9 +4986,6 @@ void CTFPlayerShared::EndCharge() {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFPlayerShared::CalculateChargeCap(void) const {
     float flCap = 0.45f;
 
@@ -5195,9 +5006,6 @@ bool CTFPlayerShared::HasDemoShieldEquipped() const {
     return GetEquippedDemoShield(m_pOuter) != NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::CalcChargeCrit(bool bForceCrit) {
 #ifdef GAME_DLL
                                                                                                                             // Keying on TideTurner
@@ -5220,9 +5028,6 @@ void CTFPlayerShared::CalcChargeCrit(bool bForceCrit) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddShieldCharge(void) {
     UpdatePhaseEffects();
 
@@ -5263,9 +5068,6 @@ void CTFPlayerShared::OnAddShieldCharge(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveShieldCharge(void) {
     RemovePhaseEffects();
 
@@ -5276,9 +5078,6 @@ void CTFPlayerShared::OnRemoveShieldCharge(void) {
     m_flChargeMeter = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::InterruptCharge(void) {
     if (!InCond(TF_COND_SHIELD_CHARGE))
         return;
@@ -5286,9 +5085,6 @@ void CTFPlayerShared::InterruptCharge(void) {
     SetConditionDuration(TF_COND_SHIELD_CHARGE, 0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef GAME_DLL
                                                                                                                         void CTFPlayer::RemoveMeleeCrit( void )
 {
@@ -5303,9 +5099,6 @@ void CTFPlayerShared::InterruptCharge(void) {
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::DemoShieldChargeThink(void) {
     if (InCond(TF_COND_SHIELD_CHARGE) || m_bPostShieldCharge) {
         if (m_bPostShieldCharge && (gpGlobals->curtime - m_flChargeEndTime) >= 0.3f) {
@@ -5322,9 +5115,6 @@ void CTFPlayerShared::DemoShieldChargeThink(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddDemoBuff(void) {
 #ifdef CLIENT_DLL
     m_pOuter->UpdateDemomanEyeEffect(m_iDecapitations);
@@ -5332,9 +5122,6 @@ void CTFPlayerShared::OnAddDemoBuff(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddEnergyDrinkBuff(void) {
 #ifdef CLIENT_DLL
     UpdateCritBoostEffect();
@@ -5349,9 +5136,6 @@ void CTFPlayerShared::OnAddEnergyDrinkBuff(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveEnergyDrinkBuff(void) {
 #ifdef CLIENT_DLL
     UpdateCritBoostEffect();
@@ -5368,9 +5152,6 @@ void CTFPlayerShared::OnRemoveEnergyDrinkBuff(void) {
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::EndRadiusHealEffect(void) {
     if (m_pOuter->m_pRadiusHealEffect) {
         m_pOuter->m_pRadiusHealEffect->StopEmission();
@@ -5378,9 +5159,6 @@ void CTFPlayerShared::EndRadiusHealEffect(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::EndKingBuffRadiusEffect(void) {
     // For buffed player
     if (m_pOuter->m_pKingBuffRadiusEffect) {
@@ -5396,9 +5174,6 @@ void CTFPlayerShared::EndKingBuffRadiusEffect(void) {
 
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddRadiusHeal(void) {
 #ifdef CLIENT_DLL
     if (InCond(TF_COND_RADIUSHEAL)) {
@@ -5428,18 +5203,12 @@ void CTFPlayerShared::OnAddRadiusHeal(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveRadiusHeal(void) {
 #ifdef CLIENT_DLL
     EndRadiusHealEffect();
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddMegaHeal(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->IsLocalPlayer()) {
@@ -5472,9 +5241,6 @@ void CTFPlayerShared::OnAddMegaHeal(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveMegaHeal(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->m_pMegaHealEffect) {
@@ -5495,9 +5261,6 @@ void CTFPlayerShared::OnRemoveMegaHeal(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddKingBuff(void) {
 #ifdef CLIENT_DLL
     if (IsStealthed()) {
@@ -5507,25 +5270,16 @@ void CTFPlayerShared::OnAddKingBuff(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveKingBuff(void) {
 #ifdef CLIENT_DLL
     EndKingBuffRadiusEffect();
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveRuneSupernova(void) {
     SetRuneCharge(0.f);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveDemoBuff(void) {
 #ifdef CLIENT_DLL
     m_pOuter->UpdateDemomanEyeEffect(0);
@@ -5533,9 +5287,6 @@ void CTFPlayerShared::OnRemoveDemoBuff(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef CLIENT_DLL
 
 void CTFPlayerShared::ClientDemoBuffThink(void) {
@@ -5576,9 +5327,6 @@ void CTFPlayerShared::ClientKillStreakBuffThink(void) {
 
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddTeleported(void) {
 #ifdef CLIENT_DLL
     m_pOuter->UpdateRecentlyTeleportedEffect();
@@ -5586,9 +5334,6 @@ void CTFPlayerShared::OnAddTeleported(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveTeleported(void) {
 #ifdef CLIENT_DLL
     m_pOuter->UpdateRecentlyTeleportedEffect();
@@ -5597,9 +5342,6 @@ void CTFPlayerShared::OnRemoveTeleported(void) {
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::ShouldShowRecentlyTeleported(void) {
     if (IsStealthed()) {
         return false;
@@ -5631,9 +5373,6 @@ bool CTFPlayerShared::ShouldShowRecentlyTeleported(void) {
 #endif
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::Burn(CTFPlayer *pAttacker, CTFWeaponBase *pWeapon, float flBurningTime /*=-1*/ ) {
 #ifdef CLIENT_DLL
 
@@ -5737,9 +5476,6 @@ void CTFPlayerShared::SelfBurn(float flBurningTime) {
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::MakeBleed(CTFPlayer *pPlayer, CTFWeaponBase *pWeapon, float flBleedingTime,
                                 int nBleedDmg /* = TF_BLEEDING_DMG */, bool bPermanentBleeding /*= false*/ ) {
 #ifdef CLIENT_DLL
@@ -5811,9 +5547,6 @@ void CTFPlayerShared::MakeBleed(CTFPlayer *pPlayer, CTFWeaponBase *pWeapon, floa
 #endif // GAME_DLL
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveBurning(void) {
 #ifdef CLIENT_DLL
     m_pOuter->StopBurningSound();
@@ -5853,9 +5586,6 @@ void CTFPlayerShared::OnRemoveBurning(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveOverhealed(void) {
 #ifdef CLIENT_DLL
     if (!m_pOuter->IsLocalPlayer()) {
@@ -5864,9 +5594,6 @@ void CTFPlayerShared::OnRemoveOverhealed(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveDemoCharge(void) {
 #ifdef CLIENT_DLL
     m_pOuter->StopSound("DemoCharge.ChargeCritOn");
@@ -5875,25 +5602,16 @@ void CTFPlayerShared::OnRemoveDemoCharge(void) {
 #endif // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveCritBoost(void) {
 #ifdef CLIENT_DLL
     UpdateCritBoostEffect();
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveTmpDamageBonus(void) {
     m_flTmpDamageBonusAmount = 1.0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddStealthed(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->GetPredictable() && (!prediction->IsFirstTimePredicted() || m_bSyncingConditions))
@@ -5969,9 +5687,6 @@ void CTFPlayerShared::OnAddStealthed(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveStealthed(void) {
 #ifdef CLIENT_DLL
     if (!m_bSyncingConditions)
@@ -6043,9 +5758,6 @@ void CTFPlayerShared::OnRemoveStealthed(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddStealthedUserBuffFade(void) {
 #ifdef CLIENT_DLL
     // If a player is firing their weapon while radius stealth hits them, we never
@@ -6060,9 +5772,6 @@ void CTFPlayerShared::OnAddStealthedUserBuffFade(void) {
 #endif // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveStealthedUserBuffFade(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->IsLocalPlayer()) {
@@ -6075,9 +5784,6 @@ void CTFPlayerShared::OnRemoveStealthedUserBuffFade(void) {
 #endif // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddFeignDeath(void) {
 #ifdef CLIENT_DLL
     // STAGING_SPY
@@ -6099,9 +5805,6 @@ void CTFPlayerShared::OnAddFeignDeath(void) {
     m_flFeignDeathEnd = gpGlobals->curtime + tf_feign_death_speed_duration.GetFloat();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveFeignDeath(void) {
 #ifdef CLIENT_DLL
     // STAGING_SPY
@@ -6111,9 +5814,6 @@ void CTFPlayerShared::OnRemoveFeignDeath(void) {
     // FeignDeath is the duration of cloak where speed, no shimmer and damage reduction take place
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveDisguising(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->m_pDisguisingEffect) {
@@ -6130,9 +5830,6 @@ void CTFPlayerShared::OnRemoveDisguising(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveDisguised(void) {
 #ifdef CLIENT_DLL
 
@@ -6185,9 +5882,6 @@ void CTFPlayerShared::OnRemoveDisguised(void) {
     m_pOuter->TeamFortress_SetSpeed();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddBurning(void) {
 #ifdef CLIENT_DLL
     // Start the burning effect
@@ -6214,9 +5908,6 @@ void CTFPlayerShared::OnAddBurning(void) {
     m_pOuter->EmitSound("Fire.Engulf");
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddOverhealed(void) {
 #ifdef CLIENT_DLL
     // Start the Overheal effect
@@ -6227,9 +5918,6 @@ void CTFPlayerShared::OnAddOverhealed(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddStunned(void) {
     if (IsControlStunned() || IsLoserStateStunned()) {
 #ifdef CLIENT_DLL
@@ -6263,9 +5951,6 @@ void CTFPlayerShared::OnAddStunned(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnRemoveStunned(void) {
     m_iStunFlags = 0;
     m_hStunner = NULL;
@@ -6285,9 +5970,6 @@ void CTFPlayerShared::OnRemoveStunned(void) {
     m_pOuter->TeamFortress_SetSpeed();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::ControlStunFading(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->m_pStunnedEffect) {
@@ -6298,9 +5980,6 @@ void CTFPlayerShared::ControlStunFading(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::SetStunExpireTime(float flTime) {
 #ifdef GAME_DLL
                                                                                                                             if ( GetActiveStunInfo() )
@@ -6346,9 +6025,6 @@ void CTFPlayerShared::UpdateLegacyStunSystem(void) {
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 stun_struct_t *CTFPlayerShared::GetActiveStunInfo(void) const {
 #ifdef GAME_DLL
     return ( m_PlayerStuns.IsValidIndex( m_iStunIndex ) ) ? const_cast<stun_struct_t*>( &m_PlayerStuns[m_iStunIndex] ) : NULL;
@@ -6357,16 +6033,10 @@ stun_struct_t *CTFPlayerShared::GetActiveStunInfo(void) const {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFPlayer *CTFPlayerShared::GetStunner(void) {
     return GetActiveStunInfo() ? GetActiveStunInfo()->hPlayer : NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnAddCritBoost(void) {
 #ifdef CLIENT_DLL
     UpdateCritBoostEffect();
@@ -6375,9 +6045,6 @@ void CTFPlayerShared::OnAddCritBoost(void) {
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::UpdateCritBoostEffect(ECritBoostUpdateType eUpdateType) {
     bool bShouldDisplayCritBoostEffect = IsCritBoosted()
                                          || InCond(TF_COND_ENERGY_BUFF)
@@ -6497,9 +6164,6 @@ void CTFPlayerShared::OnRemoveSodaPopperHype(void) {
 #endif // CLIENT_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFPlayerShared::GetStealthNoAttackExpireTime(void) {
     return m_flStealthNoAttackExpire;
 }
@@ -6561,9 +6225,6 @@ bool CTFPlayerShared::IsPlayerDominated(int iPlayerIndex) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::IsPlayerDominatingMe(int iPlayerIndex) {
     return m_bPlayerDominatingMe.Get(iPlayerIndex);
 }
@@ -6584,9 +6245,6 @@ bool CTFPlayerShared::IsSpyDisguisedAsMyTeam(CTFPlayer *pPlayer) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::NoteLastDamageTime(int nDamage) {
     // we took damage
     if ((nDamage > 5 || InCond(TF_COND_BLEEDING)) && !InCond(TF_COND_FEIGN_DEATH) && InCond(TF_COND_STEALTHED)) {
@@ -6595,9 +6253,6 @@ void CTFPlayerShared::NoteLastDamageTime(int nDamage) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::OnSpyTouchedByEnemy(void) {
     if (!InCond(TF_COND_FEIGN_DEATH) && InCond(TF_COND_STEALTHED)) {
         m_flLastStealthExposeTime = gpGlobals->curtime;
@@ -6605,17 +6260,11 @@ void CTFPlayerShared::OnSpyTouchedByEnemy(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::IsEnteringOrExitingFullyInvisible(void) {
     return ((GetPercentInvisiblePrevious() != 1.f && GetPercentInvisible() == 1.f) ||
             (GetPercentInvisiblePrevious() == 1.f && GetPercentInvisible() != 1.f));
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::CanRuneCharge() const {
     return InCond(TF_COND_RUNE_SUPERNOVA);
 }
@@ -6633,9 +6282,6 @@ bool CTFPlayerShared::HasPhaseCloakAbility( void )
 
 #endif // STAGING_ONLY
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::FadeInvis(float fAdditionalRateScale) {
     ETFCond nExpiringCondition = TF_COND_LAST;
     if (InCond(TF_COND_STEALTHED)) {
@@ -6780,9 +6426,6 @@ float CTFPlayerShared::GetPercentInvisible(void) const {
     return m_flInvisibility;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::IsCritBoosted(void) const {
     bool bAllWeaponCritActive = (InCond(TF_COND_CRITBOOSTED) ||
                                  InCond(TF_COND_CRITBOOSTED_PUMPKIN) ||
@@ -6819,9 +6462,6 @@ bool CTFPlayerShared::IsCritBoosted(void) const {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::IsInvulnerable(void) const {
     bool bInvuln = InCond(TF_COND_INVULNERABLE) ||
                    InCond(TF_COND_INVULNERABLE_USER_BUFF) ||
@@ -6831,9 +6471,6 @@ bool CTFPlayerShared::IsInvulnerable(void) const {
     return bInvuln;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::IsStealthed(void) const {
 #ifdef STAGING_ONLY
                                                                                                                             #ifdef CLIENT_DLL
@@ -7018,16 +6655,10 @@ void CTFPlayerShared::CompleteDisguise(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::SetDisguiseHealth(int iDisguiseHealth) {
     m_iDisguiseHealth = iDisguiseHealth;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFPlayerShared::GetDisguiseMaxHealth(void) {
     TFPlayerClassData_t *pClass = g_pTFPlayerClassDataMgr->Get(GetDisguiseClass());
     if (pClass) {
@@ -7037,9 +6668,6 @@ int CTFPlayerShared::GetDisguiseMaxHealth(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::RemoveDisguise(void) {
     if (GetDisguiseTeam() != m_pOuter->GetTeamNumber()) {
         if (InCond(TF_COND_TELEPORTED)) {
@@ -7301,9 +6929,6 @@ void CTFPlayerShared::RemoveDisguiseWearables()
 
 #endif // GAME_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::ProcessDisguiseImpulse(CTFPlayer *pPlayer) {
     // Get the player owning the weapon.
     if (!pPlayer)
@@ -7458,9 +7083,6 @@ float CTFPlayerShared::StopHealing( CBaseEntity *pHealer )
 	return flHealingDone;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::RecalculateChargeEffects( bool bInstantRemove )
 {
 	struct medic_charges_t
@@ -7519,9 +7141,6 @@ void CTFPlayerShared::RecalculateChargeEffects( bool bInstantRemove )
 	SetChargeEffect( MEDIGUN_CHARGE_FIRE_RESIST,	aCharges[MEDIGUN_CHARGE_FIRE_RESIST].bActive,	bInstantRemove, g_MedigunEffects[ MEDIGUN_CHARGE_FIRE_RESIST ],		0.0f,						aCharges[MEDIGUN_CHARGE_FIRE_RESIST].pProvider );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::TestAndExpireChargeEffect( medigun_charge_types iCharge )
 {
 	const MedigunEffects_t& effects = g_MedigunEffects[iCharge];
@@ -7621,9 +7240,6 @@ void CTFPlayerShared::SendNewInvulnGameEvent( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::SetChargeEffect( medigun_charge_types iCharge, bool bState, bool bInstant, const MedigunEffects_t& effects, float flWearOffTime, CTFPlayer *pProvider /*= NULL*/ )
 {
 	if ( effects.eCondition == TF_COND_CRITBOOSTED )
@@ -7939,18 +7555,12 @@ void CTFPlayerShared::RemoveAttributeFromPlayer( const char* pszAttribName )
 	m_pOuter->GetAttributeList()->RemoveAttribute( pDef );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::AddTmpDamageBonus( float flBonus, float flExpiration )
 {
 	AddCond( TF_COND_TMPDAMAGEBONUS, flExpiration );
 	m_flTmpDamageBonusAmount += flBonus;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int	CTFPlayerShared::FindHealerIndex( CBaseEntity *pHealer )
 {
 	for ( int i = 0; i < m_aHealers.Count(); i++ )
@@ -7962,9 +7572,6 @@ int	CTFPlayerShared::FindHealerIndex( CBaseEntity *pHealer )
 	return m_aHealers.InvalidIndex();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseEntity *CTFPlayerShared::GetHealerByIndex( int index )
 {
 	int iNumHealers = m_aHealers.Count();
@@ -7975,9 +7582,6 @@ CBaseEntity *CTFPlayerShared::GetHealerByIndex( int index )
 	return m_aHealers[index].pHealer;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::HealerIsDispenser( int index )
 {
 	int iNumHealers = m_aHealers.Count();
@@ -8053,9 +7657,6 @@ void CTFPlayerShared::GetConditionsBits(CBitVec<TF_COND_LAST> &vbConditions) con
     COMPILE_TIME_ASSERT(32 + 32 + 32 + 32 > TF_COND_LAST);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBase *CTFPlayerShared::GetActiveTFWeapon() const {
     return m_pOuter->GetActiveTFWeapon();
 }
@@ -8067,16 +7668,10 @@ bool CTFPlayerShared::IsAlly(CBaseEntity *pEntity) {
     return (pEntity->GetTeamNumber() == m_pOuter->GetTeamNumber());
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFPlayerShared::GetDesiredPlayerClassIndex(void) {
     return m_iDesiredPlayerClass;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::SetJumping(bool bJumping) {
     m_bJumping = bJumping;
 }
@@ -8085,9 +7680,6 @@ void CTFPlayerShared::SetAirDash(int iAirDash) {
     m_iAirDash = iAirDash;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFPlayerShared::GetCritMult(void) {
     float flRemapCritMul = RemapValClamped(m_iCritMult, 0, 255, 1.0, 4.0);
 /*#ifdef CLIENT_DLL
@@ -8154,9 +7746,6 @@ void CTFPlayerShared::UpdateCritMult( void )
 
 #define CRIT_DAMAGE_TIME		0.1f
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::RecordDamageEvent( const CTakeDamageInfo &info, bool bKill, int nVictimPrevHealth  )
 {
 	if ( m_DamageEvents.Count() >= MAX_DAMAGE_EVENTS )
@@ -8263,9 +7852,6 @@ void CTFPlayerShared::RecordDamageEvent( const CTakeDamageInfo &info, bool bKill
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::AddTempCritBonus( float flAmount )
 {
 	if ( m_DamageEvents.Count() >= MAX_DAMAGE_EVENTS )
@@ -8282,9 +7868,6 @@ void CTFPlayerShared::AddTempCritBonus( float flAmount )
 	m_DamageEvents[iIndex].nKills = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int	CTFPlayerShared::GetNumKillsInTime( float flTime )
 {
 	if ( tf_damage_events_track_for.GetFloat() < flTime )
@@ -8305,9 +7888,6 @@ int	CTFPlayerShared::GetNumKillsInTime( float flTime )
 	return iKills;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::AddToSpyCloakMeter( float val, bool bForce )
 {
 	CTFWeaponInvis *pWpn = (CTFWeaponInvis *) m_pOuter->Weapon_OwnsThisID( TF_WEAPON_INVIS );
@@ -8698,9 +8278,6 @@ static bool OnOpposingTFTeams(int iTeam0, int iTeam1) {
 #ifdef GAME_DLL
                                                                                                                         extern void ExtinguishPlayer( CEconEntity *pExtinguisher, CTFPlayer *pOwner, CTFPlayer *pTarget, const char *pExtinguisherName );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::ModifyDamageInfo( CTakeDamageInfo *pInfo, const CBaseEntity *pTarget )
 {
 	if ( pInfo && pTarget )
@@ -8723,9 +8300,6 @@ void CTFPlayer::ModifyDamageInfo( CTakeDamageInfo *pInfo, const CBaseEntity *pTa
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::FireBullet(CTFWeaponBase *pWpn, const FireBulletsInfo_t &info, bool bDoEffects, int nDamageType,
                            int nCustomDamageType /*= TF_DMG_CUSTOM_NONE*/ ) {
     // Fire a bullet (ignoring the shooter).
@@ -9087,9 +8661,6 @@ void CTFPlayer::ImpactWaterTrace(trace_t &trace, const Vector &vecStart) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBase *CTFPlayer::GetActiveTFWeapon(void) const {
     CBaseCombatWeapon *pRet = GetActiveWeapon();
     if (pRet) {
@@ -9128,9 +8699,6 @@ int CTFPlayer::GetBuildResources(void) {
     return GetAmmoCount(TF_AMMO_METAL);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template<typename T>
 class CScopedFlag {
 public:
@@ -9150,9 +8718,6 @@ private:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFPlayer::GetMovementForwardPull(void) const {
     CTFWeaponBase *pWpn = GetActiveTFWeapon();
     if (pWpn && pWpn->IsFiring()) {
@@ -9166,9 +8731,6 @@ float CTFPlayer::GetMovementForwardPull(void) const {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::CanPlayerMove() const {
     // No one can move when in a final countdown transition.
     if (TFGameRules() && TFGameRules()->BInMatchStartCountdown()) { return false; }
@@ -9202,9 +8764,6 @@ bool CTFPlayer::CanPlayerMove() const {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFPlayer::TeamFortress_CalculateMaxSpeed(bool bIgnoreSpecialAbility /*= false*/ ) const {
     if (!GameRules())
         return 0.0f;
@@ -9512,16 +9071,10 @@ void CTFPlayer::TeamFortress_SetSpeed() {
 #endif // GAME_DLL
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::HasItem(void) const {
     return (m_hItem != NULL);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::SetItem(CTFItem *pItem) {
     m_hItem = pItem;
 
@@ -9542,9 +9095,6 @@ void CTFPlayer::SetItem(CTFItem *pItem) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFItem *CTFPlayer::GetItem(void) const {
     return m_hItem;
 }
@@ -9577,9 +9127,6 @@ bool CTFPlayer::IsAllowedToPickUpFlag(void) const {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CCaptureZone *CTFPlayer::GetCaptureZoneStandingOn(void) {
     touchlink_t *root = (touchlink_t *) GetDataObject(TOUCHLINK);
     if (root) {
@@ -9720,9 +9267,6 @@ int CTFPlayer::CanBuild(int iObjectType, int iObjectMode) {
     return CB_CAN_BUILD;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::IsAiming(void) {
     if (!m_pOuter)
         return false;
@@ -9792,9 +9336,6 @@ RuneTypes_t CTFPlayerShared::GetCarryingRuneType(void) const {
     return retVal;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFPlayerShared::CalculateObjectCost(CTFPlayer *pBuilder, int iObjectType) {
     if (TFGameRules() && TFGameRules()->IsMannVsMachineMode()) {
 #ifdef STAGING_ONLY
@@ -9846,9 +9387,6 @@ int CTFPlayerShared::CalculateObjectCost(CTFPlayer *pBuilder, int iObjectType) {
     return nCost;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::HealthKitPickupEffects(int iHealthGiven /*= 0*/ ) {
     // Healthkits also contain a fire blanket.
     if (InCond(TF_COND_BURNING)) {
@@ -9897,9 +9435,6 @@ int CTFPlayer::GetNumObjects(int iObjectType, int iObjectMode /*= 0*/ ) {
     return iCount;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::ItemPostFrame() {
     if (m_hOffHandWeapon.Get() && m_hOffHandWeapon->IsWeaponVisible()) {
         if (gpGlobals->curtime < m_flNextAttack) {
@@ -9956,9 +9491,6 @@ bool CTFPlayer::Weapon_ShouldSetLast(CBaseCombatWeapon *pOldWeapon, CBaseCombatW
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::SelectItem(const char *pstr, int iSubType /*= 0*/ ) {
     // This is basically a copy from the base class with addition of Weapon_CanSwitchTo
     // We're not calling BaseClass::SelectItem on purpose to prevent breaking other games
@@ -9989,9 +9521,6 @@ void CTFPlayer::SelectItem(const char *pstr, int iSubType /*= 0*/ ) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::Weapon_Switch(CBaseCombatWeapon *pWeapon, int viewmodelindex) {
     // Ghosts cant switch weapons!
     if (m_Shared.InCond(TF_COND_HALLOWEEN_GHOST_MODE)) {
@@ -10054,9 +9583,6 @@ bool CTFPlayer::Weapon_Switch(CBaseCombatWeapon *pWeapon, int viewmodelindex) {
     return bSwitched;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWearable *CTFPlayer::GetEquippedWearableForLoadoutSlot(int iLoadoutSlot) {
     int iClass = GetPlayerClass()->GetClassIndex();
 
@@ -10113,9 +9639,6 @@ CBaseEntity *CTFPlayer::GetEntityForLoadoutSlot(int iLoadoutSlot) {
 
 #ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StopViewModelParticles(C_BaseEntity *pParticleEnt) {
     pParticleEnt->ParticleProp()->StopParticlesInvolving(pParticleEnt);
 }
@@ -10123,9 +9646,6 @@ void CTFPlayer::StopViewModelParticles(C_BaseEntity *pParticleEnt) {
 #endif
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::GetStepSoundVelocities(float *velwalk, float *velrun) {
     float flMaxSpeed = MaxSpeed();
 
@@ -10143,9 +9663,6 @@ void CTFPlayer::GetStepSoundVelocities(float *velwalk, float *velrun) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::SetStepSoundTime(stepsoundtimes_t iStepSoundTime, bool bWalking) {
     float flMaxSpeed = MaxSpeed();
 
@@ -10176,9 +9693,6 @@ void CTFPlayer::SetStepSoundTime(stepsoundtimes_t iStepSoundTime, bool bWalking)
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CTFPlayer::GetOverrideStepSound(const char *pszBaseStepSoundName) {
 
     if (TFGameRules() && TFGameRules()->IsMannVsMachineMode() && GetTeamNumber() == TF_TEAM_PVE_INVADERS &&
@@ -10333,9 +9847,6 @@ void CTFPlayer::ModifyEmitSoundParams(EmitSound_t &params) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::CanAttack(int iCanAttackFlags) {
     CTFGameRules *pRules = TFGameRules();
 
@@ -10450,9 +9961,6 @@ bool CTFPlayer::DoClassSpecialSkill(void) {
     return bDoSkill;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::EndClassSpecialSkill(void) {
     if (!IsAlive())
         return false;
@@ -10478,9 +9986,6 @@ bool CTFPlayer::EndClassSpecialSkill(void) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::CanPickupBuilding(CBaseObject *pPickupObject) {
     if (!pPickupObject)
         return false;
@@ -10568,9 +10073,6 @@ bool CTFPlayer::CanPickupBuilding(CBaseObject *pPickupObject) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::TryToPickupBuilding() {
     if (m_Shared.IsCarryingObject())
         return false;
@@ -10718,9 +10220,6 @@ bool CTFPlayer::TryToPickupBuilding() {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::CanGoInvisible(bool bAllowWhileCarryingFlag) {
     // The "flag" in Player Destruction doesn't block cloak
     ETFFlagType ignoreTypes[] = {TF_FLAGTYPE_PLAYER_DESTRUCTION};
@@ -10740,9 +10239,6 @@ bool CTFPlayer::CanGoInvisible(bool bAllowWhileCarryingFlag) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::CanStartPhase(void) {
     if (HasTheFlag() || m_Shared.HasPasstimeBall()) {
         HintMessage(HINT_CANNOT_PHASE_WITH_FLAG);
@@ -10899,9 +10395,6 @@ void CTFPlayer::RemoveDisguise(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::RemoveDisguiseWeapon(void) {
 #ifdef GAME_DLL
                                                                                                                             if ( m_hDisguiseWeapon )
@@ -10912,9 +10405,6 @@ void CTFPlayerShared::RemoveDisguiseWeapon(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::CanDisguise(void) {
     if (!IsAlive())
         return false;
@@ -10962,9 +10452,6 @@ bool CTFPlayer::CanDisguise_OnKill(void) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFPlayer::GetMaxAmmo(int iAmmoIndex, int iClassIndex /*= -1*/ ) {
     int iMax = (iClassIndex == -1) ? m_PlayerClass.GetData()->m_aAmmoMax[iAmmoIndex] : GetPlayerClassData(
             iClassIndex)->m_aAmmoMax[iAmmoIndex];
@@ -10993,9 +10480,6 @@ bool CTFPlayer::IsMiniBoss(void) const {
     return m_bIsMiniBoss;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseEntity *CTFPlayer::MedicGetHealTarget(void) {
     if (IsPlayerClass(TF_CLASS_MEDIC)) {
         CWeaponMedigun *pWeapon = dynamic_cast <CWeaponMedigun *>( GetActiveWeapon());
@@ -11008,9 +10492,6 @@ CBaseEntity *CTFPlayer::MedicGetHealTarget(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFPlayer::MedicGetChargeLevel(CTFWeaponBase **pRetMedigun) {
     if (IsPlayerClass(TF_CLASS_MEDIC)) {
         CTFWeaponBase *pWpn = (CTFWeaponBase *) Weapon_OwnsThisID(TF_WEAPON_MEDIGUN);
@@ -11032,9 +10513,6 @@ float CTFPlayer::MedicGetChargeLevel(CTFWeaponBase **pRetMedigun) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFPlayer::GetNumActivePipebombs(void) {
     if (IsPlayerClass(TF_CLASS_DEMOMAN)) {
         CTFPipebombLauncher *pWeapon = dynamic_cast < CTFPipebombLauncher *>( Weapon_OwnsThisID(
@@ -11061,9 +10539,6 @@ void CTFPlayer::GetActiveSets(CUtlVector<const CEconItemSetDefinition *> *pItemS
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::CanMoveDuringTaunt() {
 
     if (TFGameRules() && TFGameRules()->IsCompetitiveMode()) {
@@ -11107,18 +10582,12 @@ bool CTFPlayer::CanMoveDuringTaunt() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayer::ShouldStopTaunting() {
     // stop taunt if we're under water
     return GetWaterLevel() > WL_Waist;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #if defined( CLIENT_DLL ) && defined( STAGING_ONLY )
                                                                                                                         static ConVar tf_tauntcam_dist_override( "tf_tauntcam_dist_override", "0", FCVAR_CHEAT );
 static ConVar tf_tauntcam_distup_override( "tf_tauntcam_distup_override", "0", FCVAR_CHEAT );
@@ -11171,9 +10640,6 @@ void CTFPlayer::ParseSharedTauntDataFromEconItemView(CEconItemView *pEconItemVie
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::SetTauntYaw(float flTauntYaw) {
     m_flPrevTauntYaw = m_flTauntYaw;
     m_flTauntYaw = flTauntYaw;
@@ -11184,9 +10650,6 @@ void CTFPlayer::SetTauntYaw(float flTauntYaw) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayer::StartBuildingObjectOfType(int iType, int iMode) {
     // early out if we can't build this type of object
     if (CanBuild(iType, iMode) != CB_CAN_BUILD)
@@ -11212,9 +10675,6 @@ void CTFPlayer::StartBuildingObjectOfType(int iType, int iMode) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::UpdatePhaseEffects(void) {
 
     bool bRunning;
@@ -11289,9 +10749,6 @@ void CTFPlayerShared::UpdatePhaseEffects(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::AddPhaseEffects(void) {
 #ifdef CLIENT_DLL
 
@@ -11362,9 +10819,6 @@ void CTFPlayerShared::AddPhaseEffects(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::RemovePhaseEffects(void) {
 #ifdef CLIENT_DLL
     if (m_pOuter->m_pPhaseStandingEffect) {
@@ -11382,9 +10836,6 @@ void CTFPlayerShared::RemovePhaseEffects(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFPlayerShared::GetSequenceForDeath(CBaseAnimating *pRagdoll, bool bBurning, int nCustomDeath) {
     if (!pRagdoll)
         return -1;
@@ -11600,9 +11051,6 @@ float CTFPlayer::GetKartSpeedBoost(void) {
     return RemapValClamped(gpGlobals->curtime, m_flKartNextAvailableBoost, m_flKartNextAvailableBoost, 0.0f, 1.0f);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFPlayerShared::IsLoser(void) {
     if (tf_always_loser.GetBool())
         return true;
@@ -11635,9 +11083,6 @@ bool CTFPlayerShared::IsLoser(void) {
     return bLoser;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::RecalculatePlayerBodygroups(void) {
     // We have to clear the m_nBody bitfield.
     // Leaving bits on from previous player classes can have weird effects
@@ -11682,9 +11127,6 @@ void CTFPlayerShared::GetSpeedWatchersList( CUtlVector<CTFPlayer *> *out_pVecSpe
 }
 #endif // GAME_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::SetupRageBuffTimer(int iBuffType, int iPulseCount, ERageBuffSlot eBuffSlot) {
     m_RageBuffSlots[eBuffSlot].m_iBuffTypeActive = iBuffType;
     m_RageBuffSlots[eBuffSlot].m_iBuffPulseCount = iPulseCount;
@@ -11693,9 +11135,6 @@ void CTFPlayerShared::SetupRageBuffTimer(int iBuffType, int iPulseCount, ERageBu
     PulseRageBuff(eBuffSlot);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::ActivateRageBuff(CBaseEntity *pBuffItem, int iBuffType) {
     // Sniper Focus can be activated at all times
     if (GetRageMeter() < 100.f && iBuffType != 6)
@@ -11739,9 +11178,6 @@ void CTFPlayerShared::ActivateRageBuff(CBaseEntity *pBuffItem, int iBuffType) {
     SetupRageBuffTimer(iBuffType, nBuffPulses, kBuffSlot_Rage);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::UpdateRageBuffsAndRage(void) {
     // We allow this for all classes to allow item creators and plugin authors to give rage to any class.
 
@@ -11818,9 +11254,6 @@ void CTFPlayerShared::UpdateRageBuffsAndRage(void) {
 
 static const int k_RageBuffType_Sniper = 6;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::SetRageMeter(float val) {
     // Allow Sniper to gain rage on kills even when buffed
     if (!InCond(TF_COND_SNIPERCHARGE_RAGE_BUFF) && !m_pOuter->IsPlayerClass(TF_CLASS_SPY)) {
@@ -11849,16 +11282,10 @@ void CTFPlayerShared::SetRageMeter(float val) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::ModifyRage(float fDelta) {
     SetRageMeter(GetRageMeter() + fDelta);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::ResetRageMeter(void) {
     m_flRageMeter = 0.0f;
     m_flNextRageEarnTime = 0.0f;
@@ -11983,9 +11410,6 @@ void CTFPlayerShared::PulseRageBuff(ERageBuffSlot eBuffSlot) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::ResetRageSystem(void) {
     m_flRageMeter = 0.f;
     m_bRageDraining = false;
@@ -11994,9 +11418,6 @@ void CTFPlayerShared::ResetRageSystem(void) {
     ResetRageBuffs();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::UpdateEnergyDrinkMeter(void) {
     if (!m_pOuter->IsPlayerClass(TF_CLASS_SCOUT))
         return;
@@ -12075,9 +11496,6 @@ void CTFPlayerShared::SetScoutHypeMeter(float val) {
     //}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::UpdateCloakMeter(void) {
     if (!m_pOuter->IsPlayerClass(TF_CLASS_SPY))
         return;
@@ -12405,16 +11823,10 @@ void CTFPlayerShared::PulseKingRuneBuff(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::IncrementRevengeCrits(void) {
     SetRevengeCrits(m_iRevengeCrits + 1);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::SetRevengeCrits(int iVal) {
     m_iRevengeCrits = clamp(iVal, 0, 35);
 
@@ -12428,9 +11840,6 @@ void CTFPlayerShared::SetRevengeCrits(int iVal) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFPlayerShared::FireGameEvent(IGameEvent *event) {
 #ifdef GAME_DLL
                                                                                                                             const char *eventName = event->GetName();
@@ -12471,9 +11880,6 @@ void CTFPlayerShared::SetPasstimePassTarget(CTFPlayer *pEnt) {
 //-----------------------------------------------------------------------------
 CTFPlayer *CTFPlayerShared::GetPasstimePassTarget() const { return m_hPasstimePassTarget.Get(); }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTraceFilterIgnoreTeammatesAndTeamObjects::ShouldHitEntity(IHandleEntity *pServerEntity, int contentsMask) {
     CBaseEntity *pEntity = EntityFromEntityHandle(pServerEntity);
 
@@ -12546,9 +11952,6 @@ void localplayerscoring_t::UpdateStats(RoundStats_t &roundStats, CTFPlayer *pPla
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEconItemView *
 CTFPlayerSharedUtils::GetEconItemViewByLoadoutSlot(CTFPlayer *pTFPlayer, int iSlot, CEconEntity **pEntity) {
     int iClass = pTFPlayer->GetPlayerClass()->GetClassIndex();
@@ -12610,9 +12013,6 @@ bool CTFPlayerSharedUtils::ConceptIsPartnerTaunt(int iConcept) {
     return iConcept == MP_CONCEPT_HIGHFIVE_SUCCESS_FULL || iConcept == MP_CONCEPT_HIGHFIVE_SUCCESS;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBuilder *CTFPlayerSharedUtils::GetBuilderForObjectType(CTFPlayer *pTFPlayer, int iObjectType) {
     const int OBJ_ANY = -1;
 

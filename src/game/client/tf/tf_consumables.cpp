@@ -338,9 +338,6 @@ void CEconTool_WrappedGift::OnClientUseConsumable( CEconItemView *pItem, vgui::P
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_WeddingRing::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( pItem );
@@ -512,9 +509,6 @@ void CEconTool_PaintCan::OnClientUseConsumable( CEconItemView *pItem, vgui::Pane
 	ClientConsumableTool_Generic( pItem, pParent );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_Gift::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	ClientConsumableTool_Generic( pItem, pParent );
@@ -528,9 +522,6 @@ void CEconTool_Default::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel
 	ClientConsumableTool_Generic( pItem, pParent );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconTool_TFEventEnableHalloween::OnClientUseConsumable( CEconItemView *pItem, vgui::Panel *pParent ) const
 {
 	Assert( pItem );
@@ -600,9 +591,6 @@ void CEconTool_GrantOperationPass::OnClientUseConsumable( CEconItemView *pItem, 
 	pDialog->AddStringToken( "uses_left", wszUsesLeft );
 	pDialog->SetContext( new CUseItemConfirmContext( pItem, kServerPlayers_DontSend, "ui/quest_operation_pass_use.wav" ) );
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CGCEventEnableResponse : public GCSDK::CGCClientJob
 {
 public:

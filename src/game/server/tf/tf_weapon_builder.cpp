@@ -111,9 +111,6 @@ void CTFWeaponBuilder::SetSubType( int iSubType )
 	BaseClass::SetSubType( iSubType );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFWeaponBuilder::Precache( void )
 {
 	BaseClass::Precache();

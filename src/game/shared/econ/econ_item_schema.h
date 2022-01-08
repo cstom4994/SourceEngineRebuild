@@ -3335,9 +3335,6 @@ bool BYieldingGetChangedItemDefinitions( int iComparisonColumn, CUtlVector<item_
 bool BYieldingUpdateItemDefinitionStateHashValue( GCSDK::CSQLAccess& sqlAccess, item_definition_index_t unItemDef, int iUpdatedColumn );
 #endif // GC_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CAttributeLineItemLootList : public IEconLootList
 {
 public:

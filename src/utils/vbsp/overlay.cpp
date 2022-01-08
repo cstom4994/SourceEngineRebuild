@@ -332,9 +332,6 @@ void OverlayTransition_EmitOverlayFace(mapoverlay_t *pMapOverlay) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Overlay_EmitOverlayFaces(void) {
     int nMapOverlayCount = g_aMapOverlays.Count();
     for (int iMapOverlay = 0; iMapOverlay < nMapOverlayCount; ++iMapOverlay) {
@@ -342,9 +339,6 @@ void Overlay_EmitOverlayFaces(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void OverlayTransition_EmitOverlayFaces(void) {
     int nMapOverlayCount = g_aMapWaterOverlays.Count();
     for (int iMapOverlay = 0; iMapOverlay < nMapOverlayCount; ++iMapOverlay) {

@@ -520,9 +520,6 @@ void CBaseTFVehicle::DestroyObject( void )
 	BaseClass::DestroyObject();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CBaseTFVehicle::GetEmptyRole( void )
 {
 	for ( int iPassenger = 0; iPassenger < m_nMaxPassengers; ++iPassenger )
@@ -801,9 +798,6 @@ void CBaseTFVehicle::GetPassengerStartPoint( int nRole, Vector *pAbsPoint, QAngl
 	GetAttachment( nFeetAttachmentIndex, *pAbsPoint, *pAbsAngles );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #define INITIAL_MAX_DISTANCE  999999.0f
 
 int CBaseTFVehicle::LocateEntryPoint( CBaseTFPlayer *pPlayer, float* fBest2dDistanceSqr )
@@ -929,9 +923,6 @@ void CBaseTFVehicle::VehicleDriverGunThink( void )
 	m_hDriverGun->SetTargetAngles( vecTargetAngles );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseTFVehicle::ShouldUseThirdPersonVehicleView()
 {
 	return true;
@@ -1121,9 +1112,6 @@ void CBaseTFVehicle::DrawHudElements( void )
 	SetupCrosshair();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseTFVehicle::DrawHudBoostData( void )
 {
 #define HUD_IMAGE_LEFT	XRES( 568 )

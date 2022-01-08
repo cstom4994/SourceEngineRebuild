@@ -161,9 +161,6 @@ float CWeaponGauss::GetFullChargeTime( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponGauss::PrimaryAttack( void )
 {
 	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
@@ -190,9 +187,6 @@ void CWeaponGauss::PrimaryAttack( void )
 	pPlayer->SetNextAttack( gpGlobals->curtime + 0.2 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponGauss::SecondaryAttack( void )
 {
 	CHL1_Player *pPlayer = ToHL1Player( GetOwner() );

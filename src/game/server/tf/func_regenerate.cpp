@@ -152,33 +152,21 @@ void CRegenerateZone::EndTouch( CBaseEntity *pOther )
 	BaseClass::EndTouch( pOther );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRegenerateZone::InputEnable( inputdata_t &inputdata )
 {
 	SetDisabled( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRegenerateZone::InputDisable( inputdata_t &inputdata )
 {
 	SetDisabled( true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CRegenerateZone::IsDisabled( void )
 {
 	return m_bDisabled;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRegenerateZone::InputToggle( inputdata_t &inputdata )
 {
 	if ( m_bDisabled )
@@ -191,9 +179,6 @@ void CRegenerateZone::InputToggle( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRegenerateZone::SetDisabled( bool bDisabled )
 {
 	m_bDisabled = bDisabled;

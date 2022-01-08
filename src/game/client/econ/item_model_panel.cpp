@@ -1061,18 +1061,12 @@ void CEmbeddedItemModelPanel::Paint( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ITexture *CEmbeddedItemModelPanel::GetCachedGeneratedIcon() 
 { 
 	return m_pCachedWeaponIcon ? m_pCachedWeaponIcon->GetTexture() : NULL;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEmbeddedItemModelPanel::UpdateParticle(
 	IMatRenderContext				*pRenderContext, 
 	CStudioHdr						*pStudioHdr, 
@@ -1213,9 +1207,6 @@ bool CEmbeddedItemModelPanel::UpdateParticle(
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEmbeddedItemModelPanel::RenderStatTrack( CStudioHdr *pStudioHdr, matrix3x4_t *pWorldMatrix )
 {
 	// Draw the merge MDLs.
@@ -1269,9 +1260,6 @@ bool CEmbeddedItemModelPanel::RenderAttachedModels( CStudioHdr *pStudioHdr, matr
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEmbeddedItemModelPanel::RenderingRootModel( IMatRenderContext *pRenderContext, CStudioHdr *pStudioHdr, MDLHandle_t mdlHandle, matrix3x4_t *pWorldMatrix )
 {
 	// No model?  Bail
@@ -1326,9 +1314,6 @@ void CEmbeddedItemModelPanel::RenderingRootModel( IMatRenderContext *pRenderCont
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IMaterial *CEmbeddedItemModelPanel::GetOverrideMaterial( MDLHandle_t mdlHandle )
 {
 	// This matches the check in RenderingRootModel, if we're not on a pedestal
@@ -3647,9 +3632,6 @@ void CItemModelPanel::OnMouseDoublePressed(vgui::MouseCode code)
 	vgui::surface()->PlaySound( soundFilename );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemModelPanel::OnCursorMoved( int x, int y )
 {
 	if ( !m_bClickable )
@@ -3667,9 +3649,6 @@ void CItemModelPanel::OnKeyCodePressed( vgui::KeyCode code )
 	BaseClass::OnKeyCodePressed( code );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemModelPanel::OnCommand( const char *command )
 {
 	if ( FStrEq( command, "sellitem" ) )
@@ -3689,9 +3668,6 @@ void CItemModelPanel::OnCommand( const char *command )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemModelPanel::UpdateEquippedLabel( void )
 {
 	if ( !m_pItemEquippedLabel )
@@ -3707,9 +3683,6 @@ void CItemModelPanel::UpdateEquippedLabel( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemModelPanel::SetSkin( int iSkin )
 {
 	if ( m_pModelPanel )
@@ -3727,9 +3700,6 @@ itempanel_tooltippos_t g_iTooltipStrategies[NUM_IPTTP_STRATEGIES][NUM_POSITIONS_
 	{ IPTTP_BELOW, IPTTP_LEFT_CENTERED, IPTTP_RIGHT_CENTERED, IPTTP_LEFT, IPTTP_RIGHT, IPTTP_ABOVE },	// IPTTP_BOTTOM_SIDE
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CItemModelPanelToolTip::CItemModelPanelToolTip( vgui::Panel *parent, const char *text ) 
 : vgui::BaseTooltip( parent, text )
 , m_pMouseOverItemPanel( NULL )
@@ -3739,9 +3709,6 @@ CItemModelPanelToolTip::CItemModelPanelToolTip( vgui::Panel *parent, const char 
 	SetTooltipDelay( 100 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemModelPanelToolTip::GetPosition( itempanel_tooltippos_t iTooltipPosition, CItemModelPanel *pItemPanel, int iItemX, int iItemY, int *iXPos, int *iYPos )
 {
 	switch ( iTooltipPosition )
@@ -3773,9 +3740,6 @@ void CItemModelPanelToolTip::GetPosition( itempanel_tooltippos_t iTooltipPositio
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CItemModelPanelToolTip::ValidatePosition( CItemModelPanel *pItemPanel, int iItemX, int iItemY, int *iXPos, int *iYPos )
 {
 	bool bSucceeded = true;
@@ -3838,9 +3802,6 @@ bool CItemModelPanelToolTip::ValidatePosition( CItemModelPanel *pItemPanel, int 
 	return bSucceeded;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemModelPanelToolTip::PerformLayout() 
 {
 	BaseClass::PerformLayout();
@@ -3900,9 +3861,6 @@ void CItemModelPanelToolTip::PerformLayout()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemModelPanelToolTip::ShowTooltip( Panel *currentPanel ) 
 { 
 	if ( m_pMouseOverItemPanel && currentPanel != m_hCurrentPanel.Get() ) 
@@ -3917,9 +3875,6 @@ void CItemModelPanelToolTip::ShowTooltip( Panel *currentPanel )
 	BaseClass::ShowTooltip( currentPanel );	
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CItemModelPanelToolTip::HideTooltip() 
 {
 	if ( m_pMouseOverItemPanel ) 

@@ -213,9 +213,6 @@ protected:
 	CNetworkHandle( CTFMiniGame, m_hActiveMinigame );
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CTFHalloweenFortuneTeller : public CBaseAnimating
 #ifdef GAME_DLL
 	, public CGameEventListener

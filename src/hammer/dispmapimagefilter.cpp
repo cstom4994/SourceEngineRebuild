@@ -283,9 +283,6 @@ inline void CDispMapImageFilterManager::GetImageFieldData(CMapDisp *pDisp, CDisp
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispMapImageFilterManager::PreApply(CDispMapImageFilter *pFilter,
                                           int nPaintDirType, const Vector &vecPaintDir) {
     // Save the paint type and direction locally.
@@ -309,9 +306,6 @@ bool CDispMapImageFilterManager::PreApply(CDispMapImageFilter *pFilter,
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispMapImageFilterManager::PostApply(bool bSew) {
     // Get the displacement manager from the active map document.
     IWorldEditDispMgr *pDispMgr = GetActiveWorldEditDispManager();
@@ -335,9 +329,6 @@ bool CDispMapImageFilterManager::PostApply(bool bSew) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispMapImageFilterManager::Apply(CDispMapImageFilter *pFilter, CMapDisp *pDisp,
                                        int paintDirType, Vector const &vPaintDir, bool bSew) {
     // Get the index of the vertex on the displacement surface "hit."
@@ -357,9 +348,6 @@ bool CDispMapImageFilterManager::Apply(CDispMapImageFilter *pFilter, CMapDisp *p
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDispMapImageFilterManager::ApplyAt(CDispMapImageFilter *pFilter, CMapDisp *pDisp,
                                          int ndxVert) {
     // Apply filter appropriately type.
@@ -386,9 +374,6 @@ void CDispMapImageFilterManager::ApplyAt(CDispMapImageFilter *pFilter, CMapDisp 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDispMapImageFilterManager::IsNeighborInSelectionSet(CMapDisp *pNeighborDisp) {
     // Get the displacement manager from the active map document.
     IWorldEditDispMgr *pDispMgr = GetActiveWorldEditDispManager();

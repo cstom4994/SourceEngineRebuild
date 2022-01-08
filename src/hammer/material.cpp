@@ -984,9 +984,6 @@ const char *CMaterial::GetFileName(void) const {
     return (m_szFileName);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMaterial::IsWater(void) const {
     bool bFound;
     IMaterialVar *pVar = m_pMaterial->FindVar("$surfaceprop", &bFound, false);

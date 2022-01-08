@@ -533,9 +533,6 @@ void C_ObjectSentrygun::DisplayHintTo( C_BasePlayer *pPlayer )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *C_ObjectSentrygun::GetHudStatusIcon( void )
 {
 	const char *pszResult;
@@ -557,9 +554,6 @@ const char *C_ObjectSentrygun::GetHudStatusIcon( void )
 	return pszResult;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 BuildingHudAlert_t C_ObjectSentrygun::GetBuildingAlertLevel( void )
 {
 	BuildingHudAlert_t baseAlertLevel = BaseClass::GetBuildingAlertLevel();

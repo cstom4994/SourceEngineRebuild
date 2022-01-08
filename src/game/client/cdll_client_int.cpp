@@ -88,8 +88,6 @@
 #include "toolframework_client.h"
 #include "hltvcamera.h"
 #include "shaderapi/ishaderapi.h"
-#include "imgui/imgui_impl_source.h"
-#include "imgui/app.h"
 
 #if defined( REPLAY_ENABLED )
 #include "replay/replaycamera.h"
@@ -240,8 +238,6 @@ IShaderAPI *g_pShaderAPI;
 
 IGameUI2 *GameUI2 = nullptr;
 IRCCPP *RCCPP = nullptr;
-
-CImGuiSourceApp* app;
 
 IHaptics *haptics = NULL;// NVNT haptics system interface singleton
 
@@ -607,6 +603,8 @@ public:
     virtual int Init(CreateInterfaceFn appSystemFactory, CreateInterfaceFn physicsFactory, CGlobalVarsBase *pGlobals);
 
     virtual void PostInit();
+
+    virtual void PostInitEditor();
 
     virtual void Shutdown(void);
 
@@ -1110,12 +1108,6 @@ int CHLClient::Init(CreateInterfaceFn appSystemFactory, CreateInterfaceFn physic
         GetClientVoiceMgr()->Init(&g_VoiceStatusHelper, parent);
     }
 
-    factorylist_t Factories;
-    FactoryList_Retrieve(Factories);
-
-    app = new CImGuiSourceApp;
-    app->Init(Factories.appSystemFactory);
-
     if (!PhysicsDLLInit(physicsFactory))
         return false;
 
@@ -1169,6 +1161,10 @@ bool CHLClient::ReplayPostInit() {
 #else
     return false;
 #endif
+}
+
+void CHLClient::PostInitEditor() {
+
 }
 
 //-----------------------------------------------------------------------------
@@ -1311,9 +1307,6 @@ void CHLClient::Shutdown(void) {
         RCCPP->Shutdown();
     }
 
-    app->Destroy();
-    delete app;
-
     gHUD.Shutdown();
     VGui_Shutdown();
 
@@ -1410,10 +1403,6 @@ void CHLClient::HudUpdate(bool bActive) {
     // GAMEUI2
     if (GameUI2 != nullptr)
         GameUI2->OnUpdate();
-
-    if (RCCPP != nullptr)
-        RCCPP->OnUpdate();
-
 }
 
 //-----------------------------------------------------------------------------
@@ -2516,10 +2505,6 @@ void CHLClient::WriteSaveGameScreenshotOfSize(const char *pFilename, int width, 
 // See RenderViewInfo_t
 void CHLClient::RenderView(const CViewSetup &setup, int nClearFlags, int whatToDraw) {
     VPROF("RenderView");
-
-
-    if (app != nullptr)
-        app->DrawFrame();
 }
 
 void ReloadSoundEntriesInList(IFileList *pFilesToReload);

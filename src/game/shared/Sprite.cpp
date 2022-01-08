@@ -508,9 +508,6 @@ void CSprite::Animate( float frames )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CSprite::SetBrightness( int brightness, float time )
 {
 	m_nBrightness			= brightness;	//Take our current position as our starting position

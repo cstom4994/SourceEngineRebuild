@@ -213,9 +213,6 @@ Color CCloseCaptionWorkUnit::GetColor() const {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CCloseCaptionItem {
 public:
     CCloseCaptionItem(
@@ -780,9 +777,6 @@ CHudCloseCaption::CHudCloseCaption(const char *pElementName)
     InitCaptionDictionary(dbfile);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CHudCloseCaption::~CHudCloseCaption() {
     m_CloseCaptionRepeats.RemoveAll();
 
@@ -808,9 +802,6 @@ void CHudCloseCaption::TogglePaintDebug() {
     m_bPaintDebugInfo = !m_bPaintDebugInfo;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudCloseCaption::Paint(void) {
     int w, h;
     GetSize(w, h);
@@ -2318,17 +2309,11 @@ void CHudCloseCaption::OnFinishAsyncLoad(int nFileIndex, int nBlockNum, AsyncCap
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudCloseCaption::Lock(void) {
     if (!IsXbox())
         m_bLocked = true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CHudCloseCaption::Unlock(void) {
     m_bLocked = false;
 }

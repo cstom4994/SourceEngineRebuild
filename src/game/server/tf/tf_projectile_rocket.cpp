@@ -24,9 +24,6 @@ BEGIN_NETWORK_TABLE( CTFProjectile_Rocket, DT_TFProjectile_Rocket )
 	SendPropBool( SENDINFO( m_bCritical ) ),
 END_NETWORK_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Rocket *CTFProjectile_Rocket::Create( CBaseEntity *pLauncher, const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner, CBaseEntity *pScorer )
 {
 	CTFProjectile_Rocket *pRocket = static_cast<CTFProjectile_Rocket*>( CTFBaseRocket::Create( pLauncher, "tf_projectile_rocket", vecOrigin, vecAngles, pOwner ) );
@@ -45,18 +42,12 @@ CTFProjectile_Rocket *CTFProjectile_Rocket::Create( CBaseEntity *pLauncher, cons
 	return pRocket;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Rocket::Spawn()
 {
 	SetModel( ROCKET_MODEL );
 	BaseClass::Spawn();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Rocket::Precache()
 {
 	int iModel = PrecacheModel( ROCKET_MODEL );
@@ -68,17 +59,11 @@ void CTFProjectile_Rocket::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Rocket::SetScorer( CBaseEntity *pScorer )
 {
 	m_Scorer = pScorer;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBasePlayer *CTFProjectile_Rocket::GetScorer( void )
 {
 	return dynamic_cast<CBasePlayer *>( m_Scorer.Get() );

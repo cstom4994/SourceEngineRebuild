@@ -145,9 +145,6 @@ CUtlMap< UtlSymId_t, int > g_typeHistogram( 0, 100, DefLessFunc( UtlSymId_t ) );
 #endif _ELEMENT_HISTOGRAM_
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDataModel::Shutdown() {
 #ifdef _ELEMENT_HISTOGRAM_
                                                                                                                             Msg( "element type histogram for %d elements allocated so far:\n", GetElementsAllocatedSoFar() );
@@ -536,9 +533,6 @@ void CDataModel::SetKeyValuesElementCallback(IElementForKeyValueCallback *pCallb
     m_pKeyvaluesCallbackInterface = pCallbackInterface;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CDataModel::GetKeyValuesElementName(const char *pszKeyName, int iNestingLevel) {
     if (m_pKeyvaluesCallbackInterface)
         return m_pKeyvaluesCallbackInterface->GetElementForKeyValue(pszKeyName, iNestingLevel);

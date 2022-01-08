@@ -599,41 +599,26 @@ ITexture *CPotteryWheelPanel::GetLightProbeCubemap( bool bHDR )
 	return bHDR ? m_LightProbeHDRCubemap : m_LightProbeCubemap;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CPotteryWheelPanel::GetCameraFOV( void )
 {
 	return m_Camera.m_flFOV;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPotteryWheelPanel::SetCameraFOV( float flFOV )
 {
 	m_Camera.m_flFOV = flFOV;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPotteryWheelPanel::SetCameraOffset( const Vector &vecOffset )
 {
 	m_vecCameraOffset = vecOffset;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPotteryWheelPanel::GetCameraOffset( Vector &vecOffset )
 {
 	vecOffset = m_vecCameraOffset;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPotteryWheelPanel::SetCameraPositionAndAngles( const Vector &vecPos, const QAngle &angDir, bool syncManipulators )
 {
 	SetIdentityMatrix( m_CameraPivot );
@@ -646,17 +631,11 @@ void CPotteryWheelPanel::SetCameraPositionAndAngles( const Vector &vecPos, const
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPotteryWheelPanel::GetCameraPositionAndAngles( Vector &vecPos, QAngle &angDir )
 {
 	MatrixAngles( m_CameraPivot, angDir, vecPos );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPotteryWheelPanel::ResetCameraPivot( void )
 {
 	SetIdentityMatrix( m_CameraPivot );

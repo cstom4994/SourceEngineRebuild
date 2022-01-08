@@ -46,18 +46,12 @@ END_PREDICTION_DATA()
 LINK_ENTITY_TO_CLASS( tf_weapon_raygun, CTFRaygun );
 PRECACHE_WEAPON_REGISTER( tf_weapon_raygun );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFRaygun::CTFRaygun()
 {
 	m_flIrradiateTime = 0.f;
 	m_bEffectsThinking = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFRaygun::Precache()
 {
 	PrecacheParticleSystem( "drg_bison_impact" );

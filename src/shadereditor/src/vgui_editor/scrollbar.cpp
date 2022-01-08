@@ -432,9 +432,6 @@ int ScrollBar::GetRangeWindow() {
     return _slider->GetRangeWindow();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBar::Validate() {
     if (_slider != NULL) {
         int buttonOffset = 0;
@@ -455,9 +452,6 @@ void ScrollBar::Validate() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void ScrollBar::SetScrollbarButtonsVisible(bool visible) {
     for (int i = 0; i < 2; i++) {
         if (_button[i] != NULL) {

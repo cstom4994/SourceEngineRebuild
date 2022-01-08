@@ -2350,9 +2350,6 @@ bool Host_ShouldRun(void) {
 static ConVar mem_periodicdumps("mem_periodicdumps", "0", 0, "Write periodic memstats dumps every n seconds.");
 static double g_flLastPeriodicMemDump = -1.0f;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static float g_TimeLastMemTest;
 
 void Host_CheckDumpMemoryStats(void) {
@@ -2418,9 +2415,6 @@ void Host_CheckDumpMemoryStats(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void _Host_SetGlobalTime() {
     // Server
     g_ServerGlobalVariables.realtime = realtime;
@@ -3501,9 +3495,6 @@ void Host_CheckGore(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Host_InitProcessor(void) {
     const CPUInformation &pi = *GetCPUInformation();
 
@@ -3601,9 +3592,14 @@ int Host_GetServerCount(void) {
     return gHostSpawnCount;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+void Host_PostInitClientEditor(){
+#if !defined( SWDS )
+    if (g_ClientDLL) {
+        g_ClientDLL->PostInitEditor();
+    }
+#endif
+}
+
 void Host_PostInit() {
     if (serverGameDLL) {
         serverGameDLL->PostInit();
@@ -3622,7 +3618,7 @@ void Host_PostInit() {
     }
 
 #if defined( LINUX )
-                                                                                                                            const char en_US[] = "en_US.UTF-8";
+    const char en_US[] = "en_US.UTF-8";
 	const char *CurrentLocale = setlocale( LC_ALL, en_US );
 	if ( !CurrentLocale )
 		CurrentLocale = "c";
@@ -3760,9 +3756,6 @@ bool DLL_LOCAL Host_IsSecureServerAllowed() {
     return g_bAllowSecureServers;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Host_Init(bool bDedicated) {
     realtime = 0;
     host_idealtime = 0;
@@ -4015,6 +4008,7 @@ void Host_Init(bool bDedicated) {
 #endif
 
     Host_PostInit();
+    Host_PostInitClientEditor();
     EndLoadingUpdates();
     CMatRenderContextPtr pRenderContext(g_pMaterialSystem);
     pRenderContext->SetNonInteractiveTempFullscreenBuffer(NULL, MATERIAL_NON_INTERACTIVE_MODE_STARTUP);
@@ -4462,9 +4456,6 @@ void Host_FreeStateAndWorld(bool server) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Host_FreeToLowMark(bool server) {
     Assert(host_initialized);
     Assert(host_hunklevel);
@@ -4481,9 +4472,6 @@ void Host_FreeToLowMark(bool server) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Host_Shutdown(void) {
     extern void ShutdownMixerControls();
 

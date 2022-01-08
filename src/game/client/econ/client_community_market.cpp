@@ -8,18 +8,12 @@
 #include "gc_clientsystem.h"
 #include "client_community_market.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static const float s_fUpdateTimeInSeconds = 60.0f * 15.0f;
 
 typedef CUtlMap< steam_market_gc_identifier_t, client_market_data_t, unsigned int >	ClientMarketDataMap_t;
 static ClientMarketDataMap_t	s_mapClientMarketData;
 static float					g_fClientMarketDataLastUpdateTime = -s_fUpdateTimeInSeconds;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void ClientMarketData_Refresh()
 {
 	if ( !EconUI() || !EconUI()->GetStorePanel() )
@@ -32,9 +26,6 @@ static void ClientMarketData_Refresh()
 	g_fClientMarketDataLastUpdateTime = engine->Time();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const client_market_data_t *GetClientMarketData( const steam_market_gc_identifier_t& ident )
 {
 	// If our data is out of date, request fresh data from the GC. We don't need up-to-the-minute
@@ -70,9 +61,6 @@ const client_market_data_t *GetClientMarketData( item_definition_index_t iItemDe
 
 	return GetClientMarketData( ident );
 }
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CGCClientRequestMarketDataResponse : public GCSDK::CGCClientJob
 {
 public:

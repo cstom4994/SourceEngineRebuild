@@ -2103,9 +2103,6 @@ bool botdata_t::FindEnemyTarget( void )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool botdata_t::ValidTargetPlayer( CTFPlayer *pPlayer, const Vector &vecStart, const Vector &vecEnd )
 {
 	if ( m_bIgnoreHumans && !pPlayer->IsFakeClient() )
@@ -2127,9 +2124,6 @@ bool botdata_t::ValidTargetPlayer( CTFPlayer *pPlayer, const Vector &vecStart, c
 	return m_hBot->FVisible( pPlayer, MASK_SHOT | CONTENTS_GRATE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool botdata_t::ValidTargetObject( CBaseObject *pObject, const Vector &vecStart, const Vector &vecEnd )
 {
 	// Ignore objects being placed, they are not real objects yet.

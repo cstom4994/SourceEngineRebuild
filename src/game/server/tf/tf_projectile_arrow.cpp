@@ -104,9 +104,6 @@ static void SetMedicsGrapplingHookTarget( CTFPlayer *pTFPlayer, CBaseEntity *pGr
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Arrow::CTFProjectile_Arrow()
 {
 	m_flImpactTime = 0.0f;
@@ -122,9 +119,6 @@ CTFProjectile_Arrow::CTFProjectile_Arrow()
 	m_iWeaponId = TF_WEAPON_COMPOUND_BOW;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Arrow::~CTFProjectile_Arrow()
 {
 	m_HitEntities.Purge();
@@ -148,9 +142,6 @@ static const char* GetArrowEntityName( ProjectileType_t projectileType )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFProjectile_Arrow *CTFProjectile_Arrow::Create( const Vector &vecOrigin, const QAngle &vecAngles, const float fSpeed, const float fGravity, ProjectileType_t projectileType, CBaseEntity *pOwner, CBaseEntity *pScorer )
 {
 	const char* pszArrowEntityName = GetArrowEntityName( projectileType );
@@ -163,9 +154,6 @@ CTFProjectile_Arrow *CTFProjectile_Arrow::Create( const Vector &vecOrigin, const
 	return pArrow;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Arrow::InitArrow( const QAngle &vecAngles, const float fSpeed, const float fGravity, ProjectileType_t projectileType, CBaseEntity *pOwner, CBaseEntity *pScorer )
 {
 	// Initialize the owner.
@@ -222,9 +210,6 @@ void CTFProjectile_Arrow::InitArrow( const QAngle &vecAngles, const float fSpeed
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Arrow::Spawn()
 {
 	if ( m_iProjectileType == TF_PROJECTILE_BUILDING_REPAIR_BOLT )
@@ -279,9 +264,6 @@ void CTFProjectile_Arrow::Spawn()
 	m_nSkin = GetArrowSkin();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Arrow::Precache()
 {
 	int arrow_model = PrecacheModel( g_pszArrowModels[MODEL_ARROW_REGULAR] );
@@ -311,17 +293,11 @@ void CTFProjectile_Arrow::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_Arrow::SetScorer( CBaseEntity *pScorer )
 {
 	m_Scorer = pScorer;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBasePlayer *CTFProjectile_Arrow::GetScorer( void )
 {
 	return dynamic_cast<CBasePlayer *>( m_Scorer.Get() );
@@ -1547,9 +1523,6 @@ void CTFProjectile_GrapplingHook::HookLatchedThink()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_GrapplingHook::StartImpactFleshSoundLoop()
 {
 	CSoundEnvelopeController &controller = CSoundEnvelopeController::GetController();
@@ -1559,9 +1532,6 @@ void CTFProjectile_GrapplingHook::StartImpactFleshSoundLoop()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_GrapplingHook::StopImpactFleshSoundLoop()
 {
 	if ( m_pImpactFleshSoundLoop )

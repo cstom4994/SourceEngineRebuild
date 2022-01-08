@@ -417,9 +417,6 @@ static void ComputePlayerMatrix(CBasePlayer *pPlayer, matrix3x4_t &out) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 // derive from this so we can add save/load data to it
 struct game_shadowcontrol_params_t : public hlshadowcontrol_params_t {
     DECLARE_SIMPLE_DATADESC();
@@ -1482,9 +1479,6 @@ void CWeaponPhysCannon::Precache(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::Spawn(void) {
     BaseClass::Spawn();
 
@@ -1553,9 +1547,6 @@ bool CWeaponPhysCannon::Deploy(void) {
     return BaseClass::Deploy();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::SetViewModel(void) {
     if (!IsMegaPhysCannon()) {
         BaseClass::SetViewModel();
@@ -1605,17 +1596,11 @@ bool CWeaponPhysCannon::DropIfEntityHeld(CBaseEntity *pTarget) {
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::Drop(const Vector &vecVelocity) {
     ForceDrop();
     BaseClass::Drop(vecVelocity);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CWeaponPhysCannon::CanHolster(void) {
     //Don't holster this weapon if we're holding onto something
     if (m_bActive)
@@ -1650,9 +1635,6 @@ bool CWeaponPhysCannon::Holster(CBaseCombatWeapon *pSwitchingTo) {
     return BaseClass::Holster(pSwitchingTo);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::DryFire(void) {
     SendWeaponAnim(ACT_VM_PRIMARYATTACK);
     WeaponSound(EMPTY);
@@ -1663,9 +1645,6 @@ void CWeaponPhysCannon::DryFire(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::PrimaryFireEffect(void) {
     CBasePlayer *pOwner = ToBasePlayer(GetOwner());
 
@@ -2199,9 +2178,6 @@ void CWeaponPhysCannon::SecondaryAttack(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::WeaponIdle(void) {
     if (HasWeaponIdleTimeElapsed()) {
         if (m_bActive) {
@@ -2757,9 +2733,6 @@ void CWeaponPhysCannon::ItemPreFrame() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::CheckForTarget(void) {
     //See if we're suppressing this
     if (m_flCheckSuppressTime > gpGlobals->curtime)
@@ -2866,9 +2839,6 @@ void CWeaponPhysCannon::WaitForUpgradeThink() {
     SetContextThink(NULL, gpGlobals->curtime, s_pWaitForUpgradeContext);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::DoEffectIdle(void) {
     if (IsEffectActive(EF_NODRAW)) {
         StopEffects();
@@ -3213,9 +3183,6 @@ bool CWeaponPhysCannon::CanPickupObject(CBaseEntity *pTarget) {
     return CBasePlayer::CanPickupObject(pTarget, 0, 0);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::OpenElements(void) {
     if (m_bOpen)
         return;
@@ -3243,9 +3210,6 @@ void CWeaponPhysCannon::OpenElements(void) {
     DoEffect(EFFECT_READY);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::CloseElements(void) {
     // The mega cannon cannot be closed!
     if (IsMegaPhysCannon()) {
@@ -3333,9 +3297,6 @@ void CWeaponPhysCannon::StopLoopingSounds() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::DestroyEffects(void) {
     //Turn off main glow
     if (m_hCenterSprite != NULL) {
@@ -3373,9 +3334,6 @@ void CWeaponPhysCannon::DestroyEffects(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::StopEffects(bool stopSound) {
     // Turn off our effect state
     DoEffect(EFFECT_NONE);
@@ -3416,9 +3374,6 @@ void CWeaponPhysCannon::StopEffects(bool stopSound) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponPhysCannon::StartEffects(void) {
     CBasePlayer *pOwner = ToBasePlayer(GetOwner());
     if (pOwner == NULL)

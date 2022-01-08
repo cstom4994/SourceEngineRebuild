@@ -100,9 +100,6 @@ void BaseTooltip::SetEnabled(bool bState) {
     _enabled = bState;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BaseTooltip::ShouldLayout(void) {
     if (!_makeVisible)
         return false;

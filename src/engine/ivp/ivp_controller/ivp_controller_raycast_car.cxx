@@ -97,9 +97,6 @@ void IVP_Controller_Raycast_Car::SetupWheelRaycasts( IVP_Ray_Solver_Template *pR
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool IVP_Controller_Raycast_Car::DoSimulationWheels( IVP_Ray_Solver_Template *pRaySolverTemplates, 
 													 const IVP_U_Matrix *m_world_f_core, 
 													 IVP_Raycast_Car_Wheel_Temp *pTempWheels,
@@ -172,9 +169,6 @@ bool IVP_Controller_Raycast_Car::DoSimulationWheels( IVP_Ray_Solver_Template *pR
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::DoSimulationStabilizers( IVP_Raycast_Car_Wheel_Temp *pTempWheels )
 {
     if ( wheels_per_axis == 2 )
@@ -203,9 +197,6 @@ void IVP_Controller_Raycast_Car::DoSimulationStabilizers( IVP_Raycast_Car_Wheel_
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::DoSimulationShocks( IVP_Raycast_Car_Wheel_Temp *pTempWheels,
 													 IVP_Ray_Hit *pRayHits,
 													 IVP_Event_Sim *pEventSim,
@@ -302,9 +293,6 @@ void IVP_Controller_Raycast_Car::DoSimulationShocks( IVP_Raycast_Car_Wheel_Temp 
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::DoSimulationBooster( IVP_Event_Sim *pEventSim, IVP_Core *pCarCore )
 {
 	// Update the timer for next boost.
@@ -333,9 +321,6 @@ void IVP_Controller_Raycast_Car::DoSimulationBooster( IVP_Event_Sim *pEventSim, 
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::DoSimulationSteering( IVP_Raycast_Car_Wheel_Temp *pTempWheels,
 													  IVP_Core *pCarCore, IVP_Event_Sim *pEventSim )
 {
@@ -345,9 +330,6 @@ void IVP_Controller_Raycast_Car::DoSimulationSteering( IVP_Raycast_Car_Wheel_Tem
 	ApplySteeringForces( pTempWheels, pCarCore, pEventSim, forcesNeededToDriveStraight );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::CalcSteeringForces( IVP_Raycast_Car_Wheel_Temp *pTempWheels, 
 													 IVP_Core *pCarCore, IVP_Event_Sim *pEventSim,
 													 IVP_FLOAT *pForcesNeededToDriveStraight )
@@ -405,9 +387,6 @@ void IVP_Controller_Raycast_Car::CalcSteeringForces( IVP_Raycast_Car_Wheel_Temp 
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::ApplySteeringForces( IVP_Raycast_Car_Wheel_Temp *pTempWheels, 
 													  IVP_Core *pCarCore, IVP_Event_Sim *pEventSim,
 													  IVP_FLOAT *pForcesNeededToDriveStraight )
@@ -690,9 +669,6 @@ IVP_Controller_Raycast_Car::IVP_Controller_Raycast_Car( IVP_Environment *pEnviro
 	InitRaycastCarAxes( pCarSystemTemplate );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::InitRaycastCarEnvironment( IVP_Environment *pEnvironment, 
 													        const IVP_Template_Car_System *pCarSystemTemplate )
 {
@@ -717,9 +693,6 @@ void IVP_Controller_Raycast_Car::InitRaycastCarEnvironment( IVP_Environment *pEn
     normized_gravity_ws.normize();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::InitRaycastCarBody( const IVP_Template_Car_System *pCarSystemTemplate )
 {
 	// Car body attributes.
@@ -741,9 +714,6 @@ void IVP_Controller_Raycast_Car::InitRaycastCarBody( const IVP_Template_Car_Syst
     down_force = 0.0f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::InitRaycastCarWheels( const IVP_Template_Car_System *pCarSystemTemplate )
 {
     IVP_U_Matrix m_core_f_object;
@@ -784,9 +754,6 @@ void IVP_Controller_Raycast_Car::InitRaycastCarWheels( const IVP_Template_Car_Sy
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IVP_Controller_Raycast_Car::InitRaycastCarAxes( const IVP_Template_Car_System *pCarSystemTemplate )
 {
     this ->steering_angle = -1.0f;		// make sure next call is not optimized

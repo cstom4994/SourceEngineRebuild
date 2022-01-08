@@ -15,26 +15,17 @@
 #include "c_tf_class_support.h"
 #include "c_tf_class_sapper.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClass::C_PlayerClass( C_BaseTFPlayer *pPlayer )
 {
 	// Save peer.
 	m_pPlayer = pPlayer;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClass::~C_PlayerClass()
 {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClass *C_PlayerClass::Create( C_BaseTFPlayer *pPlayer, int iClassType )
 {
 	// Create the class type
@@ -53,9 +44,6 @@ C_PlayerClass *C_PlayerClass::Create( C_BaseTFPlayer *pPlayer, int iClassType )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_PlayerClass::Destroy( C_PlayerClass *pPlayerClass )
 {
 	if ( pPlayerClass )

@@ -514,9 +514,6 @@ void CWeaponCrossbow::Precache(void) {
     BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCrossbow::PrimaryAttack(void) {
     if (m_bInZoom && g_pGameRules->IsMultiplayer()) {
 //		FireSniperBolt();
@@ -537,9 +534,6 @@ void CWeaponCrossbow::PrimaryAttack(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCrossbow::SecondaryAttack(void) {
     //NOTENOTE: The zooming is handled by the post/busy frames
 }

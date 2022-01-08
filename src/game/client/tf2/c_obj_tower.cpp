@@ -60,9 +60,6 @@ private:
 IMPLEMENT_CLIENTCLASS_DT( C_ObjectTowerLadder, DT_ObjectTowerLadder, CObjectTowerLadder )
 END_RECV_TABLE()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_ObjectTowerLadder::C_ObjectTowerLadder()
 {
 }

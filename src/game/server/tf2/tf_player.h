@@ -573,9 +573,6 @@ inline CBaseTFPlayer *ToBaseTFPlayer( CBaseEntity *pEntity )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CPhysicsPlayerCallback : public IPhysicsPlayerControllerEvent
 {
 public:

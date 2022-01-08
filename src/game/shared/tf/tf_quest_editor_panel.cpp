@@ -45,9 +45,6 @@ static const char* g_skQuestPrefabs[] = { "quest_prefab_1st_operation_pauling"
 #define FLAG_HIGHLIGHT_MOUSEOVER 1<<7
 #define FLAG_DONT_EXPORT 1<<8
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static CQuestEditorPanel* g_pQuestEditor = NULL;
 static void cc_tf_quest_editor()
 {
@@ -97,9 +94,6 @@ void WriteLocalizationData()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEditorObject::IEditorObject( EditorObjectInitStruct init )
 	: EditablePanel( init.pParent, init.m_pszKeyName )
 	, m_Flags( init.nFlags )
@@ -146,9 +140,6 @@ bool IEditorObject::IsFlagSet( int nFlag, bool bCheckUpTree ) const
 	return bIsFlagSet;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEditorObject::ESerializeAction IEditorObject::ShouldWrite( const IEditableDataType* pCallingEditable ) const
 {
 	if ( IsFlagSet( FLAG_DONT_EXPORT ) )
@@ -181,9 +172,6 @@ void IEditorObject::OnThink()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditorObjectNode::CEditorObjectNode( EditorObjectInitStruct init )
 	: BaseClass( init )
 {
@@ -203,9 +191,6 @@ CEditorObjectNode::CEditorObjectNode( EditorObjectInitStruct init )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditorObjectNode::~CEditorObjectNode()
 {
 	CEditorObjectNode* pEditorPanel = dynamic_cast<CEditorObjectNode*>( GetParent() );
@@ -215,9 +200,6 @@ CEditorObjectNode::~CEditorObjectNode()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const IEditableDataType* IEditorObject::GetOwningEditable() const
 {
 	const IEditableDataType* pOwningEditable = NULL;
@@ -235,9 +217,6 @@ const IEditableDataType* IEditorObject::GetOwningEditable() const
 	return pOwningEditable;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IEditorObject::InvalidateChain()
 {
 	InvalidateLayout();
@@ -253,18 +232,12 @@ void IEditorObject::InvalidateChain()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IEditorObject::ClearPendingChangesFlag()
 {
 	m_bHasChanges = false;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditorObjectNode::AddChild( IEditorObject* pChild )
 {
 	m_bHasChanges = true;
@@ -275,9 +248,6 @@ void CEditorObjectNode::AddChild( IEditorObject* pChild )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditorObjectNode::RemoveChild( IEditorObject* pChild )
 {
 	FOR_EACH_VEC( m_vecChildren, i )
@@ -299,9 +269,6 @@ void CEditorObjectNode::RemoveChild( IEditorObject* pChild )
 	Assert( !"Couldn't find child to remove!" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CEditorObjectNode::GetNextAvailableKeyNumber() const
 {
 	int nNextAvailable = 0;
@@ -317,9 +284,6 @@ int CEditorObjectNode::GetNextAvailableKeyNumber() const
 	return nNextAvailable;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEditorObjectNode::HasChanges( bool bCheckChildren ) const
 {
 	bool bHasChanges = m_bHasChanges;
@@ -335,9 +299,6 @@ bool CEditorObjectNode::HasChanges( bool bCheckChildren ) const
 	return bHasChanges;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CEditorObjectNode::GetContentTall() const
 {
 	// Hidden panels have 0 height
@@ -355,9 +316,6 @@ int CEditorObjectNode::GetContentTall() const
 	return nTall;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditorObjectNode::SerializeToKVs( KeyValues* pKV, const IEditableDataType* pCallingEditable ) const
 {
 	m_bHasChanges = false;
@@ -397,9 +355,6 @@ void CEditorObjectNode::SerializeToKVs( KeyValues* pKV, const IEditableDataType*
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditorObjectNode::PerformLayout() 
 {
 	m_pDeleteButton->SetVisible( m_vecChildren.Count() > 0 && !IsFlagSet( FLAG_HIDDEN ) && !IsFlagSet( FLAG_NOT_DELETABLE ) );
@@ -430,9 +385,6 @@ void CEditorObjectNode::PerformLayout()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEditorObjectNode::OnCommand( const char *command )
 {
 	if ( V_stricmp( "togglecollapse", command ) == 0 )
@@ -506,9 +458,6 @@ IEditorObjectParameter::IEditorObjectParameter( EditorObjectInitStruct init, con
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEditorObjectParameter::~IEditorObjectParameter()
 {
 	CEditorObjectNode* pEditorPanel = dynamic_cast<CEditorObjectNode*>( GetParent() );
@@ -518,9 +467,6 @@ IEditorObjectParameter::~IEditorObjectParameter()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IEditorObjectParameter::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -528,9 +474,6 @@ void IEditorObjectParameter::PerformLayout()
 	m_pLabel->SetPos( 20, 0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IEditorObjectParameter::SerializeToKVs( KeyValues* pKV, const IEditableDataType* pCallingEditable ) const
 {
 	m_bHasChanges = false;
@@ -550,9 +493,6 @@ void IEditorObjectParameter::SerializeToKVs( KeyValues* pKV, const IEditableData
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IEditorObjectParameter::UpdateSavedValue( const char* pszNewValue ) const
 {
 	// Update saved string
@@ -560,9 +500,6 @@ void IEditorObjectParameter::UpdateSavedValue( const char* pszNewValue ) const
 	V_sprintf_safe( m_szSavedValueBuff, "%s", pszNewValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IEditorObjectParameter::OnTextChanged( KeyValues *data )
 {
 	m_bHasChanges = CheckForChanges();
@@ -576,17 +513,11 @@ void IEditorObjectParameter::OnTextChanged( KeyValues *data )
 	g_pQuestEditor->CheckForChanges();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool IEditorObjectParameter::CheckForChanges() const
 {
 	return !FStrEq( GetValue(), m_szSavedValueBuff );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTextEntryEditorParam::CTextEntryEditorParam( EditorObjectInitStruct init, const char *pszLabelText, const char *pszValue )
 	: BaseClass( init, pszLabelText )
 {
@@ -602,9 +533,6 @@ CTextEntryEditorParam::CTextEntryEditorParam( EditorObjectInitStruct init, const
 	SetTextEntryValue( pszValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTextEntryEditorParam::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -612,25 +540,16 @@ void CTextEntryEditorParam::PerformLayout()
 	m_pTextEntry->SetPos( tf_quest_editor_entry_inset.GetInt(), 0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTextEntryEditorParam::GetContentTall() const
 {
 	return IsFlagSet( FLAG_HIDDEN ) ? 0 : m_pTextEntry->GetTall();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTextEntryEditorParam::SetTextEntryValue( const char* pszValue )
 {
 	m_pTextEntry->SetText( pszValue );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char* CTextEntryEditorParam::GetValue() const 
 {
 	m_pTextEntry->GetText( m_szValueBuff, sizeof( m_szValueBuff ) );
@@ -638,9 +557,6 @@ const char* CTextEntryEditorParam::GetValue() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IMPLEMENT_AUTO_LIST( ILocalizationEditorParamAutoList );
 CLocalizationEditorParam::CLocalizationEditorParam( EditorObjectInitStruct init, const char *pszLabelText, const char *pszLocalizationToken )
 	: BaseClass( init, pszLabelText, NULL )
@@ -655,18 +571,12 @@ CLocalizationEditorParam::CLocalizationEditorParam( EditorObjectInitStruct init,
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CLocalizationEditorParam::GetValue() const
 {
 	// Always return the localization token
 	return m_szLocalizationToken;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char* CLocalizationEditorParam::GetLocalizationValue() const
 {
 	return BaseClass::GetValue();
@@ -677,9 +587,6 @@ bool CLocalizationEditorParam::CheckForChanges() const
 	return !FStrEq( m_szSavedValueBuff, GetLocalizationValue() );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CComboBoxEditorParam::CComboBoxEditorParam( EditorObjectInitStruct init, const char *pszLabelText )
 	: BaseClass( init, pszLabelText )
 	, m_pComboBox( NULL )
@@ -688,9 +595,6 @@ CComboBoxEditorParam::CComboBoxEditorParam( EditorObjectInitStruct init, const c
 	m_pComboBox->AddActionSignalTarget( this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CComboBoxEditorParam::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -699,25 +603,16 @@ void CComboBoxEditorParam::PerformLayout()
 	m_pComboBox->SetPos( tf_quest_editor_entry_inset.GetInt(), 0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CComboBoxEditorParam::GetContentTall() const 
 {
 	return IsFlagSet( FLAG_HIDDEN ) ? 0 : m_pComboBox->GetTall();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char* CComboBoxEditorParam::GetValue() const 
 {
 	return m_pComboBox->GetActiveItemUserData()->GetString( "write" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CComboBoxEditorParam::AddComboBoxEntry( const char* pszText, bool bSelected, const char* pszWriteValue, const char* pszCommand )
 {
 	KeyValues *pKVData = new KeyValues( "data" );
@@ -738,9 +633,6 @@ void CComboBoxEditorParam::AddComboBoxEntry( const char* pszText, bool bSelected
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CComboBoxEditorParam::OnTextChanged( KeyValues *data )
 {
 	Panel *pPanel = reinterpret_cast<vgui::Panel *>( data->GetPtr("panel") );
@@ -769,9 +661,6 @@ void CComboBoxEditorParam::OnTextChanged( KeyValues *data )
 	BaseClass::OnTextChanged( data );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CNewQuestObjectiveParam::CNewQuestObjectiveParam( EditorObjectInitStruct init, const char *pszLabelText )
 	: BaseClass( init, NULL )
 {
@@ -782,9 +671,6 @@ CNewQuestObjectiveParam::CNewQuestObjectiveParam( EditorObjectInitStruct init, c
 	m_pComboBox->SetVisible( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNewQuestObjectiveParam::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -793,9 +679,6 @@ void CNewQuestObjectiveParam::PerformLayout()
 	m_pAddButton->SetContentAlignment( Label::a_center );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNewQuestObjectiveParam::OnCommand( const char *command )
 {
 	if ( FStrEq( command, "add" ) )
@@ -817,9 +700,6 @@ void CNewQuestObjectiveParam::OnCommand( const char *command )
 	BaseClass::OnCommand( command );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IOptionalExpandableBlock::IOptionalExpandableBlock( EditorObjectInitStruct init, const char* pszButtonText )
 	: BaseClass( init )
 { 
@@ -847,9 +727,6 @@ void IOptionalExpandableBlock::InitControls( KeyValues* pKVBlock )
 	InvalidateChain();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IOptionalExpandableBlock::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -859,9 +736,6 @@ void IOptionalExpandableBlock::PerformLayout()
 	m_pAddButton->SetContentAlignment(Label::a_center);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void IOptionalExpandableBlock::OnCommand( const char *command )
 {
 	if ( FStrEq( "add", command ) )
@@ -880,9 +754,6 @@ void IOptionalExpandableBlock::CreateNewControl( KeyValues* pKV )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CQuestObjectiveNode::CQuestObjectiveNode( CEditorObjectNode* pParentNode, KeyValues* pKVObjective )
 	: BaseClass( { pParentNode, pKVObjective->GetName(), FLAG_COLLAPSABLE } )
 	, m_pDefIndexComboBox( NULL )
@@ -918,9 +789,6 @@ CQuestObjectiveNode::CQuestObjectiveNode( CEditorObjectNode* pParentNode, KeyVal
 	PopulateAndSelectConditionsCombobox( nConditionsDefIndex );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestObjectiveNode::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -929,9 +797,6 @@ void CQuestObjectiveNode::PerformLayout()
 	m_pSelectObjectiveButton->SetWide( 36 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestObjectiveNode::PopulateAndSelectConditionsCombobox( int nSelectedDefIndex )
 {
 	// Clean out oldies
@@ -952,9 +817,6 @@ void CQuestObjectiveNode::PopulateAndSelectConditionsCombobox( int nSelectedDefI
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestObjectiveNode::OnCommand( const char *command )
 {
 	if ( FStrEq( "selectobjective", command ) )
@@ -1161,9 +1023,6 @@ void CObjectiveExpandable::CreateNewDefaultControl()
 	CreateNewControl( pKVObjective );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CQuestObjectiveRestrictionNode::CQuestObjectiveRestrictionNode( EditorObjectInitStruct init, CTFQuestCondition *pCondition )
 	: BaseClass( { init.pParent, init.m_pszKeyName, init.nFlags | FLAG_HIGHLIGHT_MOUSEOVER } )
 	, m_pCondition( pCondition )
@@ -1173,9 +1032,6 @@ CQuestObjectiveRestrictionNode::CQuestObjectiveRestrictionNode( EditorObjectInit
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestObjectiveRestrictionNode::CreateControlsForCondition()
 {
 	CComboBoxEditorParam* pTypeParam = new CComboBoxEditorParam( { this, "type", FLAGS_NONE }, "Type:" );
@@ -1244,9 +1100,6 @@ void CQuestObjectiveRestrictionNode::CreateControlsForCondition()
 	CreateAddOpportunityParam();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestObjectiveRestrictionNode::CreateAddOpportunityParam()
 {
 	int nChildCount = 0;
@@ -1297,9 +1150,6 @@ void CQuestObjectiveRestrictionNode::RemoveNode()
 	BaseClass::RemoveNode();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestObjectiveRestrictionNode::SetNewType( const char *pszType )
 {
 	// Delete all children
@@ -1327,9 +1177,6 @@ void CQuestObjectiveRestrictionNode::SetNewType( const char *pszType )
 	InvalidateChain();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestObjectiveRestrictionNode::SetNewEvent( const char *pszEvent )
 {
 	// We only have to blow up everything if we're an evaluator
@@ -1368,9 +1215,6 @@ void CQuestObjectiveRestrictionNode::SetNewEvent( const char *pszEvent )
 	InvalidateChain();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestObjectiveRestrictionNode::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -1378,9 +1222,6 @@ void CQuestObjectiveRestrictionNode::PerformLayout()
 	CreateAddOpportunityParam();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEditorQuest::CEditorQuest( KeyValues *pKV, Panel* pParent, const IEditableDataType* pEditable )
 	: CEditorObjectNode( EditorObjectInitStruct{ pParent, pKV->GetName(), FLAGS_NONE }  )
 {
@@ -1465,9 +1306,6 @@ CEditorQuest::CEditorQuest( KeyValues *pKV, Panel* pParent, const IEditableDataT
 CEditorQuest::~CEditorQuest()
 {}
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEditableDataType::IEditableDataType( KeyValues* pKVData )
 	: m_pKVLiveData( pKVData->MakeCopy() )
 	, m_pKVSavedData( pKVData->MakeCopy() )
@@ -1475,9 +1313,6 @@ IEditableDataType::IEditableDataType( KeyValues* pKVData )
 	, m_bHasUnsavedChanges( false )
 {}
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEditableDataType::~IEditableDataType()
 {
 	// We own the keys
@@ -1896,9 +1731,6 @@ IEditorObject* CEditableObjectiveConditionDataType::CreateEditableObject_Interna
 	return pConditionDef;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CQuestEditorPanel::CQuestEditorPanel( Panel *pParent, const char *pszName )
 	: Frame( pParent, pszName )
 	, m_pCurrentOpenEdit( NULL )
@@ -1912,9 +1744,6 @@ CQuestEditorPanel::CQuestEditorPanel( Panel *pParent, const char *pszName )
 	m_pButtonsContainers[ IEditableDataType::TYPE_OBJECTIVE_CONDITIONS ] = new CExScrollingEditablePanel( this, "QuestObjectiveConditionsContainer" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestEditorPanel::Deploy()
 {
 	PopulateExistingQuests();
@@ -1933,9 +1762,6 @@ void CQuestEditorPanel::Deploy()
 	SetPos(x + ((ww - wide) / 2), y + ((wt - tall) / 2));
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestEditorPanel::ApplySchemeSettings( IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
@@ -1966,18 +1792,12 @@ void CQuestEditorPanel::ApplySchemeSettings( IScheme *pScheme )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestEditorPanel::ApplySettings( KeyValues *inResourceData )
 {
 	BaseClass::ApplySettings( inResourceData );
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestEditorPanel::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -1988,9 +1808,6 @@ void CQuestEditorPanel::PerformLayout()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestEditorPanel::UpdateButtons( IEditableDataType::EType eType )
 {
 	m_pButtonsContainers[ eType ]->ResetScrollAmount();
@@ -2029,9 +1846,6 @@ void CQuestEditorPanel::UpdateButtons( IEditableDataType::EType eType )
 	m_pButtonsContainers[ eType ]->InvalidateLayout();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestEditorPanel::OnCommand( const char *command )
 {
 	if ( Q_strnicmp( "select", command, 6 ) == 0 )
@@ -2264,9 +2078,6 @@ IEditableDataType* CQuestEditorPanel::AddNewEditableKVData( KeyValues* pKVData, 
 	return pNewEditable;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CQuestEditorPanel::PopulateExistingQuests()
 {
 	m_vecEditableData.PurgeAndDeleteElements();

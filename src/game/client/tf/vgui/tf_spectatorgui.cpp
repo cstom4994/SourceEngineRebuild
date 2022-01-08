@@ -56,9 +56,6 @@ static const wchar_t* GetSCGlyph( const char* action )
 	return g_pInputSystem->GetSteamControllerFontCharacterForActionOrigin( origin );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFSpectatorGUI *GetTFSpectatorGUI()
 {
 	extern CSpectatorGUI *g_pSpectatorGUI;
@@ -444,9 +441,6 @@ void CTFSpectatorGUI::UpdateReinforcements( void )
 	m_pBuyBackLabel->SetVisible( bBuyBackVisible );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSpectatorGUI::UpdateKeyLabels( void )
 {
 	C_TFPlayer *pPlayer = C_TFPlayer::GetLocalTFPlayer();

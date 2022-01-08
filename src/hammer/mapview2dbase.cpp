@@ -142,9 +142,6 @@ CMapView2DBase::~CMapView2DBase(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapView2DBase::UpdateTitleWindowPos(void) {
     if (m_pwndTitle != NULL) {
         if (!::IsWindow(m_pwndTitle->m_hWnd)) {
@@ -706,9 +703,6 @@ void CMapView2DBase::UpdateClientView(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapView2DBase::UpdateStatusBar() {
     if (!IsWindow(m_hWnd))
         return;
@@ -953,9 +947,6 @@ void CMapView2DBase::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapView2DBase::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
     if (!m_pToolManager)
         return;
@@ -1320,9 +1311,6 @@ void CMapView2DBase::ActivateView(bool bActivate) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapView2DBase::UpdateView(int nFlags) {
     if (nFlags & MAPVIEW_UPDATE_ONLY_3D)
         return;
@@ -1579,9 +1567,6 @@ void CMapView2DBase::OnSize(UINT nType, int cx, int cy) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapView2DBase::OnEditProperties() {
     // kludge for trackpopupmenu()
     GetMainWnd()->pObjectProperties->ShowWindow(SW_SHOW);

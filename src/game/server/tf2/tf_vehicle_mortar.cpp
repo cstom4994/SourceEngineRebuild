@@ -122,9 +122,6 @@ void CVehicleMortar::OnItemPostFrame( CBaseTFPlayer *pDriver )
 		return;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleMortar::OnFinishedDeploy( void )
 {
 	BaseClass::OnFinishedDeploy();
@@ -137,9 +134,6 @@ void CVehicleMortar::OnFinishedDeploy( void )
 	m_flMortarPitch = 45;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CVehicleMortar::OnFinishedUnDeploy( void )
 {
 	BaseClass::OnFinishedUnDeploy();

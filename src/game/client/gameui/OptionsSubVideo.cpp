@@ -942,9 +942,6 @@ static int getSDLDisplayIndexFullscreen()
 
 #endif // USE_SDL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 COptionsSubVideo::COptionsSubVideo(vgui::Panel *parent) : PropertyPage(parent, NULL) {
     m_bRequireRestart = false;
 

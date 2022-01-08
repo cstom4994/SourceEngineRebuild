@@ -237,9 +237,6 @@ bool CAudioSourceWave::IsAsyncLoad() {
     return (m_nCachedDataSize > 0) ? false : true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAudioSourceWave::CheckAudioSourceCache() {
     if (IsX360()) {
         // 360 does not use audio cache files
@@ -1211,9 +1208,6 @@ int CAudioSourceMemWave::GetCacheStatus(void) {
     return AUDIO_NOT_LOADED;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAudioSourceMemWave::CacheLoad(void) {
     if (IsPC() || !IsX360()) {
         // Commence lazy load?
@@ -1260,9 +1254,6 @@ void CAudioSourceMemWave::CacheLoad(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAudioSourceMemWave::CacheUnload(void) {
     if (IsPC() || !IsX360()) {
         if (m_hCache != 0) {
@@ -2077,9 +2068,6 @@ IAudioSourceCache *audiosourcecache = &g_ASCache;
 
 unsigned int CAudioSourceCachedInfoHandle_t::s_nCurrentFlushCount = 1;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAudioSourceCachedInfoHandle_t::InvalidateCache() {
     ++s_nCurrentFlushCount;
 }
@@ -2239,9 +2227,6 @@ void CAudioSourceCache::LevelInit(char const *mapname) {
     CheckSaveDirtyCaches();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAudioSourceCache::LevelShutdown() {
     CheckSaveDirtyCaches();
 }
@@ -2291,9 +2276,6 @@ CAudioSourceCache::LookUpCacheEntry(const char *fn, int audiosourcetype, bool so
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CAudioSourceCachedInfo *CAudioSourceCache::GetInfo(int audiosourcetype, bool soundisprecached, CSfxTable *sfx) {
     VPROF("CAudioSourceCache::GetInfo");
 

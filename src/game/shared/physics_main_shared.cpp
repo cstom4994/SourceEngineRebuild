@@ -1360,9 +1360,6 @@ int CBaseEntity::PhysicsClipVelocity( const Vector& in, const Vector& normal, Ve
 	return blocked;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseEntity::ResolveFlyCollisionBounce( trace_t &trace, Vector &vecVelocity, float flMinTotalElasticity )
 {
 #ifdef HL1_DLL
@@ -1448,9 +1445,6 @@ void CBaseEntity::ResolveFlyCollisionBounce( trace_t &trace, Vector &vecVelocity
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseEntity::ResolveFlyCollisionSlide( trace_t &trace, Vector &vecVelocity )
 {
 	// Get the impact surface's friction.
@@ -1508,9 +1502,6 @@ void CBaseEntity::ResolveFlyCollisionSlide( trace_t &trace, Vector &vecVelocity 
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseEntity::ResolveFlyCollisionCustom( trace_t &trace, Vector &vecVelocity )
 {
 	// Stop if on ground.

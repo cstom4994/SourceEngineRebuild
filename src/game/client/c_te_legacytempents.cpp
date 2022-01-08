@@ -664,16 +664,10 @@ void C_LocalTempEntity::OnRemoveTempEntity() {
     g_BreakableHelper.Remove(this);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTempEnts::CTempEnts(void) :
         m_TempEntsPool((MAX_TEMP_ENTITIES / 20), CUtlMemoryPool::GROW_SLOW) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTempEnts::~CTempEnts(void) {
     m_TempEntsPool.Clear();
     m_TempEnts.RemoveAll();
@@ -2197,9 +2191,6 @@ void CTempEnts::LevelShutdown() {
     Clear();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTempEnts::Shutdown() {
     LevelShutdown();
 }
@@ -2530,17 +2521,11 @@ void CTempEnts::MuzzleFlash_AR2_NPC(const Vector &origin, const QAngle &angles, 
     FX_MuzzleEffect(origin, angles, 1.0f, hEntity);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTempEnts::MuzzleFlash_SMG1_NPC(ClientEntityHandle_t hEntity, int attachmentIndex) {
     //Draw the cloud of fire
     FX_MuzzleEffectAttached(1.0f, hEntity, attachmentIndex, NULL, true);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTempEnts::MuzzleFlash_SMG1_Player(ClientEntityHandle_t hEntity, int attachmentIndex) {
     VPROF_BUDGET("MuzzleFlash_SMG1_Player", VPROF_BUDGETGROUP_PARTICLE_RENDERING);
     CSmartPtr<CLocalSpaceEmitter> pSimple = CLocalSpaceEmitter::Create("MuzzleFlash_SMG1_Player", hEntity,

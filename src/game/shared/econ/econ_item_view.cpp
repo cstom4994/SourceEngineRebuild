@@ -1128,9 +1128,6 @@ void CEconItemView::DestroyAllAttributes( void )
 
 extern const char *g_EffectTypes[NUM_EFFECT_TYPES];
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef CLIENT_DLL
 const wchar_t *CEconItemView::GetItemName() const
 {
@@ -1194,9 +1191,6 @@ void CEconItemView::GetRenderBounds( Vector& mins, Vector& maxs )
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconItemView::InitNetworkedDynamicAttributesForDemos( void )
 {
 	if ( !GetSOCData() )
@@ -1245,9 +1239,6 @@ void CEconItemView::InitNetworkedDynamicAttributesForDemos( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static int RemapOverridePaintIndexToRGB( uint32 unIndex, uint32 unTeamIndex )
 {
 	enum { kSamplePoints = 256, };
@@ -1846,9 +1837,6 @@ void CAttributeList::RemoveAttributeByIndex( int iIndex )
 	NotifyManagerOfAttributeValueChanges();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const CEconItemAttribute *CAttributeList::GetAttributeByID( int iAttributeID ) const
 {
 	int iAttributes = m_Attributes.Count();
@@ -1863,9 +1851,6 @@ const CEconItemAttribute *CAttributeList::GetAttributeByID( int iAttributeID ) c
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const CEconItemAttribute *CAttributeList::GetAttributeByName( const char *pszAttribDefName ) const
 {
 	CEconItemAttributeDefinition *pDef = GetItemSchema()->GetAttributeDefinitionByName( pszAttribDefName );

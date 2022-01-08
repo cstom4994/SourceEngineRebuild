@@ -413,9 +413,6 @@ int CNPC_BaseScanner::OnTakeDamage_Dying( const CTakeDamageInfo &info )
 	return VPhysicsTakeDamage( info );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_BaseScanner::TraceAttack( const CTakeDamageInfo &info, const Vector &vecDir, trace_t *ptr, CDmgAccumulator *pAccumulator )
 {
 	if ( info.GetDamageType() & DMG_BULLET)
@@ -786,9 +783,6 @@ void CNPC_BaseScanner::AttackDivebombCollide(float flInterval)
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_BaseScanner::PlayFlySound(void)
 {
 	if ( IsMarkedForDeletion() )
@@ -896,9 +890,6 @@ void CNPC_BaseScanner::StartSmokeTrail( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_BaseScanner::BlendPhyscannonLaunchSpeed()
 {
 	// Blend out desired velocity when launched by the physcannon
@@ -917,9 +908,6 @@ void CNPC_BaseScanner::BlendPhyscannonLaunchSpeed()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_BaseScanner::MoveExecute_Alive(float flInterval)
 {
 	// Amount of noise to add to flying
@@ -1416,9 +1404,6 @@ bool CNPC_BaseScanner::GetGoalDirection( Vector *vOut )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Vector CNPC_BaseScanner::VelocityToEvade(CBaseCombatCharacter *pEnemy)
 {
 	if (pEnemy)

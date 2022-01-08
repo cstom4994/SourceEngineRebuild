@@ -113,9 +113,6 @@ void C_PropJeep::UpdateViewAngles(C_BasePlayer *pLocalPlayer, CUserCmd *pCmd) {
     BaseClass::UpdateViewAngles(pLocalPlayer, pCmd);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_PropJeep::DampenEyePosition(Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles) {
 #ifdef HL2_CLIENT_DLL
     // Get the frametime. (Check to see if enough time has passed to warrent dampening).
@@ -153,9 +150,6 @@ void C_PropJeep::ComputePDControllerCoefficients(float *pCoefficientsOut,
     pCoefficientsOut[1] = (flKd + flKs * flDeltaTime) * flScale;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_PropJeep::DampenForwardMotion(Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles, float flFrameTime) {
     // vecVehicleEyePos = real eye position this frame
 
@@ -221,9 +215,6 @@ void C_PropJeep::DampenForwardMotion(Vector &vecVehicleEyePos, QAngle &vecVehicl
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_PropJeep::DampenUpMotion(Vector &vecVehicleEyePos, QAngle &vecVehicleEyeAngles, float flFrameTime) {
     // Get up vector.
     Vector vecUp;

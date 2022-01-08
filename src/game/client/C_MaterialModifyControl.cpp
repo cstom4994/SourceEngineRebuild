@@ -241,15 +241,9 @@ private:
     float m_flTransitionTime;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMaterialModifyProxy::CMaterialModifyProxy() {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CMaterialModifyProxy::~CMaterialModifyProxy() {
 }
 
@@ -326,9 +320,6 @@ IMaterial *CMaterialModifyProxy::GetMaterial() {
     return m_pMaterial;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMaterialModifyProxy::OnBindSetVar(C_MaterialModifyControl *pControl) {
     IMaterial *pMaterial = pControl->GetMaterial();
     if (!pMaterial) {

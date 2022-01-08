@@ -797,9 +797,6 @@ void CTFProjectile_ThrowableTargetDummy::Explode()
 	BaseClass::Explode();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_ConcGrenade::Detonate( )
 {
 	Explode();
@@ -874,9 +871,6 @@ void CTFProjectile_ConcGrenade::Explode( )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_TeleportGrenade::Spawn( void )
 {
 	BaseClass::Spawn();
@@ -884,9 +878,6 @@ void CTFProjectile_TeleportGrenade::Spawn( void )
 	SetContextThink( &CTFProjectile_TeleportGrenade::RecordPosThink, gpGlobals->curtime + 0.05f, "RecordThink" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_TeleportGrenade::RecordPosThink( void )
 {
 	m_vecTrailingPos.AddToTail( GetAbsOrigin() );
@@ -900,9 +891,6 @@ void CTFProjectile_TeleportGrenade::RecordPosThink( void )
 	SetContextThink( &CTFProjectile_TeleportGrenade::RecordPosThink, gpGlobals->curtime + 0.05f, "RecordThink" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_TeleportGrenade::Explode( trace_t *pTrace, int bitsDamageType )
 {
 	CTFPlayer *pThrower = ToTFPlayer( GetThrower() );
@@ -948,9 +936,6 @@ void CTFProjectile_TeleportGrenade::Explode( trace_t *pTrace, int bitsDamageType
 	BaseClass::Explode( pTrace, bitsDamageType );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_GravityGrenade::Spawn( void )
 {
 	BaseClass::Spawn();
@@ -960,9 +945,6 @@ void CTFProjectile_GravityGrenade::Spawn( void )
 	m_bHitWorld = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_GravityGrenade::TrapThink( void )
 {
 	if ( gpGlobals->curtime > m_flStartTime + 5.f )
@@ -980,9 +962,6 @@ void CTFProjectile_GravityGrenade::TrapThink( void )
 	SetContextThink( &CTFProjectile_GravityGrenade::TrapThink, gpGlobals->curtime + 0.15f, "TrapThink" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_GravityGrenade::OnHitWorld( void )
 {
 	if ( !m_bHitWorld )
@@ -1001,9 +980,6 @@ void CTFProjectile_GravityGrenade::OnHitWorld( void )
 	BaseClass::OnHitWorld();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_GravityGrenade::PulseTrap( void )
 {
 	const int nMaxEnts = 32;
@@ -1141,9 +1117,6 @@ void CTFProjectile_ThrowingKnife::Detonate()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_SmokeGrenade::Spawn( void )
 {
 	BaseClass::Spawn();
@@ -1152,9 +1125,6 @@ void CTFProjectile_SmokeGrenade::Spawn( void )
 	m_bHitWorld = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_SmokeGrenade::OnHitWorld( void )
 {
 	if ( !m_bHitWorld )
@@ -1180,9 +1150,6 @@ void CTFProjectile_SmokeGrenade::OnHitWorld( void )
 	BaseClass::OnHitWorld();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFProjectile_SmokeGrenade::SmokeThink( void )
 {
 	if ( gpGlobals->curtime > m_flStartTime + 6.f )

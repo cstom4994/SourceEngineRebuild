@@ -514,9 +514,6 @@ void StudioModel::SetupModel(int bodypart) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void StudioModel::DrawModel3D(CRender3D *pRender, float flAlpha, bool bWireframe) {
     studiohdr_t *pStudioHdr = GetStudioRenderHdr();
     if (!pStudioHdr)
@@ -759,9 +756,6 @@ bool StudioModel::PostLoadModel(const char *modelname) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int StudioModel::GetSequenceCount(void) {
     CStudioHdr *pStudioHdr = GetStudioHdr();
     return pStudioHdr->GetNumSeq();

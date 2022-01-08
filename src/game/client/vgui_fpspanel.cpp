@@ -470,9 +470,6 @@ CBlockingFileIOPanel::CBlockingFileIOPanel( vgui::VPANEL parent ) : BaseClass( N
     MakePopup();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBlockingFileIOPanel::~CBlockingFileIOPanel( void )
 {
 }
@@ -489,9 +486,6 @@ void CBlockingFileIOPanel::ApplySchemeSettings(vgui::IScheme *pScheme)
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBlockingFileIOPanel::OnTick( void )
 {
     bool bVisible = ShouldDraw();

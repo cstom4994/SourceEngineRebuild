@@ -36,9 +36,6 @@
 #include <tier0/memdbgon.h>
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CBaseToolUsageDialog::CBaseToolUsageDialog( vgui::Panel *parent, const char *panelName, CEconItemView *pTool, CEconItemView *pToolSubject ) : vgui::EditablePanel( parent, panelName )
 {
 	m_pToolModelPanel = new CItemModelPanel( this, "tool_modelpanel" );
@@ -61,9 +58,6 @@ CBaseToolUsageDialog::CBaseToolUsageDialog( vgui::Panel *parent, const char *pan
 	m_pszInternalPanelName = panelName ? panelName : "unknown";
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseToolUsageDialog::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
@@ -130,9 +124,6 @@ void CBaseToolUsageDialog::ApplySchemeSettings( vgui::IScheme *pScheme )
 	m_pMouseOverItemPanel->SetBorder( pScheme->GetBorder("LoadoutItemPopupBorder") );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseToolUsageDialog::PerformLayout()
 {
 	BaseClass::PerformLayout();
@@ -150,9 +141,6 @@ void CBaseToolUsageDialog::PerformLayout()
 	// }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseToolUsageDialog::OnCommand( const char *command )
 {
 	// in any case, our dialog is going away
@@ -826,9 +814,6 @@ void CEconTool_UpgradeCard::OnClientApplyTool( CEconItemView *pTool, CEconItemVi
 	MakeModalAndBringToFront( pDialog );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CConfirmTransmogrifyApplicationDialog : public CBaseToolUsageDialog
 {
 	DECLARE_CLASS_SIMPLE( CConfirmTransmogrifyApplicationDialog, CBaseToolUsageDialog );
@@ -882,9 +867,6 @@ void CEconTool_ClassTransmogrifier::OnClientApplyTool( CEconItemView *pTool, CEc
 }
 
 #ifdef PONDER_CLIENT_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CConfirmSpellbookPageApplicationDialog : public CBaseToolUsageDialog
 {
 	DECLARE_CLASS_SIMPLE( CConfirmSpellbookPageApplicationDialog, CBaseToolUsageDialog );

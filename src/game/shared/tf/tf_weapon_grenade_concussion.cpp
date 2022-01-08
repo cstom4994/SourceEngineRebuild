@@ -49,9 +49,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_concussion );
 BEGIN_DATADESC( CTFGrenadeConcussion )
 END_DATADESC()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFWeaponBaseGrenadeProj *CTFGrenadeConcussion::EmitGrenade( Vector vecSrc, QAngle vecAngles, Vector vecVel, 
 							        AngularImpulse angImpulse, CBasePlayer *pPlayer, float flTime, int iflags )
 {
@@ -72,9 +69,6 @@ CTFWeaponBaseGrenadeProj *CTFGrenadeConcussion::EmitGrenade( Vector vecSrc, QAng
 LINK_ENTITY_TO_CLASS( tf_weapon_grenade_concussion_projectile, CTFGrenadeConcussionProjectile );
 PRECACHE_WEAPON_REGISTER( tf_weapon_grenade_concussion_projectile );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGrenadeConcussionProjectile* CTFGrenadeConcussionProjectile::Create( const Vector &position, const QAngle &angles, 
 																const Vector &velocity, const AngularImpulse &angVelocity, 
 																CBaseCombatCharacter *pOwner, const CTFWeaponInfo &weaponInfo, float timer, int iFlags )
@@ -88,9 +82,6 @@ CTFGrenadeConcussionProjectile* CTFGrenadeConcussionProjectile::Create( const Ve
 	return pGrenade;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeConcussionProjectile::Spawn()
 {
 	SetModel( GRENADE_MODEL );
@@ -98,9 +89,6 @@ void CTFGrenadeConcussionProjectile::Spawn()
 	BaseClass::Spawn();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeConcussionProjectile::Precache()
 {
 	PrecacheModel( GRENADE_MODEL );
@@ -108,17 +96,11 @@ void CTFGrenadeConcussionProjectile::Precache()
 	BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeConcussionProjectile::BounceSound( void )
 {
 	EmitSound( "Weapon_Grenade_Concussion.Bounce" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeConcussionProjectile::Detonate()
 {
 	if ( ShouldNotDetonate() )
@@ -146,9 +128,6 @@ void CTFGrenadeConcussionProjectile::Detonate()
 
 extern ConVar tf_grenade_show_radius;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGrenadeConcussionProjectile::Explode( trace_t *pTrace, int bitsDamageType )
 {
 // Server specific.

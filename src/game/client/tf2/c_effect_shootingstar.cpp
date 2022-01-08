@@ -134,9 +134,6 @@ void C_ShootingStar::Destroy( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_ShootingStar::SetSortOrigin( const Vector &vSortOrigin )
 {
 	CSimpleEmitter::SetSortOrigin( vSortOrigin );

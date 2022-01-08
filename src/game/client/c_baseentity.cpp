@@ -991,27 +991,15 @@ void C_BaseEntity::Clear(void) {
     UpdateVisibility();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::Spawn(void) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::Activate() {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::SpawnClientEntity(void) {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::Precache(void) {
 }
 
@@ -1036,9 +1024,6 @@ bool C_BaseEntity::Init(int entnum, int iSerialNum) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BaseEntity::InitializeAsClientEntity(const char *pszModelName, RenderGroup_t renderGroup) {
     int nModelIndex;
 
@@ -1059,9 +1044,6 @@ bool C_BaseEntity::InitializeAsClientEntity(const char *pszModelName, RenderGrou
     return InitializeAsClientEntityByIndex(nModelIndex, renderGroup);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_BaseEntity::InitializeAsClientEntityByIndex(int iIndex, RenderGroup_t renderGroup) {
     index = -1;
 
@@ -1176,9 +1158,6 @@ void C_BaseEntity::CreateModelInstance() {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::DestroyModelInstance() {
     if (m_ModelInstance != MODEL_INSTANCE_INVALID) {
         modelrender->DestroyInstance(m_ModelInstance);
@@ -1391,16 +1370,10 @@ bool C_BaseEntity::GetShadowCastDistance(float *pDistance, ShadowType_t shadowTy
     return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_BaseEntity *C_BaseEntity::GetShadowUseOtherEntity(void) const {
     return m_ShadowDirUseOtherEntity;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::SetShadowUseOtherEntity(C_BaseEntity *pEntity) {
     m_ShadowDirUseOtherEntity = pEntity;
 }
@@ -1763,9 +1736,6 @@ float *C_BaseEntity::GetRenderClipPlane(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int C_BaseEntity::DrawBrushModel(bool bDrawingTranslucency, int nFlags, bool bTwoPass) {
     VPROF_BUDGET("C_BaseEntity::DrawBrushModel", VPROF_BUDGETGROUP_BRUSHMODEL_RENDERING);
     // Identity brushes are drawn in view->DrawWorld as an optimization
@@ -3181,9 +3151,6 @@ void C_BaseEntity::ComputeFxBlend(void) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int C_BaseEntity::GetFxBlend(void) {
     Assert(m_nFXComputeFrame == gpGlobals->framecount);
     return m_nRenderFXBlend;
@@ -3496,9 +3463,6 @@ int C_BaseEntity::GetTeamNumber(void) const {
     return m_iTeamNum;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int C_BaseEntity::GetRenderTeamNumber(void) {
     return GetTeamNumber();
 }
@@ -4067,9 +4031,6 @@ void C_BaseEntity::MarkRenderHandleDirty() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::ShutdownPredictable(void) {
 #if !defined( NO_ENTITY_PREDICTION )
     Assert(GetPredictable());
@@ -4656,9 +4617,6 @@ bool C_BaseEntity::IsIntermediateDataAllocated(void) const {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::AllocateIntermediateData(void) {
 #if !defined( NO_ENTITY_PREDICTION )
     if (m_pOriginalData)
@@ -4677,9 +4635,6 @@ void C_BaseEntity::AllocateIntermediateData(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::DestroyIntermediateData(void) {
 #if !defined( NO_ENTITY_PREDICTION )
     if (!m_pOriginalData)
@@ -4749,9 +4704,6 @@ void *C_BaseEntity::GetPredictedFrame(int framenumber) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void *C_BaseEntity::GetOriginalNetworkDataObject(void) {
 #if !defined( NO_ENTITY_PREDICTION )
     if (!m_pOriginalData) {
@@ -4764,9 +4716,6 @@ void *C_BaseEntity::GetOriginalNetworkDataObject(void) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::ComputePackedOffsets(void) {
 #if !defined( NO_ENTITY_PREDICTION )
     datamap_t *map = GetPredDescMap();
@@ -4994,9 +4943,6 @@ static ConCommand cl_removedecals("cl_removedecals", RemoveDecals_f,
                                   "Remove the decals from the entity under the crosshair.", FCVAR_CHEAT);
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::ToggleBBoxVisualization(int fVisFlags) {
     if (m_fBBoxVisFlags & fVisFlags) {
         m_fBBoxVisFlags &= ~fVisFlags;
@@ -5005,9 +4951,6 @@ void C_BaseEntity::ToggleBBoxVisualization(int fVisFlags) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void ToggleBBoxVisualization(int fVisFlags, const CCommand &args) {
     CBaseEntity *pHit;
 
@@ -5050,9 +4993,6 @@ CON_COMMAND_F(cl_ent_rbox, "Displays the client's render box for the entity unde
     ToggleBBoxVisualization(CBaseEntity::VISUALIZE_RENDER_BOUNDS, args);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_BaseEntity::DrawBBoxVisualizations(void) {
     if (m_fBBoxVisFlags & VISUALIZE_COLLISION_BOUNDS) {
         if (debugoverlay) {

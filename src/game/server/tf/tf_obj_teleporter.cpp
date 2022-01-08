@@ -34,9 +34,6 @@
 #define TELEPORTER_MINS			Vector( -24, -24, 0)
 #define TELEPORTER_MAXS			Vector( 24, 24, 12)	
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 // Seconds it takes a teleporter to recharge
 int g_iTeleporterRechargeTimes[4] =
 {
@@ -550,9 +547,6 @@ void CObjectTeleporter::Precache()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CObjectTeleporter::PlayerCanBeTeleported( CTFPlayer *pPlayer )
 {
 	if ( !pPlayer )
@@ -583,9 +577,6 @@ bool CObjectTeleporter::PlayerCanBeTeleported( CTFPlayer *pPlayer )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectTeleporter::StartTouch( CBaseEntity *pOther )
 {
 	BaseClass::StartTouch(pOther);
@@ -596,9 +587,6 @@ void CObjectTeleporter::StartTouch( CBaseEntity *pOther )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectTeleporter::EndTouch( CBaseEntity *pOther )
 {
 	BaseClass::EndTouch(pOther);
@@ -611,9 +599,6 @@ void CObjectTeleporter::EndTouch( CBaseEntity *pOther )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectTeleporter::TeleporterTouch( CBaseEntity *pOther )
 {
 	if ( IsDisabled() )
@@ -759,9 +744,6 @@ void CObjectTeleporter::ApplySpeedBoost( CTFPlayer *pPlayer )
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CObjectTeleporter::Command_Repair( CTFPlayer *pActivator, float flRepairMod )
 {
 	float flTargetHeal = 100.0f * flRepairMod;
@@ -851,9 +833,6 @@ bool CObjectTeleporter::IsReady( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CObjectTeleporter::IsMatchingTeleporterReady( void )
 {
 	if ( m_hMatchingTeleporter.Get() == NULL )
@@ -917,9 +896,6 @@ void CObjectTeleporter::CopyUpgradeStateToMatch( CObjectTeleporter *pMatch, bool
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CObjectTeleporter *CObjectTeleporter::GetMatchingTeleporter( void )
 {
 #ifdef STAGING_ONLY
@@ -1164,9 +1140,6 @@ void CObjectTeleporter::RecieveTeleportingPlayer( CTFPlayer* pTeleportingPlayer 
 	}			
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectTeleporter::TeleporterThink( void )
 {
 	if ( IsCarried() )
@@ -1379,9 +1352,6 @@ void CObjectTeleporter::ShowDirectionArrow( bool bShow )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CObjectTeleporter::DrawDebugTextOverlays(void) 
 {
 	int text_offset = BaseClass::DrawDebugTextOverlays();
@@ -1415,9 +1385,6 @@ int CObjectTeleporter::DrawDebugTextOverlays(void)
 	return text_offset;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CObjectTeleporter* CObjectTeleporter::FindMatch( void )
 {
 	int iObjType = GetType();
@@ -1464,9 +1431,6 @@ CObjectTeleporter* CObjectTeleporter::FindMatch( void )
 	return pMatch;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectTeleporter::Explode( void )
 {
 	CObjectTeleporter *pMatch = GetMatchingTeleporter();
@@ -1562,9 +1526,6 @@ void CObjectTeleporter::MakeCarriedObject( CTFPlayer *pCarrier )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectTeleporter::InputEnable( inputdata_t &inputdata )
 {
 	BaseClass::InputEnable( inputdata );
@@ -1582,9 +1543,6 @@ void CObjectTeleporter::InputEnable( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectTeleporter::InputDisable( inputdata_t &inputdata )
 {
 	BaseClass::InputDisable( inputdata );

@@ -223,9 +223,6 @@ bool CTFGameStats::Init( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void StripNewlineFromString( char *string )
 {
 	int nStrlength = strlen( string ) - 1;
@@ -1726,9 +1723,6 @@ void CTFGameStats::AccumulateGameData()
 	ClearCurrentGameData();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameStats::AccumulateVoteData( void )
 {
 	if ( !g_voteController )

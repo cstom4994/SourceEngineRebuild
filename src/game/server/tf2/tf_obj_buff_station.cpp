@@ -613,9 +613,6 @@ void CObjectBuffStation::UpdatePlayerAttachment( CBaseTFPlayer *pPlayer )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectBuffStation::SwapObjectAttachment( int nIndex )
 {
 	bool bModifierActive = m_aObjectAttachInfo[m_nObjectCount].m_DamageModifier.GetCharacter() != NULL;
@@ -716,9 +713,6 @@ void CObjectBuffStation::BoostPlayerThink( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectBuffStation::BoostObjectThink( void )
 {
 	// Set next boost object think time.
@@ -763,9 +757,6 @@ void CObjectBuffStation::BoostObjectThink( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CObjectBuffStation::DeBuffObject( CBaseObject *pObject )
 {
 	DetachObject( pObject );

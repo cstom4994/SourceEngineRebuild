@@ -644,9 +644,6 @@ namespace GCSDK {
         return BYieldingUpdateRecords(record, whereColumns, record, updateColumns, pOptionalOutputParams);
     }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
     bool CSQLAccess::BYieldingUpdateRecords(const CRecordBase &whereRecord, const CColumnSet &whereColumns,
                                             const CRecordBase &updateRecord, const CColumnSet &updateColumns,
                                             const CSQLOutputParams *pOptionalOutputParams /* = NULL */ ) {

@@ -2275,9 +2275,6 @@ void C_DODPlayer::DestroyColdBreathEmitter( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_DODPlayer::UpdateColdBreath( void )
 {
 	if ( !cl_coldbreath_enable.GetBool() )
@@ -2414,9 +2411,6 @@ void C_DODPlayer::CalculateIKLocks( float currentTime )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_DODPlayer::EmitColdBreathParticles( void )
 {
 	// Get the position to emit from - look into caching this off we are doing redundant work in the case

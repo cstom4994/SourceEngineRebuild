@@ -55,9 +55,6 @@ IMPLEMENT_AUTO_LIST( ICaptureZoneAutoList );
 // CTF Flag Capture Zone functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CCaptureZone::CCaptureZone()
 {
 	m_bShouldBlock = true;
@@ -65,9 +62,6 @@ CCaptureZone::CCaptureZone()
 	m_flCaptureDelayOffset = 0.025f;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureZone::Spawn()
 {
 	InitTrigger();
@@ -216,9 +210,6 @@ void CCaptureZone::PlayerDestructionThink( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureZone::ShimTouch( CBaseEntity *pOther )
 {
 	// Is the zone enabled?
@@ -359,33 +350,21 @@ int CCaptureZone::UpdateTransmitState()
 	return SetTransmitState( FL_EDICT_ALWAYS );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCaptureZone::IsDisabled( void )
 {
 	return m_bDisabled;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureZone::InputEnable( inputdata_t &inputdata )
 {
 	SetDisabled( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureZone::InputDisable( inputdata_t &inputdata )
 {
 	SetDisabled( true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureZone::SetDisabled( bool bDisabled )
 {
 	m_bDisabled.Set( bDisabled );

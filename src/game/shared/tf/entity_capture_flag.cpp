@@ -270,9 +270,6 @@ CCaptureFlag::CCaptureFlag()
 	m_nUseTrailEffect.Set( FLAG_EFFECTS_ALL );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CCaptureFlag::~CCaptureFlag()
 {
 #ifndef GAME_DLL
@@ -284,17 +281,11 @@ CCaptureFlag::~CCaptureFlag()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 unsigned int CCaptureFlag::GetItemID( void ) const
 {
 	return TF_ITEM_CAPTURE_FLAG;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CCaptureFlag::GetFlagModel( void )
 {
 	if ( m_szModel[ 0 ] != '\0' )
@@ -593,9 +584,6 @@ bool CCaptureFlag::ShouldHideGlowEffect( void )
 }
 #endif //#ifdef CLIENT_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureFlag::Spawn( void )
 {
 #ifdef GAME_DLL
@@ -1034,9 +1022,6 @@ void CCaptureFlag::ResetMessage( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureFlag::FlagTouch( CBaseEntity *pOther )
 {
 	// Is the flag disabled or stolen already?
@@ -1156,9 +1141,6 @@ void CCaptureFlag::FlagTouch( CBaseEntity *pOther )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureFlag::PickUp( CTFPlayer *pPlayer, bool bInvisible )
 {
 	// Is the flag enabled?
@@ -1499,9 +1481,6 @@ void CCaptureFlag::PickUp( CTFPlayer *pPlayer, bool bInvisible )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureFlag::Capture( CTFPlayer *pPlayer, int nCapturePoint )
 {
 	// Is the flag enabled?
@@ -2148,41 +2127,26 @@ void CCaptureFlag::Drop( CTFPlayer *pPlayer, bool bVisible,  bool bThrown /*= fa
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCaptureFlag::IsDropped( void )
 { 
 	return ( m_nFlagStatus == TF_FLAGINFO_DROPPED ); 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCaptureFlag::IsHome( void )
 { 
 	return ( m_nFlagStatus == TF_FLAGINFO_HOME ); 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCaptureFlag::IsStolen( void )
 { 
 	return ( m_nFlagStatus == TF_FLAGINFO_STOLEN ); 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CCaptureFlag::IsDisabled( void ) const
 {
 	return m_bDisabled;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureFlag::SetDisabled( bool bDisabled )
 {
 	m_bDisabled = bDisabled;
@@ -2284,9 +2248,6 @@ void CCaptureFlag::SetFlagStatus( int iStatus, CBasePlayer *pNewOwner /*= NULL*/
 // GAME DLL Functions
 //-----------------------------------------------------------------------------------------------
 #ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureFlag::Think( void )
 {
 	// Is the flag enabled?
@@ -2443,17 +2404,11 @@ void CCaptureFlag::DestroyReturnIcon( void )
 	m_hReturnIcon = NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureFlag::InputEnable( inputdata_t &inputdata )
 {
 	SetDisabled( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCaptureFlag::InputDisable( inputdata_t &inputdata )
 {
 	SetDisabled( true );

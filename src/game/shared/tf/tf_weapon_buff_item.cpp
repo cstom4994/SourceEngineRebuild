@@ -59,9 +59,6 @@ COMPILE_TIME_ASSERT( ARRAYSIZE( BannerModels ) == NUM_BUFF_ITEM_TYPES );
 // Weapon Buff Item functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFBuffItem::CTFBuffItem()
 {
 #ifdef CLIENT_DLL
@@ -74,9 +71,6 @@ CTFBuffItem::CTFBuffItem()
 	UseClientSideAnimation();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFBuffItem::~CTFBuffItem()
 {
 #ifdef CLIENT_DLL
@@ -88,9 +82,6 @@ CTFBuffItem::~CTFBuffItem()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFBuffItem::Precache()
 {
 	// Need to make this dynamic, but the item data isn't available here?
@@ -482,9 +473,6 @@ bool CTFBuffItem::IsFull( void )
 	return ( pPlayer->m_Shared.GetRageMeter() >= 100.0f );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFBuffItem::EffectMeterShouldFlash( void )
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();

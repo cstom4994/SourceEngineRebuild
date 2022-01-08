@@ -231,9 +231,6 @@ public:
 };
 
 #ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 DECLARE_AUTO_LIST( ITFFlameEntityAutoList );
 class CTFFlameEntity : public CBaseEntity, public ITFFlameEntityAutoList
 {
@@ -280,9 +277,6 @@ private:
 
 
 #ifdef STAGING_ONLY
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CTFProjectile_Napalm : public CTFProjectile_Jar
 {
 	DECLARE_CLASS( CTFProjectile_Napalm, CTFProjectile_Jar );

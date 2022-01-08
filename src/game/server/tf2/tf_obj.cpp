@@ -1323,9 +1323,6 @@ void CBaseObject::AttemptToFindPower( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseObject::AttemptToFindBuffStation( void )
 {
 	// Check to see if this object can be connected to a buff station.
@@ -3202,9 +3199,6 @@ void CBaseObject::SetDisabled( bool bDisabled )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseObject::SetBuffStation( CObjectBuffStation *pBuffStation, bool bPlacing )	
 { 
 	// Activate
@@ -3227,9 +3221,6 @@ void CBaseObject::SetBuffStation( CObjectBuffStation *pBuffStation, bool bPlacin
 	m_hBuffStation = pBuffStation; 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CBaseObject::IsHookedAndBuffed( void )												
 { 
 	if ( GetBuffStation() && HasPowerup( POWERUP_BOOST ) )

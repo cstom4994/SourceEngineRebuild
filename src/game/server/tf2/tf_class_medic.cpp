@@ -63,9 +63,6 @@ CPlayerClassMedic::CPlayerClassMedic( CBaseTFPlayer *pPlayer, TFClass iClass ) :
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPlayerClassMedic::SetupSizeData( void )
 {
 	// Initially set the player to the base player class standing hull size.

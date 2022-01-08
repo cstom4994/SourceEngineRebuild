@@ -396,9 +396,6 @@ bool CEconItemRarityDefinition::BInitFromKV( KeyValues *pKVRarity, KeyValues *pK
 	return SCHEMA_INIT_SUCCESS();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconColorDefinition::BInitFromKV( KeyValues *pKVColor, CUtlVector<CUtlString> *pVecErrors /* = NULL */ )
 {
 	m_strName		= pKVColor->GetName();
@@ -1035,9 +1032,6 @@ RTime32	CEconOperationDefinition::GetMaxDropFreq() const
 	return m_rtDropFreqMax;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool BCommonInitPropertyGeneratorsFromKV( const char *pszContext, CUtlVector<const IEconItemPropertyGenerator *> *out_pvecGenerators, KeyValues *pKV, CUtlVector<CUtlString> *pVecErrors )
 {
 	// Forward declaration so factory functions can be wherever.
@@ -1424,9 +1418,6 @@ bool CEconLootListDefinition::BInitFromKV( KeyValues *pKVLootList, CEconItemSche
 }
 
 #ifdef GC_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static bool BContainsDuplicateItemDefs( const CUtlVector<CEconLootListDefinition::rolled_item_defs_t>& vecItemDefsA, const CUtlVector<CEconLootListDefinition::rolled_item_defs_t>& vecItemDefsB )
 {
 	CUtlHashtable<const CEconItemDefinition *> hashItemDefs;
@@ -1448,9 +1439,6 @@ static bool BContainsDuplicateItemDefs( const CUtlVector<CEconLootListDefinition
 		|| BPopulateAndLookForDupes( vecItemDefsB );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconLootListDefinition::BGenerateSingleRollRandomItems( const CEconGameAccount *pGameAccount, bool bFreeAccount, CUtlVector<CEconItem *> *out_pvecItems, const CUtlVector< item_definition_index_t > *pVecAvoidItemDefs /*= NULL*/ ) const
 {
 	Assert( out_pvecItems );
@@ -2302,9 +2290,6 @@ void CEconItemSchema::PerformCaseBehaviorCheck()
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconLootListDefinition::RollRandomItemsAndAdditionalItems( IUniformRandomStream *pRandomStream, bool bFreeAccount, CUtlVector<rolled_item_defs_t> *out_pVecRolledItems, const CUtlVector< item_definition_index_t > *pVecAvoidItemDefs ) const
 {
 	Assert( out_pVecRolledItems );
@@ -2550,9 +2535,6 @@ bool CEconLootListDefinition::BAttachLootListAttributes( const CEconGameAccount 
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool lootlist_attrib_t::BInitFromKV( const char *pszContext, KeyValues *pKVKey, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors )
 {
 	SCHEMA_INIT_SUBSTEP( m_staticAttrib.BInitFromKV_MultiLine( pszContext, pKVKey, pVecErrors ) );
@@ -2612,9 +2594,6 @@ bool random_attrib_t::RollRandomAttributes( CUtlVector< static_attrib_t >& vecAt
 
 #endif // GC_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconLootListDefinition::EnumerateUserFacingPotentialDrops( IEconLootListIterator *pIt ) const
 {
 	Assert( pIt );
@@ -2645,9 +2624,6 @@ void CEconLootListDefinition::EnumerateUserFacingPotentialDrops( IEconLootListIt
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 /*static*/ CSchemaAttributeDefHandle CAttributeLineItemLootList::s_pAttrDef_RandomDropLineItems[] =
 {
 	CSchemaAttributeDefHandle( "random drop line item 0" ),
@@ -2662,9 +2638,6 @@ void CEconLootListDefinition::EnumerateUserFacingPotentialDrops( IEconLootListIt
 #endif // GC_DLL
 CSchemaAttributeDefHandle CAttributeLineItemLootList::s_pAttrDef_RandomDropLineItemFooterDesc( "random drop line item footer desc" );	
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAttributeLineItemLootList::EnumerateUserFacingPotentialDrops( IEconLootListIterator *pIt ) const
 {
 	Assert( pIt );
@@ -2682,9 +2655,6 @@ void CAttributeLineItemLootList::EnumerateUserFacingPotentialDrops( IEconLootLis
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CAttributeLineItemLootList::GetLootListHeaderLocalizationKey() const
 {
 	return g_pszDefaultRevolvingLootListHeader;
@@ -2954,9 +2924,6 @@ int CEconCraftingRecipeDefinition::GetTotalInputItemsRequired( void ) const
 	return iCount;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef GC_DLL
 	#define GC_SCH_REFERENCE( TAttribSchType ) \
 		TAttribSchType, 
@@ -2964,9 +2931,6 @@ int CEconCraftingRecipeDefinition::GetTotalInputItemsRequired( void ) const
 	#define GC_SCH_REFERENCE( TAttribSchType )
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 unsigned int Internal_GetAttributeTypeUniqueIdentifierNextValue()
 {
 	static unsigned int s_unUniqueCounter = 0;
@@ -2976,9 +2940,6 @@ unsigned int Internal_GetAttributeTypeUniqueIdentifierNextValue()
 	return unCounter;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef GC_DLL
 template < typename TAttribSchType, typename TRecordBaseType >
 static TAttribSchType *GetTypedSch( TRecordBaseType *pRecordBase )
@@ -2995,9 +2956,6 @@ static TAttribSchType *GetTypedSch( TRecordBaseType *pRecordBase )
 }
 #endif // GC_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < GC_SCH_REFERENCE( typename TAttribSchType ) typename TAttribInMemoryType >
 class CSchemaAttributeTypeBase : public ISchemaAttributeTypeBase<TAttribInMemoryType>
 {
@@ -3017,9 +2975,6 @@ public:
 #endif // GC_DLL
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < GC_SCH_REFERENCE( typename TAttribSchType ) typename TProtobufValueType >
 class CSchemaAttributeTypeProtobufBase : public CSchemaAttributeTypeBase< GC_SCH_REFERENCE( TAttribSchType ) TProtobufValueType >
 {
@@ -3057,9 +3012,6 @@ public:
 	}
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CSchemaAttributeType_String : public CSchemaAttributeTypeProtobufBase< GC_SCH_REFERENCE( CSchItemAttributeString ) CAttribute_String >
 {
 public:
@@ -3130,9 +3082,6 @@ void CopyStringAttributeValueToCharPointerOutput( const CAttribute_String *pValu
 	*out_pValue = pValue->value().c_str();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CSchemaAttributeType_DynamicRecipeComponentDefinedItem : public CSchemaAttributeTypeProtobufBase< GC_SCH_REFERENCE( CSchItemAttributeDynamicRecipeComponentDefinedItem ) CAttribute_DynamicRecipeComponent >
 {
 public:
@@ -3268,9 +3217,6 @@ public:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CSchemaAttributeType_ItemSlotCriteria : public CSchemaAttributeTypeProtobufBase< GC_SCH_REFERENCE( CSchItemAttributeItemSlotCriteria ) CAttribute_ItemSlotCriteria >
 {
 public:
@@ -3320,9 +3266,6 @@ public:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CSchemaAttributeType_WorldItemPlacement : public CSchemaAttributeTypeProtobufBase < GC_SCH_REFERENCE( CSchItemAttributeWorldItemPlacement ) CAttribute_WorldItemPlacement >
 {
 public:
@@ -3411,9 +3354,6 @@ public:
 	}
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CSchemaAttributeType_Float : public CSchemaAttributeTypeBase< GC_SCH_REFERENCE( CSchItemAttributeFloat ) float >
 {
 public:
@@ -3486,9 +3426,6 @@ public:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CSchemaAttributeType_UInt64 : public CSchemaAttributeTypeBase< GC_SCH_REFERENCE( CSchItemAttributeUInt64 ) uint64 >
 {
 public:
@@ -3562,9 +3499,6 @@ public:
 };
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 class CSchemaAttributeType_Default : public CSchemaAttributeTypeBase< GC_SCH_REFERENCE( CSchItemAttribute ) attrib_value_t >
 {
 public:
@@ -4462,9 +4396,6 @@ void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, CUtlVector
 }
 
 #ifdef GC_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 template < typename T >
 static void NthPermutation ( T *pData, unsigned int unDataCount, unsigned int unIdx )
 {
@@ -4475,9 +4406,6 @@ static void NthPermutation ( T *pData, unsigned int unDataCount, unsigned int un
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconItemDefinition::BApplyPropertyGenerators( CEconItem *pItem ) const
 {
 	Assert( pItem );
@@ -4494,9 +4422,6 @@ bool CEconItemDefinition::BApplyPropertyGenerators( CEconItem *pItem ) const
 #endif // GC_DLL
 
 #if defined(CLIENT_DLL) || defined(GAME_DLL)
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconItemDefinition::GeneratePrecacheModelStrings( bool bDynamicLoad, CUtlVector<const char *> *out_pVecModelStrings ) const
 {
 	Assert( out_pVecModelStrings );
@@ -4665,9 +4590,6 @@ void CEconStyleInfo::BInitFromKV( KeyValues *pKVStyle, CUtlVector<CUtlString> *p
 }
 
 #if defined(CLIENT_DLL) || defined(GAME_DLL)
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconStyleInfo::GeneratePrecacheModelStringsForStyle( CUtlVector<const char *> *out_pVecModelStrings ) const
 {
 	Assert( out_pVecModelStrings );
@@ -4764,9 +4686,6 @@ KeyValues *CEconItemSchema::FindDefinitionPrefabByName( const char *pszPrefabNam
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CEconItemSchema::FindStringTableEntry( const char *pszTableName, int iIndex ) const
 {
 	SchemaStringTableDict_t::IndexType_t i = m_dictStringTable.Find( pszTableName );
@@ -5450,9 +5369,6 @@ const char *CEconItemDefinition::GetFirstSaleDate() const
 	return GetDefinitionString( "first_sale_date", "1960/00/00" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEconItemDefinition::IterateAttributes( IEconItemAttributeIterator *pIterator ) const
 {
 	FOR_EACH_VEC( GetStaticAttributes(), i )
@@ -5480,9 +5396,6 @@ void CEconItemDefinition::IterateAttributes( IEconItemAttributeIterator *pIterat
 }
 
 #if defined(CLIENT_DLL) || defined(GAME_DLL)
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Activity CEconItemDefinition::GetActivityOverride( int iTeam, Activity baseAct ) const
 {
 	int iAnims = GetNumAnimations( iTeam );
@@ -5513,9 +5426,6 @@ Activity CEconItemDefinition::GetActivityOverride( int iTeam, Activity baseAct )
 	return baseAct;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CEconItemDefinition::GetActivityOverride( int iTeam, const char *pszActivity ) const
 {
 	int iAnims = GetNumAnimations( iTeam );
@@ -5529,9 +5439,6 @@ const char *CEconItemDefinition::GetActivityOverride( int iTeam, const char *psz
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CEconItemDefinition::GetReplacementForActivityOverride( int iTeam, Activity baseAct ) const
 {
 	int iAnims = GetNumAnimations( iTeam );
@@ -5758,9 +5665,6 @@ CEconItemSchema::CEconItemSchema( )
 	Reset();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEconTool *CEconItemSchema::CreateEconToolImpl( const char *pszToolType, const char *pszUseString, const char *pszUsageRestriction, item_capabilities_t unCapabilities, KeyValues *pUsageKV )
 {
 	if ( pszToolType )
@@ -6840,9 +6744,6 @@ bool CEconItemSchema::BInitGameInfo( KeyValues *pKVGameInfo, CUtlVector<CUtlStri
 	return SCHEMA_INIT_SUCCESS();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconItemSchema::BInitAttributeTypes( CUtlVector<CUtlString> *pVecErrors )
 {
 	FOR_EACH_VEC( m_vecAttributeTypes, i )
@@ -7108,9 +7009,6 @@ bool CEconItemSchema::BInitQualities( KeyValues *pKVQualities, CUtlVector<CUtlSt
 	return SCHEMA_INIT_SUCCESS();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconItemSchema::BInitColors( KeyValues *pKVColors, CUtlVector<CUtlString> *pVecErrors )
 {
 	// initialize the color definitions
@@ -7128,9 +7026,6 @@ bool CEconItemSchema::BInitColors( KeyValues *pKVColors, CUtlVector<CUtlString> 
 	return SCHEMA_INIT_SUCCESS();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CEconItemSchema::GetEquipRegionIndexByName( const char *pRegionName ) const
 {
 	FOR_EACH_VEC( m_vecEquipRegionsList, i )
@@ -7143,9 +7038,6 @@ int CEconItemSchema::GetEquipRegionIndexByName( const char *pRegionName ) const
 	return -1;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 equip_region_mask_t CEconItemSchema::GetEquipRegionBitMaskByName( const char *pRegionName ) const
 {
 	int iRegionIndex = GetEquipRegionIndexByName( pRegionName );
@@ -8241,9 +8133,6 @@ int CEconItemSchema::CalculateNumberOfConcreteItems( const CEconItemDefinition *
 	return 1;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconItemSchema::BInitSteamPackageLocalizationToken( KeyValues *pKVSteamPackages, CUtlVector<CUtlString> *pVecErrors )
 {
 	if ( NULL != pKVSteamPackages )
@@ -8437,9 +8326,6 @@ bool CEconItemSchema::BInitKillEaterScoreTypes( KeyValues *pKVKillEaterScoreType
 	return SCHEMA_INIT_SUCCESS();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconItemSchema::BInitStringTables( KeyValues *pKVStringTables, CUtlVector<CUtlString> *pVecErrors )
 {
 	m_dictStringTable.PurgeAndDeleteElements();
@@ -8464,9 +8350,6 @@ bool CEconItemSchema::BInitStringTables( KeyValues *pKVStringTables, CUtlVector<
 	return SCHEMA_INIT_SUCCESS();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconItemSchema::BInitCommunityMarketRemaps( KeyValues *pKVCommunityMarketRemaps, CUtlVector<CUtlString> *pVecErrors )
 {
 	m_mapCommunityMarketDefinitionIndexRemap.Purge();
@@ -8494,9 +8377,6 @@ bool CEconItemSchema::BInitCommunityMarketRemaps( KeyValues *pKVCommunityMarketR
 	return SCHEMA_INIT_SUCCESS();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 item_definition_index_t CEconItemSchema::GetCommunityMarketRemappedDefinitionIndex( item_definition_index_t unSearchItemDef ) const
 {
 	CommunityMarketDefinitionRemapMap_t::IndexType_t index = m_mapCommunityMarketDefinitionIndexRemap.Find( unSearchItemDef );
@@ -8506,9 +8386,6 @@ item_definition_index_t CEconItemSchema::GetCommunityMarketRemappedDefinitionInd
 	return m_mapCommunityMarketDefinitionIndexRemap[index];
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const ISchemaAttributeType *CEconItemSchema::GetAttributeType( const char *pszAttrTypeName ) const
 {
 	FOR_EACH_VEC( m_vecAttributeTypes, i )
@@ -8599,9 +8476,6 @@ bool CEconItemSchema::GetKillEaterScoreTypeAllowsBotVictims( uint32 unScoreType 
 		 : false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 econ_tag_handle_t CEconItemSchema::GetHandleForTag( const char *pszTagName )
 {
 	EconTagDict_t::IndexType_t i = m_dictTags.Find( pszTagName );
@@ -8624,9 +8498,6 @@ bool CEconItemSchema::GetKillEaterScoreTypeGCOnlyUpdate( uint32 unScoreType ) co
 		 : true;								// default to being more restrictive
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconItemSchema::GetKillEaterScoreTypeAllowsIncrementValues( uint32 unScoreType ) const
 {
 	const kill_eater_score_type_t *pScoreType = FindKillEaterScoreType( unScoreType );
@@ -8636,9 +8507,6 @@ bool CEconItemSchema::GetKillEaterScoreTypeAllowsIncrementValues( uint32 unScore
 		 : true;								// default to being more restrictive
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const CEconItemSchema::periodic_score_t& CEconItemSchema::GetPeriodicScoreInfo( int iPeriodicScoreIndex ) const
 {
 	Assert( GetPeriodicScoreTypeList().IsValidIndex( iPeriodicScoreIndex ) );
@@ -9086,9 +8954,6 @@ CEconCraftingRecipeDefinition *CEconItemSchema::GetRecipeDefinition( int iRecipe
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CEconColorDefinition *CEconItemSchema::GetColorDefinitionByName( const char *pszDefName )
 {
 	FOR_EACH_VEC( m_vecColorDefs, i )
@@ -9105,9 +8970,6 @@ const CEconColorDefinition *CEconItemSchema::GetColorDefinitionByName( const cha
 
 
 #ifdef CLIENT_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CEconItemSchema::GetSteamPackageLocalizationToken( uint32 unPackageId ) const
 {
 	SteamPackageLocalizationTokenMap_t::IndexType_t i = m_mapSteamPackageLocalizationTokens.Find( unPackageId );
@@ -9319,9 +9181,6 @@ void CEconItemSchema::Validate( CValidator &validator, const char *pchName )
 
 #ifdef GC_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CEconItemSchema::BInitExperiements( KeyValues *pKVExperiments, CUtlVector<CUtlString> *pVecErrors )
 {
 	m_vecExperiments.RemoveAll();

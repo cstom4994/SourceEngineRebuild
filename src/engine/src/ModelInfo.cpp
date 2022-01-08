@@ -592,9 +592,6 @@ const studiohdr_t *virtualgroup_t::GetStudioHdr(void) const {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CModelInfo::ModelHasMaterialProxy(const model_t *model) const {
     // Should we add skin & model to this function like IsUsingFBTexture()?
     return (model && (model->flags & MODELFLAG_MATERIALPROXY));

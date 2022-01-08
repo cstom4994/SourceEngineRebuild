@@ -36,9 +36,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_shovel );
 // Weapon Shovel functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFShovel::CTFShovel()
 {
 	m_bHolstering = false;
@@ -203,9 +200,6 @@ float CTFShovel::GetForceScale( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFShovel::GetDamageCustom()
 {
 	if ( GetShovelType() == SHOVEL_SPEED_BOOST || GetShovelType() == SHOVEL_DAMAGE_BOOST )

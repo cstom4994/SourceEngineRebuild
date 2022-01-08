@@ -8082,9 +8082,6 @@ inline void DSP_Process5To5(dsp_t *pdsp, portable_samplepair_t *pbfront, portabl
 //  outside of this time period modifying any of the dsp convars.  It doesn't seem to be an issue just save/loading between levels
 static bool g_bNeedPresetRestore = false;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 struct PreserveDSP_t {
     ConVar *cvar;
     float oldvalue;
@@ -8137,9 +8134,6 @@ void DSP_CheckRestorePresets() {
     g_bdas_room_init = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void DSP_ClearState() {
     // if we already cleared dsp state, and a restore is pending,
     // don't clear again

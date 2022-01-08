@@ -1723,9 +1723,6 @@ float CClientShadowMgr::GetBlobbyCutoffArea() const {
     return m_flMinShadowArea;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CClientShadowMgr::SetFalloffBias(ClientShadowHandle_t handle, unsigned char ucBias) {
     shadowmgr->SetFalloffBias(m_Shadows[handle].m_ShadowHandle, ucBias);
 }

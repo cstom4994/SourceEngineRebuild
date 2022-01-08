@@ -1373,9 +1373,6 @@ void EngineTraceRenderRayCasts()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CEngineTrace::SetupLeafAndEntityListRay( const Ray_t &ray, CTraceListData &traceData )
 {
 	if ( !ray.m_IsSwept )

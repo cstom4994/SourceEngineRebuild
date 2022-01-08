@@ -386,9 +386,6 @@ BOOL CMapView3D::DestroyWindow() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapView3D::UpdateStatusBar(void) {
     if (!IsWindow(m_hWnd)) {
         return;
@@ -1191,9 +1188,6 @@ void CMapView3D::OnMouseMove(UINT nFlags, CPoint point) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapView3D::ProcessInput(void) {
     if (m_dwTimeLastInputSample == 0) {
         m_dwTimeLastInputSample = timeGetTime();
@@ -1339,9 +1333,6 @@ void CMapView3D::ProcessMovementKeys(float fElapsedTime) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMapView3D::ProcessKeys(float fElapsedTime) {
     ProcessMovementKeys(fElapsedTime);
 
@@ -1349,9 +1340,6 @@ void CMapView3D::ProcessKeys(float fElapsedTime) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMapView3D::ControlCamera(const CPoint &point) {
     if (!m_bStrafing && !m_bRotating && !m_bMouseLook) {
         return false;

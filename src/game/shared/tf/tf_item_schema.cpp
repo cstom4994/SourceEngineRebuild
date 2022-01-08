@@ -1422,9 +1422,6 @@ void CTFStyleInfo::BInitFromKV( KeyValues *pKVStyle, CUtlVector<CUtlString> *pVe
 }
 
 #if defined(CLIENT_DLL) || defined(GAME_DLL)
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFItemDefinition::GeneratePrecacheModelStrings( bool bDynamicLoad, CUtlVector<const char *> *out_pVecModelStrings ) const
 {
 	Assert( out_pVecModelStrings );
@@ -1470,9 +1467,6 @@ void CTFItemDefinition::GeneratePrecacheModelStrings( bool bDynamicLoad, CUtlVec
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFStyleInfo::GeneratePrecacheModelStringsForStyle( CUtlVector<const char *> *out_pVecModelStrings ) const
 {
 	Assert( out_pVecModelStrings );
@@ -1493,9 +1487,6 @@ void CTFStyleInfo::GeneratePrecacheModelStringsForStyle( CUtlVector<const char *
 }
 #endif // defined(CLIENT_DLL) || defined(GAME_DLL)
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CTFStyleInfo::GetPlayerDisplayModel( int iClass, int iTeam ) const
 {
 	Assert( iClass >= 0 );
@@ -2136,9 +2127,6 @@ const char CTFItemSchema::k_rchMvMPowerupBottleItemDefName[] = "Power Up Canteen
 const char CTFItemSchema::k_rchMvMChallengeCompletedMaskAttribName[] = "mvm completed challenges bitmask";
 const char CTFItemSchema::k_rchLadderPassItemDefName[] = "Competitive Matchmaking Official";
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *s_pszGameModes[eNumGameCategories] =
 {
 	"payload",					// kGameCategory_Escort
@@ -2288,9 +2276,6 @@ bool SchemaGameCategory_t::PassesRestrictions() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFItemSchema::BInitGameModes( KeyValues *pKVMaps, CUtlVector<CUtlString> *pVecErrors )
 {
 	m_mapGameCategories.PurgeAndDeleteElements();
@@ -2378,9 +2363,6 @@ bool CTFItemSchema::BInitGameModes( KeyValues *pKVMaps, CUtlVector<CUtlString> *
 	return SCHEMA_INIT_SUCCESS();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFItemSchema::BInitMaps( KeyValues *pKVMaps, CUtlVector<CUtlString> *pVecErrors )
 {
 	m_vecMasterListOfMaps.PurgeAndDeleteElements();
@@ -3046,9 +3028,6 @@ const char *GetMvMChallengeDifficultyLocName( EMvMChallengeDifficulty eDifficult
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem( uint32 /*strange_event_restriction_t*/ unRestrictionType, uint32 unRestrictionValue, const IEconItemInterface *pItem, int iStrangeSlot, uint32 *out_pOptionalScoreType ) const
 {
 	uint32 unStrangeScoreType;
@@ -3122,9 +3101,6 @@ bool CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem( uint32 /*strange_
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 IEconTool *CTFItemSchema::CreateEconToolImpl( const char *pszToolType, const char *pszUseString, const char *pszUsageRestriction, item_capabilities_t unCapabilities, KeyValues *pUsageKV )
 {
 	if ( pszToolType )

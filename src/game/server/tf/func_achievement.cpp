@@ -58,33 +58,21 @@ bool CAchievementZone::IsTouching( const CBaseEntity *pEntity ) const
 	return BaseClass::IsTouching( pEntity );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAchievementZone::InputEnable( inputdata_t &inputdata )
 {
 	SetDisabled( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAchievementZone::InputDisable( inputdata_t &inputdata )
 {
 	SetDisabled( true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CAchievementZone::IsDisabled( void )
 {
 	return m_bDisabled;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAchievementZone::InputToggle( inputdata_t &inputdata )
 {
 	if ( m_bDisabled )
@@ -97,9 +85,6 @@ void CAchievementZone::InputToggle( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAchievementZone::SetDisabled( bool bDisabled )
 {
 	m_bDisabled = bDisabled;

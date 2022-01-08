@@ -650,9 +650,6 @@ void CFlaregun::PrimaryAttack( void )
     WeaponSound( SINGLE );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CFlaregun::SecondaryAttack( void )
 {
     CBasePlayer *pOwner = ToBasePlayer( GetOwner() );

@@ -20,17 +20,11 @@ BEGIN_PREDICTION_DATA_NO_BASE( C_PlayerClassInfiltrator )
 
 END_PREDICTION_DATA()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassInfiltrator::C_PlayerClassInfiltrator( C_BaseTFPlayer *pPlayer ) :
 	C_PlayerClass( pPlayer )
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 C_PlayerClassInfiltrator::~C_PlayerClassInfiltrator()
 {
 }

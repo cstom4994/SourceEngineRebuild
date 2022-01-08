@@ -1984,9 +1984,6 @@ void ListPanel::OnMouseDoublePressed(MouseCode code) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #ifdef _X360
 void ListPanel::OnKeyCodePressed(KeyCode code)
 {

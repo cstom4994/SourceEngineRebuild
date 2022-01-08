@@ -38,9 +38,6 @@ CGrenadeAntiPersonnel::CGrenadeAntiPersonnel()
 	UseClientSideAnimation();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CGrenadeAntiPersonnel::Precache( void )
 {
 	BaseClass::Precache( );

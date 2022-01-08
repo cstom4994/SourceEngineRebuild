@@ -924,9 +924,6 @@ void CNPC_Barnacle::PullEnemyTorwardsMouth( bool bAdjustEnemyOrigin )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNPC_Barnacle::UpdatePlayerConstraint( void )
 {
 	// Check to see if the player's standing/ducking state has changed.

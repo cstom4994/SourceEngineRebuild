@@ -3627,17 +3627,11 @@ bool CChoreoScene::HasFlexAnimation()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CChoreoScene::SetBackground( bool bIsBackground )
 {
 	m_bIsBackground = bIsBackground;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CChoreoScene::IsBackground( )
 {
 	return m_bIsBackground;

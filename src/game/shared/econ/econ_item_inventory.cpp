@@ -120,9 +120,6 @@ bool CInventoryListLess::Less( const CEconItemView &src1, const CEconItemView &s
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CInventoryManager::CInventoryManager( void )
 #ifdef CLIENT_DLL
 	: m_mapPersonaNamesCache( DefLessFunc( uint32 ) )
@@ -1724,9 +1721,6 @@ void CPlayerInventory::ItemHasBeenUpdated( CEconItemView *pItem, bool bUpdateAck
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CPlayerInventory::SOCacheUnsubscribed( const CSteamID & steamIDOwner, GCSDK::ESOCacheEvent eEvent )
 {
 	m_pSOCache = NULL;

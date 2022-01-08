@@ -350,9 +350,6 @@ void CBaseHelicopter::RotorWashThink( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseHelicopter::DrawRotorWash( float flAltitude, const Vector &vecRotorOrigin )
 {
 	// Shake any ropes nearby

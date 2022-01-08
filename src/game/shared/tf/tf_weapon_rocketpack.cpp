@@ -30,9 +30,6 @@ END_PREDICTION_DATA()
 LINK_ENTITY_TO_CLASS( tf_weapon_rocketpack, CTFRocketPack );
 PRECACHE_WEAPON_REGISTER( tf_weapon_rocketpack );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFRocketPack::CTFRocketPack()
 {
 	m_flRefireTime = 0;
@@ -136,9 +133,6 @@ void CTFRocketPack::PrimaryAttack( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFRocketPack::Deploy( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetOwner() );
@@ -150,9 +144,6 @@ bool CTFRocketPack::Deploy( void )
 	return BaseClass::Deploy();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFRocketPack::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetOwner() );

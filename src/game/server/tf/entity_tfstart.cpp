@@ -70,17 +70,11 @@ void CTFTeamSpawn::Activate( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTeamSpawn::InputEnable( inputdata_t &inputdata )
 {
 	m_bDisabled = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFTeamSpawn::InputDisable( inputdata_t &inputdata )
 {
 	m_bDisabled = true;

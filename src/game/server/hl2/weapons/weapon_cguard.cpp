@@ -254,9 +254,6 @@ CWeaponCGuard::CWeaponCGuard( void )
     m_bFired				= true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCGuard::Precache( void )
 {
     UTIL_PrecacheOther( "concussiveblast" );
@@ -267,9 +264,6 @@ void CWeaponCGuard::Precache( void )
     BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCGuard::AlertTargets( void )
 {
     CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
@@ -293,9 +287,6 @@ void CWeaponCGuard::AlertTargets( void )
     CSoundEnt::InsertSound( SOUND_DANGER, tr.endpos, 128, 0.5f );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCGuard::UpdateLasers( void )
 {
     //Only update the lasers whilst charging
@@ -356,9 +347,6 @@ void CWeaponCGuard::UpdateLasers( void )
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCGuard::PrimaryAttack( void )
 {
     if ( m_flChargeTime >= gpGlobals->curtime )
@@ -374,9 +362,6 @@ void CWeaponCGuard::PrimaryAttack( void )
     m_bFired		= false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCGuard::ItemPostFrame( void )
 {
     //FIXME: UpdateLasers();
@@ -390,9 +375,6 @@ void CWeaponCGuard::ItemPostFrame( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCGuard::DelayedFire( void )
 {
     if ( m_flChargeTime >= gpGlobals->curtime )
@@ -446,9 +428,6 @@ void CWeaponCGuard::DelayedFire( void )
     CreateConcussiveBlast( tr.endpos, tr.plane.normal, this, 1.0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCGuard::AddViewKick( void )
 {
     //Get the view kick

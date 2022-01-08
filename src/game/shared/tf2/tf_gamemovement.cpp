@@ -33,9 +33,6 @@ char    *va(char *format, ...);
 
 extern bool g_bMovementOptimizations;
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::CategorizePosition( void )
 {
 	VPROF( "CTFGameMovement::CategorizePosition" );
@@ -119,9 +116,6 @@ void CTFGameMovement::CategorizePosition( void )
 	m_nOldWaterLevel = player->GetWaterLevel();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::HandleLadder( void )
 {
 	// No ladder movement if the player is dead or on a train.
@@ -140,9 +134,6 @@ void CTFGameMovement::HandleLadder( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::SpeedCrop( void )
 {
 	// Verify speed hasn't been cropped already (shouldn't have!!!).
@@ -297,9 +288,6 @@ void CTFGameMovement::SetupSpeed( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::FinishUnDuck( void )
 {
 	int i;
@@ -348,9 +336,6 @@ void CTFGameMovement::FinishUnDuck( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::HandleDuck( void )
 {
 	// Store button presses and changes.
@@ -440,9 +425,6 @@ void CTFGameMovement::HandleDuck( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::SetupViewAngles( void )
 {
 	// Cache the view angles.
@@ -471,9 +453,6 @@ void CTFGameMovement::SetupViewAngles( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovement::CheckDeath( void )
 {
 	// If we are dead, setup the appropriate data
@@ -493,9 +472,6 @@ bool CTFGameMovement::CheckDeath( void )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::UpdateTimers( void )
 {
 	BaseClass::ReduceTimers();
@@ -568,9 +544,6 @@ void CTFGameMovement::PlayStepSound( surfacedata_t *psurface, float fvol, bool f
 	MoveHelper( )->StartSound( mv->m_vecAbsOrigin, CHAN_BODY, params.soundname, fvol, params.soundlevel, 0, params.pitch );
 }	
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFGameMovement::CheckStuck( void )
 {
 	VPROF( "CTFGameMovement::CheckStuck" );
@@ -585,9 +558,6 @@ int CTFGameMovement::CheckStuck( void )
 	return BaseClass::CheckStuck();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovement::PrePlayerMove( void )
 {
 	VPROF( "CTFGameMovement::PrePlayerMove" );
@@ -628,9 +598,6 @@ bool CTFGameMovement::PrePlayerMove( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::PostPlayerMove( void )
 {
 }
@@ -839,9 +806,6 @@ void CTFGameMovement::FullWalkMove()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::AirMove( void )
 {
 	VPROF( "CTFGameMovement::AirMove" );
@@ -904,9 +868,6 @@ void CTFGameMovement::AirMove( void )
 	TryStanding();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::WalkMove( void )
 {
 	_WalkMove();
@@ -1090,9 +1051,6 @@ usedown:
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::AccelerateWithoutMomentum( Vector &wishdir, float wishspeed, float accel )
 {
 	// No acceleration if the player is water-jumping or dead.
@@ -1126,9 +1084,6 @@ void CTFGameMovement::AccelerateWithoutMomentum( Vector &wishdir, float wishspee
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::Accelerate( Vector &wishdir, float wishspeed, float accel )
 {
 	// No acceleration if the player is water-jumping or dead.
@@ -1165,9 +1120,6 @@ void CTFGameMovement::Accelerate( Vector &wishdir, float wishspeed, float accel 
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFGameMovement::CalcGravityAdjustment( const Vector &wishdir )
 {
 	// Get the TF movement data.
@@ -1239,9 +1191,6 @@ float CTFGameMovement::CalcGravityAdjustment( const Vector &wishdir )
 	return flModifier;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovement::CalcWishVelocityAndPosition( Vector &vWishPos, Vector &vWishDir,
 												   float &flWishSpeed )
 {
@@ -1312,9 +1261,6 @@ bool CTFGameMovement::CalcWishVelocityAndPosition( Vector &vWishPos, Vector &vWi
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CTFGameMovement::TracePlayerBBoxWithStep( const Vector &vStart, const Vector &vEnd, 
 							unsigned int fMask, int collisionGroup, trace_t &trace )
 {
@@ -1330,9 +1276,6 @@ inline void CTFGameMovement::TracePlayerBBoxWithStep( const Vector &vStart, cons
 }
 
 #if 0
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline void CGameMovement::TracePlayerBBox( const Vector &start, const Vector &end, 
 							unsigned int fMask, int collisionGroup, trace_t& pm )
 {
@@ -1344,9 +1287,6 @@ inline void CGameMovement::TracePlayerBBox( const Vector &start, const Vector &e
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 inline int CTFGameMovement::BlockerType( const Vector &vImpactNormal )
 {
 	// If the impact plane has a high z component in the normal, then
@@ -1363,9 +1303,6 @@ inline int CTFGameMovement::BlockerType( const Vector &vImpactNormal )
 	return 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovement::RedirectGroundVelocity( const trace_t &trace )
 {
 	// Check for max planes.
@@ -1435,9 +1372,6 @@ bool CTFGameMovement::RedirectGroundVelocity( const trace_t &trace )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovement::RedirectAirVelocity( const trace_t &trace )
 {
 	// Check for max planes.
@@ -1476,9 +1410,6 @@ bool CTFGameMovement::RedirectAirVelocity( const trace_t &trace )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::CollisionResponseNone( const trace_t &trace )
 {
 	// Move the player to the trace's ending position.
@@ -1495,18 +1426,12 @@ void CTFGameMovement::CollisionResponseNone( const trace_t &trace )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::CollisionResponseStuck( void )
 {
 	mv->m_vecVelocity.Init();
 	//DevMsg( 1, "CollisionResponseStuck: %s is stuck (%s).\n", player->GetClassname(), player->IsServer() ? "sv" : "cl" );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovement::CollisionResponseGeneric( const trace_t &trace, int &nBlocked )
 {
 	// Check for any movement.
@@ -1754,9 +1679,6 @@ int CTFGameMovement::TryPlayerMove( Vector *pFirstDest=NULL, trace_t *pFirstTrac
 	return blocked;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFGameMovement::TryPlayerMove2( void )
 {
 	VPROF( "CTFGameMovement::TryPlayerMove2" );
@@ -1866,9 +1788,6 @@ int CTFGameMovement::TryPlayerMove2( void )
 	return nBlocked;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::TryStanding( void )
 {
 	VPROF( "CTFGameMovement::TryStanding" );
@@ -1902,9 +1821,6 @@ void CTFGameMovement::TryStanding( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::ResolveStanding( void )
 {
 	VPROF( "CTFGameMovement::ResolveStanding" );
@@ -1960,9 +1876,6 @@ void CTFGameMovement::ResolveStanding( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovement::WalkMove2( void )
 {
 	VPROF( "CTFGameMovement::WalkMove2" );

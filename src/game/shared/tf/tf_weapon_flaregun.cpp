@@ -67,9 +67,6 @@ PRECACHE_WEAPON_REGISTER( tf_weapon_flaregun_revenge );
 // Weapon Flare Gun functions.
 //
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFFlareGun::CTFFlareGun()
 {
 	m_bEffectsThinking = false;
@@ -87,9 +84,6 @@ CTFFlareGun::~CTFFlareGun()
 	DestroySounds();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlareGun::Precache()
 {
 	BaseClass::Precache();
@@ -105,9 +99,6 @@ void CTFFlareGun::DestroySounds( void )
 	StopCharge();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlareGun::PrimaryAttack( void )
 {
 	// Get the player owning the weapon.
@@ -169,9 +160,6 @@ void CTFFlareGun::SecondaryAttack( void )
 }
 
 #ifdef GAME_DLL
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlareGun::AddFlare( CTFProjectile_Flare *pFlare )
 {
 	FlareHandle hHandle;
@@ -181,9 +169,6 @@ void CTFFlareGun::AddFlare( CTFProjectile_Flare *pFlare )
 	m_iFlareCount = m_Flares.Count();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFFlareGun::DeathNotice( CBaseEntity *pVictim )
 {
 	Assert( dynamic_cast<CTFProjectile_Flare*>( pVictim ) );
@@ -449,9 +434,6 @@ void CTFFlareGun_Revenge::Detach( void )
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFFlareGun_Revenge::GetCount( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );

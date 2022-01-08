@@ -8,9 +8,6 @@
 #include "in_buttons.h"
 #include "tf_gamemovement_commando.h"
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFGameMovementCommando::CTFGameMovementCommando()
 {
 	m_pCommandoData = NULL;
@@ -25,9 +22,6 @@ CTFGameMovementCommando::CTFGameMovementCommando()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementCommando::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFMoveData *pTFMoveData )
 {
 	// Get the class specific data from the TFMoveData structure
@@ -40,34 +34,22 @@ void CTFGameMovementCommando::ProcessClassMovement( CBaseTFPlayer *pPlayer, CTFM
 	BaseClass::ProcessMovement( (CBasePlayer *)pPlayer, static_cast<CMoveData*>( pTFMoveData ) );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementCommando::GetPlayerMins( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMins : m_vStandMins; 
 }
 
-	
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
+
 const Vector &CTFGameMovementCommando::GetPlayerMaxs( bool bDucked ) const
 {
 	return bDucked ? m_vDuckMaxs : m_vStandMaxs;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector &CTFGameMovementCommando::GetPlayerViewOffset( bool bDucked ) const
 {
 	return bDucked ? m_vDuckViewOffset : m_vStandViewOffset;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovementCommando::CheckDoubleTapForward( void )
 {
 	// Check for other movement keys!!!
@@ -97,9 +79,6 @@ bool CTFGameMovementCommando::CheckDoubleTapForward( void )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementCommando::CheckBullRush( void )
 {
 	// Don't check for bullrush if we are dead!
@@ -144,9 +123,6 @@ void CTFGameMovementCommando::CheckBullRush( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovementCommando::PrePlayerMove( void )
 {
 	// Assume we don't touch anything (Reset the touch list).
@@ -186,9 +162,6 @@ bool CTFGameMovementCommando::PrePlayerMove( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementCommando::HandlePlayerMove( void )
 {
 	// Handle the specific bull rush movement type.
@@ -202,9 +175,6 @@ void CTFGameMovementCommando::HandlePlayerMove( void )
 	BaseClass::HandlePlayerMove();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementCommando::HandleDuck( void )
 {
 	if ( player->GetMoveType() == COMMANDO_MOVETYPE_BULLRUSH )
@@ -213,9 +183,6 @@ void CTFGameMovementCommando::HandleDuck( void )
 	BaseClass::HandleDuck();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementCommando::UpdateTimers( void )
 {
 	BaseClass::UpdateTimers();
@@ -255,18 +222,12 @@ void CTFGameMovementCommando::UpdateTimers( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementCommando::SetupViewAngles( void )
 {
 
 	BaseClass::SetupViewAngles();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementCommando::SetupSpeed( void )
 {
 	BaseClass::SetupSpeed();
@@ -286,9 +247,6 @@ void CTFGameMovementCommando::SetupSpeed( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFGameMovementCommando::CalcWishVelocityAndPosition( Vector &vWishPos, Vector &vWishDir, float &flWishSpeed )
 {
 	//
@@ -369,9 +327,6 @@ bool CTFGameMovementCommando::CalcWishVelocityAndPosition( Vector &vWishPos, Vec
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFGameMovementCommando::BullRushMove( void )
 {
 	CTFMoveData *pMoveData = TFMove();

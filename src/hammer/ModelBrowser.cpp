@@ -1164,9 +1164,6 @@ void CBaseAssetPicker2::Activate() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBaseAssetPicker2::OnKeyCodeTyped(vgui::KeyCode code) {
     if ((code == KEY_UP) || (code == KEY_DOWN) || (code == KEY_PAGEUP) || (code == KEY_PAGEDOWN)) {
         KeyValues *pMsg = new KeyValues("KeyCodeTyped", "code", code);

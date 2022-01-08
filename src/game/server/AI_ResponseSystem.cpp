@@ -2644,9 +2644,6 @@ void CResponseSystem::ResponseWarning( const char *fmt, ... )
 	DevMsg( 1, "%s(token %i) : %s", cur, GetCurrentToken(), string );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::CopyCriteriaFrom( Rule *pSrcRule, Rule *pDstRule, CResponseSystem *pCustomSystem )
 {
 	// Add criteria from this rule to global list in custom response system.
@@ -2704,9 +2701,6 @@ void CResponseSystem::CopyCriteriaFrom( Rule *pSrcRule, Rule *pDstRule, CRespons
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CResponseSystem::CopyResponsesFrom( Rule *pSrcRule, Rule *pDstRule, CResponseSystem *pCustomSystem )
 {
 	// Add responses from this rule to global list in custom response system.
@@ -3343,9 +3337,6 @@ IResponseSystem *BuildCustomResponseSystemGivenCriteria( const char *pszBaseFile
 	return defaultresponsesytem.BuildCustomResponseSystemGivenCriteria( pszBaseFile, pszCustomName, criteriaSet, flCriteriaScore );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void DestroyCustomResponseSystems()
 {
 	defaultresponsesytem.DestroyCustomResponseSystems();

@@ -1844,9 +1844,6 @@ void Menu::SetCurrentlySelectedItem(MenuItem *item) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void Menu::ClearCurrentlyHighlightedItem() {
     if (m_MenuItems.IsValidIndex(m_iCurrentlySelectedItemID)) {
         m_MenuItems[m_iCurrentlySelectedItemID]->DisarmItem();
@@ -1902,9 +1899,6 @@ void Menu::SetCurrentlyHighlightedItem(int itemID) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int Menu::GetCurrentlyHighlightedItem() {
     return m_iCurrentlySelectedItemID;
 }

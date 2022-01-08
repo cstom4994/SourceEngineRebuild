@@ -70,9 +70,6 @@ BEGIN_PREDICTION_DATA(C_BaseFlex)
 
 END_PREDICTION_DATA()
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool GetHWMExpressionFileName(const char *pFilename, char *pHWMFilename) {
     // Are we even using hardware morph?
     if (!UseHWMorphVCDs())

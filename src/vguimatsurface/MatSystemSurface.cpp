@@ -282,9 +282,6 @@ void *CMatSystemSurface::QueryInterface(const char *pInterfaceName) {
     return BaseClass::QueryInterface(pInterfaceName);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::InitFullScreenBuffer(const char *pszRenderTargetName) {
     if (!IsPC())
         return;
@@ -392,9 +389,6 @@ InitReturnVal_t CMatSystemSurface::Init(void) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::Shutdown(void) {
     for (int i = m_FileTypeImages.First(); i != m_FileTypeImages.InvalidIndex(); i = m_FileTypeImages.Next(i)) {
         delete m_FileTypeImages[i];
@@ -682,9 +676,6 @@ void CMatSystemSurface::StartDrawing(void) {
     pRenderContext->LoadIdentity();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::FinishDrawing(void) {
     MAT_FUNC;
 
@@ -1943,9 +1934,6 @@ bool CMatSystemSurface::AddBitmapFontFile(const char *fontFileName) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::SetBitmapFontName(const char *pName, const char *pFontFilename) {
     char fontPath[MAX_PATH];
     Q_strncpy(fontPath, pFontFilename, MAX_PATH);
@@ -1966,9 +1954,6 @@ void CMatSystemSurface::SetBitmapFontName(const char *pName, const char *pFontFi
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char *CMatSystemSurface::GetBitmapFontName(const char *pName) {
     // find it in the mapping symbol table
     int index = m_BitmapFontFileMapping.Find(pName);
@@ -2018,9 +2003,6 @@ const char *CMatSystemSurface::GetFontFamilyName(HFont font) {
     return FontManager().GetFontFamilyName(font);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::DrawSetTextFont(HFont font) {
     Assert(g_bInDrawing);
 
@@ -2087,9 +2069,6 @@ void CMatSystemSurface::DrawSetTextPos(int x, int y) {
     m_pDrawTextPos[1] = y;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::DrawGetTextPos(int &x, int &y) {
     Assert(g_bInDrawing);
 
@@ -2099,9 +2078,6 @@ void CMatSystemSurface::DrawGetTextPos(int &x, int &y) {
 
 #pragma warning( disable : 4706 )
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::DrawUnicodeString(const wchar_t *pString, FontDrawType_t drawType /*= FONT_DRAW_DEFAULT */ ) {
     // skip fully transparent characters
     if (m_DrawTextColor[3] == 0)
@@ -2121,9 +2097,6 @@ void CMatSystemSurface::DrawUnicodeString(const wchar_t *pString, FontDrawType_t
 
 #pragma warning( default : 4706 )
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::DrawUnicodeChar(wchar_t ch, FontDrawType_t drawType /*= FONT_DRAW_DEFAULT */ ) {
     // skip fully transparent characters
     if (m_DrawTextColor[3] == 0)
@@ -2137,9 +2110,6 @@ void CMatSystemSurface::DrawUnicodeChar(wchar_t ch, FontDrawType_t drawType /*= 
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMatSystemSurface::DrawGetUnicodeCharRenderInfo(wchar_t ch, CharRenderInfo &info) {
     //hushed MAT_FUNC;
 
@@ -2223,9 +2193,6 @@ void CMatSystemSurface::DrawRenderCharInternal(const CharRenderInfo &info) {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::DrawRenderCharFromInfo(const CharRenderInfo &info) {
     //hushed MAT_FUNC;
 
@@ -2493,9 +2460,6 @@ void CMatSystemSurface::GetWorkspaceBounds(int &x, int &y, int &iWide, int &iTal
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::SetWorkspaceInsets(int left, int top, int right, int bottom) {
     m_WorkSpaceInsets[0] = left;
     m_WorkSpaceInsets[1] = top;
@@ -2539,9 +2503,6 @@ void CMatSystemSurface::FlashWindow(VPANEL panel, bool state) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::SetTitle(VPANEL panel, const wchar_t *title) {
     int entry = GetTitleEntry(panel);
     if (entry == -1) {
@@ -2554,9 +2515,6 @@ void CMatSystemSurface::SetTitle(VPANEL panel, const wchar_t *title) {
     e->panel = panel;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 wchar_t const *CMatSystemSurface::GetTitle(VPANEL panel) {
     int entry = GetTitleEntry(panel);
     if (entry != -1) {
@@ -3646,9 +3604,6 @@ bool CMatSystemSurface::IsInThink(VPANEL panel) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CMatSystemSurface::IsCursorVisible() {
     return m_cursorAlwaysVisible || (_currentCursor != dc_none);
 }
@@ -4072,9 +4027,6 @@ const char *CMatSystemSurface::GetResolutionKey(void) const {
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::Set3DPaintTempRenderTarget(const char *pRenderTargetName) {
     MAT_FUNC;
 
@@ -4084,9 +4036,6 @@ void CMatSystemSurface::Set3DPaintTempRenderTarget(const char *pRenderTargetName
     InitFullScreenBuffer(pRenderTargetName);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatSystemSurface::Reset3DPaintTempRenderTarget(void) {
     MAT_FUNC;
 

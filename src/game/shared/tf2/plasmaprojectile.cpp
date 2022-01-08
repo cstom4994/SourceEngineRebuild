@@ -158,9 +158,6 @@ CBasePlasmaProjectile::~CBasePlasmaProjectile()
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CBasePlasmaProjectile::Precache( void )
 {
 	SetCollisionGroup( TFCOLLISION_GROUP_WEAPON );

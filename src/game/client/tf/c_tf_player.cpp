@@ -1294,9 +1294,6 @@ float C_TFRagdoll::FrameAdvance( float flInterval )
 	return fRes;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFRagdoll::CreateTFHeadGib( void )
 {
 	C_TFPlayer *pPlayer = NULL;
@@ -1320,9 +1317,6 @@ void C_TFRagdoll::CreateTFHeadGib( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFRagdoll::CreateTFGibs( bool bDestroyRagdoll, bool bCurrentPosition )
 {
 	C_TFPlayer *pPlayer = NULL;
@@ -4375,9 +4369,6 @@ void C_TFPlayer::Spawn( void )
 	CleanUpAnimationOnSpawn();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::InventoryUpdated( CPlayerInventory *pInventory )
 { 
 	if ( TFGameRules() && TFGameRules()->GameModeUsesUpgrades() )
@@ -5916,9 +5907,6 @@ static ConVar tf_tauntcam_dist( "tf_tauntcam_dist", "150", FCVAR_CHEAT | FCVAR_D
 static ConVar tf_tauntcam_speed( "tf_tauntcam_speed", "300", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
 
 ConVar tf_halloween_kart_cam_dist( "tf_halloween_kart_cam_dist", "225", FCVAR_CHEAT );
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::TurnOnTauntCam( void )
 {
 	if ( !IsLocalPlayer() )
@@ -5966,16 +5954,10 @@ void C_TFPlayer::TurnOnTauntCam( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::TurnOnTauntCam_Finish( void )
 {
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::TurnOffTauntCam( void )
 {
 	if ( TFGameRules() && TFGameRules()->ShowMatchSummary() )
@@ -5996,9 +5978,6 @@ void C_TFPlayer::TurnOffTauntCam( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::TurnOffTauntCam_Finish( void )
 {
 	if ( !IsLocalPlayer() )
@@ -6053,9 +6032,6 @@ void C_TFPlayer::TurnOffTauntCam_Finish( void )
 	SetAppropriateCamera( this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::HandleTaunting( void )
 {
 	C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();
@@ -6173,9 +6149,6 @@ void C_TFPlayer::TauntCamInterpolation()
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::PlayTauntSoundLoop( const char *pszSoundLoopName )
 {
 	if ( pszSoundLoopName && *pszSoundLoopName )
@@ -6188,9 +6161,6 @@ void C_TFPlayer::PlayTauntSoundLoop( const char *pszSoundLoopName )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::StopTauntSoundLoop()
 {
 	if ( m_pTauntSoundLoop )
@@ -6643,9 +6613,6 @@ bool C_TFPlayer::GetPredictable( void ) const
 	return BaseClass::GetPredictable();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::UpdateLookAt( void )
 {
 	bool bFoundViewTarget = false;
@@ -7252,9 +7219,6 @@ bool C_TFPlayer::IsABot( void )
 	return false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 Vector C_TFPlayer::GetObserverCamOrigin( void )
 {
 	if ( !IsAlive() )
@@ -9998,9 +9962,6 @@ void C_TFPlayer::ComputeFxBlend( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::CalcView( Vector &eyeOrigin, QAngle &eyeAngles, float &zNear, float &zFar, float &fov )
 {
 	HandleTaunting();
@@ -10109,9 +10070,6 @@ static void cc_tf_player_disguise( const CCommand &args )
 static ConCommand disguise( "disguise", cc_tf_player_disguise, "Disguises the spy." );
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 static void cc_tf_crashclient()
 {
 	C_TFPlayer *pPlayer = NULL;
@@ -10119,9 +10077,6 @@ static void cc_tf_crashclient()
 }
 static ConCommand tf_crashclient( "tf_crashclient", cc_tf_crashclient, "Crashes this client for testing.", FCVAR_DEVELOPMENTONLY );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::ForceUpdateObjectHudState( void )
 {
 	m_bUpdateObjectHudState = true;
@@ -10170,9 +10125,6 @@ CON_COMMAND_F( spectate_random_server_extend_time, "extend the timer we're spect
 }*/
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::GetTargetIDDataString( bool bIsDisguised, OUT_Z_BYTECAP(iMaxLenInBytes) wchar_t *sDataString, int iMaxLenInBytes, bool &bIsAmmoData, bool &bIsKillStreakData )
 {
 	Assert( iMaxLenInBytes >= sizeof(sDataString[0]) );
@@ -10283,9 +10235,6 @@ void C_TFPlayer::GetTargetIDDataString( bool bIsDisguised, OUT_Z_BYTECAP(iMaxLen
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::ThirdPersonSwitch( bool bThirdperson )
 {
 	BaseClass::ThirdPersonSwitch( bThirdperson );
@@ -10331,9 +10280,6 @@ void C_TFPlayer::UpdateWearables()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::OnAchievementAchieved( int iAchievement )
 {
 	EmitSound( "Achievement.Earned" );
@@ -11076,9 +11022,6 @@ int C_TFPlayer::GetBody( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const Vector& C_TFPlayer::GetRenderOrigin( void )
 {
 	if ( GetPlayerClass()->HasCustomModel() )
@@ -11091,9 +11034,6 @@ const Vector& C_TFPlayer::GetRenderOrigin( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 ConVar tf_taunt_hint_max_distance( "tf_taunt_hint_max_distance", "256", FCVAR_DEVELOPMENTONLY | FCVAR_CHEAT );
 bool C_TFPlayer::ShouldTauntHintIconBeVisible() const
 {
@@ -11113,9 +11053,6 @@ bool C_TFPlayer::ShouldTauntHintIconBeVisible() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool C_TFPlayer::IsHealthBarVisible( void ) const
 {
 	if ( TFGameRules() && TFGameRules()->IsMannVsMachineMode() )
@@ -11142,9 +11079,6 @@ bool C_TFPlayer::IsHealthBarVisible( void ) const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 const char* C_TFPlayer::GetBossProgressImageName() const
 {
 	if ( m_bUseBossHealthBar )
@@ -11156,9 +11090,6 @@ const char* C_TFPlayer::GetBossProgressImageName() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float C_TFPlayer::GetBossStatusProgress() const
 {
 	float flProgress = float( GetHealth() ) / float( GetMaxHealth() );
@@ -11245,9 +11176,6 @@ bool C_TFPlayer::ShouldPlayEffect( EBonusEffectFilter_t filter, const C_TFPlayer
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void C_TFPlayer::FireGameEvent( IGameEvent *event )
 {
 	C_TFPlayer *pLocalPlayer = C_TFPlayer::GetLocalTFPlayer();

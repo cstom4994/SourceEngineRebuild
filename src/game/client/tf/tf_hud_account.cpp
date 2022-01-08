@@ -858,9 +858,6 @@ private:
 	float				m_flLastDingTime;
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDamageAccountPanel::OnTick( void )
 {
 	if ( ShouldDrawDPSMeter() )
@@ -908,9 +905,6 @@ void CDamageAccountPanel::OnTick( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDamageAccountPanel::Paint( void )
 {
 	BaseClass::Paint();

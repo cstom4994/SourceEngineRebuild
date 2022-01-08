@@ -158,9 +158,6 @@ bool CTFDecapitationMeleeWeaponBase::SendWeaponAnim( int iActivity )
 
 }*/
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFDecapitationMeleeWeaponBase::CanDecapitate( void )
 {
 	CEconItemView *pScriptItem = GetAttributeContainer()->GetItem();
@@ -176,9 +173,6 @@ bool CTFDecapitationMeleeWeaponBase::CanDecapitate( void )
 	return iDecapitateType != 0;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFDecapitationMeleeWeaponBase::SetupGameEventListeners( void )
 {
 	ListenForGameEvent( "player_death" );
@@ -270,9 +264,6 @@ void CTFSword::WeaponReset( void )
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int	CTFSword::GetSwingRange( void )
 {
 	CTFPlayer *pOwner = ToTFPlayer( GetOwner() );
@@ -324,9 +315,6 @@ int CTFSword::GetSwordHealthMod( void )
 	return (iDecaps * 15);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFSword::OnDecapitation( CTFPlayer *pDeadPlayer )
 {
 	BaseClass::OnDecapitation( pDeadPlayer );
@@ -367,9 +355,6 @@ void CTFSword::OnDecapitation( CTFPlayer *pDeadPlayer )
 
 #ifdef GAME_DLL
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFDecapitationMeleeWeaponBase::Holster( CBaseCombatWeapon *pSwitchingTo )
 {
 	m_bHolstering = true;
@@ -382,9 +367,6 @@ bool CTFDecapitationMeleeWeaponBase::Holster( CBaseCombatWeapon *pSwitchingTo )
 	return res;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFDecapitationMeleeWeaponBase::FireGameEvent( IGameEvent *event )
 {
 	const char *pszEventName = event->GetName();
@@ -412,9 +394,6 @@ void CTFDecapitationMeleeWeaponBase::FireGameEvent( IGameEvent *event )
 }
 #endif
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFSword::Deploy( void )
 {
 	bool res = BaseClass::Deploy();
@@ -515,17 +494,11 @@ void CTFSword::WeaponIdle( void )
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CTFKatana::CTFKatana()
 {
 	m_bIsBloody = false;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CTFKatana::Deploy( void )
 {
 	bool res = BaseClass::Deploy();
@@ -542,9 +515,6 @@ bool CTFKatana::Deploy( void )
 	return res;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 float CTFKatana::GetMeleeDamage( CBaseEntity *pTarget, int* piDamageType, int* piCustomDamage )
 {
 	// Start with our base damage. We use this to generate our custom damage flags,
@@ -571,9 +541,6 @@ float CTFKatana::GetMeleeDamage( CBaseEntity *pTarget, int* piDamageType, int* p
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CTFKatana::GetActivityWeaponRole() const
 {
 	CTFPlayer *pPlayer = GetTFPlayerOwner();
@@ -587,9 +554,6 @@ int CTFKatana::GetActivityWeaponRole() const
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CTFKatana::OnDecapitation( CTFPlayer *pDeadPlayer )
 {
 	BaseClass::OnDecapitation( pDeadPlayer );

@@ -1015,9 +1015,6 @@ public:
 #endif // CLIENT_DLL
 };
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 
 class CCountUserGeneratedAttributeIterator : public IEconItemUntypedAttributeIterator
 {

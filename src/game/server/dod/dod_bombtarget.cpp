@@ -49,9 +49,6 @@ END_SEND_TABLE()
 
 LINK_ENTITY_TO_CLASS( dod_bomb_target, CDODBombTarget );
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::Spawn( void )
 {
 	m_pControlPoint = NULL;
@@ -75,9 +72,6 @@ void CDODBombTarget::Spawn( void )
 	SetPlaybackRate( 1.0 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::Precache( void )
 {
 	BaseClass::Precache();
@@ -110,18 +104,12 @@ float CDODBombTarget::GetBombTimerLength( void )
 	return DOD_BOMB_TIMER_LENGTH;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Transition( BombTargetState newState )
 {
 	State_Leave();
 	State_Enter( newState );
 }	
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Enter( BombTargetState newState )
 {
 	m_pCurStateInfo = State_LookupInfo( newState );
@@ -141,9 +129,6 @@ void CDODBombTarget::State_Enter( BombTargetState newState )
 	m_iState = (int)newState;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Leave()
 {
 	if ( m_pCurStateInfo && m_pCurStateInfo->pfnLeaveState )
@@ -152,9 +137,6 @@ void CDODBombTarget::State_Leave()
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Think()
 {
 	if ( m_pCurStateInfo && m_pCurStateInfo->pfnThink )
@@ -165,9 +147,6 @@ void CDODBombTarget::State_Think()
 	SetNextThink( gpGlobals->curtime + 0.1 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
 	if ( m_pCurStateInfo && m_pCurStateInfo->pfnUse )
@@ -176,9 +155,6 @@ void CDODBombTarget::State_Use( CBaseEntity *pActivator, CBaseEntity *pCaller, U
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CDODBombTargetStateInfo* CDODBombTarget::State_LookupInfo( BombTargetState state )
 {
 	static CDODBombTargetStateInfo bombTargetStateInfos[] =
@@ -197,9 +173,6 @@ CDODBombTargetStateInfo* CDODBombTarget::State_LookupInfo( BombTargetState state
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Enter_INACTIVE( void )
 {
 	// go invisible
@@ -208,9 +181,6 @@ void CDODBombTarget::State_Enter_INACTIVE( void )
 	m_OnBecomeInactive.FireOutput( this, this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Enter_ACTIVE( void )
 {
 	RemoveEffects( EF_NODRAW );
@@ -221,9 +191,6 @@ void CDODBombTarget::State_Enter_ACTIVE( void )
 	m_OnBecomeActive.FireOutput( this, this );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Enter_ARMED( void )
 {
 	RemoveEffects( EF_NODRAW );
@@ -434,9 +401,6 @@ bool CDODBombTarget::CanPlayerContinueDefusing( CDODPlayer *pPlayer, DefusingPla
 	return CanPlayerStartDefuse( pPlayer );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Think_ARMED( void )
 {
 	// count down
@@ -517,9 +481,6 @@ void CDODBombTarget::State_Think_ARMED( void )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Use_ACTIVE( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
 	CDODPlayer *pPlayer = ToDODPlayer( pActivator );
@@ -566,9 +527,6 @@ void CDODBombTarget::State_Use_ACTIVE( CBaseEntity *pActivator, CBaseEntity *pCa
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::CompletePlanting( CDODPlayer *pPlantingPlayer )
 {
 	if ( pPlantingPlayer && ( pPlantingPlayer->GetTeamNumber() == m_iBombingTeam || m_iBombingTeam == TEAM_UNASSIGNED ) )
@@ -595,9 +553,6 @@ DefusingPlayer *CDODBombTarget::FindDefusingPlayer( CDODPlayer *pPlayer )
 	return pRec;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::State_Use_ARMED( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
 	// check for people disarming
@@ -643,9 +598,6 @@ void CDODBombTarget::State_Use_ARMED( CBaseEntity *pActivator, CBaseEntity *pCal
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::InputEnable( inputdata_t &inputdata )
 {
 	if ( m_pCurStateInfo && m_pCurStateInfo->m_iState == BOMB_TARGET_INACTIVE )
@@ -654,9 +606,6 @@ void CDODBombTarget::InputEnable( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::InputDisable( inputdata_t &inputdata )
 {
 	if ( m_pCurStateInfo && m_pCurStateInfo->m_iState != BOMB_TARGET_INACTIVE )
@@ -675,9 +624,6 @@ void CDODBombTarget::InputDisable( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CControlPoint *CDODBombTarget::GetControlPoint( void )
 {
 	if ( !m_pControlPoint )
@@ -695,9 +641,6 @@ CControlPoint *CDODBombTarget::GetControlPoint( void )
 	return m_pControlPoint;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CDODBombTarget::CanPlantHere( CDODPlayer *pPlayer )
 {
 	if ( !m_pCurStateInfo )
@@ -712,9 +655,6 @@ bool CDODBombTarget::CanPlantHere( CDODPlayer *pPlayer )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CDODBombTarget::DefuseBlocked( CDODPlayer *pAttacker )
 {
 	CControlPoint *pPoint = GetControlPoint();

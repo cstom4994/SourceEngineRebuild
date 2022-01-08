@@ -53,33 +53,21 @@ bool CNoGrenadesZone::IsTouching( const CBaseEntity *pEntity ) const
 	return BaseClass::IsTouching( pEntity );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNoGrenadesZone::InputEnable( inputdata_t &inputdata )
 {
 	SetDisabled( false );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNoGrenadesZone::InputDisable( inputdata_t &inputdata )
 {
 	SetDisabled( true );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 bool CNoGrenadesZone::IsDisabled( void )
 {
 	return m_bDisabled;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNoGrenadesZone::InputToggle( inputdata_t &inputdata )
 {
 	if ( m_bDisabled )
@@ -92,9 +80,6 @@ void CNoGrenadesZone::InputToggle( inputdata_t &inputdata )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CNoGrenadesZone::SetDisabled( bool bDisabled )
 {
 	m_bDisabled = bDisabled;

@@ -108,9 +108,6 @@ CCrossbowBolt *CCrossbowBolt::BoltCreate( const Vector &vecOrigin, const QAngle 
     return pBolt;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 CCrossbowBolt::~CCrossbowBolt( void )
 {
     if ( m_pGlowSprite )
@@ -158,9 +155,6 @@ bool CCrossbowBolt::CreateSprites( void )
     return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCrossbowBolt::Spawn( void )
 {
     Precache( );
@@ -362,9 +356,6 @@ void CCrossbowBolt::BoltTouch( CBaseEntity *pOther )
     }
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCrossbowBolt::BubbleThink( void )
 {
     QAngle angNewAngles;
@@ -538,9 +529,6 @@ void CWeaponCrossbow::Precache(void) {
     BaseClass::Precache();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCrossbow::PrimaryAttack(void) {
     if (m_bInZoom && g_pGameRules->IsMultiplayer()) {
 //		FireSniperBolt();
@@ -555,9 +543,6 @@ void CWeaponCrossbow::PrimaryAttack(void) {
     SetWeaponIdleTime(gpGlobals->curtime + SequenceDuration(ACT_VM_PRIMARYATTACK));
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponCrossbow::SecondaryAttack(void) {
     //NOTENOTE: The zooming is handled by the post/busy frames
 }

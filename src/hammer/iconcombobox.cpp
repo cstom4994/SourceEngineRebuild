@@ -25,18 +25,12 @@ CIconComboBox::~CIconComboBox() {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CIconComboBox::Init(void) {
     // initialize the icon size
     m_IconSize.cx = GetSystemMetrics(SM_CXICON);
     m_IconSize.cy = GetSystemMetrics(SM_CYICON);
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CIconComboBox::AddIcon(LPCTSTR pIconName) {
     //
     // create/load an icon from file
@@ -72,9 +66,6 @@ int CIconComboBox::AddIcon(LPCTSTR pIconName) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CIconComboBox::InsertIcon(LPCTSTR pIconName, int ndx) {
     //
     // create an icon from file
@@ -110,9 +101,6 @@ int CIconComboBox::InsertIcon(LPCTSTR pIconName, int ndx) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CIconComboBox::SelectIcon(LPCTSTR pIconName) {
     //
     // search the combo box list for the given string, -1 = search the whole list
@@ -128,18 +116,12 @@ int CIconComboBox::SelectIcon(LPCTSTR pIconName) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CIconComboBox::SelectIcon(int ndx) {
     // set the selection current
     return CComboBox::SetCurSel(ndx);
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CIconComboBox::DeleteIcon(LPCTSTR pIconName) {
     //
     // search the combo box list for the given string, -1 = search the whole list
@@ -155,9 +137,6 @@ int CIconComboBox::DeleteIcon(LPCTSTR pIconName) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 int CIconComboBox::DeleteIcon(int ndx) {
     // remove the icon from the combo box
     return CComboBox::DeleteString(ndx);
@@ -191,18 +170,12 @@ int CIconComboBox::DeleteString(int nIndex) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CIconComboBox::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct) {
     lpMeasureItemStruct->itemWidth = m_IconSize.cx;
     lpMeasureItemStruct->itemHeight = m_IconSize.cy + 1;
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CIconComboBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) {
     CBrush *pOldBrush = NULL;
     CPen *pOldPen = NULL;

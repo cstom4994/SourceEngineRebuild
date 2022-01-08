@@ -580,9 +580,6 @@ bool CRopeKeyframe::Break( void )
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CRopeKeyframe::NotifyPositionChanged( CBaseEntity *pEntity )
 {
 	// Update our bbox?

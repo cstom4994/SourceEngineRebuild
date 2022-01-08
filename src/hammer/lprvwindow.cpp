@@ -79,9 +79,6 @@ void CLightingPreviewResultsWindow::Create(CWnd *pParentWnd) {
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CLightingPreviewResultsWindow::OnPaint(void) {
     CPaintDC dc(this); // device context for painting
 

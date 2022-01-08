@@ -577,9 +577,6 @@ void CMatchmaking::StartCountdown()
 	ProcessCheckpoint( &msg );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMatchmaking::CancelCountdown()
 {
 	// Accept searches again

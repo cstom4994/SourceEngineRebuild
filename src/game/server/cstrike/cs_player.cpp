@@ -1341,9 +1341,6 @@ void CCSPlayer::DeathSound( const CTakeDamageInfo &info )
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CCSPlayer::InitVCollision( const Vector &vecAbsOrigin, const Vector &vecAbsVelocity )
 {
 	BaseClass::InitVCollision( vecAbsOrigin, vecAbsVelocity );

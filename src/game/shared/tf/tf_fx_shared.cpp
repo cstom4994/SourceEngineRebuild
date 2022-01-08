@@ -83,18 +83,12 @@ void FX_WeaponSound( int iPlayer, WeaponSound_t soundType, const Vector &vecOrig
 	CBaseEntity::EmitSound( filter, iPlayer, pShootSound, &vecOrigin ); 
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void StartGroupingSounds()
 {
 	Assert( g_aGroupedSounds.Count() == 0 );
 	SetImpactSoundRoute( ImpactSoundGroup );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void EndGroupingSounds()
 {
 	g_aGroupedSounds.Purge();

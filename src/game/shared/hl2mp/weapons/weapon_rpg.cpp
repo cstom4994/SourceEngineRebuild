@@ -271,9 +271,6 @@ void CMissile::DumbFire( void )
     CreateSmokeTrail();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMissile::SetGracePeriod( float flGracePeriod )
 {
     m_flGracePeriodEndsAt = gpGlobals->curtime + flGracePeriod;
@@ -376,9 +373,6 @@ void CMissile::DoExplosion( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMissile::Explode( void )
 {
     // Don't explode against the skybox. Just pretend that
@@ -428,9 +422,6 @@ void CMissile::MissileTouch( CBaseEntity *pOther )
     Explode();
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMissile::CreateSmokeTrail( void )
 {
     if ( m_hRocketTrail )
@@ -456,9 +447,6 @@ void CMissile::CreateSmokeTrail( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMissile::IgniteThink( void )
 {
     SetMoveType( MOVETYPE_FLY );
@@ -507,9 +495,6 @@ void CMissile::GetShootPosition( CLaserDot *pLaserDot, Vector *pShootPosition )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 #define	RPG_HOMING_SPEED	0.125f
 
 void CMissile::ComputeActualDotPosition( CLaserDot *pLaserDot, Vector *pActualDotPosition, float *pHomingSpeed )
@@ -557,9 +542,6 @@ void CMissile::ComputeActualDotPosition( CLaserDot *pLaserDot, Vector *pActualDo
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CMissile::SeekThink( void )
 {
     CBaseEntity	*pBestDot	= NULL;
@@ -1053,9 +1035,6 @@ void CAPCMissile::DoExplosion( void )
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAPCMissile::ComputeLeadingPosition( const Vector &vecShootPosition, CBaseEntity *pTarget, Vector *pLeadPosition )
 {
     Vector vecTarget = pTarget->BodyTarget( vecShootPosition, false );
@@ -1108,9 +1087,6 @@ void CAPCMissile::ComputeLeadingPosition( const Vector &vecShootPosition, CBaseE
 }
 
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CAPCMissile::ComputeActualDotPosition( CLaserDot *pLaserDot, Vector *pActualDotPosition, float *pHomingSpeed )
 {
     if ( m_bGuidingDisabled )
@@ -1756,9 +1732,6 @@ void CWeaponRPG::UpdateLaserPosition(Vector vecMuzzlePos, Vector vecEndPos) {
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CWeaponRPG::CreateLaserPointer(void) {
 #ifndef CLIENT_DLL
     if ( m_hLaserDot != NULL )
