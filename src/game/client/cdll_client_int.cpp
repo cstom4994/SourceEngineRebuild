@@ -448,7 +448,7 @@ EXPOSE_SINGLE_INTERFACE(CGameClientExports, IGameClientExports, GAMECLIENTEXPORT
 class CClientDLLSharedAppSystems : public IClientDLLSharedAppSystems {
 public:
     CClientDLLSharedAppSystems() {
-        AddAppSystem("soundemittersystem.dll", SOUNDEMITTERSYSTEM_INTERFACE_VERSION);
+        AddAppSystem("engine.dll", SOUNDEMITTERSYSTEM_INTERFACE_VERSION);
         AddAppSystem("scenefilecache.dll", SCENE_FILE_CACHE_INTERFACE_VERSION);
     }
 
@@ -998,7 +998,7 @@ int CHLClient::Init(CreateInterfaceFn appSystemFactory, CreateInterfaceFn physic
     factories.physicsFactory = physicsFactory;
     FactoryList_Store(factories);
 
-    // Yes, both the client and game .dlls will try to Connect, the soundemittersystem.dll will handle this gracefully
+    // Yes, both the client and game .dlls will try to Connect, the soundemittersystem will handle this gracefully
     if (!soundemitterbase->Connect(appSystemFactory)) {
         return false;
     }

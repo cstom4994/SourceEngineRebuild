@@ -217,7 +217,6 @@ add_dependencies(${PROJECT_NAME}
         lzma
         tier0
         tier1
-        tier2
         vstdlib
         )
 
@@ -226,7 +225,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         lzma
         tier0
         tier1
-        tier2
         vstdlib
 
         "shell32;"

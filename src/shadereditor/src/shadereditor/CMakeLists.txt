@@ -432,8 +432,6 @@ add_dependencies(${PROJECT_NAME}
         shaderlib
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
         vtf
         vgui_controls_editor
@@ -450,8 +448,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         shaderlib
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
         vtf
         vgui_controls_editor

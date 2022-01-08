@@ -71,6 +71,7 @@
 #endif
 
 #if defined( USE_SDL )
+
 #include "SDL.h"
 
 #if !defined( _WIN32 )
@@ -92,7 +93,9 @@ int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uTy
 #define DEFAULT_HL2_GAMEDIR    "hl2"
 
 #if defined( USE_SDL )
-extern void* CreateSDLMgr();
+
+extern void *CreateSDLMgr();
+
 #endif
 
 //-----------------------------------------------------------------------------
@@ -604,7 +607,7 @@ bool CSourceAppSystemGroup::Create() {
                     {"datacache.dll",      DATACACHE_INTERFACE_VERSION},
                     {"datacache.dll",      MDLCACHE_INTERFACE_VERSION},
                     {"datacache.dll",      STUDIO_DATA_CACHE_INTERFACE_VERSION},
-                    {"studiorender.dll",   STUDIO_RENDER_INTERFACE_VERSION},
+                    {"studiorender.dll",         STUDIO_RENDER_INTERFACE_VERSION},
                     {"engine.dll",         VPHYSICS_INTERFACE_VERSION},
                     {"engine.dll",         VIDEO_SERVICES_INTERFACE_VERSION},
 
@@ -617,7 +620,7 @@ bool CSourceAppSystemGroup::Create() {
             };
 
 #if defined( USE_SDL )
-    AddSystem( (IAppSystem *)CreateSDLMgr(), SDLMGR_INTERFACE_VERSION );
+    AddSystem((IAppSystem *) CreateSDLMgr(), SDLMGR_INTERFACE_VERSION);
 #endif
 
     if (!AddSystems(appSystems))
@@ -1270,8 +1273,8 @@ DLL_EXPORT int LauncherMain( int argc, char **argv )
                 // Can't find the engine
                 if (hwndEngine == NULL) {
                     ::MessageBoxA(NULL,
-                                 "The modified entity keyvalues could not be sent to the Source Engine because the engine does not appear to be running.",
-                                 "Source Engine Not Running", MB_OK | MB_ICONEXCLAMATION);
+                                  "The modified entity keyvalues could not be sent to the Source Engine because the engine does not appear to be running.",
+                                  "Source Engine Not Running", MB_OK | MB_ICONEXCLAMATION);
                 } else {
                     const char *szCommand = BuildCommand();
 
@@ -1285,8 +1288,8 @@ DLL_EXPORT int LauncherMain( int argc, char **argv )
 
                     if (!::SendMessage(hwndEngine, WM_COPYDATA, 0, (LPARAM) &copyData)) {
                         ::MessageBoxA(NULL,
-                                     "The Source Engine was found running, but did not accept the request to load a savegame. It may be an old version of the engine that does not support this functionality.",
-                                     "Source Engine Declined Request", MB_OK | MB_ICONEXCLAMATION);
+                                      "The Source Engine was found running, but did not accept the request to load a savegame. It may be an old version of the engine that does not support this functionality.",
+                                      "Source Engine Declined Request", MB_OK | MB_ICONEXCLAMATION);
                     } else {
                         retval = 0;
                     }
@@ -1296,7 +1299,7 @@ DLL_EXPORT int LauncherMain( int argc, char **argv )
             } else {
                 if (!multiRun) {
                     ::MessageBoxA(NULL, "Only one instance of the game can be running at one time.", "Source - Warning",
-                                 MB_ICONINFORMATION | MB_OK);
+                                  MB_ICONINFORMATION | MB_OK);
                 }
             }
 

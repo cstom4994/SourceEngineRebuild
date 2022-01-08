@@ -249,8 +249,6 @@ add_dependencies(${PROJECT_NAME}
         replay_common
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vstdlib
         vtf
@@ -267,8 +265,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         replay_common
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vstdlib
         vtf

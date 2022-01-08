@@ -2298,7 +2298,7 @@ int ShaderCompile_Main(int argc, char *argv[]) {
         SetupDefaultToolsMinidumpHandler();
 
     if (CommandLine()->FindParm("-game") == 0) {
-        // Used with filesystem_stdio.dll
+        // Used with filesystem_stdio
         FileSystem_Init(NULL, 0, FS_INIT_COMPATIBILITY_MODE);
     } else {
         // SDK uses this since it only has filesystem_steam.dll.

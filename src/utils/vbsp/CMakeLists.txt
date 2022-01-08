@@ -330,8 +330,6 @@ endif ()
 add_dependencies(${PROJECT_NAME}
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
         Vmpi
         vtf
@@ -345,8 +343,6 @@ add_dependencies(${PROJECT_NAME}
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
         Vmpi
         vtf

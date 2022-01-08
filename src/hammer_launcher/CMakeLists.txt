@@ -180,8 +180,6 @@ add_dependencies(${PROJECT_NAME}
         appframework
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
         Vmpi
         vtf
@@ -195,8 +193,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         appframework
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
         Vmpi
         vtf

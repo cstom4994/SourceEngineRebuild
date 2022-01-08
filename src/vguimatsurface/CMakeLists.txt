@@ -252,8 +252,6 @@ add_dependencies(${PROJECT_NAME}
         mathlib
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vgui_surfacelib
         vstdlib
@@ -264,8 +262,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         mathlib
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vgui_surfacelib
         vstdlib

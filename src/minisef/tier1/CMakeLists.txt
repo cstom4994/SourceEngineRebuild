@@ -69,6 +69,24 @@ set(Header_Files
         "../../public/tier1/utlsymbol.h"
         "../../public/tier1/utlsymbollarge.h"
         "../../public/tier1/utlvector.h"
+
+        "../../public/tier2/beamsegdraw.h"
+        "../../public/tier2/camerautils.h"
+        "../../public/tier2/fileutils.h"
+        "../../public/tier2/keybindings.h"
+        "../../public/tier2/keyvaluesmacros.h"
+        "../../public/tier2/meshutils.h"
+        "../../public/tier2/renderutils.h"
+        "../../public/tier2/riff.h"
+        "../../public/tier2/soundutils.h"
+        "../../public/tier2/tier2.h"
+        "../../public/tier2/utlstreambuffer.h"
+        "../../public/tier2/vconfig.h"
+
+        "../../public/tier3/choreoutils.h"
+        "../../public/tier3/mdlutils.h"
+        "../../public/tier3/scenetokenprocessor.h"
+        "../../public/tier3/tier3.h"
         )
 source_group("Header Files" FILES ${Header_Files})
 
@@ -132,6 +150,33 @@ set(Source_Files
         "utlstring.cpp"
         "utlsymbol.cpp"
         "interval.cpp"
+
+        "../../common/debug_lib_check.cpp"
+        "../../public/map_utils.cpp"
+        "../../public/materialsystem/MaterialSystemUtil.cpp"
+        "beamsegdraw.cpp"
+        "camerautils.cpp"
+        "defaultfilesystem.cpp"
+        "dmconnect.cpp"
+        "fileutils.cpp"
+        "keybindings.cpp"
+        "keyvaluesmacros.cpp"
+        "meshutils.cpp"
+        "p4helpers.cpp"
+        "renderutils.cpp"
+        "riff.cpp"
+        "soundutils.cpp"
+        "tier2.cpp"
+        "util_init.cpp"
+        "utlstreambuffer.cpp"
+        "vconfig.cpp"
+
+        "../../common/debug_lib_check.cpp"
+        "choreoutils.cpp"
+        "mdlutils.cpp"
+        "scenetokenprocessor.cpp"
+        "studiohdrstub.cpp"
+        "tier3.cpp"
         )
 source_group("Source Files" FILES ${Source_Files})
 
@@ -185,7 +230,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
         "${MYROOTDIR}/thirdparty/SDL2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier2;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier3"
         )
 
 ################################################################################

@@ -201,8 +201,6 @@ add_dependencies(${PROJECT_NAME}
         choreoobjects
         tier0
         tier1
-        tier2
-        tier3
         mathlib
         vstdlib
         libutilities
@@ -214,8 +212,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         choreoobjects
         tier0
         tier1
-        tier2
-        tier3
         mathlib
         vstdlib
         libutilities

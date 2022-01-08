@@ -170,7 +170,6 @@ add_dependencies(${PROJECT_NAME}
         shaderlib
         tier0
         tier1
-        tier2
         vstdlib
         vtf
         )
@@ -181,7 +180,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         shaderlib
         tier0
         tier1
-        tier2
         vstdlib
         vtf
 

@@ -208,24 +208,18 @@ endif ()
 # Dependencies
 ################################################################################
 add_dependencies(${PROJECT_NAME}
-        FileSystem_Stdio
         appframework
         mathlib
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
         )
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        FileSystem_Stdio
         appframework
         mathlib
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
 
         openvr_api

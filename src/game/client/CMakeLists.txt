@@ -7,7 +7,7 @@ if (BUILD_TF)
     # Source groups
     ################################################################################
     set(______
-            "../../gcsdk/gcsystemmsgs.proto"
+            "../../minisef/gcsdk/gcsystemmsgs.proto"
             )
     source_group("
     " FILES ${______})
@@ -347,7 +347,7 @@ if (BUILD_TF)
     source_group("MP3" FILES ${MP3})
 
     set(Protobuf_Files
-            "../../gcsdk/steammessages.proto"
+            "../../minisef/gcsdk/steammessages.proto"
             "../shared/base_gcmessages.proto"
             "../shared/econ/econ_gcmessages.proto"
             "../shared/tf/tf_gcmessages.proto"
@@ -2190,7 +2190,7 @@ if (BUILD_TF)
             "${CMAKE_CURRENT_SOURCE_DIR}/../statemachine;"
             "${CMAKE_CURRENT_SOURCE_DIR}/../shared/Multiplayer;"
             "${CMAKE_CURRENT_SOURCE_DIR}/../shared/tf;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../gcsdk/steamextra;"
+            "../../minisef/gcsdk/steamextra;"
             "${CMAKE_CURRENT_SOURCE_DIR}/.;"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
@@ -4338,8 +4338,6 @@ add_dependencies(${PROJECT_NAME}
         replay_common
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vpklib
         vstdlib
@@ -4358,8 +4356,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         replay_common
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vpklib
         vstdlib

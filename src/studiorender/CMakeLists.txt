@@ -172,6 +172,15 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         ">"
         "VPC;"
         "RAD_TELEMETRY_DISABLED;"
+        "WIN32;"
+        "_WIN32;"
+        "_WINDOWS;"
+        "_USRDLL;"
+        "_CRT_SECURE_NO_DEPRECATE;"
+        "_CRT_NONSTDC_NO_DEPRECATE;"
+        "PLATFORM_32BITS;"
+        "COMPILER_MSVC32;"
+        "COMPILER_MSVC;"
         "DLLNAME=studiorender;"
         "BINK_VIDEO;"
         "AVI_VIDEO;"
@@ -180,6 +189,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "STUDIORENDER_EXPORTS;"
         "PROTECTED_THINGS_ENABLE;"
+        "fopen=dont_use_fopen;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"
@@ -272,8 +282,6 @@ add_dependencies(${PROJECT_NAME}
         replay_common
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vstdlib
         vtf
@@ -290,8 +298,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         replay_common
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vstdlib
         vtf

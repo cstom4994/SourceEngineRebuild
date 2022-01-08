@@ -294,7 +294,6 @@ add_dependencies(${PROJECT_NAME}
         shaderlib
         tier0
         tier1
-        tier2
         vstdlib
         )
 
@@ -305,7 +304,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         shaderlib
         tier0
         tier1
-        tier2
         vstdlib
 
         d3d9

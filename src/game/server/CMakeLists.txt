@@ -1975,7 +1975,7 @@ if (BUILD_TF)
             "${CMAKE_CURRENT_SOURCE_DIR}/../../utils/common;"
             "${CMAKE_CURRENT_SOURCE_DIR}/../shared/econ;"
             "${CMAKE_CURRENT_SOURCE_DIR}/NextBot;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../gcsdk/steamextra;"
+            "../../minisef/gcsdk/steamextra;"
             "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2;"
             "${CMAKE_CURRENT_SOURCE_DIR}/tf;"
             "${CMAKE_CURRENT_SOURCE_DIR}/tf/vgui;"
@@ -3662,7 +3662,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../utils/common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/econ;"
         "${CMAKE_CURRENT_SOURCE_DIR}/NextBot;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../gcsdk/steamextra;"
+        "../../minisef/gcsdk/steamextra;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp;"
@@ -3923,8 +3923,6 @@ add_dependencies(${PROJECT_NAME}
         replay_common
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vpklib
         vstdlib
@@ -3945,8 +3943,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         replay_common
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vpklib
         vstdlib

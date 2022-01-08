@@ -106,19 +106,15 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(minisef)
 
-add_subdirectory(engine/ivp)
-
-add_subdirectory(minisef/choreoobjects)
 add_subdirectory(datacache)
 add_subdirectory(datamodel)
 add_subdirectory(dedicated)
-add_subdirectory(fgdlib)
 #add_subdirectory(dedicated_main)
-add_subdirectory(dmserializers)
-add_subdirectory(dmxloader)
 
-add_subdirectory(filesystem)
+
+
 add_subdirectory(engine)
+add_subdirectory(studiorender)
 
 add_subdirectory(game/client)
 add_subdirectory(game/interfaces)
@@ -127,7 +123,6 @@ add_subdirectory(game/rccpp)
 add_subdirectory(game/gameui2)
 add_subdirectory(game/server)
 
-add_subdirectory(gcsdk)
 add_subdirectory(launcher)
 add_subdirectory(shadereditor/src)
 add_subdirectory(materialsystem)
@@ -137,14 +132,8 @@ add_subdirectory(materialsystem/shaderlib)
 add_subdirectory(materialsystem/stdshaders_old)
 add_subdirectory(materialsystem/newshadersystem/stdshaders)
 
-add_subdirectory(minisef/movieobjects)
-add_subdirectory(particles)
 
-add_subdirectory(replay)
-add_subdirectory(replay/common)
-add_subdirectory(minisef/scenefilecache)
-add_subdirectory(soundemittersystem)
-add_subdirectory(soundsystem)
+add_subdirectory(engine/components/replay/common)
 add_subdirectory(sourcevr)
 
 add_subdirectory(engine/components/vgui2/dme_controls)
@@ -152,8 +141,6 @@ add_subdirectory(engine/components/vgui2/matsys_controls)
 add_subdirectory(engine/components/vgui2/vgui_controls)
 add_subdirectory(engine/components/vgui2/vgui_surfacelib)
 
-add_subdirectory(minisef/serverbrowser)
-add_subdirectory(studiorender)
 add_subdirectory(utils/vmpi)
 add_subdirectory(utils/vbsp)
 

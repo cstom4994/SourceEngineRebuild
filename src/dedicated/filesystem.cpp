@@ -17,7 +17,7 @@
 #include "tier1/strtools.h"
 #include "tier0/icommandline.h"
 #include "tier0/dbg.h"
-#include "../filesystem/basefilesystem.h"
+#include "../engine/components/filesystem/basefilesystem.h"
 #include "appframework/AppFramework.h"
 #include "tier2/tier2.h"
 

@@ -1622,7 +1622,6 @@ IVP_Raycast_Airboat_Wheel *CPhysics_Airboat::get_wheel(IVP_POS_WHEEL i) {
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-IVP_Controller_Raycast_Airboat_Vector_of_Cores_1::IVP_Controller_Raycast_Airboat_Vector_of_Cores_1() :
-        IVP_U_Vector<IVP_Core>(&elem_buffer[0], 1) {
-}
-
+//IVP_Controller_Raycast_Airboat_Vector_of_Cores_1::IVP_Controller_Raycast_Airboat_Vector_of_Cores_1() :
+//        IVP_U_Vector<IVP_Core>(&elem_buffer[0], 1) {
+//}

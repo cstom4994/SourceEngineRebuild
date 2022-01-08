@@ -9,8 +9,8 @@ set(Header_Files
         "../common/IManageServer.h"
         "../common/netapi.h"
         "../common/SteamAppStartup.h"
-        "../filesystem/filetracker.h"
-        "../filesystem/threadsaferefcountedobject.h"
+        "../engine/components/filesystem/filetracker.h"
+        "../engine/components/filesystem/threadsaferefcountedobject.h"
         "../public/appframework/IAppSystem.h"
         "../public/engine_hlds_api.h"
         "../public/filesystem.h"
@@ -76,13 +76,13 @@ set(Source_Files__Console
 source_group("Source Files\\Console" FILES ${Source_Files__Console})
 
 set(Source_Files__FileSystem
-        "../filesystem/basefilesystem.cpp"
-        "../filesystem/filesystem_async.cpp"
-        "../filesystem/filesystem_stdio.cpp"
-        "../filesystem/filetracker.cpp"
+        "../engine/components/filesystem/basefilesystem.cpp"
+        "../engine/components/filesystem/filesystem_async.cpp"
+        "../engine/components/filesystem/filesystem_stdio.cpp"
+        "../engine/components/filesystem/filetracker.cpp"
         #    "../filesystem/linux_support.cpp"
-        "../filesystem/packfile.cpp"
-        "../filesystem/QueuedLoader.cpp"
+        "../engine/components/filesystem/packfile.cpp"
+        "../engine/components/filesystem/QueuedLoader.cpp"
         "../public/zip_utils.cpp"
         )
 source_group("Source Files\\FileSystem" FILES ${Source_Files__FileSystem})
@@ -291,8 +291,6 @@ add_dependencies(${PROJECT_NAME}
         mathlib
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vpklib
         vstdlib
@@ -303,8 +301,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         mathlib
         tier0
         tier1
-        tier2
-        tier3
         vgui_controls
         vpklib
         vstdlib

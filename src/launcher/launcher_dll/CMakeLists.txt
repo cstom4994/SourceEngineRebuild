@@ -208,8 +208,6 @@ add_dependencies(${PROJECT_NAME}
         appframework
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
         )
 
@@ -217,8 +215,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         appframework
         tier0
         tier1
-        tier2
-        tier3
         vstdlib
 
         steam_api
