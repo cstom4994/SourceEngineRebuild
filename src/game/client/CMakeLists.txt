@@ -3969,29 +3969,6 @@ set(Source_Files__IFM
         )
 source_group("Source Files\\IFM" FILES ${Source_Files__IFM})
 
-set(Source_Files__cef
-        "cef/src_cef.cpp"
-        "cef/src_cef.h"
-        "cef/src_cef_avatar_handler.cpp"
-        "cef/src_cef_avatar_handler.h"
-        "cef/src_cef_browser.cpp"
-        "cef/src_cef_browser.h"
-        "cef/src_cef_js.cpp"
-        "cef/src_cef_js.h"
-        "cef/src_cef_local_handler.cpp"
-        "cef/src_cef_local_handler.h"
-        "cef/src_cef_osrenderer.cpp"
-        "cef/src_cef_osrenderer.h"
-        "cef/src_cef_python.cpp"
-        "cef/src_cef_python.h"
-        "cef/src_cef_vgui_panel.cpp"
-        "cef/src_cef_vgui_panel.h"
-        "cef/src_cef_vtf_handler.cpp"
-        "cef/src_cef_vtf_handler.h"
-        "../../public/warscef/wars_cef_shared.h"
-        )
-source_group("Source Files\\cef" FILES ${Source_Files__cef})
-
 set(Source_Files__Lambda__NextBot
         "NextBot/C_NextBot.cpp"
         "NextBot/C_NextBot.h"
@@ -4011,7 +3988,6 @@ set(ALL_FILES
         ${Source_Files__Temporary_Entities}
         ${Source_Files__game_controls}
         ${Source_Files__GAMEUI}
-        ${Source_Files__cef}
         ${Source_Files__Lambda__NextBot}
         ${Source_Files__IFM}
         ${SEE_Files}
@@ -4074,7 +4050,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
         "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_hl2mp;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.6.1/src;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/cef;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/RmlUi/Include;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/freetype;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/include;"
@@ -4087,7 +4062,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/sixensesdk/include;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp/ui;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/cef;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2/weapons;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
@@ -4138,7 +4112,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "NEXT_BOT;"
         "GAMEUI_EXPORTS;"
         "RMLUI_STATIC_LIB;"
-        "ENABLE_CEF;"
         "_EXTERNAL_DLL_EXT=.dll;"
         "VPCGAMECAPS=HL2;"
         "PROJECTDIR=E:\\Projects\\SourceEngineWorks\\SourceEngineRebuild\\src\\game\\client;"
@@ -4401,8 +4374,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         steam_api
         SDL2
         freetype
-        libcef
-        libcef_dll_wrapper
 
         "shell32;"
         "user32;"
