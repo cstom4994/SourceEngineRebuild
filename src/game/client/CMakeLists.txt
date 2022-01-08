@@ -3266,7 +3266,7 @@ set(Source_Files
         "../shared/sheetsimulator.cpp"
         "../shared/simtimer.cpp"
         "../shared/singleplay_gamerules.cpp"
-        "../shared/SoundEmitterSystem.cpp"
+        "../shared/SoundEmitterSystem/SoundEmitterSystem.cpp"
         "../shared/soundenvelope.cpp"
         "../shared/Sprite.cpp"
         "../shared/SpriteTrail.cpp"
@@ -3954,9 +3954,6 @@ set(Source_Files__GAMEUI
         "gameui/OptionsSubVideo.h"
         "gameui/OptionsSubVoice.cpp"
         "gameui/OptionsSubVoice.h"
-
-        "gameui/ui/BrowserPanel.cpp"
-        "gameui/ui/IBrowserPanel.h"
         )
 source_group("GameUI Sources" FILES ${Source_Files__GAMEUI})
 
@@ -3975,6 +3972,19 @@ set(Source_Files__Lambda__NextBot
         )
 source_group("NextBot" FILES ${Source_Files__Lambda__NextBot})
 
+set(Source_Files__Lambda__ImGui
+        "imgui/imgui_impl_source.cpp"
+        "imgui/imgui_impl_source.h"
+        "imgui/app.cpp"
+        "imgui/app.h"
+        "imgui/imgui/imgui.cpp"
+        "imgui/imgui/imgui_draw.cpp"
+        "imgui/imgui/imgui_widgets.cpp"
+        "imgui/imgui/imgui_tables.cpp"
+        "imgui/imgui/imgui_demo.cpp"
+        )
+source_group("ImGui" FILES ${Source_Files__Lambda__ImGui})
+
 set(ALL_FILES
         ${Game_Shared_Header_Files}
         ${Header_Files}
@@ -3989,6 +3999,7 @@ set(ALL_FILES
         ${Source_Files__game_controls}
         ${Source_Files__GAMEUI}
         ${Source_Files__Lambda__NextBot}
+        ${Source_Files__Lambda__ImGui}
         ${Source_Files__IFM}
         ${SEE_Files}
         ${CONTENTS_Files}
@@ -4057,6 +4068,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../../common/GameUI;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared;"
         "${CMAKE_CURRENT_SOURCE_DIR}/gameui;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/imgui/imgui;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/imgui;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../rccpp;"
         "${CMAKE_CURRENT_SOURCE_DIR}/game_controls;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/sixensesdk/include;"
@@ -4108,7 +4121,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 #        "ENABLE_GC_MATCHMAKING;"
         "GLOWS_ENABLE;"
 #        "USE_DYNAMIC_ASSET_LOADING;"
-        "VOTING_ENABLED;"
+#        "VOTING_ENABLED;"
         "NEXT_BOT;"
         "GAMEUI_EXPORTS;"
         "RMLUI_STATIC_LIB;"

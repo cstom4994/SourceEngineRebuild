@@ -87,9 +87,6 @@
 #include "tier0/dbg.h"
 #include "engine/IEngineSound.h"
 
-#include "src_cef.h"
-SrcCefBrowser *s_ui_basemodpanel = NULL;
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
 
@@ -103,7 +100,6 @@ IEngineSound *enginesound = NULL;
 IAchievementMgr *achievementmgr = NULL;
 IEngineClientReplay *g_pEngineClientReplay = NULL;
 ISourceVirtualReality *g_pSourceVR = NULL;
-
 
 extern CSteamAPIContext *steamapicontext;
 

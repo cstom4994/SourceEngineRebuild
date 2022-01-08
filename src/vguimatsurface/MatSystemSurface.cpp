@@ -15,7 +15,9 @@
 #endif
 
 #if defined( USE_SDL )
-                                                                                                                        #include <appframework/ilaunchermgr.h>
+
+#include <appframework/ilaunchermgr.h>
+
 ILauncherMgr *g_pLauncherMgr = NULL;
 #endif
 
@@ -252,7 +254,7 @@ bool CMatSystemSurface::Connect(CreateInterfaceFn factory) {
         return false;
 
 #ifdef USE_SDL
-    g_pLauncherMgr = (ILauncherMgr *)factory( SDLMGR_INTERFACE_VERSION, NULL );
+    g_pLauncherMgr = (ILauncherMgr *) factory(SDLMGR_INTERFACE_VERSION, NULL);
 #endif
 
     return true;

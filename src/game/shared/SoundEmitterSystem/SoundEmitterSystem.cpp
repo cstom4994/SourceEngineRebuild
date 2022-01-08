@@ -1,9 +1,4 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
-//
-// Purpose: 
-//
-//=============================================================================//
-
+﻿
 #include "cbase.h"
 #include <ctype.h>
 #include <KeyValues.h>
@@ -76,8 +71,8 @@ void WaveTrace(char const *wavname, char const *funcname) {
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : &src - 
+// Purpose:
+// Input  : &src -
 //-----------------------------------------------------------------------------
 EmitSound_t::EmitSound_t(const CSoundParameters &src) {
     m_nChannel = src.channel;
@@ -124,7 +119,7 @@ void Hack_FixEscapeChars(char *str) {
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
+// Purpose:
 //-----------------------------------------------------------------------------
 class CSoundEmitterSystem : public CBaseGameSystem {
 public:
@@ -952,7 +947,7 @@ CON_COMMAND_F( sv_soundemitter_flush, "Flushes the sounds.txt system (server onl
 
 #if !defined(_RETAIL)
 
-#if !defined( CLIENT_DLL ) 
+#if !defined( CLIENT_DLL )
 
 #if !defined( _XBOX )
 
@@ -1076,7 +1071,7 @@ static ConCommand Command_Playgamesound( "playgamesound", Playgamesound_f, "Play
 
 //-----------------------------------------------------------------------------
 // Purpose:  Non-static override for doing the general case of CPASAttenuationFilter( this ), and EmitSound( filter, entindex(), etc. );
-// Input  : *soundname - 
+// Input  : *soundname -
 //-----------------------------------------------------------------------------
 void CBaseEntity::EmitSound(const char *soundname, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ ) {
     //VPROF( "CBaseEntity::EmitSound" );
@@ -1095,7 +1090,7 @@ void CBaseEntity::EmitSound(const char *soundname, float soundtime /*= 0.0f*/, f
 
 //-----------------------------------------------------------------------------
 // Purpose:  Non-static override for doing the general case of CPASAttenuationFilter( this ), and EmitSound( filter, entindex(), etc. );
-// Input  : *soundname - 
+// Input  : *soundname -
 //-----------------------------------------------------------------------------
 void CBaseEntity::EmitSound(const char *soundname, HSOUNDSCRIPTHANDLE &handle, float soundtime /*= 0.0f*/,
                             float *duration /*=NULL*/ ) {
@@ -1114,11 +1109,11 @@ void CBaseEntity::EmitSound(const char *soundname, HSOUNDSCRIPTHANDLE &handle, f
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : filter - 
-//			iEntIndex - 
-//			*soundname - 
-//			*pOrigin - 
+// Purpose:
+// Input  : filter -
+//			iEntIndex -
+//			*soundname -
+//			*pOrigin -
 //-----------------------------------------------------------------------------
 void
 CBaseEntity::EmitSound(IRecipientFilter &filter, int iEntIndex, const char *soundname, const Vector *pOrigin /*= NULL*/,
@@ -1140,11 +1135,11 @@ CBaseEntity::EmitSound(IRecipientFilter &filter, int iEntIndex, const char *soun
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : filter - 
-//			iEntIndex - 
-//			*soundname - 
-//			*pOrigin - 
+// Purpose:
+// Input  : filter -
+//			iEntIndex -
+//			*soundname -
+//			*pOrigin -
 //-----------------------------------------------------------------------------
 void CBaseEntity::EmitSound(IRecipientFilter &filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHANDLE &handle,
                             const Vector *pOrigin /*= NULL*/, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ ) {
@@ -1162,10 +1157,10 @@ void CBaseEntity::EmitSound(IRecipientFilter &filter, int iEntIndex, const char 
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : filter - 
-//			iEntIndex - 
-//			params - 
+// Purpose:
+// Input  : filter -
+//			iEntIndex -
+//			params -
 //-----------------------------------------------------------------------------
 void CBaseEntity::EmitSound(IRecipientFilter &filter, int iEntIndex, const EmitSound_t &params) {
     VPROF_BUDGET("CBaseEntity::EmitSound", _T("CBaseEntity::EmitSound"));
@@ -1185,10 +1180,10 @@ void CBaseEntity::EmitSound(IRecipientFilter &filter, int iEntIndex, const EmitS
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : filter - 
-//			iEntIndex - 
-//			params - 
+// Purpose:
+// Input  : filter -
+//			iEntIndex -
+//			params -
 //-----------------------------------------------------------------------------
 void
 CBaseEntity::EmitSound(IRecipientFilter &filter, int iEntIndex, const EmitSound_t &params, HSOUNDSCRIPTHANDLE &handle) {
@@ -1209,8 +1204,8 @@ CBaseEntity::EmitSound(IRecipientFilter &filter, int iEntIndex, const EmitSound_
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *soundname - 
+// Purpose:
+// Input  : *soundname -
 //-----------------------------------------------------------------------------
 void CBaseEntity::StopSound(const char *soundname) {
 #if defined( CLIENT_DLL )
@@ -1225,8 +1220,8 @@ void CBaseEntity::StopSound(const char *soundname) {
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *soundname - 
+// Purpose:
+// Input  : *soundname -
 //-----------------------------------------------------------------------------
 void CBaseEntity::StopSound(const char *soundname, HSOUNDSCRIPTHANDLE &handle) {
 #if defined( CLIENT_DLL )
@@ -1241,9 +1236,9 @@ void CBaseEntity::StopSound(const char *soundname, HSOUNDSCRIPTHANDLE &handle) {
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : iEntIndex - 
-//			*soundname - 
+// Purpose:
+// Input  : iEntIndex -
+//			*soundname -
 //-----------------------------------------------------------------------------
 void CBaseEntity::StopSound(int iEntIndex, const char *soundname) {
     g_SoundEmitterSystem.StopSound(iEntIndex, soundname);
@@ -1263,11 +1258,11 @@ soundlevel_t CBaseEntity::LookupSoundLevel(const char *soundname, HSOUNDSCRIPTHA
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *entity - 
-//			origin - 
-//			flags - 
-//			*soundname - 
+// Purpose:
+// Input  : *entity -
+//			origin -
+//			flags -
+//			*soundname -
 //-----------------------------------------------------------------------------
 void CBaseEntity::EmitAmbientSound(int entindex, const Vector &origin, const char *soundname, int flags,
                                    float soundtime /*= 0.0f*/, float *duration /*=NULL*/ ) {
@@ -1358,8 +1353,8 @@ void CBaseEntity::PrefetchScriptSound(const char *soundname) {
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *soundname - 
+// Purpose:
+// Input  : *soundname -
 // Output : float
 //-----------------------------------------------------------------------------
 float CBaseEntity::GetSoundDuration(const char *soundname, char const *actormodel) {
@@ -1367,11 +1362,11 @@ float CBaseEntity::GetSoundDuration(const char *soundname, char const *actormode
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : filter - 
-//			*token - 
-//			duration - 
-//			warnifmissing - 
+// Purpose:
+// Input  : filter -
+//			*token -
+//			duration -
+//			warnifmissing -
 //-----------------------------------------------------------------------------
 void CBaseEntity::EmitCloseCaption(IRecipientFilter &filter, int entindex, char const *token,
                                    CUtlVector<Vector> &soundorigin, float duration, bool warnifmissing /*= false*/ ) {
@@ -1389,9 +1384,9 @@ void CBaseEntity::EmitCloseCaption(IRecipientFilter &filter, int entindex, char 
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *name - 
-//			preload - 
+// Purpose:
+// Input  : *name -
+//			preload -
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
 bool CBaseEntity::PrecacheSound(const char *name) {
@@ -1413,10 +1408,9 @@ bool CBaseEntity::PrecacheSound(const char *name) {
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: 
-// Input  : *name - 
+// Purpose:
+// Input  : *name -
 //-----------------------------------------------------------------------------
 void CBaseEntity::PrefetchSound(const char *name) {
     enginesound->PrefetchSound(name);
 }
-

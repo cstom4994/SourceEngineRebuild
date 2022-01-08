@@ -647,11 +647,9 @@ int ClientModeShared::KeyInput(int down, ButtonCode_t keynum, const char *pszCur
 
     // If we're voting...
 #ifdef VOTING_ENABLED
-    CHudVote *pHudVote = GET_HUDELEMENT( CHudVote );
-    if ( pHudVote && pHudVote->IsVisible() )
-    {
-        if ( !pHudVote->KeyInput( down, keynum, pszCurrentBinding ) )
-        {
+    CHudVote *pHudVote = GET_HUDELEMENT(CHudVote);
+    if (pHudVote && pHudVote->IsVisible()) {
+        if (!pHudVote->KeyInput(down, keynum, pszCurrentBinding)) {
             return 0;
         }
     }

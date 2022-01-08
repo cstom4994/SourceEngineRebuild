@@ -2716,7 +2716,7 @@ set(Source_Files
         "../shared/singleplay_gamerules.cpp"
         "../shared/singleplay_gamerules.h"
         "../shared/solidsetdefaults.h"
-        "../shared/SoundEmitterSystem.cpp"
+        "../shared/SoundEmitterSystem/SoundEmitterSystem.cpp"
         "../shared/soundenvelope.cpp"
         "../shared/Sprite.cpp"
         "../shared/Sprite.h"

@@ -88,6 +88,8 @@
 #include "toolframework_client.h"
 #include "hltvcamera.h"
 #include "shaderapi/ishaderapi.h"
+#include "imgui/imgui_impl_source.h"
+#include "imgui/app.h"
 
 #if defined( REPLAY_ENABLED )
 #include "replay/replaycamera.h"
@@ -238,6 +240,8 @@ IShaderAPI *g_pShaderAPI;
 
 IGameUI2 *GameUI2 = nullptr;
 IRCCPP *RCCPP = nullptr;
+
+CImGuiSourceApp* app;
 
 IHaptics *haptics = NULL;// NVNT haptics system interface singleton
 
@@ -1106,6 +1110,12 @@ int CHLClient::Init(CreateInterfaceFn appSystemFactory, CreateInterfaceFn physic
         GetClientVoiceMgr()->Init(&g_VoiceStatusHelper, parent);
     }
 
+    factorylist_t Factories;
+    FactoryList_Retrieve(Factories);
+
+    app = new CImGuiSourceApp;
+    app->Init(Factories.appSystemFactory);
+
     if (!PhysicsDLLInit(physicsFactory))
         return false;
 
@@ -1301,6 +1311,9 @@ void CHLClient::Shutdown(void) {
         RCCPP->Shutdown();
     }
 
+    app->Destroy();
+    delete app;
+
     gHUD.Shutdown();
     VGui_Shutdown();
 
@@ -1400,6 +1413,7 @@ void CHLClient::HudUpdate(bool bActive) {
 
     if (RCCPP != nullptr)
         RCCPP->OnUpdate();
+
 }
 
 //-----------------------------------------------------------------------------
@@ -2499,12 +2513,13 @@ void CHLClient::WriteSaveGameScreenshotOfSize(const char *pFilename, int width, 
     view->WriteSaveGameScreenshotOfSize(pFilename, width, height, bCreatePowerOf2Padded, bWriteVTF);
 }
 
-
-bool show_demo_window = true;
-
 // See RenderViewInfo_t
 void CHLClient::RenderView(const CViewSetup &setup, int nClearFlags, int whatToDraw) {
     VPROF("RenderView");
+
+
+    if (app != nullptr)
+        app->DrawFrame();
 }
 
 void ReloadSoundEntriesInList(IFileList *pFilesToReload);
