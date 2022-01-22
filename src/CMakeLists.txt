@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
 
-project(InvadeEngine)
+project(InvadeEngine LANGUAGES C CXX)
 
 ################################################################################
 # Set target arch type if empty. Visual studio solution generator provides it.
@@ -32,6 +32,10 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS "")
     set(CMAKE_CXX_FLAGS_DEBUG "")
     set(CMAKE_CXX_FLAGS_RELEASE "")
+
+    set(CMAKE_C_STANDARD 11)
+    set(CMAKE_C_EXTENSIONS ON)
+    set(CMAKE_C_STANDARD_REQUIRED ON)
 
     set(CMAKE_CXX_STANDARD 17)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -119,6 +123,7 @@ add_subdirectory(studiorender)
 add_subdirectory(game/client)
 add_subdirectory(game/interfaces)
 add_subdirectory(game/rccpp)
+add_subdirectory(game/rccpp/ImVue/libcss)
 #add_subdirectory(game/rocketui)
 add_subdirectory(game/gameui2)
 add_subdirectory(game/server)

@@ -7,10 +7,10 @@
 #include "Version.h"
 
 namespace invade {
-    static const int VERSION_MAJOR = INVADEENGINE_VERSION_MAJOR;
-    static const int VERSION_MINOR = INVADEENGINE_VERSION_MINOR;
-    static const int VERSION_REV = INVADEENGINE_VERSION_BUILD;
-    static const char *VERSION = INVADEENGINE_VERSION_TEXT;
+    static const int VERSION_MAJOR = SOURCEENGINEREBUILD_VERSION_MAJOR;
+    static const int VERSION_MINOR = SOURCEENGINEREBUILD_VERSION_MINOR;
+    static const int VERSION_REV = SOURCEENGINEREBUILD_VERSION_BUILD;
+    static const char *VERSION = SOURCEENGINEREBUILD_VERSION_TEXT;
     static const char *VERSION_COMPATIBILITY[] = {VERSION, "1.0", "1.1", 0};
 }
 
