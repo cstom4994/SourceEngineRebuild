@@ -11,8 +11,6 @@ add_subdirectory(mathlib)
 
 add_subdirectory(vstdlib)
 
-add_subdirectory(blinkgc)
-
 add_subdirectory(unicode)
 add_subdirectory(unitlib)
 
