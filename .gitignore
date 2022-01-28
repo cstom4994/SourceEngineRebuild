@@ -2,14 +2,19 @@
 
 
 /build/
-/game/
+/game/*.*
+/game/cache
+/game/content
+/game/hl2
+/game/lambdamod
+/game/platform
+!game/bin/
 /invade/
 
 /src/.idea
 /src/_qpc_scripts
 /src/cmake-build-dev
 /src/cmake-build-debug
-/src/lib
 
 /bak/
 
