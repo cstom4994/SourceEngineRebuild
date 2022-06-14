@@ -1,0 +1,42 @@
+#include "common_ps_fxc.h"
+
+sampler BaseSampler	: register( s0 );
+
+const float Exposure : register(c1);
+const float2 BaseResolution : register(c4);
+
+float4 filter(sampler texSample, float2 uv, float2 size)
+{
+    float2 texelSize = 1.0f.xx/size;
+    float2 f = frac(uv*size+0.5);;
+    float2 centroidUV = floor(uv*size+0.5)/size;
+
+    float4 lb = tex2D(texSample, float2(centroidUV+texelSize*float2(0.0, 0.0)));
+    float4 lt = tex2D(texSample, float2(centroidUV+texelSize*float2(0.0, 1.0)));
+    float4 rb = tex2D(texSample, float2(centroidUV+texelSize*float2(1.0, 0.0)));
+    float4 rt = tex2D(texSample, float2(centroidUV+texelSize*float2(1.0, 1.0)));
+    float4 a = lerp(lb, lt, f.y);
+    float4 b = lerp(rb, rt, f.y);
+    float4 c = lerp(a, b, f.x);
+    return c;
+}
+
+float4 tex2DBilinear(sampler texSample, float2 uv, float2 size)
+{   
+    float4 color = filter(texSample, uv, size);
+
+    return color;
+}
+
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+};
+
+float4 main(PS_INPUT i) : COLOR0
+{
+
+    float3 base = tex2DBilinear(BaseSampler, i.texCoord, BaseResolution);
+
+    return float4(base * Exposure, 1.0f);
+}

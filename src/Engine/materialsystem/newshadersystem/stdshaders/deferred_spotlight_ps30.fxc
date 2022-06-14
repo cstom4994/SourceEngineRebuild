@@ -1,0 +1,95 @@
+// STATIC: "CONVERT_TO_SRGB" "0..1"	[ps20b][= g_pHardwareConfig->NeedsShaderSRGBConversion()] [PC]
+// STATIC: "CONVERT_TO_SRGB" "0..0"	[= 0] [XBOX]
+
+#define HDRTYPE HDR_TYPE_NONE
+#include "common_ps_fxc.h"
+#include "common_pbr.h"
+#include "common_deferred.h"
+
+#define MAX_LIGHTS_SPOT 25
+
+sampler FBSampler		    : register( s0 );
+sampler AlbedoSampler		: register( s1 );
+sampler ViewPosSampler		: register( s2 );
+sampler ViewNormalSampler	: register( s3 );
+sampler DepthSampler    	: register( s4 );
+
+float2 g_resolution			: register( c1 );
+float3 g_EyePos				: register( c2 );
+
+float4 MixedLightData[MAX_LIGHTS_SPOT * 3]: register( c4 ); // 3 registers each - 75 registers total
+
+#define LightBrightness MixedLightData[iLight + 1].w
+#define InnerRadius MixedLightData[iLight + 2].w
+#define OuterRadius MixedLightData[iLight].w
+
+float3 DoLights(in float3 worldPos, in float3 worldNormal, float3 albedo, float metallic, float roughness)
+{
+	float3 Out = 0.0f.xxx;
+	for(int iLight = 0; iLight < MAX_LIGHTS_SPOT * 3; iLight = iLight + 3)
+	{
+        float3 vLight   = MixedLightData[iLight] - worldPos;
+    	float distance  = length(vLight);
+        float theta     = dot(normalize(vLight), normalize(-MixedLightData[iLight + 2]));
+        float epsilon   = InnerRadius - OuterRadius;
+        float intensity = saturate((theta - OuterRadius) / epsilon); 
+    
+        if(theta >= OuterRadius) 
+        {       
+		    float attenuation = LightBrightness / dot(distance, distance);
+		    Out += DoPBRLight(worldPos, worldNormal, albedo, MixedLightData[iLight], MixedLightData[iLight + 1], g_EyePos, attenuation * intensity, metallic, roughness);
+        }
+	}
+	return Out;
+}
+
+// I'll leave it here, for future generations (-_-)7
+/*float random (float2 uv) {
+    return frac(sin(dot(uv.xy,
+                         float2(12.9898,78.233)))*
+        43758.5453123);
+}
+
+bool hit_sphere(float3 center, float radius, float3 RayPos, float3 RayDir){
+    float3 oc = RayPos - center;
+    float a = dot(RayDir, RayDir);
+    float b = 2.0 * dot(oc, RayDir);
+    float c = dot(oc,oc) - radius*radius;
+    float discriminant = b*b - 4*a*c;
+    return (discriminant>0);
+}
+
+float3 doTestRayTrace(float3 worldPos, float3 normals, float4 sphere, float3 Albedo, float roughness, float2 UV)
+{
+	float3 reflectVect = reflect(normalize(g_EyePos - worldPos), normals);
+	float3 lookup = 0.0f;
+	for (unsigned int isample = 0; isample < 128; isample++)
+	{
+		float3 randomvec = float3(random(UV + isample), random(UV + isample + 1), random(UV + isample + 2));
+		randomvec = randomvec * 2.0f - 1.0f;
+		float3 randomDir = (reflectVect + (randomvec * roughness * roughness * 1.75f));
+		float LN = dot(-randomDir, normals);
+		lookup += hit_sphere(sphere.xyz, sphere.a, worldPos, randomDir) / 128.0f * LN;
+	}
+	return lookup;
+}
+*/
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+	float4x4 viewProj			: TEXCOORD2;
+};
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float3 FullFrame = tex2D( FBSampler, i.texCoord ).rgb;
+	float3 AlbedoSample = tex2D( AlbedoSampler, i.texCoord ).rgb;
+	float3 worldPos = tex2D( ViewPosSampler, i.texCoord ).rgb + g_EyePos;
+	float3 worldNormal = tex2D( ViewNormalSampler, i.texCoord ).rgb;
+	worldNormal = unpackNormals(worldNormal);
+	float3 metallicRoughnessDepth = tex2D( DepthSampler, i.texCoord ).rgb;
+
+	float3 lighting = DoLights(worldPos, worldNormal, AlbedoSample, metallicRoughnessDepth.x, metallicRoughnessDepth.y);
+
+	return FinalOutput( float4( lighting, 1.0f ), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE );
+}

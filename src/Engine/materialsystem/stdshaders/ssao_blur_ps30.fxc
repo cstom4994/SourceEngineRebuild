@@ -1,0 +1,32 @@
+// Includes
+#include "common_ps_fxc.h"
+
+sampler 		passSampler					: register( s0 );
+
+const float2	rcpres						: register( c0 );
+
+// Structs
+struct VS_OUTPUT
+{
+   	float4 Position   : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+};
+
+float4 main( VS_OUTPUT IN ) : COLOR0
+{
+   float color = tex2D(passSampler, IN.TexCoord0).r*4;
+
+   color += tex2D(passSampler, IN.TexCoord0 + float2(rcpres.x,0)).r*2;
+   color += tex2D(passSampler, IN.TexCoord0 + float2(-rcpres.x,0)).r*2;
+   color += tex2D(passSampler, IN.TexCoord0 + float2(0,rcpres.y)).r*2;
+   color += tex2D(passSampler, IN.TexCoord0 + float2(0,-rcpres.y)).r*2;
+
+   color += tex2D(passSampler, IN.TexCoord0 + rcpres).r;
+   color += tex2D(passSampler, IN.TexCoord0 - rcpres).r;
+   color += tex2D(passSampler, IN.TexCoord0 + rcpres * float2(1,-1)).r;
+   color += tex2D(passSampler, IN.TexCoord0 - rcpres * float2(1,-1)).r;
+
+   color /= 16;
+
+   return float4(color,1,1,1);
+}

@@ -1,0 +1,72 @@
+//===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
+//
+// Example pixel shader that can be applied to models
+//
+//==================================================================================================
+
+#include "common_flashlight_fxc.h"
+#include "shader_constant_register_map.h"
+
+const float4 g_EyePos : register(c0);
+const float2 g_Params : register(c1);
+const float2 g_BaseRes: register(c2);
+
+sampler BaseTextureSampler		: register( s0 );	// Base map
+sampler OverlaySampler			: register( s1 );	// Overlay
+
+// Compute the matrix used to transform tangent space normals to world space
+// I'm doing this because i'm too lazy to figure out TBN matrices using vertex formats
+float3x3 compute_tangent_frame(float3 N, float3 P, float2 uv, out float3 T, out float3 B, out float sign_det)
+{
+    float3 dp1 = ddx(P);
+    float3 dp2 = ddy(P);
+    float2 duv1 = ddx(uv);
+    float2 duv2 = ddy(uv);
+
+    sign_det = dot(dp2, cross(N, dp1)) > 0.0 ? -1 : 1;
+
+    float3x3 M = float3x3(dp1, dp2, cross(dp1, dp2));
+    float2x3 inverseM = float2x3(cross(M[1], M[2]), cross(M[2], M[0]));
+    T = normalize(mul(float2(duv1.x, duv2.x), inverseM));
+    B = normalize(mul(float2(duv1.y, duv2.y), inverseM));
+    return float3x3(T, B, N);
+}
+
+struct PS_INPUT
+{
+	float2 baseTexCoord	: TEXCOORD0;
+	float4 lightAtten	: TEXCOORD1;
+	float3 worldNormal	: TEXCOORD2;
+	float3 worldPos		: TEXCOORD3;
+	float4 projPos		: TEXCOORD4;
+};
+
+float4 main( PS_INPUT i ) : COLOR
+{
+    float3 surfTangent, surfBiTangent;
+    float flipSign;
+    float3x3 TBN = compute_tangent_frame(i.worldNormal, i.worldPos, i.baseTexCoord, surfTangent, surfBiTangent, flipSign);
+    
+    float2 screenUV = i.projPos.xy / i.projPos.w;
+    screenUV = screenUV * 0.5f + 0.5f;
+    
+    float xAspect = g_BaseRes.x / g_BaseRes.y;
+    
+    float3 cameraDir = normalize(i.worldPos - g_EyePos);
+    
+    float3 offset = cameraDir + i.worldNormal;
+    offset = mul(TBN, offset); //transform offset into tangent space
+    
+    float2 UV = (i.baseTexCoord - .5f.xx) / g_Params.y + 0.5f.xx;
+    float aspectOffset = 0.5f - 0.5f / xAspect;
+    float2 baseUV = float2(screenUV.x/* / xAspect + aspectOffset*/, screenUV.y);
+    baseUV = (baseUV - .5f.xx) / g_Params.y + 0.5f.xx;
+    UV += offset.xy * g_Params.x;
+    baseUV += offset.xy * g_Params.x;
+    float cutoff = 1.0f - saturate(length(UV * 2.0f - 1.0f));
+    
+    float4 baseColor = tex2D(BaseTextureSampler, saturate(baseUV));
+    float4 overlay = tex2D(OverlaySampler, saturate(UV));
+
+    return float4(lerp(baseColor, overlay.rgb, overlay.a) * cutoff, 1.0f);
+}

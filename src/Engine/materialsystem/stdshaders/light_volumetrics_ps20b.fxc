@@ -1,0 +1,59 @@
+// DYNAMIC: "UBERLIGHT"					"0..1"
+
+#include "common_flashlight_fxc.h"
+
+//const float4x4 g_FlashlightWorldToTexture		: register( c24 ); // through c27
+const float4 g_FlashlightColor			: register( c0 );
+const float4 g_DepthBlendConstants		: register( c1 );
+
+#if UBERLIGHT
+const float3 g_vSmoothEdge0							: register( PSREG_UBERLIGHT_SMOOTH_EDGE_0 );		// ps_3_0 and up (over 32 registers)
+const float3 g_vSmoothEdge1							: register( PSREG_UBERLIGHT_SMOOTH_EDGE_1 );
+const float3 g_vSmoothOneOverWidth					: register( PSREG_UBERLIGHT_SMOOTH_EDGE_OOW );
+const float4 g_vShearRound							: register( PSREG_UBERLIGHT_SHEAR_ROUND );
+const float4 g_aAbB									: register( PSREG_UBERLIGHT_AABB );
+const float4x4 g_FlashlightWorldToLight				: register( PSREG_UBERLIGHT_WORLD_TO_LIGHT );
+#endif
+
+sampler SpotlightTextureSampler		: register( s0 );
+sampler DepthSampler				: register( s1 );
+sampler FramebufferSampler			: register( s2 );
+
+float DoSimpleFlashlightShadow( sampler depthSampler, float3 flashlightSpacePosition )
+{
+	return tex2Dproj( depthSampler, float4( flashlightSpacePosition, 1 ) ).x;
+}
+
+struct PS_INPUT
+{
+	//float2 vTexCoord0				: TEXCOORD0;
+	float4 flashlightSpacePos		: TEXCOORD1;
+	float4 vProjPos					: TEXCOORD2;
+#if UBERLIGHT
+    float3 worldPos : TEXCOORD3;
+#endif
+};
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float3 UVZ = i.flashlightSpacePos.xyz / i.flashlightSpacePos.w;
+	float3 color = tex2D( SpotlightTextureSampler, UVZ.xy ).rgb;
+	
+	float shadow = DoSimpleFlashlightShadow( DepthSampler, UVZ );
+
+    #if UBERLIGHT
+	float4 uberLightPosition = mul( float4( i.worldPos, 1.0f ), g_FlashlightWorldToLight ).yzxw;
+	shadow *= uberlight( uberLightPosition, g_vSmoothEdge0, g_vSmoothEdge1,
+						 g_vSmoothOneOverWidth, g_vShearRound.xy, g_aAbB, g_vShearRound.zw );
+	#endif
+
+	float attn = 1.0f - UVZ.z;
+	float depthBlend = smoothstep( 7.0, 15, i.vProjPos.z );
+	
+	float2 screenUVs = i.vProjPos.xy / i.vProjPos.w * float2(0.5f, -0.5f) + 0.5f;
+	depthBlend *= DepthFeathering( FramebufferSampler, screenUVs, i.vProjPos.z, i.vProjPos.w, g_DepthBlendConstants );
+	
+	color *= g_FlashlightColor.rgb;
+	
+	return float4( color, shadow * attn * depthBlend * g_FlashlightColor.a );
+}

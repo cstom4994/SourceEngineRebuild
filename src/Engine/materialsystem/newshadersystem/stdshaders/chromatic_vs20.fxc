@@ -1,0 +1,22 @@
+// Includes
+#include "common_vs_fxc.h"
+
+// Structs
+struct VS_OUTPUT
+{
+	float4 Position   : POSITION;
+	float2 TexCoord0  : TEXCOORD0;
+	float2 TexCoord1  : TEXCOORD1;
+};
+
+// Main
+VS_OUTPUT main( float4 Position : POSITION, 
+				  float2 TexCoord : TEXCOORD0)
+{
+	VS_OUTPUT OUT;
+	OUT.Position = Position;
+	OUT.TexCoord0 = TexCoord;
+	OUT.TexCoord1 = TexCoord;
+
+	return OUT;
+}

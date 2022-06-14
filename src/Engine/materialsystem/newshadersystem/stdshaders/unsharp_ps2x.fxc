@@ -1,0 +1,26 @@
+// Includes
+#include "./common_ps_fxc.h"
+
+sampler sceneSampler	: register( s0 );
+sampler BlurredSampler	: register( s1 );
+
+const float UnsharpStrength	: register( c0 );
+
+// Structs
+struct VS_OUTPUT
+{
+   	float4 Position   : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+    float2 TexCoord1  : TEXCOORD1;
+};
+
+// Main
+half4 main(VS_OUTPUT IN) : COLOR
+{   
+	half4 orig = tex2D(sceneSampler, IN.TexCoord1);
+	half4 blur = tex2D(BlurredSampler, IN.TexCoord1);
+	half4 mask = orig - blur;
+	half4 result = orig + UnsharpStrength*mask;
+	result.a = orig.a;
+	return result;
+}

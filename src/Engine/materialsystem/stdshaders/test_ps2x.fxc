@@ -1,0 +1,47 @@
+//====== Copyright c 1996-2004, Valve Corporation, All rights reserved. =======
+//
+// Purpose: 
+//
+//=============================================================================
+
+struct PS_INPUT
+{
+	float4 var0								: TEXCOORD0;
+	float4 var1								: TEXCOORD1;
+	float4 var2								: TEXCOORD2;
+	float4 var3								: TEXCOORD3;
+	float4 var4								: TEXCOORD4;
+	float4 var5								: TEXCOORD5;
+	float4 var6								: TEXCOORD6;
+	float4 var7								: TEXCOORD7;
+	float4 var10							: COLOR;
+	float4 var11							: COLOR1;
+};
+
+struct {
+	float4 f1;
+	float4 f2;
+} a[32] : register( c36 );
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float4 ret = i.var0;
+	ret += i.var1;
+	ret += i.var2;
+	ret += i.var3;
+	ret += i.var4;
+	ret += i.var5;
+	ret += i.var6;
+	ret += i.var7;
+	ret += i.var10;
+	
+	[loop]
+	for (int k = 0; k < 32; k++)
+	{
+		if ( a[k].f1.w < 0 )
+			continue;
+		ret += i.var11 * a[k].f1 + a[k].f2;
+	}
+	
+	return ret;
+}

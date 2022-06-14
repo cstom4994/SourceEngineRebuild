@@ -1,0 +1,83 @@
+#include "common_ps_fxc.h"
+
+sampler DepthSampler	: register( s0 );
+
+const float2 BaseResolution : register(c4);
+
+const float4x4 g_ViewInv : register(c8);
+const float4x4 g_ProjInv : register(c12);
+const float4x4 g_View : register(c16);
+
+
+float3 readView(in float2 coord)
+{
+    float2 invResolution = 1.0f.xx / BaseResolution;
+    float3 pos = tex2D(DepthSampler, float2(coord.x + invResolution.x / 2.0f, coord.y + invResolution.y / 2.0f)).xyz;
+    return float3(pos.x, pos.y, pos.z);
+}
+
+float3 readPos(in float2 coord)
+{
+    //view.z = view.z * 2.0f - 1.0f;
+    float3 view = readView(coord);
+    float4 ViewPos = mul(float4(view.xyz, 1.0f), g_ProjInv);
+    ViewPos.xyz /= ViewPos.w;
+    ViewPos.xyz = float3(ViewPos.xy, ViewPos.z);
+    float4 worldPos = mul(float4(ViewPos.xyz, 1.0f), g_ViewInv);
+    return float3(worldPos.xyz);
+} 
+
+float3 normal_reconstruction(in float3 worldPos, in float2 texcoords)
+{
+    float2 invResolution = 1.0f.xx / BaseResolution;
+    float2 offset1 = float2(0.0, invResolution.y);
+    float2 offset2 = float2(invResolution.x, 0.0);
+    float2 offset3 = float2(0.0, -invResolution.y);
+    float2 offset4 = float2(-invResolution.x, 0.0);
+  
+    float3 worldPos1 = readPos(texcoords + offset1) - worldPos;
+    float3 worldPos2 = readPos(texcoords + offset2) - worldPos;
+    float3 worldPos3 = readPos(texcoords + offset3) - worldPos;
+    float3 worldPos4 = readPos(texcoords + offset4) - worldPos;
+    
+    float3 p1 = 0, p2 = 0;
+    [branch]
+    if (length(worldPos1 - worldPos) < 2.0f)
+    {
+        p1 = worldPos1;
+
+    }
+    else
+    {
+        p1 = worldPos3;
+    }
+    
+    [branch]
+    if (length(worldPos2 - worldPos) < 2.0f)
+    {
+        p2 = worldPos2;
+    }
+    else
+    {
+        p2 = worldPos4;
+    }
+  
+    float3 normal = cross(p1, p2);
+	
+    normal = mul(float4(normalize(normal), 0.0f), g_View);
+    normal.y = -normal.y;
+    return normal;
+}
+
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+};
+
+float4 main(PS_INPUT i) : COLOR0
+{
+    float3 worldPos = readPos(i.texCoord);
+    float3 base = normal_reconstruction(worldPos, i.texCoord);
+
+    return float4(base, 1.0f);
+}

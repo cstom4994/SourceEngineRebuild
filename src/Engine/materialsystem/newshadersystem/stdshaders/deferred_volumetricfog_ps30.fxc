@@ -1,0 +1,281 @@
+// STATIC: "CONVERT_TO_SRGB" "0..1"	[ps20b][= g_pHardwareConfig->NeedsShaderSRGBConversion()] [PC]
+// STATIC: "CONVERT_TO_SRGB" "0..0"	[= 0] [XBOX]
+
+// DYNAMIC: "FOG"			"0..1"
+// DYNAMIC: "CSM"			"0..1"
+
+#define HDRTYPE HDR_TYPE_NONE
+#include "common_ps_fxc.h"
+#include "common_flashlight_fxc.h"
+#include "common_pbr.h"
+#include "common_deferred.h"
+
+#define PI 3.1415926
+#define MAX_LIGHTS_SIMPLE 80
+
+sampler FBSampler			: register( s0 );
+sampler ViewPosSampler		: register( s1 );
+sampler ViewNormalSampler	: register( s2 );
+sampler DepthSampler    	: register( s3 );
+sampler ShadowDepthSampler  : register( s4 );
+sampler MetallicRoughnessSampler  : register( s5 );
+
+const float2 g_resolution						: register( c1 );
+const float3 g_EyePos							: register( c2 );
+const float3 g_ZDist							: register( c3 );
+const float4x4 g_FlashlightWorldToTexture		: register( c4 );
+const float4 g_CascadeFwd						:  register( c8 );
+const float4 g_CascadeLight						:  register( c9 );
+const float4 g_CascadeAmbient					:  register( c10 );
+
+const float2 g_CascadeBias						:  register( c11 );
+const float2 g_CascadeResolution				:  register( c12 );
+
+const float3 	g_FogVars						: register( c14 );
+const float3 	g_FogColor						: register( c15 );
+
+#define g_FogHeight g_FogVars.x
+#define g_FogHeight2 g_FogVars.y
+#define g_FogDensity g_FogVars.z
+
+#define SLOPESCALE 1.0f
+#define DEPTHBIAS g_CascadeBias.y
+
+#define CascadeSize g_CascadeResolution
+#define ScreenSize g_resolution
+
+float DoShadowRAWZ(sampler DepthSampler, const float3 vProjCoords)
+{
+	return tex2Dproj(DepthSampler, float4(vProjCoords.xy, vProjCoords.z, 1.0f)).x;
+}
+
+float DoCSM( sampler DepthSampler, const float3 vProjCoords, float vViewDepth, float LdN )
+{
+	float2 rtSize = CascadeSize;//float2(4096.0f * 4.0f, 4096.0f) * 2.0f;
+	float fEpsilonX    = 1.0f / rtSize.y;
+	float fEpsilonY    = 1.0f / rtSize.x;
+
+	float3 cascade0 = float3( float2((vProjCoords.x / 4), vProjCoords.y), vProjCoords.z);
+	float3 cascade1 = float3( float2((vProjCoords.x / 4) + 1.375f, vProjCoords.y + 1.5f) / (256.0f / 64.0f), vProjCoords.z);
+	float3 cascade2 = float3( float2((vProjCoords.x / 4) + 4.875f, vProjCoords.y + 3.5f) / (512.0f / 64.0f), vProjCoords.z);
+	float3 cascade3 = float3( float2((vProjCoords.x / 4) + 27.875f, vProjCoords.y + 15.5f) / (2048.0f / 64.0f), vProjCoords.z);
+
+	float projMask = 1.0f;
+	if(vViewDepth >= 1950.0f)
+	{
+		projMask = 0.0f;
+	}
+	
+	float4 vShadowTweaks = float4(fEpsilonX, fEpsilonY, 0.0f, 0.0f);
+	
+	float shadowProjDiff0 = (64.0f / 64.0f);
+	float3 shadowMapCenter_objDepth0 = cascade0;
+	float2 shadowMapCenter0 = shadowMapCenter_objDepth0.xy;
+	float objDepth0 = shadowMapCenter_objDepth0.z + DEPTHBIAS * (SLOPESCALE * LdN) * shadowProjDiff0;
+	float3 vShadowPos0 = float3(shadowMapCenter0, objDepth0);
+	
+	float shadowProjDiff1 = (256.0f / 64.0f);
+	float3 shadowMapCenter_objDepth1 = cascade1;
+	float2 shadowMapCenter1 = shadowMapCenter_objDepth1.xy;
+	float objDepth1 = shadowMapCenter_objDepth1.z + DEPTHBIAS * (SLOPESCALE * LdN) * shadowProjDiff1;
+	float3 vShadowPos1 = float3(shadowMapCenter1, objDepth1);
+	
+	float shadowProjDiff2 = (512.0f / 64.0f);
+	float3 shadowMapCenter_objDepth2 = cascade2;
+	float2 shadowMapCenter2 = shadowMapCenter_objDepth2.xy;
+	float objDepth2 = shadowMapCenter_objDepth2.z + DEPTHBIAS * (SLOPESCALE * LdN) * shadowProjDiff2;
+	float3 vShadowPos2 = float3(shadowMapCenter2, objDepth2);
+	
+	float shadowProjDiff3 = (2048.0f / 64.0f);
+	float3 shadowMapCenter_objDepth3 = cascade3;
+	float2 shadowMapCenter3 = shadowMapCenter_objDepth3.xy;
+	float objDepth3 = shadowMapCenter_objDepth3.z + DEPTHBIAS * (SLOPESCALE * LdN) * shadowProjDiff3;
+	float3 vShadowPos3 = float3(shadowMapCenter3, objDepth3);
+
+	/*float shadow0 = PCF(DepthSampler,rtSize, shadowMapCenter0.xy, objDepth0);
+	float shadow1 = PCF(DepthSampler,rtSize, shadowMapCenter1.xy, objDepth1);
+	float shadow2 = PCF(DepthSampler,rtSize, shadowMapCenter2.xy, objDepth2);
+	float shadow3 = PCF(DepthSampler,rtSize, shadowMapCenter3.xy, objDepth3);
+
+	float shadow0 = DoShadowNvidiaPCF5x5GaussianEx(DepthSampler, vShadowPos0, vShadowTweaks);
+	float shadow1 = DoShadowNvidiaPCF5x5GaussianEx(DepthSampler, vShadowPos1, vShadowTweaks);
+	float shadow2 = DoShadowNvidiaPCF5x5GaussianEx(DepthSampler, vShadowPos2, vShadowTweaks);
+	float shadow3 = DoShadowNvidiaPCF5x5GaussianEx(DepthSampler, vShadowPos3, vShadowTweaks);*/
+	
+
+	float3 CurShadowPos = 0.0f.xxx;
+	if(vViewDepth <= 32.0f)
+	{
+		CurShadowPos = vShadowPos0;
+	}
+	else
+	{
+		if(vViewDepth <= 155.0f)
+		{
+			CurShadowPos = vShadowPos1;
+		}
+		else
+		{
+			if(vViewDepth <= 350.0f)
+			{
+				CurShadowPos = vShadowPos2;
+			}
+			else
+			{
+				if(vViewDepth <= 1950.0f)
+				{
+					CurShadowPos = vShadowPos3;
+				}
+			}
+		}
+	}
+
+
+	float shadow = DoShadowRAWZ(DepthSampler, CurShadowPos);
+
+	if(projMask == 1.0f)
+	{
+		float smoothCSMMask = pow(saturate(vViewDepth / 1950.0f), 20.0f);
+		float shadowFinal = lerp(shadow, 1.0f, smoothCSMMask);
+		return shadowFinal;
+	}
+	else
+	{
+		return 1.0f;
+	}
+	
+}
+
+// Henyey-Greenstein
+float hg(float a, float g) {
+    float g2 = g*g;
+    return (1-g2) / (4*3.1415*pow(1+g2-2*g*(a), 1.5));
+}
+
+float phase(float a, float4 phaseParams) {
+    float blend = .5;
+    float hgBlend = hg(a,phaseParams.x) * (1-blend) + hg(a,-phaseParams.y) * blend;
+    return phaseParams.z + hgBlend*phaseParams.w;
+}
+
+float SampleDensity(float3 RayWorldPos)
+{
+	float FogHeight2 = g_FogHeight + g_FogHeight2;
+	if(RayWorldPos.z <= FogHeight2)
+		return saturate((FogHeight2 - RayWorldPos.z) / g_FogHeight2);
+	else
+		return 0.0f;
+}
+
+float distToPlane(float3 RayWorldPos, float3 RayDir)
+{
+	float zDif = RayWorldPos.z - (g_FogHeight + g_FogHeight2);
+	float RDotN = (zDif < 0.0f) ? dot(RayDir, float3(0,0,1)) : dot(RayDir, -float3(0,0,1));
+	if(RDotN >= 0.0f)
+	{
+		return abs(zDif / RDotN);
+	}
+	
+	return -1.0f;
+}
+
+float3 lightMarch(float3 RayOrigin, float3 RayDir, float3 WorldPos)
+{
+	float RayLength = distToPlane(RayOrigin + WorldPos, RayDir);
+	if(RayLength == -1.0f)
+		return 0.0f.xxx;
+
+	float stepLength = (RayLength / 4.0f);
+
+	float3 RayPos = 0.0f.xxx;
+	float3 result = 0.0f.xxx;
+	for(int sampleCount = 0; sampleCount <= 4; sampleCount++)
+	{
+        RayPos += g_CascadeFwd * stepLength;
+        result += max(0, SampleDensity(RayPos + WorldPos) * stepLength);
+	}
+	return exp(-result * 1.0f);
+}
+
+float4 DoVolumetricCSM(in float3 worldPos, in float3 worldNormal, float ViewZ, float2 UV)
+{
+	float3 RayOrigin = g_EyePos.xyz;
+	float3 RayEnd = worldPos.xyz;
+	float3 RayVector = RayOrigin - RayEnd;
+	float RayLength = length(RayVector);
+	float3 RayDir = RayVector / RayLength;
+	float3 RayPos = 0.0.xxx;
+
+	float density = g_FogDensity / 2048.0f;
+	
+	float ditherPattern[4][4] = {{ 0.0f, 0.5f, 0.125f, 0.625f},
+	{ 0.75f, 0.22f, 0.875f, 0.375f},
+	{ 0.1875f, 0.6875f, 0.0625f, 0.5625},
+	{ 0.9375f, 0.4375f, 0.8125f, 0.3125}};
+	float scale = 800;
+	float limit = (ditherPattern[int(fmod(abs(UV.x + 1.0f) * ScreenSize.x, 4))][int(fmod(abs(UV.y + 1.0f) * ScreenSize.y, 4))]);
+
+	float stepLength = (RayLength / 16.0f);
+	float3 step = RayDir * stepLength;
+	float FogHeight2 = g_FogHeight + g_FogHeight2;
+	RayPos += step * limit * 3;
+
+	float forwardScattering = 0.83f;
+    float backScattering = 0.3f;
+    float baseBrightness = 0.8f;
+    float phaseFactor = 0.15f;
+	float phaseParams = float4(forwardScattering, backScattering, baseBrightness, phaseFactor);
+    float cosAngle = dot(RayDir, g_CascadeFwd.xyz);
+    float phaseVal = phase(cosAngle, phaseParams);
+
+	float3 flFog = 0.0f;
+	float lightEnergy = 0.0f;
+    float transmittance = 1.0f;
+
+#if FOG
+ 	for(int sampleCount = 0; sampleCount <= 16; sampleCount++)
+	{
+		if((RayPos + RayEnd).z <= FogHeight2)
+		{
+
+#if CSM == 1
+			float4 flashlightSpacePosition = mul( float4( RayPos + RayEnd, 1.0f ), g_FlashlightWorldToTexture );
+			float3 vProjCoords = flashlightSpacePosition.xyz / flashlightSpacePosition.w;
+			float flShadow = DoCSM(ShadowDepthSampler, vProjCoords, ViewZ, 1);
+			flFog += (flShadow * g_CascadeLight * stepLength * density * SampleDensity(RayPos + RayEnd));
+#endif
+            float lightTransmittance = lightMarch(RayPos, RayDir, RayEnd);
+            lightEnergy += stepLength * density * transmittance * lightTransmittance * phaseVal;
+            transmittance *= exp(stepLength *  density * 1.0f);
+			flFog += (stepLength * density * SampleDensity(RayPos + RayEnd)) * g_FogColor ;
+		}
+		RayPos += step;
+	}
+#endif
+
+	return float4(flFog, lightEnergy);
+}
+
+struct PS_INPUT
+{
+	float2 texCoord				: TEXCOORD0;
+	float4x4 viewProj			: TEXCOORD2;
+};
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float3 fbSample = tex2D( FBSampler, i.texCoord ).rgb;
+	float skymask = saturate(tex2D( ViewPosSampler, i.texCoord ).a);
+	float3 worldPos = tex2D( ViewPosSampler, i.texCoord ).rgb;
+	if(skymask > 0)
+		return 0.0f.xxxx;
+	worldPos = worldPos + g_EyePos;
+	float3 worldNormal = tex2D( ViewNormalSampler, i.texCoord ).xyz;
+	worldNormal = unpackNormals(worldNormal);
+	float3 metallicRoughnessDepth = tex2D( MetallicRoughnessSampler, i.texCoord ).rgb;
+	float depth = metallicRoughnessDepth.z;
+	float ProjectionDepth = depth * (g_ZDist.y / g_ZDist.x);
+	
+	float4 fog = DoVolumetricCSM(worldPos, worldNormal, depth, i.texCoord);
+	return FinalOutput( float4(fog.xyz, 1.0f ), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE );
+}

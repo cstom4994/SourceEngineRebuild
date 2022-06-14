@@ -1,0 +1,18 @@
+#define HDRTYPE HDR_TYPE_FLOAT
+
+#include "common_ps_fxc.h"
+#include "magicbloom_shared.h"
+
+sampler	BaseTextureSampler				: register( s0 );
+
+struct PS_INPUT
+{
+	float2 baseTexCoord : TEXCOORD0;
+};
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float3 col = blur1(BaseTextureSampler, i.baseTexCoord.xy, 2.0);
+
+    return float4(col, 1.0);
+}

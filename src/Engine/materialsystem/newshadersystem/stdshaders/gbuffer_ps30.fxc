@@ -1,0 +1,106 @@
+//===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
+//
+// Example pixel shader that can be applied to models
+//
+//==================================================================================================
+
+// STATIC: "CONVERT_TO_SRGB"	"0..0"
+// STATIC: "BUMPMAP"			"0..1"
+// STATIC: "BASETEXTURE2"		"0..1"
+// STATIC: "SEAMLESS"           "0..1"
+// STATIC: "DECAL"				"0..1"
+// STATIC: "MODEL"				"0..1"
+
+#include "common_deferred.h"
+#include "common_flashlight_fxc.h"
+#include "shader_constant_register_map.h"
+#include "common_lightmappedgeneric_fxc.h"
+
+sampler BaseTextureSampler		: register( s1 );	// Albedo
+sampler RandDotSampler			: register( s2 );	// random noise sampler
+sampler NormalMapSampler		: register( s3 );	// Normal Map sampler
+sampler RoughnessSampler		: register( s4 );	// Roughness
+sampler MetallicSampler			: register( s5 );	// Metallic
+
+sampler NormalMap2Sampler		: register( s6 );	// WorldVertexTransition
+sampler BaseTexture2Sampler		: register( s7);	// WorldVertexTransition
+
+const float4 g_EyePos							: register( c5 );
+const float3 g_ZDist							: register( c6 );
+const float4x4 g_cViewProj						: register( c7 );
+
+static const bool g_bBump					= BUMPMAP ? true : false;
+static const bool g_bBaseTexture2			= (BASETEXTURE2 && !MODEL) ? true : false;
+
+struct PS_OUTPUT
+{
+	float4 vColor_0				:	COLOR0;
+#if (DECAL == 0)
+	float4 vColor_1				:	COLOR1;
+	float4 vColor_2				:	COLOR2;
+	float4 vColor_3				:	COLOR3;
+#endif
+};
+
+struct PS_INPUT
+{
+	HALF2 baseTexCoord				: TEXCOORD0;
+	// detail textures and bumpmaps are mutually exclusive so that we have enough texcoords.
+	float3 worldNormal			: TEXCOORD2;
+	float4 worldPos_Projz			: TEXCOORD3;
+	float4 vWorldTangent		: TEXCOORD4;
+	float3 vWorldBinormal		: TEXCOORD5;
+	float4x4 projPos			: TEXCOORD6;
+	HALF4 vertexColor			: COLOR;
+};
+
+PS_OUTPUT main( PS_INPUT i )
+{
+	PS_OUTPUT Out = (PS_OUTPUT)0;
+
+	float4 basealbedo = tex2D( BaseTextureSampler, i.baseTexCoord.xy );
+	
+	float4 basealbedo2 = 0.0f;
+	if ( g_bBaseTexture2 )
+	{
+		basealbedo2 = tex2D( BaseTexture2Sampler, i.baseTexCoord.xy );
+	}
+	
+	float3 normalTexel  = tex2D( NormalMapSampler, i.baseTexCoord.xy );
+	
+	float blendfactor=i.vertexColor.r;	
+	float3 albedo = basealbedo.rgb;
+	if ( g_bBaseTexture2 )
+	{
+		albedo = lerp(basealbedo, basealbedo2, blendfactor).rgb;
+	}
+	float roughnessMap = tex2D( RoughnessSampler, i.baseTexCoord.xy);
+	float metallicMap = tex2D( MetallicSampler, i.baseTexCoord.xy);
+
+	#if BUMPMAP
+	float3 tangentSpaceNormal = normalTexel * 2.0f - 1.0f;
+	float3 vWorldBinormal = i.vWorldBinormal;
+	float3 vWorldNormal = Vec3TangentToWorld( tangentSpaceNormal, i.worldNormal, i.vWorldTangent, vWorldBinormal );
+	vWorldNormal = normalize( vWorldNormal );
+	#else
+	float3 vWorldNormal = normalize( i.worldNormal );
+	#endif
+	
+	float3 flFog = 0.0f;
+#if (DECAL == 0)
+	float alpha = (basealbedo.a > 0.5f);
+#else
+	float alpha = basealbedo.a;
+#endif
+
+	Out.vColor_0 = FinalOutput( float4(albedo, alpha), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE, false, i.worldPos_Projz.w );
+#if (DECAL == 0)
+	float3 OutputPos = (i.worldPos_Projz.xyz - g_EyePos) * g_ZDist.z;
+	float3 OutputNormal = packNormals(vWorldNormal.xyz);
+	Out.vColor_1 = FinalOutput( float4(OutputPos, 0.0f), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE, false, i.worldPos_Projz.w );
+	Out.vColor_2 = FinalOutput( float4(OutputNormal.xyz, 0.0f), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE, false, i.worldPos_Projz.w );
+	Out.vColor_3 = FinalOutput( float4(float3(metallicMap, roughnessMap, (i.worldPos_Projz.w / (g_ZDist.y / g_ZDist.x)) * g_ZDist.z), 0.0f), 0, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE, false, i.worldPos_Projz.w);
+#endif
+	return Out;
+}
+ 

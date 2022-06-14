@@ -1,0 +1,24 @@
+// Includes
+#include "common_ps_fxc.h"
+
+sampler2D ColorSamp		: register( s0 );
+sampler2D MaskSamp		: register( s1 );
+
+const float	MaskStr		: register( c0 );
+const float	EdgeStr		: register( c1 );
+
+struct VS_OUTPUT
+{
+   	float4 Position   : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+};
+
+float4 main(VS_OUTPUT IN) : COLOR
+{   
+    float4 m = tex2D(MaskSamp, IN.TexCoord0);
+    float4 c = tex2D(ColorSamp, IN.TexCoord0);
+    float bgDark = (1.0 - (MaskStr*c.w*m.z));
+    float fgDark = (1.0 - (EdgeStr*c.w*m.y));
+	
+    return float4(fgDark*bgDark*c.xyz,c.w);
+}

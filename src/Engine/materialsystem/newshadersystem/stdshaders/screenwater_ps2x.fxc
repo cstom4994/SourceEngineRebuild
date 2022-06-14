@@ -1,0 +1,34 @@
+// Includes
+#include "common_ps_fxc.h"
+
+sampler sceneSampler	: register( s0 );
+sampler WaterNormalMap	: register( s1 );
+
+float	amount			: register( c0 );
+float	viscosity		: register( c1 );
+
+// Structs
+struct PS_INPUT
+{
+	float2 texCoord : TEXCOORD0;
+	float4 noiseCoord : TEXCOORD1;
+};
+
+float4 main(PS_INPUT Input) : COLOR
+{
+	float4 normalColor = (tex2D(WaterNormalMap, Input.noiseCoord.xy) * 2.0f) - 1.0f;
+	float4 animColor = (tex2D(WaterNormalMap, Input.noiseCoord.zw) * 2.0f) - 1.0f;
+
+	normalColor.z += animColor.w;
+	float3 normal = normalize(normalColor.xyz);
+
+	float3 refractionVec = normalize(normal * float3(viscosity, viscosity, 1.0f));
+
+	float3 screenColor = tex2D(sceneSampler, Input.texCoord - (refractionVec.xy * 0.2f * amount)).xyz;
+
+	float2 refractHighlight = refractionVec.xy * amount;
+	float3 refColor = (saturate(pow(refractHighlight.x, 6.0f)) + saturate(pow(refractHighlight.y, 6.0f)))
+	* float3(0.85f, 0.85f, 1.0f);
+
+	return float4(screenColor + refColor, 1.0f);
+}

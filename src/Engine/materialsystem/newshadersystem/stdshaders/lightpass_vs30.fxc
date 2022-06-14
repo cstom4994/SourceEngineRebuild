@@ -1,0 +1,190 @@
+//===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
+//
+// Example vertex shader that can be applied to models
+//
+//==================================================================================================
+
+// STATIC:		"MODEL"						"0..1"
+// STATIC:		"TANGENTSPACE"				"0..1"
+// STATIC:		"MORPHING_VTEX"				"0..1"
+// STATIC:		"VERTEXCOLOR"				"0..1"
+// STATIC:		"VERTEXALPHATEXBLENDFACTOR"	"0..1"
+//  STATIC: 	"SEAMLESS"                  "0..1"
+
+// DYNAMIC:		"COMPRESSED_VERTS"			"0..1"
+// DYNAMIC:		"SKINNING"					"0..1"
+// DYNAMIC:		"MORPHING"					"0..1"
+
+#include "common_vs_fxc.h"
+
+static const bool g_bSkinning					= SKINNING ? true : false;
+static const bool g_bVertexColor				= VERTEXCOLOR;
+static const bool g_bVertexAlphaTexBlendFactor	= VERTEXALPHATEXBLENDFACTOR;
+
+#if MODEL
+
+const float3 cMorphTargetTextureDim			: register( SHADER_SPECIFIC_CONST_10 );
+const float4 cMorphSubrect					: register( SHADER_SPECIFIC_CONST_11 );
+sampler2D morphSampler						: register( s0 );
+
+#endif
+
+#if SEAMLESS
+const float4 SeamlessScale : register( SHADER_SPECIFIC_CONST_0 );
+#define SEAMLESS_SCALE (SeamlessScale.x)
+#else
+const float4 cBaseTexCoordTransform[2]			:  register( SHADER_SPECIFIC_CONST_0 );
+#endif
+
+//-----------------------------------------------------------------------------
+// Input vertex format
+//-----------------------------------------------------------------------------
+struct VS_INPUT
+{
+#if MODEL
+	float4 vPos						: POSITION;
+	float4 vNormal					: NORMAL;
+#else
+	float3 vPos						: POSITION;
+	float3 vNormal					: NORMAL;
+#endif
+	float2 vTexCoord_0				: TEXCOORD0;
+
+#if MODEL
+
+	float4 vBoneWeights				: BLENDWEIGHT;
+	float4 vBoneIndices				: BLENDINDICES;
+	float4 vUserData				: TANGENT;
+
+	float4 vTexCoord2				: TEXCOORD2;
+	float4 vPosFlex					: POSITION1;
+	float4 vNormalFlex				: NORMAL1;
+	float vVertexID					: POSITION2;
+
+#else
+
+	float4 vColor						: COLOR0;
+	float3 vTangentS				: TANGENT;
+	float3 vTangentT				: BINORMAL;
+
+#endif
+};
+
+struct VS_OUTPUT
+{
+	float4 vProjPos				: POSITION;
+	float2 vTexCoord			: TEXCOORD0;
+
+	float3 worldNormal			: TEXCOORD2;
+	float4 worldPos				: TEXCOORD3;
+#if TANGENTSPACE
+	float3 worldTangent			: TEXCOORD4;
+	float3 worldBinormal		: TEXCOORD5;
+#endif
+	float4 viewProj			: TEXCOORD6;
+	float4 vertexColor			: COLOR;				// in seamless, r g b = blend weights
+};
+
+//-----------------------------------------------------------------------------
+// Main shader entry point
+//-----------------------------------------------------------------------------
+VS_OUTPUT main( const VS_INPUT In )
+{
+	VS_OUTPUT Out;
+
+	float3 worldPos;
+	float3 worldNormal;
+
+	// unpack stuff (model) &&
+	// morph (model) &&
+	// skin (model) ||
+	// xform to world (not model)
+
+#if MODEL
+	float4 vPos = In.vPos;
+	float3 vNormal = 0;
+
+#if TANGENTSPACE
+	float4 vTangentMixed = 0;
+	float3 worldTangentS = 0;
+	float3 worldTangentT = 0;
+
+	DecompressVertex_NormalTangent( In.vNormal, In.vUserData, vNormal, vTangentMixed );
+
+#if MORPHING
+	ApplyMorph( In.vPosFlex, In.vNormalFlex, vPos.xyz, vNormal, vTangentMixed.xyz );
+#endif
+
+	SkinPositionNormalAndTangentSpace( g_bSkinning, vPos, vNormal, vTangentMixed,
+		In.vBoneWeights, In.vBoneIndices,
+		worldPos, worldNormal, worldTangentS, worldTangentT );
+
+	worldTangentS = normalize( worldTangentS );
+	worldTangentT = normalize( worldTangentT );
+
+#else // TANGENTSPACE
+	DecompressVertex_Normal( In.vNormal, vNormal );
+
+#if MORPHING
+	ApplyMorph( In.vPosFlex, In.vNormalFlex, vPos.xyz, vNormal );
+#endif
+
+	SkinPositionAndNormal( g_bSkinning, vPos, vNormal,
+		In.vBoneWeights, In.vBoneIndices,
+		worldPos, worldNormal );
+
+#endif // NOT TANGENTSPACE
+	Out.vertexColor = float4( 0.0f, 0.0f, 0.0f, cModulationColor.a );
+
+	worldNormal = normalize( worldNormal );
+
+#else // MODEL
+
+	if (!g_bVertexColor)
+	{
+		Out.vertexColor = float4( 0.0f, 0.0f, 0.0f, cModulationColor.a );
+	}
+	else
+	{
+		if ( g_bVertexAlphaTexBlendFactor )
+		{
+			Out.vertexColor.rgb = In.vColor.rgb;
+			Out.vertexColor.a = cModulationColor.a;
+		}
+		else
+		{
+			Out.vertexColor = In.vColor;
+			Out.vertexColor.a *= cModulationColor.a;
+		}
+	}
+
+	worldPos = mul( float4( In.vPos, 1 ), cModel[0] );
+	worldNormal = mul( In.vNormal, ( float3x3 )cModel[0] );
+
+#if TANGENTSPACE
+
+	float3 worldTangentS = mul( In.vTangentS, ( float3x3 )cModel[0] );
+	float3 worldTangentT = mul( In.vTangentT, ( float3x3 )cModel[0] );
+
+#endif // NOT TANGENTSPACE
+
+#if BUMPMAP2
+	Out.vColor_0 = In.vColor_0;
+#endif
+
+#endif // NOT MODEL
+
+	Out.vProjPos = mul( float4( worldPos, 1 ), cViewProj );
+	Out.worldPos = float4(worldPos.xyz, Out.vProjPos.w);
+	Out.vTexCoord.xy = In.vTexCoord_0;
+    Out.viewProj = Out.vProjPos;
+
+	Out.worldNormal.xyz = worldNormal;
+
+#if TANGENTSPACE
+	Out.worldTangent = worldTangentS;
+	Out.worldBinormal = worldTangentT;
+#endif
+
+	return Out;
+}

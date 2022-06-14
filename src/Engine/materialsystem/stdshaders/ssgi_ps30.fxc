@@ -1,0 +1,103 @@
+// Includes
+#include "common_ps_fxc.h"
+
+uniform sampler2D			som				: register( s0 ); //Depth Texture
+uniform sampler2D			rand			: register( s1 ); //Random
+uniform sampler2D			color			: register( s2 ); //Color
+
+uniform float2		camerarange		: register( c0 );
+uniform float2		resolution		: register( c1 ); 
+
+float readDepth(in float2 coord)  
+{  
+	if (coord.x<0||coord.y<0) return 1.0;
+	float nearZ = camerarange.x;  
+	float farZ =camerarange.y;  
+	float posZ = tex2D(som, coord).x;   
+	return (2.0 * nearZ) / (nearZ + farZ - posZ * (farZ - nearZ));  
+}   
+
+float3 readColor(in float2 coord)  
+{  
+	return tex2D(color, coord).xyz;  
+} 
+
+float compareDepths(in float depth1, in float depth2)  
+{  
+	float gauss = 0.0; 
+	float diff = (depth1 - depth2)*100.0; //depth difference (0-100)
+	float gdisplace = 0.2; //gauss bell center
+	float garea = 3.0; //gauss bell width
+
+	//reduce left bell width to avoid self-shadowing
+	if (diff<gdisplace) garea = 0.2; 
+
+	gauss = pow(2.7182,-2*(diff-gdisplace)*(diff-gdisplace)/(garea*garea));
+
+	return max(0.2,gauss);  
+	}  
+
+float3 calAO(float depth,float dw, float dh, inout float ao, in float2 texCoord)  
+{  
+	float temp = 0;
+	float3 bleed = float3(0.0,0.0,0.0);
+	float coordw = texCoord.x + dw/depth;
+	float coordh = texCoord.y + dh/depth;
+
+	if (coordw  < 1.0 && coordw  > 0.0 && coordh < 1.0 && coordh  > 0.0)
+	{
+		float2 coord = float2(coordw , coordh);
+		temp = compareDepths(depth, readDepth(coord)); 
+		bleed = readColor(coord); 
+ 
+	}
+	ao += temp;
+	return temp*bleed;  
+}   
+
+// Structs ==========================================================================================
+struct VS_OUTPUT
+{
+	float4 pos       : POSITION0;
+	float2 texCoord  : TEXCOORD0;
+};
+
+float4 main( VS_OUTPUT IN ) : COLOR0  
+{  
+	float pw = resolution.x; 
+	float ph = resolution.y; 
+
+	//randomization texture:
+	float2 fres = float2(20,20);
+	float3 random = tex2D(rand, IN.texCoord.xy*fres.xy);
+	random = random*2.0-float3(1.0, 1.0, 1.0);
+
+	//initialize stuff:
+	float depth = readDepth(IN.texCoord);
+	float3 gi = float3(0.0,0.0,0.0);  
+	float ao = 0.0;
+
+	for (int i = 0; i < 8; i++)
+	{  
+		//calculate color bleeding and ao:
+		gi += calAO(depth,  pw, ph,ao, IN.texCoord);  
+		gi += calAO(depth,  pw, -ph,ao, IN.texCoord);  
+		gi += calAO(depth,  -pw, ph,ao, IN.texCoord);  
+		gi += calAO(depth,  -pw, -ph,ao, IN.texCoord); 
+     
+		//sample jittering:
+		pw += random.x*0.0005;
+		ph += random.y*0.0005;
+
+		//increase sampling area:
+		pw *= 1.4;  
+		ph *= 1.4;    
+	}         
+
+	//final values, some adjusting:
+	float aoin = 1.0-(ao/32.0);
+	float3 finalAO = float3(aoin,aoin,aoin);
+	float3 finalGI = (gi/32)*0.6;
+
+	return float4(readColor(IN.texCoord)*finalAO+finalGI,1.0);  
+}

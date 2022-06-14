@@ -1,0 +1,56 @@
+//===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
+//
+// Example vertex shader that can be applied to models
+//
+//==================================================================================================
+
+//  DYNAMIC: "COMPRESSED_VERTS"			"0..1"
+
+#include "common_vs_fxc.h"
+
+//-----------------------------------------------------------------------------
+// Input vertex format
+//-----------------------------------------------------------------------------
+struct VS_INPUT
+{
+	// This is all of the stuff that we ever use.
+	float4 vPos			: POSITION;
+};
+
+struct VS_OUTPUT
+{
+	// Stuff that isn't seen by the pixel shader
+	float4 projPosSetup	: POSITION;	
+	// Stuff that is seen by the pixel shader
+    float3 worldPos : POSITION1;
+    float3 projPos : POSITION2;
+    float3 modelPos : POSITION3;
+};
+
+//-----------------------------------------------------------------------------
+// Main shader entry point
+//-----------------------------------------------------------------------------
+VS_OUTPUT main( const VS_INPUT v )
+{
+	VS_OUTPUT o = ( VS_OUTPUT )0;
+
+    float3 vNormal = float3(0.0f.xxx);
+
+	float3 worldPos;
+    SkinPosition(false, v.vPos, 0.0f.xxxx, 0.0f.xxxx, worldPos);
+
+	// Transform into projection space
+	float4 vProjPos = mul( float4( worldPos, 1 ), cViewProj );
+	o.projPosSetup = vProjPos;
+	vProjPos.z = dot( float4( worldPos, 1  ), cViewProjZ );
+    
+    float3 modelOrigin = float3(cModel[0][3][0], cModel[0][3][1], cModel[0][3][2]);
+	
+	o.projPos = vProjPos.xyz;
+	
+	o.worldPos = worldPos;
+
+    o.modelPos = ( /*v.vPos*/(worldPos - modelOrigin));
+
+	return o;
+}

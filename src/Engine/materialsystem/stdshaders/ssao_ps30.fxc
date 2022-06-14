@@ -1,0 +1,127 @@
+// Includes
+#include "common_ps_fxc.h"
+
+#define N_SAMPLES 9
+
+sampler 		depthSampler				: register( s0 );
+
+const float		aoRadiusMultiplier			: register( c0 );
+const float		aoStrengthMultiplier		: register( c1 );
+const float		aoClamp						: register( c2 );
+const float		ThicknessModel				: register( c3 );
+const float		FOV							: register( c4 );
+const float2	rcpres						: register( c5 );
+const float2	framedepthinfo				: register( c6 ); //x=nearz, y=farz
+
+static float aspect = rcpres.y/rcpres.x;
+static const float2 g_InvFocalLen = { tan(0.5f*radians(FOV)) / rcpres.y * rcpres.x, tan(0.5f*radians(FOV)) };
+static const float depthRange = framedepthinfo.x-framedepthinfo.y;
+
+struct VS_OUTPUT
+{
+   	float4 Position   : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+};
+
+static float2 sample_offset[N_SAMPLES] =
+{
+	float2(-0.1376476f, 0.2842022f),
+	float2(-0.626618f, 0.4594115f),
+	float2(-0.8903138f, -0.05865424f),
+	float2(0.2871419f, 0.8511679f),
+	float2(-0.1525251f, -0.3870117f),
+	float2(0.6978705f, -0.2176773f),
+	float2(0.7343006f, 0.3774331f),
+	float2(0.1408805f, -0.88915f),
+	float2(-0.6642616f, -0.543601f)
+};
+
+static float sample_radius[N_SAMPLES] =
+{
+	0.948832,
+	0.629516,
+	0.451554,
+	0.439389,
+	0.909372,
+	0.682344,
+	0.5642,
+	0.4353,
+	0.5130
+};
+
+float2 rand(in float2 uv)
+{
+	float noiseX = (frac(sin(dot(uv ,float2(12.9898,78.233)*2.0)) * 43758.5453));
+	float noiseY = sqrt(1-noiseX*noiseX);
+	return float2(noiseX,noiseY);
+}
+
+//float readDepth(in float2 coord : TEXCOORD0)
+//{
+//	float posZ = tex2D(depthSampler, coord).x;
+//	return (2.0f * framedepthinfo.x) / (framedepthinfo.x + framedepthinfo.y - posZ * (framedepthinfo.y - framedepthinfo.x));
+//	return posZ;
+//}
+
+float readDepth(in float2 coord : TEXCOORD0)
+{
+	float depth = tex2D(depthSampler, coord).a;
+	float far = framedepthinfo.y;
+	float near = framedepthinfo.x;
+	return (far * near) / (far - (far + near) * depth);
+}
+
+float3 getPosition(in float2 uv, in float eye_z)
+{
+   uv = (uv * float2(2.0, -2.0) - float2(1.0, -1.0));
+   float3 pos = float3(uv * g_InvFocalLen * eye_z, eye_z );
+   return pos;
+}
+
+float4 main( VS_OUTPUT IN ) : COLOR0
+{
+	clip(1-IN.TexCoord0.x);
+	clip(1-IN.TexCoord0.y);	
+
+	float depth = readDepth(IN.TexCoord0);
+	float3 pos = getPosition(IN.TexCoord0, depth);
+	float3 dx = ddx(pos);
+	float3 dy = ddy(pos);
+	float3 norm = normalize(cross(dx,dy));
+	norm.y *= -1;
+
+	float sample_depth;
+
+	float ao=0;
+	float s=0.0;
+
+	float2 rand_vec = rand(IN.TexCoord0);
+	float2 sample_vec_divisor = g_InvFocalLen*depth*depthRange/(aoRadiusMultiplier*5000*rcpres);
+	float2 sample_center = IN.TexCoord0 + norm.xy/sample_vec_divisor*float2(1,aspect);
+	float sample_center_depth = depth*depthRange + norm.z*aoRadiusMultiplier*10;
+	
+	for (int i = 0; i < N_SAMPLES; i++)
+	{
+		float2 sample_vec = reflect(sample_offset[i], rand_vec);
+		sample_vec /= sample_vec_divisor;
+		float2 sample_coords = sample_center + sample_vec*float2(1,aspect);
+		
+		float curr_sample_radius = sample_radius[i]*aoRadiusMultiplier*10;
+		float curr_sample_depth = depthRange*readDepth(sample_coords);
+		
+		ao += clamp(0,curr_sample_radius+sample_center_depth-curr_sample_depth,2*curr_sample_radius);
+		ao -= clamp(0,curr_sample_radius+sample_center_depth-curr_sample_depth-ThicknessModel,2*curr_sample_radius);
+		s += 2*curr_sample_radius;
+	}
+
+	ao /= s;
+
+	if (depth*depthRange>=8000)
+	{
+		ao *= saturate(lerp(1,0,(depth*depthRange-8000)/12500));
+	}
+
+	ao = 1.0-ao*aoStrengthMultiplier;
+
+	return float4(ao,ao,ao,1);
+}

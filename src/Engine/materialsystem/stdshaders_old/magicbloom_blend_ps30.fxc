@@ -1,0 +1,109 @@
+#define HDRTYPE HDR_TYPE_FLOAT
+
+#include "common_ps_fxc.h"
+#include "magicbloom_shared.h"
+
+sampler	BaseTextureSampler				: register( s0 );
+sampler	sMagicBloom_Dirt				: register( s1 );
+sampler	sMagicBloom_1				    : register( s2 );
+sampler	sMagicBloom_2				    : register( s3 );
+sampler	sMagicBloom_3				    : register( s4 );
+sampler	sMagicBloom_4				    : register( s5 );
+sampler	sMagicBloom_5				    : register( s6 );
+sampler	sMagicBloom_6				    : register( s7 );
+sampler	sMagicBloom_7				    : register( s8 );
+sampler	sMagicBloom_8				    : register( s9 );
+
+struct PS_INPUT
+{
+	float2 baseTexCoord : TEXCOORD0;
+};
+
+// Settings:
+#define EVignetteAmount			2.8
+#define EVignetteCurve			1.5
+#define EVignetteRadius			0.8
+
+#define CHROMATIC_AMOUT 0.004f
+// End of settings
+
+float3 Vignette(float3 color, float2 coord) 
+{
+	float2 uv = (coord-0.5) * EVignetteRadius;
+	float vignetteold = saturate(dot(uv.xy, uv.xy));
+	vignetteold = pow(vignetteold, EVignetteCurve);
+	float3 EVignetteColor = float3(0.0, 0.0, 0.0);
+	return lerp(color.xyz, EVignetteColor, vignetteold * EVignetteAmount);
+}
+
+float3 CA(float2 coord)
+{
+	float3 eta = float3(1.0 + CHROMATIC_AMOUT * 0.9, 1.0 + CHROMATIC_AMOUT * 0.6, 1.0 + CHROMATIC_AMOUT * 0.3);
+	float2 center = float2(coord.x - 0.5, coord.y - 0.5);
+
+	float2 rCoords = eta.r * 2 * (center.xy * 0.5) + 0.5;
+	float2 gCoords = eta.g * 2 * (center.xy * 0.5) + 0.5;
+	float2 bCoords = eta.b * 2 * (center.xy * 0.5) + 0.5;
+
+	return float3(
+		tex2D(BaseTextureSampler, rCoords).r,
+		tex2D(BaseTextureSampler, gCoords).g,
+		tex2D(BaseTextureSampler, bCoords).b
+	);
+}
+
+float3 ReplaceDark(float3 color)
+{
+	#if(DRAK_WITH_BLUE_TINT == 1)
+		float3 darkColor = float3(0.027f / 2.0f, 0.117f / 2.0f, 0.250f / 2.0f);
+	#else
+		float3 darkColor = float3(0.08f, 0, 0);
+	#endif
+
+	return 1 - (1 - color) * (1 - darkColor);
+}
+
+float3 ACESTonemap(float3 color)
+{
+	float3 x = color * 1.8f;
+    float a = 2.51f;
+    float b = 0.03f;
+    float c = 2.43f;
+    float d = 0.59f;
+    float e = 0.14f;
+    return pow(saturate((x * (a * x + b)) / (x * (c * x + d) + e)), 0.455);
+}
+
+float4 main( PS_INPUT i ) : COLOR
+{
+	float3 col = tex2D(BaseTextureSampler, i.baseTexCoord.xy).rgb;
+    col = CA(i.baseTexCoord.xy);
+    col = ACESTonemap(col);
+
+    float3 bloom = tex2D(sMagicBloom_1, i.baseTexCoord.xy).rgb
+                 + tex2D(sMagicBloom_2, i.baseTexCoord.xy).rgb
+                 + tex2D(sMagicBloom_3, i.baseTexCoord.xy).rgb
+                 + tex2D(sMagicBloom_4, i.baseTexCoord.xy).rgb
+                 + tex2D(sMagicBloom_5, i.baseTexCoord.xy).rgb
+                 + tex2D(sMagicBloom_6, i.baseTexCoord.xy).rgb
+                 + tex2D(sMagicBloom_7, i.baseTexCoord.xy).rgb
+                 + tex2D(sMagicBloom_8, i.baseTexCoord.xy).rgb;
+
+    //Dunno if making the division by 8 a static multiplication helps, but whatever.
+    static const float bloom_accum = 1.0 / 8.0;
+    bloom *= bloom_accum;
+
+    //Without adaptation it seems 100.0 exposure is needed for bloom to look bright enough.
+    bloom = tonemap(bloom, 100.0);
+
+    float3 dirt = tex2D(sMagicBloom_Dirt, i.baseTexCoord.xy).rgb;
+    bloom = blend_screen(bloom, dirt * bloom);
+
+    col = blend_screen(col, bloom);
+    col = saturate(col);
+
+	col = Vignette(col, i.baseTexCoord.xy);
+	//col = ReplaceDark(col);
+
+    return float4(col, 1.0);
+}

@@ -1,0 +1,128 @@
+
+// DYNAMIC: "CSM"	"0..1"
+// DYNAMIC: "PERF"	"0..2"
+
+// performance combo is only for CSM
+// SKIP: (CSM == 0) && PERF
+
+#include "common_flashlight_fxc.h"
+
+//const float4x4 g_FlashlightWorldToTexture		: register( c24 ); // through c27
+const float4 g_FlashlightColor			: register( c0 );
+const float4 g_DepthBlendConstants		: register(c1);
+const float4 g_zViewNear				: register(c2);
+const float4 g_zViewFar					: register(c3);
+
+
+sampler SpotlightTextureSampler		: register( s0 );
+sampler ShadowDepthSampler			: register( s1 );
+sampler FramebufferSampler			: register( s2 );
+
+float DoSimpleFlashlightShadow( sampler depthSampler, float3 flashlightSpacePosition )
+{
+	{
+		return tex2Dproj( depthSampler, float4( flashlightSpacePosition, 1 ) ).x;
+	}
+}
+#if CSM
+const float4x4 g_CascadeMatrix					:  register( c6 );
+const float3 g_CascadeColor						:  register( c10 );
+const float2 g_CascadeResolution				:  register( c11 );
+const float4 g_CascadeSize						:  register( c12 );
+
+float DoCSM( sampler DepthSampler, const float3 vProjCoords, float vViewDepth)
+{
+	float2 rtSize = g_CascadeResolution;//float2(4096.0f * 4.0f, 4096.0f) * 2.0f;
+	float fEpsilonX    = 1.0f / rtSize.y;
+	float fEpsilonY    = 1.0f / rtSize.x;
+
+	float3 cascade3 = float3( float2((vProjCoords.x / 4) + (g_CascadeSize.w - 4 - 1.0f/8.0f), vProjCoords.y + (g_CascadeSize.w - 1) / 2) / g_CascadeSize.w, vProjCoords.z);
+
+	float projMask = 1.0f;
+	if(vViewDepth >= g_CascadeSize.w * g_CascadeSize.x - 100)
+	{
+		projMask = 0.0f;
+	}
+	
+	float4 vShadowTweaks = float4(fEpsilonX, fEpsilonY, 0.0f, 0.0f);
+
+	float shadowProjDiff3 = g_CascadeSize.w;
+	float3 shadowMapCenter_objDepth3 = cascade3;
+	float2 shadowMapCenter3 = shadowMapCenter_objDepth3.xy;
+	
+	float shadow3 = DoSimpleFlashlightShadow(DepthSampler, shadowMapCenter_objDepth3);
+
+	float shadow = shadow3;
+	if(projMask == 1.0f)
+	{
+		float smoothCSMMask = pow(saturate(vViewDepth / (g_CascadeSize.w * g_CascadeSize.x - 100)), 20.0f);
+		float shadowFinal = lerp(shadow, 1.0f, smoothCSMMask);
+		return shadowFinal;
+	}
+	else
+	{
+		return 1.0f;
+	}
+	
+}
+#endif
+struct PS_INPUT
+{
+	//float2 vTexCoord0				: TEXCOORD0;
+	float4 flashlightSpacePos		: TEXCOORD1;
+	float4 vProjPos					: TEXCOORD2;
+	float3 vWorldPos				: TEXCOORD3;
+};
+
+float DepthFeathering_New(sampler DepthSampler, const float2 vScreenPos, float fProjZ, float fProjW, float4 vDepthBlendConstants)
+{
+	{
+       /* float flFeatheredAlpha;
+        float2 flDepths;
+        float flSceneDepth = flDepths.x;
+        float flSpriteDepth = flDepths.y;
+
+		{
+			flSceneDepth = tex2D(DepthSampler, vScreenPos).x;
+			flSpriteDepth = SoftParticleDepth(fProjZ);
+
+            flFeatheredAlpha = abs(flSceneDepth - flSpriteDepth) * vDepthBlendConstants.x;
+            flFeatheredAlpha = max(smoothstep(0.75f, 1.0f, flSceneDepth), flFeatheredAlpha); //as the sprite approaches the edge of our compressed depth space, the math stops working. So as the sprite approaches the far depth, smoothly remove feathering.
+            flFeatheredAlpha = saturate(flFeatheredAlpha);
+        }*/
+		
+        float flSceneDepth = tex2D(DepthSampler, vScreenPos).x;
+        float flSpriteDepth = (fProjZ) / g_zViewFar;
+        float flFeatheredAlpha = 1.0f - saturate((flSceneDepth - flSpriteDepth * 2));
+
+        return flFeatheredAlpha;
+    }
+}
+
+float4 main( PS_INPUT i ) : COLOR
+{
+#if CSM != 1
+	float3 UVZ = i.flashlightSpacePos.xyz / i.flashlightSpacePos.w;
+	float3 color = tex2D( SpotlightTextureSampler, UVZ.xy ).rgb;
+	float shadow = DoSimpleFlashlightShadow( ShadowDepthSampler, UVZ );
+	float attn = 1.0f - UVZ.z;
+	float depthBlend = 1.0f;
+	
+	float2 screenUVs = i.vProjPos.xy / i.vProjPos.w * float2(0.5f, -0.5f) + 0.5f;
+    depthBlend *= DepthFeathering_New(FramebufferSampler, screenUVs, i.vProjPos.z, i.vProjPos.w, g_DepthBlendConstants);
+	
+	color *= g_FlashlightColor.rgb;
+    float alpha = shadow * attn;
+#else
+	float3 color = normalize(g_CascadeColor);
+	float4 flashlightSpacePosition = mul( float4( i.vWorldPos, 1.0f ), g_CascadeMatrix );
+	float3 vProjCoords = flashlightSpacePosition.xyz / flashlightSpacePosition.w;
+	float flShadow = DoCSM(ShadowDepthSampler, vProjCoords, i.vProjPos.z);
+	float attn = saturate(i.vProjPos.z / 5.0f / i.vProjPos.w);
+	float depthBlend = smoothstep( 7.0, 128, i.vProjPos.z );
+	float alpha = flShadow * depthBlend * attn;
+#endif
+	
+    return float4(color * attn * depthBlend, alpha /* * g_FlashlightColor.a*/);
+}
+

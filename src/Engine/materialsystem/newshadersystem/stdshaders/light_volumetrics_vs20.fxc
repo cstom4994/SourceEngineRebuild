@@ -1,0 +1,42 @@
+#include "common_vs_fxc.h"
+
+struct VS_INPUT
+{
+	float4 vPos			: POSITION;
+	//float2 vTexCoord0	: TEXCOORD0;
+};
+
+struct VS_OUTPUT
+{
+	float4 projPos		: POSITION;
+	//float2 vTexCoord0				: TEXCOORD0;
+	float4 flashlightSpacePos		: TEXCOORD1;
+	float4 vProjPos					: TEXCOORD2;
+	float3 vWorldPos				: TEXCOORD3;
+};
+
+const float4x4 g_FlashlightWorldToTexture		:  register( SHADER_SPECIFIC_CONST_0 );
+
+VS_OUTPUT main( const VS_INPUT v )
+{
+	VS_OUTPUT o;
+
+	float3 worldPos = mul( v.vPos, cModel[0] );
+
+	float4 vProjPos = mul( v.vPos, cModelViewProj );
+	o.projPos = vProjPos;
+	o.vProjPos = vProjPos;
+	//vProjPos.z = dot( v.vPos, cModelViewProjZ );
+	
+	//o.worldPos_projPosZ = float4( worldPos, vProjPos.z );
+	
+	//o.vTexCoord0 = v.vTexCoord0;
+	o.flashlightSpacePos = mul( float4( worldPos, 1.0f ), g_FlashlightWorldToTexture );
+
+	o.vWorldPos = worldPos;
+
+	return o;
+}
+
+
+
