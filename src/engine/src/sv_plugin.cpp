@@ -17,7 +17,7 @@
 #include "pr_edict.h"
 #include "networkstringtable.h"
 #include "networkstringtableserver.h"
-#include "tier0/etwprof.h"
+
 
 extern CreateInterfaceFn g_AppSystemFactory;
 extern CSysModule *g_GameDLL;
@@ -342,7 +342,6 @@ extern CNetworkStringTableContainer *networkStringTableContainerServer;
 void CServerPlugin::LevelInit(char const *pMapName,
                               char const *pMapEntities, char const *pOldLevel,
                               char const *pLandmarkName, bool loadGame, bool background) {
-    CETWScope timer("CServerPlugin::LevelInit");
 
     MDLCACHE_COARSE_LOCK_(g_pMDLCache);
     FORALL_PLUGINS {

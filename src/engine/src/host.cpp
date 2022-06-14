@@ -69,7 +69,7 @@ extern ILauncherMgr *g_pLauncherMgr;
 
 #include "filesystem.h"
 #include "filesystem_engine.h"
-#include "tier0/etwprof.h"
+
 #include "tier0/vcrmode.h"
 #include "traceinit.h"
 #include "host_saverestore.h"
@@ -2965,7 +2965,6 @@ void _Host_RunFrame(float time) {
             cl.SetFrameTime(host_frametime);
             for (int tick = 0; tick < numticks; tick++) {
                 // Emit an ETW event every simulation frame.
-                ETWSimFrameMark(sv.IsDedicated());
 
                 double now = Plat_FloatTime();
                 float jitter = now - host_idealtime;

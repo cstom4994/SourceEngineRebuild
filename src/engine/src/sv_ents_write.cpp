@@ -10,7 +10,7 @@
 #include <eiface.h>
 #include <dt_send.h>
 #include <utllinkedlist.h>
-#include "tier0/etwprof.h"
+
 #include "dt_send_eng.h"
 #include "dt.h"
 #include "net_synctags.h"
@@ -981,7 +981,7 @@ void CBaseServer::WriteDeltaEntities( CBaseClient *client, CClientFrame *to, CCl
 				{
 					char const *eString = sv.edicts[ u.m_pNewPack->m_nEntityIndex ].GetNetworkable()->GetClassName();
 					client->TraceNetworkData( pBuf, "enter [%s]", eString );
-					ETWMark1I( eString, pBuf.GetNumBitsWritten() - nEntityStartBit );
+
 				}
 				break;
 			case LeavePVS:
@@ -989,14 +989,14 @@ void CBaseServer::WriteDeltaEntities( CBaseClient *client, CClientFrame *to, CCl
 					// Note, can't use GetNetworkable() since the edict has been freed at this point
 					char const *eString = u.m_pOldPack->m_pServerClass->m_pNetworkName;
 					client->TraceNetworkData( pBuf, "leave [%s]", eString );
-					ETWMark1I( eString, pBuf.GetNumBitsWritten() - nEntityStartBit );
+
 				}
 				break;
 			case DeltaEnt:
 				{
 					char const *eString = sv.edicts[ u.m_pOldPack->m_nEntityIndex ].GetNetworkable()->GetClassName();
 					client->TraceNetworkData( pBuf, "delta [%s]", eString );
-					ETWMark1I( eString, pBuf.GetNumBitsWritten() - nEntityStartBit );
+
 				}
 				break;
 			}

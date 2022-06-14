@@ -16,7 +16,7 @@
 #include "demofile/demoformat.h"
 #include "gl_matsysiface.h"
 #include "materialsystem/imaterialsystemhardwareconfig.h"
-#include "tier0/etwprof.h"
+
 #include "tier0/icommandline.h"
 #include "vengineserver_impl.h"
 #include "console.h"
@@ -841,7 +841,7 @@ void CDemoPlayer::SkipToTick(int tick, bool bRelative, bool bPause) {
         Q_strncpy(fileName, m_DemoFile.m_szFileName, sizeof(fileName));
 
         // reload current demo file
-        ETWMarkPrintf("DemoPlayer: Reloading demo file '%s'", fileName);
+
         StartPlayback(fileName, m_bTimeDemo);
 
         // Make sure the proper skipping occurs after reload
@@ -850,7 +850,7 @@ void CDemoPlayer::SkipToTick(int tick, bool bRelative, bool bPause) {
     }
 
     m_nSkipToTick = tick;
-    ETWMark1I("DemoPlayer: SkipToTick", tick);
+
 
     if (bPause)
         PausePlayback(-1);
@@ -1659,7 +1659,7 @@ bool CDemoPlayer::CheckPausedPlayback() {
     if (demo_pauseatservertick.GetInt() > 0) {
         if (cl.GetServerTickCount() >= demo_pauseatservertick.GetInt()) {
             PausePlayback(-1);
-            ETWMark1I("DemoPlayer: Reached pause tick", cl.GetServerTickCount());
+
             m_nSkipToTick = -1;
             demo_pauseatservertick.SetValue(0);
             Msg("Demo paused at server tick %i\n", cl.GetServerTickCount());
@@ -1673,7 +1673,7 @@ bool CDemoPlayer::CheckPausedPlayback() {
             return false;
         } else {
             // we can't skip back (or finished skipping), so disable skipping
-            ETWMark1I("DemoPlayer: SkipToTick done", GetPlaybackTick());
+
             m_nSkipToTick = -1;
         }
     }

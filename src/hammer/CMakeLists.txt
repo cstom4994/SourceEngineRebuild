@@ -617,8 +617,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -642,15 +642,15 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../common/shaderdll;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../common/iostream;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../engine;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../game/shared;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../utils/common;"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/common/shaderdll;"
+        "${MYROOTDIR}/common/iostream;"
+        "${MYROOTDIR}/engine;"
+        "${MYROOTDIR}/game/shared;"
+        "${MYROOTDIR}/utils/common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/."
         )
 
@@ -659,7 +659,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
         "$<$<CONFIG:Debug>:"
-        "_HAS_ITERATOR_DEBUGGING=0;"
         "_DEBUG;"
         "DEBUG"
         ">"
@@ -676,14 +675,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "FRAME_POINTER_OMISSION_DISABLED;"
         "VALVE;"
         "PROTECTED_THINGS_DISABLE;"
-        "VPCGAMECAPS=VALVE;"
         "SOURCE1=1;"
         "_MBCS"
-        )
-set_source_files_properties(../public/tier0/memoverride.cpp PROPERTIES
-        COMPILE_DEFINITIONS_DEBUG "_HAS_ITERATOR_DEBUGGING=0;_DEBUG;DEBUG"
-        COMPILE_DEFINITIONS_RELEASE "NDEBUG"
-        COMPILE_DEFINITIONS "VPC;RAD_TELEMETRY_DISABLED;WIN32;_WIN32;_WINDOWS;_USRDLL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_MSC_VER_MISMATCH;COMPILER_MSVC32;COMPILER_MSVC;BINK_VIDEO;AVI_VIDEO;WMV_VIDEO;DEV_BUILD;FRAME_POINTER_OMISSION_DISABLED;VALVE;PROTECTED_THINGS_DISABLE;NO_MEMOVERRIDE_NEW_DELETE;_EXTERNAL_DLL_EXT=.dll;VPCGAMECAPS=VALVE;PROJECTDIR=E:\\Projects\\SourceEngineWorks\\AboutSource\\sdk-2013-hammer\\hammer;VPCGAME=valve;SOURCE1=1"
         )
 
 ################################################################################
@@ -723,98 +716,29 @@ if (MSVC)
             /GS;
             /Zc:forScope
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/bone_setup.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/builddisp.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(buildnum.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(camera.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/chunkfile.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/collisionutils.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../common/ConfigManager.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/disp_common.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/disp_powerinfo.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/filesystem_helpers.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/filesystem_init.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(hammer_mathlib.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/interpolatortypes.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/keyframe/keyframe.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/rope_physics.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(saveinfo.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../utils/common/scriplib.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/simple_physics.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../common/SourceAppInfo.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/studio.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/vgui_controls/vgui_controls.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(viewersettings.cpp ${FILE_CL_OPTIONS})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -849,6 +773,8 @@ endif ()
 add_dependencies(${PROJECT_NAME}
         tier0
         tier1
+        tier2
+        tier3
         vstdlib
         Vmpi
         vtf
@@ -866,6 +792,8 @@ add_dependencies(${PROJECT_NAME}
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
         tier0
         tier1
+        tier2
+        tier3
         vstdlib
         Vmpi
         vtf
@@ -893,7 +821,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../lib/public;"
+        "${MYROOTDIR}/lib/public;"
         )
 
 

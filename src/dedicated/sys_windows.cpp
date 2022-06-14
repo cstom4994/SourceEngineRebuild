@@ -253,7 +253,7 @@ bool CSys::LoadModules(CDedicatedAppSystemGroup *pAppSystemGroup) {
                     {"engine.dll",         CVAR_QUERY_INTERFACE_VERSION},    // NOTE: This one must be first!!
                     {"engine.dll",         INPUTSYSTEM_INTERFACE_VERSION},
                     {"materialsystem.dll", MATERIAL_SYSTEM_INTERFACE_VERSION},
-                    {"studiorender.dll",         STUDIO_RENDER_INTERFACE_VERSION},
+                    {"studiorender.dll",   STUDIO_RENDER_INTERFACE_VERSION},
                     {"engine.dll",         VPHYSICS_INTERFACE_VERSION},
                     {"datacache.dll",      DATACACHE_INTERFACE_VERSION},
                     {"datacache.dll",      MDLCACHE_INTERFACE_VERSION},

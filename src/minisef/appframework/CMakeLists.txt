@@ -46,8 +46,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 ################################################################################
 # MSVC runtime library
@@ -68,11 +68,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1"
         )
 
 ################################################################################
@@ -99,7 +99,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "WMV_VIDEO;"
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
-        "VPCGAMECAPS=VANCE;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"
@@ -144,9 +143,6 @@ if (MSVC)
             /Zc:forScope;
 
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../common/debug_lib_check.cpp ${FILE_CL_OPTIONS})
+
 endif ()
 

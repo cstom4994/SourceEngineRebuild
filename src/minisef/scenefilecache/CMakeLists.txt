@@ -41,8 +41,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -67,12 +67,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/.;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../game/shared"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/game/shared"
         )
 
 ################################################################################
@@ -143,14 +143,8 @@ if (MSVC)
             /GS;
             /Zc:forScope
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
+
+
     target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -204,7 +198,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../lib/common;"
+        "${MYROOTDIR}/lib/common;"
 
         )
 

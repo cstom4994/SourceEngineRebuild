@@ -28,7 +28,7 @@ use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
         VS_DEBUGGER_COMMAND_ARGUMENTS "-game vance -insecure -console -sw -border -novid -nosteamcontroller -allowdebug"
-        VS_DEBUGGER_WORKING_DIRECTORY "${MYROOTDIR}/../game"
+        VS_DEBUGGER_WORKING_DIRECTORY "${MYROOTDIR}/../../../game"
         )
 ################################################################################
 # Target name
@@ -41,8 +41,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -66,11 +66,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1"
         )
 
 ################################################################################

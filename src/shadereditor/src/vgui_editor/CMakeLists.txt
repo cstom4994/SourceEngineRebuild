@@ -201,8 +201,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY         "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -226,15 +226,14 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../vgui_editor;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../shadereditor;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../../../game/client/shadereditor;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../../thirdparty;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../../public;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../../common"
+        "${MYROOTDIR}/shadereditor/src/vgui_editor;"
+        "${MYROOTDIR}/shadereditor/src/shadereditor;"
+        "${MYROOTDIR}/game/client/shadereditor;"
+        "${MYROOTDIR}/thirdparty;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/common"
         )
 
 ################################################################################
@@ -242,7 +241,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
         "$<$<CONFIG:Debug>:"
-        "_HAS_ITERATOR_DEBUGGING=0;"
         "_DEBUG;"
         "DEBUG"
         ">"
@@ -258,7 +256,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "SHADER_EDITOR_DLL_SER;"
-        "VPCGAMECAPS=VALVE;"
         "SOURCE1=1;"
         "_MBCS"
         )

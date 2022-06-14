@@ -46,7 +46,7 @@
 #include "iregistry.h"
 #include "sys.h"
 #include <vstdlib/random.h>
-#include "tier0/etwprof.h"
+
 #include "tier0/vcrmode.h"
 #include "sys_dll.h"
 #include "video/ivideoservices.h"
@@ -937,7 +937,6 @@ void CL_RegisterResources(void) {
 }
 
 void CL_FullyConnected(void) {
-    CETWScope timer("CL_FullyConnected");
 
     EngineVGui()->UpdateProgressBar(PROGRESS_FULLYCONNECTED);
 

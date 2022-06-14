@@ -46,8 +46,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 ################################################################################
 # MSVC runtime library
@@ -68,10 +68,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
+    "${MYROOTDIR}/common;"
+    "${MYROOTDIR}/public;"
+    "${MYROOTDIR}/public/tier0;"
+    "${MYROOTDIR}/public/tier1;"
     "../../utils/common"
 )
 
@@ -80,7 +80,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     "$<$<CONFIG:Debug>:"
-        "_HAS_ITERATOR_DEBUGGING=0;"
         "_DEBUG;"
         "DEBUG"
     ">"
@@ -95,7 +94,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "WMV_VIDEO;"
     "DEV_BUILD;"
     "FRAME_POINTER_OMISSION_DISABLED;"
-    "VPCGAMECAPS=VALVE;"
     "SOURCE1=1;"
     "_MBCS"
 )

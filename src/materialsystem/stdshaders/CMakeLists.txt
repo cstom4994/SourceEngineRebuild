@@ -121,10 +121,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
+    "${MYROOTDIR}/common;"
+    "${MYROOTDIR}/public;"
+    "${MYROOTDIR}/public/tier0;"
+    "${MYROOTDIR}/public/tier1;"
     "${CMAKE_CURRENT_SOURCE_DIR}/fxctmp9;"
     "${CMAKE_CURRENT_SOURCE_DIR}/vshtmp9"
 )
@@ -134,7 +134,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     "$<$<CONFIG:Debug>:"
-        "_HAS_ITERATOR_DEBUGGING=0;"
         "_DEBUG;"
         "DEBUG"
     ">"
@@ -197,10 +196,7 @@ if(MSVC)
         /Zc:forScope;
         /Y-
     )
-    string(CONCAT FILE_CL_OPTIONS
-        "/Y-"
-    )
-    source_file_compile_options(../../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
+
     target_link_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -250,7 +246,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common/.;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public/."
+    "${MYROOTDIR}/lib/common/.;"
+    "${MYROOTDIR}/lib/public/."
 )
 

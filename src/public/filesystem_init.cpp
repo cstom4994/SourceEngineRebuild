@@ -1093,7 +1093,7 @@ FSReturnCode_t FileSystem_GetFileSystemDLLName( char *pFileSystemDLL, int nMaxLe
 		return SetupFileSystemError( false, FS_INVALID_PARAMETERS, "FileSystem_GetExecutableDir failed." );
 
 	// Assume we'll use local files
-	Q_snprintf( pFileSystemDLL, nMaxLen, "%s%cengine.dll", executablePath, CORRECT_PATH_SEPARATOR );
+	Q_snprintf( pFileSystemDLL, nMaxLen, "%s%cfilesystem_stdio.dll", executablePath, CORRECT_PATH_SEPARATOR );
 
 	#if !defined( _X360 )
 

@@ -36,7 +36,7 @@
 #include "cvar.h"
 #include "vstdlib/random.h"
 #include "tier1/utldict.h"
-#include "tier0/etwprof.h"
+
 #include "tier0/vprof.h"
 #include "gl_matsysiface.h"        // update materialsystem config
 
@@ -339,7 +339,7 @@ static void Cbuf_ExecuteCommand(const CCommand &args, cmd_source_t source) {
     tmMessage(TELEMETRY_LEVEL0, TMMF_SEVERITY_LOG | TMMF_ICON_NOTE, "(source/command) %s",
               tmDynamicString(TELEMETRY_LEVEL0, args.GetCommandString()));
     // Add the command text to the ETW stream to give better context to traces.
-    ETWMark(args.GetCommandString());
+
 
     // execute the command line
     const ConCommandBase *pCmd = Cmd_ExecuteCommand(args, source);

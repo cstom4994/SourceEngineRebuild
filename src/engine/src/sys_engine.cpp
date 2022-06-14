@@ -34,7 +34,7 @@
 #ifndef SWDS
 #include "vgui_baseui_interface.h"
 #endif
-#include "tier0/etwprof.h"
+
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -410,7 +410,6 @@ void CEngine::Frame( void )
 	if ( !sv.IsDedicated() )
 	{
 		ClientDLL_FrameStageNotify( FRAME_START );
-		ETWRenderFrameMark( false );
 	}
 #endif
 

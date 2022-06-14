@@ -6,7 +6,7 @@
 
 #if defined( _WIN32 ) && !defined( _X360 ) && !defined( DX_TO_GL_ABSTRACTION )
 #include <windows.h>
-#include "../thirdparty/dxsdk/include/d3d9types.h"
+#include "../../thirdparty/dxsdk/include/d3d9types.h"
 #endif
 #include "bitmap/imageformat.h"
 #include "basetypes.h"

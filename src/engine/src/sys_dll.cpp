@@ -56,7 +56,7 @@
 #include "idedicatedexports.h"
 #include "eifacev21.h"
 #include "cl_steamauth.h"
-#include "tier0/etwprof.h"
+
 
 #include "vgui_baseui_interface.h"
 #include "tier0/systeminformation.h"
@@ -814,7 +814,7 @@ SpewRetval_t Sys_SpewFunc(SpewType_t spewType, const char *pMsg) {
     // understand why, and save us time when server operators are triggering
     // excessive spew. Having the output in traces is also generically useful
     // for understanding slowdowns.
-    ETWMark1I(pMsg, spewType);
+
 
     if (!suppress) {
         // If this is a dedicated server, then we have taken over its spew function, but we still

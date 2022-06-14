@@ -1,11 +1,7 @@
-﻿//========= Copyright Valve Corporation, All rights reserved. ============//
-//
+﻿// Copyright(c) 2019 - 2022, KaoruXun All rights reserved.
+
 // Purpose: Insert this file into all projects using the memory system
 // It will cause that project to use the shader memory allocator
-//
-// $NoKeywords: $
-//=============================================================================//
-
 
 #if !defined(STEAM) && !defined(NO_MALLOC_OVERRIDE)
 

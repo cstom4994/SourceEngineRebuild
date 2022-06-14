@@ -38,7 +38,7 @@
 #include "traceinit.h"
 #include "iengine.h"
 #include "igame.h"
-#include "tier0/etwprof.h"
+
 #include "tier0/vcrmode.h"
 #include "tier0/icommandline.h"
 #include "tier0/minidump.h"
@@ -1981,10 +1981,8 @@ int CModAppSystemGroup::Main() {
 
         // Start up the game engine
         static const char engineLoadMessage[] = "Calling CEngine::Load";
-        int64 nStartTime = ETWBegin(engineLoadMessage);
         if (eng->Load(false, host_parms.basedir)) {
 #if !defined(SWDS)
-            ETWEnd(engineLoadMessage, nStartTime);
             toolframework->ServerInit(g_ServerFactory);
 
             if (s_EngineAPI.MainLoop()) {

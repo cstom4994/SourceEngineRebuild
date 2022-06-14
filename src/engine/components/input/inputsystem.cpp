@@ -8,7 +8,7 @@
 #include "key_translation.h"
 #include "inputsystem/ButtonCode.h"
 #include "inputsystem/AnalogCode.h"
-#include "tier0/etwprof.h"
+
 #include "tier1/convar.h"
 #include "tier0/icommandline.h"
 

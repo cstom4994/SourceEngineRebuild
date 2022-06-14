@@ -41,24 +41,10 @@ set(Source_Files
         )
 source_group("Source Files" FILES ${Source_Files})
 
-set(VPC_Scripts
-        "../../vpc_scripts/platform_dirs.vpc"
-        "../../vpc_scripts/source_base.vpc"
-        "../../vpc_scripts/source_lib_base.vpc"
-        "../../vpc_scripts/source_lib_win32_base.vpc"
-        "../../vpc_scripts/source_lib_win32_debug.vpc"
-        "../../vpc_scripts/source_lib_win32_release.vpc"
-        "../../vpc_scripts/source_video_base.vpc"
-        "../../vpc_scripts/source_win32_base.vpc"
-        "../../vpc_scripts/version.vpc"
-        "vmpi.vpc"
-        )
-source_group("VPC Scripts" FILES ${VPC_Scripts})
 
 set(ALL_FILES
         ${Header_Files}
         ${Source_Files}
-        ${VPC_Scripts}
         )
 
 ################################################################################
@@ -78,8 +64,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 ################################################################################
 # MSVC runtime library
@@ -100,12 +86,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../common;"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/utils/common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/ZLib;"
         "${CMAKE_CURRENT_SOURCE_DIR}"
         )
@@ -180,10 +166,7 @@ if (MSVC)
             /Zc:forScope;
 
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../common/debug_lib_check.cpp ${FILE_CL_OPTIONS})
+
 endif ()
 
 
@@ -213,6 +196,6 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public"
+        "${MYROOTDIR}/lib/common;"
+        "${MYROOTDIR}/lib/public"
         )

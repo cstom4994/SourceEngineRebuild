@@ -816,9 +816,6 @@ int CStudioRender::GetDecalMaterial(DecalLod_t &decalLod, IMaterial *pDecalMater
     return j;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose:
-//-----------------------------------------------------------------------------
 void CStudioRender::RetireDecal(DecalModelList_t &list, DecalId_t nRetireID, int iLOD, int iMaxLOD) {
     // Remove it from the global LRU...
     DecalLRUListIndex_t i;

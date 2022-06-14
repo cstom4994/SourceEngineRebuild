@@ -3,421 +3,6 @@ set(PROJECT_NAME engine)
 ################################################################################
 # Source groups
 ################################################################################
-
-set(ivp_src
-
-        "../ivp/havana/havok/hk_base/base.h"
-        "../ivp/havana/havok/hk_base/base_types.h"
-        "../ivp/havana/havok/hk_base/console.h"
-        "../ivp/havana/havok/hk_base/stdafx.h"
-        "../ivp/havana/havok/hk_base/array/array.h"
-        "../ivp/havana/havok/hk_base/array/pre_allocated_array.h"
-        "../ivp/havana/havok/hk_base/hash/hash.h"
-        "../ivp/havana/havok/hk_base/id_server/id_server.h"
-        "../ivp/havana/havok/hk_base/memory/memory.h"
-        "../ivp/havana/havok/hk_base/memory/memory_managed_virtual_class.h"
-        "../ivp/havana/havok/hk_base/memory/memory_util.h"
-        "../ivp/havana/havok/hk_base/stopwatch/stopwatch.h"
-        "../ivp/havana/havok/hk_base/string/string.h"
-
-        "../ivp/havana/havok/hk_math/dense_vector.h"
-        "../ivp/havana/havok/hk_math/densematrix.h"
-        "../ivp/havana/havok/hk_math/densematrix_util.h"
-        "../ivp/havana/havok/hk_math/eulerangles.h"
-        "../ivp/havana/havok/hk_math/interval.h"
-        "../ivp/havana/havok/hk_math/math.h"
-        "../ivp/havana/havok/hk_math/matrix3.h"
-        "../ivp/havana/havok/hk_math/odesolve.h"
-        "../ivp/havana/havok/hk_math/plane.h"
-        "../ivp/havana/havok/hk_math/qtransform.h"
-        "../ivp/havana/havok/hk_math/ray.h"
-        "../ivp/havana/havok/hk_math/rotation.h"
-        "../ivp/havana/havok/hk_math/spatial_matrix.h"
-        "../ivp/havana/havok/hk_math/spatial_vector.h"
-        "../ivp/havana/havok/hk_math/stdafx.h"
-        "../ivp/havana/havok/hk_math/transform.h"
-        "../ivp/havana/havok/hk_math/types.h"
-        "../ivp/havana/havok/hk_math/vecmath.h"
-        "../ivp/havana/havok/hk_math/vector4.h"
-        "../ivp/havana/havok/hk_math/gauss_elimination/gauss_elimination.h"
-        "../ivp/havana/havok/hk_math/incr_lu/incr_lu.h"
-        "../ivp/havana/havok/hk_math/lcp/lcp_solver.h"
-        "../ivp/havana/havok/hk_math/matrix/matrix_inverter.h"
-        "../ivp/havana/havok/hk_math/quaternion/quaternion.h"
-        "../ivp/havana/havok/hk_math/quaternion/quaternion_util.h"
-        "../ivp/havana/havok/hk_math/vector3/vector3.h"
-        "../ivp/havana/havok/hk_math/vector3/vector3_util.h"
-        "../ivp/havana/havok/hk_math/vector_fpu/vector_fpu.h"
-
-        "../ivp/havana/havok/hk_physics/constraint/constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/constraint_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/constraint_limit.h"
-        "../ivp/havana/havok/hk_physics/constraint/ball_socket/ball_socket_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/ball_socket/ball_socket_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/breakable_constraint/breakable_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/breakable_constraint/breakable_constraint_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/fixed/fixed_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/fixed/fixed_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/hinge/hinge_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/hinge/hinge_bp_builder.h"
-        "../ivp/havana/havok/hk_physics/constraint/hinge/hinge_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/limited_ball_socket/limited_ball_socket_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/limited_ball_socket/limited_ball_socket_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/local_constraint_system/local_constraint_system.h"
-        "../ivp/havana/havok/hk_physics/constraint/local_constraint_system/local_constraint_system_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/prismatic/prismatic_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/prismatic/prismatic_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/pulley/pulley_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/pulley/pulley_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/ragdoll/ragdoll_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/ragdoll/ragdoll_constraint_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/ragdoll/ragdoll_constraint_bp_builder.h"
-        "../ivp/havana/havok/hk_physics/constraint/stiff_spring/stiff_spring_bp.h"
-        "../ivp/havana/havok/hk_physics/constraint/stiff_spring/stiff_spring_constraint.h"
-        "../ivp/havana/havok/hk_physics/constraint/util/constraint_limit_util.h"
-        "../ivp/havana/havok/hk_physics/core/vm_query_builder/mass_relative_vector3.h"
-        "../ivp/havana/havok/hk_physics/core/vm_query_builder/vm_query_builder.h"
-        "../ivp/havana/havok/hk_physics/physics.h"
-        "../ivp/ivp_physics/hk_physics/simunit/psi_info.h"
-
-        "../ivp/ivp_compact_builder/3dsimport_load.hxx"
-        "../ivp/ivp_compact_builder/ivp_compact_ledge_gen.hxx"
-        "../ivp/ivp_compact_builder/ivp_compact_modify.hxx"
-        "../ivp/ivp_compact_builder/ivp_compact_recursive.hxx"
-        "../ivp/ivp_compact_builder/ivp_convex_decompositor.hxx"
-        "../ivp/ivp_compact_builder/ivp_halfspacesoup.hxx"
-        "../ivp/ivp_compact_builder/ivp_i_fpoint_vhash.hxx"
-        "../ivp/ivp_compact_builder/ivp_i_point_vhash.hxx"
-        "../ivp/ivp_compact_builder/ivp_object_polygon_tetra.hxx"
-        "../ivp/ivp_compact_builder/ivp_rot_inertia_solver.hxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_3ds.hxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_halfspacesoup.hxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_ledge_soup.hxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_pointsoup.hxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_polygon_convex.hxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_polyhdrn_cncv.hxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_q12.hxx"
-        "../ivp/ivp_compact_builder/ivp_templates_intern.hxx"
-        "../ivp/ivp_compact_builder/ivp_tetra_intrude.hxx"
-        "../ivp/ivp_compact_builder/ivp_triangle_gen.hxx"
-        "../ivp/ivp_compact_builder/ivv_cluster_min_hash.hxx"
-        "../ivp/ivp_compact_builder/geompack.hxx"
-        "../ivp/ivp_compact_builder/qhull.hxx"
-        "../ivp/ivp_compact_builder/qhull_a.hxx"
-        "../ivp/ivp_compact_builder/qhull_geom.hxx"
-        "../ivp/ivp_compact_builder/qhull_io.hxx"
-        "../ivp/ivp_compact_builder/qhull_mem.hxx"
-        "../ivp/ivp_compact_builder/qhull_merge.hxx"
-        "../ivp/ivp_compact_builder/qhull_poly.hxx"
-        "../ivp/ivp_compact_builder/qhull_qset.hxx"
-        "../ivp/ivp_compact_builder/qhull_stat.hxx"
-        "../ivp/ivp_compact_builder/qhull_user.hxx"
-
-        "../ivp/ivp_collision/ivp_3d_solver.hxx"
-        "../ivp/ivp_collision/ivp_cache_ledge_point.hxx"
-        "../ivp/ivp_collision/ivp_clustering_longrange.hxx"
-        "../ivp/ivp_collision/ivp_clustering_lrange_hash.hxx"
-        "../ivp/ivp_collision/ivp_clustering_visual_hash.hxx"
-        "../ivp/ivp_collision/ivp_clustering_visualizer.hxx"
-        "../ivp/ivp_collision/ivp_collision.hxx"
-        "../ivp/ivp_collision/ivp_collision_filter.hxx"
-        "../ivp/ivp_collision/ivp_compact_ledge.hxx"
-        "../ivp/ivp_collision/ivp_compact_ledge_solver.hxx"
-        "../ivp/ivp_collision/ivp_i_collision_vhash.hxx"
-        "../ivp/ivp_collision/ivp_listener_collision.hxx"
-        "../ivp/ivp_collision/ivp_mindist.hxx"
-        "../ivp/ivp_collision/ivp_mindist_event.hxx"
-        "../ivp/ivp_collision/ivp_mindist_intern.hxx"
-        "../ivp/ivp_collision/ivp_mindist_macros.hxx"
-        "../ivp/ivp_collision/ivp_mindist_minimize.hxx"
-        "../ivp/ivp_collision/ivp_range_manager.hxx"
-        "../ivp/ivp_collision/ivp_ray_solver.hxx"
-        "../ivp/ivp_collision/ivp_universe_manager.hxx"
-        "../ivp/ivp_controller/ivp_actuator.hxx"
-        "../ivp/ivp_controller/ivp_actuator_info.hxx"
-        "../ivp/ivp_controller/ivp_actuator_spring.hxx"
-        "../ivp/ivp_controller/ivp_attacher_to_cores.hxx"
-        "../ivp/ivp_controller/ivp_buoyancy_solver.hxx"
-        "../ivp/ivp_controller/ivp_car_system.hxx"
-        "../ivp/ivp_controller/ivp_constraint.hxx"
-        "../ivp/ivp_controller/ivp_constraint_car.hxx"
-        "../ivp/ivp_controller/ivp_constraint_fixed_keyed.hxx"
-        "../ivp/ivp_controller/ivp_constraint_local.hxx"
-        "../ivp/ivp_controller/ivp_constraint_types.hxx"
-        "../ivp/ivp_controller/ivp_controller.hxx"
-        "../ivp/ivp_controller/ivp_controller_airboat.h"
-        "../ivp/ivp_controller/ivp_controller_buoyancy.hxx"
-        "../ivp/ivp_controller/ivp_controller_floating.hxx"
-        "../ivp/ivp_controller/ivp_controller_golem.hxx"
-        "../ivp/ivp_controller/ivp_controller_motion.hxx"
-        "../ivp/ivp_controller/ivp_controller_raycast_car.hxx"
-        "../ivp/ivp_controller/ivp_controller_stiff_spring.hxx"
-        "../ivp/ivp_controller/ivp_controller_world_frict.hxx"
-        "../ivp/ivp_controller/ivp_forcefield.hxx"
-        "../ivp/ivp_controller/ivp_multidimensional_interp.hxx"
-        "../ivp/ivp_controller/ivp_template_constraint.hxx"
-        "../ivp/ivp_intern/ivp_calc_next_psi_solver.hxx"
-        "../ivp/ivp_intern/ivp_friction.hxx"
-        "../ivp/ivp_intern/ivp_friction_solver.hxx"
-        "../ivp/ivp_intern/ivp_hull_manager_macros.hxx"
-        "../ivp/ivp_intern/ivp_i_controller_vhash.hxx"
-        "../ivp/ivp_intern/ivp_i_friction_hash.hxx"
-        "../ivp/ivp_intern/ivp_i_object_vhash.hxx"
-        "../ivp/ivp_intern/ivp_impact.hxx"
-        "../ivp/ivp_intern/ivp_merge_core.hxx"
-        "../ivp/ivp_intern/ivp_physic_private.hxx"
-        "../ivp/ivp_intern/ivp_sim_unit.hxx"
-        "../ivp/ivp_physics/ive_graphics.hxx"
-        "../ivp/ivp_physics/ivp_anomaly_manager.hxx"
-        "../ivp/ivp_physics/ivp_authenticity.hxx"
-        "../ivp/ivp_physics/ivp_ball.hxx"
-        "../ivp/ivp_physics/ivp_betterdebugmanager.hxx"
-        "../ivp/ivp_physics/ivp_betterstatisticsmanager.hxx"
-        "../ivp/ivp_physics/ivp_cache_object.hxx"
-        "../ivp/ivp_physics/ivp_contact_situation.hxx"
-        "../ivp/ivp_physics/ivp_core.hxx"
-        "../ivp/ivp_physics/ivp_core_macros.hxx"
-        "../ivp/ivp_physics/ivp_debug.hxx"
-        "../ivp/ivp_physics/ivp_debug_manager.hxx"
-        "../ivp/ivp_physics/ivp_environment.hxx"
-        "../ivp/ivp_physics/ivp_great_matrix.hxx"
-        "../ivp/ivp_physics/ivp_hull_manager.hxx"
-        "../ivp/ivp_physics/ivp_liquid_surface_descript.hxx"
-        "../ivp/ivp_physics/ivp_listener_hull.hxx"
-        "../ivp/ivp_physics/ivp_listener_object.hxx"
-        "../ivp/ivp_physics/ivp_listener_psi.hxx"
-        "../ivp/ivp_physics/ivp_material.hxx"
-        "../ivp/ivp_physics/ivp_object.hxx"
-        "../ivp/ivp_physics/ivp_object_attach.hxx"
-        "../ivp/ivp_physics/ivp_performancecounter.hxx"
-        "../ivp/ivp_physics/ivp_phantom.hxx"
-        "../ivp/ivp_physics/ivp_physics.hxx"
-        "../ivp/ivp_physics/ivp_polygon.hxx"
-        "../ivp/ivp_physics/ivp_radar.hxx"
-        "../ivp/ivp_physics/ivp_radar_appl.hxx"
-        "../ivp/ivp_physics/ivp_real_object.hxx"
-        "../ivp/ivp_physics/ivp_solver_core_reaction.hxx"
-        "../ivp/ivp_physics/ivp_stat_manager_cback_con.hxx"
-        "../ivp/ivp_physics/ivp_surface_manager.hxx"
-        "../ivp/ivp_physics/ivp_templates.hxx"
-        "../ivp/ivp_physics/ivp_time.hxx"
-        "../ivp/ivp_physics/ivp_time_event.hxx"
-        "../ivp/ivp_surface_manager/ivp_compact_grid.hxx"
-        "../ivp/ivp_surface_manager/ivp_compact_surface.hxx"
-        "../ivp/ivp_surface_manager/ivp_gridbuild_array.hxx"
-        "../ivp/ivp_surface_manager/ivp_surman_grid.hxx"
-        "../ivp/ivp_surface_manager/ivp_surman_polygon.hxx"
-        "../ivp/ivp_utility/ivu_active_value.hxx"
-        "../ivp/ivp_utility/ivu_active_value_hash.hxx"
-        "../ivp/ivp_utility/ivu_bigvector.hxx"
-        "../ivp/ivp_utility/ivu_diff_hash.hxx"
-        "../ivp/ivp_utility/ivu_float.hxx"
-        "../ivp/ivp_utility/ivu_fvector.hxx"
-        "../ivp/ivp_utility/ivu_geometry.hxx"
-        "../ivp/ivp_utility/ivu_hash.hxx"
-        "../ivp/ivp_utility/ivu_linear.hxx"
-        "../ivp/ivp_utility/ivu_linear_double.hxx"
-        "../ivp/ivp_utility/ivu_linear_macros.hxx"
-        "../ivp/ivp_utility/ivu_linear_PIII.hxx"
-        "../ivp/ivp_utility/ivu_linear_ps2.hxx"
-        "../ivp/ivp_utility/ivu_linear_software.hxx"
-        "../ivp/ivp_utility/ivu_linear_willamette.hxx"
-        "../ivp/ivp_utility/ivu_list.hxx"
-        "../ivp/ivp_utility/ivu_mapping.hxx"
-        "../ivp/ivp_utility/ivu_matrix_macros.hxx"
-        "../ivp/ivp_utility/ivu_memory.hxx"
-        "../ivp/ivp_utility/ivu_min_hash.hxx"
-        "../ivp/ivp_utility/ivu_min_list.hxx"
-        "../ivp/ivp_utility/ivu_ps2.hxx"
-        "../ivp/ivp_utility/ivu_quat.hxx"
-        "../ivp/ivp_utility/ivu_set.hxx"
-        "../ivp/ivp_utility/ivu_string.hxx"
-        "../ivp/ivp_utility/ivu_string_hash.hxx"
-        "../ivp/ivp_utility/ivu_types.hxx"
-        "../ivp/ivp_utility/ivu_vector.hxx"
-        "../ivp/ivp_utility/ivu_vhash.hxx"
-
-        "../ivp/havana/havok/hk_base/base_types.cpp"
-        "../ivp/havana/havok/hk_base/console.cpp"
-        "../ivp/havana/havok/hk_base/array/array.cpp"
-        "../ivp/havana/havok/hk_base/hash/hash.cpp"
-        "../ivp/havana/havok/hk_base/id_server/id_server.cpp"
-        "../ivp/havana/havok/hk_base/memory/memory.cpp"
-        "../ivp/havana/havok/hk_base/memory/memory_util.cpp"
-        "../ivp/havana/havok/hk_base/stopwatch/stopwatch.cpp"
-        "../ivp/havana/havok/hk_base/string/string.cpp"
-
-        "../ivp/havana/havok/hk_math/densematrix.cpp"
-        "../ivp/havana/havok/hk_math/densematrix_util.cpp"
-        "../ivp/havana/havok/hk_math/eulerangles.cpp"
-        "../ivp/havana/havok/hk_math/math.cpp"
-        "../ivp/havana/havok/hk_math/matrix3.cpp"
-        "../ivp/havana/havok/hk_math/odesolve.cpp"
-        "../ivp/havana/havok/hk_math/plane.cpp"
-        "../ivp/havana/havok/hk_math/rotation.cpp"
-        "../ivp/havana/havok/hk_math/spatial_matrix.cpp"
-        "../ivp/havana/havok/hk_math/spatial_vector.cpp"
-        "../ivp/havana/havok/hk_math/transform.cpp"
-        "../ivp/havana/havok/hk_math/gauss_elimination/gauss_elimination.cpp"
-        "../ivp/havana/havok/hk_math/incr_lu/incr_lu.cpp"
-        "../ivp/havana/havok/hk_math/lcp/lcp_solver.cpp"
-        "../ivp/havana/havok/hk_math/quaternion/quaternion.cpp"
-        "../ivp/havana/havok/hk_math/quaternion/quaternion_util.cpp"
-        "../ivp/havana/havok/hk_math/vector3/vector3.cpp"
-        "../ivp/havana/havok/hk_math/vector3/vector3_util.cpp"
-
-        "../ivp/havana/havok/hk_physics/constraint/constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/ball_socket/ball_socket_constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/breakable_constraint/breakable_constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/fixed/fixed_constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/hinge/hinge_bp_builder.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/hinge/hinge_constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/limited_ball_socket/limited_ball_socket_constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/local_constraint_system/local_constraint_system.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/prismatic/prismatic_constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/pulley/pulley_constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/ragdoll/ragdoll_constraint.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/ragdoll/ragdoll_constraint_bp_builder.cpp"
-        "../ivp/havana/havok/hk_physics/constraint/stiff_spring/stiff_spring_constraint.cpp"
-        "../ivp/ivp_physics/hk_physics/core/rigid_body_core.cpp"
-        "../ivp/ivp_physics/hk_physics/effector/rigid_body_binary_effector.cpp"
-
-        "../ivp/ivp_compact_builder/3dsimport_co.cxx"
-        "../ivp/ivp_compact_builder/ivp_compact_ledge_gen.cxx"
-        "../ivp/ivp_compact_builder/ivp_compact_modify.cxx"
-        "../ivp/ivp_compact_builder/ivp_compact_recursive.cxx"
-        "../ivp/ivp_compact_builder/ivp_convex_decompositor.cxx"
-        "../ivp/ivp_compact_builder/ivp_halfspacesoup.cxx"
-        "../ivp/ivp_compact_builder/ivp_i_fpoint_vhash.cxx"
-        "../ivp/ivp_compact_builder/ivp_i_point_vhash.cxx"
-        "../ivp/ivp_compact_builder/ivp_object_polygon_tetra.cxx"
-        "../ivp/ivp_compact_builder/ivp_rot_inertia_solver.cxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_halfspacesoup.cxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_ledge_soup.cxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_pointsoup.cxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_polygon_convex.cxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_polyhdrn_cncv.cxx"
-        "../ivp/ivp_compact_builder/ivp_surbuild_q12.cxx"
-        "../ivp/ivp_compact_builder/ivp_templates_intern.cxx"
-        "../ivp/ivp_compact_builder/ivp_tetra_intrude.cxx"
-        "../ivp/ivp_compact_builder/ivv_cluster_min_hash.cxx"
-        "../ivp/ivp_compact_builder/geompack_cutfac.cxx"
-        "../ivp/ivp_compact_builder/geompack_cvdec3.cxx"
-        "../ivp/ivp_compact_builder/geompack_drdec3.cxx"
-        "../ivp/ivp_compact_builder/geompack_dsphdc.cxx"
-        "../ivp/ivp_compact_builder/geompack_edght.cxx"
-        "../ivp/ivp_compact_builder/geompack_initcb.cxx"
-        "../ivp/ivp_compact_builder/geompack_insed3.cxx"
-        "../ivp/ivp_compact_builder/geompack_insfac.cxx"
-        "../ivp/ivp_compact_builder/geompack_insvr3.cxx"
-        "../ivp/ivp_compact_builder/geompack_prime.cxx"
-        "../ivp/ivp_compact_builder/geompack_ptpolg.cxx"
-        "../ivp/ivp_compact_builder/geompack_resedg.cxx"
-        "../ivp/ivp_compact_builder/qhull.cxx"
-        "../ivp/ivp_compact_builder/qhull_geom.cxx"
-        "../ivp/ivp_compact_builder/qhull_geom2.cxx"
-        "../ivp/ivp_compact_builder/qhull_global.cxx"
-        "../ivp/ivp_compact_builder/qhull_io.cxx"
-        "../ivp/ivp_compact_builder/qhull_mem.cxx"
-        "../ivp/ivp_compact_builder/qhull_merge.cxx"
-        "../ivp/ivp_compact_builder/qhull_poly.cxx"
-        "../ivp/ivp_compact_builder/qhull_poly2.cxx"
-        "../ivp/ivp_compact_builder/qhull_qset.cxx"
-        "../ivp/ivp_compact_builder/qhull_stat.cxx"
-        "../ivp/ivp_compact_builder/qhull_user.cxx"
-
-        "../ivp/ivp_collision/ivp_3d_solver.cxx"
-        "../ivp/ivp_collision/ivp_clustering_longrange.cxx"
-        "../ivp/ivp_collision/ivp_clustering_lrange_hash.cxx"
-        "../ivp/ivp_collision/ivp_clustering_visual_hash.cxx"
-        "../ivp/ivp_collision/ivp_clustering_visualizer.cxx"
-        "../ivp/ivp_collision/ivp_coll_del_root_mindist.cxx"
-        "../ivp/ivp_collision/ivp_collision_filter.cxx"
-        "../ivp/ivp_collision/ivp_compact_ledge.cxx"
-        "../ivp/ivp_collision/ivp_compact_ledge_solver.cxx"
-        "../ivp/ivp_collision/ivp_i_collision_vhash.cxx"
-        "../ivp/ivp_collision/ivp_mindist.cxx"
-        "../ivp/ivp_collision/ivp_mindist_debug.cxx"
-        "../ivp/ivp_collision/ivp_mindist_event.cxx"
-        "../ivp/ivp_collision/ivp_mindist_mcases.cxx"
-        "../ivp/ivp_collision/ivp_mindist_minimize.cxx"
-        "../ivp/ivp_collision/ivp_mindist_recursive.cxx"
-        "../ivp/ivp_collision/ivp_oo_watcher.cxx"
-        "../ivp/ivp_collision/ivp_range_manager.cxx"
-        "../ivp/ivp_collision/ivp_ray_solver.cxx"
-        "../ivp/ivp_controller/ivp_actuator.cxx"
-        "../ivp/ivp_controller/ivp_actuator_spring.cxx"
-        "../ivp/ivp_controller/ivp_buoyancy_solver.cxx"
-        "../ivp/ivp_controller/ivp_car_system.cxx"
-        "../ivp/ivp_controller/ivp_constraint.cxx"
-        "../ivp/ivp_controller/ivp_constraint_car.cxx"
-        "../ivp/ivp_controller/ivp_constraint_fixed_keyed.cxx"
-        "../ivp/ivp_controller/ivp_constraint_local.cxx"
-        "../ivp/ivp_controller/ivp_controller_airboat.cpp"
-        "../ivp/ivp_controller/ivp_controller_buoyancy.cxx"
-        "../ivp/ivp_controller/ivp_controller_floating.cxx"
-        "../ivp/ivp_controller/ivp_controller_motion.cxx"
-        "../ivp/ivp_controller/ivp_controller_raycast_car.cxx"
-        "../ivp/ivp_controller/ivp_controller_stiff_spring.cxx"
-        "../ivp/ivp_controller/ivp_controller_world_frict.cxx"
-        "../ivp/ivp_controller/ivp_forcefield.cxx"
-        "../ivp/ivp_controller/ivp_multidimensional_interp.cxx"
-        "../ivp/ivp_controller/ivp_template_constraint.cxx"
-        "../ivp/ivp_intern/ivp_ball.cxx"
-        "../ivp/ivp_intern/ivp_calc_next_psi_solver.cxx"
-        "../ivp/ivp_intern/ivp_controller_phantom.cxx"
-        "../ivp/ivp_intern/ivp_core.cxx"
-        "../ivp/ivp_intern/ivp_environment.cxx"
-        "../ivp/ivp_intern/ivp_friction.cxx"
-        "../ivp/ivp_intern/ivp_friction_gaps.cxx"
-        "../ivp/ivp_intern/ivp_great_matrix.cxx"
-        "../ivp/ivp_intern/ivp_hull_manager.cxx"
-        "../ivp/ivp_intern/ivp_i_friction_hash.cxx"
-        "../ivp/ivp_intern/ivp_i_object_vhash.cxx"
-        "../ivp/ivp_intern/ivp_impact.cxx"
-        "../ivp/ivp_intern/ivp_merge_core.cxx"
-        "../ivp/ivp_intern/ivp_mindist_friction.cxx"
-        "../ivp/ivp_intern/ivp_object.cxx"
-        "../ivp/ivp_intern/ivp_object_attach.cxx"
-        "../ivp/ivp_intern/ivp_physic.cxx"
-        "../ivp/ivp_intern/ivp_physic_private.cxx"
-        "../ivp/ivp_intern/ivp_polygon.cxx"
-        "../ivp/ivp_intern/ivp_sim_unit.cxx"
-        "../ivp/ivp_intern/ivp_solver_core_reaction.cxx"
-        "../ivp/ivp_intern/ivp_time.cxx"
-        "../ivp/ivp_physics/ivp_anomaly_manager.cxx"
-        "../ivp/ivp_physics/ivp_betterdebugmanager.cxx"
-        "../ivp/ivp_physics/ivp_betterstatisticsmanager.cxx"
-        "../ivp/ivp_physics/ivp_cache_object.cxx"
-        "../ivp/ivp_physics/ivp_liquid_surface_descript.cxx"
-        "../ivp/ivp_physics/ivp_material.cxx"
-        "../ivp/ivp_physics/ivp_performancecounter.cxx"
-        "../ivp/ivp_physics/ivp_stat_manager_cback_con.cxx"
-        "../ivp/ivp_physics/ivp_surface_manager.cxx"
-        "../ivp/ivp_physics/ivp_templates.cxx"
-        "../ivp/ivp_surface_manager/ivp_compact_surface.cxx"
-        "../ivp/ivp_surface_manager/ivp_gridbuild_array.cxx"
-        "../ivp/ivp_surface_manager/ivp_surman_grid.cxx"
-        "../ivp/ivp_surface_manager/ivp_surman_polygon.cxx"
-        "../ivp/ivp_utility/ivu_active_value.cxx"
-        "../ivp/ivp_utility/ivu_bigvector.cxx"
-        "../ivp/ivp_utility/ivu_geometry.cxx"
-        "../ivp/ivp_utility/ivu_hash.cxx"
-        "../ivp/ivp_utility/ivu_linear.cxx"
-        "../ivp/ivp_utility/ivu_memory.cxx"
-        "../ivp/ivp_utility/ivu_min_hash.cxx"
-        "../ivp/ivp_utility/ivu_min_list.cxx"
-        "../ivp/ivp_utility/ivu_os_dep.cxx"
-        "../ivp/ivp_utility/ivu_quat.cxx"
-        "../ivp/ivp_utility/ivu_string.cxx"
-        "../ivp/ivp_utility/ivu_types.cxx"
-        "../ivp/ivp_utility/ivu_vector.cxx"
-        "../ivp/ivp_utility/ivu_vhash.cxx"
-        )
-source_group("IVP Source Files" FILES ${ivp_src})
-
-
-
 set(Audio
         "../components/audio/audio_pch.cpp"
         "../components/audio/private/circularbuffer.cpp"
@@ -878,7 +463,7 @@ set(Public_Headers
         "../../common/ivprofexport.h"
         "../../common/qlimits.h"
         "../../common/steamcommon.h"
-        "../../thirdparty/dxsdk/include/dinput.h"
+        "../../../thirdparty/dxsdk/include/dinput.h"
         "../../public/appframework/IAppSystem.h"
         "../../public/basehandle.h"
         "../../public/bitvec.h"
@@ -1261,7 +846,6 @@ set(Source_Files
         "world.cpp"
         "xboxsystem.cpp"
         "zone.cpp"
-        "../../../common/imageutils.cpp"
         )
 source_group("Source Files" FILES ${Source_Files})
 
@@ -1532,7 +1116,6 @@ set(VGUI2__FILES
 
 
 set(Input_Public_Headers
-        "../../thirdparty/dxsdk/include/XInput.h"
         "../../public/inputsystem/AnalogCode.h"
         "../../public/inputsystem/ButtonCode.h"
         "../../public/inputsystem/iinputsystem.h"
@@ -1553,94 +1136,17 @@ set(Input_Source_Files
         )
 source_group("Input Source Files" FILES ${Input_Source_Files})
 
-set(SoundMitter_Source_Files
-        "../../public/SoundParametersInternal.cpp"
-        "../components/soundemittersystem/soundemittersystembase.cpp"
-        )
-source_group("SoundMitter Source Files" FILES ${SoundMitter_Source_Files})
-
-set(FileSystem_Source_Files
-        "../../../common/crypto.cpp"
-        "../../../common/debug_dll_check.cpp"
-        "../../../public/kevvaluescompiler.cpp"
-        "../../../public/tier0/memoverride.cpp"
-        "../../../public/zip_utils.cpp"
-        "../components/filesystem/basefilesystem.cpp"
-        "../components/filesystem/filesystem_async.cpp"
-        "../components/filesystem/filesystem_stdio.cpp"
-        "../components/filesystem/filetracker.cpp"
-        "../components/filesystem/packfile.cpp"
-        "../components/filesystem/QueuedLoader.cpp"
-        )
-source_group("FileSystem Source Files" FILES ${FileSystem_Source_Files})
-
-set(Replay_Source_Files
-        "../../../common/netmessages.cpp"
-        "../components/replay/baserecordingsession.cpp"
-        "../components/replay/baserecordingsessionblock.cpp"
-        "../components/replay/baserecordingsessionblockmanager.cpp"
-        "../components/replay/baserecordingsessionmanager.cpp"
-        "../components/replay/basethinker.cpp"
-        "../components/replay/cl_commands.cpp"
-        "../components/replay/cl_cvars.cpp"
-        "../components/replay/cl_downloader.cpp"
-        "../components/replay/cl_performancecontroller.cpp"
-        "../components/replay/cl_performancemanager.cpp"
-        "../components/replay/cl_recordingsession.cpp"
-        "../components/replay/cl_recordingsessionblock.cpp"
-        "../components/replay/cl_recordingsessionblockmanager.cpp"
-        "../components/replay/cl_recordingsessionmanager.cpp"
-        "../components/replay/cl_renderqueue.cpp"
-        "../components/replay/cl_replaycontext.cpp"
-        "../components/replay/cl_replaymanager.cpp"
-        "../components/replay/cl_replaymovie.cpp"
-        "../components/replay/cl_replaymoviemanager.cpp"
-        "../components/replay/cl_screenshotmanager.cpp"
-        "../components/replay/cl_sessionblockdownloader.cpp"
-        "../components/replay/cl_sessioninfodownloader.cpp"
-        "../components/replay/compression.cpp"
-        "../components/replay/errorsystem.cpp"
-        "../components/replay/managertest.cpp"
-        "../components/replay/replay_dbg.cpp"
-        "../components/replay/replay_reconstructor.cpp"
-        "../components/replay/replaysystem.cpp"
-        "../components/replay/sessioninfoheader.cpp"
-        "../components/replay/shared_cvars.cpp"
-        "../components/replay/shared_replaycontext.cpp"
-        "../components/replay/spew.cpp"
-        "../components/replay/sv_basejob.cpp"
-        "../components/replay/sv_commands.cpp"
-        "../components/replay/sv_cvars.cpp"
-        "../components/replay/sv_filepublish.cpp"
-        "../components/replay/sv_fileservercleanup.cpp"
-        "../components/replay/sv_publishtest.cpp"
-        "../components/replay/sv_recordingsession.cpp"
-        "../components/replay/sv_recordingsessionblock.cpp"
-        "../components/replay/sv_recordingsessionblockmanager.cpp"
-        "../components/replay/sv_recordingsessionmanager.cpp"
-        "../components/replay/sv_replaycontext.cpp"
-        "../components/replay/sv_sessionblockpublisher.cpp"
-        "../components/replay/sv_sessioninfopublisher.cpp"
-        "../components/replay/sv_sessionpublishmanager.cpp"
-        "../components/replay/sv_sessionrecorder.cpp"
-        "../components/replay/thinkmanager.cpp"
-        )
-source_group("Replay Source Files" FILES ${Replay_Source_Files})
-
 
 set(ALL_FILES
         ${Audio}
         ${Audio__Header_Files}
         ${Input_Public_Headers}
         ${Input_Source_Files}
-        ${SoundMitter_Source_Files}
-        ${FileSystem_Source_Files}
-        ${Replay_Source_Files}
-        ${ivp_src}
         ${rebuiltin}
         ${rebuiltin_components}
         ${Client}
         ${Header_Files}
+        ${Link_Libraries}
         ${Public_Headers}
         ${Resource_Files}
         ${Server}
@@ -1671,8 +1177,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -1696,22 +1202,22 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/SDL2;"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
         "${CMAKE_CURRENT_SOURCE_DIR}/.;"
         "${CMAKE_CURRENT_SOURCE_DIR}/..;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../components;"
         "${CMAKE_CURRENT_SOURCE_DIR}/audio;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../components/audio/private;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../components/audio/public;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../rebuiltin;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../vgui2/controls;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/dxsdk/include;"
+        "${MYROOTDIR}/engine/components;"
+        "${MYROOTDIR}/engine/components/audio/private;"
+        "${MYROOTDIR}/engine/components/audio/public;"
+        "${MYROOTDIR}/engine/rebuiltin;"
+        "${MYROOTDIR}/vgui2/include;"
+        "${MYROOTDIR}/vgui2/controls;"
+        "${MYROOTDIR}/../thirdparty/dxsdk/include;"
 
         "${MYROOTDIR}/engine/ivp/ivp_intern;"
         "${MYROOTDIR}/engine/ivp/ivp_collision;"
@@ -1756,11 +1262,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "_ADD_EAX_;"
         "VERSION_SAFE_STEAM_API_INTERFACES;"
         "USE_BREAKPAD_HANDLER;"
-        "REPLAY_DLL;"
-        "REPLAY_ENABLED;"
-        "CURL_STATICLIB;"
         "NEW_DXSDK;"
-        "IVP_VERSION_SDK;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS;"
@@ -1769,12 +1271,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "VGUIMATSURFACE_DLL_EXPORT;"
         "GAMEUI_EXPORTS;"
         "VPHYSICS_EXPORTS;"
-        "STUDIORENDER_EXPORTS;"
-        "SOUNDEMITTERSYSTEM_EXPORTS;"
-        "SOUNDSYSTEM_EXPORTS;"
-        "FILESYSTEM_STDIO_EXPORTS;"
         "HAVANA_CONSTRAINTS;"
-        "SUPPORT_PACKED_STORE;"
         "HAVOK_MOPP"
         )
 
@@ -1816,18 +1313,9 @@ if (MSVC)
             /GS;
             /Zc:forScope
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/EHa;/Y-"
-            )
-    source_file_compile_options(sys_dll2.cpp ${FILE_CL_OPTIONS})
+
+
+
     target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -1870,14 +1358,15 @@ add_dependencies(${PROJECT_NAME}
         replay_common
         tier0
         tier1
+        tier2
+        tier3
         vgui_controls
         vgui_surfacelib
         vstdlib
         vtf
+        ivp
         zlib
         lzma
-        vpklib
-        cryptlib
         )
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
@@ -1890,15 +1379,16 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         replay_common
         tier0
         tier1
+        tier2
+        tier3
         vgui_controls
         vgui_surfacelib
         vstdlib
         vtf
+        ivp
         zlib
         Jpeglib
         lzma
-        vpklib
-        cryptlib
 
         steam_api
 
@@ -1927,8 +1417,8 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../lib/common;"
+        "${MYROOTDIR}/lib/common;"
 
-        "${CMAKE_CURRENT_SOURCE_DIR}/../dx9sdk/lib/x86"
+        "${MYROOTDIR}/dx9sdk/lib/x86"
         )
 

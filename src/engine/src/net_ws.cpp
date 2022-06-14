@@ -8,7 +8,7 @@
 // net_ws.c
 // Windows IP Support layer.
 
-#include "tier0/etwprof.h"
+
 #include "tier0/vprof.h"
 #include "net_ws_headers.h"
 #include "net_ws_queued_packet_sender.h"
@@ -2208,7 +2208,6 @@ NET_SendLong(INetChannel *chan, int sock, SOCKET s, const char FAR *buf, int len
 int NET_SendPacket(INetChannel *chan, int sock, const netadr_t &to, const unsigned char *data, int length,
                    bf_write *pVoicePayload /* = NULL */, bool bUseCompression /*=false*/ ) {
     VPROF_BUDGET("NET_SendPacket", VPROF_BUDGETGROUP_OTHER_NETWORKING);
-    ETWSendPacket(to.ToString(), length, 0, 0);
 
     int ret;
     struct sockaddr addr;

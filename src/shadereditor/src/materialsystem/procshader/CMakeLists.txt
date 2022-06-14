@@ -4,7 +4,6 @@ set(PROJECT_NAME game_shader_dx6)
 # Source groups
 ################################################################################
 set(Source_Files
-    "../../../../public/tier0/memoverride.cpp"
     "../ivprocshader.cpp"
     "../ivprocshader.h"
     "../procshaderinterface.cpp"
@@ -38,8 +37,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../game/lambdamod/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/lambdamod/bin"
+        OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../../../game/lambdamod/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/lambdamod/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY         "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -67,9 +66,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/fxctmp9;"
     "${CMAKE_CURRENT_SOURCE_DIR}/vshtmp9;"
     "${CMAKE_CURRENT_SOURCE_DIR}/..;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../public;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../public/tier0;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../public/tier1"
+    "${MYROOTDIR}/public;"
+    "${MYROOTDIR}/public/tier0;"
+    "${MYROOTDIR}/public/tier1"
 )
 
 ################################################################################
@@ -77,7 +76,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     "$<$<CONFIG:Debug>:"
-        "_HAS_ITERATOR_DEBUGGING=0;"
         "_DEBUG;"
         "DEBUG"
     ">"
@@ -99,7 +97,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "SHADER_EDITOR_DLL;"
     "SHADER_EDITOR_DLL_SER;"
     "PROCSHADER_DLL;"
-    "VPCGAMECAPS=VALVE;"
     "SOURCE1=1;"
     "_MBCS"
 )
@@ -133,10 +130,7 @@ if(MSVC)
         /Zc:forScope;
         /Y-
     )
-    string(CONCAT FILE_CL_OPTIONS
-        "/Y-"
-    )
-    source_file_compile_options(../../../../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
+
     target_link_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -170,6 +164,7 @@ add_dependencies(${PROJECT_NAME}
         shaderlib
         tier0
         tier1
+        tier2
         vstdlib
         vtf
         )
@@ -180,6 +175,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         shaderlib
         tier0
         tier1
+        tier2
         vstdlib
         vtf
 
@@ -200,7 +196,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${MYROOTDIR}/thirdparty/dxsdk/lib;"
+        "${MYROOTDIR}/../thirdparty/dxsdk/lib;"
         "${MYROOTDIR}/lib/common;"
         "${MYROOTDIR}/lib/public"
         )

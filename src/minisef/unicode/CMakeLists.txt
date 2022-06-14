@@ -31,8 +31,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -56,11 +56,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1"
         )
 
 ################################################################################
@@ -88,7 +88,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
         "UNICODE_EXPORTS;"
-        "VPCGAMECAPS=VANCE;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"
@@ -132,14 +131,8 @@ if (MSVC)
             /GS;
             /Zc:forScope
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
+
+
     target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -174,12 +167,16 @@ endif ()
 add_dependencies(${PROJECT_NAME}
         tier0
         tier1
+        tier2
+        tier3
         vstdlib
         )
 
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
         tier0
         tier1
+        tier2
+        tier3
         vstdlib
 
         "$<$<CONFIG:Release>:"

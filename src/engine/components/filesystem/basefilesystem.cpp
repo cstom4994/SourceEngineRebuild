@@ -343,6 +343,9 @@ CBaseFileSystem::CBaseFileSystem()
     }
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 CBaseFileSystem::~CBaseFileSystem() {
     m_PathIDInfos.PurgeAndDeleteElements();
 #if defined( TRACK_BLOCKING_IO )
@@ -653,6 +656,9 @@ void CBaseFileSystem::Trace_FWrite(int size, FILE *fp) {
     }
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::Trace_DumpUnclosedFiles(void) {
     /*
 	AUTO_LOCK( m_OpenedFilesMutex );
@@ -674,6 +680,9 @@ void CBaseFileSystem::Trace_DumpUnclosedFiles(void) {
 	*/
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::PrintOpenedFiles(void) {
     FileWarningLevel_t saveLevel = m_fwLevel;
     m_fwLevel = FILESYSTEM_WARNING_REPORTUNCLOSED;
@@ -983,6 +992,9 @@ void CBaseFileSystem::RemoveAllMapSearchPaths(void) {
     }
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::AddMapPackFile(const char *pPath, const char *pPathID, SearchPathAdd_t addType) {
     char tempPathID[MAX_PATH];
     ParsePathID(pPath, pPathID, tempPathID);
@@ -1494,6 +1506,9 @@ void CBaseFileSystem::RemoveSearchPaths(const char *pathID) {
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 CBaseFileSystem::CSearchPath *CBaseFileSystem::FindWritePath(const char *pFilename, const char *pathID) {
     CUtlSymbol lookup = g_PathIDTable.AddString(pathID);
 
@@ -1852,6 +1867,9 @@ bool CBaseFileSystem::UnzipFile(const char *pFileName, const char *pPath, const 
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::RemoveAllSearchPaths(void) {
     AUTO_LOCK(m_SearchPathsMutex);
     m_SearchPaths.Purge();
@@ -2087,6 +2105,9 @@ FileHandle_t CBaseFileSystem::FindFileInSearchPath(CFileOpenInfo &openInfo) {
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 FileHandle_t
 CBaseFileSystem::OpenForRead(const char *pFileNameT, const char *pOptions, unsigned flags, const char *pathID,
                              char **ppszResolvedFilename) {
@@ -2244,6 +2265,9 @@ CBaseFileSystem::OpenForRead(const char *pFileNameT, const char *pOptions, unsig
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 FileHandle_t CBaseFileSystem::OpenForWrite(const char *pFileName, const char *pOptions, const char *pathID) {
     char tempPathID[MAX_PATH];
     ParsePathID(pFileName, pathID, tempPathID);
@@ -2324,10 +2348,16 @@ void CBaseFileSystem::ParsePathID(const char *&pFilename, const char *&pPathID, 
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 FileHandle_t CBaseFileSystem::Open(const char *pFileName, const char *pOptions, const char *pathID) {
     return OpenEx(pFileName, pOptions, 0, pathID);
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 FileHandle_t CBaseFileSystem::OpenEx(const char *pFileName, const char *pOptions, unsigned flags, const char *pathID,
                                      char **ppszResolvedFilename) {
     tmZone(TELEMETRY_LEVEL0, TMZF_NONE, "%s(%s, %s, %u %s )", __FUNCTION__,
@@ -2360,6 +2390,9 @@ FileHandle_t CBaseFileSystem::OpenEx(const char *pFileName, const char *pOptions
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::Close(FileHandle_t file) {
     VPROF_BUDGET("CBaseFileSystem::Close", VPROF_BUDGETGROUP_OTHER_FILESYSTEM);
     if (!file) {
@@ -2370,6 +2403,9 @@ void CBaseFileSystem::Close(FileHandle_t file) {
     delete (CFileHandle *) file;
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::Seek(FileHandle_t file, int pos, FileSystemSeek_t whence) {
     tmZone(TELEMETRY_LEVEL0, TMZF_NONE, "%s (pos=%d, whence=%d)", __FUNCTION__, pos, whence);
 
@@ -2495,6 +2531,9 @@ long CBaseFileSystem::FastFileTime(const CSearchPath *path, const char *pFileNam
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 bool CBaseFileSystem::EndOfFile(FileHandle_t file) {
     if (!file) {
         Warning(FILESYSTEM_WARNING, "FS:  Tried to EndOfFile NULL file handle!\n");
@@ -2504,10 +2543,16 @@ bool CBaseFileSystem::EndOfFile(FileHandle_t file) {
     return ((CFileHandle *) file)->EndOfFile();
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 int CBaseFileSystem::Read(void *pOutput, int size, FileHandle_t file) {
     return ReadEx(pOutput, size, size, file);
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 int CBaseFileSystem::ReadEx(void *pOutput, int destSize, int size, FileHandle_t file) {
     tmZone(TELEMETRY_LEVEL0, TMZF_NONE, "%s (%d bytes)", __FUNCTION__, size);
 
@@ -2693,6 +2738,9 @@ CBaseFileSystem::ExtractRootKeyName(KeyValuesPreloadType_t type, char *outbuf, s
     return bret;
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::SetupPreloadData() {
     int i;
 
@@ -2724,6 +2772,9 @@ void CBaseFileSystem::SetupPreloadData() {
 #endif
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::DiscardPreloadData() {
     int i;
     for (i = 0; i < m_SearchPaths.Count(); i++) {
@@ -2736,6 +2787,9 @@ void CBaseFileSystem::DiscardPreloadData() {
     UnloadCompiledKeyValues();
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 int CBaseFileSystem::Write(void const *pInput, int size, FileHandle_t file) {
     VPROF_BUDGET("CBaseFileSystem::Write", VPROF_BUDGETGROUP_OTHER_FILESYSTEM);
 
@@ -2750,6 +2804,9 @@ int CBaseFileSystem::Write(void const *pInput, int size, FileHandle_t file) {
 
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 int CBaseFileSystem::FPrintf(FileHandle_t file, const char *pFormat, ...) {
     va_list args;
             va_start(args, pFormat);VPROF_BUDGET("CBaseFileSystem::FPrintf", VPROF_BUDGETGROUP_OTHER_FILESYSTEM);
@@ -2777,6 +2834,9 @@ int CBaseFileSystem::FPrintf(FileHandle_t file, const char *pFormat, ...) {
     return len;
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::SetBufferSize(FileHandle_t file, unsigned nBytes) {
     CFileHandle *fh = (CFileHandle *) file;
     if (!fh) {
@@ -2786,6 +2846,9 @@ void CBaseFileSystem::SetBufferSize(FileHandle_t file, unsigned nBytes) {
     fh->SetBufferSize(nBytes);
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 bool CBaseFileSystem::IsOk(FileHandle_t file) {
     CFileHandle *fh = (CFileHandle *) file;
     if (!fh) {
@@ -2796,6 +2859,9 @@ bool CBaseFileSystem::IsOk(FileHandle_t file) {
     return fh->IsOK();
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::Flush(FileHandle_t file) {
     VPROF_BUDGET("CBaseFileSystem::Flush", VPROF_BUDGETGROUP_OTHER_FILESYSTEM);
     CFileHandle *fh = (CFileHandle *) file;
@@ -2833,6 +2899,9 @@ bool CBaseFileSystem::Precache(const char *pFileName, const char *pPathID) {
     return true;
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 char *CBaseFileSystem::ReadLine(char *pOutput, int maxChars, FileHandle_t file) {
     VPROF_BUDGET("CBaseFileSystem::ReadLine", VPROF_BUDGETGROUP_OTHER_FILESYSTEM);
     CFileHandle *fh = (CFileHandle *) file;
@@ -4213,11 +4282,17 @@ void CBaseFileSystem::Warning(FileWarningLevel_t level, const char *fmt, ...) {
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 CBaseFileSystem::COpenedFile::COpenedFile(void) {
     m_pFile = NULL;
     m_pName = NULL;
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 CBaseFileSystem::COpenedFile::~COpenedFile(void) {
     delete[] m_pName;
 }
@@ -4266,6 +4341,9 @@ char const *CBaseFileSystem::COpenedFile::GetName(void) {
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 CBaseFileSystem::CSearchPath::CSearchPath(void) {
     m_Path = g_PathIDTable.AddString("");
     m_pDebugPath = "";
@@ -4294,6 +4372,9 @@ bool CBaseFileSystem::CSearchPath::IsMapPath() const {
     return GetPackFile()->m_bIsMapPath;
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 CBaseFileSystem::CSearchPath::~CSearchPath(void) {
     if (m_pPackFile) {
         m_pPackFile->Release();
@@ -4303,6 +4384,9 @@ CBaseFileSystem::CSearchPath::~CSearchPath(void) {
     }
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 CBaseFileSystem::CSearchPath *CBaseFileSystem::CSearchPathsIterator::GetFirst() {
     if (m_SearchPaths.Count()) {
         m_visits.Reset();
@@ -4313,6 +4397,9 @@ CBaseFileSystem::CSearchPath *CBaseFileSystem::CSearchPathsIterator::GetFirst() 
 }
 
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 CBaseFileSystem::CSearchPath *CBaseFileSystem::CSearchPathsIterator::GetNext() {
     CSearchPath *pSearchPath = NULL;
 
@@ -4414,6 +4501,9 @@ CSysModule *CBaseFileSystem::LoadModule(const char *pFileName, const char *pPath
     return Sys_LoadModule(pFileName);
 }
 
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
 void CBaseFileSystem::UnloadModule(CSysModule *pModule) {
     Sys_UnloadModule(pModule);
 }

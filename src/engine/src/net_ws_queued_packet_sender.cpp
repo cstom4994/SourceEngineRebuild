@@ -10,7 +10,7 @@
 #include "tier1/utlvector.h"
 #include "tier1/utlpriorityqueue.h"
 
-#include "tier0/etwprof.h"
+
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -223,7 +223,7 @@ int CQueuedPacketSender::Run()
 					waitInterval = pPacket->m_unSendTime - msNow;
 					// Emit ETW events to help with diagnosing network throttling issues as
 					// these often have a severe effect on load times in Dota.
-					ETWMark1I( "CQueuedPacketSender::Run sleeping (ms)", waitInterval );
+
 					if ( bTrace )
 					{
 						Warning( "SQ:  sleeping for %u msecs at %f\n", waitInterval, Plat_FloatTime() );

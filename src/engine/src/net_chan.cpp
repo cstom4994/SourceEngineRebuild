@@ -4,7 +4,7 @@
 //
 //=============================================================================//
 
-#include "../thirdparty/bzip2/bzlib.h"
+#include "../../thirdparty/bzip2/bzlib.h"
 #include "net_chan.h"
 #include "tier1/strtools.h"
 #include "filesystem_engine.h"
@@ -16,7 +16,7 @@
 #include "host.h"
 #include "netmessages.h"
 #include "tier0/vcrmode.h"
-#include "tier0/etwprof.h"
+
 #include "tier0/vprof.h"
 #include "net_ws_headers.h"
 #include "net_ws_queued_packet_sender.h"
@@ -2143,7 +2143,6 @@ int CNetChan::ProcessPacketHeader(netpacket_t *packet) {
 
     m_nInSequenceNr = sequence;
     m_nOutSequenceNrAck = sequence_ack;
-    ETWReadPacket(packet->from.ToString(), packet->wiresize, m_nInSequenceNr, m_nOutSequenceNr);
 
 // Update waiting list status
 

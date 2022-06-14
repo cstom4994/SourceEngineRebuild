@@ -204,13 +204,13 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
+    "${MYROOTDIR}/common;"
+    "${MYROOTDIR}/public;"
+    "${MYROOTDIR}/public/tier0;"
+    "${MYROOTDIR}/public/tier1;"
     "${CMAKE_CURRENT_SOURCE_DIR}/fxctmp9;"
     "${CMAKE_CURRENT_SOURCE_DIR}/vshtmp9;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../dx9sdk/include"
+    "${MYROOTDIR}/dx9sdk/include"
 )
 
 ################################################################################
@@ -316,7 +316,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public"
+    "${MYROOTDIR}/lib/common;"
+    "${MYROOTDIR}/lib/public"
 )
 

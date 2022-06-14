@@ -10,7 +10,7 @@ set(Header_Files
         "../../public/bitmap/psd.h"
         "../../public/bitmap/tgaloader.h"
         "../../public/bitmap/tgawriter.h"
-        "../../thirdparty/stb/stb_dxt.h"
+        "../../../thirdparty/stb/stb_dxt.h"
         )
 source_group("Header Files" FILES ${Header_Files})
 
@@ -55,8 +55,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 ################################################################################
 # MSVC runtime library
@@ -77,13 +77,13 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/dxsdk/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/stb"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/../thirdparty/dxsdk/include;"
+        "${MYROOTDIR}/../thirdparty/stb"
         )
 
 ################################################################################
@@ -110,7 +110,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "WMV_VIDEO;"
         "DEV_BUILD;"
         "FRAME_POINTER_OMISSION_DISABLED;"
-        "VPCGAMECAPS=VANCE;"
         "SOURCE1=1;"
         "FUCK_STEAM;"
         "_MBCS"
@@ -155,12 +154,9 @@ if (MSVC)
             /Zc:forScope;
 
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../common/debug_lib_check.cpp ${FILE_CL_OPTIONS})
+
 endif ()
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../lib/common;"
+        "${MYROOTDIR}/lib/common;"
         )

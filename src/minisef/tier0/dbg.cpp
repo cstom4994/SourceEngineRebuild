@@ -36,7 +36,7 @@
 #include "xbox/xbox_console.h"
 #endif
 
-#include "tier0/etwprof.h"
+
 
 #ifndef STEAM
 #define PvRealloc realloc
@@ -827,7 +827,7 @@ void COM_TimestampedLog(char const *fmt, ...) {
     if (IsPC()) {
         // If ETW profiling is enabled then do it only.
         if (s_bShouldLogToETW) {
-            ETWMark(string);
+            // TODO
         } else {
             if (!s_bFirstWrite) {
                 unlink("timestamped.log");

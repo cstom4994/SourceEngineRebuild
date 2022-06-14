@@ -15,7 +15,6 @@ set(Header_Files
         "../../public/tier0/cpumonitoring.h"
         "../../public/tier0/dbg.h"
         "../../public/tier0/dbgflag.h"
-        "../../public/tier0/etwprof.h"
         "../../public/tier0/EventMasks.h"
         "../../public/tier0/EventModes.h"
         "../../public/tier0/fasttimer.h"
@@ -54,23 +53,15 @@ set(Header_Files
         )
 source_group("Header Files" FILES ${Header_Files})
 
-set(Manifest_Files
-        "valveetwprovider.man"
-        )
-source_group("Manifest Files" FILES ${Manifest_Files})
-
 set(Source_Files
         "../../common/debug_dll_check.cpp"
-        #    "../../minisef/tier1/pathmatch.cpp"
         "assert_dialog.cpp"
         "commandline.cpp"
         "cpu.cpp"
-        #    "cpu_posix.cpp"
         "cpu_usage.cpp"
         "cpumonitoring.cpp"
         "dbg.cpp"
         "dynfunction.cpp"
-        "etwprof.cpp"
         "fasttimer.cpp"
         "mem.cpp"
         "mem_helpers.cpp"
@@ -80,10 +71,7 @@ set(Source_Files
         "minidump.cpp"
         "pch_tier0.cpp"
         "platform.cpp"
-        #    "platform_posix.cpp"
-        #    "pmc360.cpp"
         "pme.cpp"
-        #    "pme_posix.cpp"
         "PMELib.cpp"
         "progressbar.cpp"
         "security.cpp"
@@ -94,7 +82,6 @@ set(Source_Files
         "tier0_strtools.cpp"
         "tslist.cpp"
         "vcrmode.cpp"
-        #    "vcrmode_posix.cpp"
         "vprof.cpp"
         "win32consoleio.cpp"
         )
@@ -103,7 +90,6 @@ source_group("Source Files" FILES ${Source_Files})
 set(ALL_FILES
         ${DESKey}
         ${Header_Files}
-        ${Manifest_Files}
         ${Source_Files}
         )
 
@@ -128,8 +114,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -153,12 +139,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/windowssdk"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/public/windowssdk"
         )
 
 ################################################################################
@@ -229,14 +215,8 @@ if (MSVC)
             /GS;
             /Zc:forScope
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(PMELib.cpp ${FILE_CL_OPTIONS})
+
+
     target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -280,7 +260,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public"
+        "${MYROOTDIR}/lib/common;"
+        "${MYROOTDIR}/lib/public"
         )
 

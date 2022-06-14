@@ -42,7 +42,7 @@ CCLIAppSystemAdapter::~CCLIAppSystemAdapter() {
 bool CCLIAppSystemAdapter::Create() {
     AppSystemInfo_t appSystems[] =
             {
-                    {"engine.dll", FILESYSTEM_INTERFACE_VERSION},
+                    {"filesystem_stdio.dll", FILESYSTEM_INTERFACE_VERSION},
                     {"", ""}    // Required to terminate the list
             };
     return AddSystems(appSystems);

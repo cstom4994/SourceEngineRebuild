@@ -16,7 +16,6 @@
 #include "vprof.h"
 #include <tier1/utlstring.h>
 #include <tier1/utlhashtable.h>
-#include <tier0/etwprof.h>
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -602,7 +601,7 @@ int CNetworkStringTable::WriteUpdate( CBaseClient *client, bf_write &buf, int ti
 		}
 	}
 
-	ETWMark2I( GetTableName(), entriesUpdated, buf.GetNumBitsWritten() - nTableStartBit );
+
 
 	return entriesUpdated;
 }

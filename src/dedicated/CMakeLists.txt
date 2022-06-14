@@ -9,8 +9,8 @@ set(Header_Files
         "../common/IManageServer.h"
         "../common/netapi.h"
         "../common/SteamAppStartup.h"
-        "../engine/components/filesystem/filetracker.h"
-        "../engine/components/filesystem/threadsaferefcountedobject.h"
+        "../filesystem/filetracker.h"
+        "../filesystem/threadsaferefcountedobject.h"
         "../public/appframework/IAppSystem.h"
         "../public/engine_hlds_api.h"
         "../public/filesystem.h"
@@ -76,13 +76,13 @@ set(Source_Files__Console
 source_group("Source Files\\Console" FILES ${Source_Files__Console})
 
 set(Source_Files__FileSystem
-        "../engine/components/filesystem/basefilesystem.cpp"
-        "../engine/components/filesystem/filesystem_async.cpp"
-        "../engine/components/filesystem/filesystem_stdio.cpp"
-        "../engine/components/filesystem/filetracker.cpp"
+        "../filesystem/basefilesystem.cpp"
+        "../filesystem/filesystem_async.cpp"
+        "../filesystem/filesystem_stdio.cpp"
+        "../filesystem/filetracker.cpp"
         #    "../filesystem/linux_support.cpp"
-        "../engine/components/filesystem/packfile.cpp"
-        "../engine/components/filesystem/QueuedLoader.cpp"
+        "../filesystem/packfile.cpp"
+        "../filesystem/QueuedLoader.cpp"
         "../public/zip_utils.cpp"
         )
 source_group("Source Files\\FileSystem" FILES ${Source_Files__FileSystem})
@@ -95,21 +95,7 @@ set(Source_Files__VGUI
         )
 source_group("Source Files\\VGUI" FILES ${Source_Files__VGUI})
 
-set(VPC_Scripts
-        "../vpc_scripts/loadaddress.vpc"
-        "../vpc_scripts/platform_dirs.vpc"
-        "../vpc_scripts/source_base.vpc"
-        "../vpc_scripts/source_cryptlib_include.vpc"
-        "../vpc_scripts/source_dll_base.vpc"
-        "../vpc_scripts/source_dll_win32_base.vpc"
-        "../vpc_scripts/source_dll_win32_debug.vpc"
-        "../vpc_scripts/source_dll_win32_release.vpc"
-        "../vpc_scripts/source_video_base.vpc"
-        "../vpc_scripts/source_win32_base.vpc"
-        "../vpc_scripts/version.vpc"
-        "dedicated.vpc"
-        )
-source_group("VPC Scripts" FILES ${VPC_Scripts})
+
 
 set(ALL_FILES
         ${Header_Files}
@@ -119,7 +105,6 @@ set(ALL_FILES
         ${Source_Files__Console}
         ${Source_Files__FileSystem}
         ${Source_Files__VGUI}
-        ${VPC_Scripts}
         )
 
 ################################################################################
@@ -139,8 +124,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -164,12 +149,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../public/tier1;"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
         "${CMAKE_CURRENT_SOURCE_DIR}/.;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../engine"
+        "${MYROOTDIR}/engine"
         )
 
 ################################################################################
@@ -242,18 +227,9 @@ if (MSVC)
             /GS;
             /Zc:forScope
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../common/crypto.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
+
+
+
     target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -291,6 +267,8 @@ add_dependencies(${PROJECT_NAME}
         mathlib
         tier0
         tier1
+        tier2
+        tier3
         vgui_controls
         vpklib
         vstdlib
@@ -301,6 +279,8 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         mathlib
         tier0
         tier1
+        tier2
+        tier3
         vgui_controls
         vpklib
         vstdlib
@@ -323,7 +303,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../lib/common;"
+        "${MYROOTDIR}/lib/common;"
 
         )
 

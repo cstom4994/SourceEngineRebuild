@@ -28,7 +28,7 @@ char *g_pInstallFiles[] =
                 "vmpi_service_install.exe",
                 "tier0.dll",
                 "vmpi_transfer.exe",
-                "engine.dll",
+                "filesystem_stdio.dll",
                 "vstdlib.dll"
         };
 

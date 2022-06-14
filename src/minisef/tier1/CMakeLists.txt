@@ -69,24 +69,6 @@ set(Header_Files
         "../../public/tier1/utlsymbol.h"
         "../../public/tier1/utlsymbollarge.h"
         "../../public/tier1/utlvector.h"
-
-        "../../public/tier2/beamsegdraw.h"
-        "../../public/tier2/camerautils.h"
-        "../../public/tier2/fileutils.h"
-        "../../public/tier2/keybindings.h"
-        "../../public/tier2/keyvaluesmacros.h"
-        "../../public/tier2/meshutils.h"
-        "../../public/tier2/renderutils.h"
-        "../../public/tier2/riff.h"
-        "../../public/tier2/soundutils.h"
-        "../../public/tier2/tier2.h"
-        "../../public/tier2/utlstreambuffer.h"
-        "../../public/tier2/vconfig.h"
-
-        "../../public/tier3/choreoutils.h"
-        "../../public/tier3/mdlutils.h"
-        "../../public/tier3/scenetokenprocessor.h"
-        "../../public/tier3/tier3.h"
         )
 source_group("Header Files" FILES ${Header_Files})
 
@@ -97,9 +79,9 @@ set(Header_Files__Internal_Header_Files
 source_group("Header Files\\Internal Header Files" FILES ${Header_Files__Internal_Header_Files})
 
 set(LZMA_Decompression_Support
-        "../../thirdparty/lzma/C/7zTypes.h"
-        "../../thirdparty/lzma/C/LzmaDec.c"
-        "../../thirdparty/lzma/C/LzmaDec.h"
+        "../../../thirdparty/lzma/C/7zTypes.h"
+        "../../../thirdparty/lzma/C/LzmaDec.c"
+        "../../../thirdparty/lzma/C/LzmaDec.h"
         )
 source_group("LZMA Decompression Support" FILES ${LZMA_Decompression_Support})
 
@@ -150,33 +132,6 @@ set(Source_Files
         "utlstring.cpp"
         "utlsymbol.cpp"
         "interval.cpp"
-
-        "../../common/debug_lib_check.cpp"
-        "../../public/map_utils.cpp"
-        "../../public/materialsystem/MaterialSystemUtil.cpp"
-        "beamsegdraw.cpp"
-        "camerautils.cpp"
-        "defaultfilesystem.cpp"
-        "dmconnect.cpp"
-        "fileutils.cpp"
-        "keybindings.cpp"
-        "keyvaluesmacros.cpp"
-        "meshutils.cpp"
-        "p4helpers.cpp"
-        "renderutils.cpp"
-        "riff.cpp"
-        "soundutils.cpp"
-        "tier2.cpp"
-        "util_init.cpp"
-        "utlstreambuffer.cpp"
-        "vconfig.cpp"
-
-        "../../common/debug_lib_check.cpp"
-        "choreoutils.cpp"
-        "mdlutils.cpp"
-        "scenetokenprocessor.cpp"
-        "studiohdrstub.cpp"
-        "tier3.cpp"
         )
 source_group("Source Files" FILES ${Source_Files})
 
@@ -204,8 +159,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
         )
 ################################################################################
 # MSVC runtime library
@@ -226,13 +181,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier3"
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1"
         )
 
 ################################################################################
@@ -304,14 +257,8 @@ if (MSVC)
             /Zc:forScope;
 
             )
-    string(CONCAT FILE_CL_OPTIONS
-            "/Y-"
-            )
-    source_file_compile_options(../../common/debug_lib_check.cpp ${FILE_CL_OPTIONS})
-    string(CONCAT FILE_CL_OPTIONS
-            "${DEFAULT_CXX_EXCEPTION_HANDLING}"
-            )
-    source_file_compile_options(processor_detect.cpp ${FILE_CL_OPTIONS})
+
+
 endif ()
 
 ################################################################################
