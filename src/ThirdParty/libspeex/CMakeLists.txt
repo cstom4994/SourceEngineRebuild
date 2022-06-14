@@ -87,8 +87,8 @@ endif()
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../../../game/bin"
-    OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
+    OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../../game/bin"
+    OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../game/bin"
 )
 ################################################################################
 # MSVC runtime library

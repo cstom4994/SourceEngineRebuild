@@ -49,8 +49,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../../../game/bin"
-    OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/bin"
+    OUTPUT_DIRECTORY_DEBUG   "${MYROOTDIR}/../../game/bin"
+    OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../game/bin"
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES
     PDB_OUTPUT_DIRECTORY         "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"

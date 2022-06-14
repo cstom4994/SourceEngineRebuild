@@ -2158,8 +2158,8 @@ if (BUILD_TF)
     # Output directory
     ################################################################################
     set_target_properties(${PROJECT_NAME} PROPERTIES
-            OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/tf/bin"
-            OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/tf/bin"
+            OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../game/tf/bin"
+            OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../game/tf/bin"
             )
     set_target_properties(${PROJECT_NAME} PROPERTIES
             PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -3830,8 +3830,8 @@ if (BUILD_HL2)
     # Output directory
     ################################################################################
     set_target_properties(${PROJECT_NAME} PROPERTIES
-            OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/lambdamod/bin"
-            OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/lambdamod/bin"
+            OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../game/lambdamod/bin"
+            OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../game/lambdamod/bin"
             )
     set_target_properties(${PROJECT_NAME} PROPERTIES
             PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -5654,8 +5654,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/lambdamod/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/lambdamod/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../game/lambdamod/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../game/lambdamod/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
