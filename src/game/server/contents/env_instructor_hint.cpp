@@ -12,14 +12,14 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-class CEnvInstructorHint : public CPointEntity
-{
-  public:
+class CEnvInstructorHint : public CPointEntity {
+public:
     DECLARE_CLASS(CEnvInstructorHint, CPointEntity);
     DECLARE_DATADESC();
 
-  private:
+private:
     void InputShowHint(inputdata_t &inputdata);
+
     void InputEndHint(inputdata_t &inputdata);
 
     string_t m_iszReplace_Key;
@@ -47,45 +47,44 @@ LINK_ENTITY_TO_CLASS(env_instructor_hint, CEnvInstructorHint);
 
 BEGIN_DATADESC(CEnvInstructorHint)
 
-DEFINE_KEYFIELD(m_iszReplace_Key, FIELD_STRING, "hint_replace_key"),
-    DEFINE_KEYFIELD(m_iszHintTargetEntity, FIELD_STRING, "hint_target"),
-    DEFINE_KEYFIELD(m_iTimeout, FIELD_INTEGER, "hint_timeout"),
-    DEFINE_KEYFIELD(m_iszIcon_Onscreen, FIELD_STRING, "hint_icon_onscreen"),
-    DEFINE_KEYFIELD(m_iszIcon_Offscreen, FIELD_STRING, "hint_icon_offscreen"),
-    DEFINE_KEYFIELD(m_iszCaption, FIELD_STRING, "hint_caption"),
-    DEFINE_KEYFIELD(m_iszActivatorCaption, FIELD_STRING, "hint_activator_caption"),
-    DEFINE_KEYFIELD(m_Color, FIELD_COLOR32, "hint_color"),
-    DEFINE_KEYFIELD(m_fIconOffset, FIELD_FLOAT, "hint_icon_offset"),
-    DEFINE_KEYFIELD(m_fRange, FIELD_FLOAT, "hint_range"),
-    DEFINE_KEYFIELD(m_iPulseOption, FIELD_CHARACTER, "hint_pulseoption"),
-    DEFINE_KEYFIELD(m_iAlphaOption, FIELD_CHARACTER, "hint_alphaoption"),
-    DEFINE_KEYFIELD(m_iShakeOption, FIELD_CHARACTER, "hint_shakeoption"),
-    DEFINE_KEYFIELD(m_bStatic, FIELD_BOOLEAN, "hint_static"),
-    DEFINE_KEYFIELD(m_bNoOffscreen, FIELD_BOOLEAN, "hint_nooffscreen"),
-    DEFINE_KEYFIELD(m_bForceCaption, FIELD_BOOLEAN, "hint_forcecaption"),
-    DEFINE_KEYFIELD(m_iszBinding, FIELD_STRING, "hint_binding"),
-    DEFINE_KEYFIELD(m_bAllowNoDrawTarget, FIELD_BOOLEAN, "hint_allow_nodraw_target"),
-    DEFINE_KEYFIELD(m_bLocalPlayerOnly, FIELD_BOOLEAN, "hint_local_player_only"),
+                    DEFINE_KEYFIELD(m_iszReplace_Key, FIELD_STRING, "hint_replace_key"),
+                    DEFINE_KEYFIELD(m_iszHintTargetEntity, FIELD_STRING, "hint_target"),
+                    DEFINE_KEYFIELD(m_iTimeout, FIELD_INTEGER, "hint_timeout"),
+                    DEFINE_KEYFIELD(m_iszIcon_Onscreen, FIELD_STRING, "hint_icon_onscreen"),
+                    DEFINE_KEYFIELD(m_iszIcon_Offscreen, FIELD_STRING, "hint_icon_offscreen"),
+                    DEFINE_KEYFIELD(m_iszCaption, FIELD_STRING, "hint_caption"),
+                    DEFINE_KEYFIELD(m_iszActivatorCaption, FIELD_STRING, "hint_activator_caption"),
+                    DEFINE_KEYFIELD(m_Color, FIELD_COLOR32, "hint_color"),
+                    DEFINE_KEYFIELD(m_fIconOffset, FIELD_FLOAT, "hint_icon_offset"),
+                    DEFINE_KEYFIELD(m_fRange, FIELD_FLOAT, "hint_range"),
+                    DEFINE_KEYFIELD(m_iPulseOption, FIELD_CHARACTER, "hint_pulseoption"),
+                    DEFINE_KEYFIELD(m_iAlphaOption, FIELD_CHARACTER, "hint_alphaoption"),
+                    DEFINE_KEYFIELD(m_iShakeOption, FIELD_CHARACTER, "hint_shakeoption"),
+                    DEFINE_KEYFIELD(m_bStatic, FIELD_BOOLEAN, "hint_static"),
+                    DEFINE_KEYFIELD(m_bNoOffscreen, FIELD_BOOLEAN, "hint_nooffscreen"),
+                    DEFINE_KEYFIELD(m_bForceCaption, FIELD_BOOLEAN, "hint_forcecaption"),
+                    DEFINE_KEYFIELD(m_iszBinding, FIELD_STRING, "hint_binding"),
+                    DEFINE_KEYFIELD(m_bAllowNoDrawTarget, FIELD_BOOLEAN, "hint_allow_nodraw_target"),
+                    DEFINE_KEYFIELD(m_bLocalPlayerOnly, FIELD_BOOLEAN, "hint_local_player_only"),
 
-    DEFINE_INPUTFUNC(FIELD_STRING, "ShowHint", InputShowHint), DEFINE_INPUTFUNC(FIELD_VOID, "EndHint", InputEndHint),
+                    DEFINE_INPUTFUNC(FIELD_STRING, "ShowHint", InputShowHint),
+                    DEFINE_INPUTFUNC(FIELD_VOID, "EndHint", InputEndHint),
 
-    END_DATADESC()
+END_DATADESC()
 
 #define LOCATOR_ICON_FX_PULSE_SLOW 0x00000001
 #define LOCATOR_ICON_FX_ALPHA_SLOW 0x00000008
 #define LOCATOR_ICON_FX_SHAKE_NARROW 0x00000040
 #define LOCATOR_ICON_FX_STATIC 0x00000100 // This icon draws at a fixed location on the HUD.
 
-    //-----------------------------------------------------------------------------
-    // Purpose: Input handler for showing the message and/or playing the sound.
-    //-----------------------------------------------------------------------------
-    void CEnvInstructorHint::InputShowHint(inputdata_t &inputdata)
-{
+//-----------------------------------------------------------------------------
+// Purpose: Input handler for showing the message and/or playing the sound.
+//-----------------------------------------------------------------------------
+void CEnvInstructorHint::InputShowHint(inputdata_t &inputdata) {
     IGameEvent *event =
-        gameeventmanager->CreateEvent("instructor_server_hint_create", false);
-    if (event)
-    {
-        CBaseEntity *pTargetEntity = gEntList.FindEntityByName(NULL, m_iszHintTargetEntity);
+            gameeventmanager->CreateEvent("instructor_server_hint_create", false);
+    if (event) {
+        CBaseEntity * pTargetEntity = gEntList.FindEntityByName(NULL, m_iszHintTargetEntity);
         if (pTargetEntity == NULL && !m_bStatic)
             pTargetEntity = inputdata.pActivator;
 
@@ -112,23 +111,16 @@ DEFINE_KEYFIELD(m_iszReplace_Key, FIELD_STRING, "hint_replace_key"),
             pActivator = pMarine->GetCommander();
         }
 #else
-        if (inputdata.value.StringID() != NULL_STRING)
-        {
-            CBaseEntity *pTarget = gEntList.FindEntityByName(NULL, inputdata.value.String());
+        if (inputdata.value.StringID() != NULL_STRING) {
+            CBaseEntity * pTarget = gEntList.FindEntityByName(NULL, inputdata.value.String());
             pActivator = dynamic_cast<CBasePlayer *>(pTarget);
-            if (pActivator)
-            {
+            if (pActivator) {
                 bFilterByActivator = true;
             }
-        }
-        else
-        {
-            if (GameRules()->IsMultiplayer() == false)
-            {
+        } else {
+            if (GameRules()->IsMultiplayer() == false) {
                 pActivator = UTIL_GetLocalPlayer();
-            }
-            else
-            {
+            } else {
                 Warning("Failed to play server side instructor hint: no player specified for hint\n");
                 Assert(0);
             }
@@ -136,8 +128,7 @@ DEFINE_KEYFIELD(m_iszReplace_Key, FIELD_STRING, "hint_replace_key"),
 #endif
 
         const char *pActivatorCaption = m_iszActivatorCaption.ToCStr();
-        if (!pActivatorCaption || pActivatorCaption[0] == '\0')
-        {
+        if (!pActivatorCaption || pActivatorCaption[0] == '\0') {
             pActivatorCaption = m_iszCaption.ToCStr();
         }
 
@@ -166,12 +157,10 @@ DEFINE_KEYFIELD(m_iszReplace_Key, FIELD_STRING, "hint_replace_key"),
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CEnvInstructorHint::InputEndHint(inputdata_t &inputdata)
-{
+void CEnvInstructorHint::InputEndHint(inputdata_t &inputdata) {
     IGameEvent *event =
-        gameeventmanager->CreateEvent("instructor_server_hint_stop", false);
-    if (event)
-    {
+            gameeventmanager->CreateEvent("instructor_server_hint_stop", false);
+    if (event) {
         event->SetString("hint_name", GetEntityName().ToCStr());
 
         gameeventmanager->FireEvent(event);
@@ -181,9 +170,8 @@ void CEnvInstructorHint::InputEndHint(inputdata_t &inputdata)
 //-----------------------------------------------------------------------------
 // Purpose: A generic target entity that gets replicated to the client for instructor hint targetting
 //-----------------------------------------------------------------------------
-class CInfoInstructorHintTarget : public CPointEntity
-{
-  public:
+class CInfoInstructorHintTarget : public CPointEntity {
+public:
     DECLARE_CLASS(CInfoInstructorHintTarget, CPointEntity);
 
     virtual int UpdateTransmitState(void) // set transmit filter to transmit always

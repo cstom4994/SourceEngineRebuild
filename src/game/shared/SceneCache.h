@@ -15,28 +15,34 @@
 
 class CChoreoEvent;
 
-#define SCENECACHE_VERSION		7
+#define SCENECACHE_VERSION        7
 
 #pragma pack(1)
-class CSceneCache : public IBaseCacheInfo
-{
+
+class CSceneCache : public IBaseCacheInfo {
 public:
-	unsigned int		msecs;
-	CUtlVector< unsigned short > sounds;
+    unsigned int msecs;
+    CUtlVector<unsigned short> sounds;
 
-	CSceneCache();
-	CSceneCache( const CSceneCache& src );
+    CSceneCache();
 
-	int	GetSoundCount() const;
-	char const *GetSoundName( int index );
+    CSceneCache(const CSceneCache &src);
 
-	virtual void Save( CUtlBuffer& buf  );
-	virtual void Restore( CUtlBuffer& buf  );
-	virtual void Rebuild( char const *filename );
+    int GetSoundCount() const;
 
-	static unsigned int ComputeSoundScriptFileTimestampChecksum();
-	static void PrecacheSceneEvent( CChoreoEvent *event, CUtlVector< unsigned short >& soundlist );
+    char const *GetSoundName(int index);
+
+    virtual void Save(CUtlBuffer &buf);
+
+    virtual void Restore(CUtlBuffer &buf);
+
+    virtual void Rebuild(char const *filename);
+
+    static unsigned int ComputeSoundScriptFileTimestampChecksum();
+
+    static void PrecacheSceneEvent(CChoreoEvent *event, CUtlVector<unsigned short> &soundlist);
 };
+
 #pragma pack()
 
 #endif // SCENECACHE_H

@@ -373,7 +373,7 @@ void CCSClientScoreBoardDialog::SetupTeamDisplay( TeamDisplayInfo& teamDisplay, 
 	teamDisplay.scoreAreaInnerHeight = playerTall - 2 * marginY;
 	teamDisplay.scoreAreaLinePreferredLeading = RoundFloatToInt(teamDisplay.scoreAreaLineHeight * kTeamScoreLineLeadingRatio);
 	teamDisplay.scoreAreaStartY = playerY + marginY;
-	teamDisplay.maxPlayersVisible = MIN(cMaxScoreLines, teamDisplay.scoreAreaInnerHeight / teamDisplay.scoreAreaLineHeight);
+	//teamDisplay.maxPlayersVisible = MIN(cMaxScoreLines, teamDisplay.scoreAreaInnerHeight / teamDisplay.scoreAreaLineHeight);
 
 	// Calculate the starting point for player data.
 	int startY = teamDisplay.scoreAreaStartY;

@@ -160,7 +160,6 @@
 #endif // ENABLE_CEF
 
 #include "../gameui2/igameui2.h"
-#include "rccpp_invoke.h"
 
 extern vgui::IInputInternal *g_InputInternal;
 
@@ -448,7 +447,7 @@ EXPOSE_SINGLE_INTERFACE(CGameClientExports, IGameClientExports, GAMECLIENTEXPORT
 class CClientDLLSharedAppSystems : public IClientDLLSharedAppSystems {
 public:
     CClientDLLSharedAppSystems() {
-        AddAppSystem("engine.dll", SOUNDEMITTERSYSTEM_INTERFACE_VERSION);
+        AddAppSystem("soundemittersystem.dll", SOUNDEMITTERSYSTEM_INTERFACE_VERSION);
         AddAppSystem("scenefilecache.dll", SCENE_FILE_CACHE_INTERFACE_VERSION);
     }
 
@@ -998,7 +997,7 @@ int CHLClient::Init(CreateInterfaceFn appSystemFactory, CreateInterfaceFn physic
     factories.physicsFactory = physicsFactory;
     FactoryList_Store(factories);
 
-    // Yes, both the client and game .dlls will try to Connect, the soundemittersystem will handle this gracefully
+    // Yes, both the client and game .dlls will try to Connect, the soundemittersystem.dll will handle this gracefully
     if (!soundemitterbase->Connect(appSystemFactory)) {
         return false;
     }
@@ -1223,41 +1222,41 @@ void CHLClient::PostInit() {
         }
     }
 
-
-    if (CommandLine()->FindParm("-norccpp") == 0) {
-        char RCCPPPath[2048];
-        Q_snprintf(RCCPPPath, sizeof(RCCPPPath), "%s\\bin\\rccpp.dll", engine->GetGameDirectory());
-
-        CSysModule *RCCPPModule = Sys_LoadModule(RCCPPPath);
-        if (RCCPPModule != nullptr) {
-            ConColorMsg(Color(0, 148, 255, 255), "Loaded rccpp.dll\n");
-
-            CreateInterfaceFn RCCPPFactory = Sys_GetFactory(RCCPPModule);
-            if (RCCPPFactory) {
-                RCCPP = (IRCCPP *) RCCPPFactory(RCCPP_DLL_INTERFACE_VERSION, NULL);
-                if (RCCPP != nullptr) {
-                    ConColorMsg(Color(0, 148, 255, 255), "Initializing IRCCPP interface...\n");
-
-                    factorylist_t Factories;
-                    FactoryList_Retrieve(Factories);
-                    RCCPP->Initialize(Factories.appSystemFactory);
-                    RCCPP->OnInitialize();
-                } else {
-                    ConColorMsg(Color(0, 148, 255, 255), "Unable to pull IRCCPP interface.\n");
-                }
-            } else {
-                ConColorMsg(Color(0, 148, 255, 255), "Unable to get RCCPP factory.\n");
-            }
-        } else {
-            ConColorMsg(Color(0, 148, 255, 255), "Unable to load rccpp.dll from:\n%s\n", RCCPPPath);
-        }
-    }
+//
+//    if (CommandLine()->FindParm("-norccpp") == 0) {
+//        char RCCPPPath[2048];
+//        Q_snprintf(RCCPPPath, sizeof(RCCPPPath), "%s\\bin\\rccpp.dll", engine->GetGameDirectory());
+//
+//        CSysModule *RCCPPModule = Sys_LoadModule(RCCPPPath);
+//        if (RCCPPModule != nullptr) {
+//            ConColorMsg(Color(0, 148, 255, 255), "Loaded rccpp.dll\n");
+//
+//            CreateInterfaceFn RCCPPFactory = Sys_GetFactory(RCCPPModule);
+//            if (RCCPPFactory) {
+//                RCCPP = (IRCCPP *) RCCPPFactory(RCCPP_DLL_INTERFACE_VERSION, NULL);
+//                if (RCCPP != nullptr) {
+//                    ConColorMsg(Color(0, 148, 255, 255), "Initializing IRCCPP interface...\n");
+//
+//                    factorylist_t Factories;
+//                    FactoryList_Retrieve(Factories);
+//                    RCCPP->Initialize(Factories.appSystemFactory);
+//                    RCCPP->OnInitialize();
+//                } else {
+//                    ConColorMsg(Color(0, 148, 255, 255), "Unable to pull IRCCPP interface.\n");
+//                }
+//            } else {
+//                ConColorMsg(Color(0, 148, 255, 255), "Unable to get RCCPP factory.\n");
+//            }
+//        } else {
+//            ConColorMsg(Color(0, 148, 255, 255), "Unable to load rccpp.dll from:\n%s\n", RCCPPPath);
+//        }
+//    }
 
 }
 
 void CHLClient::PostInitEditor() {
-    if (RCCPP != nullptr)
-        RCCPP->InitEditor();
+//    if (RCCPP != nullptr)
+//        RCCPP->InitEditor();
 }
 
 //-----------------------------------------------------------------------------
@@ -1303,10 +1302,10 @@ void CHLClient::Shutdown(void) {
         GameUI2->Shutdown();
     }
 
-    if (RCCPP != nullptr) {
-        RCCPP->OnShutdown();
-        RCCPP->Shutdown();
-    }
+//    if (RCCPP != nullptr) {
+//        RCCPP->OnShutdown();
+//        RCCPP->Shutdown();
+//    }
 
     gHUD.Shutdown();
     VGui_Shutdown();
@@ -1405,8 +1404,8 @@ void CHLClient::HudUpdate(bool bActive) {
     if (GameUI2 != nullptr)
         GameUI2->OnUpdate();
 
-    if (RCCPP != nullptr)
-        RCCPP->OnUpdate();
+//    if (RCCPP != nullptr)
+//        RCCPP->OnUpdate();
 }
 
 //-----------------------------------------------------------------------------
@@ -1725,8 +1724,8 @@ void CHLClient::LevelInitPreEntity(char const *pMapName) {
     if (GameUI2 != nullptr)
         GameUI2->OnLevelInitializePreEntity();
 
-    if (RCCPP != nullptr)
-        RCCPP->OnLevelInitializePreEntity();
+//    if (RCCPP != nullptr)
+//        RCCPP->OnLevelInitializePreEntity();
 }
 
 
@@ -1742,8 +1741,8 @@ void CHLClient::LevelInitPostEntity() {
     if (GameUI2 != nullptr)
         GameUI2->OnLevelInitializePostEntity();
 
-    if (RCCPP != nullptr)
-        RCCPP->OnLevelInitializePostEntity();
+//    if (RCCPP != nullptr)
+//        RCCPP->OnLevelInitializePostEntity();
 }
 
 //-----------------------------------------------------------------------------
@@ -1811,8 +1810,8 @@ void CHLClient::LevelShutdown(void) {
     if (GameUI2 != nullptr)
         GameUI2->OnLevelShutdown();
 
-    if (RCCPP != nullptr)
-        RCCPP->OnLevelShutdown();
+//    if (RCCPP != nullptr)
+//        RCCPP->OnLevelShutdown();
 
     gHUD.LevelShutdown();
 

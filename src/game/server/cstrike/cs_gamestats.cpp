@@ -207,8 +207,8 @@ void CCSGameStats::LevelShutdownPreClearSteamAPIContext( void )
 	//GetSteamWorksSGameStatsUploader().EndSession();
 }
 
-extern double g_rowCommitTime;
-extern double g_rowWriteTime;
+double g_rowCommitTime;
+double g_rowWriteTime;
 
 void CCSGameStats::UploadRoundStats( void )
 {

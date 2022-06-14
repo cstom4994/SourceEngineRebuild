@@ -12,12 +12,19 @@
 #endif
 
 class CChoreoActor;
+
 class CChoreoChannel;
+
 class CChoreoEvent;
+
 class CChoreoScene;
-class IChoreoEventCallback; 
+
+class IChoreoEventCallback;
+
 class CAudioMixer;
+
 class CUtlBuffer;
+
 class IChoreoStringPool;
 
 
@@ -33,676 +40,803 @@ typedef CUtlString ChoreoStr_t;
 // Purpose: SPEAK events can have "relative tags" that other objects can reference
 //  to specify their start times off of
 //-----------------------------------------------------------------------------
-class CEventRelativeTag
-{
+class CEventRelativeTag {
 public:
-	DECLARE_CLASS_NOBASE( CEventRelativeTag );
-	
-	enum
-	{
-		MAX_EVENTTAG_LENGTH = 128,
-	};
+    DECLARE_CLASS_NOBASE(CEventRelativeTag);
 
-					CEventRelativeTag( CChoreoEvent *owner, const char *name, float percentage );
-					CEventRelativeTag( const CEventRelativeTag& src );
-	
-	const char		*GetName( void );
-	float			GetPercentage( void );
-	void			SetPercentage( float percentage );
+    enum {
+        MAX_EVENTTAG_LENGTH = 128,
+    };
 
-	// Returns the corrected time based on the owner's length and start time
-	float			GetStartTime( void );
-	CChoreoEvent	*GetOwner( void );
-	void			SetOwner( CChoreoEvent *event );
+    CEventRelativeTag(CChoreoEvent *owner, const char *name, float percentage);
+
+    CEventRelativeTag(const CEventRelativeTag &src);
+
+    const char *GetName(void);
+
+    float GetPercentage(void);
+
+    void SetPercentage(float percentage);
+
+    // Returns the corrected time based on the owner's length and start time
+    float GetStartTime(void);
+
+    CChoreoEvent *GetOwner(void);
+
+    void SetOwner(CChoreoEvent *event);
 
 protected:
 
-	ChoreoStr_t		m_Name;
-	float			m_flPercentage;
-	CChoreoEvent	*m_pOwner;
+    ChoreoStr_t m_Name;
+    float m_flPercentage;
+    CChoreoEvent *m_pOwner;
 };
 
 //-----------------------------------------------------------------------------
 // Purpose: GESTURE events can have "absolute tags" (where the value is not a 
 //  percentage, but an actual timestamp from the start of the event)
 //-----------------------------------------------------------------------------
-class CEventAbsoluteTag
-{
+class CEventAbsoluteTag {
 public:
-	enum
-	{
-		MAX_EVENTTAG_LENGTH = 128,
-	};
+    enum {
+        MAX_EVENTTAG_LENGTH = 128,
+    };
 
-					CEventAbsoluteTag( CChoreoEvent *owner, const char *name, float percentage );
-					CEventAbsoluteTag( const CEventAbsoluteTag& src );
-	
-	const char		*GetName( void );
+    CEventAbsoluteTag(CChoreoEvent *owner, const char *name, float percentage);
 
-	float			GetPercentage( void );
-	void			SetPercentage( float percentage );
-	
-	float			GetEventTime( void );
-	void			SetEventTime( float t );
+    CEventAbsoluteTag(const CEventAbsoluteTag &src);
 
-	float			GetAbsoluteTime( void );
-	void			SetAbsoluteTime( float t );
+    const char *GetName(void);
 
-	CChoreoEvent	*GetOwner( void );
-	void			SetOwner( CChoreoEvent *event );
+    float GetPercentage(void);
 
-	void			SetLocked( bool bLocked );
-	bool			GetLocked( void );
+    void SetPercentage(float percentage);
 
-	void			SetLinear( bool bLinear );
-	bool			GetLinear( void );
+    float GetEventTime(void);
 
-	void			SetEntry( bool bEntry );
-	bool			GetEntry( void );
+    void SetEventTime(float t);
 
-	void			SetExit( bool bExit );
-	bool			GetExit( void );
+    float GetAbsoluteTime(void);
+
+    void SetAbsoluteTime(float t);
+
+    CChoreoEvent *GetOwner(void);
+
+    void SetOwner(CChoreoEvent *event);
+
+    void SetLocked(bool bLocked);
+
+    bool GetLocked(void);
+
+    void SetLinear(bool bLinear);
+
+    bool GetLinear(void);
+
+    void SetEntry(bool bEntry);
+
+    bool GetEntry(void);
+
+    void SetExit(bool bExit);
+
+    bool GetExit(void);
 
 protected:
 
-	ChoreoStr_t		m_Name;
-	float			m_flPercentage; 
-	bool			m_bLocked:1;
-	bool			m_bLinear:1;
-	bool			m_bEntry:1;
-	bool			m_bExit:1;
-	CChoreoEvent	*m_pOwner;
+    ChoreoStr_t m_Name;
+    float m_flPercentage;
+    bool m_bLocked: 1;
+    bool m_bLinear: 1;
+    bool m_bEntry: 1;
+    bool m_bExit: 1;
+    CChoreoEvent *m_pOwner;
 };
 
 //-----------------------------------------------------------------------------
 // Purpose: FLEXANIMATION events can have "timing tags" that are used to align and
 //  manipulate flex animation curves
 //-----------------------------------------------------------------------------
-class CFlexTimingTag : public CEventRelativeTag
-{
-	DECLARE_CLASS( CFlexTimingTag, CEventRelativeTag );
+class CFlexTimingTag : public CEventRelativeTag {
+    DECLARE_CLASS(CFlexTimingTag, CEventRelativeTag);
 
 public:
-					CFlexTimingTag( CChoreoEvent *owner, const char *name, float percentage, bool locked );
-					CFlexTimingTag( const CFlexTimingTag& src );
-	
-	bool			GetLocked( void );
-	void			SetLocked( bool locked );
+    CFlexTimingTag(CChoreoEvent *owner, const char *name, float percentage, bool locked);
+
+    CFlexTimingTag(const CFlexTimingTag &src);
+
+    bool GetLocked(void);
+
+    void SetLocked(bool locked);
 
 protected:
-	bool			m_bLocked;
+    bool m_bLocked;
 };
 
 //-----------------------------------------------------------------------------
 // Purpose: A flex controller position can be animated over a period of time
 //-----------------------------------------------------------------------------
-class CFlexAnimationTrack
-{
+class CFlexAnimationTrack {
 public:
-	enum
-	{
-		MAX_CONTROLLER_NAME = 128,
-	};
+    enum {
+        MAX_CONTROLLER_NAME = 128,
+    };
 
-						CFlexAnimationTrack( CChoreoEvent *event );
-						CFlexAnimationTrack( const CFlexAnimationTrack* src );
-	virtual 			~CFlexAnimationTrack( void );
+    CFlexAnimationTrack(CChoreoEvent *event);
 
-	void				SetEvent( CChoreoEvent *event );
-	CChoreoEvent		*GetEvent( void );
+    CFlexAnimationTrack(const CFlexAnimationTrack *src);
 
-	void				SetFlexControllerName( const char *name );
-	char const			*GetFlexControllerName( void );
+    virtual            ~CFlexAnimationTrack(void);
 
-	void				SetComboType( bool combo );
-	bool				IsComboType( void );
+    void SetEvent(CChoreoEvent *event);
 
-	void				SetMin( float value );
-	void				SetMax( float value );
-	float				GetMin( int type = 0 );
-	float				GetMax( int type = 0 );
+    CChoreoEvent *GetEvent(void);
 
-	bool				IsInverted( void );
-	void				SetInverted( bool isInverted );
+    void SetFlexControllerName(const char *name);
 
-	int					GetNumSamples( int type = 0 );
-	CExpressionSample	*GetSample( int index, int type = 0 );
+    char const *GetFlexControllerName(void);
 
-	bool				IsTrackActive( void );
-	void				SetTrackActive( bool active );
+    void SetComboType(bool combo);
 
-	// returns scaled value for absolute time per left/right side
-	float				GetIntensity( float time, int side = 0 );
+    bool IsComboType(void);
 
-	CExpressionSample	*AddSample( float time, float value, int type = 0 );
-	void				RemoveSample( int index, int type = 0 );
-	void				Clear( void );
+    void SetMin(float value);
 
-	void				Resort( int type = 0 );
+    void SetMax(float value);
 
-	// Puts in dummy start/end samples to spline to zero ( or 0.5 for
-	//  left/right data) at the origins
-	CExpressionSample	*GetBoundedSample( int number, bool& bClamped, int type = 0 );
+    float GetMin(int type = 0);
 
-	int					GetFlexControllerIndex( int side = 0 );
-	LocalFlexController_t	GetRawFlexControllerIndex( int side = 0 );
-	void				SetFlexControllerIndex( LocalFlexController_t raw, int index, int side = 0 );
+    float GetMax(int type = 0);
 
-	// returns 0..1 value for 0..1 time fraction per mag/balance
-	float				GetFracIntensity( float time, int type );
+    bool IsInverted(void);
 
-	// retrieves raw intensity values (for mag vs. left/right slider setting)
-	float				GetSampleIntensity( float time );
-	float				GetBalanceIntensity( float time );
+    void SetInverted(bool isInverted);
 
-	void				SetEdgeInfo( bool leftEdge, int curveType, float zero );
-	void				GetEdgeInfo( bool leftEdge, int& curveType, float& zero ) const;
-	void				SetEdgeActive( bool leftEdge, bool state );
-	bool				IsEdgeActive( bool leftEdge ) const;
-	int					GetEdgeCurveType( bool leftEdge ) const;
-	float				GetEdgeZeroValue( bool leftEdge ) const;
+    int GetNumSamples(int type = 0);
 
-	float				GetDefaultEdgeZeroPos() const;
+    CExpressionSample *GetSample(int index, int type = 0);
 
-	void				SetServerSide( bool state );
-	bool				IsServerSide() const;
+    bool IsTrackActive(void);
+
+    void SetTrackActive(bool active);
+
+    // returns scaled value for absolute time per left/right side
+    float GetIntensity(float time, int side = 0);
+
+    CExpressionSample *AddSample(float time, float value, int type = 0);
+
+    void RemoveSample(int index, int type = 0);
+
+    void Clear(void);
+
+    void Resort(int type = 0);
+
+    // Puts in dummy start/end samples to spline to zero ( or 0.5 for
+    //  left/right data) at the origins
+    CExpressionSample *GetBoundedSample(int number, bool &bClamped, int type = 0);
+
+    int GetFlexControllerIndex(int side = 0);
+
+    LocalFlexController_t GetRawFlexControllerIndex(int side = 0);
+
+    void SetFlexControllerIndex(LocalFlexController_t raw, int index, int side = 0);
+
+    // returns 0..1 value for 0..1 time fraction per mag/balance
+    float GetFracIntensity(float time, int type);
+
+    // retrieves raw intensity values (for mag vs. left/right slider setting)
+    float GetSampleIntensity(float time);
+
+    float GetBalanceIntensity(float time);
+
+    void SetEdgeInfo(bool leftEdge, int curveType, float zero);
+
+    void GetEdgeInfo(bool leftEdge, int &curveType, float &zero) const;
+
+    void SetEdgeActive(bool leftEdge, bool state);
+
+    bool IsEdgeActive(bool leftEdge) const;
+
+    int GetEdgeCurveType(bool leftEdge) const;
+
+    float GetEdgeZeroValue(bool leftEdge) const;
+
+    float GetDefaultEdgeZeroPos() const;
+
+    void SetServerSide(bool state);
+
+    bool IsServerSide() const;
+
 private:
-	// remove any samples after endtime
-	void				RemoveOutOfRangeSamples( int type );
+    // remove any samples after endtime
+    void RemoveOutOfRangeSamples(int type);
 
-	// returns scaled value for absolute time per mag/balance
-	float				GetIntensityInternal( float time, int type );
+    // returns scaled value for absolute time per mag/balance
+    float GetIntensityInternal(float time, int type);
 
 public:
-	// returns the fractional (0..1) value for "zero" based on Min/Max ranges
-	float				GetZeroValue( int type, bool leftSide );
+    // returns the fractional (0..1) value for "zero" based on Min/Max ranges
+    float GetZeroValue(int type, bool leftSide);
 
 
 private:
-	char				*m_pControllerName;
+    char *m_pControllerName;
 
-	// base track has range, combo is always 0..1
-	float				m_flMin;
-	float				m_flMax;
+    // base track has range, combo is always 0..1
+    float m_flMin;
+    float m_flMax;
 
-	// 0 == magnitude
-	// 1 == left/right
-	CUtlVector< CExpressionSample > m_Samples[ 2 ];
-	int								m_nFlexControllerIndex[ 2 ];
-	LocalFlexController_t			m_nFlexControllerIndexRaw[ 2 ];
+    // 0 == magnitude
+    // 1 == left/right
+    CUtlVector<CExpressionSample> m_Samples[2];
+    int m_nFlexControllerIndex[2];
+    LocalFlexController_t m_nFlexControllerIndexRaw[2];
 
-	// For left and right edge of type 0 flex data ( magnitude track )
-	EdgeInfo_t				m_EdgeInfo[ 2 ];
+    // For left and right edge of type 0 flex data ( magnitude track )
+    EdgeInfo_t m_EdgeInfo[2];
 
-	CChoreoEvent		*m_pEvent;
+    CChoreoEvent *m_pEvent;
 
-	// Is track active
-	bool				m_bActive:1;
+    // Is track active
+    bool m_bActive: 1;
 
-	// Is this a combo (magnitude + stereo) track
-	bool				m_bCombo:1;
-	bool				m_bServerSide:1;
+    // Is this a combo (magnitude + stereo) track
+    bool m_bCombo: 1;
+    bool m_bServerSide: 1;
 
-	bool				m_bInverted; // track is displayed 1..0 instead of 0..1
+    bool m_bInverted; // track is displayed 1..0 instead of 0..1
 };
 
 
 //-----------------------------------------------------------------------------
 // Purpose: The generic scene event type
 //-----------------------------------------------------------------------------
-class CChoreoEvent : public ICurveDataAccessor
-{
+class CChoreoEvent : public ICurveDataAccessor {
 public:
-	// Type of event this object represents
-	typedef enum
-	{
-		// Don't know yet
-		UNSPECIFIED = 0,
+    // Type of event this object represents
+    typedef enum {
+        // Don't know yet
+        UNSPECIFIED = 0,
 
-		// Section start/end
-		SECTION,
+        // Section start/end
+        SECTION,
 
-		// Play an expression
-		EXPRESSION,
-		
-		// Look at another actor
-		LOOKAT,
+        // Play an expression
+        EXPRESSION,
 
-		// Move to a location
-		MOVETO,
+        // Look at another actor
+        LOOKAT,
 
-		// Speak/visemes a wave file
-		SPEAK,
+        // Move to a location
+        MOVETO,
 
-		// Play a gesture
-		GESTURE,
+        // Speak/visemes a wave file
+        SPEAK,
 
-		// Play a sequence
-		SEQUENCE,
+        // Play a gesture
+        GESTURE,
 
-		// Face another actor
-		FACE,
+        // Play a sequence
+        SEQUENCE,
 
-		// Fire a trigger
-		FIRETRIGGER,
+        // Face another actor
+        FACE,
 
-		// One or more flex sliders animated over the course of the event time period
-		FLEXANIMATION,
+        // Fire a trigger
+        FIRETRIGGER,
 
-		// A contained .vcd file
-		SUBSCENE,
+        // One or more flex sliders animated over the course of the event time period
+        FLEXANIMATION,
 
-		// Loop back to previous time (forever or up to N times)
-		LOOP,
+        // A contained .vcd file
+        SUBSCENE,
 
-		// A time span during which the scene may be temporarily interrupted
-		INTERRUPT,
+        // Loop back to previous time (forever or up to N times)
+        LOOP,
 
-		// A dummy event that is used to mark the .vcd end time
-		STOPPOINT,
+        // A time span during which the scene may be temporarily interrupted
+        INTERRUPT,
 
-		// A time span during which this actor can respond to events happening in the world, etc.
-		PERMIT_RESPONSES,
+        // A dummy event that is used to mark the .vcd end time
+        STOPPOINT,
 
-		// A string passed to the game code for interpretation
-		GENERIC,
+        // A time span during which this actor can respond to events happening in the world, etc.
+        PERMIT_RESPONSES,
 
-		// THIS MUST BE LAST!!!
-		NUM_TYPES,
-	} EVENTTYPE;
+        // A string passed to the game code for interpretation
+        GENERIC,
 
-	enum
-	{
-		MAX_TAGNAME_STRING		= 128,
-		MAX_CCTOKEN_STRING		= 64,
-	};
+        // THIS MUST BE LAST!!!
+        NUM_TYPES,
+    } EVENTTYPE;
 
-	typedef enum
-	{
-		DEFAULT = 0,
-		SIMULATION,
-		DISPLAY,
-	} TIMETYPE;
+    enum {
+        MAX_TAGNAME_STRING = 128,
+        MAX_CCTOKEN_STRING = 64,
+    };
 
-	typedef enum
-	{
-		CC_MASTER = 0,  // default, implied
-		CC_SLAVE,
-		CC_DISABLED,
+    typedef enum {
+        DEFAULT = 0,
+        SIMULATION,
+        DISPLAY,
+    } TIMETYPE;
 
-		NUM_CC_TYPES,
-	} CLOSECAPTION;
+    typedef enum {
+        CC_MASTER = 0,  // default, implied
+        CC_SLAVE,
+        CC_DISABLED,
 
-	static int	s_nGlobalID;
+        NUM_CC_TYPES,
+    } CLOSECAPTION;
 
-	// Construction
-	CChoreoEvent( CChoreoScene *scene );
-	CChoreoEvent( CChoreoScene *scene, EVENTTYPE type, const char *name );
-	CChoreoEvent( CChoreoScene *scene, EVENTTYPE type, const char *name, const char *param );
+    static int s_nGlobalID;
 
-	// Assignment
-	CChoreoEvent&	operator=(const CChoreoEvent& src );
+    // Construction
+    CChoreoEvent(CChoreoScene *scene);
 
-	~CChoreoEvent( void );
+    CChoreoEvent(CChoreoScene *scene, EVENTTYPE type, const char *name);
 
-	// ICurveDataAccessor methods
-	virtual bool	CurveHasEndTime();
-	virtual int		GetDefaultCurveType();
+    CChoreoEvent(CChoreoScene *scene, EVENTTYPE type, const char *name, const char *param);
 
-	// Binary serialization
-	void			SaveToBuffer( CUtlBuffer& buf, CChoreoScene *pScene, IChoreoStringPool *pStringPool );
-	bool			RestoreFromBuffer( CUtlBuffer& buf, CChoreoScene *pScene, IChoreoStringPool *pStringPool );
+    // Assignment
+    CChoreoEvent &operator=(const CChoreoEvent &src);
 
-	// Accessors
-	EVENTTYPE		GetType( void );
-	void			SetType( EVENTTYPE type );
-
-	void			SetName( const char *name );
-	const char		*GetName( void );
-
-	void			SetParameters( const char *target );
-	const char		*GetParameters( void );
-	void			SetParameters2( const char *target );
-	const char		*GetParameters2( void );
-	void			SetParameters3( const char *target );
-	const char		*GetParameters3( void );
-
-	void			SetStartTime( float starttime );
-	float			GetStartTime( void );
-
-	void			SetEndTime( float endtime );
-	float			GetEndTime( void );
-
-	float			GetDuration( void );
-
-	void			SetResumeCondition( bool resumecondition );
-	bool			IsResumeCondition( void );
-
-	void			SetLockBodyFacing( bool lockbodyfacing );
-	bool			IsLockBodyFacing( void );
-
-	void			SetDistanceToTarget( float distancetotarget );
-	float			GetDistanceToTarget( void );
-
-	void			SetForceShortMovement( bool bForceShortMovement );
-	bool			GetForceShortMovement( void );
-
-	void			SetSyncToFollowingGesture( bool bSyncToFollowingGesture );
-	bool			GetSyncToFollowingGesture( void );
-
-	void			SetPlayOverScript( bool bPlayOverScript );
-	bool			GetPlayOverScript( void );
-
-	int				GetRampCount( void ) { return m_Ramp.GetCount(); };
-	CExpressionSample *GetRamp( int index ) { return m_Ramp.Get( index ); };
-	CExpressionSample *AddRamp( float time, float value, bool selected ) { return m_Ramp.Add( time, value, selected ); };
-	void			DeleteRamp( int index ) { m_Ramp.Delete( index ); };
-	void			ClearRamp( void ) { m_Ramp.Clear(); };
-	void			ResortRamp( void ) { m_Ramp.Resort( this ); };
-	CCurveData		*GetRamp( void ) { return &m_Ramp; };
-
-	float			GetRampIntensity( float time ) { return m_Ramp.GetIntensity( this, time ); };
-
-	// Calculates weighting for a given time
-	float			GetIntensity( float scenetime );
-	float			GetIntensityArea( float scenetime );
-
-	// Calculates 0..1 completion for a given time
-	float			GetCompletion( float time );
-
-	// An end time of -1.0f means that the events is just triggered at the leading edge
-	bool			HasEndTime( void );
-
-	// Is the event something that can be sized ( a wave file, e.g. )
-	bool			IsFixedLength( void );
-	void			SetFixedLength( bool isfixedlength );
-
-	// Move the start/end/both times by the specified dt (fixes up -1.0f endtimes)
-	void			OffsetStartTime( float dt );
-	void			OffsetEndTime( float dt );
-	void			OffsetTime( float dt );
-
-	// Snap to scene framerate
-	void			SnapTimes( void );
-	float			SnapTime( float t );
-
-	CChoreoScene	*GetScene( void );
-	void			SetScene( CChoreoScene *scene );
-
-	// The actor the event is associated with
-	void			SetActor( CChoreoActor *actor );
-	CChoreoActor	*GetActor( void );
-
-	// The channel the event is associated with
-	void			SetChannel( CChoreoChannel *channel );
-	CChoreoChannel	*GetChannel( void );
-
-	// Get a more involved description of the event
-	const char		*GetDescription( void );
-
-	void			ClearAllRelativeTags( void );
-	int				GetNumRelativeTags( void );
-	CEventRelativeTag *GetRelativeTag( int tagnum );
-	CEventRelativeTag *FindRelativeTag( const char *tagname );
-	void			AddRelativeTag( const char *tagname, float percentage );
-	void			RemoveRelativeTag( const char *tagname );
-	
-	bool			IsUsingRelativeTag( void );
-	void			SetUsingRelativeTag( bool usetag, const char *tagname = 0, const char *wavname = 0);
-	const char		*GetRelativeTagName( void );
-	const char		*GetRelativeWavName( void );
-
-	// Absolute tags
-	typedef enum
-	{
-		PLAYBACK = 0,	// new timeline		- FIXME: should be stored as an absolute time
-		ORIGINAL,		// original timeline - FIXME: should be stored at a fixed percentage of event
-		
-		NUM_ABS_TAG_TYPES,
-	} AbsTagType;
-
-	void			SetGestureSequenceDuration( float duration );
-	bool			GetGestureSequenceDuration( float& duration );
-
-	void			ClearAllAbsoluteTags( AbsTagType type );
-	int				GetNumAbsoluteTags( AbsTagType type );
-	CEventAbsoluteTag *GetAbsoluteTag( AbsTagType type, int tagnum );
-	CEventAbsoluteTag *FindAbsoluteTag( AbsTagType type, const char *tagname );
-	void			AddAbsoluteTag( AbsTagType type, const char *tagname, float t );
-	void			RemoveAbsoluteTag( AbsTagType type, const char *tagname );
-	bool			VerifyTagOrder( void );
-	float			GetOriginalPercentageFromPlaybackPercentage( float t );
-	float			GetPlaybackPercentageFromOriginalPercentage( float t );
-
-	static const char *NameForAbsoluteTagType( AbsTagType t );
-	static AbsTagType	TypeForAbsoluteTagName( const char *name );
-
-	void			RescaleGestureTimes( float newstart, float newend, bool bMaintainAbsoluteTagPositions );
-	bool			PreventTagOverlap( void );
-
-	CEventAbsoluteTag *FindEntryTag( AbsTagType type );
-	CEventAbsoluteTag *FindExitTag( AbsTagType type );
-
-	// Flex animation type
-	int				GetNumFlexAnimationTracks( void );
-	CFlexAnimationTrack		*GetFlexAnimationTrack( int index );
-	CFlexAnimationTrack		*AddTrack( const char *controllername );
-	CFlexAnimationTrack		*FindTrack( const char *controllername );
-	void			RemoveTrack( int index );
-	void			RemoveAllTracks( void );
-	void			OnEndTimeChanged( void );
-
-	bool			GetTrackLookupSet( void );
-	void			SetTrackLookupSet( bool set );
-
-	// Flex Timing Tags (used by editor only)
-	void			ClearAllTimingTags( void );
-	int				GetNumTimingTags( void );
-	CFlexTimingTag	*GetTimingTag( int tagnum );
-	CFlexTimingTag	*FindTimingTag( const char *tagname );
-	void			AddTimingTag( const char *tagname, float percentage, bool locked );
-	void			RemoveTimingTag( const char *tagname );
-
-	// Subscene ( embedded .vcd ) support
-	void			SetSubScene( CChoreoScene *scene );
-	CChoreoScene	*GetSubScene( void );
-
-	bool			IsProcessing( void ) const;
-	void			StartProcessing( IChoreoEventCallback *cb, CChoreoScene *scene, float t );
-	void			ContinueProcessing( IChoreoEventCallback *cb, CChoreoScene *scene, float t );
-	void			StopProcessing( IChoreoEventCallback *cb, CChoreoScene *scene, float t );
-	bool			CheckProcessing( IChoreoEventCallback *cb, CChoreoScene *scene, float t );
-	void			ResetProcessing( void );
-
-	void			SetMixer( CAudioMixer *mixer );
-	CAudioMixer		*GetMixer( void ) const;
-
-	// Hack for LOOKAT in editor
-	int				GetPitch( void ) const;
-	void			SetPitch( int pitch );
-	int				GetYaw( void ) const;
-	void			SetYaw( int yaw );
-
-	// For LOOP events
-	void			SetLoopCount( int numloops );
-	int				GetLoopCount( void );
-	int				GetNumLoopsRemaining( void );
-	void			SetNumLoopsRemaining( int loops );
-
-	bool			IsMarkedForSave() const { return m_bMarkedForSave; }
-	void			SetMarkedForSave( bool mark ) { m_bMarkedForSave = mark; }
-
-	void			GetMovementStyle( char *style, int maxlen );
-	void			GetDistanceStyle( char *style, int maxlen );
-
-	int				GetGlobalID() const { return m_nGlobalID; }
-
-	// Localization/CC support (close captioning and multiple wave file recombination)
-	void			SetCloseCaptionType( CLOSECAPTION type );
-	CLOSECAPTION	GetCloseCaptionType() const;
-	void			SetCloseCaptionToken( char const *token );
-	char const		*GetCloseCaptionToken() const;
-	void			SetUsingCombinedFile( bool isusing );
-	bool			IsUsingCombinedFile() const;
-	void			SetRequiredCombinedChecksum( unsigned int checksum );
-	unsigned int	GetRequiredCombinedChecksum();
-	void			SetNumSlaves( int num );
-	int				GetNumSlaves() const;
-	void			SetLastSlaveEndTime( float t );
-	float			GetLastSlaveEndTime() const;
-	void			SetCloseCaptionTokenValid( bool valid );
-	bool			GetCloseCaptionTokenValid() const;
-
-	bool			ComputeCombinedBaseFileName( char *dest, int destlen, bool creategenderwildcard );
-	bool			IsCombinedUsingGenderToken() const;
-	void			SetCombinedUsingGenderToken( bool using_gender );
-
-	bool			IsSuppressingCaptionAttenuation() const;
-	void			SetSuppressingCaptionAttenuation( bool suppress );
-
-	int				ValidateCombinedFile();
-
-	// This returns false if the wave is CC_DISABLED or is a CC_SLAVE,
-	//  otherwise it returns the actual m_szCCToken value, or if that's 
-	//  blank it'll return the sounds.txt entry name (m_szParameters)
-	bool			GetPlaybackCloseCaptionToken( char *dest, int destlen );
-
-	void			ClearEventDependencies();
-	void			AddEventDependency( CChoreoEvent *other );
-	void			GetEventDependencies( CUtlVector< CChoreoEvent * >& list );
-
-	void			SetActive( bool state );
-	bool			GetActive() const;
-
-	void			SetDefaultCurveType( int nCurveType );
-
-	// Turn enum into string and vice versa
-	static EVENTTYPE TypeForName( const char *name );
-	static const char *NameForType( EVENTTYPE type );
-
-	// Turn enum into string and vice versa
-	static CLOSECAPTION CCTypeForName( const char *name );
-	static const char *NameForCCType( CLOSECAPTION type );
+    ~CChoreoEvent(void);
+
+    // ICurveDataAccessor methods
+    virtual bool CurveHasEndTime();
+
+    virtual int GetDefaultCurveType();
+
+    // Binary serialization
+    void SaveToBuffer(CUtlBuffer &buf, CChoreoScene *pScene, IChoreoStringPool *pStringPool);
+
+    bool RestoreFromBuffer(CUtlBuffer &buf, CChoreoScene *pScene, IChoreoStringPool *pStringPool);
+
+    // Accessors
+    EVENTTYPE GetType(void);
+
+    void SetType(EVENTTYPE type);
+
+    void SetName(const char *name);
+
+    const char *GetName(void);
+
+    void SetParameters(const char *target);
+
+    const char *GetParameters(void);
+
+    void SetParameters2(const char *target);
+
+    const char *GetParameters2(void);
+
+    void SetParameters3(const char *target);
+
+    const char *GetParameters3(void);
+
+    void SetStartTime(float starttime);
+
+    float GetStartTime(void);
+
+    void SetEndTime(float endtime);
+
+    float GetEndTime(void);
+
+    float GetDuration(void);
+
+    void SetResumeCondition(bool resumecondition);
+
+    bool IsResumeCondition(void);
+
+    void SetLockBodyFacing(bool lockbodyfacing);
+
+    bool IsLockBodyFacing(void);
+
+    void SetDistanceToTarget(float distancetotarget);
+
+    float GetDistanceToTarget(void);
+
+    void SetForceShortMovement(bool bForceShortMovement);
+
+    bool GetForceShortMovement(void);
+
+    void SetSyncToFollowingGesture(bool bSyncToFollowingGesture);
+
+    bool GetSyncToFollowingGesture(void);
+
+    void SetPlayOverScript(bool bPlayOverScript);
+
+    bool GetPlayOverScript(void);
+
+    int GetRampCount(void) { return m_Ramp.GetCount(); };
+
+    CExpressionSample *GetRamp(int index) { return m_Ramp.Get(index); };
+
+    CExpressionSample *AddRamp(float time, float value, bool selected) { return m_Ramp.Add(time, value, selected); };
+
+    void DeleteRamp(int index) { m_Ramp.Delete(index); };
+
+    void ClearRamp(void) { m_Ramp.Clear(); };
+
+    void ResortRamp(void) { m_Ramp.Resort(this); };
+
+    CCurveData *GetRamp(void) { return &m_Ramp; };
+
+    float GetRampIntensity(float time) { return m_Ramp.GetIntensity(this, time); };
+
+    // Calculates weighting for a given time
+    float GetIntensity(float scenetime);
+
+    float GetIntensityArea(float scenetime);
+
+    // Calculates 0..1 completion for a given time
+    float GetCompletion(float time);
+
+    // An end time of -1.0f means that the events is just triggered at the leading edge
+    bool HasEndTime(void);
+
+    // Is the event something that can be sized ( a wave file, e.g. )
+    bool IsFixedLength(void);
+
+    void SetFixedLength(bool isfixedlength);
+
+    // Move the start/end/both times by the specified dt (fixes up -1.0f endtimes)
+    void OffsetStartTime(float dt);
+
+    void OffsetEndTime(float dt);
+
+    void OffsetTime(float dt);
+
+    // Snap to scene framerate
+    void SnapTimes(void);
+
+    float SnapTime(float t);
+
+    CChoreoScene *GetScene(void);
+
+    void SetScene(CChoreoScene *scene);
+
+    // The actor the event is associated with
+    void SetActor(CChoreoActor *actor);
+
+    CChoreoActor *GetActor(void);
+
+    // The channel the event is associated with
+    void SetChannel(CChoreoChannel *channel);
+
+    CChoreoChannel *GetChannel(void);
+
+    // Get a more involved description of the event
+    const char *GetDescription(void);
+
+    void ClearAllRelativeTags(void);
+
+    int GetNumRelativeTags(void);
+
+    CEventRelativeTag *GetRelativeTag(int tagnum);
+
+    CEventRelativeTag *FindRelativeTag(const char *tagname);
+
+    void AddRelativeTag(const char *tagname, float percentage);
+
+    void RemoveRelativeTag(const char *tagname);
+
+    bool IsUsingRelativeTag(void);
+
+    void SetUsingRelativeTag(bool usetag, const char *tagname = 0, const char *wavname = 0);
+
+    const char *GetRelativeTagName(void);
+
+    const char *GetRelativeWavName(void);
+
+    // Absolute tags
+    typedef enum {
+        PLAYBACK = 0,    // new timeline		- FIXME: should be stored as an absolute time
+        ORIGINAL,        // original timeline - FIXME: should be stored at a fixed percentage of event
+
+        NUM_ABS_TAG_TYPES,
+    } AbsTagType;
+
+    void SetGestureSequenceDuration(float duration);
+
+    bool GetGestureSequenceDuration(float &duration);
+
+    void ClearAllAbsoluteTags(AbsTagType type);
+
+    int GetNumAbsoluteTags(AbsTagType type);
+
+    CEventAbsoluteTag *GetAbsoluteTag(AbsTagType type, int tagnum);
+
+    CEventAbsoluteTag *FindAbsoluteTag(AbsTagType type, const char *tagname);
+
+    void AddAbsoluteTag(AbsTagType type, const char *tagname, float t);
+
+    void RemoveAbsoluteTag(AbsTagType type, const char *tagname);
+
+    bool VerifyTagOrder(void);
+
+    float GetOriginalPercentageFromPlaybackPercentage(float t);
+
+    float GetPlaybackPercentageFromOriginalPercentage(float t);
+
+    static const char *NameForAbsoluteTagType(AbsTagType t);
+
+    static AbsTagType TypeForAbsoluteTagName(const char *name);
+
+    void RescaleGestureTimes(float newstart, float newend, bool bMaintainAbsoluteTagPositions);
+
+    bool PreventTagOverlap(void);
+
+    CEventAbsoluteTag *FindEntryTag(AbsTagType type);
+
+    CEventAbsoluteTag *FindExitTag(AbsTagType type);
+
+    // Flex animation type
+    int GetNumFlexAnimationTracks(void);
+
+    CFlexAnimationTrack *GetFlexAnimationTrack(int index);
+
+    CFlexAnimationTrack *AddTrack(const char *controllername);
+
+    CFlexAnimationTrack *FindTrack(const char *controllername);
+
+    void RemoveTrack(int index);
+
+    void RemoveAllTracks(void);
+
+    void OnEndTimeChanged(void);
+
+    bool GetTrackLookupSet(void);
+
+    void SetTrackLookupSet(bool set);
+
+    // Flex Timing Tags (used by editor only)
+    void ClearAllTimingTags(void);
+
+    int GetNumTimingTags(void);
+
+    CFlexTimingTag *GetTimingTag(int tagnum);
+
+    CFlexTimingTag *FindTimingTag(const char *tagname);
+
+    void AddTimingTag(const char *tagname, float percentage, bool locked);
+
+    void RemoveTimingTag(const char *tagname);
+
+    // Subscene ( embedded .vcd ) support
+    void SetSubScene(CChoreoScene *scene);
+
+    CChoreoScene *GetSubScene(void);
+
+    bool IsProcessing(void) const;
+
+    void StartProcessing(IChoreoEventCallback *cb, CChoreoScene *scene, float t);
+
+    void ContinueProcessing(IChoreoEventCallback *cb, CChoreoScene *scene, float t);
+
+    void StopProcessing(IChoreoEventCallback *cb, CChoreoScene *scene, float t);
+
+    bool CheckProcessing(IChoreoEventCallback *cb, CChoreoScene *scene, float t);
+
+    void ResetProcessing(void);
+
+    void SetMixer(CAudioMixer *mixer);
+
+    CAudioMixer *GetMixer(void) const;
+
+    // Hack for LOOKAT in editor
+    int GetPitch(void) const;
+
+    void SetPitch(int pitch);
+
+    int GetYaw(void) const;
+
+    void SetYaw(int yaw);
+
+    // For LOOP events
+    void SetLoopCount(int numloops);
+
+    int GetLoopCount(void);
+
+    int GetNumLoopsRemaining(void);
+
+    void SetNumLoopsRemaining(int loops);
+
+    bool IsMarkedForSave() const { return m_bMarkedForSave; }
+
+    void SetMarkedForSave(bool mark) { m_bMarkedForSave = mark; }
+
+    void GetMovementStyle(char *style, int maxlen);
+
+    void GetDistanceStyle(char *style, int maxlen);
+
+    int GetGlobalID() const { return m_nGlobalID; }
+
+    // Localization/CC support (close captioning and multiple wave file recombination)
+    void SetCloseCaptionType(CLOSECAPTION type);
+
+    CLOSECAPTION GetCloseCaptionType() const;
+
+    void SetCloseCaptionToken(char const *token);
+
+    char const *GetCloseCaptionToken() const;
+
+    void SetUsingCombinedFile(bool isusing);
+
+    bool IsUsingCombinedFile() const;
+
+    void SetRequiredCombinedChecksum(unsigned int checksum);
+
+    unsigned int GetRequiredCombinedChecksum();
+
+    void SetNumSlaves(int num);
+
+    int GetNumSlaves() const;
+
+    void SetLastSlaveEndTime(float t);
+
+    float GetLastSlaveEndTime() const;
+
+    void SetCloseCaptionTokenValid(bool valid);
+
+    bool GetCloseCaptionTokenValid() const;
+
+    bool ComputeCombinedBaseFileName(char *dest, int destlen, bool creategenderwildcard);
+
+    bool IsCombinedUsingGenderToken() const;
+
+    void SetCombinedUsingGenderToken(bool using_gender);
+
+    bool IsSuppressingCaptionAttenuation() const;
+
+    void SetSuppressingCaptionAttenuation(bool suppress);
+
+    int ValidateCombinedFile();
+
+    // This returns false if the wave is CC_DISABLED or is a CC_SLAVE,
+    //  otherwise it returns the actual m_szCCToken value, or if that's
+    //  blank it'll return the sounds.txt entry name (m_szParameters)
+    bool GetPlaybackCloseCaptionToken(char *dest, int destlen);
+
+    void ClearEventDependencies();
+
+    void AddEventDependency(CChoreoEvent *other);
+
+    void GetEventDependencies(CUtlVector<CChoreoEvent *> &list);
+
+    void SetActive(bool state);
+
+    bool GetActive() const;
+
+    void SetDefaultCurveType(int nCurveType);
+
+    // Turn enum into string and vice versa
+    static EVENTTYPE TypeForName(const char *name);
+
+    static const char *NameForType(EVENTTYPE type);
+
+    // Turn enum into string and vice versa
+    static CLOSECAPTION CCTypeForName(const char *name);
+
+    static const char *NameForCCType(CLOSECAPTION type);
 
 private:
 
-	// Declare copy constructor private to prevent accidental usage...
-					CChoreoEvent(const CChoreoEvent& src );
+    // Declare copy constructor private to prevent accidental usage...
+    CChoreoEvent(const CChoreoEvent &src);
 
-	void SaveFlexAnimationsToBuffer( CUtlBuffer& buf, IChoreoStringPool *pStringPool );
-	bool RestoreFlexAnimationsFromBuffer( CUtlBuffer& buf, IChoreoStringPool *pStringPool );
+    void SaveFlexAnimationsToBuffer(CUtlBuffer &buf, IChoreoStringPool *pStringPool);
 
-	float			GetBoundedAbsoluteTagPercentage( AbsTagType type, int tagnum );
+    bool RestoreFlexAnimationsFromBuffer(CUtlBuffer &buf, IChoreoStringPool *pStringPool);
 
-	float			_GetIntensity( float time );
+    float GetBoundedAbsoluteTagPercentage(AbsTagType type, int tagnum);
 
-	// String bounds
-	enum
-	{
-		MAX_CHOREOEVENT_NAME	= 128,
-		MAX_PARAMETERS_STRING	= 128,
-	};
+    float _GetIntensity(float time);
 
-	// Base initialization
-	void			Init( CChoreoScene *scene );
+    // String bounds
+    enum {
+        MAX_CHOREOEVENT_NAME = 128,
+        MAX_PARAMETERS_STRING = 128,
+    };
 
-	// Type of event
-	byte			m_fType;
+    // Base initialization
+    void Init(CChoreoScene *scene);
 
-	// Close caption type
-	byte			m_ccType;
+    // Type of event
+    byte m_fType;
 
-	// Name of event
-	ChoreoStr_t		m_Name;
+    // Close caption type
+    byte m_ccType;
 
-	// Event parameters
-	ChoreoStr_t		m_Parameters;
-	ChoreoStr_t		m_Parameters2;
-	ChoreoStr_t		m_Parameters3;
+    // Name of event
+    ChoreoStr_t m_Name;
 
-	// Event start time
-	float			m_flStartTime;
+    // Event parameters
+    ChoreoStr_t m_Parameters;
+    ChoreoStr_t m_Parameters2;
+    ChoreoStr_t m_Parameters3;
 
-	// Event end time ( -1.0f means no ending, just leading edge triggered )
-	float			m_flEndTime;
+    // Event start time
+    float m_flStartTime;
 
-	// Duration of underlying gesture sequence
-	float			m_flGestureSequenceDuration;
+    // Event end time ( -1.0f means no ending, just leading edge triggered )
+    float m_flEndTime;
 
-	// For CChoreoEvent::LOOP
-	int				m_nNumLoops; // -1 == no limit
-	int				m_nLoopsRemaining;
+    // Duration of underlying gesture sequence
+    float m_flGestureSequenceDuration;
 
-	// Overall intensity curve
-	CCurveData		m_Ramp;
+    // For CChoreoEvent::LOOP
+    int m_nNumLoops; // -1 == no limit
+    int m_nLoopsRemaining;
 
-	// Start time is computed based on length of item referenced by tagged name
-	ChoreoStr_t		m_TagName;
-	ChoreoStr_t		m_TagWavName;
+    // Overall intensity curve
+    CCurveData m_Ramp;
 
-	// Associated actor
-	CChoreoActor	*m_pActor;
-	// Associated channel
-	CChoreoChannel	*m_pChannel;
+    // Start time is computed based on length of item referenced by tagged name
+    ChoreoStr_t m_TagName;
+    ChoreoStr_t m_TagWavName;
 
-	CUtlVector < CEventRelativeTag > m_RelativeTags;
-	CUtlVector < CFlexTimingTag > m_TimingTags;
-	CUtlVector < CEventAbsoluteTag > m_AbsoluteTags[ NUM_ABS_TAG_TYPES ];
+    // Associated actor
+    CChoreoActor *m_pActor;
+    // Associated channel
+    CChoreoChannel *m_pChannel;
 
-	CUtlVector < CFlexAnimationTrack * > m_FlexAnimationTracks;
+    CUtlVector<CEventRelativeTag> m_RelativeTags;
+    CUtlVector<CFlexTimingTag> m_TimingTags;
+    CUtlVector<CEventAbsoluteTag> m_AbsoluteTags[NUM_ABS_TAG_TYPES];
 
-	CChoreoScene	*m_pSubScene;
-	CAudioMixer		*m_pMixer;
+    CUtlVector<CFlexAnimationTrack *> m_FlexAnimationTracks;
 
-	// Scene which owns this event
-	CChoreoScene	*m_pScene;
+    CChoreoScene *m_pSubScene;
+    CAudioMixer *m_pMixer;
 
-	int				m_nPitch;
-	int				m_nYaw;
+    // Scene which owns this event
+    CChoreoScene *m_pScene;
 
-	float			m_flDistanceToTarget;
+    int m_nPitch;
+    int m_nYaw;
 
-	int				m_nGlobalID;
+    float m_flDistanceToTarget;
 
-	ChoreoStr_t		m_CCToken;
-	unsigned int	m_uRequiredCombinedChecksum; 
-	// on master only, the combined file must have the same checksum to be useable
-	int				m_nNumSlaves;
-	// Only set on master, helps UI draw underbar
-	float			m_flLastSlaveEndTime;	
-	// true if the cc token was found in the cc manager's database
+    int m_nGlobalID;
 
-	CUtlVector< CChoreoEvent * >	m_Dependencies;
+    ChoreoStr_t m_CCToken;
+    unsigned int m_uRequiredCombinedChecksum;
+    // on master only, the combined file must have the same checksum to be useable
+    int m_nNumSlaves;
+    // Only set on master, helps UI draw underbar
+    float m_flLastSlaveEndTime;
+    // true if the cc token was found in the cc manager's database
 
-	int				m_nDefaultCurveType;
+    CUtlVector<CChoreoEvent *> m_Dependencies;
+
+    int m_nDefaultCurveType;
 
 public:
-	// used only during scrubbing of looping sequences
-	float			m_flPrevCycle;
-	float			m_flPrevTime;
+    // used only during scrubbing of looping sequences
+    float m_flPrevCycle;
+    float m_flPrevTime;
 
-	// Flags
+    // Flags
 
-	bool			m_bFixedLength:1;
-	// True if this event must be "finished" before the next section can be started
-	//  after playback is paused from a globalevent
-	bool			m_bResumeCondition:1;
-	bool			m_bUsesTag:1;
-	bool			m_bTrackLookupSet:1;
-	bool			m_bProcessing:1;
-	bool			m_bLockBodyFacing:1;
-	// Purely for save/load
-	bool			m_bMarkedForSave:1;
-	bool			m_bUsingCombinedSoundFile:1;
-	bool			m_bCCTokenValid:1;   
-	bool			m_bCombinedUsingGenderToken:1;
+    bool m_bFixedLength: 1;
+    // True if this event must be "finished" before the next section can be started
+    //  after playback is paused from a globalevent
+    bool m_bResumeCondition: 1;
+    bool m_bUsesTag: 1;
+    bool m_bTrackLookupSet: 1;
+    bool m_bProcessing: 1;
+    bool m_bLockBodyFacing: 1;
+    // Purely for save/load
+    bool m_bMarkedForSave: 1;
+    bool m_bUsingCombinedSoundFile: 1;
+    bool m_bCCTokenValid: 1;
+    bool m_bCombinedUsingGenderToken: 1;
 
-	bool			m_bSuppressCaptionAttenuation:1;
+    bool m_bSuppressCaptionAttenuation: 1;
 
-	bool			m_bForceShortMovement:1;
-	bool			m_bSyncToFollowingGesture:1;
-	bool			m_bActive:1;
-	bool			m_bPlayOverScript:1;
+    bool m_bForceShortMovement: 1;
+    bool m_bSyncToFollowingGesture: 1;
+    bool m_bActive: 1;
+    bool m_bPlayOverScript: 1;
 };
 
 #endif // CHOREOEVENT_H

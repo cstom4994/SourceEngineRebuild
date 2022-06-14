@@ -115,15 +115,11 @@ extern ConVar tf_mm_servermode;
 #endif
 
 #ifdef USE_NAV_MESH
-
 #include "nav_mesh.h"
-
 #endif
 
 #ifdef NEXT_BOT
-
 #include "NextBotManager.h"
-
 #endif
 
 #ifdef USES_ECON_ITEMS
@@ -142,8 +138,6 @@ extern ConVar tf_mm_servermode;
 #if defined( REPLAY_ENABLED )
 #include "replay/ireplaysystem.h"
 #endif
-
-#include "contents/lua_manager.h"
 
 extern IToolFrameworkServer *g_pToolFrameworkServer;
 extern IParticleSystemQuery *g_pParticleSystemQuery;
@@ -629,7 +623,7 @@ bool CServerGameDLL::DLLInit(CreateInterfaceFn appSystemFactory,
 #endif
     }
 
-    // Yes, both the client and game .dlls will try to Connect, the soundemittersystem will handle this gracefully
+    // Yes, both the client and game .dlls will try to Connect, the soundemittersystem.dll will handle this gracefully
     if (!soundemitterbase->Connect(appSystemFactory))
         return false;
 
@@ -736,8 +730,6 @@ bool CServerGameDLL::DLLInit(CreateInterfaceFn appSystemFactory,
     gamestatsuploader->InitConnection();
 #endif
 
-    GELua()->InitDll();
-
     return true;
 }
 
@@ -746,8 +738,6 @@ void CServerGameDLL::PostInit() {
 }
 
 void CServerGameDLL::DLLShutdown(void) {
-
-    GELua()->ShutdownDll();
 
     // Due to dependencies, these are not autogamesystems
     ModelSoundsCacheShutdown();
@@ -776,7 +766,8 @@ void CServerGameDLL::DLLShutdown(void) {
 #ifndef _XBOX
 #ifdef USE_NAV_MESH
     // destroy the Navigation Mesh interface
-    if (TheNavMesh) {
+    if (TheNavMesh)
+    {
         delete TheNavMesh;
         TheNavMesh = NULL;
     }
@@ -1336,7 +1327,8 @@ void CServerGameDLL::LevelShutdown(void) {
 #ifndef _XBOX
 #ifdef USE_NAV_MESH
     // reset the Navigation Mesh
-    if (TheNavMesh) {
+    if (TheNavMesh)
+    {
         TheNavMesh->Reset();
     }
 #endif
@@ -3206,7 +3198,7 @@ void MessageWriteBits(const void *pIn, int nBits) {
 class CServerDLLSharedAppSystems : public IServerDLLSharedAppSystems {
 public:
     CServerDLLSharedAppSystems() {
-        AddAppSystem("engine.dll", SOUNDEMITTERSYSTEM_INTERFACE_VERSION);
+        AddAppSystem("soundemittersystem.dll", SOUNDEMITTERSYSTEM_INTERFACE_VERSION);
         AddAppSystem("scenefilecache.dll", SCENE_FILE_CACHE_INTERFACE_VERSION);
     }
 

@@ -1,69 +1,35 @@
-set(PROJECT_NAME GameUI2)
+﻿set(PROJECT_NAME rocketui)
 
 ################################################################################
 # Source groups
 ################################################################################
 set(Base_Files
-    "../../common/language.cpp"
-    "../../public/vgui_controls/vgui_controls.cpp"
-)
+        "../../common/language.cpp"
+        "../../public/vgui_controls/vgui_controls.cpp"
+        )
 source_group("Base Files" FILES ${Base_Files})
 
-set(Header_Files
-    "igameui2.h"
-)
-source_group("Header Files" FILES ${Header_Files})
-
 set(Source_Files
-    "../../public/tier0/memoverride.cpp"
-    "basepanel.cpp"
-    "basepanel.h"
-    "gameui2_interface.cpp"
-    "gameui2_interface.h"
-)
+        "rocketfilesystem.cpp"
+        "rocketfilesystem.h"
+        "rocketkeys.h"
+        "rocketrender.h"
+        #        "rocketrenderGL.cpp"
+        "rocketsystem.cpp"
+        "rocketsystem.h"
+        "rocketuiimpl.cpp"
+        "rocketuiimpl.h"
+        "customelements/KisakConvarSetting.cpp"
+        "customelements/KisakConvarSetting.h"
+        "customelements/KisakURL.cpp"
+        "customelements/KisakURL.h"
+        )
 source_group("Source Files" FILES ${Source_Files})
 
-set(Source_Files__Buttons
-    "button_mainmenu.cpp"
-    "button_mainmenu.h"
-    "button_panel.cpp"
-    "button_panel.h"
-)
-source_group("Source Files\\Buttons" FILES ${Source_Files__Buttons})
-
-set(Source_Files__Main_menu
-    "mainmenu.cpp"
-    "mainmenu.h"
-)
-source_group("Source Files\\Main menu" FILES ${Source_Files__Main_menu})
-
-set(Source_Files__Panels
-    "panel_options.cpp"
-    "panel_options.h"
-    "panel_quitgame.cpp"
-    "panel_quitgame.h"
-)
-source_group("Source Files\\Panels" FILES ${Source_Files__Panels})
-
-set(Source_Files__VGUI_2D
-    "vgui2d/button2d.cpp"
-    "vgui2d/button2d.h"
-    "vgui2d/frame2d.cpp"
-    "vgui2d/frame2d.h"
-    "vgui2d/panel2d.cpp"
-    "vgui2d/panel2d.h"
-)
-source_group("Source Files\\VGUI 2D" FILES ${Source_Files__VGUI_2D})
-
 set(ALL_FILES
-    ${Base_Files}
-    ${Header_Files}
-    ${Source_Files}
-    ${Source_Files__Buttons}
-    ${Source_Files__Main_menu}
-    ${Source_Files__Panels}
-    ${Source_Files__VGUI_2D}
-)
+        ${Base_Files}
+        ${Source_Files}
+        )
 
 ################################################################################
 # Target
@@ -75,9 +41,9 @@ use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 # Target name
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    TARGET_NAME_DEBUG   "gameui2"
-    TARGET_NAME_RELEASE "gameui2"
-)
+        TARGET_NAME_DEBUG "rocketui"
+        TARGET_NAME_RELEASE "rocketui"
+        )
 ################################################################################
 # Output directory
 ################################################################################
@@ -93,66 +59,69 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ################################################################################
 get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
 string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
-    $<$<CONFIG:Debug>:
+        $<$<CONFIG:Debug>:
         MultiThreadedDebug
-    >
-    $<$<CONFIG:Release>:
+        >
+        $<$<CONFIG:Release>:
         MultiThreaded
-    >
-    $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
-)
+        >
+        $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
+        )
 set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
 
 ################################################################################
 # Include directories
 ################################################################################
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "${MYROOTDIR}/common;"
-    "${MYROOTDIR}/public;"
-    "${MYROOTDIR}/public/tier0;"
-    "${MYROOTDIR}/public/tier1;"
-    "${CMAKE_CURRENT_SOURCE_DIR}/.;"
-    "${MYROOTDIR}/vgui2/include;"
-    "${MYROOTDIR}/vgui2/controls"
-)
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/../thirdparty/RmlUi/Include;"
+        "${MYROOTDIR}/../thirdparty/SDL2;"
+        "${MYROOTDIR}/game/interfaces;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/.;"
+        "${MYROOTDIR}/vgui2/include;"
+        "${MYROOTDIR}/vgui2/controls"
+        )
 
 ################################################################################
 # Compile definitions
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    "$<$<CONFIG:Debug>:"
+        "$<$<CONFIG:Debug>:"
         "_DEBUG;"
         "DEBUG"
-    ">"
-    "$<$<CONFIG:Release>:"
+        ">"
+        "$<$<CONFIG:Release>:"
         "NDEBUG"
-    ">"
-    "VPC;"
-    "RAD_TELEMETRY_DISABLED;"
-    "DLLNAME=gameui2;"
-    "BINK_VIDEO;"
-    "AVI_VIDEO;"
-    "WMV_VIDEO;"
-    "DEV_BUILD;"
-    "FRAME_POINTER_OMISSION_DISABLED;"
-    "GAMEUI2_DLL;"
-    "VERSION_SAFE_STEAM_API_INTERFACES;"
-    "strncpy=use_Q_strncpy_instead;"
-    "_snprintf=use_Q_snprintf_instead;"
-    "SOURCE1=1;"
-    "_MBCS"
-)
+        ">"
+        "VPC;"
+        "RAD_TELEMETRY_DISABLED;"
+        "DLLNAME=gameui2;"
+        "BINK_VIDEO;"
+        "AVI_VIDEO;"
+        "WMV_VIDEO;"
+        "DEV_BUILD;"
+        "FRAME_POINTER_OMISSION_DISABLED;"
+        "RMLUI_STATIC_LIB;"
+        "VERSION_SAFE_STEAM_API_INTERFACES;"
+        "strncpy=use_Q_strncpy_instead;"
+        "_snprintf=use_Q_snprintf_instead;"
+        "SOURCE1=1;"
+        "_MBCS"
+        )
 
 ################################################################################
 # Compile and link options
 ################################################################################
-if(MSVC)
+if (MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:
+            $<$<CONFIG:Debug>:
             /Od;
             /ZI
-        >
-        $<$<CONFIG:Release>:
+            >
+            $<$<CONFIG:Release>:
             /O2;
             /Ob2;
             /Oi;
@@ -160,31 +129,31 @@ if(MSVC)
             /Zi;
             /Ot;
             /Zo
-        >
-        /MP;
-        /GF;
-        /arch:SSE;
+            >
+            /MP;
+            /GF;
+            /arch:SSE;
 
-        /TP;
-        /fp:fast;
-        /GR;
-        /wd4316;
-        /Zm200;
-        /Gw;
-        /Zc:inline;
-        /GS;
-        /Zc:forScope;
-        /Y-
-    )
+            /TP;
+            /fp:fast;
+            /GR;
+            /wd4316;
+            /Zm200;
+            /Gw;
+            /Zc:inline;
+            /GS;
+            /Zc:forScope;
+            /Y-
+            )
 
     target_link_options(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Debug>:
+            $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
             /NODEFAULTLIB:libcpmt;
             /NODEFAULTLIB:libcpmt1;
             /INCREMENTAL
-        >
-        $<$<CONFIG:Release>:
+            >
+            $<$<CONFIG:Release>:
             /NODEFAULTLIB:libcmtd;
             /NODEFAULTLIB:libcpmtd;
             /NODEFAULTLIB:libcpmtd0;
@@ -192,18 +161,18 @@ if(MSVC)
             /OPT:REF;
             /OPT:NOICF;
             /INCREMENTAL:NO
-        >
-        /NODEFAULTLIB:libc;
-        /NODEFAULTLIB:libcd;
-        /NOLOGO;
-        /MANIFEST:NO;
-        /DEBUG;
-        /SAFESEH:NO;
-        /SUBSYSTEM:WINDOWS;
-        /DYNAMICBASE:NO;
-        /ignore:4221
-    )
-endif()
+            >
+            /NODEFAULTLIB:libc;
+            /NODEFAULTLIB:libcd;
+            /NOLOGO;
+            /MANIFEST:NO;
+            /DEBUG;
+            /SAFESEH:NO;
+            /SUBSYSTEM:WINDOWS;
+            /DYNAMICBASE:NO;
+            /ignore:4221
+            )
+endif ()
 
 ################################################################################
 # Dependencies

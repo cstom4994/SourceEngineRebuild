@@ -1939,8 +1939,8 @@ if (BUILD_TF)
     # Output directory
     ################################################################################
     set_target_properties(${PROJECT_NAME} PROPERTIES
-            OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/tf/bin"
-            OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/tf/bin"
+            OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/tf/bin"
+            OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/tf/bin"
             )
     set_target_properties(${PROJECT_NAME} PROPERTIES
             PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -1964,24 +1964,24 @@ if (BUILD_TF)
     # Include directories
     ################################################################################
     target_include_directories(${PROJECT_NAME} PRIVATE
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
+            "${MYROOTDIR}/common;"
+            "${MYROOTDIR}/public;"
+            "${MYROOTDIR}/public/tier0;"
+            "${MYROOTDIR}/public/tier1;"
             "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_tf;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.6.1/src;"
+            "${MYROOTDIR}/../thirdparty/protobuf-2.6.1/src;"
             "${CMAKE_CURRENT_SOURCE_DIR}/.;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../shared;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../utils/common;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../shared/econ;"
+            "${MYROOTDIR}/game/shared;"
+            "${MYROOTDIR}/utils/common;"
+            "${MYROOTDIR}/game/shared/econ;"
             "${CMAKE_CURRENT_SOURCE_DIR}/NextBot;"
-            "../../minisef/gcsdk/steamextra;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2;"
+            "${MYROOTDIR}/gcsdk/steamextra;"
+            "${MYROOTDIR}/game/shared/hl2;"
             "${CMAKE_CURRENT_SOURCE_DIR}/tf;"
             "${CMAKE_CURRENT_SOURCE_DIR}/tf/vgui;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../statemachine;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../shared/Multiplayer;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../shared/tf"
+            "${MYROOTDIR}/statemachine;"
+            "${MYROOTDIR}/game/shared/Multiplayer;"
+            "${MYROOTDIR}/game/shared/tf"
             )
 
     ################################################################################
@@ -2066,154 +2066,8 @@ if (BUILD_TF)
                 /GS;
                 /Zc:forScope
                 )
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(generated_proto_tf/gcsystemmsgs.pb.cc ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(generated_proto_tf/tf_gcmessages.pb.cc ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(generated_proto_tf/base_gcmessages.pb.cc ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(generated_proto_tf/econ_gcmessages.pb.cc ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(generated_proto_tf/steammessages.pb.cc ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/bone_setup.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/collisionutils.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../common/crypto.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../common/debug_dll_check.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/dt_send.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/dt_utlvector_common.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/dt_utlvector_send.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/editor_sendcommand.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/filesystem_helpers.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(gamehandle.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(GameStats_BasicStatsFunctions.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(h_export.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(init_factory.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/interpolatortypes.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../shared/interval.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/keyframe/keyframe.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../common/language.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/map_utils.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/tier0/memoverride.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/networkvar.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../common/randoverride.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/registry.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/rope_physics.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/scratchpad3d.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/ScratchPadUtils.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/server_class.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../shared/sheetsimulator.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/simple_physics.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../common/steamid.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/stringregistry.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(../../public/studio.cpp ${FILE_CL_OPTIONS})
-        string(CONCAT FILE_CL_OPTIONS
-                "/Y-"
-                )
-        source_file_compile_options(tf/tf_voteissues.cpp ${FILE_CL_OPTIONS})
+
+
         target_link_options(${PROJECT_NAME} PRIVATE
                 $<$<CONFIG:Debug>:
                 /NODEFAULTLIB:libcmt;
@@ -2291,7 +2145,7 @@ if (BUILD_TF)
             cryptlib
 
 
-            libprotobuf
+            # libprotobuf
 
             "shell32;"
             "user32;"
@@ -2305,14 +2159,1561 @@ if (BUILD_TF)
     target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
     target_link_directories(${PROJECT_NAME} PUBLIC
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common;"
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public"
+            "${MYROOTDIR}/lib/common;"
+            "${MYROOTDIR}/lib/public"
+            )
+
+endif ()
+
+if (BUILD_HL2)
+
+    set(PROJECT_NAME ServerSDK)
+
+    ################################################################################
+    # Source groups
+    ################################################################################
+    set(Header_Files
+            "../../common/language.h"
+            "../../public/appframework/IAppSystem.h"
+            "../../public/basehandle.h"
+            "../../public/bitvec.h"
+            "../../public/bone_accessor.h"
+            "../../public/bspfile.h"
+            "../../public/bspflags.h"
+            "../../public/client_class.h"
+            "../../public/client_textmessage.h"
+            "../../public/cmodel.h"
+            "../../public/Color.h"
+            "../../public/const.h"
+            "../../public/coordsize.h"
+            "../../public/datamap.h"
+            "../../public/dlight.h"
+            "../../public/dt_common.h"
+            "../../public/dt_recv.h"
+            "../../public/dt_send.h"
+            "../../public/dt_utlvector_common.h"
+            "../../public/dt_utlvector_send.h"
+            "../../public/engine/ICollideable.h"
+            "../../public/engine/IEngineSound.h"
+            "../../public/engine/IEngineTrace.h"
+            "../../public/engine/IStaticPropMgr.h"
+            "../../public/engine/ivdebugoverlay.h"
+            "../../public/engine/ivmodelinfo.h"
+            "../../public/filesystem.h"
+            "../../public/filesystem_helpers.h"
+            "../../public/gametrace.h"
+            "../../public/globalvars_base.h"
+            "../../public/haptics/haptic_utils.h"
+            "../../public/iachievementmgr.h"
+            "../../public/icliententity.h"
+            "../../public/iclientnetworkable.h"
+            "../../public/iclientrenderable.h"
+            "../../public/iclientunknown.h"
+            "../../public/icvar.h"
+            "../../public/igameevents.h"
+            "../../public/ihandleentity.h"
+            "../../public/ihltv.h"
+            "../../public/ihltvdirector.h"
+            "../../public/inetchannelinfo.h"
+            "../../public/irecipientfilter.h"
+            "../../public/isaverestore.h"
+            "../../public/iscratchpad3d.h"
+            "../../public/iserverentity.h"
+            "../../public/iservernetworkable.h"
+            "../../public/iserverunknown.h"
+            "../../public/ispatialpartition.h"
+            "../../public/map_utils.h"
+            "../../public/materialsystem/imaterial.h"
+            "../../public/materialsystem/imaterialsystem.h"
+            "../../public/materialsystem/imaterialvar.h"
+            "../../public/mathlib/amd3dx.h"
+            "../../public/mathlib/bumpvects.h"
+            "../../public/mathlib/compressed_light_cube.h"
+            "../../public/mathlib/compressed_vector.h"
+            "../../public/mathlib/vector.h"
+            "../../public/mathlib/vector2d.h"
+            "../../public/mathlib/vector4d.h"
+            "../../public/mathlib/vplane.h"
+            "../../public/networkvar.h"
+            "../../public/PlayerState.h"
+            "../../public/saverestoretypes.h"
+            "../../public/scratchpad3d.h"
+            "../../public/ScratchPadUtils.h"
+            "../../public/shake.h"
+            "../../public/soundchars.h"
+            "../../public/SoundEmitterSystem/isoundemittersystembase.h"
+            "../../public/soundflags.h"
+            "../../public/stdstring.h"
+            "../../public/string_t.h"
+            "../../public/studio.h"
+            "../../public/texture_group_names.h"
+            "../../public/tier0/basetypes.h"
+            "../../public/tier0/commonmacros.h"
+            "../../public/tier0/dbg.h"
+            "../../public/tier0/fasttimer.h"
+            "../../public/tier0/icommandline.h"
+            "../../public/tier0/l2cache.h"
+            "../../public/tier0/mem.h"
+            "../../public/tier0/memalloc.h"
+            "../../public/tier0/memdbgoff.h"
+            "../../public/tier0/memdbgon.h"
+            "../../public/tier0/platform.h"
+            "../../public/tier0/protected_things.h"
+            "../../public/tier0/vcr_shared.h"
+            "../../public/tier0/vcrmode.h"
+            "../../public/tier0/vprof.h"
+            "../../public/tier1/bitbuf.h"
+            "../../public/tier1/characterset.h"
+            "../../public/tier1/checksum_md5.h"
+            "../../public/tier1/fmtstr.h"
+            "../../public/tier1/KeyValues.h"
+            "../../public/tier1/processor_detect.h"
+            "../../public/tier1/stringpool.h"
+            "../../public/tier1/strtools.h"
+            "../../public/tier1/utldict.h"
+            "../../public/tier1/utlfixedmemory.h"
+            "../../public/tier1/utlhash.h"
+            "../../public/tier1/utllinkedlist.h"
+            "../../public/tier1/utlmap.h"
+            "../../public/tier1/utlmemory.h"
+            "../../public/tier1/utlmultilist.h"
+            "../../public/tier1/utlpriorityqueue.h"
+            "../../public/tier1/utlrbtree.h"
+            "../../public/tier1/UtlSortVector.h"
+            "../../public/tier1/utlvector.h"
+            "../../public/UtlCachedFileData.h"
+            "../../public/vallocator.h"
+            "../../public/vcollide.h"
+            "../../public/vcollide_parse.h"
+            "../../public/vgui/ILocalize.h"
+            "../../public/vgui/VGUI.h"
+            "../../public/vphysics/collision_set.h"
+            "../../public/vphysics/constraints.h"
+            "../../public/vphysics/friction.h"
+            "../../public/vphysics/object_hash.h"
+            "../../public/vphysics/player_controller.h"
+            "../../public/vphysics/vehicles.h"
+            "../../public/vphysics_interface.h"
+            "../../public/vstdlib/IKeyValuesSystem.h"
+            "../../public/vstdlib/random.h"
+            "../../public/vstdlib/vstdlib.h"
+            "../../public/winlite.h"
+            "../../public/worldsize.h"
+            "../../public/zip_uncompressed.h"
+            "../shared/ammodef.h"
+            "../shared/base_playeranimstate.h"
+            "../shared/beam_flags.h"
+            "../shared/death_pose.h"
+            "../shared/decals.h"
+            "../shared/econ/ihasowner.h"
+            "../shared/effect_dispatch_data.h"
+            "../shared/ehandle.h"
+            "../shared/entitydatainstantiator.h"
+            "../shared/entitylist_base.h"
+            "../shared/env_detail_controller.h"
+            "../shared/expressionsample.h"
+            "../shared/func_ladder.h"
+            "../shared/gameeventdefs.h"
+            "../shared/GameEventListener.h"
+            "../shared/gamerules_register.h"
+            "../shared/groundlink.h"
+            "../shared/hl2/hl2_vehicle_radar.h"
+            "../shared/IEffects.h"
+            "../shared/igamemovement.h"
+            "../shared/imovehelper.h"
+            "../shared/in_buttons.h"
+            "../shared/iplayeranimstate.h"
+            "../shared/ipredictionsystem.h"
+            "../shared/itempents.h"
+            "../shared/IVehicle.h"
+            "../shared/mapentities_shared.h"
+            "../shared/movevars_shared.h"
+            "../shared/mp_shareddefs.h"
+            "../shared/npcevent.h"
+            "../shared/playernet_vars.h"
+            "../shared/precipitation_shared.h"
+            "../shared/predictable_entity.h"
+            "../shared/predictioncopy.h"
+            "../shared/props_shared.h"
+            "../shared/querycache.h"
+            "../shared/rope_helpers.h"
+            "../shared/saverestore_stringtable.h"
+            "../shared/saverestore_utlclass.h"
+            "../shared/saverestore_utlmap.h"
+            "../shared/saverestore_utlrbtree.h"
+            "../shared/shared_classnames.h"
+            "../shared/shareddefs.h"
+            "../shared/sharedInterface.h"
+            "../shared/shot_manipulator.h"
+            "../shared/soundenvelope.h"
+            "../shared/sun_shared.h"
+            "../shared/takedamageinfo.h"
+            "../shared/usercmd.h"
+            "../shared/usermessages.h"
+            "../shared/util_shared.h"
+            "../shared/vehicle_viewblend_shared.h"
+            "../shared/vphysics_sound.h"
+            "base_transmit_proxy.h"
+            "basetempentity.h"
+            "cplane.h"
+            "damagemodifier.h"
+            "EventLog.h"
+            "fogcontroller.h"
+            "globals.h"
+            "ilagcompensationmanager.h"
+            "logicrelay.h"
+            "mapentities.h"
+            "modelentities.h"
+            "npc_vehicledriver.h"
+            "particle_system.h"
+            "physics_cannister.h"
+            "physics_fx.h"
+            "physics_impact_damage.h"
+            "playerinfomanager.h"
+            "scratchpad_gamedll_helpers.h"
+            "sendproxy.h"
+            "SkyCamera.h"
+            "soundscape_system.h"
+            "te_effect_dispatch.h"
+            "tesla.h"
+            "test_stressentities.h"
+            "textstatsmgr.h"
+            "timedeventmgr.h"
+            "variant_t.h"
+            "vehicle_base.h"
+            "vehicle_baseserver.h"
+            )
+    source_group("Header Files" FILES ${Header_Files})
+
+    set(Replay
+            "../../common/replay/ireplaysessionrecorder.h"
+            #    "../shared/replay_gamestats_shared.cpp"
+            #    "../shared/replay_gamestats_shared.h"
+            "gamedll_replay.cpp"
+            )
+    source_group("Replay" FILES ${Replay})
+
+    set(Source_Files
+            "../../common/debug_dll_check.cpp"
+            "../../common/hl2orange.spa.h"
+            "../../common/language.cpp"
+            "../../common/randoverride.cpp"
+            "../../common/steamid.cpp"
+            "../../public/bone_setup.cpp"
+            "../../public/bone_setup.h"
+            "../../public/collisionutils.cpp"
+            "../../public/collisionutils.h"
+            "../../public/dt_send.cpp"
+            "../../public/dt_utlvector_common.cpp"
+            "../../public/dt_utlvector_send.cpp"
+            "../../public/edict.h"
+            "../../public/editor_sendcommand.cpp"
+            "../../public/editor_sendcommand.h"
+            "../../public/eiface.h"
+            "../../public/event_flags.h"
+            "../../public/filesystem_helpers.cpp"
+            "../../public/haptics/haptic_msgs.cpp"
+            "../../public/haptics/haptic_utils.cpp"
+            "../../public/interpolatortypes.cpp"
+            "../../public/interpolatortypes.h"
+            "../../public/iregistry.h"
+            "../../public/ivoiceserver.h"
+            "../../public/keyframe/keyframe.cpp"
+            "../../public/keyframe/keyframe.h"
+            "../../public/map_utils.cpp"
+            "../../public/mathlib/mathlib.h"
+            "../../public/mathlib/polyhedron.h"
+            "../../public/mathlib/vmatrix.h"
+            "../../public/model_types.h"
+            "../../public/networkstringtabledefs.h"
+            "../../public/networkvar.cpp"
+            "../../public/registry.cpp"
+            "../../public/rope_physics.cpp"
+            "../../public/rope_physics.h"
+            "../../public/rope_shared.h"
+            "../../public/scratchpad3d.cpp"
+            "../../public/ScratchPadUtils.cpp"
+            "../../public/server_class.cpp"
+            "../../public/server_class.h"
+            "../../public/shattersurfacetypes.h"
+            "../../public/simple_physics.cpp"
+            "../../public/simple_physics.h"
+            "../../public/SoundParametersInternal.cpp"
+            "../../public/steam/steam_api.h"
+            "../../public/stringregistry.cpp"
+            "../../public/stringregistry.h"
+            "../../public/studio.cpp"
+            "../../public/tier0/memoverride.cpp"
+            "../../public/vphysics/performance.h"
+            "../../public/vphysics/stats.h"
+            "../shared/achievement_saverestore.cpp"
+            "../shared/achievement_saverestore.h"
+            "../shared/achievementmgr.cpp"
+            "../shared/achievementmgr.h"
+            "../shared/achievements_hlx.cpp"
+            "../shared/activitylist.cpp"
+            "../shared/activitylist.h"
+            "../shared/ai_activity.h"
+            "../shared/ai_debug_shared.h"
+            "../shared/ammodef.cpp"
+            "../shared/animation.cpp"
+            "../shared/animation.h"
+            "../shared/apparent_velocity_helper.h"
+            "../shared/base_playeranimstate.cpp"
+            "../shared/baseachievement.cpp"
+            "../shared/baseachievement.h"
+            "../shared/basecombatcharacter_shared.cpp"
+            "../shared/basecombatweapon_shared.cpp"
+            "../shared/basecombatweapon_shared.h"
+            "../shared/baseentity_shared.cpp"
+            "../shared/baseentity_shared.h"
+            "../shared/basegrenade_shared.cpp"
+            "../shared/basegrenade_shared.h"
+            "../shared/baseparticleentity.cpp"
+            "../shared/baseparticleentity.h"
+            "../shared/baseplayer_shared.cpp"
+            "../shared/baseplayer_shared.h"
+            "../shared/baseprojectile.cpp"
+            "../shared/baseprojectile.h"
+            "../shared/baseviewmodel_shared.cpp"
+            "../shared/baseviewmodel_shared.h"
+            "../shared/beam_shared.cpp"
+            "../shared/beam_shared.h"
+            "../shared/choreoactor.h"
+            "../shared/choreochannel.h"
+            "../shared/choreoevent.h"
+            "../shared/choreoscene.h"
+            "../shared/collisionproperty.cpp"
+            "../shared/collisionproperty.h"
+            "../shared/death_pose.cpp"
+            "../shared/debugoverlay_shared.cpp"
+            "../shared/debugoverlay_shared.h"
+            "../shared/decals.cpp"
+            "../shared/effect_color_tables.h"
+            "../shared/effect_dispatch_data.cpp"
+            "../shared/ehandle.cpp"
+            "../shared/entitylist_base.cpp"
+            "../shared/EntityParticleTrail_Shared.cpp"
+            "../shared/entityparticletrail_shared.h"
+            "../shared/env_detail_controller.cpp"
+            "../shared/env_wind_shared.cpp"
+            "../shared/env_wind_shared.h"
+            "../shared/eventlist.cpp"
+            "../shared/eventlist.h"
+            "../shared/func_dust_shared.h"
+            "../shared/func_ladder.cpp"
+            "../shared/gamemovement.cpp"
+            "../shared/gamemovement.h"
+            "../shared/gamerules.cpp"
+            "../shared/gamerules.h"
+            "../shared/gamerules_register.cpp"
+            "../shared/GameStats.cpp"
+            "../shared/gamestats.h"
+            "../shared/gamestringpool.cpp"
+            "../shared/gamestringpool.h"
+            "../shared/gamevars_shared.cpp"
+            "../shared/gamevars_shared.h"
+            "../shared/hintmessage.cpp"
+            "../shared/hintmessage.h"
+            "../shared/hintsystem.cpp"
+            "../shared/hintsystem.h"
+            "../shared/hl2/survival_gamerules.cpp"
+            "../shared/ichoreoeventcallback.h"
+            "../shared/igamesystem.cpp"
+            "../shared/igamesystem.h"
+            "../shared/interval.cpp"
+            "../shared/interval.h"
+            "../shared/iscenetokenprocessor.h"
+            "../shared/mapentities_shared.cpp"
+            "../shared/ModelSoundsCache.cpp"
+            "../shared/movevars_shared.cpp"
+            "../shared/mp_shareddefs.cpp"
+            "../shared/multiplay_gamerules.cpp"
+            "../shared/multiplay_gamerules.h"
+            "../shared/obstacle_pushaway.cpp"
+            "../shared/obstacle_pushaway.h"
+            "../shared/particle_parse.cpp"
+            "../shared/particle_parse.h"
+            "../shared/particlesystemquery.cpp"
+            "../shared/physics_main_shared.cpp"
+            "../shared/physics_saverestore.cpp"
+            "../shared/physics_saverestore.h"
+            "../shared/physics_shared.cpp"
+            "../shared/physics_shared.h"
+            "../shared/point_bonusmaps_accessor.cpp"
+            "../shared/point_bonusmaps_accessor.h"
+            "../shared/point_posecontroller.cpp"
+            "../shared/point_posecontroller.h"
+            "../shared/positionwatcher.h"
+            "../shared/precache_register.cpp"
+            "../shared/precache_register.h"
+            "../shared/predictableid.cpp"
+            "../shared/predictableid.h"
+            "../shared/props_shared.cpp"
+            "../shared/querycache.cpp"
+            "../shared/ragdoll_shared.cpp"
+            "../shared/ragdoll_shared.h"
+            "../shared/rope_helpers.cpp"
+            "../shared/saverestore.cpp"
+            "../shared/saverestore.h"
+            "../shared/saverestore_bitstring.h"
+            "../shared/saverestore_utlsymbol.h"
+            "../shared/saverestore_utlvector.h"
+            "../shared/SceneCache.cpp"
+            "../shared/sceneentity_shared.cpp"
+            "../shared/scriptevent.h"
+            "../shared/sequence_Transitioner.cpp"
+            "../shared/SharedFunctorUtils.h"
+            "../shared/sheetsimulator.cpp"
+            "../shared/sheetsimulator.h"
+            "../shared/simtimer.cpp"
+            "../shared/simtimer.h"
+            "../shared/singleplay_gamerules.cpp"
+            "../shared/singleplay_gamerules.h"
+            "../shared/solidsetdefaults.h"
+            "../shared/SoundEmitterSystem/SoundEmitterSystem.cpp"
+            "../shared/soundenvelope.cpp"
+            "../shared/Sprite.cpp"
+            "../shared/Sprite.h"
+            "../shared/SpriteTrail.h"
+            "../shared/studio_shared.cpp"
+            "../shared/takedamageinfo.cpp"
+            "../shared/teamplay_gamerules.cpp"
+            "../shared/teamplay_gamerules.h"
+            "../shared/tempentity.h"
+            "../shared/test_ehandle.cpp"
+            "../shared/touchlink.h"
+            "../shared/usercmd.cpp"
+            "../shared/util_shared.cpp"
+            "../shared/vehicle_choreo_generic_shared.h"
+            "../shared/vehicle_viewblend_shared.cpp"
+            "../shared/voice_common.h"
+            "../shared/voice_gamemgr.cpp"
+            "../shared/voice_gamemgr.h"
+            "../shared/weapon_parse.cpp"
+            "../shared/weapon_parse.h"
+            "../shared/weapon_parse_default.cpp"
+            "../shared/weapon_proficiency.cpp"
+            "../shared/weapon_proficiency.h"
+            "ai_activity.cpp"
+            "ai_baseactor.cpp"
+            "ai_baseactor.h"
+            "ai_basehumanoid.cpp"
+            "ai_basehumanoid.h"
+            "ai_basenpc.cpp"
+            "ai_basenpc.h"
+            "ai_basenpc_flyer.cpp"
+            "ai_basenpc_flyer.h"
+            "ai_basenpc_flyer_new.cpp"
+            "ai_basenpc_flyer_new.h"
+            "ai_basenpc_movement.cpp"
+            "ai_basenpc_physicsflyer.cpp"
+            "ai_basenpc_physicsflyer.h"
+            "ai_basenpc_schedule.cpp"
+            "ai_basenpc_squad.cpp"
+            "ai_behavior.cpp"
+            "ai_behavior.h"
+            "ai_behavior_assault.cpp"
+            "ai_behavior_assault.h"
+            "ai_behavior_fear.cpp"
+            "ai_behavior_fear.h"
+            "ai_behavior_follow.cpp"
+            "ai_behavior_follow.h"
+            "ai_behavior_lead.cpp"
+            "ai_behavior_lead.h"
+            "ai_behavior_rappel.cpp"
+            "ai_behavior_rappel.h"
+            "ai_behavior_standoff.cpp"
+            "ai_behavior_standoff.h"
+            "ai_blended_movement.cpp"
+            "ai_blended_movement.h"
+            "ai_component.h"
+            "ai_concommands.cpp"
+            "ai_condition.cpp"
+            "ai_condition.h"
+            "AI_Criteria.cpp"
+            "AI_Criteria.h"
+            "ai_debug.h"
+            "ai_default.cpp"
+            "ai_default.h"
+            "ai_dynamiclink.cpp"
+            "ai_dynamiclink.h"
+            "ai_event.cpp"
+            "ai_eventresponse.cpp"
+            "ai_eventresponse.h"
+            "ai_goalentity.cpp"
+            "ai_goalentity.h"
+            "ai_hint.cpp"
+            "ai_hint.h"
+            "ai_hull.cpp"
+            "ai_hull.h"
+            "ai_initutils.cpp"
+            "ai_initutils.h"
+            "AI_Interest_Target.cpp"
+            "AI_Interest_Target.h"
+            "ai_link.cpp"
+            "ai_link.h"
+            "ai_localnavigator.cpp"
+            "ai_localnavigator.h"
+            "ai_looktarget.cpp"
+            "ai_looktarget.h"
+            "ai_memory.cpp"
+            "ai_memory.h"
+            "ai_motor.cpp"
+            "ai_motor.h"
+            "ai_moveprobe.cpp"
+            "ai_moveprobe.h"
+            "ai_moveshoot.cpp"
+            "ai_moveshoot.h"
+            "ai_movesolver.cpp"
+            "ai_movesolver.h"
+            "ai_movetypes.h"
+            "ai_namespaces.cpp"
+            "ai_namespaces.h"
+            "ai_navgoaltype.h"
+            "ai_navigator.cpp"
+            "ai_navigator.h"
+            "ai_navtype.h"
+            "ai_network.cpp"
+            "ai_network.h"
+            "ai_networkmanager.cpp"
+            "ai_networkmanager.h"
+            "ai_node.cpp"
+            "ai_node.h"
+            "ai_npcstate.h"
+            "ai_obstacle_type.h"
+            "ai_pathfinder.cpp"
+            "ai_pathfinder.h"
+            "ai_planesolver.cpp"
+            "ai_planesolver.h"
+            "ai_playerally.cpp"
+            "ai_playerally.h"
+            "ai_relationship.cpp"
+            "AI_ResponseSystem.cpp"
+            "AI_ResponseSystem.h"
+            "ai_route.cpp"
+            "ai_route.h"
+            "ai_routedist.h"
+            "ai_saverestore.cpp"
+            "ai_saverestore.h"
+            "ai_schedule.cpp"
+            "ai_schedule.h"
+            "ai_scriptconditions.cpp"
+            "ai_scriptconditions.h"
+            "ai_senses.cpp"
+            "ai_senses.h"
+            "ai_sentence.cpp"
+            "ai_sentence.h"
+            "ai_speech.cpp"
+            "ai_speech.h"
+            "ai_speechfilter.cpp"
+            "ai_speechfilter.h"
+            "ai_squad.cpp"
+            "ai_squad.h"
+            "ai_squadslot.cpp"
+            "ai_squadslot.h"
+            "ai_tacticalservices.cpp"
+            "ai_tacticalservices.h"
+            "ai_task.cpp"
+            "ai_task.h"
+            "ai_trackpather.cpp"
+            "ai_trackpather.h"
+            "ai_utils.cpp"
+            "ai_utils.h"
+            "ai_waypoint.cpp"
+            "ai_waypoint.h"
+            "base_gameinterface.cpp"
+            "base_transmit_proxy.cpp"
+            "baseanimating.cpp"
+            "baseanimating.h"
+            "BaseAnimatingOverlay.cpp"
+            "BaseAnimatingOverlay.h"
+            "basecombatcharacter.cpp"
+            "basecombatcharacter.h"
+            "basecombatweapon.cpp"
+            "basecombatweapon.h"
+            "baseentity.cpp"
+            "baseentity.h"
+            "baseflex.cpp"
+            "baseflex.h"
+            "basegrenade_concussion.cpp"
+            "basegrenade_contact.cpp"
+            "basegrenade_timed.cpp"
+            "basemultiplayerplayer.cpp"
+            "basemultiplayerplayer.h"
+            "BasePropDoor.h"
+            "basetoggle.h"
+            "baseviewmodel.cpp"
+            "baseviewmodel.h"
+            "bitstring.cpp"
+            "bitstring.h"
+            "bmodels.cpp"
+            "buttons.cpp"
+            "buttons.h"
+            "cbase.cpp"
+            "cbase.h"
+            "client.cpp"
+            "client.h"
+            "colorcorrection.cpp"
+            "colorcorrectionvolume.cpp"
+            "CommentarySystem.cpp"
+            "controlentities.cpp"
+            "cplane.cpp"
+            "CRagdollMagnet.cpp"
+            "CRagdollMagnet.h"
+            "damagemodifier.cpp"
+            "doors.cpp"
+            "doors.h"
+            "dynamiclight.cpp"
+            "effects.cpp"
+            "effects.h"
+            "EffectsServer.cpp"
+            "enginecallback.h"
+            "entityapi.h"
+            "entityblocker.cpp"
+            "entityblocker.h"
+            "EntityDissolve.cpp"
+            "EntityDissolve.h"
+            "EntityFlame.cpp"
+            "EntityFlame.h"
+            "entityinput.h"
+            "entitylist.cpp"
+            "entitylist.h"
+            "entityoutput.h"
+            "EntityParticleTrail.cpp"
+            "EntityParticleTrail.h"
+            "env_debughistory.cpp"
+            "env_debughistory.h"
+            "env_effectsscript.cpp"
+            "env_entity_maker.cpp"
+            "env_particlescript.cpp"
+            "env_player_surface_trigger.cpp"
+            "env_player_surface_trigger.h"
+            "env_projectedtexture.cpp"
+            "env_screenoverlay.cpp"
+            "env_texturetoggle.cpp"
+            "env_tonemap_controller.cpp"
+            "env_zoom.cpp"
+            "env_zoom.h"
+            "EnvBeam.cpp"
+            "EnvFade.cpp"
+            "EnvHudHint.cpp"
+            "EnvLaser.cpp"
+            "EnvLaser.h"
+            "EnvMessage.cpp"
+            "EnvMessage.h"
+            "envmicrophone.cpp"
+            "envmicrophone.h"
+            "EnvShake.cpp"
+            "EnvSpark.cpp"
+            "envspark.h"
+            "event_tempentity_tester.h"
+            "EventLog.cpp"
+            "eventqueue.h"
+            "explode.cpp"
+            "explode.h"
+            "filters.cpp"
+            "filters.h"
+            "fire.cpp"
+            "fire.h"
+            "fire_smoke.cpp"
+            "fire_smoke.h"
+            "fish.cpp"
+            "fish.h"
+            "fogcontroller.cpp"
+            "fourwheelvehiclephysics.cpp"
+            "fourwheelvehiclephysics.h"
+            "func_areaportal.cpp"
+            "func_areaportalbase.cpp"
+            "func_areaportalbase.h"
+            "func_areaportalwindow.cpp"
+            "func_areaportalwindow.h"
+            "func_break.cpp"
+            "func_break.h"
+            "func_breakablesurf.cpp"
+            "func_breakablesurf.h"
+            "func_dust.cpp"
+            "func_ladder_endpoint.cpp"
+            "func_lod.cpp"
+            "func_movelinear.cpp"
+            "func_movelinear.h"
+            "func_occluder.cpp"
+            "func_reflective_glass.cpp"
+            "func_smokevolume.cpp"
+            "game.cpp"
+            "game.h"
+            "game_ui.cpp"
+            "gamehandle.cpp"
+            "gameinterface.cpp"
+            "gameinterface.h"
+            "GameStats_BasicStatsFunctions.cpp"
+            "gametrace_dll.cpp"
+            "gameweaponmanager.cpp"
+            "gameweaponmanager.h"
+            "genericactor.cpp"
+            "genericmonster.cpp"
+            "gib.cpp"
+            "gib.h"
+            "globals.cpp"
+            "globalstate.cpp"
+            "globalstate.h"
+            "globalstate_private.h"
+            "grenadethrown.cpp"
+            "grenadethrown.h"
+            "guntarget.cpp"
+            "h_ai.cpp"
+            "h_cycler.cpp"
+            "h_cycler.h"
+            "h_export.cpp"
+            "hierarchy.cpp"
+            "hierarchy.h"
+            "hl2/Func_Monitor.cpp"
+            "hltvdirector.cpp"
+            "hltvdirector.h"
+            "info_camera_link.cpp"
+            "info_camera_link.h"
+            "info_overlay_accessor.cpp"
+            "init_factory.cpp"
+            "init_factory.h"
+            "intermission.cpp"
+            "iservervehicle.h"
+            "item_world.cpp"
+            "items.h"
+            "lightglow.cpp"
+            "lights.cpp"
+            "lights.h"
+            "locksounds.h"
+            "logic_achievement.cpp"
+            "logic_measure_movement.cpp"
+            "logic_navigation.cpp"
+            "logicauto.cpp"
+            "logicentities.cpp"
+            "logicrelay.cpp"
+            "mapentities.cpp"
+            "maprules.cpp"
+            "maprules.h"
+            "MaterialModifyControl.cpp"
+            "message_entity.cpp"
+            "modelentities.cpp"
+            "monstermaker.cpp"
+            "monstermaker.h"
+            "movehelper_server.cpp"
+            "movehelper_server.h"
+            "movement.cpp"
+            "movie_explosion.h"
+            "ndebugoverlay.cpp"
+            "ndebugoverlay.h"
+            "networkstringtable_gamedll.h"
+            "npc_vehicledriver.cpp"
+            "particle_fire.h"
+            "particle_light.cpp"
+            "particle_light.h"
+            "particle_smokegrenade.h"
+            "particle_system.cpp"
+            "pathcorner.cpp"
+            "pathtrack.cpp"
+            "pathtrack.h"
+            "phys_controller.cpp"
+            "phys_controller.h"
+            "physconstraint.cpp"
+            "physconstraint.h"
+            "physics.cpp"
+            "physics.h"
+            "physics_bone_follower.cpp"
+            "physics_bone_follower.h"
+            "physics_cannister.cpp"
+            "physics_collisionevent.h"
+            "physics_fx.cpp"
+            "physics_impact_damage.cpp"
+            "physics_main.cpp"
+            "physics_npc_solver.cpp"
+            "physics_npc_solver.h"
+            "physics_prop_ragdoll.cpp"
+            "physics_prop_ragdoll.h"
+            "physobj.cpp"
+            "physobj.h"
+            "player.cpp"
+            "player.h"
+            "player_command.cpp"
+            "player_command.h"
+            "player_lagcompensation.cpp"
+            "player_pickup.cpp"
+            "player_pickup.h"
+            "player_resource.cpp"
+            "player_resource.h"
+            "playerinfomanager.cpp"
+            "playerlocaldata.cpp"
+            "playerlocaldata.h"
+            "plugin_check.cpp"
+            "point_camera.cpp"
+            "point_camera.h"
+            "point_devshot_camera.cpp"
+            "point_playermoveconstraint.cpp"
+            "point_spotlight.cpp"
+            "point_template.cpp"
+            "point_template.h"
+            "pointanglesensor.cpp"
+            "PointAngularVelocitySensor.cpp"
+            "pointhurt.cpp"
+            "pointteleport.cpp"
+            "props.cpp"
+            "props.h"
+            "pushentity.h"
+            "ragdoll_manager.cpp"
+            "RagdollBoogie.cpp"
+            "RagdollBoogie.h"
+            "recipientfilter.cpp"
+            "recipientfilter.h"
+            "rope.cpp"
+            "rope.h"
+            "saverestore_gamedll.cpp"
+            "sceneentity.cpp"
+            "sceneentity.h"
+            "scratchpad_gamedll_helpers.cpp"
+            "scripted.cpp"
+            "scripted.h"
+            "scriptedtarget.cpp"
+            "scriptedtarget.h"
+            "sendproxy.cpp"
+            "serverbenchmark_base.cpp"
+            "serverbenchmark_base.h"
+            "ServerNetworkProperty.cpp"
+            "ServerNetworkProperty.h"
+            "shadowcontrol.cpp"
+            "SkyCamera.cpp"
+            "slideshow_display.cpp"
+            "sound.cpp"
+            "soundent.cpp"
+            "soundent.h"
+            "soundscape.cpp"
+            "soundscape.h"
+            "soundscape_system.cpp"
+            "spark.h"
+            "spotlightend.cpp"
+            "spotlightend.h"
+            "sprite_perfmonitor.cpp"
+            "subs.cpp"
+            "sun.cpp"
+            "tactical_mission.cpp"
+            "tactical_mission.h"
+            "tanktrain.cpp"
+            "team.cpp"
+            "team.h"
+            "team_spawnpoint.cpp"
+            "team_spawnpoint.h"
+            "TemplateEntities.cpp"
+            "TemplateEntities.h"
+            "tempmonster.cpp"
+            "tesla.cpp"
+            "test_proxytoggle.cpp"
+            "test_stressentities.cpp"
+            "testfunctions.cpp"
+            "testtraceline.cpp"
+            "textstatsmgr.cpp"
+            "timedeventmgr.cpp"
+            "trains.cpp"
+            "trains.h"
+            "triggers.cpp"
+            "triggers.h"
+            "util.cpp"
+            "util.h"
+            "variant_t.cpp"
+            "vehicle_base.cpp"
+            "vehicle_baseserver.cpp"
+            "vehicle_choreo_generic.cpp"
+            "vehicle_sounds.h"
+            "vguiscreen.cpp"
+            "vguiscreen.h"
+            "vote_controller.cpp"
+            "vote_controller.h"
+            "waterbullet.cpp"
+            "waterbullet.h"
+            "WaterLODControl.cpp"
+            "wcedit.cpp"
+            "wcedit.h"
+            "weight_button.cpp"
+            "world.cpp"
+            "world.h"
+            )
+    source_group("Source Files" FILES ${Source_Files})
+
+    set(Source_Files__HL2_DLL
+            "../shared/hl2/achievements_hl2.cpp"
+            "../shared/hl2/basehlcombatweapon_shared.cpp"
+            "../shared/hl2/basehlcombatweapon_shared.h"
+            "../shared/hl2/citadel_effects_shared.h"
+            "../shared/hl2/env_alyxemp_shared.h"
+            "../shared/hl2/env_headcrabcanister_shared.cpp"
+            "../shared/hl2/env_headcrabcanister_shared.h"
+            "../shared/hl2/hl2_gamerules.cpp"
+            "../shared/hl2/hl2_gamerules.h"
+            "../shared/hl2/hl2_player_shared.h"
+            "../shared/hl2/hl2_shareddefs.h"
+            "../shared/hl2/hl2_usermessages.cpp"
+            "../shared/hl2/hl_gamemovement.cpp"
+            "../shared/hl2/hl_gamemovement.h"
+            "../shared/hl2/hl_movedata.h"
+            "../shared/script_intro_shared.cpp"
+            "basebludgeonweapon.cpp"
+            "basebludgeonweapon.h"
+            "hl2/ai_allymanager.cpp"
+            "hl2/ai_behavior_actbusy.cpp"
+            "hl2/ai_behavior_actbusy.h"
+            "hl2/ai_behavior_functank.cpp"
+            "hl2/ai_behavior_functank.h"
+            "hl2/ai_behavior_holster.cpp"
+            "hl2/ai_behavior_holster.h"
+            "hl2/ai_behavior_operator.cpp"
+            "hl2/ai_behavior_operator.h"
+            "hl2/ai_behavior_police.cpp"
+            "hl2/ai_behavior_police.h"
+            "hl2/ai_goal_police.cpp"
+            "hl2/ai_goal_police.h"
+            "hl2/ai_interactions.h"
+            "hl2/ai_spotlight.cpp"
+            "hl2/ai_spotlight.h"
+            "hl2/antlion_dust.cpp"
+            "hl2/antlion_dust.h"
+            "hl2/antlion_maker.cpp"
+            "hl2/antlion_maker.h"
+            "hl2/ar2_explosion.cpp"
+            "hl2/ar2_explosion.h"
+            "hl2/basehlcombatweapon.cpp"
+            "hl2/basehlcombatweapon.h"
+            "hl2/cbasehelicopter.cpp"
+            "hl2/cbasehelicopter.h"
+            "hl2/cbasespriteprojectile.cpp"
+            "hl2/cbasespriteprojectile.h"
+            "hl2/citadel_effects.cpp"
+            "hl2/combine_mine.cpp"
+            "hl2/combine_mine.h"
+            "hl2/energy_wave.h"
+            "hl2/env_alyxemp.cpp"
+            "hl2/env_headcrabcanister.cpp"
+            "hl2/env_speaker.cpp"
+            "hl2/env_speaker.h"
+            "hl2/env_starfield.cpp"
+            "hl2/func_recharge.cpp"
+            "hl2/func_tank.cpp"
+            "hl2/func_tank.h"
+            "hl2/grenade_ar2.cpp"
+            "hl2/grenade_ar2.h"
+            "hl2/grenade_bugbait.cpp"
+            "hl2/grenade_bugbait.h"
+            "hl2/grenade_frag.cpp"
+            "hl2/grenade_frag.h"
+            "hl2/hl2_ai_network.cpp"
+            "hl2/hl2_client.cpp"
+            "hl2/hl2_eventlog.cpp"
+            "hl2/hl2_gamestats.cpp"
+            "hl2/hl2_gamestats.h"
+            "hl2/hl2_player.cpp"
+            "hl2/hl2_player.h"
+            "hl2/hl2_playerlocaldata.cpp"
+            "hl2/hl2_playerlocaldata.h"
+            "hl2/hl2_triggers.cpp"
+            "hl2/hl_playermove.cpp"
+            "hl2/info_darknessmode_lightsource.cpp"
+            "hl2/info_darknessmode_lightsource.h"
+            "hl2/info_teleporter_countdown.cpp"
+            "hl2/item_ammo.cpp"
+            "hl2/item_battery.cpp"
+            "hl2/item_dynamic_resupply.cpp"
+            "hl2/item_dynamic_resupply.h"
+            "hl2/item_healthkit.cpp"
+            "hl2/item_itemcrate.cpp"
+            "hl2/item_suit.cpp"
+            "hl2/look_door.cpp"
+            "hl2/monster_dummy.cpp"
+            "hl2/npc_alyx.cpp"
+            "hl2/npc_alyx.h"
+            "hl2/npc_alyx_episodic.h"
+            "hl2/npc_antlion.cpp"
+            "hl2/npc_antlion.h"
+            "hl2/npc_antlionguard.cpp"
+            "hl2/npc_apcdriver.cpp"
+            "hl2/npc_attackchopper.cpp"
+            "hl2/npc_attackchopper.h"
+            "hl2/npc_barnacle.cpp"
+            "hl2/npc_barnacle.h"
+            "hl2/npc_barney.cpp"
+            "hl2/npc_basescanner.cpp"
+            "hl2/npc_basescanner.h"
+            "hl2/npc_BaseZombie.cpp"
+            "hl2/npc_BaseZombie.h"
+            "hl2/npc_blob.cpp"
+            "hl2/npc_breen.cpp"
+            "hl2/npc_bullseye.cpp"
+            "hl2/npc_bullseye.h"
+            "hl2/npc_citizen17.cpp"
+            "hl2/npc_citizen17.h"
+            "hl2/npc_combine.cpp"
+            "hl2/npc_combine.h"
+            "hl2/npc_combinecamera.cpp"
+            "hl2/npc_combinedropship.cpp"
+            "hl2/npc_combinegunship.cpp"
+            "hl2/npc_combines.cpp"
+            "hl2/npc_combines.h"
+            "hl2/npc_cranedriver.cpp"
+            "hl2/npc_crow.cpp"
+            "hl2/npc_crow.h"
+            "hl2/npc_dog.cpp"
+            "hl2/npc_eli.cpp"
+            "hl2/npc_enemyfinder.cpp"
+            "hl2/npc_fastzombie.cpp"
+            "hl2/npc_fisherman.cpp"
+            "hl2/npc_gman.cpp"
+            "hl2/npc_headcrab.cpp"
+            "hl2/npc_headcrab.h"
+            "hl2/npc_ichthyosaur.cpp"
+            "hl2/npc_kleiner.cpp"
+            "hl2/npc_launcher.cpp"
+            "hl2/npc_manhack.cpp"
+            "hl2/npc_manhack.h"
+            "hl2/npc_metropolice.cpp"
+            "hl2/npc_metropolice.h"
+            "hl2/npc_monk.cpp"
+            "hl2/npc_mossman.cpp"
+            "hl2/npc_playercompanion.cpp"
+            "hl2/npc_playercompanion.h"
+            "hl2/npc_PoisonZombie.cpp"
+            "hl2/npc_rollermine.cpp"
+            "hl2/npc_rollermine.h"
+            "hl2/npc_scanner.cpp"
+            "hl2/npc_scanner.h"
+            "hl2/npc_stalker.cpp"
+            "hl2/npc_stalker.h"
+            "hl2/npc_strider.cpp"
+            "hl2/npc_strider.h"
+            "hl2/npc_turret_ceiling.cpp"
+            "hl2/npc_turret_floor.cpp"
+            "hl2/npc_turret_floor.h"
+            "hl2/npc_turret_ground.cpp"
+            "hl2/npc_turret_ground.h"
+            "hl2/npc_vortigaunt_episodic.cpp"
+            "hl2/npc_vortigaunt_episodic.h"
+            "hl2/npc_zombie.cpp"
+            "hl2/point_apc_controller.cpp"
+            "hl2/prop_combine_ball.cpp"
+            "hl2/prop_combine_ball.h"
+            "hl2/prop_thumper.cpp"
+            "hl2/proto_sniper.cpp"
+            "hl2/rotorwash.cpp"
+            "hl2/rotorwash.h"
+            "hl2/script_intro.cpp"
+            "hl2/script_intro.h"
+            "hl2/vehicle_airboat.cpp"
+            "hl2/vehicle_apc.h"
+            "hl2/vehicle_cannon.cpp"
+            "hl2/vehicle_crane.cpp"
+            "hl2/vehicle_crane.h"
+            "hl2/vehicle_jeep.cpp"
+            "hl2/vehicle_prisoner_pod.cpp"
+            "hl2/vehicle_viewcontroller.cpp"
+            "hl2/weapons/weapon_357.cpp"
+            "hl2/weapons/weapon_alyxgun.cpp"
+            "hl2/weapons/weapon_alyxgun.h"
+            "hl2/weapons/weapon_annabelle.cpp"
+            "hl2/weapons/weapon_ar2.cpp"
+            "hl2/weapons/weapon_ar2.h"
+            "hl2/weapons/weapon_bugbait.cpp"
+            "hl2/weapons/weapon_citizenpackage.cpp"
+            "hl2/weapons/weapon_citizenpackage.h"
+            "hl2/weapons/weapon_crossbow.cpp"
+            "hl2/weapons/weapon_crowbar.cpp"
+            "hl2/weapons/weapon_crowbar.h"
+            "hl2/weapons/weapon_frag.cpp"
+            "hl2/weapons/weapon_physcannon.cpp"
+            "hl2/weapons/weapon_physcannon.h"
+            "hl2/weapons/weapon_pistol.cpp"
+            "hl2/weapons/weapon_rpg.cpp"
+            "hl2/weapons/weapon_rpg.h"
+            "hl2/weapons/weapon_shotgun.cpp"
+            "hl2/weapons/weapon_smg1.cpp"
+            "hl2/weapons/weapon_stunstick.cpp"
+            "hl2/weapons/weapon_stunstick.h"
+            "npc_talker.cpp"
+            "npc_talker.h"
+            "weapon_cubemap.cpp"
+            )
+    source_group("Source Files\\HL2 DLL" FILES ${Source_Files__HL2_DLL})
+
+    set(Source_Files__HL2_DLL__Unused
+            "hl2/grenade_beam.cpp"
+            "hl2/grenade_beam.h"
+            "hl2/grenade_homer.cpp"
+            "hl2/grenade_homer.h"
+            "hl2/grenade_pathfollower.cpp"
+            "hl2/grenade_pathfollower.h"
+            "hl2/npc_missiledefense.cpp"
+            "hl2/vehicle_apc.cpp"
+            "hl2/weapons/weapon_cguard.cpp"
+            "hl2/weapons/weapon_flaregun.cpp"
+            "hl2/weapons/weapon_flaregun.h"
+            )
+    source_group("Source Files\\HL2 DLL\\Unused" FILES ${Source_Files__HL2_DLL__Unused})
+
+    set(Source_Files__Precompiled_Header
+            "stdafx.cpp"
+            )
+    source_group("Source Files\\Precompiled Header" FILES ${Source_Files__Precompiled_Header})
+
+    set(Source_Files__temporary_entities
+            "../shared/SpriteTrail.cpp"
+            "../shared/usermessages.cpp"
+            "basetempentity.cpp"
+            "event_tempentity_tester.cpp"
+            "hl2/te_gaussexplosion.cpp"
+            "movie_explosion.cpp"
+            "particle_fire.cpp"
+            "particle_smokegrenade.cpp"
+            "plasma.cpp"
+            "plasma.h"
+            "smoke_trail.cpp"
+            "smoke_trail.h"
+            "smokestack.cpp"
+            "smokestack.h"
+            "steamjet.cpp"
+            "steamjet.h"
+            "te.cpp"
+            "te.h"
+            "te_armorricochet.cpp"
+            "te_basebeam.cpp"
+            "te_basebeam.h"
+            "te_beamentpoint.cpp"
+            "te_beaments.cpp"
+            "te_beamfollow.cpp"
+            "te_beamlaser.cpp"
+            "te_beampoints.cpp"
+            "te_beamring.cpp"
+            "te_beamringpoint.cpp"
+            "te_beamspline.cpp"
+            "te_bloodsprite.cpp"
+            "te_bloodstream.cpp"
+            "te_breakmodel.cpp"
+            "te_bspdecal.cpp"
+            "te_bubbles.cpp"
+            "te_bubbletrail.cpp"
+            "te_clientprojectile.cpp"
+            "te_decal.cpp"
+            "te_dynamiclight.cpp"
+            "te_effect_dispatch.cpp"
+            "te_energysplash.cpp"
+            "te_explosion.cpp"
+            "te_fizz.cpp"
+            "te_footprintdecal.cpp"
+            "te_glassshatter.cpp"
+            "te_glowsprite.cpp"
+            "te_impact.cpp"
+            "te_killplayerattachments.cpp"
+            "te_largefunnel.cpp"
+            "te_muzzleflash.cpp"
+            "te_particlesystem.cpp"
+            "te_particlesystem.h"
+            "te_physicsprop.cpp"
+            "te_playerdecal.cpp"
+            "te_projecteddecal.cpp"
+            "te_showline.cpp"
+            "te_smoke.cpp"
+            "te_sparks.cpp"
+            "te_sprite.cpp"
+            "te_spritespray.cpp"
+            "te_worlddecal.cpp"
+            )
+    source_group("Source Files\\temporary entities" FILES ${Source_Files__temporary_entities})
+
+    set(Tools_Framework
+            "entity_tools_server.cpp"
+            "toolframework_server.cpp"
+            "toolframework_server.h"
+            )
+    source_group("Tools Framework" FILES ${Tools_Framework})
+
+    set(CONTENTS_Files
+            "contents/env_instructor_hint.cpp"
+            hl2/weapons/weapon_ak47.cpp)
+    source_group("ReSource Files" FILES ${CONTENTS_Files})
+
+
+    set(Source_Files__IFM
+            "../shared/weapon_ifmbase.cpp"
+            "../shared/weapon_ifmbase.h"
+            "../shared/weapon_ifmbasecamera.cpp"
+            "../shared/weapon_ifmbasecamera.h"
+            "../shared/weapon_ifmsteadycam.cpp"
+            "../shared/weapon_ifmsteadycam.h"
+            )
+    source_group("Source Files\\IFM" FILES ${Source_Files__IFM})
+
+    set(Source_Files__Navigation_Mesh
+            "nav.h"
+            "nav_area.cpp"
+            "nav_area.h"
+            "nav_colors.cpp"
+            "nav_colors.h"
+            "nav_edit.cpp"
+            "nav_entities.cpp"
+            "nav_entities.h"
+            "nav_file.cpp"
+            "nav_generate.cpp"
+            "nav_ladder.cpp"
+            "nav_ladder.h"
+            "nav_merge.cpp"
+            "nav_mesh.cpp"
+            "nav_mesh.h"
+            "nav_mesh_factory.cpp"
+            "nav_node.cpp"
+            "nav_node.h"
+            "nav_pathfind.h"
+            "nav_simplify.cpp"
+            )
+    source_group("Source Files\\Navigation Mesh" FILES ${Source_Files__Navigation_Mesh})
+
+    set(Source_Files__NextBot
+            "NextBot/NextBot.cpp"
+            "NextBot/NextBot.h"
+            "NextBot/NextBotBehavior.h"
+            "NextBot/NextBotGroundLocomotion.cpp"
+            "NextBot/NextBotGroundLocomotion.h"
+            "NextBot/NextBotKnownEntity.h"
+            "NextBot/NextBotManager.cpp"
+            "NextBot/NextBotManager.h"
+            "NextBot/NextBotUtil.h"
+            "NextBot/simple_bot.cpp"
+            "NextBot/simple_bot.h"
+            )
+    source_group("Source Files\\NextBot" FILES ${Source_Files__NextBot})
+
+    set(Source_Files__NextBot__NextBotCommonBehaviors
+            "NextBot/Behavior/BehaviorBackUp.h"
+            "NextBot/Behavior/BehaviorMoveTo.h"
+            )
+    source_group("Source Files\\NextBot\\NextBotCommonBehaviors" FILES ${Source_Files__NextBot__NextBotCommonBehaviors})
+
+    set(Source_Files__NextBot__NextBotInterfaces
+            "NextBot/NextBotBodyInterface.cpp"
+            "NextBot/NextBotBodyInterface.h"
+            "NextBot/NextBotComponentInterface.cpp"
+            "NextBot/NextBotComponentInterface.h"
+            "NextBot/NextBotContextualQueryInterface.h"
+            "NextBot/NextBotEventResponderInterface.h"
+            "NextBot/NextBotHearingInterface.h"
+            "NextBot/NextBotIntentionInterface.cpp"
+            "NextBot/NextBotIntentionInterface.h"
+            "NextBot/NextBotInterface.cpp"
+            "NextBot/NextBotInterface.h"
+            "NextBot/NextBotLocomotionInterface.cpp"
+            "NextBot/NextBotLocomotionInterface.h"
+            "NextBot/NextBotVisionInterface.cpp"
+            "NextBot/NextBotVisionInterface.h"
+            )
+    source_group("Source Files\\NextBot\\NextBotInterfaces" FILES ${Source_Files__NextBot__NextBotInterfaces})
+
+    set(Source_Files__NextBot__NextBotNavMeshEntities
+            "NextBot/NavMeshEntities/func_nav_prerequisite.cpp"
+            "NextBot/NavMeshEntities/func_nav_prerequisite.h"
+            )
+    source_group("Source Files\\NextBot\\NextBotNavMeshEntities" FILES ${Source_Files__NextBot__NextBotNavMeshEntities})
+
+    set(Source_Files__NextBot__NextBotPath
+            "NextBot/Path/NextBotChasePath.cpp"
+            "NextBot/Path/NextBotChasePath.h"
+            "NextBot/Path/NextBotPath.cpp"
+            "NextBot/Path/NextBotPath.h"
+            "NextBot/Path/NextBotPathFollow.cpp"
+            "NextBot/Path/NextBotPathFollow.h"
+            "NextBot/Path/NextBotRetreatPath.h"
+            )
+    source_group("Source Files\\NextBot\\NextBotPath" FILES ${Source_Files__NextBot__NextBotPath})
+
+    set(Source_Files__NextBot__NextBotPlayer
+            "NextBot/Player/NextBotPlayer.cpp"
+            "NextBot/Player/NextBotPlayer.h"
+            "NextBot/Player/NextBotPlayerBody.cpp"
+            "NextBot/Player/NextBotPlayerBody.h"
+            "NextBot/Player/NextBotPlayerLocomotion.cpp"
+            "NextBot/Player/NextBotPlayerLocomotion.h"
+            )
+    source_group("Source Files\\NextBot\\NextBotPlayer" FILES ${Source_Files__NextBot__NextBotPlayer})
+
+
+    set(ALL_FILES
+            ${Header_Files}
+            ${Replay}
+            ${Source_Files}
+            ${Source_Files__HL2_DLL}
+            ${Source_Files__HL2_DLL__Unused}
+            ${Source_Files__Precompiled_Header}
+            ${Source_Files__temporary_entities}
+            ${Source_Files__IFM}
+            ${Source_Files__Navigation_Mesh}
+            ${Source_Files__NextBot}
+            ${Source_Files__NextBot__NextBotCommonBehaviors}
+            ${Source_Files__NextBot__NextBotInterfaces}
+            ${Source_Files__NextBot__NextBotNavMeshEntities}
+            ${Source_Files__NextBot__NextBotPath}
+            ${Source_Files__NextBot__NextBotPlayer}
+            ${CONTENTS_Files}
+            ${Tools_Framework}
+            )
+
+    ################################################################################
+    # Target
+    ################################################################################
+    add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
+
+    target_precompile_headers(${PROJECT_NAME} PRIVATE
+            "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/cbase.h>"
+            )
+
+    use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
+    ################################################################################
+    # Target name
+    ################################################################################
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            TARGET_NAME_DEBUG "server"
+            TARGET_NAME_RELEASE "server"
+            )
+    ################################################################################
+    # Output directory
+    ################################################################################
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/lambdamod/bin"
+            OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/lambdamod/bin"
+            )
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
+            )
+    ################################################################################
+    # MSVC runtime library
+    ################################################################################
+    get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
+    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
+            $<$<CONFIG:Debug>:
+            MultiThreadedDebug
+            >
+            $<$<CONFIG:Release>:
+            MultiThreaded
+            >
+            $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
+            )
+    set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
+
+    ################################################################################
+    # Include directories
+    ################################################################################
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            "${MYROOTDIR}/common;"
+            "${MYROOTDIR}/public;"
+            "${MYROOTDIR}/../thirdparty/SDL2;"
+            "${MYROOTDIR}/public/tier0;"
+            "${MYROOTDIR}/public/tier1;"
+            "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_hl2;"
+            "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_tf;"
+            "${MYROOTDIR}/../thirdparty/lua;"
+            "${MYROOTDIR}/../thirdparty/protobuf-2.6.1/src;"
+            "${CMAKE_CURRENT_SOURCE_DIR}/.;"
+            "${MYROOTDIR}/game/shared;"
+            "${MYROOTDIR}/utils/common;"
+            "${MYROOTDIR}/game/shared/econ;"
+            "${CMAKE_CURRENT_SOURCE_DIR}/NextBot;"
+            "${MYROOTDIR}/gcsdk/steamextra;"
+            "${MYROOTDIR}/game/shared/hl2;"
+            "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
+            "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp;"
+            "${MYROOTDIR}/game/shared/hl2/weapons;"
+            "${MYROOTDIR}/game/shared/hl2"
+            )
+
+
+    ################################################################################
+    # Compile definitions
+    ################################################################################
+    target_compile_definitions(${PROJECT_NAME} PRIVATE
+            "$<$<CONFIG:Debug>:"
+            "DISABLE_ETW;"
+            "_DEBUG;"
+            "DEBUG;"
+            "_SCL_SECURE_NO_WARNINGS"
+            ">"
+            "$<$<CONFIG:Release>:"
+            "_RETAIL;"
+            "_CERT;"
+            "NDEBUG;"
+            "_ALLOW_RUNTIME_LIBRARY_MISMATCH;"
+            "_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;"
+            "_ALLOW_MSC_VER_MISMATCH"
+            ">"
+            "VPC;"
+            "RAD_TELEMETRY_DISABLED;"
+            "_DLL_EXT=.dll;"
+            "DLLNAME=server;"
+            "BINK_VIDEO;"
+            "AVI_VIDEO;"
+            "WMV_VIDEO;"
+            "DEV_BUILD;"
+            "GAME_DLL;"
+            "VECTOR;"
+            "VERSION_SAFE_STEAM_API_INTERFACES;"
+            "PROTECTED_THINGS_ENABLE;"
+            "sprintf=use_Q_snprintf_instead_of_sprintf;"
+            "strncpy=use_Q_strncpy_instead;"
+            "_snprintf=use_Q_snprintf_instead;"
+            "HL2_DLL;"
+            "USES_SAVERESTORE;"
+            #        "USES_ECON_ITEMS;"
+            "USE_NAV_MESH;"
+            #        "ENABLE_GC_MATCHMAKING;"
+            "GLOWS_ENABLE;"
+            "USE_DYNAMIC_ASSET_LOADING;"
+            "NEXT_BOT;"
+            "_EXTERNAL_DLL_EXT=.dll;"
+            "SOURCE1=1;"
+            "_MBCS"
+            )
+
+    ################################################################################
+    # Compile and link options
+    ################################################################################
+    if (MSVC)
+        target_compile_options(${PROJECT_NAME} PRIVATE
+                $<$<CONFIG:Debug>:
+                /Od;
+                /ZI;
+                /GS
+                >
+                $<$<CONFIG:Release>:
+                /O2;
+                /Ob2;
+                /Oi;
+                /Oy;
+                /Gy;
+                /Zi;
+                /Ot;
+                /Zo;
+                /GS-
+                >
+                /MP;
+                /std:c++17;
+                /GF;
+                /arch:SSE2;
+                /W4;
+                /WX-;
+                /TP;
+                /fp:fast;
+                /GR;
+                /wd4316;
+                /wd4577;
+                /wd4091;
+                /Zm750;
+                /Gw;
+                /Zc:inline;
+                /Zc:threadSafeInit-;
+                /Wv:18;
+                /Zc:forScope
+                )
+
+
+        target_link_options(${PROJECT_NAME} PRIVATE
+                $<$<CONFIG:Debug>:
+                /NODEFAULTLIB:libcmt;
+                /NODEFAULTLIB:libcpmt;
+                /NODEFAULTLIB:libcpmt1;
+                /NOLOGO;
+                /DYNAMICBASE:NO;
+                /INCREMENTAL
+                >
+                $<$<CONFIG:Release>:
+                /NODEFAULTLIB:libcmtd;
+                /NODEFAULTLIB:libcpmtd;
+                /NODEFAULTLIB:libcpmtd0;
+                /NODEFAULTLIB:libcpmtd1;
+                /OPT:REF;
+                /OPT:ICF;
+                /DYNAMICBASE;
+                /INCREMENTAL:NO
+                >
+                /NODEFAULTLIB:libc;
+                /NODEFAULTLIB:libcd;
+                /MANIFEST:NO;
+                /DEBUG:FASTLINK;
+                /SAFESEH:NO;
+                /SUBSYSTEM:WINDOWS;
+                /ignore:4221
+                )
+    endif ()
+
+    ################################################################################
+    # Dependencies
+    ################################################################################
+    add_dependencies(${PROJECT_NAME}
+            Dmxloader
+            bitmap
+            choreoobjects
+            mathlib
+            matsys_controls
+            particles
+            replay_common
+            tier0
+            tier1
+            tier2
+            tier3
+            vgui_controls
+            vpklib
+            vstdlib
+            vtf
+            zlib
+            libutilities
+            Jpeglib
+            )
+
+    set(ADDITIONAL_LIBRARY_DEPENDENCIES
+            Dmxloader
+            bitmap
+            choreoobjects
+            mathlib
+            matsys_controls
+            particles
+            replay_common
+            tier0
+            tier1
+            tier2
+            tier3
+            vgui_controls
+            vpklib
+            vstdlib
+            vtf
+            zlib
+            libutilities
+            Jpeglib
+
+            steam_api
+
+            cryptlib
+
+
+            # libprotobuf
+
+            "shell32;"
+            "user32;"
+            "advapi32;"
+            "gdi32;"
+            "comdlg32;"
+            "ole32;"
+            "winmm;"
+            "ws2_32"
+            )
+    target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
+
+    target_link_directories(${PROJECT_NAME} PUBLIC
+            "${MYROOTDIR}/lib/common;"
+            "${MYROOTDIR}/lib/public"
             )
 
 endif ()
 
 
-set(PROJECT_NAME ServerSDK)
+set(PROJECT_NAME ServerCStrike)
 
 ################################################################################
 # Source groups
@@ -2591,6 +3992,8 @@ set(Source_Files
         "../../public/tier0/memoverride.cpp"
         "../../public/vphysics/performance.h"
         "../../public/vphysics/stats.h"
+        "../shared/teamplayroundbased_gamerules.cpp"
+        "../shared/teamplayroundbased_gamerules.h"
         "../shared/achievement_saverestore.cpp"
         "../shared/achievement_saverestore.h"
         "../shared/achievementmgr.cpp"
@@ -2694,10 +4097,11 @@ set(Source_Files
         "../shared/precache_register.h"
         "../shared/predictableid.cpp"
         "../shared/predictableid.h"
+        "../shared/predicted_viewmodel.cpp"
+        "../shared/predicted_viewmodel.h"
         "../shared/props_shared.cpp"
         "../shared/querycache.cpp"
         "../shared/ragdoll_shared.cpp"
-        "../shared/ragdoll_shared.h"
         "../shared/rope_helpers.cpp"
         "../shared/saverestore.cpp"
         "../shared/saverestore.h"
@@ -2715,7 +4119,6 @@ set(Source_Files
         "../shared/simtimer.h"
         "../shared/singleplay_gamerules.cpp"
         "../shared/singleplay_gamerules.h"
-        "../shared/solidsetdefaults.h"
         "../shared/SoundEmitterSystem/SoundEmitterSystem.cpp"
         "../shared/soundenvelope.cpp"
         "../shared/Sprite.cpp"
@@ -2725,19 +4128,17 @@ set(Source_Files
         "../shared/takedamageinfo.cpp"
         "../shared/teamplay_gamerules.cpp"
         "../shared/teamplay_gamerules.h"
+        "../shared/teamplayroundbased_gamerules.cpp"
         "../shared/tempentity.h"
         "../shared/test_ehandle.cpp"
-        "../shared/touchlink.h"
         "../shared/usercmd.cpp"
         "../shared/util_shared.cpp"
-        "../shared/vehicle_choreo_generic_shared.h"
         "../shared/vehicle_viewblend_shared.cpp"
         "../shared/voice_common.h"
         "../shared/voice_gamemgr.cpp"
         "../shared/voice_gamemgr.h"
         "../shared/weapon_parse.cpp"
         "../shared/weapon_parse.h"
-        "../shared/weapon_parse_default.cpp"
         "../shared/weapon_proficiency.cpp"
         "../shared/weapon_proficiency.h"
         "ai_activity.cpp"
@@ -2773,7 +4174,6 @@ set(Source_Files
         "ai_blended_movement.cpp"
         "ai_blended_movement.h"
         "ai_component.h"
-        "ai_concommands.cpp"
         "ai_condition.cpp"
         "ai_condition.h"
         "AI_Criteria.cpp"
@@ -2784,8 +4184,6 @@ set(Source_Files
         "ai_dynamiclink.cpp"
         "ai_dynamiclink.h"
         "ai_event.cpp"
-        "ai_eventresponse.cpp"
-        "ai_eventresponse.h"
         "ai_goalentity.cpp"
         "ai_goalentity.h"
         "ai_hint.cpp"
@@ -2833,7 +4231,6 @@ set(Source_Files
         "ai_planesolver.h"
         "ai_playerally.cpp"
         "ai_playerally.h"
-        "ai_relationship.cpp"
         "AI_ResponseSystem.cpp"
         "AI_ResponseSystem.h"
         "ai_route.cpp"
@@ -2867,7 +4264,6 @@ set(Source_Files
         "ai_utils.h"
         "ai_waypoint.cpp"
         "ai_waypoint.h"
-        "base_gameinterface.cpp"
         "base_transmit_proxy.cpp"
         "baseanimating.cpp"
         "baseanimating.h"
@@ -2881,9 +4277,6 @@ set(Source_Files
         "baseentity.h"
         "baseflex.cpp"
         "baseflex.h"
-        "basegrenade_concussion.cpp"
-        "basegrenade_contact.cpp"
-        "basegrenade_timed.cpp"
         "basemultiplayerplayer.cpp"
         "basemultiplayerplayer.h"
         "BasePropDoor.h"
@@ -2920,7 +4313,6 @@ set(Source_Files
         "EntityDissolve.cpp"
         "EntityDissolve.h"
         "EntityFlame.cpp"
-        "EntityFlame.h"
         "entityinput.h"
         "entitylist.cpp"
         "entitylist.h"
@@ -3003,8 +4395,6 @@ set(Source_Files
         "globalstate.cpp"
         "globalstate.h"
         "globalstate_private.h"
-        "grenadethrown.cpp"
-        "grenadethrown.h"
         "guntarget.cpp"
         "h_ai.cpp"
         "h_cycler.cpp"
@@ -3028,7 +4418,6 @@ set(Source_Files
         "lights.cpp"
         "lights.h"
         "locksounds.h"
-        "logic_achievement.cpp"
         "logic_measure_movement.cpp"
         "logic_navigation.cpp"
         "logicauto.cpp"
@@ -3040,8 +4429,6 @@ set(Source_Files
         "MaterialModifyControl.cpp"
         "message_entity.cpp"
         "modelentities.cpp"
-        "monstermaker.cpp"
-        "monstermaker.h"
         "movehelper_server.cpp"
         "movehelper_server.h"
         "movement.cpp"
@@ -3065,7 +4452,6 @@ set(Source_Files
         "physics.cpp"
         "physics.h"
         "physics_bone_follower.cpp"
-        "physics_bone_follower.h"
         "physics_cannister.cpp"
         "physics_collisionevent.h"
         "physics_fx.cpp"
@@ -3144,6 +4530,8 @@ set(Source_Files
         "tanktrain.cpp"
         "team.cpp"
         "team.h"
+        "team_objectiveresource.cpp"
+        "team_objectiveresource.h"
         "team_spawnpoint.cpp"
         "team_spawnpoint.h"
         "TemplateEntities.cpp"
@@ -3165,7 +4553,6 @@ set(Source_Files
         "variant_t.cpp"
         "vehicle_base.cpp"
         "vehicle_baseserver.cpp"
-        "vehicle_choreo_generic.cpp"
         "vehicle_sounds.h"
         "vguiscreen.cpp"
         "vguiscreen.h"
@@ -3182,313 +4569,202 @@ set(Source_Files
         )
 source_group("Source Files" FILES ${Source_Files})
 
-set(Source_Files__HL2_DLL
-        "../shared/hl2/achievements_hl2.cpp"
-        "../shared/hl2/basehlcombatweapon_shared.cpp"
-        "../shared/hl2/basehlcombatweapon_shared.h"
-        "../shared/hl2/citadel_effects_shared.h"
-        "../shared/hl2/env_alyxemp_shared.h"
-        "../shared/hl2/env_headcrabcanister_shared.cpp"
-        "../shared/hl2/env_headcrabcanister_shared.h"
-        "../shared/hl2/hl2_gamerules.cpp"
-        "../shared/hl2/hl2_gamerules.h"
-        "../shared/hl2/hl2_player_shared.h"
-        "../shared/hl2/hl2_shareddefs.h"
-        "../shared/hl2/hl2_usermessages.cpp"
-        "../shared/hl2/hl_gamemovement.cpp"
-        "../shared/hl2/hl_gamemovement.h"
-        "../shared/hl2/hl_movedata.h"
-        "../shared/script_intro_shared.cpp"
-        "basebludgeonweapon.cpp"
-        "basebludgeonweapon.h"
-        "hl2/ai_allymanager.cpp"
-        "hl2/ai_behavior_actbusy.cpp"
-        "hl2/ai_behavior_actbusy.h"
-        "hl2/ai_behavior_functank.cpp"
-        "hl2/ai_behavior_functank.h"
-        "hl2/ai_behavior_holster.cpp"
-        "hl2/ai_behavior_holster.h"
-        "hl2/ai_behavior_operator.cpp"
-        "hl2/ai_behavior_operator.h"
-        "hl2/ai_behavior_police.cpp"
-        "hl2/ai_behavior_police.h"
-        "hl2/ai_goal_police.cpp"
-        "hl2/ai_goal_police.h"
-        "hl2/ai_interactions.h"
-        "hl2/ai_spotlight.cpp"
-        "hl2/ai_spotlight.h"
-        "hl2/antlion_dust.cpp"
-        "hl2/antlion_dust.h"
-        "hl2/antlion_maker.cpp"
-        "hl2/antlion_maker.h"
-        "hl2/ar2_explosion.cpp"
-        "hl2/ar2_explosion.h"
-        "hl2/basehlcombatweapon.cpp"
-        "hl2/basehlcombatweapon.h"
-        "hl2/cbasehelicopter.cpp"
-        "hl2/cbasehelicopter.h"
-        "hl2/cbasespriteprojectile.cpp"
-        "hl2/cbasespriteprojectile.h"
-        "hl2/citadel_effects.cpp"
-        "hl2/combine_mine.cpp"
-        "hl2/combine_mine.h"
-        "hl2/energy_wave.h"
-        "hl2/env_alyxemp.cpp"
-        "hl2/env_headcrabcanister.cpp"
-        "hl2/env_speaker.cpp"
-        "hl2/env_speaker.h"
-        "hl2/env_starfield.cpp"
-        "hl2/func_recharge.cpp"
-        "hl2/func_tank.cpp"
-        "hl2/func_tank.h"
-        "hl2/grenade_ar2.cpp"
-        "hl2/grenade_ar2.h"
-        "hl2/grenade_bugbait.cpp"
-        "hl2/grenade_bugbait.h"
-        "hl2/grenade_frag.cpp"
-        "hl2/grenade_frag.h"
-        "hl2/hl2_ai_network.cpp"
-        "hl2/hl2_client.cpp"
-        "hl2/hl2_eventlog.cpp"
-        "hl2/hl2_gamestats.cpp"
-        "hl2/hl2_gamestats.h"
-        "hl2/hl2_player.cpp"
-        "hl2/hl2_player.h"
-        "hl2/hl2_playerlocaldata.cpp"
-        "hl2/hl2_playerlocaldata.h"
-        "hl2/hl2_triggers.cpp"
-        "hl2/hl_playermove.cpp"
-        "hl2/info_darknessmode_lightsource.cpp"
-        "hl2/info_darknessmode_lightsource.h"
-        "hl2/info_teleporter_countdown.cpp"
-        "hl2/item_ammo.cpp"
-        "hl2/item_battery.cpp"
-        "hl2/item_dynamic_resupply.cpp"
-        "hl2/item_dynamic_resupply.h"
-        "hl2/item_healthkit.cpp"
-        "hl2/item_itemcrate.cpp"
-        "hl2/item_suit.cpp"
-        "hl2/look_door.cpp"
-        "hl2/monster_dummy.cpp"
-        "hl2/npc_alyx.cpp"
-        "hl2/npc_alyx.h"
-        "hl2/npc_alyx_episodic.h"
-        "hl2/npc_antlion.cpp"
-        "hl2/npc_antlion.h"
-        "hl2/npc_antlionguard.cpp"
-        "hl2/npc_apcdriver.cpp"
-        "hl2/npc_attackchopper.cpp"
-        "hl2/npc_attackchopper.h"
-        "hl2/npc_barnacle.cpp"
-        "hl2/npc_barnacle.h"
-        "hl2/npc_barney.cpp"
-        "hl2/npc_basescanner.cpp"
-        "hl2/npc_basescanner.h"
-        "hl2/npc_BaseZombie.cpp"
-        "hl2/npc_BaseZombie.h"
-        "hl2/npc_blob.cpp"
-        "hl2/npc_breen.cpp"
-        "hl2/npc_bullseye.cpp"
-        "hl2/npc_bullseye.h"
-        "hl2/npc_citizen17.cpp"
-        "hl2/npc_citizen17.h"
-        "hl2/npc_combine.cpp"
-        "hl2/npc_combine.h"
-        "hl2/npc_combinecamera.cpp"
-        "hl2/npc_combinedropship.cpp"
-        "hl2/npc_combinegunship.cpp"
-        "hl2/npc_combines.cpp"
-        "hl2/npc_combines.h"
-        "hl2/npc_cranedriver.cpp"
-        "hl2/npc_crow.cpp"
-        "hl2/npc_crow.h"
-        "hl2/npc_dog.cpp"
-        "hl2/npc_eli.cpp"
-        "hl2/npc_enemyfinder.cpp"
-        "hl2/npc_fastzombie.cpp"
-        "hl2/npc_fisherman.cpp"
-        "hl2/npc_gman.cpp"
-        "hl2/npc_headcrab.cpp"
-        "hl2/npc_headcrab.h"
-        "hl2/npc_ichthyosaur.cpp"
-        "hl2/npc_kleiner.cpp"
-        "hl2/npc_launcher.cpp"
-        "hl2/npc_manhack.cpp"
-        "hl2/npc_manhack.h"
-        "hl2/npc_metropolice.cpp"
-        "hl2/npc_metropolice.h"
-        "hl2/npc_monk.cpp"
-        "hl2/npc_mossman.cpp"
-        "hl2/npc_playercompanion.cpp"
-        "hl2/npc_playercompanion.h"
-        "hl2/npc_PoisonZombie.cpp"
-        "hl2/npc_rollermine.cpp"
-        "hl2/npc_rollermine.h"
-        "hl2/npc_scanner.cpp"
-        "hl2/npc_scanner.h"
-        "hl2/npc_stalker.cpp"
-        "hl2/npc_stalker.h"
-        "hl2/npc_strider.cpp"
-        "hl2/npc_strider.h"
-        "hl2/npc_turret_ceiling.cpp"
-        "hl2/npc_turret_floor.cpp"
-        "hl2/npc_turret_floor.h"
-        "hl2/npc_turret_ground.cpp"
-        "hl2/npc_turret_ground.h"
-        "hl2/npc_vortigaunt_episodic.cpp"
-        "hl2/npc_vortigaunt_episodic.h"
-        "hl2/npc_zombie.cpp"
-        "hl2/point_apc_controller.cpp"
-        "hl2/prop_combine_ball.cpp"
-        "hl2/prop_combine_ball.h"
-        "hl2/prop_thumper.cpp"
-        "hl2/proto_sniper.cpp"
-        "hl2/rotorwash.cpp"
-        "hl2/rotorwash.h"
-        "hl2/script_intro.cpp"
-        "hl2/script_intro.h"
-        "hl2/vehicle_airboat.cpp"
-        "hl2/vehicle_apc.h"
-        "hl2/vehicle_cannon.cpp"
-        "hl2/vehicle_crane.cpp"
-        "hl2/vehicle_crane.h"
-        "hl2/vehicle_jeep.cpp"
-        "hl2/vehicle_prisoner_pod.cpp"
-        "hl2/vehicle_viewcontroller.cpp"
-        "hl2/weapons/weapon_357.cpp"
-        "hl2/weapons/weapon_alyxgun.cpp"
-        "hl2/weapons/weapon_alyxgun.h"
-        "hl2/weapons/weapon_annabelle.cpp"
-        "hl2/weapons/weapon_ar2.cpp"
-        "hl2/weapons/weapon_ar2.h"
-        "hl2/weapons/weapon_bugbait.cpp"
-        "hl2/weapons/weapon_citizenpackage.cpp"
-        "hl2/weapons/weapon_citizenpackage.h"
-        "hl2/weapons/weapon_crossbow.cpp"
-        "hl2/weapons/weapon_crowbar.cpp"
-        "hl2/weapons/weapon_crowbar.h"
-        "hl2/weapons/weapon_frag.cpp"
-        "hl2/weapons/weapon_physcannon.cpp"
-        "hl2/weapons/weapon_physcannon.h"
-        "hl2/weapons/weapon_pistol.cpp"
-        "hl2/weapons/weapon_rpg.cpp"
-        "hl2/weapons/weapon_rpg.h"
-        "hl2/weapons/weapon_shotgun.cpp"
-        "hl2/weapons/weapon_smg1.cpp"
-        "hl2/weapons/weapon_stunstick.cpp"
-        "hl2/weapons/weapon_stunstick.h"
-        "npc_talker.cpp"
-        "npc_talker.h"
-        "weapon_cubemap.cpp"
+set(Source_Files__CounterStrike_DLL
+        "../shared/cstrike/achievements_cs.cpp"
+        "../shared/cstrike/achievements_cs.h"
+        "../shared/cstrike/basecsgrenade_projectile.cpp"
+        "../shared/cstrike/basecsgrenade_projectile.h"
+        "../shared/cstrike/cs_achievement_constants.h"
+        "../shared/cstrike/cs_ammodef.cpp"
+        "../shared/cstrike/cs_ammodef.h"
+        "../shared/cstrike/cs_blackmarket.cpp"
+        "../shared/cstrike/cs_gamemovement.cpp"
+        "../shared/cstrike/cs_gamerules.cpp"
+        "../shared/cstrike/cs_gamerules.h"
+        "../shared/cstrike/cs_gamestats_shared.cpp"
+        "../shared/cstrike/cs_gamestats_shared.h"
+        "../shared/cstrike/cs_player_shared.cpp"
+        "../shared/cstrike/cs_playeranimstate.cpp"
+        "../shared/cstrike/cs_playeranimstate.h"
+        "../shared/cstrike/cs_shareddefs.cpp"
+        "../shared/cstrike/cs_shareddefs.h"
+        "../shared/cstrike/cs_urlretrieveprices.cpp"
+        "../shared/cstrike/cs_urlretrieveprices.h"
+        "../shared/cstrike/cs_usermessages.cpp"
+        "../shared/cstrike/cs_weapon_parse.cpp"
+        "../shared/cstrike/cs_weapon_parse.h"
+        "../shared/cstrike/flashbang_projectile.cpp"
+        "../shared/cstrike/flashbang_projectile.h"
+        "../shared/cstrike/fx_cs_shared.cpp"
+        "../shared/cstrike/fx_cs_shared.h"
+        "../shared/cstrike/hegrenade_projectile.cpp"
+        "../shared/cstrike/hegrenade_projectile.h"
+        "../shared/steamworks_gamestats.cpp"
+        "../shared/steamworks_gamestats.h"
+        "cstrike/cs_autobuy.cpp"
+        "cstrike/cs_autobuy.h"
+        "cstrike/cs_client.cpp"
+        "cstrike/cs_client.h"
+        "cstrike/cs_eventlog.cpp"
+        "cstrike/cs_gameinterface.cpp"
+        "cstrike/cs_gamestats.cpp"
+        "cstrike/cs_gamestats.h"
+        "cstrike/cs_hltvdirector.cpp"
+        "cstrike/cs_player.cpp"
+        "cstrike/cs_player.h"
+        "cstrike/cs_player_resource.cpp"
+        "cstrike/cs_player_resource.h"
+        "cstrike/cs_playermove.cpp"
+        "cstrike/cs_team.cpp"
+        "cstrike/cs_team.h"
+        "cstrike/cs_vehicle_jeep.cpp"
+        "cstrike/func_bomb_target.cpp"
+        "cstrike/func_bomb_target.h"
+        "cstrike/func_buy_zone.cpp"
+        "cstrike/func_hostage_rescue.cpp"
+        "cstrike/funfact_cs.cpp"
+        "cstrike/funfact_cs.h"
+        "cstrike/funfactmgr_cs.cpp"
+        "cstrike/funfactmgr_cs.h"
+        "cstrike/holiday_gift.cpp"
+        "cstrike/holiday_gift.h"
+        "cstrike/info_view_parameters.cpp"
+        "cstrike/item_ammo.cpp"
+        "cstrike/item_assaultsuit.cpp"
+        "cstrike/item_defuser.cpp"
+        "cstrike/item_kevlar.cpp"
+        "cstrike/item_nvgs.cpp"
+        "cstrike/mapinfo.cpp"
+        "cstrike/mapinfo.h"
+        "cstrike/point_surroundtest.cpp"
+        "cstrike/smokegrenade_projectile.cpp"
+        "cstrike/smokegrenade_projectile.h"
+        "cstrike/te_radioicon.cpp"
+        "cstrike/te_shotgun_shot.cpp"
+        "cstrike/te_shotgun_shot.h"
         )
-source_group("Source Files\\HL2 DLL" FILES ${Source_Files__HL2_DLL})
+source_group("Source Files\\CounterStrike DLL" FILES ${Source_Files__CounterStrike_DLL})
 
-set(Source_Files__HL2_DLL__Unused
-        "hl2/grenade_beam.cpp"
-        "hl2/grenade_beam.h"
-        "hl2/grenade_homer.cpp"
-        "hl2/grenade_homer.h"
-        "hl2/grenade_pathfollower.cpp"
-        "hl2/grenade_pathfollower.h"
-        "hl2/npc_missiledefense.cpp"
-        "hl2/vehicle_apc.cpp"
-        "hl2/weapons/weapon_cguard.cpp"
-        "hl2/weapons/weapon_flaregun.cpp"
-        "hl2/weapons/weapon_flaregun.h"
+set(Source_Files__CounterStrike_DLL__Bot
+        "cstrike/bot/cs_bot.cpp"
+        "cstrike/bot/cs_bot.h"
+        "cstrike/bot/cs_bot_chatter.cpp"
+        "cstrike/bot/cs_bot_chatter.h"
+        "cstrike/bot/cs_bot_event.cpp"
+        "cstrike/bot/cs_bot_event_bomb.cpp"
+        "cstrike/bot/cs_bot_event_player.cpp"
+        "cstrike/bot/cs_bot_event_weapon.cpp"
+        "cstrike/bot/cs_bot_init.cpp"
+        "cstrike/bot/cs_bot_listen.cpp"
+        "cstrike/bot/cs_bot_manager.cpp"
+        "cstrike/bot/cs_bot_manager.h"
+        "cstrike/bot/cs_bot_nav.cpp"
+        "cstrike/bot/cs_bot_pathfind.cpp"
+        "cstrike/bot/cs_bot_radio.cpp"
+        "cstrike/bot/cs_bot_statemachine.cpp"
+        "cstrike/bot/cs_bot_update.cpp"
+        "cstrike/bot/cs_bot_vision.cpp"
+        "cstrike/bot/cs_bot_weapon.cpp"
+        "cstrike/bot/cs_bot_weapon_id.cpp"
+        "cstrike/bot/cs_gamestate.cpp"
+        "cstrike/bot/cs_gamestate.h"
         )
-source_group("Source Files\\HL2 DLL\\Unused" FILES ${Source_Files__HL2_DLL__Unused})
+source_group("Source Files\\CounterStrike DLL\\Bot" FILES ${Source_Files__CounterStrike_DLL__Bot})
 
-set(Source_Files__Precompiled_Header
-        "stdafx.cpp"
+set(Source_Files__CounterStrike_DLL__Bot__Shared
+        "../shared/cstrike/bot/bot.cpp"
+        "../shared/cstrike/bot/bot.h"
+        "../shared/cstrike/bot/bot_constants.h"
+        "../shared/cstrike/bot/bot_hide.cpp"
+        "../shared/cstrike/bot/bot_manager.cpp"
+        "../shared/cstrike/bot/bot_manager.h"
+        "../shared/cstrike/bot/bot_profile.cpp"
+        "../shared/cstrike/bot/bot_profile.h"
+        "../shared/cstrike/bot/bot_util.cpp"
+        "../shared/cstrike/bot/bot_util.h"
+        "../shared/cstrike/bot/shared_util.cpp"
+        "../shared/cstrike/bot/shared_util.h"
         )
-source_group("Source Files\\Precompiled Header" FILES ${Source_Files__Precompiled_Header})
+source_group("Source Files\\CounterStrike DLL\\Bot\\Shared" FILES ${Source_Files__CounterStrike_DLL__Bot__Shared})
 
-set(Source_Files__temporary_entities
-        "../shared/SpriteTrail.cpp"
-        "../shared/usermessages.cpp"
-        "basetempentity.cpp"
-        "event_tempentity_tester.cpp"
-        "hl2/te_gaussexplosion.cpp"
-        "movie_explosion.cpp"
-        "particle_fire.cpp"
-        "particle_smokegrenade.cpp"
-        "plasma.cpp"
-        "plasma.h"
-        "smoke_trail.cpp"
-        "smoke_trail.h"
-        "smokestack.cpp"
-        "smokestack.h"
-        "steamjet.cpp"
-        "steamjet.h"
-        "te.cpp"
-        "te.h"
-        "te_armorricochet.cpp"
-        "te_basebeam.cpp"
-        "te_basebeam.h"
-        "te_beamentpoint.cpp"
-        "te_beaments.cpp"
-        "te_beamfollow.cpp"
-        "te_beamlaser.cpp"
-        "te_beampoints.cpp"
-        "te_beamring.cpp"
-        "te_beamringpoint.cpp"
-        "te_beamspline.cpp"
-        "te_bloodsprite.cpp"
-        "te_bloodstream.cpp"
-        "te_breakmodel.cpp"
-        "te_bspdecal.cpp"
-        "te_bubbles.cpp"
-        "te_bubbletrail.cpp"
-        "te_clientprojectile.cpp"
-        "te_decal.cpp"
-        "te_dynamiclight.cpp"
-        "te_effect_dispatch.cpp"
-        "te_energysplash.cpp"
-        "te_explosion.cpp"
-        "te_fizz.cpp"
-        "te_footprintdecal.cpp"
-        "te_glassshatter.cpp"
-        "te_glowsprite.cpp"
-        "te_impact.cpp"
-        "te_killplayerattachments.cpp"
-        "te_largefunnel.cpp"
-        "te_muzzleflash.cpp"
-        "te_particlesystem.cpp"
-        "te_particlesystem.h"
-        "te_physicsprop.cpp"
-        "te_playerdecal.cpp"
-        "te_projecteddecal.cpp"
-        "te_showline.cpp"
-        "te_smoke.cpp"
-        "te_sparks.cpp"
-        "te_sprite.cpp"
-        "te_spritespray.cpp"
-        "te_worlddecal.cpp"
+set(Source_Files__CounterStrike_DLL__Bot__States
+        "cstrike/bot/states/cs_bot_attack.cpp"
+        "cstrike/bot/states/cs_bot_buy.cpp"
+        "cstrike/bot/states/cs_bot_defuse_bomb.cpp"
+        "cstrike/bot/states/cs_bot_escape_from_bomb.cpp"
+        "cstrike/bot/states/cs_bot_fetch_bomb.cpp"
+        "cstrike/bot/states/cs_bot_follow.cpp"
+        "cstrike/bot/states/cs_bot_hide.cpp"
+        "cstrike/bot/states/cs_bot_hunt.cpp"
+        "cstrike/bot/states/cs_bot_idle.cpp"
+        "cstrike/bot/states/cs_bot_investigate_noise.cpp"
+        "cstrike/bot/states/cs_bot_move_to.cpp"
+        "cstrike/bot/states/cs_bot_open_door.cpp"
+        "cstrike/bot/states/cs_bot_plant_bomb.cpp"
+        "cstrike/bot/states/cs_bot_use_entity.cpp"
         )
-source_group("Source Files\\temporary entities" FILES ${Source_Files__temporary_entities})
+source_group("Source Files\\CounterStrike DLL\\Bot\\States" FILES ${Source_Files__CounterStrike_DLL__Bot__States})
 
-set(Tools_Framework
-        "entity_tools_server.cpp"
-        "toolframework_server.cpp"
-        "toolframework_server.h"
+set(Source_Files__CounterStrike_DLL__Hostage
+        "cstrike/hostage/cs_simple_hostage.cpp"
+        "cstrike/hostage/cs_simple_hostage.h"
         )
-source_group("Tools Framework" FILES ${Tools_Framework})
+source_group("Source Files\\CounterStrike DLL\\Hostage" FILES ${Source_Files__CounterStrike_DLL__Hostage})
 
-set(CONTENTS_Files
-        "contents/env_instructor_hint.cpp"
-        contents/lua_manager.cpp contents/lua_manager.h hl2/weapons/weapon_ak47.cpp)
-source_group("ReSource Files" FILES ${CONTENTS_Files})
-
-
-set(Source_Files__IFM
-        "../shared/weapon_ifmbase.cpp"
-        "../shared/weapon_ifmbase.h"
-        "../shared/weapon_ifmbasecamera.cpp"
-        "../shared/weapon_ifmbasecamera.h"
-        "../shared/weapon_ifmsteadycam.cpp"
-        "../shared/weapon_ifmsteadycam.h"
+set(Source_Files__CounterStrike_DLL__Navigation_Mesh
+        "cstrike/cs_nav.h"
+        "cstrike/cs_nav_area.cpp"
+        "cstrike/cs_nav_area.h"
+        "cstrike/cs_nav_generate.cpp"
+        "cstrike/cs_nav_mesh.cpp"
+        "cstrike/cs_nav_mesh.h"
+        "cstrike/cs_nav_path.cpp"
+        "cstrike/cs_nav_path.h"
+        "cstrike/cs_nav_pathfind.h"
         )
-source_group("Source Files\\IFM" FILES ${Source_Files__IFM})
+source_group("Source Files\\CounterStrike DLL\\Navigation Mesh" FILES ${Source_Files__CounterStrike_DLL__Navigation_Mesh})
+
+set(Source_Files__CounterStrike_DLL__Weapon
+        "../shared/cstrike/weapon_ak47.cpp"
+        "../shared/cstrike/weapon_aug.cpp"
+        "../shared/cstrike/weapon_awp.cpp"
+        "../shared/cstrike/weapon_basecsgrenade.cpp"
+        "../shared/cstrike/weapon_basecsgrenade.h"
+        "../shared/cstrike/weapon_c4.cpp"
+        "../shared/cstrike/weapon_c4.h"
+        "../shared/cstrike/weapon_csbase.cpp"
+        "../shared/cstrike/weapon_csbase.h"
+        "../shared/cstrike/weapon_csbasegun.cpp"
+        "../shared/cstrike/weapon_csbasegun.h"
+        "../shared/cstrike/weapon_deagle.cpp"
+        "../shared/cstrike/weapon_elite.cpp"
+        "../shared/cstrike/weapon_famas.cpp"
+        "../shared/cstrike/weapon_fiveseven.cpp"
+        "../shared/cstrike/weapon_flashbang.cpp"
+        "../shared/cstrike/weapon_flashbang.h"
+        "../shared/cstrike/weapon_g3sg1.cpp"
+        "../shared/cstrike/weapon_galil.cpp"
+        "../shared/cstrike/weapon_glock.cpp"
+        "../shared/cstrike/weapon_hegrenade.cpp"
+        "../shared/cstrike/weapon_hegrenade.h"
+        "../shared/cstrike/weapon_knife.cpp"
+        "../shared/cstrike/weapon_m249.cpp"
+        "../shared/cstrike/weapon_m3.cpp"
+        "../shared/cstrike/weapon_m4a1.cpp"
+        "../shared/cstrike/weapon_mac10.cpp"
+        "../shared/cstrike/weapon_mp5navy.cpp"
+        "../shared/cstrike/weapon_p228.cpp"
+        "../shared/cstrike/weapon_p90.cpp"
+        "../shared/cstrike/weapon_scout.cpp"
+        "../shared/cstrike/weapon_sg550.cpp"
+        "../shared/cstrike/weapon_sg552.cpp"
+        "../shared/cstrike/weapon_smokegrenade.cpp"
+        "../shared/cstrike/weapon_tmp.cpp"
+        "../shared/cstrike/weapon_ump45.cpp"
+        "../shared/cstrike/weapon_usp.cpp"
+        "../shared/cstrike/weapon_xm1014.cpp"
+        )
+source_group("Source Files\\CounterStrike DLL\\Weapon" FILES ${Source_Files__CounterStrike_DLL__Weapon})
 
 set(Source_Files__Navigation_Mesh
         "nav.h"
@@ -3581,16 +4857,93 @@ set(Source_Files__NextBot__NextBotPlayer
         )
 source_group("Source Files\\NextBot\\NextBotPlayer" FILES ${Source_Files__NextBot__NextBotPlayer})
 
+set(Source_Files__Precompiled_Header
+        "stdafx.cpp"
+        )
+source_group("Source Files\\Precompiled Header" FILES ${Source_Files__Precompiled_Header})
+
+set(Source_Files__temporary_entities
+        "../shared/SpriteTrail.cpp"
+        "../shared/usermessages.cpp"
+        "basetempentity.cpp"
+        "event_tempentity_tester.cpp"
+        "hl2/te_gaussexplosion.cpp"
+        "movie_explosion.cpp"
+        "particle_fire.cpp"
+        "particle_smokegrenade.cpp"
+        "plasma.cpp"
+        "plasma.h"
+        "smoke_trail.cpp"
+        "smoke_trail.h"
+        "smokestack.cpp"
+        "smokestack.h"
+        "steamjet.cpp"
+        "steamjet.h"
+        "te.cpp"
+        "te.h"
+        "te_armorricochet.cpp"
+        "te_basebeam.cpp"
+        "te_basebeam.h"
+        "te_beamentpoint.cpp"
+        "te_beaments.cpp"
+        "te_beamfollow.cpp"
+        "te_beamlaser.cpp"
+        "te_beampoints.cpp"
+        "te_beamring.cpp"
+        "te_beamringpoint.cpp"
+        "te_beamspline.cpp"
+        "te_bloodsprite.cpp"
+        "te_bloodstream.cpp"
+        "te_breakmodel.cpp"
+        "te_bspdecal.cpp"
+        "te_bubbles.cpp"
+        "te_bubbletrail.cpp"
+        "te_clientprojectile.cpp"
+        "te_decal.cpp"
+        "te_dynamiclight.cpp"
+        "te_effect_dispatch.cpp"
+        "te_energysplash.cpp"
+        "te_explosion.cpp"
+        "te_fizz.cpp"
+        "te_footprintdecal.cpp"
+        "te_glassshatter.cpp"
+        "te_glowsprite.cpp"
+        "te_impact.cpp"
+        "te_killplayerattachments.cpp"
+        "te_largefunnel.cpp"
+        "te_muzzleflash.cpp"
+        "te_particlesystem.cpp"
+        "te_particlesystem.h"
+        "te_physicsprop.cpp"
+        "te_playerdecal.cpp"
+        "te_projecteddecal.cpp"
+        "te_showline.cpp"
+        "te_smoke.cpp"
+        "te_sparks.cpp"
+        "te_sprite.cpp"
+        "te_spritespray.cpp"
+        "te_worlddecal.cpp"
+        )
+source_group("Source Files\\temporary entities" FILES ${Source_Files__temporary_entities})
+
+set(Tools_Framework
+        "entity_tools_server.cpp"
+        "toolframework_server.cpp"
+        "toolframework_server.h"
+        )
+source_group("Tools Framework" FILES ${Tools_Framework})
 
 set(ALL_FILES
         ${Header_Files}
         ${Replay}
         ${Source_Files}
-        ${Source_Files__HL2_DLL}
-        ${Source_Files__HL2_DLL__Unused}
-        ${Source_Files__Precompiled_Header}
-        ${Source_Files__temporary_entities}
-        ${Source_Files__IFM}
+        ${Source_Files__CounterStrike_DLL}
+        ${Source_Files__CounterStrike_DLL__Bot}
+        ${Source_Files__CounterStrike_DLL__Bot__Shared}
+        ${Source_Files__CounterStrike_DLL__Bot__States}
+        ${Source_Files__CounterStrike_DLL__Hostage}
+        ${Source_Files__CounterStrike_DLL__Navigation_Mesh}
+        ${Source_Files__CounterStrike_DLL__Weapon}
         ${Source_Files__Navigation_Mesh}
         ${Source_Files__NextBot}
         ${Source_Files__NextBot__NextBotCommonBehaviors}
@@ -3598,7 +4951,8 @@ set(ALL_FILES
         ${Source_Files__NextBot__NextBotNavMeshEntities}
         ${Source_Files__NextBot__NextBotPath}
         ${Source_Files__NextBot__NextBotPlayer}
-        ${CONTENTS_Files}
+        ${Source_Files__Precompiled_Header}
+        ${Source_Files__temporary_entities}
         ${Tools_Framework}
         )
 
@@ -3623,8 +4977,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Output directory
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../game/lambdamod/bin"
-        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../game/lambdamod/bin"
+        OUTPUT_DIRECTORY_DEBUG "${MYROOTDIR}/../../../game/lambdamod/bin"
+        OUTPUT_DIRECTORY_RELEASE "${MYROOTDIR}/../../../game/lambdamod/bin"
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
@@ -3647,29 +5001,27 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 ################################################################################
 # Include directories
 ################################################################################
-target_include_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public;"
-        "${MYROOTDIR}/thirdparty/SDL2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier0;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../public/tier1;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_hl2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/generated_proto_tf;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/lua;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/protobuf-2.6.1/src;"
+target_include_directories(${PROJECT_NAME} PUBLIC
+        "${MYROOTDIR}/common;"
+        "${MYROOTDIR}/public;"
+        "${MYROOTDIR}/public/tier0;"
+        "${MYROOTDIR}/public/tier1;"
+        "${MYROOTDIR}/../thirdparty/protobuf-2.6.1/src;"
+        "${MYROOTDIR}/../thirdparty/lua;"
         "${CMAKE_CURRENT_SOURCE_DIR}/.;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../utils/common;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../shared/econ;"
         "${CMAKE_CURRENT_SOURCE_DIR}/NextBot;"
-        "../../minisef/gcsdk/steamextra;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/hl2;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/hl2mp;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2/weapons;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/hl2"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/cstrike/control;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/cstrike;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/cstrike;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/cstrike/bot;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/cstrike/bot/states;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../shared/cstrike/bot;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/cstrike/hostage;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/cstrike/control"
         )
-
 
 ################################################################################
 # Compile definitions
@@ -3691,6 +5043,14 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         ">"
         "VPC;"
         "RAD_TELEMETRY_DISABLED;"
+        "WIN32;"
+        "_WIN32;"
+        "_WINDOWS;"
+        "_USRDLL;"
+        "_CRT_SECURE_NO_DEPRECATE;"
+        "_CRT_NONSTDC_NO_DEPRECATE;"
+        "COMPILER_MSVC32;"
+        "COMPILER_MSVC;"
         "_DLL_EXT=.dll;"
         "DLLNAME=server;"
         "BINK_VIDEO;"
@@ -3704,18 +5064,18 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "sprintf=use_Q_snprintf_instead_of_sprintf;"
         "strncpy=use_Q_strncpy_instead;"
         "_snprintf=use_Q_snprintf_instead;"
-        "HL2_DLL;"
-        "USES_SAVERESTORE;"
-#        "USES_ECON_ITEMS;"
+        "fopen=dont_use_fopen;"
         "USE_NAV_MESH;"
-#        "ENABLE_GC_MATCHMAKING;"
+        "BOTS;"
+        "CSTRIKE_DLL;"
+        "USES_SAVERESTORE;"
+        #        "USES_ECON_ITEMS;"
+        "USE_NAV_MESH;"
+        #        "ENABLE_GC_MATCHMAKING;"
         "GLOWS_ENABLE;"
         "USE_DYNAMIC_ASSET_LOADING;"
         "NEXT_BOT;"
         "_EXTERNAL_DLL_EXT=.dll;"
-        "VPCGAMECAPS=HL2;"
-        "PROJECTDIR=E:\\Projects\\SourceEngineWorks\\SourceEngineRebuild\\src\\game\\server;"
-        "VPCGAME=hl2;"
         "SOURCE1=1;"
         "_MBCS"
         )
@@ -3880,6 +5240,10 @@ if (MSVC)
             "/Y-"
             )
     source_file_compile_options(../../public/studio.cpp ${FILE_CL_OPTIONS})
+    string(CONCAT FILE_CL_OPTIONS
+            "/Y-"
+            )
+    source_file_compile_options(../shared/cstrike/cs_urlretrieveprices.cpp ${FILE_CL_OPTIONS})
     target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
             /NODEFAULTLIB:libcmt;
@@ -3903,6 +5267,7 @@ if (MSVC)
             /NODEFAULTLIB:libcd;
             /MANIFEST:NO;
             /DEBUG:FASTLINK;
+            /MACHINE:X86;
             /SAFESEH:NO;
             /SUBSYSTEM:WINDOWS;
             /ignore:4221
@@ -3916,13 +5281,14 @@ add_dependencies(${PROJECT_NAME}
         Dmxloader
         bitmap
         choreoobjects
-        gcsdk
         mathlib
         matsys_controls
         particles
         replay_common
         tier0
         tier1
+        tier2
+        tier3
         vgui_controls
         vpklib
         vstdlib
@@ -3936,13 +5302,14 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         Dmxloader
         bitmap
         choreoobjects
-        gcsdk
         mathlib
         matsys_controls
         particles
         replay_common
         tier0
         tier1
+        tier2
+        tier3
         vgui_controls
         vpklib
         vstdlib
@@ -3956,7 +5323,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
         cryptlib
 
 
-        libprotobuf
+        # libprotobuf
 
         "shell32;"
         "user32;"
@@ -3970,6 +5337,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/common;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/public"
+        "${MYROOTDIR}/lib/common;"
+        "${MYROOTDIR}/lib/public"
         )
+

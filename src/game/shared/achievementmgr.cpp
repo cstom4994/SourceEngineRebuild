@@ -936,7 +936,7 @@ extern bool IsInCommentaryMode(void);
 bool CAchievementMgr::CheckAchievementsEnabled() {
     // if PC, Steam must be running and user logged in
     if (IsPC() && !LoggedIntoSteam()) {
-        Msg("Achievements disabled: Steam not running.\n");
+        // Msg("Achievements disabled: Steam not running.\n");
         return false;
     }
 

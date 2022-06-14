@@ -11,8 +11,9 @@
 
 #ifdef PONDER_CLIENT_DLL
 #include "tf_shareddefs.h"
-#include "teamplayroundbased_gamerules.h"
 #endif
+
+#include "teamplayroundbased_gamerules.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -24,7 +25,7 @@ IMPLEMENT_CLIENTCLASS_DT(C_TeamTrainWatcher, DT_TeamTrainWatcher, CTeamTrainWatc
                     RecvPropFloat(RECVINFO(m_flRecedeTime)),
                     RecvPropInt(RECVINFO(m_nNumCappers)),
 #ifdef GLOWS_ENABLE
-                    RecvPropEHandle( RECVINFO( m_hGlowEnt ) ),
+                    RecvPropEHandle(RECVINFO(m_hGlowEnt)),
 #endif // GLOWS_ENABLE
 
 END_RECV_TABLE()
@@ -58,8 +59,7 @@ C_TeamTrainWatcher::~C_TeamTrainWatcher() {
 //-----------------------------------------------------------------------------
 void C_TeamTrainWatcher::ClientThink() {
 #ifdef GLOWS_ENABLE
-    if ( IsDormant() || ( m_hGlowEnt.Get() == NULL ) )
-    {
+    if (IsDormant() || (m_hGlowEnt.Get() == NULL)) {
         DestroyGlowEffect();
         m_hOldGlowEnt = NULL;
         m_hGlowEnt = NULL;
@@ -68,34 +68,31 @@ void C_TeamTrainWatcher::ClientThink() {
 }
 
 #ifdef GLOWS_ENABLE
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void C_TeamTrainWatcher::UpdateGlowEffect( void )
-{
+void C_TeamTrainWatcher::UpdateGlowEffect(void) {
     // destroy the existing effect
-    if ( m_pGlowEffect )
-    {
+    if (m_pGlowEffect) {
         DestroyGlowEffect();
     }
 
     // create a new effect if we have a cart
-    if ( m_hGlowEnt )
-    {
+    if (m_hGlowEnt) {
         float r, g, b;
-        TeamplayRoundBasedRules()->GetTeamGlowColor( GetTeamNumber(), r, g, b );
-        m_pGlowEffect = new CGlowObject( m_hGlowEnt, Vector( r, g, b ), 1.0, true );
+        TeamplayRoundBasedRules()->GetTeamGlowColor(GetTeamNumber(), r, g, b);
+        m_pGlowEffect = new CGlowObject(m_hGlowEnt, Vector(r, g, b), 1.0, true);
     }
 }
 
-void C_TeamTrainWatcher::DestroyGlowEffect( void )
-{
-    if ( m_pGlowEffect )
-    {
+void C_TeamTrainWatcher::DestroyGlowEffect(void) {
+    if (m_pGlowEffect) {
         delete m_pGlowEffect;
         m_pGlowEffect = NULL;
     }
 }
+
 #endif // GLOWS_ENABLE
 
 void C_TeamTrainWatcher::OnPreDataChanged(DataUpdateType_t updateType) {
@@ -167,8 +164,7 @@ void C_TeamTrainWatcher::OnDataChanged(DataUpdateType_t updateType) {
         }
     }
 #ifdef GLOWS_ENABLE
-    if ( m_hOldGlowEnt != m_hGlowEnt )
-    {
+    if (m_hOldGlowEnt != m_hGlowEnt) {
         UpdateGlowEffect();
     }
 #endif // GLOWS_ENABLE

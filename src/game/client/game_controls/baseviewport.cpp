@@ -55,7 +55,7 @@
 #include "ienginevgui.h"
 #include "iclientmode.h"
 
-#include "tier0/etwprof.h"
+
 
 #if defined( REPLAY_ENABLED )
 #include "replay/ireplaysystem.h"
@@ -639,7 +639,7 @@ void CBaseViewport::FireGameEvent(IGameEvent *event) {
 // Purpose: 
 //-----------------------------------------------------------------------------
 void CBaseViewport::ReloadScheme(const char *fromFile) {
-    CETWScope timer("CBaseViewport::ReloadScheme");
+
 
     // See if scheme should change
 
